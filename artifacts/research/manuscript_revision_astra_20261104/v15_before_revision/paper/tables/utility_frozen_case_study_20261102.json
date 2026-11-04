@@ -1,0 +1,1472 @@
+{
+  "at_UTC": "2026-11-01T22:26:44.629571+00:00",
+  "classification": "posthoc_illustrative_frozen_case_not_new_performance_endpoint",
+  "case_id": 3000055,
+  "source_key": "585875d80b135e3feaf5504a5af7e9acd4891d4e6bdaafc79097e0848a5da949",
+  "source_absent_from_TRAIN": true,
+  "selection": {
+    "rule": "Smallest case ID with final complete-output EC/EV F1=1, valid outputs in four specified conditions, and both B1 and C2 incomplete on both tasks",
+    "candidate_case_ids": [
+      3000055,
+      3000078,
+      3000103,
+      3000124
+    ],
+    "no_new_generation_or_scoring": true
+  },
+  "public_facts": {
+    "EC": "Facts:\nLars and Boris Hansen (hereinafter the Debtors) filed for bankruptcy on 11th of November 2024. Lars and Boris own a gold necklace with teardrop-shaped sapphire pendant worth $890.00. A valuation of $175.00 has been assigned to the set of bath towels made from Egyptian cotton owned by the Debtors. Ownership of the physician-authorized prosthetic arm with body-powered elbow and hook terminal device, priced at $8,300.00, is claimed by the Hansens.",
+    "EV": "Facts:\nLars and Boris Hansen (hereinafter the Debtors) filed for bankruptcy on 11th of November, 2024. Lars and Boris Hansen are the rightful owners of a gold necklace with teardrop-shaped sapphire pendant valued at $890.00. Ownership of the set of bath towels made from Egyptian cotton, priced at $175.00, is claimed by the Debtors. A physician-authorized prosthetic arm with body-powered elbow and hook terminal device appraised at $8,300.00 is the property of the Hansens."
+  },
+  "public_solved_prerequisites": "Solved Reasoning Steps:\nThe following reasoning steps have already been solved. Use this information to aid you in completing the remainder of the task.\nThe Debtors may claim property exemptions under Federal and Wisconsin statutes.",
+  "given_statutory_excerpts": [
+    "11 U.S.C. § 522(d)(5)\nThe debtor's aggregate interest in any property, not to exceed in value $1,475 plus up to $13,950 of any unused amount of the exemption provided under paragraph (1) of this subsection.",
+    "11 U.S.C. § 522(d)(9)\nProfessionally prescribed health aids for the debtor or a dependent of the debtor.",
+    "Wis. Stat. § 815.18(3)(d)\nConsumer goods. Household goods and furnishings, wearing apparel, keepsakes, jewelry and other articles of personal adornment, appliances, books, musical instruments, firearms, sporting goods, animals, or other tangible personal property held primarily for the personal, family or household use of the debtor or a dependent of the debtor, not to exceed $12,000 in aggregate value."
+  ],
+  "target": {
+    "EC": {
+      "gold necklace with teardrop-shaped sapphire pendant": [
+        "11 U.S.C. § 522(d)(4)",
+        "11 U.S.C. § 522(d)(5)",
+        "Wis. Stat. § 815.18(3)(d)"
+      ],
+      "set of bath towels made from Egyptian cotton": [
+        "11 U.S.C. § 522(d)(3)",
+        "11 U.S.C. § 522(d)(5)",
+        "Wis. Stat. § 815.18(3)(d)"
+      ],
+      "physician-authorized prosthetic arm with body-powered elbow and hook terminal device": [
+        "11 U.S.C. § 522(d)(5)",
+        "11 U.S.C. § 522(d)(9)",
+        "Wis. Stat. § 815.18(3)(d)"
+      ]
+    },
+    "EV": {
+      "gold necklace with teardrop-shaped sapphire pendant": [
+        {
+          "citation": "11 U.S.C. § 522(d)(4)",
+          "claim_value": 890
+        },
+        {
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "claim_value": 890
+        },
+        {
+          "citation": "Wis. Stat. § 815.18(3)(d)",
+          "claim_value": 890
+        }
+      ],
+      "set of bath towels made from Egyptian cotton": [
+        {
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "claim_value": 175
+        },
+        {
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "claim_value": 175
+        },
+        {
+          "citation": "Wis. Stat. § 815.18(3)(d)",
+          "claim_value": 175
+        }
+      ],
+      "physician-authorized prosthetic arm with body-powered elbow and hook terminal device": [
+        {
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "claim_value": 8300
+        },
+        {
+          "citation": "11 U.S.C. § 522(d)(9)",
+          "claim_value": 8300
+        },
+        {
+          "citation": "Wis. Stat. § 815.18(3)(d)",
+          "claim_value": 8300
+        }
+      ]
+    }
+  },
+  "focal_asset": "physician-authorized prosthetic arm with body-powered elbow and hook terminal device",
+  "focal_comparisons": {
+    "empty": {
+      "EC": {
+        "predicted": [
+          "11 U.S.C. § 522(d)(9)",
+          "Wis. Stat. § 815.18(3)(d)"
+        ],
+        "missing": [
+          "11 U.S.C. § 522(d)(5)"
+        ],
+        "extra": []
+      },
+      "EV": {
+        "predicted": [
+          {
+            "citation": "11 U.S.C. § 522(d)(9)",
+            "claim_value": 8300
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(k)",
+            "claim_value": 8300
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(g)",
+            "claim_value": 8300
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(b)(1)",
+            "claim_value": 8300
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(b)(2)",
+            "claim_value": 8300
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 8300
+          }
+        ],
+        "missing": [
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 8300
+          }
+        ],
+        "extra": [
+          {
+            "citation": "Wis. Stat. § 815.18(3)(k)",
+            "claim_value": 8300
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(g)",
+            "claim_value": 8300
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(b)(1)",
+            "claim_value": 8300
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(b)(2)",
+            "claim_value": 8300
+          }
+        ]
+      }
+    },
+    "utility_own_B1_45": {
+      "EC": {
+        "predicted": [
+          "11 U.S.C. § 522(d)(9)",
+          "Wis. Stat. § 815.18(3)(d)"
+        ],
+        "missing": [
+          "11 U.S.C. § 522(d)(5)"
+        ],
+        "extra": []
+      },
+      "EV": {
+        "predicted": [
+          {
+            "citation": "11 U.S.C. § 522(d)(9)",
+            "claim_value": 8300
+          }
+        ],
+        "missing": [
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 8300
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 8300
+          }
+        ],
+        "extra": []
+      }
+    },
+    "no_execution45": {
+      "EC": {
+        "predicted": [
+          "11 U.S.C. § 522(d)(9)",
+          "Wis. Stat. § 815.18(3)(d)"
+        ],
+        "missing": [
+          "11 U.S.C. § 522(d)(5)"
+        ],
+        "extra": []
+      },
+      "EV": {
+        "predicted": [
+          {
+            "citation": "11 U.S.C. § 522(d)(9)",
+            "claim_value": 8300
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 8300
+          }
+        ],
+        "missing": [
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 8300
+          }
+        ],
+        "extra": []
+      }
+    },
+    "utility45": {
+      "EC": {
+        "predicted": [
+          "11 U.S.C. § 522(d)(9)",
+          "11 U.S.C. § 522(d)(5)",
+          "Wis. Stat. § 815.18(3)(d)"
+        ],
+        "missing": [],
+        "extra": []
+      },
+      "EV": {
+        "predicted": [
+          {
+            "citation": "11 U.S.C. § 522(d)(9)",
+            "claim_value": 8300
+          },
+          {
+            "citation": "11 U.S.C. § 522(d)(5)",
+            "claim_value": 8300
+          },
+          {
+            "citation": "Wis. Stat. § 815.18(3)(d)",
+            "claim_value": 8300
+          }
+        ],
+        "missing": [],
+        "extra": []
+      }
+    }
+  },
+  "original_scored_records": {
+    "empty": {
+      "EC": {
+        "case_id": 3000055,
+        "source_key": "585875d80b135e3feaf5504a5af7e9acd4891d4e6bdaafc79097e0848a5da949",
+        "family": "EC",
+        "stage": "frozen_empty",
+        "arm": "empty",
+        "bank_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "parsed": {
+          "answer": {
+            "gold necklace with teardrop-shaped sapphire pendant": [
+              "11 U.S.C. § 522(d)(4)",
+              "Wis. Stat. § 815.18(3)(d)"
+            ],
+            "set of bath towels made from Egyptian cotton": [
+              "11 U.S.C. § 522(d)(3)",
+              "Wis. Stat. § 815.18(3)(d)"
+            ],
+            "physician-authorized prosthetic arm with body-powered elbow and hook terminal device": [
+              "11 U.S.C. § 522(d)(9)",
+              "Wis. Stat. § 815.18(3)(d)"
+            ]
+          }
+        },
+        "parse_error": null,
+        "raw_call_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_empty/3000055_EC_empty.json",
+        "native_program": null,
+        "execution_receipt": null,
+        "public_label_submission": {
+          "A001": [
+            "11 U.S.C. section 522(d)(4)",
+            "Wis. Stat. section 815.18(3)(d)"
+          ],
+          "A002": [
+            "11 U.S.C. section 522(d)(3)",
+            "Wis. Stat. section 815.18(3)(d)"
+          ],
+          "A003": [
+            "11 U.S.C. section 522(d)(9)",
+            "Wis. Stat. section 815.18(3)(d)"
+          ]
+        },
+        "execution_error": null,
+        "delivered_skill_ids": [],
+        "score": {
+          "precision": 1,
+          "recall": 0.6666666666666666,
+          "f1": 0.8000000000000002,
+          "invalid_format": 0,
+          "exact_target": false,
+          "full_output_f1": 0.8,
+          "full_output_precision": 1,
+          "full_output_recall": 0.6666666666666666,
+          "full_output_claim_tp": 6,
+          "full_output_claim_fp": 0,
+          "full_output_claim_fn": 3,
+          "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+          "officially_unscored_predicted_claims": 0,
+          "officially_unscored_predicted_assets": {},
+          "negative_target_asset_predicted_claims": 0,
+          "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+        }
+      },
+      "EV": {
+        "case_id": 3000055,
+        "source_key": "585875d80b135e3feaf5504a5af7e9acd4891d4e6bdaafc79097e0848a5da949",
+        "family": "EV",
+        "stage": "frozen_empty",
+        "arm": "empty",
+        "bank_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "parsed": {
+          "answer": {
+            "gold necklace with teardrop-shaped sapphire pendant": [
+              {
+                "citation": "11 U.S.C. § 522(d)(4)",
+                "claim_value": 890
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "claim_value": 890
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(k)",
+                "claim_value": 890
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(b)(1)",
+                "claim_value": 890
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(b)(2)",
+                "claim_value": 890
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(g)",
+                "claim_value": 890
+              }
+            ],
+            "set of bath towels made from Egyptian cotton": [
+              {
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "claim_value": 175
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "claim_value": 175
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(k)",
+                "claim_value": 175
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(b)(1)",
+                "claim_value": 175
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(b)(2)",
+                "claim_value": 175
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(g)",
+                "claim_value": 175
+              }
+            ],
+            "physician-authorized prosthetic arm with body-powered elbow and hook terminal device": [
+              {
+                "citation": "11 U.S.C. § 522(d)(9)",
+                "claim_value": 8300
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(k)",
+                "claim_value": 8300
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(g)",
+                "claim_value": 8300
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(b)(1)",
+                "claim_value": 8300
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(b)(2)",
+                "claim_value": 8300
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "claim_value": 8300
+              }
+            ]
+          }
+        },
+        "parse_error": null,
+        "raw_call_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_empty/3000055_EV_empty.json",
+        "native_program": null,
+        "execution_receipt": null,
+        "public_label_submission": {
+          "A001": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(4)",
+              "claim_value": 890
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+              "claim_value": 890
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(k)",
+              "claim_value": 890
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(b)(1)",
+              "claim_value": 890
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(b)(2)",
+              "claim_value": 890
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(g)",
+              "claim_value": 890
+            }
+          ],
+          "A002": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(3)",
+              "claim_value": 175
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+              "claim_value": 175
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(k)",
+              "claim_value": 175
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(b)(1)",
+              "claim_value": 175
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(b)(2)",
+              "claim_value": 175
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(g)",
+              "claim_value": 175
+            }
+          ],
+          "A003": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(9)",
+              "claim_value": 8300
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(k)",
+              "claim_value": 8300
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(g)",
+              "claim_value": 8300
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(b)(1)",
+              "claim_value": 8300
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(b)(2)",
+              "claim_value": 8300
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+              "claim_value": 8300
+            }
+          ]
+        },
+        "execution_error": null,
+        "delivered_skill_ids": [],
+        "score": {
+          "precision": 0.3333333333333333,
+          "recall": 0.6666666666666666,
+          "f1": 0.4444444444444444,
+          "mare": 0,
+          "invalid_format": 0,
+          "exact_target": false,
+          "full_output_f1": 0.4444444444444444,
+          "full_output_precision": 0.3333333333333333,
+          "full_output_recall": 0.6666666666666666,
+          "full_output_claim_tp": 6,
+          "full_output_claim_fp": 12,
+          "full_output_claim_fn": 3,
+          "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+          "officially_unscored_predicted_claims": 0,
+          "officially_unscored_predicted_assets": {},
+          "negative_target_asset_predicted_claims": 0,
+          "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+        }
+      }
+    },
+    "utility_own_B1_45": {
+      "EC": {
+        "case_id": 3000055,
+        "source_key": "585875d80b135e3feaf5504a5af7e9acd4891d4e6bdaafc79097e0848a5da949",
+        "family": "EC",
+        "stage": "frozen_utility_own_B1_45",
+        "arm": "utility_own_B1_45",
+        "bank_sha256": "b4bcf4f2b0ac2027bd0a6764ea0e5275d64b3b451deff31a3dfbb06e4ee18896",
+        "parsed": {
+          "answer": {
+            "gold necklace with teardrop-shaped sapphire pendant": [
+              "Wis. Stat. § 815.18(3)(d)",
+              "11 U.S.C. § 522(d)(4)",
+              "11 U.S.C. § 522(d)(5)"
+            ],
+            "set of bath towels made from Egyptian cotton": [
+              "Wis. Stat. § 815.18(3)(d)",
+              "11 U.S.C. § 522(d)(3)",
+              "11 U.S.C. § 522(d)(5)"
+            ],
+            "physician-authorized prosthetic arm with body-powered elbow and hook terminal device": [
+              "11 U.S.C. § 522(d)(9)",
+              "Wis. Stat. § 815.18(3)(d)"
+            ]
+          }
+        },
+        "parse_error": null,
+        "raw_call_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility_own_B1_45/3000055_EC_utility_own_B1_45.json",
+        "native_program": null,
+        "execution_receipt": null,
+        "public_label_submission": {
+          "A001": [
+            "Wis. Stat. section 815.18(3)(d)",
+            "11 U.S.C. section 522(d)(4)",
+            "11 U.S.C. section 522(d)(5)"
+          ],
+          "A002": [
+            "Wis. Stat. section 815.18(3)(d)",
+            "11 U.S.C. section 522(d)(3)",
+            "11 U.S.C. section 522(d)(5)"
+          ],
+          "A003": [
+            "11 U.S.C. section 522(d)(9)",
+            "Wis. Stat. section 815.18(3)(d)"
+          ]
+        },
+        "execution_error": null,
+        "delivered_skill_ids": [
+          "EC:federal-wildcard-and-category-eligibility",
+          "EC:independent-exemption-scan",
+          "EC:wisconsin-consumer-goods"
+        ],
+        "score": {
+          "precision": 1,
+          "recall": 0.8888888888888888,
+          "f1": 0.9333333333333332,
+          "invalid_format": 0,
+          "exact_target": false,
+          "full_output_f1": 0.9411764705882353,
+          "full_output_precision": 1,
+          "full_output_recall": 0.8888888888888888,
+          "full_output_claim_tp": 8,
+          "full_output_claim_fp": 0,
+          "full_output_claim_fn": 1,
+          "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+          "officially_unscored_predicted_claims": 0,
+          "officially_unscored_predicted_assets": {},
+          "negative_target_asset_predicted_claims": 0,
+          "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+        }
+      },
+      "EV": {
+        "case_id": 3000055,
+        "source_key": "585875d80b135e3feaf5504a5af7e9acd4891d4e6bdaafc79097e0848a5da949",
+        "family": "EV",
+        "stage": "frozen_utility_own_B1_45",
+        "arm": "utility_own_B1_45",
+        "bank_sha256": "b4bcf4f2b0ac2027bd0a6764ea0e5275d64b3b451deff31a3dfbb06e4ee18896",
+        "parsed": {
+          "answer": {
+            "gold necklace with teardrop-shaped sapphire pendant": [
+              {
+                "citation": "11 U.S.C. § 522(d)(4)",
+                "claim_value": 890
+              },
+              {
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "claim_value": 890
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "claim_value": 890
+              }
+            ],
+            "set of bath towels made from Egyptian cotton": [
+              {
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "claim_value": 175
+              },
+              {
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "claim_value": 175
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "claim_value": 175
+              }
+            ],
+            "physician-authorized prosthetic arm with body-powered elbow and hook terminal device": [
+              {
+                "citation": "11 U.S.C. § 522(d)(9)",
+                "claim_value": 8300
+              }
+            ]
+          }
+        },
+        "parse_error": null,
+        "raw_call_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility_own_B1_45/3000055_EV_utility_own_B1_45.json",
+        "native_program": null,
+        "execution_receipt": null,
+        "public_label_submission": {
+          "A001": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(4)",
+              "claim_value": 890
+            },
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(5)",
+              "claim_value": 890
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+              "claim_value": 890
+            }
+          ],
+          "A002": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(3)",
+              "claim_value": 175
+            },
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(5)",
+              "claim_value": 175
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+              "claim_value": 175
+            }
+          ],
+          "A003": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(9)",
+              "claim_value": 8300
+            }
+          ]
+        },
+        "execution_error": null,
+        "delivered_skill_ids": [
+          "EC:federal-wildcard-and-category-eligibility",
+          "EC:independent-exemption-scan"
+        ],
+        "score": {
+          "precision": 1,
+          "recall": 0.7777777777777778,
+          "f1": 0.8333333333333334,
+          "mare": 0,
+          "invalid_format": 0,
+          "exact_target": false,
+          "full_output_f1": 0.8750000000000001,
+          "full_output_precision": 1,
+          "full_output_recall": 0.7777777777777778,
+          "full_output_claim_tp": 7,
+          "full_output_claim_fp": 0,
+          "full_output_claim_fn": 2,
+          "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+          "officially_unscored_predicted_claims": 0,
+          "officially_unscored_predicted_assets": {},
+          "negative_target_asset_predicted_claims": 0,
+          "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+        }
+      }
+    },
+    "no_execution45": {
+      "EC": {
+        "case_id": 3000055,
+        "source_key": "585875d80b135e3feaf5504a5af7e9acd4891d4e6bdaafc79097e0848a5da949",
+        "family": "EC",
+        "stage": "frozen_no_execution45",
+        "arm": "no_execution45",
+        "bank_sha256": "6478eaae6e3bb950894be14f472731ca36c2278026adf756834163ad4ba6f458",
+        "parsed": {
+          "answer": {
+            "gold necklace with teardrop-shaped sapphire pendant": [
+              "11 U.S.C. § 522(d)(4)",
+              "Wis. Stat. § 815.18(3)(d)"
+            ],
+            "set of bath towels made from Egyptian cotton": [
+              "11 U.S.C. § 522(d)(3)",
+              "Wis. Stat. § 815.18(3)(d)"
+            ],
+            "physician-authorized prosthetic arm with body-powered elbow and hook terminal device": [
+              "11 U.S.C. § 522(d)(9)",
+              "Wis. Stat. § 815.18(3)(d)"
+            ]
+          }
+        },
+        "parse_error": null,
+        "raw_call_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_no_execution45/3000055_EC_no_execution45.json",
+        "native_program": null,
+        "execution_receipt": null,
+        "public_label_submission": {
+          "A001": [
+            "11 U.S.C. section 522(d)(4)",
+            "Wis. Stat. section 815.18(3)(d)"
+          ],
+          "A002": [
+            "11 U.S.C. section 522(d)(3)",
+            "Wis. Stat. section 815.18(3)(d)"
+          ],
+          "A003": [
+            "11 U.S.C. section 522(d)(9)",
+            "Wis. Stat. section 815.18(3)(d)"
+          ]
+        },
+        "execution_error": null,
+        "delivered_skill_ids": [
+          "ec-federal-asset-selection",
+          "ec-wisconsin-asset-selection"
+        ],
+        "score": {
+          "precision": 1,
+          "recall": 0.6666666666666666,
+          "f1": 0.8000000000000002,
+          "invalid_format": 0,
+          "exact_target": false,
+          "full_output_f1": 0.8,
+          "full_output_precision": 1,
+          "full_output_recall": 0.6666666666666666,
+          "full_output_claim_tp": 6,
+          "full_output_claim_fp": 0,
+          "full_output_claim_fn": 3,
+          "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+          "officially_unscored_predicted_claims": 0,
+          "officially_unscored_predicted_assets": {},
+          "negative_target_asset_predicted_claims": 0,
+          "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+        }
+      },
+      "EV": {
+        "case_id": 3000055,
+        "source_key": "585875d80b135e3feaf5504a5af7e9acd4891d4e6bdaafc79097e0848a5da949",
+        "family": "EV",
+        "stage": "frozen_no_execution45",
+        "arm": "no_execution45",
+        "bank_sha256": "6478eaae6e3bb950894be14f472731ca36c2278026adf756834163ad4ba6f458",
+        "parsed": {
+          "answer": {
+            "gold necklace with teardrop-shaped sapphire pendant": [
+              {
+                "citation": "11 U.S.C. § 522(d)(4)",
+                "claim_value": 890
+              },
+              {
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "claim_value": 890
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "claim_value": 890
+              }
+            ],
+            "set of bath towels made from Egyptian cotton": [
+              {
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "claim_value": 175
+              },
+              {
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "claim_value": 175
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "claim_value": 175
+              }
+            ],
+            "physician-authorized prosthetic arm with body-powered elbow and hook terminal device": [
+              {
+                "citation": "11 U.S.C. § 522(d)(9)",
+                "claim_value": 8300
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "claim_value": 8300
+              }
+            ]
+          }
+        },
+        "parse_error": null,
+        "raw_call_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_no_execution45/3000055_EV_no_execution45.json",
+        "native_program": null,
+        "execution_receipt": null,
+        "public_label_submission": {
+          "A001": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(4)",
+              "claim_value": 890
+            },
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(5)",
+              "claim_value": 890
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+              "claim_value": 890
+            }
+          ],
+          "A002": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(3)",
+              "claim_value": 175
+            },
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(5)",
+              "claim_value": 175
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+              "claim_value": 175
+            }
+          ],
+          "A003": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(9)",
+              "claim_value": 8300
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+              "claim_value": 8300
+            }
+          ]
+        },
+        "execution_error": null,
+        "delivered_skill_ids": [
+          "ev-federal-asset-valuation",
+          "ev-wisconsin-asset-valuation"
+        ],
+        "score": {
+          "precision": 1,
+          "recall": 0.8888888888888888,
+          "f1": 0.9333333333333332,
+          "mare": 0,
+          "invalid_format": 0,
+          "exact_target": false,
+          "full_output_f1": 0.9411764705882353,
+          "full_output_precision": 1,
+          "full_output_recall": 0.8888888888888888,
+          "full_output_claim_tp": 8,
+          "full_output_claim_fp": 0,
+          "full_output_claim_fn": 1,
+          "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+          "officially_unscored_predicted_claims": 0,
+          "officially_unscored_predicted_assets": {},
+          "negative_target_asset_predicted_claims": 0,
+          "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+        }
+      }
+    },
+    "utility45": {
+      "EC": {
+        "case_id": 3000055,
+        "source_key": "585875d80b135e3feaf5504a5af7e9acd4891d4e6bdaafc79097e0848a5da949",
+        "family": "EC",
+        "stage": "frozen_utility45",
+        "arm": "utility45",
+        "bank_sha256": "48746352543b1a75627eb3cc9480a2257f42107fde544080aefbadc9cd2fca5d",
+        "parsed": {
+          "answer": {
+            "gold necklace with teardrop-shaped sapphire pendant": [
+              "11 U.S.C. § 522(d)(4)",
+              "11 U.S.C. § 522(d)(5)",
+              "Wis. Stat. § 815.18(3)(d)"
+            ],
+            "set of bath towels made from Egyptian cotton": [
+              "11 U.S.C. § 522(d)(3)",
+              "11 U.S.C. § 522(d)(5)",
+              "Wis. Stat. § 815.18(3)(d)"
+            ],
+            "physician-authorized prosthetic arm with body-powered elbow and hook terminal device": [
+              "11 U.S.C. § 522(d)(9)",
+              "11 U.S.C. § 522(d)(5)",
+              "Wis. Stat. § 815.18(3)(d)"
+            ]
+          }
+        },
+        "parse_error": null,
+        "raw_call_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility45/3000055_EC_utility45.json",
+        "native_program": null,
+        "execution_receipt": null,
+        "public_label_submission": {
+          "A001": [
+            "11 U.S.C. section 522(d)(4)",
+            "11 U.S.C. section 522(d)(5)",
+            "Wis. Stat. section 815.18(3)(d)"
+          ],
+          "A002": [
+            "11 U.S.C. section 522(d)(3)",
+            "11 U.S.C. section 522(d)(5)",
+            "Wis. Stat. section 815.18(3)(d)"
+          ],
+          "A003": [
+            "11 U.S.C. section 522(d)(9)",
+            "11 U.S.C. section 522(d)(5)",
+            "Wis. Stat. section 815.18(3)(d)"
+          ]
+        },
+        "execution_error": null,
+        "delivered_skill_ids": [
+          "EC:federal-wildcard-and-category-eligibility",
+          "EC:independent-exemption-scan",
+          "EC:wisconsin-consumer-goods"
+        ],
+        "score": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "invalid_format": 0,
+          "exact_target": false,
+          "full_output_f1": 1,
+          "full_output_precision": 1,
+          "full_output_recall": 1,
+          "full_output_claim_tp": 9,
+          "full_output_claim_fp": 0,
+          "full_output_claim_fn": 0,
+          "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+          "officially_unscored_predicted_claims": 0,
+          "officially_unscored_predicted_assets": {},
+          "negative_target_asset_predicted_claims": 0,
+          "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+        }
+      },
+      "EV": {
+        "case_id": 3000055,
+        "source_key": "585875d80b135e3feaf5504a5af7e9acd4891d4e6bdaafc79097e0848a5da949",
+        "family": "EV",
+        "stage": "frozen_utility45",
+        "arm": "utility45",
+        "bank_sha256": "48746352543b1a75627eb3cc9480a2257f42107fde544080aefbadc9cd2fca5d",
+        "parsed": {
+          "answer": {
+            "gold necklace with teardrop-shaped sapphire pendant": [
+              {
+                "citation": "11 U.S.C. § 522(d)(4)",
+                "claim_value": 890
+              },
+              {
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "claim_value": 890
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "claim_value": 890
+              }
+            ],
+            "set of bath towels made from Egyptian cotton": [
+              {
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "claim_value": 175
+              },
+              {
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "claim_value": 175
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "claim_value": 175
+              }
+            ],
+            "physician-authorized prosthetic arm with body-powered elbow and hook terminal device": [
+              {
+                "citation": "11 U.S.C. § 522(d)(9)",
+                "claim_value": 8300
+              },
+              {
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "claim_value": 8300
+              },
+              {
+                "citation": "Wis. Stat. § 815.18(3)(d)",
+                "claim_value": 8300
+              }
+            ]
+          }
+        },
+        "parse_error": null,
+        "raw_call_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility45/3000055_EV_utility45.json",
+        "native_program": null,
+        "execution_receipt": null,
+        "public_label_submission": {
+          "A001": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(4)",
+              "claim_value": 890
+            },
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(5)",
+              "claim_value": 890
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+              "claim_value": 890
+            }
+          ],
+          "A002": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(3)",
+              "claim_value": 175
+            },
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(5)",
+              "claim_value": 175
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+              "claim_value": 175
+            }
+          ],
+          "A003": [
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(9)",
+              "claim_value": 8300
+            },
+            {
+              "citation_ref": "11 U.S.C. section 522(d)(5)",
+              "claim_value": 8300
+            },
+            {
+              "citation_ref": "Wis. Stat. section 815.18(3)(d)",
+              "claim_value": 8300
+            }
+          ]
+        },
+        "execution_error": null,
+        "delivered_skill_ids": [
+          "EC:federal-wildcard-and-category-eligibility",
+          "EC:independent-exemption-scan",
+          "EC:wisconsin-consumer-goods"
+        ],
+        "score": {
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "mare": 0,
+          "invalid_format": 0,
+          "exact_target": false,
+          "full_output_f1": 1,
+          "full_output_precision": 1,
+          "full_output_recall": 1,
+          "full_output_claim_tp": 9,
+          "full_output_claim_fp": 0,
+          "full_output_claim_fn": 0,
+          "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+          "officially_unscored_predicted_claims": 0,
+          "officially_unscored_predicted_assets": {},
+          "negative_target_asset_predicted_claims": 0,
+          "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+        }
+      }
+    }
+  },
+  "actual_projected_deliveries": {
+    "empty": {
+      "EC": {
+        "input_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_empty/3000055_EC_empty.input.json",
+        "blocks": []
+      },
+      "EV": {
+        "input_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_empty/3000055_EV_empty.input.json",
+        "blocks": []
+      }
+    },
+    "utility_own_B1_45": {
+      "EC": {
+        "input_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility_own_B1_45/3000055_EC_utility_own_B1_45.input.json",
+        "blocks": [
+          {
+            "id": "EC:federal-wildcard-and-category-eligibility",
+            "hypothesis_ids": [
+              "EC"
+            ],
+            "guidance": {
+              "when": "When FEDERAL is an allowable namespace and an estate asset is being classified.",
+              "procedure": "Apply 11 U.S.C. § 522(d)(5) independently to any property, and retain it alongside every applicable specific paragraph. For §§ 522(d)(2), (3), and (4), decide EC eligibility from the asset category and stated use; the dollar limit affects the protected amount, not whether the EC citation applies.",
+              "avoid_when": "Do not impose the personal-use or listed-category conditions of §§ 522(d)(3) or (4) on the separate § 522(d)(5) alternative. Do not output §§ 522(b), 522(d), or 522(m) merely as enabling or joint-case provisions.",
+              "jurisdiction": "FEDERAL"
+            }
+          },
+          {
+            "id": "EC:independent-exemption-scan",
+            "hypothesis_ids": [
+              "EC"
+            ],
+            "guidance": {
+              "when": "For every EC asset after the allowable legal namespaces have been supplied.",
+              "procedure": "Test every exemption provision independently and retain all qualifying alternatives, including both a category-specific exemption and any independently applicable general-property exemption. A dollar ceiling limits protection; it does not make the citation ineligible merely because the asset value exceeds the ceiling. Emit each applicable citation once in a compact array.",
+              "avoid_when": "Do not cite definitions, opt-out rules, spouse-combination rules, or aggregate-limit provisions merely because they govern the case; cite them only if they themselves exempt the asset. Do not treat a specific exemption as displacing an independently applicable general-property exemption.",
+              "jurisdiction": "ALL"
+            }
+          },
+          {
+            "id": "EC:wisconsin-consumer-goods",
+            "hypothesis_ids": [
+              "EC"
+            ],
+            "guidance": {
+              "when": "When WISCONSIN is allowable and tangible personal property is held primarily for personal, family, or household use.",
+              "procedure": "Apply Wis. Stat. § 815.18(3)(d) to its listed consumer-goods categories, including household goods and furnishings, apparel, jewelry, books, musical instruments, firearms, sporting goods, and animals. Retain any independently applicable federal alternative.",
+              "avoid_when": "Do not cite Wis. Stat. § 815.18(8) as an asset exemption merely because spouses may combine exemptions; it is a marital coordination rule. Do not use § 815.18(3)(d) for property held primarily for business use.",
+              "jurisdiction": "WISCONSIN"
+            }
+          }
+        ]
+      },
+      "EV": {
+        "input_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility_own_B1_45/3000055_EV_utility_own_B1_45.input.json",
+        "blocks": [
+          {
+            "id": "EC:federal-wildcard-and-category-eligibility",
+            "hypothesis_ids": [
+              "EV"
+            ],
+            "guidance": {
+              "when": "When FEDERAL is allowable and an estate asset is being valued.",
+              "procedure": "Apply § 522(d)(5) independently to any property and retain it beside every qualifying specific paragraph. Its ceiling is $1,475 plus up to $13,950 of unused § 522(d)(1), so use $15,425 per debtor when no used homestead amount is supplied; for two equal joint debtors, the whole-asset ceiling is $30,850. For specific alternatives, report the whole-asset value capped at $4,450 under (d)(2), $700 per particular item under (d)(3), or $1,875 under (d)(4); (d)(9) has no stated dollar ceiling.",
+              "avoid_when": "Do not restrict (d)(5) to the categories in (d)(2), (3), or (4), and do not omit it because a specific paragraph applies. Do not copy an uncapped asset value into (d)(3), or double the (d)(2), (d)(3), or (d)(4) asset-level ceiling solely because there are two debtors. Do not output §§ 522(b), 522(d), or 522(m) as asset exemptions.",
+              "jurisdiction": "FEDERAL"
+            }
+          },
+          {
+            "id": "EC:independent-exemption-scan",
+            "hypothesis_ids": [
+              "EV"
+            ],
+            "guidance": {
+              "when": "For every EV asset after the allowable legal namespaces have been supplied.",
+              "procedure": "Test every substantive exemption independently. Retain every qualifying specific, wildcard, and general-property alternative together, emitting each citation once. For each alternative, report the protected amount for the whole named asset, limited by that asset's value and that provision's applicable ceiling.",
+              "avoid_when": "Do not cite enabling, opt-out, marital-coordination, or aggregate-limit provisions as asset exemptions. Do not omit a general alternative because a specific one applies. Do not leave a half-interest as the final amount or automatically double every ceiling merely because two debtors exist; apply the joint treatment stated for the particular provision.",
+              "jurisdiction": "ALL"
+            }
+          }
+        ]
+      }
+    },
+    "no_execution45": {
+      "EC": {
+        "input_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_no_execution45/3000055_EC_no_execution45.input.json",
+        "blocks": [
+          {
+            "id": "ec-federal-asset-selection",
+            "hypothesis_ids": [
+              "EC"
+            ],
+            "guidance": {
+              "when": "When Federal exemptions are among the supplied allowable jurisdictions, classify each asset separately under every matching subsection of 11 U.S.C. § 522(d).",
+              "procedure": "Retain all independent matches: a residence or burial plot under § 522(d)(1); one motor vehicle under § 522(d)(2); listed personal-use household goods, apparel, books, animals, crops, musical instruments, furnishings or appliances under § 522(d)(3); personal-use jewelry under § 522(d)(4); any property under § 522(d)(5); trade tools, implements or professional books under § 522(d)(6); and a professionally prescribed health aid under § 522(d)(9). Because § 522(d)(5) covers any property, include it alongside every more specific Federal alternative. Dollar ceilings govern protected value, not EC category eligibility, so an asset exceeding a ceiling still receives the matching citation. Output the operative subsection citations, not the election or structural provisions §§ 522(b), 522(d), or 522(m).",
+              "avoid_when": "Do not infer a specific category from mere ownership or personal use: for example, a firearm is not a § 522(d)(3) household-good category, and an ordinary medical item is not § 522(d)(9) without professional prescription.",
+              "jurisdiction": "FEDERAL"
+            }
+          },
+          {
+            "id": "ec-wisconsin-asset-selection",
+            "hypothesis_ids": [
+              "EC"
+            ],
+            "guidance": {
+              "when": "When Wisconsin is among the supplied allowable jurisdictions, match each asset to every applicable operative paragraph of Wis. Stat. § 815.18(3) or the homestead provision.",
+              "procedure": "Use § 815.18(3)(d) for tangible personal property held primarily for personal, family or household use, including household goods and furnishings, apparel, keepsakes, jewelry, appliances, books, musical instruments, firearms, sporting goods and animals. Independently use § 815.18(3)(b)(1) for qualifying business equipment, inventory, farm products or professional books, § 815.18(3)(g) for motor vehicles, § 815.18(3)(k) for personal-use nonbusiness depository accounts, and § 815.20(1) for an owner-occupied homestead. Dollar ceilings affect protected value, not EC eligibility. Output operative paragraphs, not § 815.18(3), § 815.18(8), or § 815.20 as headings or combination rules.",
+              "avoid_when": "Do not use the consumer-goods exemption for business-use property, and do not reject a listed consumer good merely because its value exceeds the aggregate ceiling.",
+              "jurisdiction": "WISCONSIN"
+            }
+          }
+        ]
+      },
+      "EV": {
+        "input_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_no_execution45/3000055_EV_no_execution45.input.json",
+        "blocks": [
+          {
+            "id": "ev-federal-asset-valuation",
+            "hypothesis_ids": [
+              "EV"
+            ],
+            "guidance": {
+              "when": "When Federal exemptions are supplied, test each asset independently under every matching paragraph of 11 U.S.C. § 522(d).",
+              "procedure": "Use § 522(d)(1) for a residence or burial plot, (d)(2) for one motor vehicle, (d)(3) for the listed personal-use goods, (d)(4) for personal-use jewelry, (d)(6) for trade tools or professional books, and (d)(9) for a professionally prescribed health aid. Also retain (d)(5) for every asset. For the whole named asset, claim the lesser of its value and $27,900 under (d)(1), $4,450 under (d)(2), $700 under (d)(3), $1,875 under (d)(4) for one debtor or $3,750 for jointly owned jewelry of two debtors, or $2,800 under (d)(6); (d)(9) protects the full value. Under (d)(5), use $15,425 for one debtor and, for jointly owned property of two debtors, sum the two separately available ceilings to a maximum whole-asset claim of $30,850. Do not return a debtor's half-interest as the asset-level amount.",
+              "avoid_when": "Do not output §§ 522(b), 522(d), or 522(m) as exemption alternatives. A firearm is not a (d)(3) household-good category, and a medical item is not a (d)(9) health aid without professional prescription. Do not automatically double the specific (d)(1)-(d)(3) or (d)(6) ceiling merely because two debtors jointly own the asset.",
+              "jurisdiction": "FEDERAL"
+            }
+          },
+          {
+            "id": "ev-wisconsin-asset-valuation",
+            "hypothesis_ids": [
+              "EV"
+            ],
+            "guidance": {
+              "when": "When Wisconsin is supplied, determine every matching operative exemption and compute the protected amount for the whole named asset.",
+              "procedure": "Use § 815.18(3)(d) for tangible personal property held primarily for personal, family or household use, capped at $12,000; (3)(b)(1) for qualifying business equipment, inventory, farm products or professional books, capped at $15,000; (3)(g) for motor vehicles, with its $4,000 ceiling plus up to the unused $12,000 consumer-goods ceiling; and (3)(k) for personal-use nonbusiness depository accounts, capped at $5,000. Use § 815.20(1) for an owner-occupied homestead up to $75,000. For two spouses jointly owning the asset, § 815.18(8) permits combining their equal-interest exemptions, so the corresponding whole-asset maxima are $24,000, $30,000, $32,000 and $10,000; two spouses may claim up to $150,000 for a joint homestead. In every case claim no more than the whole asset's value.",
+              "avoid_when": "Do not use the consumer-goods exemption for business-use property, use the account exemption for a business account, return only one spouse's half-interest, or output § 815.18(3), § 815.18(8), or § 815.20 as the operative exemption.",
+              "jurisdiction": "WISCONSIN"
+            }
+          }
+        ]
+      }
+    },
+    "utility45": {
+      "EC": {
+        "input_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility45/3000055_EC_utility45.input.json",
+        "blocks": [
+          {
+            "id": "EC:federal-wildcard-and-category-eligibility",
+            "hypothesis_ids": [
+              "EC"
+            ],
+            "guidance": {
+              "when": "When FEDERAL is an allowable namespace and an estate asset is being classified.",
+              "procedure": "Use two mandatory passes for each asset. First classify from the asset facts, never its value: § 522(d)(1) for an occupied residence, (d)(2) for a motor vehicle, (d)(3) for personally held household furnishings or goods, apparel, appliances, books, animals, crops, or musical instruments, (d)(4) for personally held jewelry, (d)(6) only for facts identifying an implement, professional book, or tool of trade, and (d)(9) for a professionally prescribed health aid. A ceiling limits protection but never defeats EC eligibility. Second add § 522(d)(5) to every asset without exception, including property already matching a specific paragraph. Before emitting, verify that each asset has (d)(5) and every factually matching specific paragraph.\nExecution example: Hypothetically, personal wearing apparel receives both (d)(3) and (d)(5) even when its value exceeds the (d)(3) ceiling; do not drop (d)(3). A personal appliance described as professional-grade receives (d)(3) and (d)(5), not (d)(6), unless the facts state trade use.",
+              "avoid_when": "Do not place firearms or jewelry under § 522(d)(3), and do not infer § 522(d)(6) merely because an object could be used for work. Do not restrict § 522(d)(5) to personal property, omit it when another paragraph applies, or output §§ 522(b), 522(d), or 522(m) as asset exemptions.",
+              "jurisdiction": "FEDERAL"
+            }
+          },
+          {
+            "id": "EC:independent-exemption-scan",
+            "hypothesis_ids": [
+              "EC"
+            ],
+            "guidance": {
+              "when": "For every EC asset after the allowable legal namespaces have been supplied.",
+              "procedure": "Test every exemption provision independently and retain all qualifying alternatives, including both a category-specific exemption and any independently applicable general-property exemption. A dollar ceiling limits protection; it does not make the citation ineligible merely because the asset value exceeds the ceiling. Emit each applicable citation once in a compact array.",
+              "avoid_when": "Do not cite definitions, opt-out rules, spouse-combination rules, or aggregate-limit provisions merely because they govern the case; cite them only if they themselves exempt the asset. Do not treat a specific exemption as displacing an independently applicable general-property exemption.",
+              "jurisdiction": "ALL"
+            }
+          },
+          {
+            "id": "EC:wisconsin-consumer-goods",
+            "hypothesis_ids": [
+              "EC"
+            ],
+            "guidance": {
+              "when": "When WISCONSIN is allowable and tangible personal property is held primarily for personal, family, or household use.",
+              "procedure": "Select the Wisconsin category from the asset facts without using its ceiling as an eligibility test. Apply Wis. Stat. § 815.18(3)(d) to household goods and furnishings, apparel, jewelry, books, musical instruments, firearms, sporting goods, animals, and its other listed consumer goods. Separately apply § 815.18(3)(g) to a motor vehicle. Retain every independently applicable federal alternative.",
+              "avoid_when": "Do not cite Wis. Stat. § 815.18(8) as an asset exemption merely because spouses may combine exemptions; it is a marital coordination rule. Do not use § 815.18(3)(d) for a motor vehicle or for property held primarily for business use.",
+              "jurisdiction": "WISCONSIN"
+            }
+          }
+        ]
+      },
+      "EV": {
+        "input_path": "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility45/3000055_EV_utility45.input.json",
+        "blocks": [
+          {
+            "id": "EC:federal-wildcard-and-category-eligibility",
+            "hypothesis_ids": [
+              "EV"
+            ],
+            "guidance": {
+              "when": "When FEDERAL is allowable and an estate asset is being valued.",
+              "procedure": "For each asset, first select every matching specific paragraph: (d)(1) for an occupied residence, (d)(2) for a motor vehicle, (d)(3) only for its listed household-use categories, (d)(4) for jewelry, (d)(6) only when the facts establish a trade implement, professional book, or tool, and (d)(9) for a professionally prescribed health aid. Separately add (d)(5) to every asset, even one already receiving a specific exemption. For each citation use the smaller of the whole named asset's value and its ceiling: $27,900 for (d)(1), $4,450 for (d)(2), $700 for the named particular item under (d)(3), $1,875 for (d)(4), and $2,800 for (d)(6); (d)(9) has no stated ceiling. For (d)(5), use $15,425 for one debtor or $30,850 for two equal joint debtors when no used homestead amount is supplied. Because this task evaluates asset-exemption pairs independently, do not reduce that amount merely because the same case also contains a residence claim.",
+              "avoid_when": "Do not put firearms or jewelry under (d)(3), and do not infer (d)(6) without stated trade use. Treat a pair or set presented as one named asset as one particular item for the $700 (d)(3) output. Never copy a ceiling above the asset's value, leave a half-interest as the result, or use the one-debtor (d)(5) ceiling for two equal joint debtors. Do not output §§ 522(b), 522(d), or 522(m) as asset exemptions.",
+              "jurisdiction": "FEDERAL"
+            }
+          },
+          {
+            "id": "EC:independent-exemption-scan",
+            "hypothesis_ids": [
+              "EV"
+            ],
+            "guidance": {
+              "when": "For every EV asset after the allowable legal namespaces have been supplied.",
+              "procedure": "Test every substantive exemption independently. Retain every qualifying specific, wildcard, and general-property alternative together, emitting each citation once. For each alternative, report the protected amount for the whole named asset, limited by that asset's value and that provision's applicable ceiling.",
+              "avoid_when": "Do not cite enabling, opt-out, marital-coordination, or aggregate-limit provisions as asset exemptions. Do not omit a general alternative because a specific one applies. Do not leave a half-interest as the final amount or automatically double every ceiling merely because two debtors exist; apply the joint treatment stated for the particular provision.",
+              "jurisdiction": "ALL"
+            }
+          },
+          {
+            "id": "EC:wisconsin-consumer-goods",
+            "hypothesis_ids": [
+              "EV"
+            ],
+            "guidance": {
+              "when": "When WISCONSIN is allowable and an asset is being valued.",
+              "procedure": "For listed nonvehicle consumer goods, including firearms, use § 815.18(3)(d), capped for the whole asset at $12,000 for one debtor or $24,000 for two equal joint debtors. For a motor vehicle, output only § 815.18(3)(g), not a separate (d) claim. Because this independent-pair task supplies no used consumer-goods amount, treat the (d) amount as unused: the single (g) claim has a $16,000 ceiling for one debtor or $32,000 for two equal joint debtors. Use § 815.20(1) only for an occupied homestead, capped at $75,000 for one debtor or $150,000 for two joint spouses. For each citation output the smaller of the whole asset value and its ceiling.",
+              "avoid_when": "Do not put a motor vehicle under (3)(d) or split its combined vehicle protection into separate (3)(g) and (3)(d) claims. A firearm is consumer goods under (3)(d), not a depository account under (3)(k) or business property under (3)(b)(1) without the required facts. Do not emit § 815.18(8), leave a half-interest as the result, or stop at one spouse's ceiling for jointly owned property where both spouses' exemptions apply.",
+              "jurisdiction": "WISCONSIN"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "selected_actual_skill_revision_history": [
+    {
+      "batch": 1,
+      "at": "2026-10-30T00:37:20.853875+00:00",
+      "skill_id": "EC:federal-wildcard-and-category-eligibility",
+      "block": {
+        "tasks": [
+          "EC"
+        ],
+        "when": "When FEDERAL is an allowable namespace and an estate asset is being classified.",
+        "procedure": "Apply 11 U.S.C. § 522(d)(5) independently to any property, and retain it alongside every applicable specific paragraph. For §§ 522(d)(2), (3), and (4), decide EC eligibility from the asset category and stated use; the dollar limit affects the protected amount, not whether the EC citation applies.",
+        "avoid_when": "Do not impose the personal-use or listed-category conditions of §§ 522(d)(3) or (4) on the separate § 522(d)(5) alternative. Do not output §§ 522(b), 522(d), or 522(m) merely as enabling or joint-case provisions."
+      }
+    },
+    {
+      "batch": 1,
+      "at": "2026-10-30T00:37:20.853875+00:00",
+      "skill_id": "EC:federal-wildcard-and-category-eligibility",
+      "block": {
+        "tasks": [
+          "EV"
+        ],
+        "when": "When FEDERAL is allowable and an estate asset is being valued.",
+        "procedure": "Apply § 522(d)(5) independently to any property and retain it beside every qualifying specific paragraph. Its ceiling is $1,475 plus up to $13,950 of unused § 522(d)(1), so use $15,425 per debtor when no used homestead amount is supplied; for two equal joint debtors, the whole-asset ceiling is $30,850. For specific alternatives, report the whole-asset value capped at $4,450 under (d)(2), $700 per particular item under (d)(3), or $1,875 under (d)(4); (d)(9) has no stated dollar ceiling.",
+        "avoid_when": "Do not restrict (d)(5) to the categories in (d)(2), (3), or (4), and do not omit it because a specific paragraph applies. Do not copy an uncapped asset value into (d)(3), or double the (d)(2), (d)(3), or (d)(4) asset-level ceiling solely because there are two debtors. Do not output §§ 522(b), 522(d), or 522(m) as asset exemptions."
+      }
+    },
+    {
+      "batch": 1,
+      "at": "2026-10-30T00:37:20.853875+00:00",
+      "skill_id": "EC:wisconsin-consumer-goods",
+      "block": {
+        "tasks": [
+          "EC"
+        ],
+        "when": "When WISCONSIN is allowable and tangible personal property is held primarily for personal, family, or household use.",
+        "procedure": "Apply Wis. Stat. § 815.18(3)(d) to its listed consumer-goods categories, including household goods and furnishings, apparel, jewelry, books, musical instruments, firearms, sporting goods, and animals. Retain any independently applicable federal alternative.",
+        "avoid_when": "Do not cite Wis. Stat. § 815.18(8) as an asset exemption merely because spouses may combine exemptions; it is a marital coordination rule. Do not use § 815.18(3)(d) for property held primarily for business use."
+      }
+    },
+    {
+      "batch": 2,
+      "at": "2026-10-30T01:36:40.353306+00:00",
+      "skill_id": "EC:federal-wildcard-and-category-eligibility",
+      "block": {
+        "tasks": [
+          "EC"
+        ],
+        "when": "When FEDERAL is an allowable namespace and an estate asset is being classified.",
+        "procedure": "Test the specific paragraphs first: § 522(d)(1) for an occupied residence, (d)(2) for a motor vehicle, (d)(3) for personally held household furnishings or goods, apparel, appliances, books, animals, crops, or musical instruments, (d)(4) for personally held jewelry, (d)(6) only for facts identifying an implement, professional book, or tool of trade, and (d)(9) for a professionally prescribed health aid. Then perform a separate final check for § 522(d)(5) on every asset: it applies to any property, including real property and property already matching a specific paragraph. Dollar ceilings limit protection but never defeat EC eligibility.",
+        "avoid_when": "Do not place firearms or jewelry under § 522(d)(3), and do not infer § 522(d)(6) merely because an object could be used for work. Do not restrict § 522(d)(5) to personal property, omit it when another paragraph applies, or output §§ 522(b), 522(d), or 522(m) as asset exemptions."
+      }
+    },
+    {
+      "batch": 2,
+      "at": "2026-10-30T01:36:40.353306+00:00",
+      "skill_id": "EC:federal-wildcard-and-category-eligibility",
+      "block": {
+        "tasks": [
+          "EV"
+        ],
+        "when": "When FEDERAL is allowable and an estate asset is being valued.",
+        "procedure": "For each asset, first select every matching specific paragraph: (d)(1) for an occupied residence, (d)(2) for a motor vehicle, (d)(3) only for its listed household-use categories, (d)(4) for jewelry, (d)(6) only when the facts establish a trade implement, professional book, or tool, and (d)(9) for a professionally prescribed health aid. Separately add (d)(5) to every asset, even one already receiving a specific exemption. For each citation use the smaller of the whole named asset's value and its ceiling: $27,900 for (d)(1), $4,450 for (d)(2), $700 for the named particular item under (d)(3), $1,875 for (d)(4), and $2,800 for (d)(6); (d)(9) has no stated ceiling. For (d)(5), use $15,425 for one debtor or $30,850 for two equal joint debtors when no used homestead amount is supplied. Because this task evaluates asset-exemption pairs independently, do not reduce that amount merely because the same case also contains a residence claim.",
+        "avoid_when": "Do not put firearms or jewelry under (d)(3), and do not infer (d)(6) without stated trade use. Treat a pair or set presented as one named asset as one particular item for the $700 (d)(3) output. Never copy a ceiling above the asset's value, leave a half-interest as the result, or use the one-debtor (d)(5) ceiling for two equal joint debtors. Do not output §§ 522(b), 522(d), or 522(m) as asset exemptions."
+      }
+    },
+    {
+      "batch": 3,
+      "at": "2026-10-30T02:51:45.019919+00:00",
+      "skill_id": "EC:federal-wildcard-and-category-eligibility",
+      "block": {
+        "tasks": [
+          "EC"
+        ],
+        "when": "When FEDERAL is an allowable namespace and an estate asset is being classified.",
+        "procedure": "Use two mandatory passes for each asset. First classify from the asset facts, never its value: § 522(d)(1) for an occupied residence, (d)(2) for a motor vehicle, (d)(3) for personally held household furnishings or goods, apparel, appliances, books, animals, crops, or musical instruments, (d)(4) for personally held jewelry, (d)(6) only for facts identifying an implement, professional book, or tool of trade, and (d)(9) for a professionally prescribed health aid. A ceiling limits protection but never defeats EC eligibility. Second add § 522(d)(5) to every asset without exception, including property already matching a specific paragraph. Before emitting, verify that each asset has (d)(5) and every factually matching specific paragraph.\nExecution example: Hypothetically, a personally held animal worth more than the (d)(3) ceiling still receives both (d)(3) and (d)(5). A personal appliance described as professional-grade receives (d)(3) and (d)(5), not (d)(6), unless the facts state trade use.",
+        "avoid_when": "Do not place firearms or jewelry under § 522(d)(3), and do not infer § 522(d)(6) merely because an object could be used for work. Do not restrict § 522(d)(5) to personal property, omit it when another paragraph applies, or output §§ 522(b), 522(d), or 522(m) as asset exemptions."
+      }
+    },
+    {
+      "batch": 3,
+      "at": "2026-10-30T02:51:45.019919+00:00",
+      "skill_id": "EC:wisconsin-consumer-goods",
+      "block": {
+        "tasks": [
+          "EC"
+        ],
+        "when": "When WISCONSIN is allowable and tangible personal property is held primarily for personal, family, or household use.",
+        "procedure": "Select the Wisconsin category from the asset facts without using its ceiling as an eligibility test. Apply Wis. Stat. § 815.18(3)(d) to household goods and furnishings, apparel, jewelry, books, musical instruments, firearms, sporting goods, animals, and its other listed consumer goods. Separately apply § 815.18(3)(g) to a motor vehicle. Retain every independently applicable federal alternative.",
+        "avoid_when": "Do not cite Wis. Stat. § 815.18(8) as an asset exemption merely because spouses may combine exemptions; it is a marital coordination rule. Do not use § 815.18(3)(d) for a motor vehicle or for property held primarily for business use."
+      }
+    },
+    {
+      "batch": 6,
+      "at": "2026-10-30T06:23:26.752276+00:00",
+      "skill_id": "EC:federal-wildcard-and-category-eligibility",
+      "block": {
+        "tasks": [
+          "EC"
+        ],
+        "when": "When FEDERAL is an allowable namespace and an estate asset is being classified.",
+        "procedure": "Use two mandatory passes for each asset. First classify from the asset facts, never its value: § 522(d)(1) for an occupied residence, (d)(2) for a motor vehicle, (d)(3) for personally held household furnishings or goods, apparel, appliances, books, animals, crops, or musical instruments, (d)(4) for personally held jewelry, (d)(6) only for facts identifying an implement, professional book, or tool of trade, and (d)(9) for a professionally prescribed health aid. A ceiling limits protection but never defeats EC eligibility. Second add § 522(d)(5) to every asset without exception, including property already matching a specific paragraph. Before emitting, verify that each asset has (d)(5) and every factually matching specific paragraph.\nExecution example: Hypothetically, personal wearing apparel receives both (d)(3) and (d)(5) even when its value exceeds the (d)(3) ceiling; do not drop (d)(3). A personal appliance described as professional-grade receives (d)(3) and (d)(5), not (d)(6), unless the facts state trade use.",
+        "avoid_when": "Do not place firearms or jewelry under § 522(d)(3), and do not infer § 522(d)(6) merely because an object could be used for work. Do not restrict § 522(d)(5) to personal property, omit it when another paragraph applies, or output §§ 522(b), 522(d), or 522(m) as asset exemptions."
+      }
+    },
+    {
+      "batch": 7,
+      "at": "2026-10-30T07:36:04.026608+00:00",
+      "skill_id": "EC:wisconsin-consumer-goods",
+      "block": {
+        "tasks": [
+          "EV"
+        ],
+        "when": "When WISCONSIN is allowable and an asset is being valued.",
+        "procedure": "Match § 815.18(3)(d) to listed personal, family, or household consumer goods, including firearms, with a whole-asset ceiling of $12,000 for one debtor or $24,000 for two equal joint debtors. Match § 815.18(3)(g) to a motor vehicle; when no used consumer-goods amount is supplied in this independent-pair task, its $4,000 vehicle amount plus unused (d) gives a $16,000 ceiling for one debtor or $32,000 for two equal joint debtors. Match § 815.20(1) only to an occupied homestead, capped at $75,000 for one debtor or $150,000 for two joint spouses. For every citation report the smaller of the whole asset value and that ceiling.",
+        "avoid_when": "Do not put a motor vehicle under (3)(d). A firearm is consumer goods under (3)(d), not a depository account under (3)(k) or business property under (3)(b)(1) without the required account or business-use facts. Do not emit § 815.18(8), leave a half-interest as the result, or stop at one spouse's ceiling for jointly owned property where the statute permits both spouses' exemptions."
+      }
+    },
+    {
+      "batch": 8,
+      "at": "2026-10-30T09:02:55.173498+00:00",
+      "skill_id": "EC:wisconsin-consumer-goods",
+      "block": {
+        "tasks": [
+          "EV"
+        ],
+        "when": "When WISCONSIN is allowable and an asset is being valued.",
+        "procedure": "For listed nonvehicle consumer goods, including firearms, use § 815.18(3)(d), capped for the whole asset at $12,000 for one debtor or $24,000 for two equal joint debtors. For a motor vehicle, output only § 815.18(3)(g), not a separate (d) claim. Because this independent-pair task supplies no used consumer-goods amount, treat the (d) amount as unused: the single (g) claim has a $16,000 ceiling for one debtor or $32,000 for two equal joint debtors. Use § 815.20(1) only for an occupied homestead, capped at $75,000 for one debtor or $150,000 for two joint spouses. For each citation output the smaller of the whole asset value and its ceiling.",
+        "avoid_when": "Do not put a motor vehicle under (3)(d) or split its combined vehicle protection into separate (3)(g) and (3)(d) claims. A firearm is consumer goods under (3)(d), not a depository account under (3)(k) or business property under (3)(b)(1) without the required facts. Do not emit § 815.18(8), leave a half-interest as the result, or stop at one spouse's ceiling for jointly owned property where both spouses' exemptions apply."
+      }
+    }
+  ],
+  "final_library_published_at_UTC": "2026-10-30T09:02:55.173498+00:00",
+  "case_asset_descriptions_and_case_id_absent_from_final_skill_text": true,
+  "source_file_sha256": {
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/scored_records.json": "ff72aa2ba7c27d1d2725c938729a278c4a68e28068871d5da09aa827ddaa9cf6",
+    "data/packets/openexempt_IID128_confirmatory_TEST_20261030/inputs.json": "ff29ce066a21e9d4040ac7f51f1f855489dc7ec0723d611e9ec46cb851f3220b",
+    "data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json": "ef17d71b8b12f433f73d8c41afb04c506346614e69891cde66840d6daf6c7c45",
+    "data/packets/openexempt_IID128_confirmatory_TEST_20261030/grading_only/3000055.json": "aeefa609d1fd16185f0e9ac4fa7965dd37d3dfb35b9c0a75c0f7d8b33435d67d",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_empty/3000055_EC_empty.json": "18ef6ac58a096f3e2a913a5c34f9761aad37123666475f5eb0973f7c917c5408",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_empty/3000055_EC_empty.input.json": "f0a1dfb541fa9c6bd2d581d6d81859428b92d8d714a9229781dc6d9518ba9c94",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_empty/3000055_EV_empty.json": "722719fddfd4b7d379c7d6cfd405784c694966e072e93b47b9656c35525fa77f",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_empty/3000055_EV_empty.input.json": "68d770fabbbcb9e5688320e79f1a9a0f66a2c0bf292e25d2f3bc08e25a215f62",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility_own_B1_45/3000055_EC_utility_own_B1_45.json": "829cdf70e200ecad60a63c6034215eb3108f1707cc186c9102e96ec887ec5d67",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility_own_B1_45/3000055_EC_utility_own_B1_45.input.json": "28f3414b64ae669aaaae393ef65a1262320be4bf8f12e8ec863ec7bb558dd9ab",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility_own_B1_45/3000055_EV_utility_own_B1_45.json": "b29fb5cc55297e41f543c6a9331faaf321b05461a5f4808b759f9197c84d1d93",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility_own_B1_45/3000055_EV_utility_own_B1_45.input.json": "e3785b774a3ba7bdda38f1711c113f21656ae7f017f16db68a5547ef0e3e1e58",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_no_execution45/3000055_EC_no_execution45.json": "a7ebbc6ddd456344c9b575200babb2bc9dee22d7b7eda6a0dad94783d0805c18",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_no_execution45/3000055_EC_no_execution45.input.json": "27b989cb7601938e57f410c995065d650e8e2c5e600c1469dda4cb1b03204489",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_no_execution45/3000055_EV_no_execution45.json": "e540748ffa38fab4ae973825c9dc108a4db2fa04f1a23357a8ae56bef98696e2",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_no_execution45/3000055_EV_no_execution45.input.json": "bf8f16313298f6ba0d8d2d7601e629a9a3122f3724a7cf997f02b7ba871996d2",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility45/3000055_EC_utility45.json": "8f59c4901bbd4aeb709010b3830f6b1298ad6975e6e9705a4fab7fe25eb6ceeb",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility45/3000055_EC_utility45.input.json": "b6ab437119befa674e0c2e801e081bb2af1aeb7f3bc1ae3d933949a6f244bada",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility45/3000055_EV_utility45.json": "20d9fdf238dad04ee7c6ff1294b8a57a089797e66f6279e843324e3423922d90",
+    "runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/native/frozen_utility45/3000055_EV_utility45.input.json": "acd08e833e2524835ed63cfc29c18999bf7ff689f9cc97c157aa509d7ce6458d",
+    "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/publications/b1.json": "e6477b728e24c3d2d8d312320d0c1abcd490dba664f6b2322b33ee2e9af1ef52",
+    "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/publications/b2.json": "732337e7ee1b2dd6fde1aadb1a41a6c1b3eb8dc25591fb1bb1a07a6dbfb6c048",
+    "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/publications/b3.json": "37a85c923dd1589c94edd15a14b801e3e8aa76bf161998507787328273217165",
+    "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/publications/b4.json": "681c53923de5646aad7641951edee74c4ca5e3d06fee62ca007a0acbbff0f63c",
+    "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/publications/b5.json": "97c1f7128e2bf3752c8aeb0d890cd8fe520643e390b3d7291a9839cf346e1c89",
+    "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/publications/b6.json": "9a69e3be8ff1a80711ede9cd58a9d47bd6ac81f03a8e8c9b2dbf67b629a83330",
+    "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/publications/b7.json": "b0478b144dc4bd0a9d5491b446528e1f64895fd8f9b9901ee7d37bf8b17628ae",
+    "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/publications/b8.json": "a1ed2f870bb1ec0aed0cbc7f5dae23045943852a49abad0dd06d5599ffa4c038"
+  },
+  "interpretation": "Observed library and answer contrasts illustrate execution-focused refinement and a new task projection. This one case does not isolate individual edits; all-source control results quantify aggregate effects.",
+  "new_model_teacher_tokenizer_grader_calls": 0,
+  "exact_analysis_command": ".venv/bin/python -c 'import json,hashlib,datetime; from pathlib import Path; root=Path.cwd(); read=lambda p:json.loads((root/p).read_text()); h=lambda p:hashlib.sha256((root/p).read_bytes()).hexdigest(); score_path=\"runs/legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01/scored_records.json\"; d=read(score_path); m={a:{(v[\"case_id\"],v[\"family\"]):v for v in vs} for a,vs in d.items()}; ids=sorted({v[\"case_id\"] for v in d[\"utility45\"]}); arms=(\"empty\",\"utility_own_B1_45\",\"no_execution45\",\"utility45\"); candidates=[i for i in ids if all(m[\"utility45\"][(i,f)][\"score\"][\"full_output_f1\"]==1 and not m[a][(i,f)][\"score\"][\"invalid_format\"] for f in (\"EC\",\"EV\") for a in arms) and all(m[a][(i,f)][\"score\"][\"full_output_f1\"]<1 for a in (\"utility_own_B1_45\",\"no_execution45\") for f in (\"EC\",\"EV\"))]; case_id=candidates[0]; assert case_id==3000055; packet=\"data/packets/openexempt_IID128_confirmatory_TEST_20261030/inputs.json\"; rows={r[\"family\"]:r for r in read(packet)[\"rows\"] if r[\"case_id\"]==case_id}; train=\"data/packets/openexempt_closed_feedback_public_assets128_20261021/inputs.json\"; source_key=rows[\"EC\"][\"source_key\"]; assert source_key not in {r[\"source_key\"] for r in read(train)[\"rows\"]}; gold_path=\"data/packets/openexempt_IID128_confirmatory_TEST_20261030/grading_only/3000055.json\"; gold=read(gold_path); asset=next(k for k in gold[\"targets\"][\"EC\"] if \"prosthetic arm\" in k); records={a:{f:m[a][(case_id,f)] for f in (\"EC\",\"EV\")} for a in arms}; pub_root=\"runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/publications\"; pubs={i:read(pub_root+\"/b\"+str(i)+\".json\") for i in range(1,9)}; final_bank=pubs[8][\"bank\"]; banktext=json.dumps(final_bank,ensure_ascii=False); assert all(k not in banktext for k in gold[\"targets\"][\"EC\"]); assert str(case_id) not in banktext; hashes={score_path:h(score_path),packet:h(packet),train:h(train),gold_path:h(gold_path)}; focal={}; deliveries={}\nfor a in arms:\n focal[a]={}; deliveries[a]={}\n for f in (\"EC\",\"EV\"):\n  r=records[a][f]; p=r[\"raw_call_path\"]; ip=p[:-5]+\".input.json\"; hashes[p]=h(p); hashes[ip]=h(ip); pred=r[\"parsed\"][\"answer\"].get(asset,[]); target=gold[\"targets\"][f][asset]; key=lambda v:v if isinstance(v,str) else (v[\"citation\"],v[\"claim_value\"]); ps={key(v) for v in pred}; ts={key(v) for v in target}; focal[a][f]={\"predicted\":pred,\"missing\":[v for v in target if key(v) not in ps],\"extra\":[v for v in pred if key(v) not in ts]}\n  messages=read(ip)[\"messages\"]; background=[x[\"content\"] for x in messages if x[\"content\"].startswith(\"Background reusable skills.\")]; blocks=json.loads(background[0].split(\"\\n\",1)[1]) if background else []; deliveries[a][f]={\"input_path\":ip,\"blocks\":blocks}\n  if a==\"utility45\": assert r[\"bank_sha256\"]==pubs[8][\"bank_sha256\"]; assert all(b[\"hypothesis_ids\"]==[f] for b in blocks)\nrevisions=[]; previous={}\nfor i,p in pubs.items():\n hashes[pub_root+\"/b\"+str(i)+\".json\"]=h(pub_root+\"/b\"+str(i)+\".json\")\n for s in p[\"bank\"]:\n  if s[\"id\"] not in (\"EC:federal-wildcard-and-category-eligibility\",\"EC:wisconsin-consumer-goods\"): continue\n  for b in s[\"guidance\"][\"by_task\"]:\n   key=(s[\"id\"],tuple(b[\"tasks\"]))\n   if previous.get(key)!=b: revisions.append({\"batch\":i,\"at\":p[\"at\"],\"skill_id\":s[\"id\"],\"block\":b})\n   previous[key]=b\nneedles=(\"11 U.S.C. § 522(d)(5)\",\"11 U.S.C. § 522(d)(9)\",\"Wis. Stat. § 815.18(3)(d)\"); snippets=[b for b in rows[\"EC\"][\"components\"][\"statutes\"].split(\"\\n\\n\") if any(b.startswith(n+\"\\n\") for n in needles)]; output={\"at_UTC\":datetime.datetime.now(datetime.timezone.utc).isoformat(),\"classification\":\"posthoc_illustrative_frozen_case_not_new_performance_endpoint\",\"case_id\":case_id,\"source_key\":source_key,\"source_absent_from_TRAIN\":True,\"selection\":{\"rule\":\"Smallest case ID with final complete-output EC/EV F1=1, valid outputs in four specified conditions, and both B1 and C2 incomplete on both tasks\",\"candidate_case_ids\":candidates,\"no_new_generation_or_scoring\":True},\"public_facts\":{f:r[\"components\"][\"facts\"] for f,r in rows.items()},\"public_solved_prerequisites\":rows[\"EC\"][\"components\"][\"solved_steps\"],\"given_statutory_excerpts\":snippets,\"target\":gold[\"targets\"],\"focal_asset\":asset,\"focal_comparisons\":focal,\"original_scored_records\":records,\"actual_projected_deliveries\":deliveries,\"selected_actual_skill_revision_history\":revisions,\"final_library_published_at_UTC\":pubs[8][\"at\"],\"case_asset_descriptions_and_case_id_absent_from_final_skill_text\":True,\"source_file_sha256\":hashes,\"interpretation\":\"Observed library and answer contrasts illustrate execution-focused refinement and a new task projection. This one case does not isolate individual edits; all-source control results quantify aggregate effects.\",\"new_model_teacher_tokenizer_grader_calls\":0}; print(json.dumps(output,ensure_ascii=False,indent=2))'"
+}

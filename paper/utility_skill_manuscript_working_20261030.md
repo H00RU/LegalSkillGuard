@@ -4,7 +4,7 @@
 
 ## Abstract
 
-Reusable instructions offer a learning interface for small language models whose weights remain fixed, but an initially useful memory does not establish that further experience improves it. We study this distinction in statutory exemption classification and valuation, where an answer must preserve independently applicable alternatives and assign their protected amounts. Evidence-guided skill evolution combines task-focused execution teaching with complete-output utility admission: a teacher revises legal procedures from released training targets and actual executor errors, while replay-based publication checks both omitted and false claims. A frozen Qwen3-8B learns over 128 sources in eight batches and is then evaluated on 128 source-isolated cases. Its final seven-record library achieves 95.46% classification F1 and 87.90% valuation F1, gains of 30.98 and 32.02 percentage points over the strong empty-library condition. Compared with its own first-batch library, continued evolution adds 11.95 classification points, with a family-adjusted source-paired interval of [7.33, 16.60]. Under the shared executor interface, it also exceeds a SkillCommit paper adaptation by 27.49 classification and 23.08 valuation points. Matched controls connect final-library utility to teacher-visible execution evidence and the admission/selection policy. These results demonstrate continued improvement in legal classification through editable procedures rather than parameter updates.
+We study whether reusable legal procedures continue to improve a frozen language model after initial skill acquisition. Statutory exemption classification and valuation require identifying independently applicable provisions and assigning their protected amounts. Evidence-guided skill evolution revises task-specific procedures from released training targets and observed executor errors. A library-level controller compares whole proposals with dependency-consistent edits, retaining revisions that improve complete-output utility while constraining current and historical mean performance. Qwen3-8B processes 128 training cases in eight batches; its first-batch library is then held fixed as a reference for continued evolution. On 128 source-disjoint cases, the final seven-record library reaches 95.46% classification F1 and 87.90% valuation F1. Classification improves by 11.95 percentage points over its own first-batch library, with a family-adjusted source-paired interval of [7.33, 16.60]. The valuation continuation estimate is 3.65 points, with interval [-2.82, 10.28]. Chronological first encounters, matched learning controls and recorded instruction changes explain the results for these completed builds. The findings establish further classification gains after initial skill acquisition through a compact, editable procedural memory.
 
 ## 1. Introduction
 
@@ -20,17 +20,17 @@ Publication is tied to the quality of those generated answers. The controller ev
 
 Evaluation follows a chronological stream and a subsequent frozen-library comparison on source-isolated cases. A library fixed after the first batch tests the incremental value of later evolution. Same-version controls examine teacher-visible execution evidence and the admission/selection policy, while empty, static and experience-learning libraries provide complementary references. The resulting evidence separates initial knowledge acquisition, subsequent-case learning and final-library utility under a common legal task interface.
 
-The completed comparison gives the frozen executor 95.46% EC F1 and 87.90% EV F1 on 128 new source cases. Relative to its own first-batch library, the final library adds 11.95 EC points; this continuation gain remains positive under the prespecified family adjustment. The contribution is an execution-grounded learning loop for legal procedures, supported by separate evidence for initial library utility, subsequent evolution and the value of teacher-visible execution errors.
+The completed comparison gives the frozen executor 95.46% EC F1 and 87.90% EV F1 on 128 new source cases. Relative to its own first-batch library, the final library adds 11.95 EC points; this continuation gain remains positive under the prespecified family adjustment. Our contribution couples task-protected procedure revision with library-level utility checks and separates their observed continuation benefit from initial skill acquisition. Complete algorithm definitions, the learned B1/B8 libraries and same-candidate policy readouts make this learning process inspectable.
 
 ## 2. Related work
 
 **Experience-based context adaptation.** External learning methods differ in how they represent and consolidate experience. [ExpeL](https://ojs.aaai.org/index.php/AAAI/article/view/29936) extracts natural-language insights from training experiences, and [ReasoningBank](https://arxiv.org/abs/2509.25140v2) distills strategies from self-judged successes and failures for later retrieval. [ACE](https://arxiv.org/abs/2510.04618v3) maintains an incrementally revised playbook through generation, reflection and curation, whereas [Trace2Skill](https://arxiv.org/abs/2603.25158v5) consolidates parallel trajectory-local lessons into a portable skill directory. Our study focuses on procedures for a fixed statutory answer interface, learned from released training labels and observed execution errors, with final-library inference separated from the learning stream.
 
-**Behavioral validation and statutory reasoning.** [Factoring Statutory Reasoning](https://aclanthology.org/2021.acl-long.213/) decomposes rule application into language-understanding subtasks to support finer-grained diagnosis. [JustifIT-QA](https://aclanthology.org/2026.emnlp-main.593/) combines statutory retrieval with judge-guided answer refinement. For reusable experience, [GSE](https://arxiv.org/abs/2608.06153v1) combines a skill-relation graph, cluster consolidation and historical replay to validate candidate skill banks. [SkillCommit](https://arxiv.org/abs/2608.15165v2) preserves instance-specific patches, tests cross-instance transfer and mechanism compatibility, and commits higher-level abstractions that preserve their validated behavior. It also evaluates on OpenExempt, placing legal rule application within behaviorally validated skill evolution. [OpenExempt](https://arxiv.org/abs/2601.13183) supplies expert-constructed statutory representations, generated cases and computable targets that support analysis of classification and valuation separately. We use that separation to study task-focused procedure revision and admission under both native and complete-output utility. The mechanism controls address how actual execution evidence and publication policy affect learned procedures; the fixed first-batch comparison addresses whether further evolution helps subsequent cases.
+**Behavioral validation and statutory reasoning.** [Factoring Statutory Reasoning](https://aclanthology.org/2021.acl-long.213/) decomposes rule application into language-understanding subtasks, while [JustifIT-QA](https://aclanthology.org/2026.emnlp-main.593/) combines statutory retrieval with judge-guided answer refinement. For reusable experience, [GSE](https://arxiv.org/abs/2608.06153v1) validates candidate banks through a skill-relation graph, consolidation and historical replay. [SkillCommit](https://arxiv.org/abs/2608.15165v2) tests cross-instance transfer and mechanism compatibility before consolidating instance patches, including on OpenExempt. Our controller instead evaluates a fixed library under task-protected edits, current/all-seen native and complete-output utility, and one dependency-consistent composition. The difference concerns the revision and decision unit, not the general idea of learning from errors or replaying experience. [OpenExempt](https://arxiv.org/abs/2601.13183) supplies computable classification and valuation targets for testing these procedures. A fixed first-batch library makes the incremental value of continued revision measurable on later cases.
 
 ## 3. Task and learning problem
 
-We study whether a frozen language model can improve statutory reasoning by accumulating and revising reusable legal procedures. Each source case supplies facts, statutes and the allowable-jurisdiction result. Exemption classification (EC) identifies every applicable asset–provision alternative. Exemption valuation (EV) additionally assigns the protected amount to each alternative. The two tasks share source facts but produce independent answers. EV determines eligibility from its own input; the supplied prerequisites identify allowable jurisdictions rather than a solved EC answer.
+We study whether a frozen language model can improve statutory reasoning by accumulating and revising reusable legal procedures. Each source case supplies facts, statutes and the allowable-jurisdiction result. Exemption classification (EC) identifies every applicable asset–provision alternative. Exemption valuation (EV) additionally assigns the protected amount to each alternative. The two tasks share source facts but are answered separately. EV determines eligibility from its own input; the supplied prerequisites identify allowable jurisdictions rather than a solved EC answer.
 
 The target is the benchmark's set of independently applicable alternatives. A specific exemption and a general-property exemption may both be relevant to an asset. Their protected amounts are alternative claims, not an instruction to combine them into an estate-wide allocation. All reference outputs follow the pinned benchmark construction and its supplied statutory text.
 
@@ -42,6 +42,8 @@ $$
 
 Here $x_{c,h}$ contains the case facts, supplied prerequisites and statutes. Projection selects relevant instruction text. The executor decides asset eligibility, applicable provisions and claim values. Library tokens, rather than model weights, are the learned state.
 
+A **record** is a storage unit; its **task projection** is the EC or EV instruction block delivered for that task, containing an applicability condition, procedure and exclusions. For example, the B1 Federal record contains the EC instruction “Apply 11 U.S.C. § 522(d)(5) independently to any property, and retain it alongside every applicable specific paragraph.” Its separate EV block governs amounts. Public task and jurisdiction select the block; a condition in its text is an instruction for the executor, not a learned semantic router. The complete B1 and B8 records are supplied in Supplementary Data 1.
+
 The executor uses shared public citation labels and case-local literal asset references. These identify strings in the supplied text. The decoder restores the corresponding strings by lookup. The same interface serves the empty-library and learned-library conditions. EC instructions precede the case; EV instructions follow it. Public asset references carry neither eligibility decisions nor reference amounts.
 
 ## 4. Evidence-guided skill evolution
@@ -50,7 +52,7 @@ The learning loop turns observed claim errors into procedures and tests each rev
 
 ![Evidence-guided skill evolution with a frozen legal executor](figures/utility_method_overview_20261030/method_overview.svg)
 
-Figure 1. Execution evidence guides task-protected legal procedure revision. All new-source forecasts are saved before training targets are released. The middle and right stages run sequentially for EC and EV: each selected step result becomes the next step's actual parent, and the batch library is published after both tasks. Whole proposals and dependency-consistent compositions are assessed on all encountered training sources under native and complete-output utility. Identical requests reuse the same physical response. Bounded failed-proposal evidence informs subsequent teaching, while the published library serves the next batch. The fixed B1 reference is evaluation-only. At stream completion, the actual final library is frozen for separate evaluation without learning feedback.
+Figure 1. Execution errors guide task-protected procedure revision. Columns 2–3 repeat for EC and then EV: teach EC, assess/select, teach EV using that selected library, and assess/select again. The final batch check precedes publication. All new-case first answers are saved before target release; the fixed B1 library is evaluation-only. Whole and dependency-consistent edits are assessed on encountered training cases. The published library serves the next batch, and B8 is frozen for the subsequent evaluation.
 
 ### 4.1. Task-focused execution teaching
 
@@ -60,7 +62,7 @@ The teacher sees the current cases and a bounded historical set. Its evidence in
 
 **Procedures and execution illustrations.** The teacher can create, update, merge or remove skill text within the active task projection. It distinguishes an inadequate instruction from an execution lapse. The former can change applicability conditions, procedural wording or exclusions. For the latter, the existing legal prefix is preserved and a compact, deidentified execution illustration is added or replaced. For example, an illustration can show that a general-property alternative must coexist with a qualifying specific alternative, without recording an instance's asset names or values.
 
-Each changed skill–task projection is tied to released training sources. An anchor for an existing rule quotes that same parent projection. A newly introduced projection has no old same-projection text to quote. Source identifiers and diagnostic rationales remain outside the executor's skill memory.
+Each changed skill–task projection has exactly one diagnosis and references supplied training sources. An execution-lapse diagnosis preserves the applicability, exclusions and legal prefix byte for byte, changing the execution illustration after that prefix. Its anchor quotes at least 20 characters from the existing rule. A skill-defect diagnosis permits a rule edit; any nonempty anchor must occur in that same parent projection, while a new projection uses an empty anchor. These are structural provenance checks, not an independent legal correctness judge. Source identifiers and diagnoses stay outside executor memory.
 
 **Task protection.** An EC teaching step preserves the EV projection, and conversely. This permits a teacher to improve one procedure without silently rewriting the other task's instructions. Shared records remain possible; their task-specific blocks are checked separately. The complete serialized library, including metadata and both task views, obeys one token budget.
 
@@ -85,7 +87,9 @@ The historical constraint applies when $H_t$ is nonempty. Every inequality is ch
 
 These constraints preserve current and all-seen aggregate quality while allowing bounded historical trade-offs. They evaluate the realized training executions; individual cases can improve or worsen. The token budget and task-protection constraints apply to the same delivered candidate.
 
-**Whole and dependency-consistent revisions.** The controller considers the complete proposal and a composition of admissible legal edit components. Components follow actual co-visible changed instructions in public legal contexts. Their number depends on the proposal and encountered contexts. A composition retains parent instructions outside the admitted components and publishes one fixed library.
+**Dependency components.** For each task, form an undirected graph of public legal namespaces appearing in encountered cases or either library. Join namespaces that are jointly allowable in a case, and join the old and new namespaces of a moved record ID. Changing shared `ALL` guidance joins every namespace; unchanged shared guidance adds no such edge. Connected components define inseparable edit coordinates. Each coordinate is assessed on every current and prior case whose allowable namespaces intersect it, and needs at least one current case. This construction uses public preconditions and library differences, not answer correctness.
+
+**One composed candidate.** The controller admits every component passing the task-level utility checks and takes their unique union. Within each admitted component it uses proposed records; elsewhere it retains parent records. It considers only this composition and the whole proposal, rather than enumerating arbitrary subsets. An incompatible record move, invalid schema or over-budget composition is discarded. Table A2 gives both policy variants.
 
 Every composed request must match a previously measured parent or proposed request in its complete messages, schema and generation profile. The existing raw response is then interpreted under the actual composed library. This yields library-level selection without constructing a case-specific mixture of favorable answers.
 
@@ -95,7 +99,7 @@ $$
 G_h(B',B)=g^{\mathrm{full}}_{A_t,h}(B')-g^{\mathrm{full}}_{A_t,h}(B).
 $$
 
-An exact tie retains the whole proposal. The implementation uses the minimum and then mean task-wise gains; under task protection the unchanged task contributes zero, making this ordering equivalent to $G_h$. If neither revision is admissible, the parent remains. After both teaching steps, the actual publication is checked against the original batch parent with the same admission contract.
+An exact tie retains the whole proposal. The implementation uses the minimum and then mean task-wise gains; under task protection the unchanged task contributes zero, making this ordering equivalent to $G_h$. If neither revision is admissible, the step parent remains. After both teaching steps, the resulting library is checked against the original batch parent with the same contract. Failure of that final check aborts the build rather than substituting an earlier checkpoint. Algorithm 1 specifies the complete selection loop.
 
 The loop freezes its actual last-batch library for evaluation. The model generates direct EC answers and numeric EV claims throughout; numerical operators are excluded from skill records. Exact-request reuse shares identical responses and charges their generation once. It does not turn aliases into independent samples.
 
@@ -129,6 +133,8 @@ Within each evaluation experiment, predictions are saved before its unified scor
 
 ### 5.4. Implementation settings
 
+**Table S1. Fixed executor, teacher and learning settings.** The source and model revisions, rather than a sampling seed alone, identify the experiment.
+
 | Setting | Value |
 |---|---|
 | Executor | [Qwen3-8B](https://arxiv.org/abs/2505.09388), fixed weights, BF16 |
@@ -139,7 +145,7 @@ Within each evaluation experiment, predictions are saved before its unified scor
 | Sources per batch | 16 |
 | Teaching opportunities | One EC step and one EV step per batch; at most 16 successful responses |
 | Complete-library budget | 4,096 executor-tokenizer tokens |
-| Historical mean-loss allowance $\varepsilon$ | 0.01 on the F1 scale, or one percentage point |
+| Historical mean-loss allowance $\varepsilon$ | F1 allowance of 0.01, or one percentage point |
 | Executor context / maximum output | 32,768 / 8,192 tokens |
 | Decoding | Seed 45; temperature 0.6; top-p 0.95; top-k 20; thinking enabled |
 | Teacher historical proposal memory | At most one per task; eight witnesses per proposal |
@@ -149,9 +155,11 @@ Within each evaluation experiment, predictions are saved before its unified scor
 
 ### 6.1. Final-library utility on new sources (RQ1)
 
-The final library improves both statutory classification and valuation over the empty, static and retained experience-learning libraries (Table 1). It reaches 95.46% EC F1 and 87.90% EV F1, compared with 64.48% and 55.88% for the strong empty executor: gains of 30.98 and 32.02 percentage points. Against ACE with the common interface, the gains are 28.87 and 20.98 points. All four corresponding family-adjusted intervals are positive (Appendix B.4). The SkillCommit paper adaptation reaches 67.98% EC F1 and 64.82% EV F1; the final library's gains of 27.49 and 23.08 points have positive intervals in the separate two-endpoint supplement (Appendix B.5). The fixed backbone keeps model capacity unchanged, and the common-interface comparison shows that changing ACE's delivery interface does not account for the learned library's advantage. Section 6.3 links final-library utility to teacher-visible execution evidence and the publication policy through matched learning controls.
+The final library improves classification beyond an already useful first-batch library (Table 1). EC F1 rises from 64.48% with no skills to 83.51% after B1 and 95.46% after B8. The paired B8-minus-B1 gain is 11.95 percentage points, with family-adjusted interval [7.33, 16.60]. EV F1 rises from 55.88% to 84.25% and then 87.90%; its continuation gain of 3.65 points has interval [-2.82, 10.28]. Thus, the separate-source comparison supports continued classification learning, while the corresponding valuation effect remains uncertain.
 
-**Table 1. Frozen-library performance on 128 source-isolated IID cases (%).** EC and EV are the original source-mean native F1 endpoints; Avg. is their descriptive mean. Bold denotes the highest point estimate in each column. All conditions retain invalid and unfavorable outputs; formation conditions and costs are reported separately.
+The final library also exceeds the empty, static and retained experience-learning libraries. Relative to the strong empty executor, EC/EV gains are 30.98/32.02 points; relative to ACE with the common interface, they are 28.87/20.98 points. These four adjusted intervals are positive (Appendix B.4). The common-interface comparison shows that ACE's alternative delivery interface alone does not close the gap. The later SkillCommit paper adaptation gives 67.98/64.82%, with positive main-minus-adaptation intervals in its separate existing-TEST supplement (Appendix B.5). These comparisons standardize final executor inference, not library-formation compute or the original authors' systems.
+
+**Table 1. Frozen-library performance on 128 source-isolated IID cases (%).** EC and EV are the original source-mean native F1 endpoints; Avg. is their descriptive mean. Bold denotes the highest point estimate in each column. The SkillCommit row is a later supplement on the existing, previously observed TEST packet, outside the original comparison family. All conditions retain invalid and unfavorable outputs; formation conditions and costs are reported separately.
 
 | Frozen library | EC F1 | EV F1 | Avg. |
 |---|---:|---:|---:|
@@ -160,14 +168,14 @@ The final library improves both statutory classification and valuation over the 
 | ACE native interface | 65.00 | 58.68 | 61.84 |
 | ACE common interface | 66.59 | 66.92 | 66.75 |
 | Trace2Skill–Text | 55.08 | 53.31 | 54.19 |
-| SkillCommit paper adaptation | 67.98 | 64.82 | 66.40 |
+| SkillCommit adaptation (supplement) | 67.98 | 64.82 | 66.40 |
 | Own frozen B1 | 83.51 | 84.25 | 83.88 |
 | Strict-policy control | 80.29 | **89.01** | 84.65 |
 | Execution-evidence-withheld control | 86.98 | 80.38 | 83.68 |
 | Predecessor library | 87.63 | 83.91 | 85.77 |
 | **Evidence-guided evolution** | **95.46** | 87.90 | **91.68** |
 
-The original ten-condition experiment contains 2,560 predictions saved before its unified scoring. The separate SkillCommit experiment adds 256 fresh predictions, saved before its own scoring, giving 2,816 predictions on the same source matrix. ACE's two rows use one learned playbook through two interfaces. The predecessor is a method-version reference, while the strict-policy and teacher-evidence conditions are matched learning controls. Table B3 additionally reports complete-output quality, exact-target matching and format failures.
+The original ten-condition experiment contains 2,560 predictions saved before its unified scoring. The separate SkillCommit experiment adds 256 fresh predictions, saved before its own scoring, giving 2,816 predictions on the same source matrix. ACE's two rows use one learned playbook through two interfaces. The predecessor is a method-version reference, while the strict-policy and teacher-evidence conditions are matched learning controls. Table B3 additionally reports complete-output quality, strict object matching and format failures.
 
 <!-- Actual frozen comparison: legal_openexempt_v6_frozen_source_isolated_IID128_20261031_run01; original completion SHA256 2db223a4205748fda9bb8203b7e5eb07a5b492a210c35dea9def3e6816d2f66d. All2560 actual bank/task-projection requests and original18 endpoints verified by7933c50c62a22fb2eed693b77069e39751f827aefe1d3d8ad99138c916ebfd3c. Table source: paper/tables/utility_frozen_results_20261101.json, SHA2563879cee0d1f5765f3a00637b2c3252640c570d2eed7da4cc1f05031ecd4fb732. -->
 
@@ -190,7 +198,7 @@ Actual requests establish where later revisions reach the executor. Of the 112 s
 
 The library evolves mainly by revising existing procedures. Nine of the 16 teaching steps commit an update: five EC steps and four EV steps. After B1, the accepted edits make 16 revisions to existing task projections and add one EV projection while retaining seven records. The final library occupies 3,993 tokens, and each subsequent first-answer task receives two or three projected instruction blocks (Appendix D). These records distinguish content evolution from growth in the number of entries.
 
-The final-library comparison tests whether this evolution also benefits a separate source set. On the 128 confirmation cases, final versus own-B1 EC F1 increases from 83.51% to 95.46%, a paired gain of 11.95 points with family-adjusted interval [7.33, 16.60]. EV increases from 84.25% to 87.90%, a 3.65-point estimate with adjusted interval [-2.82, 10.28]. The classification continuation gain therefore persists beyond the learning stream; the valuation estimate does not establish a corresponding adjusted-significant continuation effect.
+Recorded edits expose what this continuation changes. The Federal EC record already requires the general-property alternative at B1. B2 expands category-specific guidance and puts the wildcard check last; B3 turns the same listed provisions into two mandatory passes and a per-asset audit. A later illustration revision preserves that legal prefix exactly. Appendix E shows the original instruction excerpts and a new-source answer, separating procedural refinement from added provision coverage.
 
 ![Figure 2. All eight batches of chronological first-answer performance.](figures/utility_learning_curves_20261030/learning_curves_preview.png)
 
@@ -202,9 +210,9 @@ The final-library comparison tests whether this evolution also benefits a separa
 
 Chronological evidence distinguishes this effect from initial acquisition. On the same 112 post-B1 sources, the evidence-withheld library records native EC/EV F1 of 84.54/81.27%, compared with 84.54/81.91% for its own B1 snapshot. Its continuation changes are 0.00/-0.64 points, whereas the main method changes by +10.96/+3.42 points (Table 2). Appendix D.5 reports both complete controls and their learning-path boundaries.
 
-**Admission and selection policy (RQ4).** Complete-output utility admission gives a 15.17-point EC advantage over the strict-policy control, with adjusted interval [10.53, 20.35]. The strict control instead has the highest EV point estimate, 89.01% versus 87.90%; the paired utility-minus-strict EV difference is -1.11 points [-6.20, 3.65]. The supported policy advantage is therefore classification quality rather than superiority on every endpoint. Because the control changes admission and selection together, this comparison evaluates the policy bundle and its resulting learning path, not an isolated count-veto effect.
+**Admission and selection policy (RQ4).** Complete-output utility admission gives a 15.17-point EC advantage over the strict-policy control, with adjusted interval [10.53, 20.35]. The strict control instead has the highest EV point estimate, 89.01% versus 87.90%; the paired utility-minus-strict EV difference is -1.11 points [-6.20, 3.65]. The supported policy advantage is classification quality, not superiority on every endpoint. The control changes admission, selection and their teacher-facing objective together. Same-candidate policy readouts locate two disagreements in its recorded proposals, including rejection of a B1 valuation gain because negative/unscored-asset claims rise from one to two. Conversely, both policies choose the same result from every main-run candidate pool (Appendix D.6). The final-bank contrast therefore concerns the policy-conditioned learning path, not an isolated veto mechanism.
 
-**Complete-answer quality.** The main library attains 96.67% complete-output EC F1 and 87.51% complete-output EV F1, with exact-target matching of 57.81% and 41.41% (Table B3). These measures distinguish high claim coverage from an entirely matched answer. Its two format failures are retained as zero-score EV outcomes. Complete-output evaluation also retains extra claims on unmatched or negative-target assets, so a native-F1 improvement does not remove their cost from the accompanying quality assessment.
+**Complete-answer quality.** The main library attains 96.67% complete-output EC F1 and 87.51% complete-output EV F1. Between own B1 and B8, omitted EC targets decrease from 248 to 40 and extra EC predictions from 44 to 26. EV improves less: incorrect-amount targets decrease from 69 to 57, leaving a substantial valuation error source (Table B6). Its two invalid EV outputs retain zero scores. Strict decoded-object matching is 57.81/41.41%; this representation-sensitive diagnostic is not whole-case legal accuracy (Appendix B.3).
 
 ## 7. Discussion
 
@@ -214,7 +222,7 @@ Chronological evidence distinguishes this effect from initial acquisition. On th
 
 **Evolution within bounded memory.** The stream retains seven records while revising 16 existing task projections after B1 and adding one EV projection. Actual delivery traces and the own-B1 contrast connect these changes to the instructions used on later cases. Task protection permits targeted revision inside shared records, while complete-output assessment charges both omissions and false claims. The resulting memory objective concerns the utility of applicable procedure text, not growth in the number of entries.
 
-**Interpretation boundary.** The evidence concerns statutory alternatives under supplied facts, statutes and jurisdiction prerequisites in the pinned generator. The strict-policy comparison tests a bundle of admission and selection choices; it does not show a uniform valuation advantage. Source-paired uncertainty describes these retained learned libraries, with independent learning builds reported separately when available.
+**Interpretation boundary.** The evidence concerns statutory alternatives under supplied facts, statutes and jurisdiction prerequisites in one generator, not end-to-end legal advice or unseen legal domains. The complete controls evaluate teacher-evidence and policy bundles under one completed learning build per condition. Source-paired intervals quantify case variation for those banks; independent learning replication remains necessary to estimate build-to-build variation. The observed classification continuation gain and bounded valuation result are the conclusions supported by this experiment.
 
 ## 8. Conclusion
 
@@ -235,7 +243,42 @@ The executor parameters, task interface, decoding profile and source order remai
 
 A no-op, an invalid edit or an over-budget proposal consumes its scheduled teaching opportunity without an extra same-task retry. The completed stream returns its actual B8 publication. A predeclared forward-harm stop examines two consecutive batches from B2 onward: mean native EC/EV loss greater than two percentage points against a retained empty/initial/direct reference, or EV complete-output loss greater than two points against the initial reference. Such a stop terminates the build rather than selecting a favorable earlier checkpoint. The first-batch frozen reference supplies evaluation evidence and is not used in teaching or admission.
 
-### A.2. Communication and execution evidence
+### A.2. Decision contracts and component composition
+
+**Algorithm 1. Task-protected library selection.** Inputs are the step parent, one proposed task edit, measured parent/proposal outputs on encountered sources, public allowable namespaces and the fixed policy in Table A2. EC is processed before EV; each selected result becomes the next step's parent.
+
+1. Validate the delta, evidence references, diagnoses, anchors, unchanged other-task projection and 4,096-token complete-library cap. An invalid or unchanged proposal retains the parent and consumes the opportunity.
+2. Build the task-specific namespace graph defined in Section 4.2. Assess each connected component on all intersecting current and prior sources; a component without current support is ineligible.
+3. Form exactly one composition from all admitted components, retaining the parent elsewhere. Reject an invalid or over-budget composition. For every encountered task, require its complete request to equal a measured parent or proposal request before reusing that response.
+4. Apply the library-level policy separately to the whole proposal and this composition. The policy checks both tasks and both score definitions. Its candidate set contains at most these two libraries, not every component subset.
+5. Rank admissible candidates by the minimum, then mean all-seen task gain under the policy's selection score. Exact ties prefer the whole proposal. If none passes, retain the parent.
+6. After the EV step, check the resulting bank against the original batch parent. A failed final check aborts the build. Otherwise save the actual bank, scores and decision lineage; freeze B1 for evaluation only and return B8 after eight batches.
+
+**Table A2. Complete decision contracts.** All score constraints are task-wise. Native and complete-output F1 are checked separately, with numerical comparison tolerance $10^{-12}$. Prior constraints are omitted at B1. A component uses its intersecting cohort; whole/composed libraries use all encountered sources.
+
+| Decision element | Complete-output utility | Strict-policy control |
+|---|---|---|
+| Current native and complete-output means | No loss | No loss |
+| Prior native and complete-output means | Loss at most 0.01 | No loss |
+| All-seen native and complete-output means | No loss | Implied by current/prior checks |
+| Format failures and negative/unscored-asset claims | Diagnostic counts, not separate vetoes | Neither count may rise on current or prior cohorts |
+| Strict current improvement | Higher native/full F1 or lower diagnostic count | Same requirement |
+| Selection score | All-seen complete-output F1 gain | All-seen native F1 gain |
+| Candidate ordering | Minimum task gain, then mean; whole wins ties | Same ordering |
+| Teacher-facing contract | States utility constraints and objective | States strict constraints and objective |
+| Shared structural checks | Task protection, diagnoses, public components, token cap, exact-request composition | Same checks |
+
+**Table A3. One actual composed selection: B2 EC.** Scores are means over the 32 encountered sources (%), before the subsequent EV step. Both proposed libraries pass utility admission. The component union retains the parent in Arizona and adopts the other two proposed components; it is selected for its larger complete-output gain.
+
+| EC-step library | Native F1 | Complete-output F1 | Serialized tokens |
+|---|---:|---:|---:|
+| Step parent (B1) | 85.07 | 88.12 | 2,461 |
+| Whole EC proposal | 90.05 | 92.24 | 2,699 |
+| Admitted-component union | 91.62 | 94.29 | 2,664 |
+
+The Arizona component has four current and three prior sources and fails current nonregression. The admitted components are Federal–Oregon–Pennsylvania–Wisconsin and Illinois. Co-allowability joins the Federal-connected namespaces; it is not a manually fixed partition. The selected union's complete-output EC gain is 6.17 points versus 4.11 for the whole proposal. EV requests remain unchanged. Every composed request is identical to a saved parent/proposal request; no extra generation or favorable per-case answer choice is introduced.
+
+### A.3. Communication and execution evidence
 
 Each task-focused request includes every current source and selects up to 16 historical background sources. Mandatory retained failure witnesses are included first, followed by public-context witnesses, observed regressions and low-scoring parent cases, with source identifiers breaking ties. If mandatory witnesses exceed the background limit, the limit expands to include them. This is communication selection within already encountered training data. Proposal assessment still covers every encountered source.
 
@@ -243,7 +286,7 @@ The supplied public law corpus is deduplicated within a request. Current-parent 
 
 Retained proposal feedback identifies the historical candidate and its original parent, while references to current-parent answers point to separately supplied observations. Each task retains at most one unsuccessful or partially committed proposal with at most eight replay witnesses. The controller distinguishes a fully committed proposal, a partially committed proposal and a rejected proposal. The executor receives the resulting procedures, not the source identifiers, diagnostic labels or historical answer records.
 
-### A.3. Exact-request accounting
+### A.4. Exact-request accounting
 
 A request identity contains the full messages, response schema and generation profile. A library hash alone is insufficient: different libraries can deliver the same task projection, while changed applicable text produces a different request. Every reused response retains its original raw-call identity and is decoded for the actual requesting condition. A dependency composition is valid only when each composed request matches a measured parent or proposal request. Consequently, composition selects a fixed library without an additional generation round or per-case score-based answer choice.
 
@@ -257,23 +300,50 @@ Cost reporting counts each physical native origin once and lists logical forecas
 
 The confirmation recipe fixes 128 source cases with seed 2026103001. It excludes the source keys of 564 cases across 15 earlier packets. Each source contributes one EC and one EV question. This is source-isolated IID evaluation within the pinned generator, rather than a claim of unseen-jurisdiction or official Advanced-benchmark evaluation.
 
+**Table B1. Source distributions and public legal context.** Counts refer to source cases, not the doubled EC/EV questions. Both packets draw from the same legal and asset vocabulary.
+
+| Property | TRAIN (128) | TEST (128) |
+|---|---:|---:|
+| Cases with 2 / 3 / 4 assets | 43 / 48 / 37 | 42 / 45 / 41 |
+| Target claims per case, min / median / max | 1 / 6 / 16 | 2 / 6 / 16 |
+| Arizona | 24 | 20 |
+| Illinois | 28 | 28 |
+| Federal + Oregon | 22 | 24 |
+| Federal + Pennsylvania | 27 | 26 |
+| Federal + Wisconsin | 27 | 30 |
+| Distinct target-citation sets | 55 | 62 |
+| Distinct literal asset descriptions | 378 | 383 |
+
+The packets share 287 literal asset-description strings and 26 target-citation sets, but no source keys. These overlaps characterize the controlled IID setting: source isolation does not imply new statutory vocabulary or new asset templates.
+
 The prespecified matrix contains ten conditions: empty, static, ACE native, ACE common-interface, Text, the evolved B8 library, its own fixed B1 library, the strict-policy control, the teacher-execution-evidence-withheld control and the completed predecessor library. It therefore contains 2,560 logical predictions. The two ACE conditions share one learned bank; the predecessor is a version reference, not a matched component ablation.
 
 Before opening confirmation questions, the evaluation binds each real learned bank to its configuration, frozen source manifest, completion, publication and terminal preservation. The B1 reference additionally binds its actual first-batch snapshot. Learning-source snapshots establish the executor and grader shared across teaching versions. All condition forecasts are saved before confirmation targets are read for unified scoring. Evaluation performs no teacher update or skill revision.
 
 ### B.2. Scores and paired contrasts
 
-For a condition and task, the primary mean is the arithmetic mean of its 128 original per-case native F1 scores. Complete-output scoring additionally matches all target assets and counts predictions on unmatched or negative-target assets. It pools claim-level true positives, false positives and false negatives within each case, then averages case scores. EC deduplicates predicted citation strings; EV uses the pinned claim matcher and amount tolerance. Invalid outputs retain zero, and zero-denominator conventions follow the pinned scorer.
+For case $i$ with reference assets $a=1,\ldots,m_i$, let $T_{ia}$, $P_{ia}$ and $N_{ia}$ denote matched, false-positive and false-negative claim counts. With zero-denominator F1 defined as zero, the native and complete-output case scores are
+
+$$
+F^{\mathrm{native}}_i=\frac{1}{m_i}\sum_{a=1}^{m_i}\frac{2T_{ia}}{2T_{ia}+P_{ia}+N_{ia}},\qquad
+F^{\mathrm{full}}_i=\frac{2T_i}{2T_i+P_i+N_i}.
+$$
+
+The primary endpoint is the arithmetic mean of the 128 native case scores. Complete-output F1 instead pools counts within each case, including claims on unmatched or negative-target assets, before averaging cases. Different aggregation weights mean it need not be lower than native F1. Native precision and recall are also asset means, not a new F1 computed from their across-source averages.
+
+The pinned evaluator strips whitespace and lowercases asset descriptions, first matching exact descriptions and otherwise taking the best RapidFuzz partial-ratio match strictly above 90. EC strips/lowercases citation strings and uses sets, so duplicate normalized citations are removed. EV greedily matches each predicted citation to a remaining reference claim at most once. An exact amount match is accepted; otherwise its error is $\operatorname{abs}(\widehat{v}/(v+1)-1)$, and a match requires error strictly below 0.05. A wrong amount contributes one false positive while leaving its reference as a false negative; a duplicate or unmatched claim contributes a false positive. Invalid whole outputs score zero.
+
+An empty-reference asset contributes zero to native asset-mean F1 even when correctly empty. Reference answers therefore score 98.50%, not 100%, under native EC on this packet; reference-self EV is 100%. This convention is preserved, not renormalized. As a worked EC example, reference $A=\{p,q\}, B=\varnothing$ and prediction $A=\{p\},B=\varnothing,X=\{r\}$ give native $(2/3+0)/2=1/3$ and complete-output $2/(2+1+1)=1/2$. The unmatched $X$ claim is charged only by the latter. For EV, reference $A=(p,100), B=(q,200)$ and prediction $A=(p,150),B=(q,200),X=(r,50)$ give native $1/2$ and complete-output $2/(2+2+1)=0.4$.
 
 For a fixed comparator, source $i$ supplies the paired difference between the evolved library and that comparator. The reported effect is the mean of these 128 differences, with EC and EV reported separately. Source-paired bootstrap draws resample whole source indices, preserving both tasks and all conditions together. The procedure uses 20,000 draws from NumPy PCG64 with seed 2026103092 and linear quantiles.
 
-The evolved library is compared with the other nine conditions on both native endpoints. These 18 contrasts form one primary family. Reports provide ordinary 95% intervals and Bonferroni-adjusted intervals with quantiles $0.025/18$ and $1-0.025/18$. Complete-output quality, exact-target scores, error categories and cost are descriptive accompanying evidence. The bootstrap characterizes source variation conditional on the actual learned libraries; it is not a substitute for independent learning builds.
+The evolved library is compared with the other nine conditions on both native endpoints. These 18 contrasts form one primary family. Reports provide ordinary 95% intervals and Bonferroni-adjusted intervals with quantiles $0.025/18$ and $1-0.025/18$. Complete-output quality, strict object matching, error categories and cost are descriptive accompanying evidence. A 200,000-draw numerical sensitivity check with the same seed preserves all 18 adjusted-interval sign conclusions; reported intervals remain the original 20,000-draw estimates. The bootstrap characterizes source variation conditional on the actual learned libraries; it is not a substitute for independent learning builds.
 
 ### B.3. Complete-output quality and invalid responses
 
-**Table B3. Accompanying quality endpoints on all 128 cases per task (%).** Paired values are EC / EV. Exact-target matching compares the decoded full answer with the reference; format-failure counts use the original parser. Complete-output F1 is the per-case pooled-claim score averaged across sources, not a global ratio over all claims.
+**Table B3. Accompanying quality endpoints on all 128 cases per task (%).** Paired values are EC / EV. Strict object match compares the decoded full answer with the reference using object equality; format-failure counts use the original parser. Complete-output F1 is the per-case pooled-claim score averaged across sources, not a global ratio over all claims.
 
-| Frozen library | Complete-output F1 EC / EV | Exact target EC / EV | Invalid EC / EV |
+| Frozen library | Complete-output F1 EC / EV | Strict object match EC / EV | Invalid EC / EV |
 |---|---:|---:|---:|
 | Strong empty | 66.65 / 56.51 | 11.72 / 8.59 | 0 / 1 |
 | Law-only static | 63.64 / 56.37 | 9.38 / 8.59 | 0 / 3 |
@@ -288,6 +358,8 @@ The evolved library is compared with the other nine conditions on both native en
 | Evidence-guided evolution | 96.67 / 87.51 | 57.81 / 41.41 | 0 / 2 |
 
 Across the original ten conditions and the SkillCommit supplement, all 37 invalid outputs correspond to output-length terminations and retain zero scores. The main library has two such EV outcomes; SkillCommit has three EC and four EV outcomes. The original grader does not emit complete pooled counts for those malformed outputs, so no global micro-average is reconstructed from a favorable subset or repaired answer.
+
+Strict object matching ignores dictionary-key order but preserves list order, duplicate entries, raw amounts and explicit empty-asset entries. It does not apply the native scorer's citation normalization or amount tolerance. For B8, 74 EC and 53 EV answers match strictly; another 19 EC and seven EV answers differ only in list ordering. Five EV references omit zero-claim assets for which the common response interface requests an explicit empty list. Three B8 EV answers satisfy every scored claim but fail strict equality for that representation difference. Accordingly, the main library's 93 EC and 63 EV cases with complete-output F1 equal to one should not be confused with its stricter object-match counts, or with externally adjudicated legal correctness.
 
 ### B.4. Prespecified paired effects
 
@@ -318,9 +390,24 @@ This supplementary comparison uses the actual terminal SkillCommit bank on the e
 | EC | +27.49 | [23.46, 31.70] | [22.92, 32.30] |
 | EV | +23.08 | [18.23, 27.94] | [17.55, 28.68] |
 
+### B.6. Claim-level error decomposition
+
+**Table B6. Observed claim counts in parseable outputs on the fixed 128-source comparison.** TP denotes correct claims; omissions have no corresponding predicted citation; wrong amounts have a matched citation but fail EV tolerance. Extra counts include duplicate EV claims. Invalid outputs remain separate zero-score cases, not reconstructed claim counts. A wrong amount contributes both FP and FN to F1; columns are diagnostic categories, not independent endpoints.
+
+| Task / library | TP | Omitted targets | Wrong amounts | Extra predictions | Invalid |
+|---|---:|---:|---:|---:|---:|
+| EC / Empty | 483 | 461 | 0 | 45 | 0 |
+| EC / B1 | 696 | 248 | 0 | 44 | 0 |
+| EC / B8 | 904 | 40 | 0 | 26 | 0 |
+| EV / Empty | 433 | 430 | 69 | 82 | 1 |
+| EV / B1 | 778 | 85 | 69 | 49 | 2 |
+| EV / B8 | 811 | 58 | 57 | 31 | 2 |
+
 ## Appendix C. Experience-library formation conditions
 
 The retained ACE, Trace2Skill–Text and SkillCommit adaptations use the same 128 training sources and original EC/EV references. Their configurations match the main method's Qwen3-8B decoding profile and request `gpt-5.6-sol` with high reasoning effort. ACE receives the reference and actual prediction at every used reflection; Trace2Skill–Text analyzes each of the 256 empty-library trajectories with its reference, score and actual output. These are task-interface adaptations, rather than reproductions of the authors' agentic environments.
+
+**Table C1. Retained experience-library formation.** Counts describe the actual task adaptations, with their distinct formation budgets.
 
 | Learning condition | Library formation | Executor memory-token cap | Teacher responses |
 |---|---|---:|---|
@@ -331,13 +418,15 @@ The retained ACE, Trace2Skill–Text and SkillCommit adaptations use the same 12
 
 ACE's retained stream contains 415 reflections and eight batch curations. Its continuation records separately preserve 19 successful but uncommitted teacher responses; failed-request usage is unknown rather than zero. Trace2Skill–Text uses 256 trajectory analyses, 64 merges and one translation, followed by a training replay that does not select its final bank. Historical formation schedules and budgets remain distinct from the main method's four-worker learning schedule. The final comparison standardizes executor inference over these frozen libraries; formation costs are reported separately.
 
-SkillCommit repairs failed first answers using a separate training-target-assisted teacher reference, verified by the native scorer before up to three local patch attempts. EC and EV have separate pools. Consolidation uses up to four retrieved candidates, a two-thirds behavioral threshold, two reverse witnesses per active candidate and up to three abstraction versions. Full-scope replay precedes commitment; a supported subset of at least two sources can instead be narrowed and revalidated once, retaining the parent and uncovered local patches. Local BGE embeddings replace the paper's embedding service. At inference, the public query retrieves up to four complete same-task memories within the 8,192-token delivery cap, rather than capping the entire pool. The completed build contains 21 higher-level patterns and 23 residual patches. All 256 TEST tasks receive four complete patterns, occupying 1,351–1,615 recorded tokens. Actual deployment uses six distinct EC patterns and four EV patterns; every EV task receives the same four, and residual patches remain unselected. These are observed deployment counts under the declared local-encoder adaptation.
+SkillCommit repairs failed first answers using a separate training-target-assisted teacher reference, verified by the native scorer before up to three local patch attempts. EC and EV have separate pools. Consolidation uses up to four retrieved candidates, a two-thirds behavioral threshold, two reverse witnesses per active candidate and up to three abstraction versions. Full-scope replay precedes commitment; a supported subset of at least two sources can instead be narrowed and revalidated once, retaining the parent and uncovered local patches. Local BGE embeddings replace the paper's embedding service. At inference, the original public task prompt, including facts and supplied law, retrieves up to four complete memories from the union of same-task patterns and residual patches, within an 8,192-token delivery cap rather than a whole-pool cap. Memory keys combine applicability, repair and exclusions. The local encoder embeds all prompt windows rather than truncating long inputs, using normalized, length-weighted window representations and cosine ranking; ID order resolves ties. This encoder and the direct numeric answer interface are explicit adaptations, not the authors' released executor setup.
+
+The completed build contains 21 higher-level patterns and 23 residual patches. All 256 TEST tasks receive four complete patterns, occupying 1,351–1,615 recorded tokens. Actual deployment uses six distinct EC patterns and four EV patterns; every EV task receives the same four, and residual patches remain unselected. All four EV applicability fields explicitly concern Illinois, although only 28 of 128 TEST sources allow Illinois; the remaining 100 receive the same Illinois-focused instructions. One delivered repair begins, “Assess every asset against each statutory alternative independently,” before specifying Illinois subsection (b). Saved public-query rankings and complete delivery texts are included in Supplementary Data 1. This scope-concentration diagnostic limits interpretation of the local retrieval adaptation; it is not evidence that the original SkillCommit system has the same behavior or that retrieval alone causes the score gap. The retained implementation was fixed for paper-aligned training/consolidation behavior before its own TEST inference; retired implementation attempts, with separate costs in Appendix D.3, did not supply memories to this build. No post-TEST retrieval retuning or extra answer selection is used here.
 
 ## Appendix D. Observed skill evolution and compute
 
 ### D.1. Published library changes
 
-Table D1 reports actual committed task projections rather than proposed operations. A shared record can hold separate EC and EV blocks, so a new task projection need not add a record. Each batch has one teaching opportunity per task.
+**Table D1. Actual committed task projections, not proposed operations.** A shared record can hold separate EC and EV blocks, so a new task projection need not add a record. Each batch has one teaching opportunity per task.
 
 | Batch | Records | EC / EV blocks | Serialized tokens | Committed EC projection edits | Committed EV projection edits |
 |---|---:|---:|---:|---|---|
@@ -357,6 +446,8 @@ The evidence-withheld control finishes with 12 records occupying 3,965 tokens. I
 ### D.2. Actual build cost
 
 The totals cover this complete learning build, including its forecast reference conditions and training-assessment replays. Each physical native origin is counted once; exact-request reuse retains that recorded response.
+
+**Table D2. Observed cost of the main learning build.**
 
 | Quantity | Recorded value |
 |---|---:|
@@ -437,17 +528,42 @@ Across these same tasks, the evolved library uses 17.78% fewer input tokens and 
 | Strict policy | 76.31 | 83.49 | 78.70 | 83.04 |
 | Execution evidence withheld | 84.54 | 81.27 | 87.15 | 80.36 |
 
-The strict-policy B1 library has no EV projection, so its later EV gain relative to that snapshot also includes first acquisition; it is not a matched post-acquisition effect. An audit holding the main run's recorded outputs fixed finds that all nine actual commits also satisfy the strict gate. Consequently, the complete-build comparison cannot attribute its difference solely to a count veto: the policy and induced teaching path are jointly changed.
+The strict-policy B1 library has no EV projection, so its later EV gain relative to that snapshot also includes first acquisition; it is not a matched post-acquisition effect. The following fixed-candidate readout explains where the decision contracts differ without pretending to regenerate an alternative learning path.
 
 The evidence-withheld condition keeps released targets and public solved material. Its fixed-B1 native EC/EV F1 is 84.54/81.91%, and its complete-output continuation changes are 0.00/-0.72 points, compared with +10.27/+3.44 for the main method. Hiding explicit teacher-visible execution evidence does not remove controller feedback or establish that labels alone cannot produce useful skills.
 
 <!-- Original full controls and strict fixed-output gate audit:6f562a601cd0d150b010605563f9e3bb34a103af0a0a10d28b37a22b46e97496;6714d193055a8b8b6c43c9338db1fbe1d04e96420ff338c30c87694a12a8b266;68f9517211db9cf6bef124437bb7a33afaddc56c30f1673fcb6a51dc684590a9. Original v0.23 and inspected earlier TEST remain separate and unchanged. -->
+
+### D.6. Applying both policies to recorded candidate pools
+
+We apply both frozen decision functions to each of the 16 saved parent/proposal pools from the main and strict builds, constructing only the corresponding unique component union and verifying request identity before response reuse. The actual-policy readout reproduces all 32 recorded selections. It introduces no model, teacher or embedding call and changes no original output. For the main build, both policies select the same bank at every step: eight whole commits, one component-union commit and seven retained parents. Thus, its nine commits cannot themselves be credited to relaxing strict vetoes.
+
+Two strict-build pools produce different decisions (Table D6). The first is its B1 EV proposal: improved native and complete-output means coexist with one additional negative/unscored-asset claim, so the strict count veto rejects a proposal admitted by utility. At B6 EC, historical losses fall within the utility bound and all-seen quality improves, while the strict prior-nonregression condition rejects it. The teacher-facing policy instructions also differ from the first request; the completed banks already diverge after B1 EC. These records establish specific contract differences, not the downstream performance of hypothetical builds that accepted the rejected proposals.
+
+**Table D6. Same-parent, same-proposal policy disagreements in the strict build.** Values are percentages; arrows denote parent to whole proposal. Utility selects the whole proposal in both pools; strict retains the parent. All sources are encountered TRAIN cases.
+
+| Recorded proposal | Current native F1 | Current complete-output F1 | Binding strict veto |
+|---|---:|---:|---|
+| B1 EV, 16 current sources | 62.06 → 77.39 | 63.37 → 75.34 | Negative/unscored-asset claims 1 → 2 |
+| B6 EC, 16 current + 80 prior | 73.98 → 79.85 | 79.25 → 83.60 | Prior native −0.85 pp; prior complete-output −0.42 pp |
+
+At B6, all-seen complete-output EC F1 improves by 0.38 points; both prior losses are smaller than the utility policy's one-point allowance. The fixed-output readout is descriptive policy evidence, distinct from the final-library control comparison in Table 1.
 
 ## Appendix E. Recovering an independent legal alternative
 
 We illustrate procedure evolution on source-isolated frozen-evaluation case 3000055. The supplied prerequisites allow Federal and Wisconsin exemptions. The assets are a necklace worth $890, bath towels worth $175 and a physician-authorized prosthetic arm worth $8,300. For the arm, the benchmark references contain three independent alternatives: 11 U.S.C. § 522(d)(9), 11 U.S.C. § 522(d)(5) and Wis. Stat. § 815.18(3)(d). Each EV alternative protects $8,300 under the supplied task materials; these are alternative claims rather than additive payments.
 
 **Recorded skill evolution.** The B1 Federal EC instruction already states that the wildcard applies independently alongside specific provisions. B2 adds a separate final wildcard check, and B3 expresses the procedure as two mandatory passes with a per-asset completeness audit. The Wisconsin EV block is first published at B7 and revised at B8. The saved final-library EV request contains the Federal, cross-jurisdiction scan and Wisconsin EV projections; the B1 request contains the first two but no Wisconsin EV projection. These revisions were published before the frozen evaluation.
+
+The following are verbatim excerpts from the same Federal EC record, `EC:federal-wildcard-and-category-eligibility`:
+
+**B1, existing legal requirement:** “Apply 11 U.S.C. § 522(d)(5) independently to any property, and retain it alongside every applicable specific paragraph.”
+
+**B2, explicit sequencing:** “Then perform a separate final check for § 522(d)(5) on every asset: it applies to any property, including real property and property already matching a specific paragraph.” B2 also expands the preceding category list, so this transition combines coverage and procedural refinement.
+
+**B3, same listed provisions with an audit:** “Use two mandatory passes for each asset.” The closing instruction becomes: “Second add § 522(d)(5) to every asset without exception, including property already matching a specific paragraph. Before emitting, verify that each asset has (d)(5) and every factually matching specific paragraph.”
+
+**B6, illustration-only refinement retained at B8:** “Hypothetically, personal wearing apparel receives both (d)(3) and (d)(5) even when its value exceeds the (d)(3) ceiling; do not drop (d)(3).” This replaces the earlier animal illustration while preserving the preceding legal procedure byte for byte. The full before/after records and diagnosed edits are in Supplementary Data 1.
 
 **Table E1. Native F1 for the complete illustrative case (%).** All entries are original saved predictions under the common executor profile.
 
@@ -458,7 +574,11 @@ We illustrate procedure evolution on source-isolated frozen-evaluation case 3000
 | Execution evidence withheld | 80.00 | 93.33 |
 | Final evolved library | 100.00 | 100.00 |
 
-**Key observations.** The B1 EC answer omits the wildcard for the prosthetic arm despite the general instruction already being present. Its EV answer reports the prescribed-health-aid provision alone, omitting both the wildcard and Wisconsin alternative. The final library's recorded outputs recover all three alternatives and their amounts. The empty-library EV answer additionally assigns unrelated account, business-property and vehicle provisions to the arm, illustrating why recall alone is insufficient. Across the three assets, the final EC and EV outputs each recover all nine reference claims without extras. This case connects actual instruction delivery and content revisions to the resulting legal claim set; the all-source contrasts quantify aggregate library utility.
+**Key observations.** The B1 EC answer omits the wildcard for the prosthetic arm despite the general instruction already being present. Its EV answer reports the prescribed-health-aid provision alone, omitting both the wildcard and Wisconsin alternative. The final library's recorded outputs recover all three alternatives and their amounts. The empty-library EV answer additionally assigns unrelated account, business-property and vehicle provisions to the arm, illustrating why recall alone is insufficient. Across the three assets, the final EC and EV outputs each recover all nine reference claims without extras. The EC example demonstrates recovery of an already stated alternative; the added Wisconsin EV projection changes available coverage. The case links actual delivery to outputs, not an isolated edit's causal effect; all-source comparisons quantify aggregate library utility.
+
+## Supplementary data and reproducibility
+
+Supplementary Data 1 provides the complete B1/B8 banks and edit lineage, executor/teacher request definitions, frozen configurations and source manifests, the pinned scorer, original scored predictions, case-level analysis tables and scripts for reproducing scores and paired intervals. The original result files remain unchanged; the added policy, error and bootstrap-sensitivity readouts are separate derived analyses. The package requires no new model or teacher calls for its offline checks. Model inference and independent relearning are separate procedures with their recorded budgets.
 
 <!-- Illustrative case evidence: paper/tables/utility_frozen_case_study_20261102.json. Source key 585875d80b135e3feaf5504a5af7e9acd4891d4e6bdaafc79097e0848a5da949 is absent from TRAIN. Posthoc illustration selected by the documented smallest-ID criterion, not a new endpoint or a per-edit causal intervention. No regenerated predictions or rescoring. -->
 

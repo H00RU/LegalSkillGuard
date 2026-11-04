@@ -90,6 +90,18 @@ def norm(text):
     return "".join(unicodedata.normalize("NFKC", text).replace("\u00ad", "").split())
 
 
+def without_page_footers(text):
+    """Remove only the expected final page-number line from each PDF page."""
+    pages = text.split("\f")
+    for number, page in enumerate(pages, 1):
+        lines = page.splitlines()
+        nonempty = [i for i, line in enumerate(lines) if line.strip()]
+        if nonempty and lines[nonempty[-1]].strip() == str(number):
+            lines.pop(nonempty[-1])
+        pages[number - 1] = "\n".join(lines)
+    return "\f".join(pages)
+
+
 def make_reference(path):
     """Generate one A4 review template; do not mutate existing document styles."""
     payload = run([PANDOC, "--print-default-data-file=reference.docx"]).stdout
@@ -181,7 +193,8 @@ def stabilize_review_layout(path):
                        and header[1] in ("Inputtokens", "输入tokens")
                        and header[2] in ("Outputtokens", "输出tokens"))
         formation = len(header) == 4 and header[-1] in ("Teacherresponses", "教师响应")
-        if main or control or case or frozen_cost or formation:
+        short = len(table_rows) <= 15
+        if main or control or case or frozen_cost or formation or short:
             for row in table_rows[:-1]:
                 for para in row.getElementsByTagName("w:p"):
                     flag(para, "pPr", "keepNext")
@@ -223,12 +236,44 @@ def stabilize_review_layout(path):
         for para in references[:-1]:
             flag(para, "pPr", "keepNext")
         stats["bibliography_block_grouped"] = len(references) - 1
+    # Visible page numbers belong to the exported review document only.
+    rel_name = "word/_rels/document.xml.rels"
+    rel_payload = next(data for item, data in members if item.filename == rel_name)
+    rel_doc = minidom.parseString(rel_payload)
+    rel_ns = "http://schemas.openxmlformats.org/package/2006/relationships"
+    relationship = rel_doc.createElementNS(rel_ns, "Relationship")
+    relationship.setAttribute("Id", "rIdLegalPageFooter")
+    relationship.setAttribute("Type", "http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer")
+    relationship.setAttribute("Target", "footerLegalPage.xml")
+    rel_doc.documentElement.appendChild(relationship)
+    for section in doc.getElementsByTagName("w:sectPr"):
+        for previous in list(section.getElementsByTagName("w:footerReference")):
+            section.removeChild(previous)
+        footer = doc.createElementNS(W, "w:footerReference")
+        footer.setAttribute("w:type", "default")
+        footer.setAttributeNS("http://schemas.openxmlformats.org/officeDocument/2006/relationships",
+                              "r:id", "rIdLegalPageFooter")
+        section.insertBefore(footer, section.firstChild)
+    type_name = "[Content_Types].xml"
+    type_doc = minidom.parseString(next(data for item, data in members if item.filename == type_name))
+    override = type_doc.createElementNS("http://schemas.openxmlformats.org/package/2006/content-types", "Override")
+    override.setAttribute("PartName", "/word/footerLegalPage.xml")
+    override.setAttribute("ContentType", "application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml")
+    type_doc.documentElement.appendChild(override)
+    footer_xml = ('<?xml version="1.0" encoding="UTF-8"?>'
+                  '<w:ftr xmlns:w="' + W + '"><w:p><w:pPr><w:jc w:val="center"/></w:pPr>'
+                  '<w:fldSimple w:instr=" PAGE "><w:r><w:rPr><w:sz w:val="20"/></w:rPr>'
+                  '<w:t>1</w:t></w:r></w:fldSimple></w:p></w:ftr>').encode()
+    replacements = {"word/document.xml": doc.toxml(encoding="UTF-8"),
+                    rel_name: rel_doc.toxml(encoding="UTF-8"),
+                    type_name: type_doc.toxml(encoding="UTF-8")}
+    stats["visible_page_number_footer"] = True
     with tempfile.TemporaryDirectory(prefix="legal-docx-layout-", dir=path.parent) as temp:
         revised = Path(temp) / path.name
         with zipfile.ZipFile(revised, "w") as dest:
             for item, data in members:
-                dest.writestr(item, doc.toxml(encoding="UTF-8")
-                              if item.filename == "word/document.xml" else data)
+                dest.writestr(item, replacements.get(item.filename, data))
+            dest.writestr("word/footerLegalPage.xml", footer_xml)
         revised.replace(path)
     return stats
 
@@ -302,8 +347,8 @@ def export(source, lang, out, reference):
     expected_math = [n["c"] for n in walk(original["blocks"]) if n.get("t") == "Math"]
     expected_tables = sum(n.get("t") == "Table" for n in walk(original["blocks"]))
     missing_docx = [text for text in paragraph_text(original) if norm(text) not in norm(word_text)]
-    plain = run(["/usr/bin/pdftotext", "-layout", pdf, "-"]).stdout.decode()
-    raw_plain = run(["/usr/bin/pdftotext", "-raw", pdf, "-"]).stdout.decode()
+    plain = without_page_footers(run(["/usr/bin/pdftotext", "-layout", pdf, "-"]).stdout.decode())
+    raw_plain = without_page_footers(run(["/usr/bin/pdftotext", "-raw", pdf, "-"]).stdout.decode())
     segments = [segment for text in paragraph_text(original, split_math=True) for segment in text.split("\0") if len(norm(segment)) >= 8]
     missing_pdf = [text for text in segments if norm(text) not in norm(plain) and norm(text) not in norm(raw_plain)]
     if len(assets) != 2 or any(asset["sha256"] not in media.values() for asset in assets):

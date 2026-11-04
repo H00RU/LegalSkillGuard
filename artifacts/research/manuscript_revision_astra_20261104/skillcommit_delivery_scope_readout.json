@@ -1,0 +1,73 @@
+{
+  "purpose": "Recorded deployment scope, not an intervention or causal attribution",
+  "EV_tasks": 128,
+  "distinct_EV_selected_sets": 1,
+  "selected_complete_memories": [
+    {
+      "id": "sc_ev_367cb77035fbc3414075",
+      "family": "EV",
+      "kind": "pattern",
+      "description": {
+        "when": "Use for exact-JSON Illinois personal-property exemption mapping under 735 Ill. Comp. Stat. 5/12-1001 when every independently applicable asset–exemption pair must be reported, including overlapping alternatives for the same asset.",
+        "repair": "For each required asset, test subsection (b) first and record the result before evaluating any specific exemption. Include subsection (b) whenever affirmative facts establish debtor ownership and personal, nonbusiness use, even if subsection (a), (c), (d), or (e) also applies; set claim_value to the lesser of qualifying equity, asset value, and $4,000. Then test each specific subsection independently. Apply subsection (d) only when affirmative facts establish both a qualifying implement, professional book, or tool and use in the debtor’s trade, before applying its $1,500 cap. Omit unsupported or zero-value claims. Return valid JSON in which every required asset appears exactly once, every supported pair is included without duplication, only permitted citation labels are used, and [] appears only when no exemption qualifies. As a final audit, inspect every asset receiving a specific exemption and confirm that its separate subsection (b) result was not omitted merely because the specific exemption was included.",
+        "avoid_when": "Do not infer ownership, personal or business use, trade use, category membership, prescribed status, or any other eligibility condition from citation wording, ordinary utility, an asset description, or unstated facts. Do not treat exemptions as mutually exclusive, substitute a specific exemption for subsection (b), apply subsection (b) to non-debtor-owned or business-used property, or apply subsection (d) without explicit category and trade-use support. Do not force available citations into the output or include a claim merely because its cap is calculable. Do not use this procedure outside 735 Ill. Comp. Stat. 5/12-1001. There are no additional exclusions justified by the supplied evidence."
+      },
+      "sources": [
+        199,
+        215,
+        220,
+        276
+      ],
+      "parent": "sc_ev_d18d07e4abab922e9914"
+    },
+    {
+      "id": "sc_ev_43b024b64e2381ff7103",
+      "family": "EV",
+      "kind": "pattern",
+      "description": {
+        "when": "Use for Illinois personal-property exemption mapping under 735 Ill. Comp. Stat. 5/12-1001 when all independently supported exemption alternatives must be reported for each asset.",
+        "repair": "Apply subsection (b) to every asset as a mandatory independent pass, including assets that qualify under a specific exemption. If the debtor owns the property and uses it personally rather than for business, report subsection (b) with the claim limited to the lesser of qualifying equity, asset value, and $4,000; honor a task-wide personal-use assumption unless an explicit fact overrides it. Separately test subsections (a), (c), (d), and (e) against their statutory categories and factual requirements. Before submission, perform a per-asset invariant check: every asset with a specific exemption must also include subsection (b), unless an explicit ownership or business-use fact defeats subsection (b). Retain every supported alternative, preserve all required asset keys, omit unsupported alternatives instead of using zero-value placeholders, and return an empty array only when no exemption applies.",
+        "avoid_when": "Do not apply subsection (b) when ownership is absent or the property is established as business-used. Do not let apparel or any other specific exemption replace an independently supported subsection (b) claim. Do not infer apparel status, trade use, professional prescription, or another statutory condition from an asset label, possible use, or available citation. Do not apply Illinois-specific categories or limits outside 735 Ill. Comp. Stat. 5/12-1001. There are no additional exclusions justified by the supplied evidence."
+      },
+      "sources": [
+        189,
+        190,
+        204
+      ],
+      "parent": "sc_ev_e04fa648218b64d0a2c5"
+    },
+    {
+      "id": "sc_ev_81915ed5643c665724cf",
+      "family": "EV",
+      "kind": "pattern",
+      "description": {
+        "when": "Use for Illinois personal-property exemption mapping under 735 Ill. Comp. Stat. 5/12-1001 when debtor-owned assets may qualify under subsection (b), a category-specific provision, or both.",
+        "repair": "Assess every asset against each statutory alternative independently. For every debtor-owned asset used personally rather than for business, always record a separate subsection (b) alternative, even if a category-specific exemption is also supported, and limit its claim to the lesser of the debtor's equity, the asset's value, and $4,000. Add wearing-apparel, tools-of-trade, or other category-specific alternatives only when affirmative facts establish every required classification or use; an item's appearance, possible function, or an available citation is insufficient. Before submission, audit each asset receiving a category-specific exemption to confirm that subsection (b) was separately considered, then remove only unsupported alternatives and retain all independently supported ones.",
+        "avoid_when": "Do not use outside Illinois personal-property exemption mapping under 735 Ill. Comp. Stat. 5/12-1001, for property the debtor does not own, or to apply subsection (b) where the facts establish business rather than personal use. No additional exclusions are justified."
+      },
+      "sources": [
+        221,
+        234
+      ],
+      "parent": null
+    },
+    {
+      "id": "sc_ev_b6bdedf1d90cfdd34779",
+      "family": "EV",
+      "kind": "pattern",
+      "description": {
+        "when": "Use for exact-JSON Illinois personal-property exemption mappings under 735 Ill. Comp. Stat. 5/12-1001 when all independently supported asset–exemption pairs, including overlapping alternatives, must be reported.",
+        "repair": "Evaluate each required asset and each exemption independently. First determine subsection (b) eligibility from affirmative evidence of debtor ownership and the required personal, nonbusiness use; if eligible, claim the lesser of qualifying value, debtor equity, and $4,000. Then separately test subsections (a), (c), (d), and (e) against their own elements and caps. For subsection (c), claim the lesser of vehicle value, debtor interest, and $2,400. For subsection (d), require affirmative evidence that the property is a qualifying implement, professional book, or tool used in the debtor’s trade, and claim the lesser of qualifying value, debtor equity, and $1,500. Return valid JSON with every required asset exactly once, every supported pair included once, unsupported and zero-value claims omitted, permitted citation labels only, and an empty array only when no exemption qualifies. Finally, audit every asset receiving a specific exemption to ensure that any independently supported subsection (b) claim was also included.",
+        "avoid_when": "Do not use this procedure outside 735 Ill. Comp. Stat. 5/12-1001. Do not infer ownership, personal or business use, trade use, statutory category, prescribed status, or another eligibility element from an asset description, ordinary utility, citation wording, or unstated facts. Do not treat exemptions as mutually exclusive, replace subsection (b) with a specific exemption, apply subsection (b) to property lacking the required ownership or use evidence, apply subsection (d) without both qualifying-category and trade-use support, force available citations into the output, or include a claim merely because its cap can be calculated. There are no additional exclusions justified by the supplied evidence."
+      },
+      "sources": [
+        199,
+        215
+      ],
+      "parent": "sc_ev_367cb77035fbc3414075"
+    }
+  ],
+  "Illinois_sources": 28,
+  "other_sources": 100,
+  "new_embedding_or_model_calls": 0
+}

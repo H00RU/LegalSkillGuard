@@ -6,15 +6,15 @@ The current submission-language manuscript is English. Chinese is a separate exp
 
 | Document | Current file |
 |---|---|
-| English PDF v15 | [utility_v6_working_en.pdf](artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104/utility_v6_working_en.pdf) |
-| English Word v15 | [utility_v6_working_en.docx](artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104/utility_v6_working_en.docx) |
-| Chinese PDF v15 | [utility_v6_working_zh.pdf](artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104/utility_v6_working_zh.pdf) |
-| Chinese Word v15 | [utility_v6_working_zh.docx](artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104/utility_v6_working_zh.docx) |
+| English PDF v16 | [utility_v6_working_en.pdf](artifacts/research/manuscript_review_20261030/utility_v6_astra_revision_v16_delivery_20261104/utility_v6_working_en.pdf) |
+| English Word v16 | [utility_v6_working_en.docx](artifacts/research/manuscript_review_20261030/utility_v6_astra_revision_v16_delivery_20261104/utility_v6_working_en.docx) |
+| Chinese PDF v16 | [utility_v6_working_zh.pdf](artifacts/research/manuscript_review_20261030/utility_v6_astra_revision_v16_delivery_20261104/utility_v6_working_zh.pdf) |
+| Chinese Word v16 | [utility_v6_working_zh.docx](artifacts/research/manuscript_review_20261030/utility_v6_astra_revision_v16_delivery_20261104/utility_v6_working_zh.docx) |
 | English editable source | [Markdown](paper/utility_skill_manuscript_working_20261030.md) |
 | Chinese editable source | [Markdown](paper/sections-zh/utility_skill_manuscript_working_20261030.md) |
 | Full paper and experiment index | [paper/README.md](paper/README.md) |
 
-The v15 paper includes the completed SkillCommit supplement and the unchanged original ten-condition results. The latest [quality review](docs/reports/PAPER_QUALITY_REVIEW_20261104.md) and its [read-only reproduction evidence](artifacts/research/openexempt_skillcommit_20261102/manuscript_quality_review_readonly_reproduction_20261104.json) are separate documents. Review suggestions have **not** been applied to the manuscript; v15 is not a silently revised version.
+The v16 revision centers on continued classification learning beyond the initial B1 library. Original scores and intervals are unchanged; executable algorithm/scoring definitions, real skill revisions and policy readouts are added. See the [revision note](docs/reports/PAPER_ASTRA_REVISION_20261104.md), [complete supplementary-data download](artifacts/research/manuscript_revision_astra_20261104/Supplementary_Data_1_20261104.zip.parts/README.md) and [offline supplement guide](artifacts/research/manuscript_revision_astra_20261104/SUPPLEMENT_README.md). The original v15 files remain preserved. The user separately authorized this v16 GitHub synchronization; its [upload record](docs/reports/GITHUB_V16_UPLOAD_20261104.md) is distinct from the earlier v15 receipts below. No scientific result, repository visibility or original main-branch history is changed.
 
 ## Source and experimental evidence
 

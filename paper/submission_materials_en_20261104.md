@@ -1,6 +1,6 @@
 # English submission materials
 
-Prepared 4 November 2026 from the completed v15 manuscript. This is a journal-neutral working packet, not a submission record. The title and abstract below reproduce the current English manuscript. Journal and author fields in the cover letter require confirmation before use.
+Updated 4 November 2026 from the v16 evidence-led revision. This is a journal-neutral working packet, not a submission record. The title and abstract below reproduce the current English manuscript. Journal and author fields in the cover letter require confirmation before use.
 
 ## 1. Manuscript title
 
@@ -8,7 +8,7 @@ Evidence-guided skill evolution for statutory exemption reasoning
 
 ## 2. Abstract for the submission system
 
-Reusable instructions offer a learning interface for small language models whose weights remain fixed, but an initially useful memory does not establish that further experience improves it. We study this distinction in statutory exemption classification and valuation, where an answer must preserve independently applicable alternatives and assign their protected amounts. Evidence-guided skill evolution combines task-focused execution teaching with complete-output utility admission: a teacher revises legal procedures from released training targets and actual executor errors, while replay-based publication checks both omitted and false claims. A frozen Qwen3-8B learns over 128 sources in eight batches and is then evaluated on 128 source-isolated cases. Its final seven-record library achieves 95.46% classification F1 and 87.90% valuation F1, gains of 30.98 and 32.02 percentage points over the strong empty-library condition. Compared with its own first-batch library, continued evolution adds 11.95 classification points, with a family-adjusted source-paired interval of [7.33, 16.60]. Under the shared executor interface, it also exceeds a SkillCommit paper adaptation by 27.49 classification and 23.08 valuation points. Matched controls connect final-library utility to teacher-visible execution evidence and the admission/selection policy. These results demonstrate continued improvement in legal classification through editable procedures rather than parameter updates.
+We study whether reusable legal procedures continue to improve a frozen language model after initial skill acquisition. Statutory exemption classification and valuation require identifying independently applicable provisions and assigning their protected amounts. Evidence-guided skill evolution revises task-specific procedures from released training targets and observed executor errors. A library-level controller compares whole proposals with dependency-consistent edits, retaining revisions that improve complete-output utility while constraining current and historical mean performance. Qwen3-8B processes 128 training cases in eight batches; its first-batch library is then held fixed as a reference for continued evolution. On 128 source-disjoint cases, the final seven-record library reaches 95.46% classification F1 and 87.90% valuation F1. Classification improves by 11.95 percentage points over its own first-batch library, with a family-adjusted source-paired interval of [7.33, 16.60]. The valuation continuation estimate is 3.65 points, with interval [-2.82, 10.28]. Chronological first encounters, matched learning controls and recorded instruction changes explain the results for these completed builds. The findings establish further classification gains after initial skill acquisition through a compact, editable procedural memory.
 
 ## 3. Keywords
 
@@ -31,7 +31,7 @@ The manuscript asks whether an initially useful external skill library continues
 
 After eight learning batches covering 128 training sources, the final library achieves 95.46% classification F1 and 87.90% valuation F1 on 128 source-isolated cases. These are gains of 30.98 and 32.02 percentage points over the strong empty-library condition. Continued evolution adds 11.95 classification points over the library acquired after the first batch, with a family-adjusted source-paired interval of [7.33, 16.60]. The classification improvement therefore extends beyond initial skill acquisition.
 
-The evaluation combines chronological first encounters, a fixed first-batch reference, matched learning controls and frozen-library comparisons with static and experience-learning memories. Under the shared executor interface, the final library also exceeds the SkillCommit paper adaptation by 27.49 classification and 23.08 valuation points. Teacher-visible execution evidence and the admission/selection policy are examined through separate learning controls. Actual instruction delivery and model-token costs are recorded alongside answer quality.
+The evaluation combines chronological first encounters, a fixed first-batch reference, matched learning controls and frozen-library comparisons with static and experience-learning memories. Teacher-visible execution evidence and the admission/selection policy are examined through separate learning controls. Recorded instruction changes and same-candidate decision readouts make the evolving procedures inspectable; actual instruction delivery and model-token costs accompany answer quality. The valuation continuation estimate is 3.65 points, with adjusted interval [-2.82, 10.28], distinguishing it from the supported classification gain.
 
 The work connects legal procedure content to its measured execution by a small frozen model. We believe it will interest readers studying legal reasoning, knowledge-based AI and learning through external memory.
 
@@ -73,4 +73,4 @@ No approval, absence of funding or competing interests, ethical exemption, publi
 - [Reproduction guide](../docs/research/PAPER_REPRODUCTION_GUIDE_20261102.md)
 - [Submission preparation and official journal-source checks](../docs/research/PAPER_SUBMISSION_PREPARATION_20261102.md)
 
-This packet introduces no new method, experiment, score or public-release decision. The v15 scientific manuscript and its exports remain unchanged.
+This packet is synchronized with v16 and introduces no new model run, score or public-release decision. The original v15 sources and exports remain preserved separately.

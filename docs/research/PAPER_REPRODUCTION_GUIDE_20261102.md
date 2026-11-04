@@ -31,14 +31,18 @@ not a new blinded confirmation or a replacement eighteen-endpoint family.
 Retired runs and the v0.23 study remain historical artifacts, not replacements
 for these entries.
 
-The current English and separate Chinese Word/PDF exports are v15, indexed in
-[paper/README](../../paper/README.md): 22 and 20 pages respectively, each with
-13 tables, 23 native mathematical objects, two original figures and eleven
-author-year references. Export source/file hashes, full-text checks and the
-bounded 13-key-page visual review are recorded in
-[`run05_bilingual_v15_complete_output_validation_20261104.json`](../../artifacts/research/openexempt_skillcommit_20261102/run05_bilingual_v15_complete_output_validation_20261104.json).
-Earlier v12-v14 exports remain intact. Rendering changed no scientific scores,
-executor/teacher settings or frozen source files, and is not a new experiment.
+The current English and separate Chinese Word/PDF exports are v16, indexed in
+[paper/README](../../paper/README.md): 28 and 25 pages respectively, each with
+18 tables, 40 native mathematical objects, two figures and eleven author-year
+references. The revision documents the algorithm, scorer, actual skill edits,
+same-candidate policy readouts and declared baseline adaptations. Original scores,
+intervals and frozen experiment sources remain unchanged. The original v15
+sources and exports remain preserved, including their earlier validation.
+The [revision validation](../../artifacts/research/manuscript_revision_astra_20261104/final_consistency_validation.json)
+checks all 2,816 original predictions, intervals, curves and synchronized tables.
+The [focused offline supplement guide](../../artifacts/research/manuscript_revision_astra_20261104/SUPPLEMENT_README.md)
+provides runnable score, bootstrap and raw-response checks and points to complete
+B1/B8 banks, requests and the pinned scorer. These analyses issue no model calls.
 
 The final SkillCommit bank contains 21 higher-level patterns and 23 residual
 patches. The final-publication file has SHA256

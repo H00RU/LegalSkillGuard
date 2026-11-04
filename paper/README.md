@@ -8,31 +8,27 @@
 ## 当前稿件
 
 - 英文：[Markdown](utility_skill_manuscript_working_20261030.md)、
-  [Word v15](../artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104/utility_v6_working_en.docx)、
-  [PDF v15](../artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104/utility_v6_working_en.pdf)。
+  [Word v16](../artifacts/research/manuscript_review_20261030/utility_v6_astra_revision_v16_delivery_20261104/utility_v6_working_en.docx)、
+  [PDF v16](../artifacts/research/manuscript_review_20261030/utility_v6_astra_revision_v16_delivery_20261104/utility_v6_working_en.pdf)。
 - 中文：[Markdown](sections-zh/utility_skill_manuscript_working_20261030.md)、
-  [Word v15](../artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104/utility_v6_working_zh.docx)、
-  [PDF v15](../artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104/utility_v6_working_zh.pdf)。
-- [参考文献](utility_skill_references_20261030.bib)、
-  [v15导出与关键页面实看核验](../artifacts/research/openexempt_skillcommit_20261102/run05_bilingual_v15_complete_output_validation_20261104.json)、
-  [导出源和文件hash清单](../artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104/render_manifest.json)。
-- [英文投稿配套材料](submission_materials_en_20261104.md)：与主稿一致的纯文本标题/摘要、关键词、
-  四条亮点、投稿信草稿及声明事实。目标期刊和作者字段待确认，不是已经发送的投稿信。
-- [2026-11-04论文质量审查](../docs/reports/PAPER_QUALITY_REVIEW_20261104.md)：原始响应、分数、区间、图表及论证核验，含10项中英文改句建议；
-  [完整复算证据](../artifacts/research/openexempt_skillcommit_20261102/manuscript_quality_review_readonly_reproduction_20261104.json)。
-  审查建议尚未写回主稿，当前可下载的论文仍是下面所述的v15，不能把审查报告当成修改后的新论文。
-- 当前v15英文22页、中文20页，各13张表、23个原生数学对象、2张原图、11条参考，正文为作者—年份引用。
-  两语稿已补入SkillCommit完整构建、冻结TEST质量、实际下发与成本，原十条件分数不变；
-  另以LegalBench、Factoring Statutory Reasoning及2026年JustifIT-QA补足法律任务定位，
-  新增三条均在两语正文引用，不作为新增实验条件。全文文字、数学及嵌图通过导出核验，
-  另实看英文7页、中文6页的首页、主表、补充区间、构建/推理成本、参考与构建条件表。
-  这是自由格式可审阅稿，尚未填作者页或适配选定期刊模板，不冒称已经投稿。
-  这些是本工作区实际文件链接，不在未实查远程仓库前宣称已经公开发布。
-- 旧版保留：[v11](../artifacts/research/manuscript_review_20261030/utility_v6_bilingual_evidence_update_v11_20261102/render_manifest.json)、
-  [v12及生成条件核验](../artifacts/research/manuscript_review_20261030/utility_v6_bilingual_conditions_update_v12_20261102/evidence_update_validation.json)、
-  [v13完整补充初导出](../artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_complete_supplement_v13_20261104/render_manifest.json)、
-  [v14清理审阅标语版](../artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_clean_manuscript_v14_20261104/render_manifest.json)。
-  v12不含后来SkillCommit成绩；v13保留完整整合源稿，v14/v15只清理开头工作状态段并改善引用/排版，科学正文不变。
+  [Word v16](../artifacts/research/manuscript_review_20261030/utility_v6_astra_revision_v16_delivery_20261104/utility_v6_working_zh.docx)、
+  [PDF v16](../artifacts/research/manuscript_review_20261030/utility_v6_astra_revision_v16_delivery_20261104/utility_v6_working_zh.pdf)。
+- [本轮变更说明与审稿判断](../docs/reports/PAPER_ASTRA_REVISION_20261104.md)、
+  [修改后统一复核](../artifacts/research/manuscript_revision_astra_20261104/final_consistency_validation.json)、
+  [导出清单](../artifacts/research/manuscript_review_20261030/utility_v6_astra_revision_v16_delivery_20261104/render_manifest.json)。
+- [补充数据1（完整分卷下载）](../artifacts/research/manuscript_revision_astra_20261104/Supplementary_Data_1_20261104.zip.parts/README.md)：
+  完整B1/B8库、真实编辑与请求、原始预测、评分器、配置及离线脚本；
+  [使用说明](../artifacts/research/manuscript_revision_astra_20261104/SUPPLEMENT_README.md)。
+- [英文投稿配套](submission_materials_en_20261104.md)的摘要已与主稿逐字同步。
+  作者与目标期刊字段仍待真实信息确认，不代表已投稿。
+- v16英文28页、中文25页，各18张表、40个原生数学对象、2张图和11条作者—年份参考。
+  修订突出自身B1之后的分类增益，补清算法、评分、实际技能与政策读数，以及基线适配。
+  全部2,816份评分及区间复算一致；训练、预测、模型、评分器和原主表JSON未改。
+  已知估值边界、一次构建条件及SkillCommit检索集中现象按实际证据呈现。
+- 原被评阅[v15英文PDF](../artifacts/research/manuscript_review_20261030/utility_v6_skillcommit_author_year_v15_20261104/utility_v6_working_en.pdf)
+  和[原稿保全清单](../artifacts/research/manuscript_revision_astra_20261104/v15_before_revision/snapshot_manifest.json)继续保留；
+  v11–v15历史导出未覆盖。v16根据用户后续授权同步至既有备份分支；
+  [GitHub同步记录](../docs/reports/GITHUB_V16_UPLOAD_20261104.md)另列，不改变仓库公开范围。
 
 ## 当前论文研究与代码
 
