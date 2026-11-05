@@ -57,6 +57,6 @@ not grant execution authority or establish learning-run stability. Actual repeat
 work and any final three-build table require a later user decision. Source-level
 intervals from the single-build table remain conditional on these actual banks.
 
-Brother paper-experiments-appendix informs the claim-to-control mapping and
+Brother 实验设计规范 informs the claim-to-control mapping and
 cost/harms accounting. It does not require novel ablation names, three invented
 contributions, five runs, extra models or a validation set.

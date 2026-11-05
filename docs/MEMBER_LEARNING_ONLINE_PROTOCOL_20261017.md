@@ -156,6 +156,6 @@ recovered cost. No added paid API budget. Keep the complete negative trials,
 old32 results, all new teacher/native raw and two-filesystem recovery receipts.
 Same-server copies are not offsite backups, model weights or account recovery.
 
-The nature-paper evidence checklist shaped the separation of observed fit,
+The evidence-reporting evidence checklist shaped the separation of observed fit,
 prospective online use, control access and pending claims; it is not evidence
 that this learner is effective.

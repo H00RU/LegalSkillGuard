@@ -70,7 +70,7 @@ M2真实UPDATE5、CREATE0、MERGE0、DELETE0，保留1条原样；技能6→6，
 
 这是一项事后机制诊断，不是推理准入门槛、fallback、新主方法或完整在线学习。
 保护来源与官方DEV/TEST仍不用于调优；独立学习重复、公平成熟方法比较和官方确认继续PENDING。
-师兄实验skill用于修正/损害、同案控制和成本边界，不采用隐藏借鉴或假定胜出的措辞。
+实验设计规范用于修正/损害、同案控制和成本边界，不采用隐藏借鉴或假定胜出的措辞。
 
 原始依据：本Run `monitoring/B2_complete_first_encounter_audit.json`、`B3_complete_first_encounter_audit.json`、
 `B2_first_encounter_component_bottleneck.json`、`B2_complete_component_audit.json`、

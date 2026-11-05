@@ -1,6 +1,6 @@
 # ACE/ExpeL有限比较：Schema修正后的第二次执行
 
-2026-10-15。用户要求不开Goal，在对话中按审查结果实施。
+2026-10-15。实施既有审查所确定的改动。
 新Run：`legal_contractnli_adaptive_memory_comparison_20261015_run02`。
 这是修复既定比较的接口阻塞，不是根据分数新增候选或新建论文主方法。
 

@@ -343,8 +343,3 @@ The original v0.23 main table and PDF have not been overwritten.
 | Balanced finite-choice criterion | `balanced_replay_gain`, `Online.update` |
 | Actual-parent and mandatory-witness feedback | `candidate_feedback`, `teacher_evidence_rows`, `Online.teacher_body`, `Online.update` |
 | Prediction-before-label release and own-B1 control | `Online.execute` |
-
-Authoring sources: the brother's methods skill supplies purpose-to-mechanism
-organization; Anti-Defensive supplies the single contribution thread; Nature
-guidance keeps implementation claims distinct from incomplete results. The
-learner and its prompts do not load these authoring skills.

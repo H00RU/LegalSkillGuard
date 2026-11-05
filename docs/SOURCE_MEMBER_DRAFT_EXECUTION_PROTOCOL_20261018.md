@@ -21,7 +21,7 @@ teacher logs in direct-member run02 contain only public messages, not tools.
 The existing Codex adapter intentionally rejects all tool events. This is an
 implementation fact, not proof that candidate execution will improve legal F1.
 
-The brother's paper-ideation seam check is used only for this concrete mismatch,
+The brother's 机制分析 seam check is used only for this concrete mismatch,
 not a new topic radar or automatic novelty claim. OpenAI Docs and local adapter
 review support retaining the existing no-tools CLI path: no MCP, client/API,
 account or permission migration is needed. The existing character limit is a

@@ -70,5 +70,5 @@ creation包含No Skill初始化。作者仓库固定提交为
 
 本补充不替代最近邻SkillCommit的引用/机制比较，不据其他模型、官方Advanced
 分数与本自定义TRAIN横比SOTA。原EC/EV、原标签、源案集合与共享推理预算不变。
-师兄paper-ideation用于补足机制覆盖，paper-experiments-appendix用于公平对照、
+机制分析用于补足机制覆盖，实验设计规范用于公平对照、
 实际成本、重复和不超过证据的归因；不是为了凑方法名单或预定胜出。

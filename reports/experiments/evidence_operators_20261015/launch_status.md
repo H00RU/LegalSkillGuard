@@ -22,6 +22,6 @@ Run：`legal_contractnli_evidence_operator_learning_20261015_run01`。
 
 用户确认保留约90%准确率等作为冲刺目标，不降低为仅胜空库；
 原依据F1和联合正确必须提高，且可执行进化须胜相同Gold普通工具，随后公平比较成熟经验方法。
-师兄paper-ideation优先用于机制与反证，nature-paper仅用于证据报告，均不为效果作保证。
+机制分析优先用于机制与反证，evidence-reporting仅用于证据报告，均不为效果作保证。
 
 PENDING：四批真实指标、程序实际贡献、保持、后续8合同比较、独立学习重复、正式测试和论文优势。

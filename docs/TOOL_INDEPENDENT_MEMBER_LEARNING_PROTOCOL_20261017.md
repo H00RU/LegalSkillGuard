@@ -186,5 +186,5 @@ each closed phase and actual raw teacher/native responses; terminal success or
 failure gets a separate verified archive. These are same-host copies, not
 offsite protection, model weights, account recovery or a machine snapshot.
 
-The nature-paper reporting checklist shaped the claim/role/estimand boundaries
+The evidence-reporting reporting checklist shaped the claim/role/estimand boundaries
 and the explicit extra-background control caveat; it is not efficacy evidence.

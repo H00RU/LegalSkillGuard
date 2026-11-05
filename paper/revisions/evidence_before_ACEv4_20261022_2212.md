@@ -102,7 +102,7 @@ ADD重建成功；完全答对6→24/32是训练拟合。B2单批107生成/107HT
 纸面16臂设计说成完成。十项主要比较、四项次要比较、九次未来学习与未读TEST
 边界同步至中英文。新证据：
 `artifacts/research/openexempt_legal_scope_20261020/manuscript_v04_complete8_unchanged_B2_ACE_fairness_guidance_and_primary10_numeric_bindings_20261022.json`。
-本次按师兄写作/实验/图表数据skill落实设计和成稿，nature-paper约束证据表述，
+本次按写作、实验与图表数据规范落实设计和成稿，evidence-reporting约束证据表述，
 没有新增一次性测试代码、模型调用或学习配置修改。完整八批可用于透明TRAIN曲线与
 机制证据，目前没有必须更换法律任务的证据，但不等于全部论文指标已交付。
 
@@ -126,7 +126,7 @@ ADD重建成功；完全答对6→24/32是训练拟合。B2单批107生成/107HT
 `Fixed_static_TRAIN128_full256_control400_source402_dual_frozen_unstarted_and_active_ACE377_unchanged_20261022.json`、
 `Fixed_static_TRAIN128_unit705766_live_waiting_after_ACE_no_model_calls_20261022.json`。
 
-18:04已按师兄实验/数据技能与nature-paper证据边界完成上述v0.3落稿：明确原始
+18:04已按实验与数据检查规范与evidence-reporting证据边界完成上述v0.3落稿：明确原始
 标签辅助、当前16/历史最多16来源、至多两提案与真实部分接收后继续细化、公开
 共同渲染连通分量和唯一最终发布；记录无删除/合并的实际边界与TRAIN重放损害。
 完整八批表不是TEST主表，原EC增量小、B4损害及未测ACE/静态均保留。
@@ -1127,4 +1127,4 @@ SkillCommit v2公开报告EC/EV各210 induction、105 test，但本项目尚未�
 
 ## Skill如何影响本稿
 
-采用师兄paper-writing及相关章节skill组织任务、方法、实验与中英对应文本；采用paper-ideation/experiments的真实失效假设与公平对照要求。nature-paper只补充证据分级、未完成结果显式占位和训练/测试区分。未采用固定三个创新、为对齐句数虚构挑战、隐瞒借鉴或强行证明未来指标不降等做法。没有因模板未定或补齐十余篇论文而延迟本次初稿；完整文献定位仍须在定稿前补齐。
+采用写作规范及相关章节skill组织任务、方法、实验与中英对应文本；采用机制分析/experiments的真实失效假设与公平对照要求。evidence-reporting只补充证据分级、未完成结果显式占位和训练/测试区分。未采用固定三个创新、为对齐句数虚构挑战、隐瞒借鉴或强行证明未来指标不降等做法。没有因模板未定或补齐十余篇论文而延迟本次初稿；完整文献定位仍须在定稿前补齐。

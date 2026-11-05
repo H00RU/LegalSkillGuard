@@ -213,7 +213,7 @@ task_local，也未将其假想组合通过完整容量/运行门槛。因此不
 [完整14候选、真实父库链与三来源例证](../artifacts/research/openexempt_legal_scope_20261020/Run03_all14_actual_component_vs_task_gate_decisions_and_B1C2_Illinois_EV_rescue_NOT_independent_ablation_20261023.json)
 保留全部接收/拒收及重算程序。两项已声明独立学习消融仍须执行；如不另做
 task_local学习对照，论文只陈述上述已记录机制差异，不声称已隔离其泛化贡献。
-师兄实验skill用于“结论—机制—证据”的段落组织，nature-paper用于守住训练内
+实验设计规范用于“结论—机制—证据”的段落组织，evidence-reporting用于守住训练内
 局部效应、结构比较与独立测试/学习实验的边界。
 
 ## 最近邻公开实现核对与实验覆盖，2026-10-23 16:35
@@ -284,5 +284,5 @@ task_local学习，则只报告细分提交的实际执行差异，不宣称其�
 
 [全部13操作、57视图与11分量取舍](../artifacts/research/openexempt_legal_scope_20261020/Run03_all_postB1_EC_teacher_cited_source_support_repairs_and_all11_gate_tradeoffs_NOT_new_policy_or_TEST_20261024.json)
 及[完整六受损来源、限定与原重算程序](../artifacts/research/openexempt_legal_scope_20261020/Run03_EC_cited_repairs_companion_complete_B6_harm6_and_exact_recomputation_NOT_causal_20261024.json)。
-师兄paper-ideation用于最近邻接缝核对，paper-related-method和实验skill用于
+机制分析用于最近邻接缝核对，相关工作核查规范和实验skill用于
 区分方法差异、需验证主张和实际对照，不为凑方法数新增未经核实的复现。

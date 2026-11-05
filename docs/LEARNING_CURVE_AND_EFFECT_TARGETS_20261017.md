@@ -118,6 +118,6 @@ reliable gains can matter under a narrower claim; larger unrepeatable gains do
 not suffice. All three original endpoints stay visible, and the present priority
 is improving evidence selection/completeness without sacrificing classification.
 
-The nature-paper evidence checklist is used to separate verified, pending and
+The evidence-reporting evidence checklist is used to separate verified, pending and
 planned statements and to prevent post-hoc non-inferiority or publication claims;
 it is not evidence that the current method works.

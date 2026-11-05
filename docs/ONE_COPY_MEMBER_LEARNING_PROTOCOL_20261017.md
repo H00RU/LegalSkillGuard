@@ -144,5 +144,5 @@ Preserve full source/Git/config/data and exact inherited artifacts on the two
 declared filesystems before launching. Preserve each phase and terminal success
 or failure, checking actual members/SHA. These are same-host recovery copies,
 not model weights, credentials, offsite protection or a machine snapshot.
-The nature-paper checklist informs these evidence, role and cost distinctions;
+The evidence-reporting checklist informs these evidence, role and cost distinctions;
 it does not establish the method's effectiveness or publication readiness.

@@ -114,5 +114,5 @@ ACE45经过两次明确的运行恢复，但仍是原空库起点的一条学习
 - [同版本教师超时恢复](OPENEXEMPT_ACE_TEACHER_TIMEOUT_CONTINUATION_20261023.md)；
 - [最终单实例调度边界](OPENEXEMPT_FROZEN_EVAL_SINGLE_INSTANCE_DISPATCH_20261023.md)。
 
-师兄paper-experiments-appendix用于研究问题、对照、机制证据、成本和结论对应；
+实验设计规范用于研究问题、对照、机制证据、成本和结论对应；
 不为凑模板新增OOD、跨骨干、五次重复或未经证明的命题。

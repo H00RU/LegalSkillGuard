@@ -29,5 +29,5 @@
 高mAP并没有自动成为可靠集合，更不能直接变成最终答案。
 完整机器工件：`runs/legal_contractnli_cpu_evidence_signal_20261015_run01/exploratory_default_binary_boundary.json`。
 
-按nature-paper的证据边界，来源字面匹配、已见拟合、检索排序和原生终答收益分开，
+按evidence-reporting的证据边界，来源字面匹配、已见拟合、检索排序和原生终答收益分开，
 不以启动成功、候选召回或个别上涨项宣布研究目标达成。

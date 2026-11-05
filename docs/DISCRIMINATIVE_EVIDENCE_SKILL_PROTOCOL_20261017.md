@@ -163,6 +163,6 @@ check retention, then new-contract online learning and independent repetitions.
 Fair mature-method/equal-call controls, mechanism ablations and untuned official
 TEST remain required before the corresponding publication claims.
 
-The nature-paper checklist is used to separate verified observations from this
+The evidence-reporting checklist is used to separate verified observations from this
 pending method and to preserve fair controls, held-out boundaries and negative
 evidence. It is not evidence that the proposed skill works.
