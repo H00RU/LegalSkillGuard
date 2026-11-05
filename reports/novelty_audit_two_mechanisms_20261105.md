@@ -1,5 +1,7 @@
 # 两项候选机制的新颖性与贡献审计
 
+> **历史审计，非当前执行方案（2026-11-05）。** 本文记录旧候选机制的查新与修正，保留作为证据；当前三项设计、近邻差异和实现协议以[LSG-RR-v1 完整方案](legalskillguard_rule_reasoning_execution_plan_v1_20261105.md)及[第一阶段交接](legalskillguard_server_handoff_v1.md)为准，不再据本文的旧候选结论重开选题。
+
 日期：2026年11月5日
 
 审计对象：[下一阶段研究方案](multitask_rule_reasoning_next_stage_20261105.md)中的“规则变化驱动的技能抽象”与“依赖感知的技能更新组合”。
