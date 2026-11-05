@@ -1,6 +1,6 @@
 # LSG-RR-v2 查新与设计审查记录
 
-当前主稿：[v2完整方案](../../legalskillguard_rule_reasoning_plan_v2_20261105.md)；当前执行边界：[v2服务器交接](../../legalskillguard_server_handoff_v2.md)。只实现和离线检查，暂不启动模型实验。
+当前主稿：[完整方案](../../legalskillguard_rule_reasoning_plan_v2_20261105.md)；当前执行边界：[服务器交接](../../legalskillguard_server_handoff_v2.md)。完成实现、离线检查、thinking实测与固定20来源小试后停止，主训练和冻结测试关闭。
 
 ## 专项原文核查
 
@@ -14,6 +14,7 @@
 - [研究问题与论证图](03_argument_map.md)
 - [完整方案交叉审查](qa_logs/proposal_qa.md)
 - [审查意见闭合与交付检查](qa_logs/final_closure.md)
+- [当前goal范围与有限实测预算](qa_logs/preflight_scope_update.md)
 - [15项有限设计检查](qa_logs/design_contract_checks.json)
 
 这些记录区分文献事实、设计推断和待实验假说。内部审查不是外部同行评议、全球首创证明或效果认证；15项检查不涉及研究模型调用。专项记录保留形成过程，个别暂名、早期预算或发布前状态以最终主稿、JSON和服务器交接为准。

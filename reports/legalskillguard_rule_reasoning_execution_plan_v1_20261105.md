@@ -1,6 +1,6 @@
 # LegalSkillGuard 规则约束推理：定稿执行方案 v1
 
-> **已被LSG-RR-v2替代（2026-11-05），仅供历史追溯，不得执行下文旧训练/goal指令。** 当前请读取[v2完整方案](legalskillguard_rule_reasoning_plan_v2_20261105.md)、[v2配置](legalskillguard_rule_reasoning_protocol_v2.json)和[v2服务器交接](legalskillguard_server_handoff_v2.md)。本次只实现与离线检查；模型小试、thinking实测、完整建库和冻结测试均未启动，旧预算不构成当前实验授权。以下保留历史正文。
+> **已被LSG-RR-v2替代（2026-11-05），仅供历史追溯，不得执行下文旧训练/goal指令。** 当前请读取[完整方案](legalskillguard_rule_reasoning_plan_v2_20261105.md)、[配置](legalskillguard_rule_reasoning_protocol_v2.json)和[服务器交接](legalskillguard_server_handoff_v2.md)。当前goal只完成实现、thinking实测与固定20来源流程检查；不启动主训练与冻结测试。以下保留历史正文。
 
 版本：LSG-RR-v1；日期：2026-11-05。用途：导师讨论、服务器实施与实验预注册。本文替代旧方案中尚未定案的创新点与实验配置；保留历史结果，不覆盖旧实验。文中的方法、配额、停止条件是本次确定的研究决策，性能收益是待检验假说。
 

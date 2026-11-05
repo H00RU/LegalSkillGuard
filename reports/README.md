@@ -2,11 +2,11 @@
 
 ## 当前方案：LSG-RR-v2（2026-11-05）
 
-**本版替代LSG-RR-v1和旧草案。当前只推进实现与离线检查，暂不启动模型小试、thinking实测、完整建库或冻结测试。** 旧v1中“小试后自动完成Full-45训练与评测”的指令已失效；未来实验配额不构成当前执行授权。
+**当前goal完成方法实现、离线检查、thinking实测及固定20来源流程小试后停止，不启动主训练、六臂正式评测或冻结测试。** executor≤100、teacher≤2，含失败和一轮受影响项修复，全部扣原预算并限于既有资源授权。本版替代LSG-RR-v1和旧草案的冲突设计与指令，新对话无需了解版本历史。
 
 - [完整研究方案](legalskillguard_rule_reasoning_plan_v2_20261105.md)：两项方法、明确问题、相关工作差异、实现范围与有限后续验证协议。
-- [机器可读配置](legalskillguard_rule_reasoning_protocol_v2.json)：保留run_enabled=false及model_calls_enabled=false，实验步骤均关闭。
-- [服务器实现阶段交接指令](legalskillguard_server_handoff_v2.md)：当前允许范围、离线验收、完成条件和可直接粘贴到新对话的指令。
+- [机器可读配置](legalskillguard_rule_reasoning_protocol_v2.json)：正式run_enabled=false；独立preflight入口允许受来源、用途和100/2上限约束的真实调用。
+- [服务器goal交接指令](legalskillguard_server_handoff_v2.md)：当前实现与预检范围、验收条件和可直接粘贴到新对话的/goal指令。
 - [查新与交叉审查记录](researchwrite/legalskillguard_rr_v2/README.md)：专项原文阅读、主张证据表、审查意见及闭合记录。
 - [完整方案Word版](LegalSkillGuard_RR_v2_完整研究方案.docx)
 - [方案、配置、交接与查新记录压缩包](LegalSkillGuard_RR_v2_完整方案与查新记录.zip)
