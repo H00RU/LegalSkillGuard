@@ -1,0 +1,265 @@
+{
+  "scope": "CPU/projection/tokenizer compatibility only; zero new model generations or teachers",
+  "candidate_is_exact_previously_generated_PA_EV_units_only": true,
+  "B8_PA_EV_parent_equals_original_B3_PA_EV_anchor": true,
+  "all_other_B8_EV_guidance_and_all_B8_EC_guidance_preserved": true,
+  "all128_EC_messages_schema_unchanged": true,
+  "non_PA_EV_messages_schema_unchanged": 101,
+  "bank_tokens": 4247,
+  "actual_B8_parent_tokens": 3993,
+  "original_token_cap": 4096,
+  "fits_original_cap": false,
+  "candidate_bank_sha256": "7a0775a6560d543c4f69b58f4577d536c58ed09edfe2b18caf6a40eb8fff3bac",
+  "candidate_bank": [
+    {
+      "id": "EC:arizona-substantive-citations",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "When ARIZONA is allowable and an asset matches an Arizona occupied-homestead, household-goods, wearing-apparel, musical-instrument, engagement-or-wedding-ring, motor-vehicle, prescribed-aid, firearm, or domestic-animal category.",
+            "procedure": "Use the substantive asset exemption: § 33-1101(A) for a qualifying occupied homestead; § 33-1123 for household furniture, furnishings, goods, electronics, or appliances not otherwise specifically prescribed; and § 33-1125(1) for actual wearing apparel, (2) for a musical instrument used by the debtor or family, (4) only for engagement or wedding rings, (8) for a motor vehicle, (9) for a professionally prescribed prosthesis or stated physician-authorized mobility or respiratory aid, (10) for firearms, and (11) for domestic animals or household pets. A stated value above the statutory ceiling still permits the EC citation.",
+            "avoid_when": "Do not cite § 33-1101(B) or § 33-1121 merely because the debtors are married. Do not treat jewelry as wearing apparel under § 33-1125(1), and do not place jewelry under § 33-1123. A pendant, necklace, bracelet, earrings, brooch, anniversary ring, or other jewelry does not qualify under § 33-1125(4) without engagement-or-wedding-ring facts. Do not add § 33-1123 to apparel, musical instruments, prescribed aids, firearms, motor vehicles, or pets specifically prescribed by another listed provision."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "When ARIZONA is allowable and an asset is tested against an Arizona substantive exemption.",
+            "procedure": "Match the asset before valuing it: use § 33-1101(A) for an occupied homestead, § 33-1123 for household furniture, goods, electronics, or appliances, § 33-1125(1) for actual wearing apparel, (4) only for engagement or wedding rings, (6) for one watch, (8) for one motor vehicle, (9) for a professionally prescribed prosthesis or physician-authorized mobility or respiratory aid, (10) for firearms, and (11) for domestic animals or household pets. For the whole named asset use the smaller of its value and $400,000 under § 33-1101(A), $15,000 under § 33-1123 or (8), $500 under (1), $2,000 under (4) or (10), or $250 under (6). The supplied provisions state no dollar ceiling for qualifying property under (9) or (11).",
+            "avoid_when": "Do not cite § 33-1101(B) or § 33-1121 as an asset exemption. Do not classify jewelry, a prescribed medical device, or another item as household goods merely because it is kept at home. A pendant, necklace, bracelet, cocktail ring, or anniversary ring is not wearing apparel and does not qualify as an engagement or wedding ring without those facts."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ARIZONA"
+      }
+    },
+    {
+      "id": "EC:federal-wildcard-and-category-eligibility",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "When FEDERAL is an allowable namespace and an estate asset is being classified.",
+            "procedure": "Use two mandatory passes for each asset. First classify from the asset facts, never its value: § 522(d)(1) for an occupied residence, (d)(2) for a motor vehicle, (d)(3) for personally held household furnishings or goods, apparel, appliances, books, animals, crops, or musical instruments, (d)(4) for personally held jewelry, (d)(6) only for facts identifying an implement, professional book, or tool of trade, and (d)(9) for a professionally prescribed health aid. A ceiling limits protection but never defeats EC eligibility. Second add § 522(d)(5) to every asset without exception, including property already matching a specific paragraph. Before emitting, verify that each asset has (d)(5) and every factually matching specific paragraph.\nExecution example: Hypothetically, personal wearing apparel receives both (d)(3) and (d)(5) even when its value exceeds the (d)(3) ceiling; do not drop (d)(3). A personal appliance described as professional-grade receives (d)(3) and (d)(5), not (d)(6), unless the facts state trade use.",
+            "avoid_when": "Do not place firearms or jewelry under § 522(d)(3), and do not infer § 522(d)(6) merely because an object could be used for work. Do not restrict § 522(d)(5) to personal property, omit it when another paragraph applies, or output §§ 522(b), 522(d), or 522(m) as asset exemptions."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "When FEDERAL is allowable and an estate asset is being valued.",
+            "procedure": "For each asset, first select every matching specific paragraph: (d)(1) for an occupied residence, (d)(2) for a motor vehicle, (d)(3) only for its listed household-use categories, (d)(4) for jewelry, (d)(6) only when the facts establish a trade implement, professional book, or tool, and (d)(9) for a professionally prescribed health aid. Separately add (d)(5) to every asset, even one already receiving a specific exemption. For each citation use the smaller of the whole named asset's value and its ceiling: $27,900 for (d)(1), $4,450 for (d)(2), $700 for the named particular item under (d)(3), $1,875 for (d)(4), and $2,800 for (d)(6); (d)(9) has no stated ceiling. For (d)(5), use $15,425 for one debtor or $30,850 for two equal joint debtors when no used homestead amount is supplied. Because this task evaluates asset-exemption pairs independently, do not reduce that amount merely because the same case also contains a residence claim.",
+            "avoid_when": "Do not put firearms or jewelry under (d)(3), and do not infer (d)(6) without stated trade use. Treat a pair or set presented as one named asset as one particular item for the $700 (d)(3) output. Never copy a ceiling above the asset's value, leave a half-interest as the result, or use the one-debtor (d)(5) ceiling for two equal joint debtors. Do not output §§ 522(b), 522(d), or 522(m) as asset exemptions."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "FEDERAL"
+      }
+    },
+    {
+      "id": "EC:illinois-any-other-property",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "When ILLINOIS is allowable and the debtor owns personal-use personal property.",
+            "procedure": "For every such asset, first include 735 Ill. Comp. Stat. 5/12-1001(b), regardless of value, including for a motor vehicle or professionally prescribed health aid. Then independently add a matching specific exemption: (a) for necessary wearing apparel, (c) for a motor vehicle, or (e) for a professionally prescribed health aid. Add (d) only when the facts expressly establish an implement, professional book, or tool of the debtor's trade; an object's form alone is insufficient.",
+            "avoid_when": "Do not apply the § 12-1001 personal-property alternatives to property stated to be business-use. Do not treat jewelry as necessary wearing apparel or infer trade use merely because an item is a toolbox or could be used for work."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "When ILLINOIS is allowable and the debtor owns personal-use personal property.",
+            "procedure": "Use two independent passes. First add 735 Ill. Comp. Stat. 5/12-1001(b) for every personal-use personal-property asset, including apparel, a vehicle, or a prescribed health aid; the words “any other property” do not make (b) mutually exclusive with a specific alternative. Its whole-asset amount is the smaller of the asset value and $4,000 for one debtor or $8,000 for two equal joint debtors. Second add each factually matching specific provision: (a) for necessary wearing apparel, (c) for a motor vehicle with a $2,400 asset-level ceiling, (d) only for facts stating trade use with a $1,500 ceiling, and (e) for a professionally prescribed health aid. Provisions (a) and (e) retain the asset value because they state no dollar ceiling.",
+            "avoid_when": "Do not apply these alternatives to property stated to be business-use. Do not omit (b) when a specific provision applies. Do not infer (d) from the object's form, name, tool loops, or possible usefulness; the facts must establish use in the debtor's trade. Do not double the (c) ceiling or classify jewelry as necessary wearing apparel."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ILLINOIS"
+      }
+    },
+    {
+      "id": "EC:independent-exemption-scan",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "For every EC asset after the allowable legal namespaces have been supplied.",
+            "procedure": "Test every exemption provision independently and retain all qualifying alternatives, including both a category-specific exemption and any independently applicable general-property exemption. A dollar ceiling limits protection; it does not make the citation ineligible merely because the asset value exceeds the ceiling. Emit each applicable citation once in a compact array.",
+            "avoid_when": "Do not cite definitions, opt-out rules, spouse-combination rules, or aggregate-limit provisions merely because they govern the case; cite them only if they themselves exempt the asset. Do not treat a specific exemption as displacing an independently applicable general-property exemption."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "For every EV asset after the allowable legal namespaces have been supplied.",
+            "procedure": "Test every substantive exemption independently. Retain every qualifying specific, wildcard, and general-property alternative together, emitting each citation once. For each alternative, report the protected amount for the whole named asset, limited by that asset's value and that provision's applicable ceiling.",
+            "avoid_when": "Do not cite enabling, opt-out, marital-coordination, or aggregate-limit provisions as asset exemptions. Do not omit a general alternative because a specific one applies. Do not leave a half-interest as the final amount or automatically double every ceiling merely because two debtors exist; apply the joint treatment stated for the particular provision."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "ALL"
+      }
+    },
+    {
+      "id": "EC:oregon-general-personal-property",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "When OREGON is allowable and the asset is personal property.",
+            "procedure": "First include Or. Rev. Stat. § 18.345(1)(p) for every item of personal property, including a vehicle, firearm, or prescribed health aid. Then independently add every matching specific Oregon category exemption. In particular, add § 18.345(1)(f) for household-use furniture, household goods, and domestic appliances or equipment; descriptive wording such as adjustable or professional-grade does not remove an otherwise household-use item from this category. The $400 ceiling does not determine EC eligibility.",
+            "avoid_when": "Do not apply § 18.345(1)(p) to a homestead or other real property. Do not omit it because the asset exceeds $400 or because apparel, jewelry, household goods, animals, vehicles, musical instruments, firearms, or health aids have a more specific exemption."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "When OREGON is allowable and an asset is being valued.",
+            "procedure": "For every personal-property asset, add § 18.345(1)(p) with the smaller of its whole value and $400, then independently add each matching specific alternative: (1)(a) for books, pictures, or musical instruments capped at $600; (1)(b) for wearing apparel or jewelry capped at $1,800; (1)(d) for a vehicle capped at $3,000; (1)(e) for family-use domestic animals or poultry capped at $1,000; (1)(f) for household goods, furniture, radios, a television, or utensils capped at $3,000; (1)(h) for professionally prescribed health aids with no stated ceiling; and § 18.362 for one qualifying firearm capped at $1,000. For an occupied homestead use § 18.395(1), capped at $40,000 for one debtor or $50,000 for joint household debtors, and do not add (1)(p).",
+            "avoid_when": "Use the smaller of the asset value and each ceiling; never output the ceiling when the asset is worth less. Do not classify apparel under household goods, or a household appliance under apparel. Do not omit a matching specific category merely because (1)(p) applies, automatically double the listed asset-level ceilings, or output § 18.345(3) as an asset exemption."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "OREGON"
+      }
+    },
+    {
+      "id": "EC:pennsylvania-general-monetary",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "When PENNSYLVANIA is allowable and the asset is property of the judgment debtor.",
+            "procedure": "Begin the Pennsylvania scan for every asset by adding 42 Pa. Cons. Stat. § 8123, without comparing the asset's value with $300. It applies independently to real or personal property and remains beside every qualifying federal or specific Pennsylvania exemption; $300 limits protection but not EC eligibility. Then test the specific alternatives.\nExecution example: Hypothetically, an appliance worth more than $300 still retains § 8123 beside its qualifying federal citations. A household textile that is not worn as clothing does not receive § 8124(a)(1).",
+            "avoid_when": "Apply § 8124(a)(1) only to wearing apparel; do not classify firearms, jewelry, or other merely wearable or carried objects as wearing apparel."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "When PENNSYLVANIA is allowable and the asset is property of the judgment debtor.",
+            "procedure": "Add 42 Pa. Cons. Stat. § 8123 once, independently of every federal or specific Pennsylvania alternative. For the whole named asset use the smaller of its value and $300 for one debtor or $600 for two equal joint debtors; determine debtor count before choosing the ceiling.",
+            "avoid_when": "Do not omit § 8123 because another exemption applies, use $600 for a single debtor, emit both debtor-count amounts, or copy a ceiling above the asset value."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    },
+    {
+      "id": "EC:wisconsin-consumer-goods",
+      "hypothesis_ids": [
+        "EC",
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EC"
+            ],
+            "when": "When WISCONSIN is allowable and tangible personal property is held primarily for personal, family, or household use.",
+            "procedure": "Select the Wisconsin category from the asset facts without using its ceiling as an eligibility test. Apply Wis. Stat. § 815.18(3)(d) to household goods and furnishings, apparel, jewelry, books, musical instruments, firearms, sporting goods, animals, and its other listed consumer goods. Separately apply § 815.18(3)(g) to a motor vehicle. Retain every independently applicable federal alternative.",
+            "avoid_when": "Do not cite Wis. Stat. § 815.18(8) as an asset exemption merely because spouses may combine exemptions; it is a marital coordination rule. Do not use § 815.18(3)(d) for a motor vehicle or for property held primarily for business use."
+          },
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "When WISCONSIN is allowable and an asset is being valued.",
+            "procedure": "For listed nonvehicle consumer goods, including firearms, use § 815.18(3)(d), capped for the whole asset at $12,000 for one debtor or $24,000 for two equal joint debtors. For a motor vehicle, output only § 815.18(3)(g), not a separate (d) claim. Because this independent-pair task supplies no used consumer-goods amount, treat the (d) amount as unused: the single (g) claim has a $16,000 ceiling for one debtor or $32,000 for two equal joint debtors. Use § 815.20(1) only for an occupied homestead, capped at $75,000 for one debtor or $150,000 for two joint spouses. For each citation output the smaller of the whole asset value and its ceiling.",
+            "avoid_when": "Do not put a motor vehicle under (3)(d) or split its combined vehicle protection into separate (3)(g) and (3)(d) claims. A firearm is consumer goods under (3)(d), not a depository account under (3)(k) or business property under (3)(b)(1) without the required facts. Do not emit § 815.18(8), leave a half-interest as the result, or stop at one spouse's ceiling for jointly owned property where both spouses' exemptions apply."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "WISCONSIN"
+      }
+    },
+    {
+      "id": "EV:pennsylvania-narrow-particular-property",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "When PENNSYLVANIA is allowable and an asset is tested against the narrow particular-property categories other than wearing apparel.",
+            "procedure": "Add § 8124(a)(2) only for a Bible or school book, (a)(3) only for a sewing machine belonging to a seamstress or used and owned by a private family and not kept for sale or hire, and (a)(4) only for an actual military uniform or accoutrement of a commissioned or enlisted person. Each qualifying alternative protects the whole named asset value because the supplied provisions state no dollar ceiling.",
+            "avoid_when": "Do not emit these citations with zero amounts or infer them from a musical instrument, ordinary furniture, a vehicle, an animal, or another object lacking the stated category facts."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    },
+    {
+      "id": "EV:pennsylvania-wearing-apparel",
+      "hypothesis_ids": [
+        "EV"
+      ],
+      "guidance": {
+        "by_task": [
+          {
+            "tasks": [
+              "EV"
+            ],
+            "when": "When PENNSYLVANIA is allowable and the asset is actual clothing worn as apparel.",
+            "procedure": "Add 42 Pa. Cons. Stat. § 8124(a)(1) independently and report the whole named asset's value because the supplied provision states no dollar ceiling.",
+            "avoid_when": "Do not apply this alternative to an animal, vehicle, firearm, musical instrument, household textile, jewelry, or another carried or household object that is not clothing."
+          }
+        ],
+        "operators": [],
+        "jurisdiction": "PENNSYLVANIA"
+      }
+    }
+  ],
+  "source_sha256": {
+    "runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/publications/b8.json": "a1ed2f870bb1ec0aed0cbc7f5dae23045943852a49abad0dd06d5599ffa4c038",
+    "artifacts/research/openexempt_ev_learning_20261105/atomic_rule_units_run01/proposal.json": "32356e2151c7a97774de53382cf4037f2e608e012897f9c6a8ca0fa681d71d3b",
+    "artifacts/research/openexempt_ev_learning_20261105/atomic_rule_units_run01/semantic_review.json": "21b8e1662816eaed003ab6b67bb2bd2a0613c3d27633c7b0ec5d07de24f30ad2",
+    "legal_skill_guard/learning/task_scoped_skills.py": "51e89480a294a6b2716ed16cb4c624cd27d47809fd260e5898eeb84bb9fe79a0"
+  },
+  "not_formal_method_adoption": true
+}

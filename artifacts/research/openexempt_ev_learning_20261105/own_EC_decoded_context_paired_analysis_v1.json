@@ -1,0 +1,2119 @@
+{
+  "TRAIN_only_no_new_calls": true,
+  "scorer_and_raw_decoding_independently_rechecked": true,
+  "source_count": 32,
+  "same_model_EC_exact_sources": 25,
+  "target_claim_transitions_are_not_native_macro_F1": true,
+  "EC_exact_subgroup_is_posthoc_diagnostic_not_deployable_gate": true,
+  "arms": {
+    "original_parent": {
+      "all32": {
+        "precision": 0.8734809027777778,
+        "recall": 0.8656684027777777,
+        "f1": 0.8618179563492063,
+        "exact_target": 0.4375,
+        "tasks": 32,
+        "invalid_format": 1,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.8543093711843712,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "current16": {
+        "precision": 0.955295138888889,
+        "recall": 0.967013888888889,
+        "f1": 0.9603174603174603,
+        "exact_target": 0.5,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.9464621489621491,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "prior16": {
+        "precision": 0.7916666666666667,
+        "recall": 0.7643229166666665,
+        "f1": 0.7633184523809524,
+        "exact_target": 0.375,
+        "tasks": 16,
+        "invalid_format": 1,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.7621565934065934,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EC_exact": {
+        "precision": 0.8672222222222223,
+        "recall": 0.8613888888888889,
+        "f1": 0.8552222222222221,
+        "exact_target": 0.44,
+        "tasks": 25,
+        "invalid_format": 1,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8551159951159951,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EC_not_exact": {
+        "precision": 0.8958333333333334,
+        "recall": 0.8809523809523808,
+        "f1": 0.8853741496598639,
+        "exact_target": 0.42857142857142855,
+        "tasks": 7,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.8514285714285714,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "errors": {
+        "correct": 191,
+        "missing": 14,
+        "incorrect_value": 18,
+        "extra_or_duplicate": 9,
+        "invalid_response": 1
+      }
+    },
+    "decoded_context": {
+      "all32": {
+        "precision": 0.85453216374269,
+        "recall": 0.8641493055555556,
+        "f1": 0.8563593524531025,
+        "exact_target": 0.375,
+        "tasks": 32,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.8418316090890104,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "current16": {
+        "precision": 0.9147934941520468,
+        "recall": 0.9279513888888888,
+        "f1": 0.9165877525252526,
+        "exact_target": 0.375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.8893353174603176,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "prior16": {
+        "precision": 0.7942708333333333,
+        "recall": 0.8003472222222223,
+        "f1": 0.7961309523809524,
+        "exact_target": 0.375,
+        "tasks": 16,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.7943279007177034,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EC_exact": {
+        "precision": 0.8788011695906432,
+        "recall": 0.8922222222222222,
+        "f1": 0.8820923520923521,
+        "exact_target": 0.44,
+        "tasks": 25,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 0,
+        "full_output_f1": 0.8727693400167085,
+        "negative_or_unscored_asset_claims": 0
+      },
+      "EC_not_exact": {
+        "precision": 0.7678571428571429,
+        "recall": 0.763888888888889,
+        "f1": 0.7644557823129252,
+        "exact_target": 0.14285714285714285,
+        "tasks": 7,
+        "invalid_format": 0,
+        "officially_unscored_predicted_claims": 1,
+        "full_output_f1": 0.7313397129186603,
+        "negative_or_unscored_asset_claims": 1
+      },
+      "errors": {
+        "correct": 193,
+        "incorrect_value": 40,
+        "extra_or_duplicate": 22,
+        "missing": 2
+      }
+    }
+  },
+  "paired": {
+    "original_parent__to__decoded_context": {
+      "target_claim_transition_counts": {
+        "correct->correct": 168,
+        "correct->incorrect_value": 21,
+        "correct->missing": 2,
+        "incorrect_value->correct": 10,
+        "incorrect_value->incorrect_value": 8,
+        "invalid->correct": 7,
+        "invalid->incorrect_value": 5,
+        "missing->correct": 8,
+        "missing->incorrect_value": 6
+      },
+      "new_wrong_amounts_from_parent_correct": [
+        {
+          "case_id": 193,
+          "kind": "incorrect_value",
+          "asset": "wolf gray 2024 Kia Telluride SX-Prestige crossover",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 30850.0,
+          "observed_values": [
+            15425.0
+          ]
+        },
+        {
+          "case_id": 200,
+          "kind": "incorrect_value",
+          "asset": "set of bath towels made from Egyptian cotton",
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "expected_value": 175.0,
+          "observed_values": [
+            300.0
+          ]
+        },
+        {
+          "case_id": 205,
+          "kind": "incorrect_value",
+          "asset": "two-bedroom, two-bath condominium (owner-occupied) on the third floor with 1,200 square feet of living space",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 30850.0,
+          "observed_values": [
+            15425.0
+          ]
+        },
+        {
+          "case_id": 205,
+          "kind": "incorrect_value",
+          "asset": "two-bedroom, two-bath condominium (owner-occupied) on the third floor with 1,200 square feet of living space",
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ]
+        },
+        {
+          "case_id": 205,
+          "kind": "incorrect_value",
+          "asset": "concert-grade oboe (French key system)",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 2415.0,
+          "observed_values": [
+            15425.0
+          ]
+        },
+        {
+          "case_id": 205,
+          "kind": "incorrect_value",
+          "asset": "concert-grade oboe (French key system)",
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ]
+        },
+        {
+          "case_id": 217,
+          "kind": "incorrect_value",
+          "asset": "floor-length curtains with floral embroidery",
+          "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+          "expected_value": 280.0,
+          "observed_values": [
+            400.0
+          ]
+        },
+        {
+          "case_id": 217,
+          "kind": "incorrect_value",
+          "asset": "hanging macrame plant holder with ceramic pot",
+          "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+          "expected_value": 195.0,
+          "observed_values": [
+            400.0
+          ]
+        },
+        {
+          "case_id": 228,
+          "kind": "incorrect_value",
+          "asset": "hand-knotted wool area rug measuring 9x12 feet with Persian motif",
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "expected_value": 325.0,
+          "observed_values": [
+            600.0
+          ]
+        },
+        {
+          "case_id": 228,
+          "kind": "incorrect_value",
+          "asset": "stainless steel refrigerator with French doors and bottom freezer drawer",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 2575.0,
+          "observed_values": [
+            30850.0
+          ]
+        },
+        {
+          "case_id": 228,
+          "kind": "incorrect_value",
+          "asset": "pack of five pairs of ankle-length athletic socks",
+          "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+          "expected_value": 18.0,
+          "observed_values": [
+            600.0
+          ]
+        },
+        {
+          "case_id": 228,
+          "kind": "incorrect_value",
+          "asset": "Stevens Model 301 single-shot .410 shotgun",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 215.0,
+          "observed_values": [
+            30850.0
+          ]
+        },
+        {
+          "case_id": 235,
+          "kind": "incorrect_value",
+          "asset": "modular bookshelf system made of powder-coated steel and pine",
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "expected_value": 148.0,
+          "observed_values": [
+            300.0
+          ]
+        },
+        {
+          "case_id": 235,
+          "kind": "incorrect_value",
+          "asset": "65-inch OLED television with wall mount and surround sound setup",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 3800.0,
+          "observed_values": [
+            1475.0
+          ]
+        },
+        {
+          "case_id": 235,
+          "kind": "incorrect_value",
+          "asset": "65-inch OLED television with wall mount and surround sound setup",
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ]
+        },
+        {
+          "case_id": 235,
+          "kind": "incorrect_value",
+          "asset": "small mountain cabin used year-round as the principal residence",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 30850.0,
+          "observed_values": [
+            1475.0
+          ]
+        },
+        {
+          "case_id": 235,
+          "kind": "incorrect_value",
+          "asset": "forest green 1998 Chevrolet Silverado 1500 Extended Cab (182k miles)",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 3540.0,
+          "observed_values": [
+            1475.0
+          ]
+        },
+        {
+          "case_id": 238,
+          "kind": "incorrect_value",
+          "asset": "adjustable-height workbench with solid maple top",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 1155.0,
+          "observed_values": [
+            1475.0
+          ]
+        },
+        {
+          "case_id": 238,
+          "kind": "incorrect_value",
+          "asset": "silk cocktail dress with asymmetrical neckline",
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "expected_value": 155.0,
+          "observed_values": [
+            700.0
+          ]
+        },
+        {
+          "case_id": 238,
+          "kind": "incorrect_value",
+          "asset": "silk cocktail dress with asymmetrical neckline",
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "expected_value": 155.0,
+          "observed_values": [
+            1475.0
+          ]
+        },
+        {
+          "case_id": 238,
+          "kind": "incorrect_value",
+          "asset": "silk cocktail dress with asymmetrical neckline",
+          "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+          "expected_value": 155.0,
+          "observed_values": [
+            400.0
+          ]
+        }
+      ],
+      "after_extra_claims_also_in_EC_forecast": 3,
+      "native_sources_improved": 8,
+      "native_sources_harmed": 7,
+      "cases": [
+        {
+          "case_id": 185,
+          "current": false,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 9,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 9,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 192,
+          "current": false,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 6,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 6,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 193,
+          "current": false,
+          "EC_exact": true,
+          "native_gain_pp": 16.964285714285722,
+          "full_gain_pp": 16.964285714285708,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 9,
+            "missing": 5,
+            "incorrect_value": 2,
+            "extra_or_duplicate": 1,
+            "incorrect_value_predictions": 2,
+            "errors": [
+              {
+                "kind": "missing",
+                "asset": "white gold engagement ring with interlocking bands",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "expected_value": 400.0,
+                "observed_values": []
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "electric can opener with magnet and cord storage",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "expected_value": 22.0,
+                "observed_values": [
+                  700.0
+                ]
+              },
+              {
+                "kind": "missing",
+                "asset": "electric can opener with magnet and cord storage",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "expected_value": 22.0,
+                "observed_values": []
+              },
+              {
+                "kind": "missing",
+                "asset": "wolf gray 2024 Kia Telluride SX-Prestige crossover",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "expected_value": 400.0,
+                "observed_values": []
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "pair of khaki slacks with pleated front and belt loops",
+                "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                "observed_value": 84.0
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "pair of khaki slacks with pleated front and belt loops",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "expected_value": 84.0,
+                "observed_values": [
+                  700.0
+                ]
+              },
+              {
+                "kind": "missing",
+                "asset": "pair of khaki slacks with pleated front and belt loops",
+                "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                "expected_value": 84.0,
+                "observed_values": []
+              },
+              {
+                "kind": "missing",
+                "asset": "pair of khaki slacks with pleated front and belt loops",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "expected_value": 84.0,
+                "observed_values": []
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 13,
+            "missing": 0,
+            "incorrect_value": 3,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 3,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "electric can opener with magnet and cord storage",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "expected_value": 22.0,
+                "observed_values": [
+                  400.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "wolf gray 2024 Kia Telluride SX-Prestige crossover",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 30850.0,
+                "observed_values": [
+                  15425.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "pair of khaki slacks with pleated front and belt loops",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "expected_value": 84.0,
+                "observed_values": [
+                  400.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 195,
+          "current": false,
+          "EC_exact": true,
+          "native_gain_pp": 33.333333333333336,
+          "full_gain_pp": 33.333333333333336,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 3,
+            "missing": 3,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": [
+              {
+                "kind": "missing",
+                "asset": "2020 Lexus RX 350 (nebula gray pearl)",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "expected_value": 8000.0,
+                "observed_values": []
+              },
+              {
+                "kind": "missing",
+                "asset": "launch green 2023 Rivian R1T Adventure electric truck (9,200 mi)",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "expected_value": 8000.0,
+                "observed_values": []
+              },
+              {
+                "kind": "missing",
+                "asset": "wool peacoat with wide lapels and double-breasted buttons",
+                "citation": "735 Ill. Comp. Stat. 5/12-1001(b)",
+                "expected_value": 899.0,
+                "observed_values": []
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 6,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 198,
+          "current": false,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 4,
+            "missing": 0,
+            "incorrect_value": 2,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 2,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "1999 Chevrolet Camaro, bright purple, Z28 coupe (112k mi)",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 6875.0,
+                "observed_values": [
+                  15425.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "circular saw for Debtor's carpentry business, including replacement blades",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 1600.0,
+                "observed_values": [
+                  15425.0
+                ]
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 4,
+            "missing": 0,
+            "incorrect_value": 2,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 2,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "1999 Chevrolet Camaro, bright purple, Z28 coupe (112k mi)",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 6875.0,
+                "observed_values": [
+                  1475.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "circular saw for Debtor's carpentry business, including replacement blades",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 1600.0,
+                "observed_values": [
+                  1475.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 200,
+          "current": false,
+          "EC_exact": false,
+          "native_gain_pp": -14.28571428571428,
+          "full_gain_pp": -15.78947368421052,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 9,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 8,
+            "missing": 0,
+            "incorrect_value": 1,
+            "extra_or_duplicate": 1,
+            "incorrect_value_predictions": 1,
+            "errors": [
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "set of bath towels made from Egyptian cotton",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "observed_value": 175.0
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "set of bath towels made from Egyptian cotton",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 175.0,
+                "observed_values": [
+                  300.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 201,
+          "current": false,
+          "EC_exact": true,
+          "native_gain_pp": 33.333333333333336,
+          "full_gain_pp": 33.333333333333336,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 2,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 2,
+            "incorrect_value_predictions": 0,
+            "errors": [
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "trench coat in beige with belt and shoulder epaulets",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "observed_value": 15000.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "construction overalls made of heavy-duty denim with tool loops",
+                "citation": "Ariz. Rev. Stat. § 33-1123",
+                "observed_value": 15000.0
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 2,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 203,
+          "current": false,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 6,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 6,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 205,
+          "current": false,
+          "EC_exact": true,
+          "native_gain_pp": -59.52380952380953,
+          "full_gain_pp": -58.974358974358964,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 6,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 1,
+            "incorrect_value_predictions": 0,
+            "errors": [
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "concert-grade oboe (French key system)",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(2)",
+                "observed_value": 400.0
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 2,
+            "missing": 0,
+            "incorrect_value": 4,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 4,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "two-bedroom, two-bath condominium (owner-occupied) on the third floor with 1,200 square feet of living space",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 30850.0,
+                "observed_values": [
+                  15425.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "two-bedroom, two-bath condominium (owner-occupied) on the third floor with 1,200 square feet of living space",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 600.0,
+                "observed_values": [
+                  300.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "concert-grade oboe (French key system)",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 2415.0,
+                "observed_values": [
+                  15425.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "concert-grade oboe (French key system)",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 600.0,
+                "observed_values": [
+                  300.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 206,
+          "current": false,
+          "EC_exact": false,
+          "native_gain_pp": 16.07142857142858,
+          "full_gain_pp": 16.666666666666664,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 4,
+            "missing": 0,
+            "incorrect_value": 4,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 4,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "2020 Tesla Model 3 Performance (29k mi) in blue metallic",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 30850.0,
+                "observed_values": [
+                  15425.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "titanium pendant dog tag necklace with engraving",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 295.0,
+                "observed_values": [
+                  15425.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "titanium pendant dog tag necklace with engraving",
+                "citation": "Or. Rev. Stat. § 18.345(1)(b)",
+                "expected_value": 295.0,
+                "observed_values": [
+                  1800.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "titanium pendant dog tag necklace with engraving",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "expected_value": 295.0,
+                "observed_values": [
+                  400.0
+                ]
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 5,
+            "missing": 1,
+            "incorrect_value": 2,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 2,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "2020 Tesla Model 3 Performance (29k mi) in blue metallic",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 30850.0,
+                "observed_values": [
+                  15425.0
+                ]
+              },
+              {
+                "kind": "missing",
+                "asset": "2020 Tesla Model 3 Performance (29k mi) in blue metallic",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "expected_value": 400.0,
+                "observed_values": []
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "titanium pendant dog tag necklace with engraving",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 295.0,
+                "observed_values": [
+                  15425.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 212,
+          "current": false,
+          "EC_exact": true,
+          "native_gain_pp": -4.761904761904756,
+          "full_gain_pp": -5.263157894736836,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 9,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 9,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 1,
+            "incorrect_value_predictions": 0,
+            "errors": [
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "charm bracelet with silver heart-shaped and birthstone-themed charms",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "observed_value": 587.0
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 213,
+          "current": false,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 6,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 6,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 216,
+          "current": false,
+          "EC_exact": true,
+          "native_gain_pp": 55.952380952380956,
+          "full_gain_pp": 55.99999999999999,
+          "before_errors": {
+            "invalid_response": true,
+            "errors": [
+              {
+                "kind": "invalid_response"
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 7,
+            "missing": 0,
+            "incorrect_value": 5,
+            "extra_or_duplicate": 1,
+            "incorrect_value_predictions": 5,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "induction cooktop with four burners and touch controls",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 1990.0,
+                "observed_values": [
+                  15425.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "streaming media player with 4K resolution and HDMI extender",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 290.0,
+                "observed_values": [
+                  15425.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "streaming media player with 4K resolution and HDMI extender",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 290.0,
+                "observed_values": [
+                  600.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "simple platinum nose stud with single clear gemstone",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 1000.0,
+                "observed_values": [
+                  15425.0
+                ]
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "2017 Subaru Outback 2.5i Premium in crystal black silica",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "observed_value": 15000.0
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "2017 Subaru Outback 2.5i Premium in crystal black silica",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 21900.0,
+                "observed_values": [
+                  15425.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 217,
+          "current": false,
+          "EC_exact": true,
+          "native_gain_pp": 16.666666666666675,
+          "full_gain_pp": 16.666666666666675,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 8,
+            "missing": 0,
+            "incorrect_value": 4,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 4,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "floor-length curtains with floral embroidery",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 280.0,
+                "observed_values": [
+                  15425.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "floor-length curtains with floral embroidery",
+                "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                "expected_value": 280.0,
+                "observed_values": [
+                  3000.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "hanging macrame plant holder with ceramic pot",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 195.0,
+                "observed_values": [
+                  15425.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "hanging macrame plant holder with ceramic pot",
+                "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+                "expected_value": 195.0,
+                "observed_values": [
+                  3000.0
+                ]
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 10,
+            "missing": 0,
+            "incorrect_value": 2,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 2,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "floor-length curtains with floral embroidery",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "expected_value": 280.0,
+                "observed_values": [
+                  400.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "hanging macrame plant holder with ceramic pot",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "expected_value": 195.0,
+                "observed_values": [
+                  400.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 227,
+          "current": false,
+          "EC_exact": false,
+          "native_gain_pp": 1.6666666666666607,
+          "full_gain_pp": 2.7272727272727226,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 7,
+            "missing": 2,
+            "incorrect_value": 2,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 2,
+            "errors": [
+              {
+                "kind": "missing",
+                "asset": "physician prescribed wheelchair with foldable frame and padded armrests",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 649.0,
+                "observed_values": []
+              },
+              {
+                "kind": "missing",
+                "asset": "professional-grade stand mixer with copper bowl and attachment bundle",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 1425.0,
+                "observed_values": []
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "2008 silver Honda Civic LX sedan, 114k miles (4-door)",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 6825.0,
+                "observed_values": [
+                  1475.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "2008 silver Honda Civic LX sedan, 114k miles (4-door)",
+                "citation": "Wis. Stat. § 815.18(3)(g)",
+                "expected_value": 6825.0,
+                "observed_values": [
+                  4000.0
+                ]
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 8,
+            "missing": 1,
+            "incorrect_value": 2,
+            "extra_or_duplicate": 1,
+            "incorrect_value_predictions": 2,
+            "errors": [
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "professional-grade stand mixer with copper bowl and attachment bundle",
+                "citation": "11 U.S.C. § 522(d)(6)",
+                "observed_value": 1425.0
+              },
+              {
+                "kind": "missing",
+                "asset": "professional-grade stand mixer with copper bowl and attachment bundle",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "expected_value": 700.0,
+                "observed_values": []
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "2008 silver Honda Civic LX sedan, 114k miles (4-door)",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 6825.0,
+                "observed_values": [
+                  1475.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "2008 silver Honda Civic LX sedan, 114k miles (4-door)",
+                "citation": "Wis. Stat. § 815.18(3)(g)",
+                "expected_value": 6825.0,
+                "observed_values": [
+                  4000.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 228,
+          "current": false,
+          "EC_exact": true,
+          "native_gain_pp": -42.91666666666667,
+          "full_gain_pp": -44.1904761904762,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 8,
+            "missing": 4,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 1,
+            "incorrect_value_predictions": 0,
+            "errors": [
+              {
+                "kind": "missing",
+                "asset": "hand-knotted wool area rug measuring 9x12 feet with Persian motif",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 325.0,
+                "observed_values": []
+              },
+              {
+                "kind": "missing",
+                "asset": "pack of five pairs of ankle-length athletic socks",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 18.0,
+                "observed_values": []
+              },
+              {
+                "kind": "missing",
+                "asset": "pack of five pairs of ankle-length athletic socks",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 18.0,
+                "observed_values": []
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "Stevens Model 301 single-shot .410 shotgun",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "observed_value": 215.0
+              },
+              {
+                "kind": "missing",
+                "asset": "Stevens Model 301 single-shot .410 shotgun",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 215.0,
+                "observed_values": []
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 4,
+            "missing": 0,
+            "incorrect_value": 8,
+            "extra_or_duplicate": 1,
+            "incorrect_value_predictions": 8,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "hand-knotted wool area rug measuring 9x12 feet with Persian motif",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 325.0,
+                "observed_values": [
+                  30850.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "hand-knotted wool area rug measuring 9x12 feet with Persian motif",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 325.0,
+                "observed_values": [
+                  600.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "stainless steel refrigerator with French doors and bottom freezer drawer",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 2575.0,
+                "observed_values": [
+                  30850.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "pack of five pairs of ankle-length athletic socks",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 18.0,
+                "observed_values": [
+                  30850.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "pack of five pairs of ankle-length athletic socks",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 18.0,
+                "observed_values": [
+                  600.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "pack of five pairs of ankle-length athletic socks",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "expected_value": 18.0,
+                "observed_values": [
+                  600.0
+                ]
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "Stevens Model 301 single-shot .410 shotgun",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "observed_value": 215.0
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "Stevens Model 301 single-shot .410 shotgun",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 215.0,
+                "observed_values": [
+                  30850.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "Stevens Model 301 single-shot .410 shotgun",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 215.0,
+                "observed_values": [
+                  600.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 229,
+          "current": true,
+          "EC_exact": false,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 3,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 3,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 230,
+          "current": true,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 3,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 3,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 231,
+          "current": true,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 1,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 1,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 232,
+          "current": true,
+          "EC_exact": true,
+          "native_gain_pp": -11.038961038961048,
+          "full_gain_pp": -32.30769230769231,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 12,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 2,
+            "incorrect_value_predictions": 0,
+            "errors": [
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "domestic conure parrot",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "observed_value": 460.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "observed_value": 15000.0
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 12,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 16,
+            "incorrect_value_predictions": 0,
+            "errors": [
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(2)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(3)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(4)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(2)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(3)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(4)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(2)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(3)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(4)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(2)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(3)",
+                "observed_value": 500.0
+              },
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(4)",
+                "observed_value": 500.0
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 233,
+          "current": true,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 3,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 3,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 234,
+          "current": true,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 3,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 3,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 235,
+          "current": true,
+          "EC_exact": false,
+          "native_gain_pp": -38.0952380952381,
+          "full_gain_pp": -37.66666666666667,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 12,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 1,
+            "incorrect_value_predictions": 0,
+            "errors": [
+              {
+                "kind": "extra_or_duplicate",
+                "asset": "forest green 1998 Chevrolet Silverado 1500 Extended Cab (182k miles)",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "observed_value": 3540.0
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 7,
+            "missing": 0,
+            "incorrect_value": 5,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 5,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "modular bookshelf system made of powder-coated steel and pine",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 148.0,
+                "observed_values": [
+                  300.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "65-inch OLED television with wall mount and surround sound setup",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 3800.0,
+                "observed_values": [
+                  1475.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "65-inch OLED television with wall mount and surround sound setup",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 600.0,
+                "observed_values": [
+                  300.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "small mountain cabin used year-round as the principal residence",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 30850.0,
+                "observed_values": [
+                  1475.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "forest green 1998 Chevrolet Silverado 1500 Extended Cab (182k miles)",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 3540.0,
+                "observed_values": [
+                  1475.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 236,
+          "current": true,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 5,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 5,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 237,
+          "current": true,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 15,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 15,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 238,
+          "current": true,
+          "EC_exact": false,
+          "native_gain_pp": -50.0,
+          "full_gain_pp": -50.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 8,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 4,
+            "missing": 0,
+            "incorrect_value": 4,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 4,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "adjustable-height workbench with solid maple top",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 1155.0,
+                "observed_values": [
+                  1475.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "silk cocktail dress with asymmetrical neckline",
+                "citation": "11 U.S.C. § 522(d)(3)",
+                "expected_value": 155.0,
+                "observed_values": [
+                  700.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "silk cocktail dress with asymmetrical neckline",
+                "citation": "11 U.S.C. § 522(d)(5)",
+                "expected_value": 155.0,
+                "observed_values": [
+                  1475.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "silk cocktail dress with asymmetrical neckline",
+                "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+                "expected_value": 155.0,
+                "observed_values": [
+                  400.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 239,
+          "current": true,
+          "EC_exact": false,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 2,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 1,
+            "incorrect_value_predictions": 0,
+            "errors": [
+              {
+                "kind": "extra_asset_claim",
+                "asset": "traditional gold confirmation necklace inscribed with a cross",
+                "citation": "Ariz. Rev. Stat. § 33-1125(1)",
+                "claim_value": 500
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 2,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 1,
+            "incorrect_value_predictions": 0,
+            "errors": [
+              {
+                "kind": "extra_asset_claim",
+                "asset": "traditional gold confirmation necklace inscribed with a cross",
+                "citation": "Ariz. Rev. Stat. § 33-1125(4)",
+                "claim_value": 715
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 240,
+          "current": true,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 8,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 8,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 241,
+          "current": true,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 8,
+            "missing": 0,
+            "incorrect_value": 1,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 1,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "set of stacking rings made from mixed metals including rose gold and silver",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 433.0,
+                "observed_values": [
+                  600.0
+                ]
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 8,
+            "missing": 0,
+            "incorrect_value": 1,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 1,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "set of stacking rings made from mixed metals including rose gold and silver",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 433.0,
+                "observed_values": [
+                  600.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 242,
+          "current": true,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 5,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 5,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        },
+        {
+          "case_id": 243,
+          "current": true,
+          "EC_exact": true,
+          "native_gain_pp": 29.166666666666675,
+          "full_gain_pp": 28.57142857142857,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 4,
+            "missing": 0,
+            "incorrect_value": 3,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 3,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "navy leather pants with zippered pockets",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 300.0,
+                "observed_values": [
+                  600.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "navy leather pants with zippered pockets",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "expected_value": 1215.0,
+                "observed_values": [
+                  600.0
+                ]
+              },
+              {
+                "kind": "incorrect_value",
+                "asset": "custom brass euphonium with silver trim",
+                "citation": "42 Pa. Cons. Stat. § 8123",
+                "expected_value": 300.0,
+                "observed_values": [
+                  600.0
+                ]
+              }
+            ]
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 6,
+            "missing": 0,
+            "incorrect_value": 1,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 1,
+            "errors": [
+              {
+                "kind": "incorrect_value",
+                "asset": "navy leather pants with zippered pockets",
+                "citation": "42 Pa. Cons. Stat. § 8124(a)(1)",
+                "expected_value": 1215.0,
+                "observed_values": [
+                  500.0
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "case_id": 244,
+          "current": true,
+          "EC_exact": true,
+          "native_gain_pp": 0.0,
+          "full_gain_pp": 0.0,
+          "before_errors": {
+            "invalid_response": false,
+            "correct": 3,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          },
+          "after_errors": {
+            "invalid_response": false,
+            "correct": 3,
+            "missing": 0,
+            "incorrect_value": 0,
+            "extra_or_duplicate": 0,
+            "incorrect_value_predictions": 0,
+            "errors": []
+          }
+        }
+      ]
+    }
+  },
+  "provenance_sha256": {
+    "/media/sangfor/vdb/legal-skill-evolve/configs/openexempt_complete_output_utility_public_assets128_20261030_run01.json": "5e0486a5352d2e534b50265e3b902ac3aaa0c7d2c5107dd2b904f20a3191e894",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261104/bounded_train_pilot_run01/parent_records.json": "37670f2bad8c225470db13c72499e8ca975a751e0cfee83fd3c31edaedb2006c",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/analyze_own_ec_context_trials.py": "10a65fb6fce88bb612f6cec84083bea4924d0279b4bd228eec1be8f6c33de447",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/185.json": "d04aa929b7a789d9bea30814412363e39a45e7707c671b10d6c4fc0f2dbb458d",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/192.json": "f9d9cef533c329638918f3866d85d177c91b328a28a712edfe4d2dbd08e573fb",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/193.json": "c08b03eeca3c7b060b8043c5242de1bb6f370ef69bc3a1f826478f88466e22ad",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/195.json": "e80ab082a312da82cb7579744a884615baca2fc5a13760c18c7a2421532fa3e0",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/198.json": "5eb88f3df29d9576430ab8283c865601b92979011b78b6b3c36c42de5f140eb1",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/200.json": "e6c599057275c547df45440d39aea020a02dc5af8c46908ce79b9e0ddf57f06d",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/201.json": "1dc5bd83b2fb279ee795fe47889cfc534853caced5b4fc8db5228781efb27304",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/203.json": "ebe1862b6962fbc271c1d4d407838c9521e69753a976556136790c0bade48017",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/205.json": "b44235f537e9bce47fedbc6dc6cd5465d1af24bb0c5f0d24a95612c8d81c2c37",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/206.json": "866e5cea1210415b75739cd7e7b26a44a65024765da3ebe0f6e0c1e405f2d335",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/212.json": "db78d93b3ceabad89a62cdc08bdc95194d79f7cff385c96acd3f828ccfd3c195",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/213.json": "e9291ca57ab1250d240dc5674906ff9737fff662eddfc997b233289210c5c199",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/216.json": "b4a5c1dbf3ec658c0495cf2b1c2bbea69c61e90511a123800d3370bf5f17010c",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/217.json": "0647ba982115fa7636c2fc7e5cb51c9c648869b5a0fcbed2401c7a14589620dd",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/227.json": "bd11d72a38cd9e579f637bfc9f4945a3e92c61bb8632cbff8543bbcc9c4e0d71",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/228.json": "b80751af4ce140a6be00a8a050b6b45a6d883971bc4c1166980f9b2a35744be6",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/229.json": "ae14e55855b313c1481663c16c728c72f9184f552396f31e34f3f375b63f5c68",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/230.json": "258ee1482239617372556fbe304685b30b21d75b6d16b9b4eb5a307749ab5bf3",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/231.json": "c81f2f0c54c3cbdb9e1aa02d14eef19947aaba43f92f40d074ffcffc7c7524e6",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/232.json": "587542354373fc1fc6defa1ecb97aced9c8adb99de849065f729e4b50a2ccec5",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/233.json": "cf57d82fd82e5ab052ea5dd7ed1ea087dc4a65d6af7f2d58c378fcf0c69414f7",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/234.json": "c9ce7167a323d9b9ed58c90886f2017fd33827c524f28f5c2d072287b97625da",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/235.json": "68f758c9c241e43bbb3c89ca44a16241a5a4bf1bc8bdc30e8e2a5fe311b7e64c",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/236.json": "ea1994b7e5e46fc5999fdb2e426eaf937a6a219d7c1b220a50e33cd9d43051ca",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/237.json": "ca9d3ab0210f8494e7a51c0a2627440f5f09fa44485d318ef394465557eeefc8",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/238.json": "6595f1e4bf4e83d55663e4fff0e782d91f4792a32a24a1b3c8e007ae0b660ad2",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/239.json": "01eefabfd9e31fc448b4e817c959cc4605190019cc653f25d18bf75295d114d3",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/240.json": "400013881a15d0ae1761da4d1eb1dc6e4522da269338c6b9018129ebd57a61c0",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/241.json": "ae9a4f71e87eeca276ed27d1bac3b8e7c58f17bcb79caa27e77f954d4da51a77",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/242.json": "17182dd202a472c221ee7a2f6218e76c69b5f2f3d034302e39f6dad20b8adc24",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/243.json": "d99ce9cd7ab60c2a086d6b49ff7c7a61370e25755f3f726b60e6a602ef354edd",
+    "/media/sangfor/vdb/legal-skill-evolve/data/packets/openexempt_closed_feedback_public_assets128_20261021/grading_only/244.json": "dfacd503b66a22f9593eab09a73fc4bb2de59c3aea0d548714ba5d1c53411b54",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/185_EV_candidate.json": "644fdb6d6b4b6d1676c74696d4ad24b37518e5e8d50c6d644568ddd8093b1501",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/192_EV_candidate.json": "eeb2f6e40f9327bb41ffe43fd92d32b2fcbcffac219e637ea2f6608501671688",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/193_EV_candidate.json": "909251bfebda0efecece9491731b2331b623f97cc444fa4f215262de92290baa",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/195_EV_candidate.json": "2c779ea141b2ff6abfbd83f2bc4511ef05f6d3f3d90e324f6c63b82aa1dc83ee",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/198_EV_candidate.json": "1fbf55c49f2e61881e2c882969e02c18147a90f39819c5736faff6f1bdf024d9",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/200_EV_candidate.json": "2eae309f568b17f5841082b5b96d3fd2d9fa45bb15921433b746563ac67fbe6c",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/201_EV_candidate.json": "cb94eac0c98dce387440f0271b54033213bb778fa6694f691f39e779b6e94d8e",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/203_EV_candidate.json": "4068adc3db6f1397c7a4a9a6f88449e1a6fc29a4e18a8d4db0e62a24459a1b7b",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/205_EV_candidate.json": "11ebbaf124f4a194285763030079a624ea3a65aace7379706176271f9cff16da",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/206_EV_candidate.json": "6ca4883843401f33b687fdec30df6ce119ae498b456caa8e62d35891f2fecffa",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b2_candidate2_replay/212_EV_candidate.json": "51512d510458629c5c095454da14e61e6d13aa09f7e71145eb34d13d4fb47948",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b3_prequential/213_EV_skills.json": "8597dd7c66f8c871e59d7632e8b4b1cfe9eeccba0614e2adc7f375e891e69a94",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b3_prequential/216_EV_skills.json": "97dd47dedc8bc60b95c43c24de0f675983a20c33be0fe703d850742d386b2e86",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b3_prequential/217_EV_skills.json": "6275e7d269989173a5e89f174dc75ca66cdab5deae50ce0f86fe0d249b5fbec7",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b3_prequential/227_EV_skills.json": "fe91be3f1c68a5f7ba16273b80dc597a2138c5c75e7e9a5f535a0ce4f241a069",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b3_prequential/228_EV_skills.json": "be865d1527d7761e407bc0c0e02765131a25f87422d8634cae483b916f5e49e4",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/229_EV_skills.json": "7e6627e29cf9673b60cdc38a1b62c0d917c555c177a42f2fff82d3fedf0f8739",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/230_EV_skills.json": "43744c223e921d9f413c00b195ff5ceaeebb57a5cf33336e919a72a33bedd805",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/231_EV_skills.json": "f5b29a2805f7b5874f9c2b3cf0cda8d64c5331b19d46700d604fe8bd35a1513f",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/232_EV_skills.json": "a20b987ae115eac7364c37dae33788bb2f1e80896eeb7c948aabf983a21ede9f",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/233_EV_skills.json": "cbc3892137abd288a42cfbe098c71c3a921c7778a6e502c4e30c0fe07cac1e47",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/234_EV_skills.json": "97abedcd35af46857ef9bf4055733db45b40de703ea436b0d0717cbb8136d417",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/235_EV_skills.json": "7aea996a2a7bf882d11e8e0d26f875765ba48b3e6c24f8a424521f0c7bb3480e",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/236_EV_skills.json": "b58416352e505f1728e96e68cdbd853e69c3a4112a77630cf515dbb6b46ca70a",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/237_EV_skills.json": "4d2aa8da02912614377a3786d92ac2bf54b147cb9fce8a09393614da4c64f769",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/238_EV_skills.json": "39923835a7bd92cc465472e82ae690d43273c654bc9b0567c922fd259c352202",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/239_EV_skills.json": "108c33fa1c214d4763d67c1c56f624adfe67fe047ed0f4c891294eb5377be01d",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/240_EV_skills.json": "c9abf26a75b2c737aeb206bd78197f8f3dff8f7fea77cc7834b0be9e5ec35cdb",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/241_EV_skills.json": "77e90b4b9cf20149de01ba94bc1448c1f346d08caf66a75b79d0a2ea93a68e63",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/242_EV_skills.json": "30de272ff2077f1c1b1e8e29d1bfdc5a06692470d959975ded02bcf04529779c",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/243_EV_skills.json": "264b86c1b10e45d4b5af517325fb9c42d7b7ef9c18223d772921890a97c3971c",
+    "/media/sangfor/vdb/legal-skill-evolve/runs/legal_openexempt_complete_output_utility_public_assets128_20261030_run01/native/b4_prequential/244_EV_skills.json": "f58da6473242e827414f74546e39aaa22017496ae91f27ac98e7964c89fa9fec",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/185_EV_own_EC_context.json": "f13502a9d0f22cb644f7ee07de832be030c35f2e77789bf133e9b5e581d9c5c6",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/192_EV_own_EC_context.json": "1dd0d19da4945a752a547f6c8565e8376bb27dc825f2b810652e1b6c3b0f30b5",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/193_EV_own_EC_context.json": "0d479a6eb4e450b33d0ea62f5610af130d7234537c3394c004ebf050eca6ab19",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/195_EV_own_EC_context.json": "e89011677132c0aa26a5ae61348d52b5720fc8382e76ce4763b0847ba2f2f268",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/198_EV_own_EC_context.json": "4722b84073366724890975380428bad3518afc17a4215fcf74cd8b6088ed5835",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/200_EV_own_EC_context.json": "b090305f3d07bb7de8d15deeeca7b58845dd92869310c319adc0c5977df39bc0",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/201_EV_own_EC_context.json": "387f015e67a7b2b652ef2bb0ae631a4ab7be5fbaa8a9ad4febe81a66b8aba055",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/203_EV_own_EC_context.json": "d83760472fd9531b231bb7a89f96645f26c8a42d7e1ab93a318124843356a805",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/205_EV_own_EC_context.json": "a9dfd7b5ec2051da98458c521cea0a26273e0b913bbd74a5275ac4211f77d4c6",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/206_EV_own_EC_context.json": "cab4e3ed1936af3e147693a4279ce98032ac1383a5784ec188e38058da8054b6",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/212_EV_own_EC_context.json": "b370fcea1d483c114d4829d36962d3629babdaa5fd4c204051bb5181b9b743ee",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/213_EV_own_EC_context.json": "0d22bccd5a1f48e2a0fad63213307c893123fea4041ed52b9c7b8878edef8e86",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/216_EV_own_EC_context.json": "a9b4567dab6a14cd7382862a5126d44a36a50ac2fe38d1de31106f351a914e1f",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/217_EV_own_EC_context.json": "4c934ba03b8cf45850239e34d520b81c3ed1b42843d7824878ba4730b24e3cec",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/227_EV_own_EC_context.json": "26b88310c39af049269651e3be173ef133c7550f88c299376b403b0161249c5d",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/228_EV_own_EC_context.json": "6b4093fd965d7cb27b3b489708132cf45ce0ff689305a7046037c8343ef14ea0",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/229_EV_own_EC_context.json": "afacf72e29a92dea2c9903b9d10b98370b44d2561d586657d94b5a079f08a9c1",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/230_EV_own_EC_context.json": "69ba5bfcf22ce727ded5c80d6ad0fe47596119deb0c6c4203982e68f06e02e64",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/231_EV_own_EC_context.json": "942f6fec33077076856b71f048a6469833d7987c40c703b9fde15737687b5a08",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/232_EV_own_EC_context.json": "5d5e82418b8981bcecb90546753e1c576cbf0da534f601b6162b58754bdaa63a",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/233_EV_own_EC_context.json": "da3c88699b893ed11cd068f3ed2e130addb504e4e7826e056fa8e3fc51fae9ad",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/234_EV_own_EC_context.json": "a53d62efea8e4fc1df215ed469adf0a901d0139abccf3a1b74ff1483ffcb83e6",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/235_EV_own_EC_context.json": "a4892fec40c1c76377d83ca5001cc87eadc2f1c53f78a0b44e5d9ba23304fbd9",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/236_EV_own_EC_context.json": "72231f973f2ea30f4d271eaae58a5d4dcf8b61b1b0ac82685896722e45c83b89",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/237_EV_own_EC_context.json": "abc2cf5ed4c4b9ef801e74c67f5fbece77639d42babccbcbdfc8a7b9be9c12c9",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/238_EV_own_EC_context.json": "0fcade800c0fc017fba546ce8b00c0710043102c1befb7da4e03e909ea8e6a9b",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/239_EV_own_EC_context.json": "2abb92f17c32456d646757020bfbaa29bf8480ca7f731270565fdd81a4fac655",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/240_EV_own_EC_context.json": "7cb7ba3faa55dd38572f3edf9209964130b54283e05d7b97e3d2b31f7f64d092",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/241_EV_own_EC_context.json": "53fca9d43bcc0579b0f1660a31e6dbce22576db35957b17689a95f2080e0d7b6",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/242_EV_own_EC_context.json": "017d713f5c36a493fa7195bc07415929829cfbdfb789bccbd29fd38a92e58686",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/243_EV_own_EC_context.json": "3a32fbf6887ed05bdbaf11ccfcb62c0518090b94e6891465e3ad9392babd6e87",
+    "/media/sangfor/vdb/legal-skill-evolve/artifacts/research/openexempt_ev_learning_20261105/own_EC_context_TRAIN32_run01/native/244_EV_own_EC_context.json": "0037864205dbeb2e392cac06b53fb1956a195f54d869659d22b0c60c48436754"
+  }
+}

@@ -1,31 +1,33 @@
-# Source map
+# Project map
 
-The current study evaluates OpenExempt classification (EC) and valuation (EV) with a fixed Qwen3-8B and a learned text-skill library.
+Updated 5 November 2026. This branch contains the maintained project. The default main branch retains the earlier consultation snapshot and links here.
 
-| Component | Entry point |
+## Read in this order
+
+1. [Stage handoff](docs/handoff_next_stage.md): completed v6 study, remaining evidence boundaries and proposed next stage.
+2. [Paper index](paper/README.md): v16 manuscript and immutable evidence supplement.
+3. [Reproduction guide](docs/research/PAPER_REPRODUCTION_GUIDE_20261102.md).
+4. [Integrity report](docs/PROJECT_INTEGRITY_20261105.json): 629 passing tests and five pre-existing AST-lock mismatches.
+
+## Directory roles
+
+| Path | Role |
 |---|---|
-| Online learning and publication | [openexempt_online.py](experiments/openexempt_online.py) |
-| Task preparation and scoring | [openexempt.py](legal_skill_guard/openexempt.py) |
-| Task projection and composition | [task_scoped_skills.py](legal_skill_guard/learning/task_scoped_skills.py) |
-| Differential edits | [publication.py](legal_skill_guard/learning/publication.py) |
-| Public asset/citation references | [legal_namespace.py](legal_skill_guard/learning/legal_namespace.py) |
-| Model and teacher transports | [inference](legal_skill_guard/inference/), [experiment.py](legal_skill_guard/learning/experiment.py) |
-| Phase scheduling | [phase_dispatch.py](legal_skill_guard/learning/phase_dispatch.py) |
-| Frozen comparison | [openexempt_frozen_eval.py](experiments/openexempt_frozen_eval.py) |
-| ACE adaptation | [openexempt_ace_online.py](experiments/openexempt_ace_online.py) |
-| Text-experience adaptation | [openexempt_trace2skill.py](experiments/openexempt_trace2skill.py) |
-| SkillCommit adaptation | [openexempt_skillcommit.py](experiments/openexempt_skillcommit.py) |
+| legal_skill_guard/ | Core Python package, not another project |
+| experiments/ | Main training, controls and comparator drivers; historical scripts are not a queue |
+| configs/ | Actual recipes and immutable frozen manifests |
+| data/ | Pinned benchmark material, packets and scoring targets, where included in the published evidence |
+| runs/ | Saved predictions, teacher records, published libraries, scores and terminal states |
+| paper/ | Completed v16 manuscript, figures and table sources |
+| artifacts/ | Original research evidence and completed diagnostic records |
+| ops/, patches/ | Service definitions, dependency pins and inference patches |
+| tests/ | Behavioral and boundary checks |
+| recovery/ | Archived distributions and verified publication updates |
+| docs/ | Methods, protocols, handoff and verification information |
 
-## Configuration
+The current scientific entry is [openexempt_online.py](experiments/openexempt_online.py), using the [utility-v6 recipe](configs/openexempt_complete_output_utility_public_assets128_20261030_run01.json). The original ten-arm TEST uses [its actual matrix](artifacts/launches/openexempt_v6_final_after_withheld_20261031_run01/actual_final_matrix_config.json), not a planning recipe.
 
-- [Main recipe](configs/openexempt_complete_output_utility_public_assets128_20261030_run01.json)
-- [Strict-policy control](configs/openexempt_v6_strict_policy_control_public_assets128_20261030_run01.json)
-- [Teacher-evidence control](configs/openexempt_v6_teacher_execution_withheld_public_assets128_20261030_run01.json)
-- [Frozen matrix](artifacts/launches/openexempt_v6_final_after_withheld_20261031_run01/actual_final_matrix_config.json)
-- [Dependencies](pyproject.toml), [lock file](uv.lock), [inference setup](ops/inference-requirements.txt)
+All November 4–5 TRAIN diagnostics are archived separately from formal TEST results. Their proposals were not adopted as a replacement method. Source/data details are in the handoff and [diagnostic archive index](recovery/updates/20261105_handoff/README.md).
 
-## Evidence
+The proposed next stage uses at least five independent datasets, about 128 or 256 total training examples, and separate frozen tests of about 32 or 64 examples per dataset. Two mechanisms must each address a specified failure. Dataset choices and mechanisms remain unimplemented; the old EC/EV recipe is not automatically the new method.
 
-[paper/README.md](paper/README.md) links the manuscripts, tables and figures. Learned libraries and recorded study outcomes are under runs/. Complete current-study predictions, source snapshots and offline checks are in [Supplementary Data 1](artifacts/research/manuscript_revision_astra_20261104/Supplementary_Data_1_20261104.zip.parts/README.md).
-
-Earlier consultation and ContractNLI configurations are historical studies, not the current paper task. A .frozen.json file is an experiment binding, not a disposable cache. Exact historical verification uses its archived source snapshot rather than newer navigation documents.

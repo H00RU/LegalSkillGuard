@@ -1,0 +1,82 @@
+{
+  "scope": "Checks performed on the complete source workspace before publication-only navigation edits; no fresh training or inference. Exact historical bindings use immutable supplemental sources.",
+  "source_evidence_sha256": "14b341bc20ba969a3d48e41bdd0736c47173e63f32a62117c346ad639d0096b0",
+  "tested_driver_Python": "3.11.15",
+  "frozen_source_bindings": {
+    "main": 379,
+    "original_frozen_evaluation": 549,
+    "SkillCommit": 648,
+    "distinct_files": 816,
+    "source_workspace_mismatches": 0
+  },
+  "unit_tests": {
+    "cases": 634,
+    "passed": 629,
+    "failed": 5,
+    "warnings": 43,
+    "elapsed_seconds": 91.25,
+    "exit_code": 1
+  },
+  "failed_legacy_AST_guards": [
+    {
+      "target": "experiments/openexempt_online.py:Online.answer",
+      "expected": "2b71d59251519b7fe784a02d2b33ede7688c6a0f949a064070496a0a28bd3f7d",
+      "actual": "690d647349aafdda0f73ca707f7c646834dca82ce96c4b1361a40ec90fd5bfef"
+    },
+    {
+      "target": "experiments/openexempt_online.py:actor_payload",
+      "expected": "3d1a7601b64e18deb1c52231cd6688bd350c461b535cfffa4d2c06707dab0f19",
+      "actual": "dc52161f36d42ab87fd734f32e154134b6906723f618db7fc49d65bd5b0c649b"
+    },
+    {
+      "target": "experiments/openexempt_online.py:acceptance",
+      "expected": "07af66cc8a75b7a83b6f9594896597a2fe2816fe3e30bf459f125b2ac0304d73",
+      "actual": "ef7bce70cbb83359acf4c0083ee02906c508d09a77b45bc3de3691f89a023268"
+    },
+    {
+      "target": "experiments/openexempt_online.py:task_admission",
+      "expected": "6351a172b4f06c6f5f7f8d204e017bc9cdde9c6850bf1ad621eb1bd7cc00de13",
+      "actual": "fbe54a828bfa221ec325e5ddbf38b889efa4c9d732788549549bbc2b7e5647a5"
+    },
+    {
+      "target": "experiments/openexempt_online.py:legal_scope_admission",
+      "expected": "2e977b21fc3505a662e96b1535247fe429e08277ef0c2e3a73b3720d29bca300",
+      "actual": "4efee318039a5bb273fdce1e8713292a4708bef62050f789b264c2333f98937e"
+    }
+  ],
+  "same_failures_reproduced_in_pre_move_source_snapshot": true,
+  "relevant_source_file_sha256": {
+    "tests/test_phase_dispatch.py": "0fe8fca4459e1e9418b4126f898d9ddc28077a3b0b7428df1175cfe14796e220",
+    "experiments/openexempt_online.py": "75c60a39c26b299dd590ad10eaccbeb546bc5a15c3fa33b37a7725a5b034e0a7"
+  },
+  "saved_prediction_regrading": {
+    "records": 2816,
+    "score_mismatch_count": 0,
+    "aggregate_mismatch_count": 0,
+    "network_disabled": true,
+    "model_or_teacher_calls": 0
+  },
+  "raw_response_audit": {
+    "raw_response_records": 2816,
+    "unique_raw_paths": 2816,
+    "unique_response_ids": 2816,
+    "raw_HTTP_submission_decode_usage_errors": [],
+    "pregrading_prediction_vs_scored_record_errors": [],
+    "train_sources": 128,
+    "test_sources": 128,
+    "train_test_source_overlap": 0,
+    "main_teacher_response_files": 16,
+    "network_disabled": true,
+    "new_model_calls": 0
+  },
+  "inference_service": {
+    "health_HTTP": 200,
+    "existing_process_not_restarted": true
+  },
+  "package_version": "0.2.0",
+  "Git_object_integrity_exit_code": 0,
+  "scientific_source_and_test_constants_modified_for_this_update": false,
+  "new_experiments_or_model_generations": 0,
+  "status": "Historical-source integrity preserved; the full test suite is not all green because five legacy AST pins differ from the frozen v6 implementation."
+}
+

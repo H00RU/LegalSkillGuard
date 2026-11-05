@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "request_sha256": "6c4c9c642acca58f71eca795388625d3ceb0807c83f89d53579d4f2f29d351b5",
+  "response_sha256": "6fec29b0e4ab692dd401215611cc698809280c81883be9cc21f9863ace35741a",
+  "model": "gpt-5.6-sol",
+  "purpose": "openexempt_EV_atomic_units_TRAIN32_20261105_run01_atomic_rule_units",
+  "value": {
+    "delta": {
+      "operations": [
+        {
+          "operation": "UPDATE",
+          "target_ids": [
+            "EC:pennsylvania-general-monetary"
+          ],
+          "skill": {
+            "id": "EC:pennsylvania-general-monetary",
+            "hypothesis_ids": [
+              "EC",
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EC"
+                  ],
+                  "when": "When PENNSYLVANIA is allowable and the asset is property of the judgment debtor.",
+                  "procedure": "Begin the Pennsylvania scan for every asset by adding 42 Pa. Cons. Stat. § 8123, without comparing the asset's value with $300. It applies independently to real or personal property and remains beside every qualifying federal or specific Pennsylvania exemption; $300 limits protection but not EC eligibility. Then test the specific alternatives.\nExecution example: Hypothetically, an appliance worth more than $300 still retains § 8123 beside its qualifying federal citations. A household textile that is not worn as clothing does not receive § 8124(a)(1).",
+                  "avoid_when": "Apply § 8124(a)(1) only to wearing apparel; do not classify firearms, jewelry, or other merely wearable or carried objects as wearing apparel."
+                },
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "When PENNSYLVANIA is allowable and the asset is property of the judgment debtor.",
+                  "procedure": "Add 42 Pa. Cons. Stat. § 8123 once, independently of every federal or specific Pennsylvania alternative. For the whole named asset use the smaller of its value and $300 for one debtor or $600 for two equal joint debtors; determine debtor count before choosing the ceiling.",
+                  "avoid_when": "Do not omit § 8123 because another exemption applies, use $600 for a single debtor, emit both debtor-count amounts, or copy a ceiling above the asset value."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "PENNSYLVANIA"
+            }
+          },
+          "source_case_ids": [
+            228,
+            241,
+            243
+          ],
+          "rationale": "The old EV projection coupled the universal § 8123 calculation with four narrow category tests. Despite stating the correct rules, the actor repeatedly selected the wrong debtor-count ceiling or copied it above asset value. This update leaves EC byte-identical and makes the independently triggered general exemption one EV rule unit."
+        },
+        {
+          "operation": "CREATE",
+          "target_ids": [],
+          "skill": {
+            "id": "EV:pennsylvania-wearing-apparel",
+            "hypothesis_ids": [
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "When PENNSYLVANIA is allowable and the asset is actual clothing worn as apparel.",
+                  "procedure": "Add 42 Pa. Cons. Stat. § 8124(a)(1) independently and report the whole named asset's value because the supplied provision states no dollar ceiling.",
+                  "avoid_when": "Do not apply this alternative to an animal, vehicle, firearm, musical instrument, household textile, jewelry, or another carried or household object that is not clothing."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "PENNSYLVANIA"
+            }
+          },
+          "source_case_ids": [
+            228,
+            232,
+            235,
+            243
+          ],
+          "rationale": "Repeated false § 8124(a)(1) claims on nonclothing property and an incorrect capped amount on qualifying apparel show that the apparel decision was operationally hidden inside the overloaded Pennsylvania block. The new unit places its factual trigger, uncapped whole-asset valuation, and local exclusions together."
+        },
+        {
+          "operation": "CREATE",
+          "target_ids": [],
+          "skill": {
+            "id": "EV:pennsylvania-narrow-particular-property",
+            "hypothesis_ids": [
+              "EV"
+            ],
+            "guidance": {
+              "by_task": [
+                {
+                  "tasks": [
+                    "EV"
+                  ],
+                  "when": "When PENNSYLVANIA is allowable and an asset is tested against the narrow particular-property categories other than wearing apparel.",
+                  "procedure": "Add § 8124(a)(2) only for a Bible or school book, (a)(3) only for a sewing machine belonging to a seamstress or used and owned by a private family and not kept for sale or hire, and (a)(4) only for an actual military uniform or accoutrement of a commissioned or enlisted person. Each qualifying alternative protects the whole named asset value because the supplied provisions state no dollar ceiling.",
+                  "avoid_when": "Do not emit these citations with zero amounts or infer them from a musical instrument, ordinary furniture, a vehicle, an animal, or another object lacking the stated category facts."
+                }
+              ],
+              "operators": [],
+              "jurisdiction": "PENNSYLVANIA"
+            }
+          },
+          "source_case_ids": [
+            205
+          ],
+          "rationale": "The actor falsely treated a musical instrument as a school book, while a rejected replay emitted every narrow provision with zero amounts. Extracting these exceptional categories prevents them from competing with the universal § 8123 calculation."
+        }
+      ],
+      "noop_reason": null
+    },
+    "diagnoses": [
+      {
+        "skill_id": "EC:pennsylvania-general-monetary",
+        "task": "EV",
+        "kind": "SKILL_DEFECT",
+        "rule_anchor": "Add 42 Pa. Cons. Stat. § 8123 independently to every asset alongside all qualifying federal or specific Pennsylvania alternatives. Use the smaller of the whole asset value and $300 for one debtor or $600 for two equal joint debtors; determine which ceiling applies from the stated debtor count. Add § 8124(a)(1) only for actual wearing apparel, (a)(2) only for a Bible or school book, (a)(3) only for the specified family or seamstress sewing machine, and (a)(4) only for an actual military uniform or accoutrement.",
+        "source_case_ids": [
+          205,
+          228,
+          232,
+          235,
+          241,
+          243
+        ]
+      },
+      {
+        "skill_id": "EV:pennsylvania-wearing-apparel",
+        "task": "EV",
+        "kind": "SKILL_DEFECT",
+        "rule_anchor": "",
+        "source_case_ids": [
+          228,
+          232,
+          235,
+          243
+        ]
+      },
+      {
+        "skill_id": "EV:pennsylvania-narrow-particular-property",
+        "task": "EV",
+        "kind": "SKILL_DEFECT",
+        "rule_anchor": "",
+        "source_case_ids": [
+          205
+        ]
+      }
+    ]
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-05T01:10:23.696946+00:00",
+    "finished_at": "2026-11-05T01:11:41.033168+00:00",
+    "elapsed_seconds": 77.336,
+    "returncode": 0,
+    "event_log_sha256": "267ccc49713e31cfb7a2c9cbba314214dbc835a7ccdaf147e5654250e40626c2",
+    "tool_events_detected": false,
+    "budget_reservation": {
+      "sequence": 2579,
+      "new_epoch_sequence": 1354,
+      "reserved_at": "2026-11-05T01:10:23.698893+00:00",
+      "model": "gpt-5.6-sol",
+      "purpose": "openexempt_EV_atomic_units_TRAIN32_20261105_run01_atomic_rule_units",
+      "request_sha256": "6c4c9c642acca58f71eca795388625d3ceb0807c83f89d53579d4f2f29d351b5",
+      "attempt": 1
+    },
+    "usage": {
+      "input_tokens": 125816,
+      "cached_input_tokens": 0,
+      "output_tokens": 3534,
+      "reasoning_output_tokens": 2347
+    },
+    "estimated_credits": null
+  }
+}

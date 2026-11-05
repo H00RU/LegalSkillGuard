@@ -1,0 +1,822 @@
+{
+  "scope": "Previously saved TRAIN observations and completed bounded pilot only; no model or network calls",
+  "definition": "correct-to-wrong excludes any same-asset/same-citation pre-existing target error and all invalid responses; namespaces use existing public citation parser",
+  "ratio_signatures_are_descriptive_not_proof_of_joint_rule_cause": true,
+  "steps": [
+    {
+      "step": "b3_candidate2",
+      "changed_EV_namespaces": [
+        "FEDERAL",
+        "WISCONSIN"
+      ],
+      "counts": {
+        "wrong_value_target_claims": 13,
+        "observed_approximately_half_target": 4,
+        "previously_correct_claim_now_wrong_value": 8,
+        "previously_correct_now_wrong_in_unchanged_namespace": 7,
+        "previously_correct_now_wrong_teacher_saw_source": 4
+      },
+      "introduced_wrong_value_claims": [
+        {
+          "case_id": 192,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "torch red 2024 Chevrolet Corvette Stingray Coupe",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 192,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "citrine cocktail ring set in yellow gold",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 193,
+          "is_current": false,
+          "citation": "Or. Rev. Stat. § 18.345(1)(f)",
+          "asset": "electric can opener with magnet and cord storage",
+          "expected_value": 22.0,
+          "observed_values": [
+            3000.0
+          ],
+          "namespace": "OREGON",
+          "namespace_unchanged": true,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 200,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "set of bath towels made from Egyptian cotton",
+          "expected_value": 175.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 205,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "concert-grade oboe (French key system)",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 208,
+          "is_current": false,
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "asset": "handmade quilt featuring patchwork patterns and embroidery",
+          "expected_value": 475.0,
+          "observed_values": [
+            700.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 211,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "titanium engagement band with brushed finish and beveled edges",
+          "expected_value": 221.0,
+          "observed_values": [
+            600.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 228,
+          "is_current": true,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "stainless steel refrigerator with French doors and bottom freezer drawer",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": true
+        }
+      ]
+    },
+    {
+      "step": "b4_candidate2",
+      "changed_EV_namespaces": [
+        "ARIZONA",
+        "PENNSYLVANIA"
+      ],
+      "counts": {
+        "wrong_value_target_claims": 34,
+        "observed_approximately_half_target": 11,
+        "previously_correct_claim_now_wrong_value": 13,
+        "previously_correct_now_wrong_teacher_saw_source": 12,
+        "previously_correct_now_wrong_in_unchanged_namespace": 2
+      },
+      "introduced_wrong_value_claims": [
+        {
+          "case_id": 198,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "1999 Chevrolet Camaro, bright purple, Z28 coupe (112k mi)",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 198,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "circular saw for Debtor's carpentry business, including replacement blades",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 200,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "set of bath towels made from Egyptian cotton",
+          "expected_value": 175.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 205,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "two-bedroom, two-bath condominium (owner-occupied) on the third floor with 1,200 square feet of living space",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 205,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "concert-grade oboe (French key system)",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 211,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "titanium engagement band with brushed finish and beveled edges",
+          "expected_value": 221.0,
+          "observed_values": [
+            600.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 228,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "hand-knotted wool area rug measuring 9x12 feet with Persian motif",
+          "expected_value": 325.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 235,
+          "is_current": true,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "65-inch OLED television with wall mount and surround sound setup",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 235,
+          "is_current": true,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "asset": "small mountain cabin used year-round as the principal residence",
+          "expected_value": 30850.0,
+          "observed_values": [
+            15425.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": true,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 235,
+          "is_current": true,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "small mountain cabin used year-round as the principal residence",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 241,
+          "is_current": true,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "asset": "ice blue metallic 2022 Chevrolet Bolt EV hatchback",
+          "expected_value": 24925.0,
+          "observed_values": [
+            15425.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": true,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 241,
+          "is_current": true,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "ice blue metallic 2022 Chevrolet Bolt EV hatchback",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 241,
+          "is_current": true,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "two-seat entryway bench with hidden shoe storage",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        }
+      ]
+    },
+    {
+      "step": "b5_candidate2",
+      "changed_EV_namespaces": [
+        "ILLINOIS"
+      ],
+      "counts": {
+        "wrong_value_target_claims": 29,
+        "observed_approximately_half_target": 2,
+        "observed_approximately_twice_target": 2
+      },
+      "introduced_wrong_value_claims": []
+    },
+    {
+      "step": "b6_candidate2",
+      "changed_EV_namespaces": [
+        "FEDERAL"
+      ],
+      "counts": {
+        "wrong_value_target_claims": 37,
+        "observed_approximately_twice_target": 6,
+        "previously_correct_claim_now_wrong_value": 23,
+        "observed_approximately_half_target": 6,
+        "previously_correct_now_wrong_teacher_saw_source": 6,
+        "previously_correct_now_wrong_in_unchanged_namespace": 12
+      },
+      "introduced_wrong_value_claims": [
+        {
+          "case_id": 192,
+          "is_current": false,
+          "citation": "11 U.S.C. § 522(d)(2)",
+          "asset": "torch red 2024 Chevrolet Corvette Stingray Coupe",
+          "expected_value": 4450.0,
+          "observed_values": [
+            8900.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": false,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 193,
+          "is_current": false,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "asset": "wolf gray 2024 Kia Telluride SX-Prestige crossover",
+          "expected_value": 30850.0,
+          "observed_values": [
+            15425.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 200,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "set of bath towels made from Egyptian cotton",
+          "expected_value": 175.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 205,
+          "is_current": false,
+          "citation": "11 U.S.C. § 522(d)(1)",
+          "asset": "two-bedroom, two-bath condominium (owner-occupied) on the third floor with 1,200 square feet of living space",
+          "expected_value": 27900.0,
+          "observed_values": [
+            55800.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": false,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 205,
+          "is_current": false,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "asset": "concert-grade oboe (French key system)",
+          "expected_value": 2415.0,
+          "observed_values": [
+            1715.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": false,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 208,
+          "is_current": false,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "asset": "four-bedroom, three-bath brick ranch homestead with a finished basement and a wood-burning fireplace",
+          "expected_value": 30850.0,
+          "observed_values": [
+            15425.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": false,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 211,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "titanium engagement band with brushed finish and beveled edges",
+          "expected_value": 221.0,
+          "observed_values": [
+            600.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 218,
+          "is_current": false,
+          "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+          "asset": "pet crate suitable for a medium-sized dog with locking door",
+          "expected_value": 400.0,
+          "observed_values": [
+            470.0
+          ],
+          "namespace": "OREGON",
+          "namespace_unchanged": true,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 228,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "hand-knotted wool area rug measuring 9x12 feet with Persian motif",
+          "expected_value": 325.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 228,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "stainless steel refrigerator with French doors and bottom freezer drawer",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 232,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "amethyst ring in 10-karat gold prong setting",
+          "expected_value": 300.0,
+          "observed_values": [
+            600.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 232,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "domestic conure parrot",
+          "expected_value": 300.0,
+          "observed_values": [
+            600.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 232,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "reclining gaming chair with neck and lumbar support pillows",
+          "expected_value": 300.0,
+          "observed_values": [
+            600.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 232,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "stellar white 2025 Lucid Air Grand Touring electric sedan, 900 miles",
+          "expected_value": 300.0,
+          "observed_values": [
+            600.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 235,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "65-inch OLED television with wall mount and surround sound setup",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": true,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 235,
+          "is_current": false,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "asset": "small mountain cabin used year-round as the principal residence",
+          "expected_value": 30850.0,
+          "observed_values": [
+            15425.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": false,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 237,
+          "is_current": false,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "asset": "front-load washer-dryer combo with steam setting",
+          "expected_value": 1275.0,
+          "observed_values": [
+            700.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": false,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 241,
+          "is_current": false,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "asset": "ice blue metallic 2022 Chevrolet Bolt EV hatchback",
+          "expected_value": 24925.0,
+          "observed_values": [
+            30850.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": false,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 241,
+          "is_current": false,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "asset": "two-seat entryway bench with hidden shoe storage",
+          "expected_value": 1400.0,
+          "observed_values": [
+            15425.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": false,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 241,
+          "is_current": false,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "asset": "set of stacking rings made from mixed metals including rose gold and silver",
+          "expected_value": 433.0,
+          "observed_values": [
+            15425.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": false,
+          "teacher_saw_source": false
+        },
+        {
+          "case_id": 267,
+          "is_current": true,
+          "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+          "asset": "beige 1995 Toyota Camry LE (168,000 miles)",
+          "expected_value": 400.0,
+          "observed_values": [
+            2200.0
+          ],
+          "namespace": "OREGON",
+          "namespace_unchanged": true,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 273,
+          "is_current": true,
+          "citation": "Or. Rev. Stat. § 18.345(1)(p)",
+          "asset": "stand mixer with 10-speed control and additional pasta roller attachment",
+          "expected_value": 175.0,
+          "observed_values": [
+            400.0
+          ],
+          "namespace": "OREGON",
+          "namespace_unchanged": true,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 275,
+          "is_current": true,
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "asset": "kitchen scale with tare function and digital readout",
+          "expected_value": 37.0,
+          "observed_values": [
+            700.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        }
+      ]
+    },
+    {
+      "step": "minimal_value_binding",
+      "changed_EV_namespaces": [
+        "PENNSYLVANIA"
+      ],
+      "counts": {
+        "wrong_value_target_claims": 25,
+        "previously_correct_claim_now_wrong_value": 12,
+        "previously_correct_now_wrong_in_unchanged_namespace": 4,
+        "previously_correct_now_wrong_teacher_saw_source": 12,
+        "observed_approximately_half_target": 8
+      },
+      "introduced_wrong_value_claims": [
+        {
+          "case_id": 192,
+          "is_current": false,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "asset": "citrine cocktail ring set in yellow gold",
+          "expected_value": 1110.0,
+          "observed_values": [
+            30850.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": true,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 228,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "hand-knotted wool area rug measuring 9x12 feet with Persian motif",
+          "expected_value": 325.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 228,
+          "is_current": false,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "stainless steel refrigerator with French doors and bottom freezer drawer",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 235,
+          "is_current": true,
+          "citation": "11 U.S.C. § 522(d)(3)",
+          "asset": "modular bookshelf system made of powder-coated steel and pine",
+          "expected_value": 148.0,
+          "observed_values": [
+            700.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": true,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 235,
+          "is_current": true,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "modular bookshelf system made of powder-coated steel and pine",
+          "expected_value": 148.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 235,
+          "is_current": true,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "65-inch OLED television with wall mount and surround sound setup",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 235,
+          "is_current": true,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "asset": "small mountain cabin used year-round as the principal residence",
+          "expected_value": 30850.0,
+          "observed_values": [
+            15425.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": true,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 235,
+          "is_current": true,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "small mountain cabin used year-round as the principal residence",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 235,
+          "is_current": true,
+          "citation": "11 U.S.C. § 522(d)(5)",
+          "asset": "forest green 1998 Chevrolet Silverado 1500 Extended Cab (182k miles)",
+          "expected_value": 3540.0,
+          "observed_values": [
+            15425.0
+          ],
+          "namespace": "FEDERAL",
+          "namespace_unchanged": true,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 235,
+          "is_current": true,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "forest green 1998 Chevrolet Silverado 1500 Extended Cab (182k miles)",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 241,
+          "is_current": true,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "ice blue metallic 2022 Chevrolet Bolt EV hatchback",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        },
+        {
+          "case_id": 241,
+          "is_current": true,
+          "citation": "42 Pa. Cons. Stat. § 8123",
+          "asset": "two-seat entryway bench with hidden shoe storage",
+          "expected_value": 600.0,
+          "observed_values": [
+            300.0
+          ],
+          "namespace": "PENNSYLVANIA",
+          "namespace_unchanged": false,
+          "teacher_saw_source": true
+        }
+      ]
+    },
+    {
+      "step": "independent_output_illustration",
+      "changed_EV_namespaces": [
+        "ARIZONA"
+      ],
+      "counts": {
+        "wrong_value_target_claims": 18,
+        "observed_approximately_half_target": 1,
+        "observed_approximately_twice_target": 2
+      },
+      "introduced_wrong_value_claims": []
+    }
+  ]
+}
