@@ -1,12 +1,18 @@
 # LegalSkillGuard
 
-Research on legal skill evolution with a fixed language-model executor.
+The maintained legal skill-learning project is on the [research branch](https://github.com/H00RU/LegalSkillGuard/tree/backup/legal-skill-evolve-20261101).
 
-The current OpenExempt EC/EV study, manuscripts, results and reproducibility materials are maintained in the [research snapshot](https://github.com/H00RU/LegalSkillGuard/tree/backup/legal-skill-evolve-20261101).
+- [Start: project map](https://github.com/H00RU/LegalSkillGuard/blob/backup/legal-skill-evolve-20261101/PROJECT_MAP.md)
+- [Current stage handoff](https://github.com/H00RU/LegalSkillGuard/blob/backup/legal-skill-evolve-20261101/docs/handoff_next_stage.md)
+- [English v16 paper and separate Chinese manuscript](https://github.com/H00RU/LegalSkillGuard/blob/backup/legal-skill-evolve-20261101/paper/README.md)
+- [Complete frozen comparison](https://github.com/H00RU/LegalSkillGuard/blob/backup/legal-skill-evolve-20261101/paper/tables/utility_frozen_results_with_skillcommit_20261104.json)
+- [Newly archived TRAIN diagnostics](https://github.com/H00RU/LegalSkillGuard/blob/backup/legal-skill-evolve-20261101/recovery/updates/20261105_handoff/README.md)
 
-- [Current manuscript index](https://github.com/H00RU/LegalSkillGuard/blob/backup/legal-skill-evolve-20261101/paper/README.md)
-- [Source map](https://github.com/H00RU/LegalSkillGuard/blob/backup/legal-skill-evolve-20261101/PROJECT_MAP.md)
-- [Frozen comparison](https://github.com/H00RU/LegalSkillGuard/blob/backup/legal-skill-evolve-20261101/paper/tables/utility_frozen_results_with_skillcommit_20261104.json)
-- [Supplementary Data 1](https://github.com/H00RU/LegalSkillGuard/tree/backup/legal-skill-evolve-20261101/artifacts/research/manuscript_revision_astra_20261104/Supplementary_Data_1_20261104.zip.parts)
+Clone the maintained project explicitly:
 
-This branch retains the earlier legal-consultation code snapshot. The research branch contains the later classification and valuation study. Models, tasks and results should be interpreted under their respective recorded configurations.
+```bash
+git clone --single-branch --branch backup/legal-skill-evolve-20261101 https://github.com/H00RU/LegalSkillGuard.git
+```
+
+This default branch retains the earlier legal-consultation snapshot and subsequent review material. Its old code is not the OpenExempt-v6 implementation or a current launch instruction. The research branch preserves the completed study and identifies the planned, not-yet-implemented mixed-dataset stage. No branch history is rewritten by this navigation update.
+
