@@ -1,5 +1,7 @@
 # 多任务规则推理研究下一阶段方案
 
+> **已被LSG-RR-v2替代（2026-11-05），仅供历史追溯，不得执行下文旧训练/goal指令。** 当前请读取[v2完整方案](legalskillguard_rule_reasoning_plan_v2_20261105.md)、[v2配置](legalskillguard_rule_reasoning_protocol_v2.json)和[v2服务器交接](legalskillguard_server_handoff_v2.md)。本次只实现与离线检查；模型小试、thinking实测、完整建库和冻结测试均未启动，旧预算不构成当前实验授权。以下保留历史正文。
+
 > **已被替代（2026-11-05，LSG-RR-v1）。** 当前执行请读取[完整定稿方案](legalskillguard_rule_reasoning_execution_plan_v1_20261105.md)、[机器配置](legalskillguard_rule_reasoning_protocol_v1.json)和[第一阶段 goal 交接指令](legalskillguard_server_handoff_v1.md)。本文保留为历史草案，其中候选方法、数据配额、实验配置与接续指令不再作为当前执行依据；以下为未删改的历史正文。
 
 日期：2026年11月5日

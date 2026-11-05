@@ -1,5 +1,7 @@
 # 服务器 Codex 第一阶段 goal 接续指令
 
+> **已被LSG-RR-v2替代（2026-11-05），仅供历史追溯，不得执行下文旧训练/goal指令。** 当前请读取[v2完整方案](legalskillguard_rule_reasoning_plan_v2_20261105.md)、[v2配置](legalskillguard_rule_reasoning_protocol_v2.json)和[v2服务器交接](legalskillguard_server_handoff_v2.md)。本次只实现与离线检查；模型小试、thinking实测、完整建库和冻结测试均未启动，旧预算不构成当前实验授权。以下保留历史正文。
+
 版本：LSG-RR-v1，2026-11-05。以下文件是当前执行依据，替代[旧草案](multitask_rule_reasoning_next_stage_20261105.md)中的候选设计和交接指令；旧文件保留历史记录。模型权重冻结，“训练”指外部技能建库。
 
 - [完整方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legalskillguard_rule_reasoning_execution_plan_v1_20261105.md)
