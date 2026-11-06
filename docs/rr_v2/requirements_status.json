@@ -1,159 +1,150 @@
 {
-  "completion_proven": false,
-  "current_binding": {
-    "code_hash": "47cddfaed75c295bf7655a7a2167e940db85c7c2b7520625a9534e746baa6b14",
-    "config_hash": "ce3f15a5e0544b1dab5c84bfb7a4a122c7f072bf42a9efa60c4f8f4f4b3946a3",
+  "captured_utc": "2026-11-06T13:25:18.307072+00:00",
+  "binding": {
+    "code_hash": "88770943aff923680fb8a50561c1e844222dd5806beff032ef0db99b20e88afc",
+    "config_hash": "d63cc65096cde35e10cf49ae012fcdf62ef66e8efb3b3bc43248e57e6f27bcaa",
     "data_hash": "5b7683f05c921598c4bab6dc29834df3dc7595e3795d46551732446efa3eacc0",
     "source_manifest_hash": "ef0f419d13f5219f0faeb97543b52d27be8c50a67243103e542013dc24ae3ca4"
   },
-  "goal_status_verified": "historical_tool_complete_unchanged_no_reopen_api",
-  "latest_execution_policy": "docs/rr_v2/original_budget_preflight_authorization.json",
+  "engineering_acceptance_complete": true,
+  "goal_status_at_capture": "active",
+  "completion_proven": false,
   "requirements": [
     {
-      "evidence_or_gap": "reports/legalskillguard_rr_v2_readiness_review_20261106.md",
-      "id": "goal_registration",
-      "status": "same original goal; tool historical complete retained; engineering acceptance not satisfied; no recreate/restart"
+      "id": "current_scope_and_no_new_goal",
+      "status": "verified",
+      "finding": "既有Goal、分支及预算接续；无新来源/种子/主训练",
+      "evidence": [
+        "docs/CURRENT_GOAL.md",
+        "reports/rr_v2_evidence/method_gap_repair/preservation_and_cost.json"
+      ]
     },
     {
-      "evidence_or_gap": "docs/rr_v2/design_inputs_receipt.json",
-      "id": "design_inputs_and_novelty",
-      "status": "verified"
+      "id": "A_production_residuals",
+      "status": "verified",
+      "finding": "从公开文本与已接纳IR重建有限理论，未知作用范围保留TOP",
+      "evidence": [
+        "legal_skill_guard/rr/source_completion.py",
+        "legal_skill_guard/rr/public_horn.py",
+        "tests/test_rr_method_gaps.py"
+      ]
     },
     {
-      "evidence_or_gap": "docs/rr_v2/baseline_receipt.json",
-      "id": "independent_baseline_preservation",
-      "status": "verified"
+      "id": "A_actual_parser_and_batch",
+      "status": "verified",
+      "finding": "实际业务入口推导并发送XOR/PW联合批次，第二次解析及语义稳定",
+      "evidence": [
+        "legal_skill_guard/rr/compilation.py",
+        "reports/rr_v2_evidence/method_gap_repair/backend.json"
+      ]
     },
     {
-      "evidence_or_gap": "reports/legalskillguard_rr_v2_readiness_review_20261106.md",
-      "id": "method_A_components",
-      "status": "kernel and four stable main paths valid; BLOCKED: production residual-to-separation bridge and actual token cost absent"
+      "id": "A_actual_cost",
+      "status": "verified",
+      "finding": "实际序列化请求、一次调用及去重上下文token，local/serving tokens逐字一致",
+      "evidence": [
+        "reports/rr_v2_evidence/method_gap_repair/backend.json"
+      ]
     },
     {
-      "evidence_or_gap": "reports/legalskillguard_rr_v2_readiness_review_20261106.md",
-      "id": "method_B_components",
-      "status": "four real collision-driven entity connectors validated;9 field-only3 no-pattern4 no-oracle; other operators offline only, no new all-live requirement"
+      "id": "five_bank_contract",
+      "status": "verified",
+      "finding": "五库有界程序体+相同连接器/binding schema；实际125失败回归及126新wire通过",
+      "evidence": [
+        "legal_skill_guard/rr/strict_contract.py",
+        "tests/fixtures/rr_actual_failure_125.json",
+        "artifacts/rr_v2_preflight/method_gap_repair_v2/live/wire_contract.json"
+      ]
     },
     {
-      "evidence_or_gap": "reports/rr_v2_evidence/five_adapter_audit.json",
-      "id": "five_adapters",
-      "status": "verified"
+      "id": "B_other_supported_paths",
+      "status": "verified",
+      "finding": "OE/RA/SARA actual typed候选入口，区分输入缺失/无法重绑/执行后无有效候选；SARA人工正例与额度执行",
+      "evidence": [
+        "legal_skill_guard/rr/typed_learning.py",
+        "tests/test_rr_method_gaps.py"
+      ]
     },
     {
-      "evidence_or_gap": "reports/rr_v2_evidence/data_manifest.json",
-      "id": "128_40_160_split",
-      "status": "verified"
+      "id": "B_actual_primitive_IO",
+      "status": "verified",
+      "finding": "使用实际I/O碰撞，纠正22为12、四条有效为三条；不能冒充字段摘要或强制H减少",
+      "evidence": [
+        "reports/rr_v2_evidence/method_gap_repair/historical_core.json",
+        "legal_skill_guard/rr/source_learning.py"
+      ]
     },
     {
-      "evidence_or_gap": "reports/rr_v2_evidence/data_manifest.json",
-      "id": "same_fixed_twenty_sources",
-      "status": "unchanged_no_new_sources_or_seeds"
+      "id": "real_primary_A_B",
+      "status": "verified",
+      "finding": "原固定PW13新OFF真实主路径，A/B分别执行及语义通过，不计CNLI回退成功",
+      "evidence": [
+        "artifacts/rr_v2_preflight/method_gap_repair_v2/live/primary_path.json"
+      ]
     },
     {
-      "evidence_or_gap": "semantic_preflight/final_metrics.json",
-      "id": "native_scoring",
-      "status": "native OE schema/multiset exact scoring; official F1 unchanged; actual20 outcomes and old40 rescore verified"
+      "id": "teacher_current_material",
+      "status": "verified",
+      "finding": "变化后的首16材料新汇总，已验证模式接纳，原记录仍计费",
+      "evidence": [
+        "artifacts/rr_v2_preflight/method_gap_repair_v2/current_material/teacher_batch1.json"
+      ]
     },
     {
-      "evidence_or_gap": "reports/legalskillguard_rr_v2_readiness_review_20261106.md",
-      "id": "budget_and_repair_migration",
-      "status": "original6000/20;124 executor3 teacher charged; prior rows/meta/oracle unchanged; review0 new calls"
+      "id": "offline_and_restore",
+      "status": "verified",
+      "finding": "154相关检查、78解码、20来源当前算法恢复及120控制流，零新增模型/oracle",
+      "evidence": [
+        "reports/rr_v2_evidence/offline_latest.json",
+        "reports/rr_v2_evidence/method_gap_repair/current_restore.json"
+      ]
     },
     {
-      "evidence_or_gap": "learning.py ledger.py",
-      "id": "source_specific_oracle_view_accounting",
-      "status": "failed_view_retained_and_quarantined_total_four_slots_verified"
+      "id": "data_isolation",
+      "status": "verified",
+      "finding": "原TRAIN、manifest与数据hash未变；调试只访问原20TRAIN与原人工微例",
+      "evidence": [
+        "reports/rr_v2_evidence/data_manifest.json",
+        "reports/rr_v2_evidence/method_gap_repair/preservation_and_cost.json"
+      ]
     },
     {
-      "evidence_or_gap": "semantic_preflight/restore_after_scope_fix.json",
-      "id": "freeze_resume",
-      "status": "current20 restore blocked network/subprocess; zero new models/oracles"
+      "id": "original_ledger_preservation",
+      "status": "verified",
+      "finding": "原127调用/111meta/50oracle完整，新增3E1T且总数127/4、pending0",
+      "evidence": [
+        "reports/rr_v2_evidence/method_gap_repair/request_ledger.json",
+        "reports/rr_v2_evidence/method_gap_repair/preservation_and_cost.json"
+      ]
     },
     {
-      "evidence_or_gap": "example_synthesis.py formal.py routing.py",
-      "id": "six_arm_shared_material",
-      "status": "formal_MB_ordinary_synthesis_and_same_material_projection_connected_offline_verified"
+      "id": "formal_hooks_and_comparators",
+      "status": "verified",
+      "finding": "六臂共享材料、MB普通对照、当前就绪绑定及未来正式恢复入口，当前开关全部关闭",
+      "evidence": [
+        "legal_skill_guard/rr/formal.py",
+        "legal_skill_guard/rr/example_synthesis.py",
+        "reports/rr_v2_evidence/formal_readiness_method_gaps.json"
+      ]
     },
     {
-      "evidence_or_gap": "semantic_preflight/wire_replay.json",
-      "id": "offline_acceptance",
-      "status": "144 passed;12 schemas73 token cases;36 engineering request replays plus4 exact fresh A/B primary paths"
+      "id": "evidence_and_handoff",
+      "status": "verified",
+      "finding": "当前报告、逐来源与费用清单，旧报告结论按历史保留",
+      "evidence": [
+        "reports/legalskillguard_rr_v2_method_gap_repair_20261106.md",
+        "reports/rr_v2_evidence/method_gap_repair/source_status.json"
+      ]
     },
     {
-      "evidence_or_gap": "live session97239; actual research_ledger.sqlite3; thinking_parser_fix/",
-      "id": "real_thinking_comparison",
-      "status": "verified_original40_plus8_targeted_calls_all_preserved"
-    },
-    {
-      "evidence_or_gap": "reports/rr_v2_evidence/thinking_completion.json",
-      "id": "thinking_selection",
-      "status": "verified_ON_retained_by_locked_zero_harm_rule"
-    },
-    {
-      "evidence_or_gap": "semantic_preflight/source_status.json",
-      "id": "real_twenty_source_pilot",
-      "status": "20 current records;24 new targeted requests plus8 qualified source replays; unresolved retained"
-    },
-    {
-      "evidence_or_gap": "artifacts/rr_v2_preflight/semantic_common_path_v3/teacher_batch1.json",
-      "id": "real_teacher_batch_summary",
-      "status": "current first16 actual summary accepted4 existing patterns; last4 pending; total3 charged incl old failure"
-    },
-    {
-      "evidence_or_gap": "reports/legalskillguard_rr_v2_readiness_review_20261106.md",
-      "id": "actual_request_token_cost_time_accounting",
-      "status": "124 executor and3 teacher charged; old token/cost records preserved; review adds0 model cost"
-    },
-    {
-      "evidence_or_gap": "docs/rr_v2/REPRODUCE.md",
-      "id": "code_commits_commands_data_config_hashes",
-      "status": "current47cddfae binding; engineering077a748c and fresh corec5aaeb53 bindings preserved"
-    },
-    {
-      "evidence_or_gap": "reports/legalskillguard_rr_v2_readiness_review_20261106.md",
-      "id": "formal_readiness",
-      "status": "NOT READY: A production planning/cost and shared interface schema-parser mismatch; historical artifact-consistency receipt retained"
-    },
-    {
-      "evidence_or_gap": "protocol and config flags false",
-      "id": "no_main_training_or_frozen_test",
-      "status": "verified_currently_disabled"
-    },
-    {
-      "evidence_or_gap": "reports/rr_v2_evidence/native_contract_omission.json",
-      "id": "native_output_contract_exposed",
-      "status": "verified_real_8_of8_OE_native_shapes"
-    },
-    {
-      "evidence_or_gap": "reports/legalskillguard_rr_v2_readiness_review_20261106.md",
-      "id": "strict_executable_proposal_contract",
-      "status": "NL strict repair24:21 schema-valid19 executable0 full checks; generic CNLI wire accepts3 malformed interface shapes rejected by parser; unresolved"
-    },
-    {
-      "evidence_or_gap": "reports/legalskillguard_rr_v2_readiness_review_20261106.md",
-      "id": "current_full_pipeline_and_remaining_source_acceptance",
-      "status": "20 records retained;16 non-core classified;96/96 mocked controller replays complete; does not cure A implementation or contract gaps"
-    },
-    {
-      "id": "separate_real_A_B_primary_semantics",
-      "status": "four real A full-compile stable and B entity join checks remain valid; not enough to certify original A implementation; fallback excluded",
-      "evidence_or_gap": "reports/legalskillguard_rr_v2_readiness_review_20261106.md"
+      "id": "publication",
+      "status": "pending_delivery",
+      "finding": "实现及报告上传当前开发分支，独立远端fetch与字节校验，main不变",
+      "evidence": [
+        "reports/rr_v2_evidence/method_gap_repair/publication_verified.json"
+      ]
     }
   ],
-  "scope": "full_original_user_goal_unchanged",
-  "engineering_acceptance_complete": true,
-  "generation_binding": {
-    "code_hash": "077a748c30fd1acf3dd447c1e54bab826374bc1fd74e0709503c3e09006dd14a",
-    "config_hash": "ce3f15a5e0544b1dab5c84bfb7a4a122c7f072bf42a9efa60c4f8f4f4b3946a3",
-    "data_hash": "5b7683f05c921598c4bab6dc29834df3dc7595e3795d46551732446efa3eacc0",
-    "source_manifest_hash": "ef0f419d13f5219f0faeb97543b52d27be8c50a67243103e542013dc24ae3ca4"
-  },
-  "overall_task_semantics_passed": false,
-  "core_A_real_primary_semantic_pass": true,
-  "core_B_real_primary_semantic_pass": true,
-  "core_primary_coverage_sources": 4,
-  "core_fallback_sources": 16,
-  "implementation_commit": "ba1eded37986fa67be74d4578ce26ed129ebd700",
-  "formal_training_ready": false,
-  "readiness_review": "reports/legalskillguard_rr_v2_readiness_review_20261106.md"
+  "no_zero_fallback_or_gain_or_every_bank_positive_requirement_added": true,
+  "formal_launch_authorized": false
 }

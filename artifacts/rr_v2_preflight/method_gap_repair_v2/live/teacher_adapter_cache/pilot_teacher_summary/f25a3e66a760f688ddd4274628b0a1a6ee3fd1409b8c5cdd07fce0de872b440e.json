@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "request_sha256": "f25a3e66a760f688ddd4274628b0a1a6ee3fd1409b8c5cdd07fce0de872b440e",
+  "response_sha256": "b35632a744477ca6b36a6a7e841f9f02fb43fdfe0fb8f50a16a4300ff5be039e",
+  "model": "gpt-5.6-sol",
+  "purpose": "pilot_teacher_summary",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"op\":\"join_on\",\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "One parameterized pattern is supported by observed collisions: entity_equality distinguishes the observed cases and is represented by a two-slot join on column0. Records with unavailable primitive observations, unresolved translation or oracle status, no counterfactual oracle, or no observed collision do not verify additional patterns. No universal semantic-equivalence claim or unverified proposal is included."
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-06T13:19:53.427724+00:00",
+    "finished_at": "2026-11-06T13:20:23.042372+00:00",
+    "elapsed_seconds": 29.615,
+    "returncode": 0,
+    "event_log_sha256": "5f98209490c4911749f1119fa2e8dd00ee0808c5a84dacc8935e1afd06f61493",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 16943,
+      "cached_input_tokens": 0,
+      "output_tokens": 199,
+      "reasoning_output_tokens": 46
+    },
+    "estimated_credits": null
+  }
+}

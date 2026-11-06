@@ -1,3 +1,21 @@
+# 当前工程验收通过，主训练未启动
+
+本次补齐A生产残余规划与真实token成本、五库程序/接口契约及B其他受支持任务候选学习。154项相关检查、78个实际解码用例及当前20来源免费恢复通过；新OFF真实PW样例A/B分别语义通过，CNLI回退不计核心。B旧碰撞口径22→12、有效历史来源4→3，失败与不足完整保留。
+
+详见[本轮完整报告](legalskillguard_rr_v2_method_gap_repair_20261106.md)、[逐项验收](rr_v2_evidence/method_gap_repair/acceptance_audit.json)和[当前准备凭据](rr_v2_evidence/formal_readiness_method_gaps.json)。累计127 executor/4 teacher；交付核验完成后关闭Goal并停止待复核。本次未启动主训练、正式评测或论文。
+
+以下是按时间保留的修复进展及旧报告，旧状态不覆盖本轮结论。
+
+---
+
+# 当前执行配置与离线修复进展 — thinking OFF
+
+用户明确要求覆盖原ON选择，后续executor请求固定`enable_thinking=false`；配置、请求入口和同账登记均已对齐，旧40条ON/OFF比较及124 executor/3 teacher记录原样保留。没有为开关变化重新跑比较，也没有新增真实生成。教师未显式设置temperature，CLI参数也未传温度；有效默认数值未由后端暴露。`reasoning_effort=high`不是温度，`temperature=0.6`属于executor。
+
+当前153项相关离线检查通过，包含OFF请求通行、ON请求在网络与计费前拒绝、只允许明确授权的thinking配置变更及旧请求行保留。A/B工程修复仍在验收中，实际token/后端契约核验、新绑定恢复和必要真实补验尚未全部结束；本阶段仍未完成，主训练关闭。配置与账本证据见[OFF核验](rr_v2_evidence/method_gap_repair/thinking_off_verified.json)和[离线凭据](rr_v2_evidence/offline_latest.json)。下文此前复核和旧就绪报告按各自历史版本理解，不替代当前验收。
+
+---
+
 # 当前检查结论：先修复工程阻断，暂不启动主训练
 
 2026-11-06基于现有证据的复核撤回此前“已具备主训练条件”。A稳定分支与B实体碰撞细化各4条真实证据保留；A分离批次生产入口/真实token成本和共用schema/解析契约仍有具体缺口。16条其他来源已逐项区分预期回退、模型错误、历史已修故障及现存契约问题，不把零回退、全分支实测或涨分新增为验收条件。

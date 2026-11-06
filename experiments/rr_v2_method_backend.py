@@ -60,8 +60,9 @@ def main(root=ROOT):
                     v = deepcopy(sample); v['program']['body']['query'] = bad
                     variants.append((False, v))
             else:
-                sample = {'answer':'Unknown' if source['dataset'].startswith('ProofWriter') else 'NotMentioned',
-                    'program':{'kind':'unsupported','body':{}}, 'compiled_units':[], 'unsupported_units':[], 'interfaces':[]}
+                sample = {'program':{'kind':'unsupported','body':{}},
+                    'answer':'Unknown' if source['dataset'].startswith('ProofWriter') else 'NotMentioned',
+                    'compiled_units':[], 'unsupported_units':[], 'interfaces':[]}
                 variants = [(True, sample)]
                 if source['dataset'].startswith('ProofWriter'):
                     v = deepcopy(sample); v['program'] = {'kind':'public_horn','body':{}}
@@ -69,6 +70,12 @@ def main(root=ROOT):
                 if index in (4, 9, 14):
                     original = json.loads((root / old[index]['source_record']).read_text())
                     variants.append((False, json.loads(original['calls'][-1]['raw_content'])))
+                if index == 4:
+                    actual = json.loads((root/'tests/fixtures/rr_actual_failure_125.json').read_text())['proposal']
+                    # Field order is the decoder's canonical order; no values,
+                    # absent query or invalid types are repaired.
+                    actual = {k:actual[k] for k in sample}
+                    variants.append((False, actual))
             for expected, value in variants:
                 actual = matches(schema, value)
                 if actual != expected:

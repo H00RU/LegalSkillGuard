@@ -51,6 +51,26 @@ class Scope:
         self.views.append((source, key))
 
 
+def test_actual_OFF_125_failure_cannot_pass_current_wire_program_contract():
+    from legal_skill_guard.rr.data_store import PreflightData
+    from legal_skill_guard.rr.wire_validation import WireValidator
+    failure=json.loads((ROOT/'tests/fixtures/rr_actual_failure_125.json').read_text())
+    data=PreflightData(ROOT,ROOT/'reports/rr_v2_evidence/data_manifest.json')
+    source=data.public(failure['source'])
+    proposal=json.loads(failure['raw_content'])
+    assert proposal==failure['proposal'] and failure['thinking_requested'] is False
+    assert proposal['program']['body']['bindings'][0]['type']=='string'
+    assert 'query' not in proposal['program']['body']
+    schema=proposal_schema(source['dataset'],source=source)
+    assert not WireValidator(schema).is_valid(proposal)
+    # Test the actual binding's type failure independently of missing query and
+    # other invalid fields; do not adapt the old response into a passing result.
+    v=jsonschema.Draft202012Validator({'$defs':schema['$defs'],'$ref':'#/$defs/expression_binding'})
+    assert not v.is_valid(proposal['program']['body']['bindings'][0])
+    assert analyze(source,failure['raw_content'])['program_status']=='invalid_IR'
+    assert json.loads(failure['raw_content'])==failure['proposal']
+
+
 def test_A_ingestion_and_frozen_prediction_plan_actual_second_request(tmp_path):
     source, proposals = xor_case()
     calls = []

@@ -130,7 +130,7 @@ def interface_schema():
 
 def strict_proposal_schema(dataset, base_schema, *, source_unit_ids=None):
     schema = deepcopy(base_schema)
-    if dataset not in TARGETS:
+    if dataset not in (*TARGETS, 'ProofWriter_OWA_depth5', 'ContractNLI'):
         schema["$defs"] = interface_definitions(source_unit_ids)
         schema["properties"]["interfaces"] = interface_schema()
         return schema
@@ -186,7 +186,7 @@ def strict_proposal_schema(dataset, base_schema, *, source_unit_ids=None):
     if dataset == 'RuleArena_Airline':
         query = {'anyOf': [ref(f'number_operation_{depth}'), positional('if', [
             ref(f'boolean_expression_{depth-1}'), ref(f'number_expression_{depth-1}'), ref(f'number_expression_{depth-1}')])]}
-    elif dataset == 'SARA_v2_Binary':
+    elif dataset in {'SARA_v2_Binary', 'ProofWriter_OWA_depth5', 'ContractNLI'}:
         query = positional('if', [ref(f'boolean_expression_{depth-1}'),
                                 ref(f'string_expression_{depth-1}'), ref(f'string_expression_{depth-1}')])
     else:

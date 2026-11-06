@@ -1,0 +1,150 @@
+{
+  "captured_utc": "2026-11-06T13:25:18.307072+00:00",
+  "binding": {
+    "code_hash": "88770943aff923680fb8a50561c1e844222dd5806beff032ef0db99b20e88afc",
+    "config_hash": "d63cc65096cde35e10cf49ae012fcdf62ef66e8efb3b3bc43248e57e6f27bcaa",
+    "data_hash": "5b7683f05c921598c4bab6dc29834df3dc7595e3795d46551732446efa3eacc0",
+    "source_manifest_hash": "ef0f419d13f5219f0faeb97543b52d27be8c50a67243103e542013dc24ae3ca4"
+  },
+  "engineering_acceptance_complete": true,
+  "goal_status_at_capture": "active",
+  "completion_proven": false,
+  "requirements": [
+    {
+      "id": "current_scope_and_no_new_goal",
+      "status": "verified",
+      "finding": "既有Goal、分支及预算接续；无新来源/种子/主训练",
+      "evidence": [
+        "docs/CURRENT_GOAL.md",
+        "reports/rr_v2_evidence/method_gap_repair/preservation_and_cost.json"
+      ]
+    },
+    {
+      "id": "A_production_residuals",
+      "status": "verified",
+      "finding": "从公开文本与已接纳IR重建有限理论，未知作用范围保留TOP",
+      "evidence": [
+        "legal_skill_guard/rr/source_completion.py",
+        "legal_skill_guard/rr/public_horn.py",
+        "tests/test_rr_method_gaps.py"
+      ]
+    },
+    {
+      "id": "A_actual_parser_and_batch",
+      "status": "verified",
+      "finding": "实际业务入口推导并发送XOR/PW联合批次，第二次解析及语义稳定",
+      "evidence": [
+        "legal_skill_guard/rr/compilation.py",
+        "reports/rr_v2_evidence/method_gap_repair/backend.json"
+      ]
+    },
+    {
+      "id": "A_actual_cost",
+      "status": "verified",
+      "finding": "实际序列化请求、一次调用及去重上下文token，local/serving tokens逐字一致",
+      "evidence": [
+        "reports/rr_v2_evidence/method_gap_repair/backend.json"
+      ]
+    },
+    {
+      "id": "five_bank_contract",
+      "status": "verified",
+      "finding": "五库有界程序体+相同连接器/binding schema；实际125失败回归及126新wire通过",
+      "evidence": [
+        "legal_skill_guard/rr/strict_contract.py",
+        "tests/fixtures/rr_actual_failure_125.json",
+        "artifacts/rr_v2_preflight/method_gap_repair_v2/live/wire_contract.json"
+      ]
+    },
+    {
+      "id": "B_other_supported_paths",
+      "status": "verified",
+      "finding": "OE/RA/SARA actual typed候选入口，区分输入缺失/无法重绑/执行后无有效候选；SARA人工正例与额度执行",
+      "evidence": [
+        "legal_skill_guard/rr/typed_learning.py",
+        "tests/test_rr_method_gaps.py"
+      ]
+    },
+    {
+      "id": "B_actual_primitive_IO",
+      "status": "verified",
+      "finding": "使用实际I/O碰撞，纠正22为12、四条有效为三条；不能冒充字段摘要或强制H减少",
+      "evidence": [
+        "reports/rr_v2_evidence/method_gap_repair/historical_core.json",
+        "legal_skill_guard/rr/source_learning.py"
+      ]
+    },
+    {
+      "id": "real_primary_A_B",
+      "status": "verified",
+      "finding": "原固定PW13新OFF真实主路径，A/B分别执行及语义通过，不计CNLI回退成功",
+      "evidence": [
+        "artifacts/rr_v2_preflight/method_gap_repair_v2/live/primary_path.json"
+      ]
+    },
+    {
+      "id": "teacher_current_material",
+      "status": "verified",
+      "finding": "变化后的首16材料新汇总，已验证模式接纳，原记录仍计费",
+      "evidence": [
+        "artifacts/rr_v2_preflight/method_gap_repair_v2/current_material/teacher_batch1.json"
+      ]
+    },
+    {
+      "id": "offline_and_restore",
+      "status": "verified",
+      "finding": "154相关检查、78解码、20来源当前算法恢复及120控制流，零新增模型/oracle",
+      "evidence": [
+        "reports/rr_v2_evidence/offline_latest.json",
+        "reports/rr_v2_evidence/method_gap_repair/current_restore.json"
+      ]
+    },
+    {
+      "id": "data_isolation",
+      "status": "verified",
+      "finding": "原TRAIN、manifest与数据hash未变；调试只访问原20TRAIN与原人工微例",
+      "evidence": [
+        "reports/rr_v2_evidence/data_manifest.json",
+        "reports/rr_v2_evidence/method_gap_repair/preservation_and_cost.json"
+      ]
+    },
+    {
+      "id": "original_ledger_preservation",
+      "status": "verified",
+      "finding": "原127调用/111meta/50oracle完整，新增3E1T且总数127/4、pending0",
+      "evidence": [
+        "reports/rr_v2_evidence/method_gap_repair/request_ledger.json",
+        "reports/rr_v2_evidence/method_gap_repair/preservation_and_cost.json"
+      ]
+    },
+    {
+      "id": "formal_hooks_and_comparators",
+      "status": "verified",
+      "finding": "六臂共享材料、MB普通对照、当前就绪绑定及未来正式恢复入口，当前开关全部关闭",
+      "evidence": [
+        "legal_skill_guard/rr/formal.py",
+        "legal_skill_guard/rr/example_synthesis.py",
+        "reports/rr_v2_evidence/formal_readiness_method_gaps.json"
+      ]
+    },
+    {
+      "id": "evidence_and_handoff",
+      "status": "verified",
+      "finding": "当前报告、逐来源与费用清单，旧报告结论按历史保留",
+      "evidence": [
+        "reports/legalskillguard_rr_v2_method_gap_repair_20261106.md",
+        "reports/rr_v2_evidence/method_gap_repair/source_status.json"
+      ]
+    },
+    {
+      "id": "publication",
+      "status": "pending_delivery",
+      "finding": "实现及报告上传当前开发分支，独立远端fetch与字节校验，main不变",
+      "evidence": [
+        "reports/rr_v2_evidence/method_gap_repair/publication_verified.json"
+      ]
+    }
+  ],
+  "no_zero_fallback_or_gain_or_every_bank_positive_requirement_added": true,
+  "formal_launch_authorized": false
+}

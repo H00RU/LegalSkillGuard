@@ -392,6 +392,11 @@ def messages(source: dict, *, previous: dict | None = None, selected_units=None)
         "program.kind is expression, connector, or unsupported. For expression body use "
         "bindings [{name,value,type,source}], query {op,args}, source_links {unit:[node]}. "
         "Types: integer, rational (decimal string), scalar. Connectors also accept relation "
+        "A string input uses type scalar, not string. Expression names start with n_ for numbers, "
+        "s_ for strings, b_ for booleans; source IDs such as s0 are provenance only. "
+        "An expression body requires bindings, query and source_links. Do not copy every source sentence "
+        "into bindings; bind only public literals needed by an executable query. If no faithful query is "
+        "available, use unsupported with body {} and keep the native answer separate. "
         "{columns,rows,closed}, amount (one value,unit,owner,period,lineage,stage object), "
         "amounts (a list of these objects), allowance_bank "
         "(entries key,balance,policy,order_observable), resource_key, slot_list. "
@@ -488,6 +493,10 @@ def proposal_schema(dataset: str, *, source: dict | None = None, previous: dict 
     ledger = SourceLedger.from_text(source_text(source))
     units = [c.id for c in ledger.clauses]
     schema = _strict_proposal_schema(dataset, schema, source_unit_ids=units)
+    if dataset == 'ProofWriter_OWA_depth5':
+        from .strict_contract import obj
+        schema['properties']['program']['anyOf'].append(
+            obj({'kind': {'enum': ['public_horn']}, 'body': obj({})}))
     if 'expression_binding' in schema.get('$defs', {}):
         # Match the existing grounding check: inferred/assumed truth is not an input literal.
         branches = schema['$defs']['expression_binding']['anyOf']

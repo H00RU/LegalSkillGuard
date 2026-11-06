@@ -21,9 +21,9 @@ from legal_skill_guard.rr.readiness import current_binding
 from legal_skill_guard.rr.source_learning import DurableOracle, learn_source
 
 ROOT = Path(__file__).resolve().parents[1]
-DIRECTORY = 'artifacts/rr_v2_preflight/method_gap_repair_v1'
+DIRECTORY = 'artifacts/rr_v2_preflight/method_gap_repair_v2'
 EVIDENCE = 'reports/rr_v2_evidence/method_gap_repair'
-REVISION = 'method_gap_repair_v1'
+REVISION = 'method_gap_repair_v2'
 
 
 def dump(path, value):

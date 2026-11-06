@@ -18,7 +18,7 @@ from .preflight import science_files, scientific_code_binding
 OPERATIONAL_FILES = {'configs/rr_v2_preflight.json', 'configs/rr_v2_formal.json',
                      'reports/legalskillguard_rule_reasoning_protocol_v2.json'}
 RECEIPT = 'reports/rr_v2_evidence/formal_readiness_method_gaps.json'
-STAGE = 'artifacts/rr_v2_preflight/method_gap_repair_v1/current_material'
+STAGE = 'artifacts/rr_v2_preflight/method_gap_repair_v2/current_material'
 EVIDENCE = 'reports/rr_v2_evidence/method_gap_repair'
 
 
@@ -64,7 +64,7 @@ def prepare(root):
             not restored['exact_records_and_library'] or not restored['network_and_subprocess_blocked'] or \
             restored['new_model_calls'] or restored['new_oracle_views'] or len(restored['controls'])!=120:
         raise ValueError('Actual request cost or current free restore incomplete')
-    live='artifacts/rr_v2_preflight/method_gap_repair_v1/live/'
+    live='artifacts/rr_v2_preflight/method_gap_repair_v2/live/'
     seal=read(live+'seal.json');primary=read(live+'primary_path.json');wire=read(live+'wire_contract.json')
     if seal['binding']!=binding or seal['protected_files']!=files or primary['binding']!=binding or wire['binding']!=binding or \
             not primary['checks']['A']['semantic_pass'] or not primary['checks']['B']['semantic_pass'] or \

@@ -1,3 +1,15 @@
+# 当前工程验收通过，交付核验中 — 主训练关闭
+
+A残余理论/分离批次/实际解析/token成本、五库有界程序体及接口契约、B非PW typed候选入口均已接通。154项相关检查、78个实际解码用例、当前20来源禁网络/子进程恢复及120次六臂控制流通过。新OFF真实PW主路径A/B分别语义通过；CNLI明确为合法回退，不计核心。B旧粗接口计数已纠正：22→12对，历史4个来源中保留3个B成功，index8无实际碰撞；原记录不删除。
+
+同一账本executor127/6000、teacher4/20，新增3E（含一次IR失败）、1T；原124/3请求及50oracle完整，pending0。executor thinking固定OFF；教师temperature未显式设置、reasoning_effort=high。原数据/来源/seed未改，其他来源模型错误及B输入不足如实保留，不新增零回退、每库成功或涨分要求。
+
+执行目录`/home/yndx/hhy/legal-skill-rr-v2`，分支`research/legalskillguard-rr-v2`，当前科学绑定`88770943aff923680fb8a50561c1e844222dd5806beff032ef0db99b20e88afc`。完整报告`reports/legalskillguard_rr_v2_method_gap_repair_20261106.md`；当前就绪凭据`reports/rr_v2_evidence/formal_readiness_method_gaps.json`。19条历史ON训练原文在当前算法重新处理、1条新OFF原文，生成来源分列，不作为新OFF预测缓存；新首16材料教师汇总已接纳。
+
+Goal仍active，待开发分支交付独立核验后关闭；本阶段不再新增模型请求、不启动主训练/正式评测/论文。下文旧complete、blocked、额度、ON和旧准备凭据均是历史，不作为恢复队列。
+
+---
+
 # 当前版本与真实核心主路径核验
 
 当前执行目录`/home/yndx/hhy/legal-skill-rr-v2`；科学绑定`47cddfaed75c295bf7655a7a2167e940db85c7c2b7520625a9534e746baa6b14`。新增核心生成绑定`c5aaeb53088af3c175468ac15e8d3599d8bd4c6ea3f81fccfa2d02bc63ffcb73`；原工程生成绑定077a748c…保留。账本124 executor、3 teacher，原总预算6000/20，来源仍为原20。

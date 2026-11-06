@@ -1,0 +1,276 @@
+{
+  "authority": "explicit_user_chat_authorization",
+  "captured_utc": "2026-11-06T12:38:43.370871+00:00",
+  "executor_enable_thinking": false,
+  "original_selection_preserved": true,
+  "rerun_original_comparison": false,
+  "executor_baseline": 124,
+  "teacher_baseline": 3,
+  "scope": "all future executor generation; historical ON requests remain historical",
+  "teacher_temperature_changed": false,
+  "original_executor_config": {
+    "base_url": "http://127.0.0.1:8000/v1",
+    "concurrency": 1,
+    "context_tokens": 32768,
+    "max_tokens": 8192,
+    "model": "Qwen/Qwen3-8B",
+    "model_retries": 0,
+    "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "seed": 45,
+    "temperature": 0.6,
+    "timeout_seconds": 600,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "new_executor_config": {
+    "base_url": "http://127.0.0.1:8000/v1",
+    "concurrency": 1,
+    "context_tokens": 32768,
+    "max_tokens": 8192,
+    "model": "Qwen/Qwen3-8B",
+    "model_retries": 0,
+    "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "seed": 45,
+    "temperature": 0.6,
+    "timeout_seconds": 600,
+    "top_k": 20,
+    "top_p": 0.95,
+    "enable_thinking": false
+  },
+  "old_semantic_config": {
+    "executor": {
+      "base_url": "http://127.0.0.1:8000/v1",
+      "concurrency": 1,
+      "context_tokens": 32768,
+      "max_tokens": 8192,
+      "model": "Qwen/Qwen3-8B",
+      "model_retries": 0,
+      "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+      "seed": 45,
+      "temperature": 0.6,
+      "timeout_seconds": 600,
+      "top_k": 20,
+      "top_p": 0.95
+    },
+    "teacher": {
+      "executable": "/home/yndx/.local/bin/codex",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "high",
+      "retries": 0,
+      "timeout_seconds": 600
+    },
+    "protocol_methods": {
+      "A": "source_closed_completion_stability_with_answer_separating_batches",
+      "B": "collision_witness_guided_scope_and_usage_interface_refinement"
+    },
+    "A_limits": {
+      "candidate_pool_H_is_not_Omega": true,
+      "certification_requirements": [
+        "nonempty_Omega",
+        "supported_semantic_domain",
+        "conditional_reference_containment",
+        "all_completions_same_nonconflict_answer",
+        "solver_proof_success"
+      ],
+      "drop_residuals_to_meet_limit": false,
+      "max_model_parsing_calls_per_prediction": 2,
+      "max_residual_groups_per_planning_unit": 12,
+      "max_separation_solver_calls_per_prediction": 32,
+      "max_symbolic_planning_seconds_per_prediction": 5,
+      "reserved_fallback_calls_per_prediction": 1
+    },
+    "B_limits": {
+      "alpha_renaming_required": true,
+      "cap_is_consumable_resource": false,
+      "connectors": [
+        "bind_rename",
+        "join_on",
+        "project_exists",
+        "group_by",
+        "map",
+        "fold_reduce",
+        "thread_allowance"
+      ],
+      "forbidden_metadata": [
+        "case_id_for_routing",
+        "gold",
+        "source_unique_strings",
+        "answer_fingerprints"
+      ],
+      "metadata": [
+        "entity_equality",
+        "membership",
+        "owner_period_keys",
+        "contribution_lineage",
+        "aggregation_stage",
+        "balance",
+        "allocation_policy",
+        "order_observable"
+      ],
+      "unequal_semantics_cost_tiebreak_allowed": false,
+      "witness_from_boolean_output_can_be_invented": false
+    },
+    "training": {
+      "OpenExempt_views_bundled_per_source_call": true,
+      "batches": 8,
+      "first_source_call": "joint_A_skeleton_and_B_interface_proposal",
+      "freeze_checkpoints": [
+        "B1",
+        "B8"
+      ],
+      "full_builds": 1,
+      "max_additional_oracle_views_per_source": 4,
+      "max_connector_candidates_per_source": 32,
+      "max_executor_calls_per_source": 2,
+      "max_teacher_calls_per_batch": 2,
+      "oracle_view_budget_scope": "collision_discovery_interface_refinement_and_connector_disambiguation_combined",
+      "pilot_gate": "engineering_and_data_validity_not_significant_accuracy_gain",
+      "pilot_sources": 20,
+      "pilot_sources_included_in_training": true,
+      "second_source_call": "joint_missing_translation_witness_extraction_and_schema_repair",
+      "seeds": 1,
+      "sources_per_batch": 16,
+      "test_opening": "after_B8_and_all_configuration_frozen",
+      "total_sources": 128,
+      "training_third_fallback_call": false,
+      "two_new_labeled_views_cost_two_slots": true,
+      "unused_queried_oracle_views_count": true
+    },
+    "thinking": {
+      "both_configs_invalid": "engineering_block_no_extra_switch_sweep",
+      "calls_per_source": 2,
+      "comparison_sources_from_train": 20,
+      "do_not_assume_flag_took_effect": true,
+      "quality_equivalence_claim_from_small_comparison": false,
+      "selection_basis": "one_paired_training_comparison_structure_semantic_correctness_and_measured_cost",
+      "turn_off_only_if": [
+        "no_lower_structural_parse_pass_count",
+        "no_lower_task_correct_count",
+        "zero_on_correct_off_incorrect_pairs",
+        "lower_measured_cost"
+      ],
+      "verify_actual_backend_switch": true
+    }
+  },
+  "new_semantic_config": {
+    "executor": {
+      "base_url": "http://127.0.0.1:8000/v1",
+      "concurrency": 1,
+      "context_tokens": 32768,
+      "max_tokens": 8192,
+      "model": "Qwen/Qwen3-8B",
+      "model_retries": 0,
+      "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+      "seed": 45,
+      "temperature": 0.6,
+      "timeout_seconds": 600,
+      "top_k": 20,
+      "top_p": 0.95,
+      "enable_thinking": false
+    },
+    "teacher": {
+      "executable": "/home/yndx/.local/bin/codex",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "high",
+      "retries": 0,
+      "timeout_seconds": 600
+    },
+    "protocol_methods": {
+      "A": "source_closed_completion_stability_with_answer_separating_batches",
+      "B": "collision_witness_guided_scope_and_usage_interface_refinement"
+    },
+    "A_limits": {
+      "candidate_pool_H_is_not_Omega": true,
+      "certification_requirements": [
+        "nonempty_Omega",
+        "supported_semantic_domain",
+        "conditional_reference_containment",
+        "all_completions_same_nonconflict_answer",
+        "solver_proof_success"
+      ],
+      "drop_residuals_to_meet_limit": false,
+      "max_model_parsing_calls_per_prediction": 2,
+      "max_residual_groups_per_planning_unit": 12,
+      "max_separation_solver_calls_per_prediction": 32,
+      "max_symbolic_planning_seconds_per_prediction": 5,
+      "reserved_fallback_calls_per_prediction": 1
+    },
+    "B_limits": {
+      "alpha_renaming_required": true,
+      "cap_is_consumable_resource": false,
+      "connectors": [
+        "bind_rename",
+        "join_on",
+        "project_exists",
+        "group_by",
+        "map",
+        "fold_reduce",
+        "thread_allowance"
+      ],
+      "forbidden_metadata": [
+        "case_id_for_routing",
+        "gold",
+        "source_unique_strings",
+        "answer_fingerprints"
+      ],
+      "metadata": [
+        "entity_equality",
+        "membership",
+        "owner_period_keys",
+        "contribution_lineage",
+        "aggregation_stage",
+        "balance",
+        "allocation_policy",
+        "order_observable"
+      ],
+      "unequal_semantics_cost_tiebreak_allowed": false,
+      "witness_from_boolean_output_can_be_invented": false
+    },
+    "training": {
+      "OpenExempt_views_bundled_per_source_call": true,
+      "batches": 8,
+      "first_source_call": "joint_A_skeleton_and_B_interface_proposal",
+      "freeze_checkpoints": [
+        "B1",
+        "B8"
+      ],
+      "full_builds": 1,
+      "max_additional_oracle_views_per_source": 4,
+      "max_connector_candidates_per_source": 32,
+      "max_executor_calls_per_source": 2,
+      "max_teacher_calls_per_batch": 2,
+      "oracle_view_budget_scope": "collision_discovery_interface_refinement_and_connector_disambiguation_combined",
+      "pilot_gate": "engineering_and_data_validity_not_significant_accuracy_gain",
+      "pilot_sources": 20,
+      "pilot_sources_included_in_training": true,
+      "second_source_call": "joint_missing_translation_witness_extraction_and_schema_repair",
+      "seeds": 1,
+      "sources_per_batch": 16,
+      "test_opening": "after_B8_and_all_configuration_frozen",
+      "total_sources": 128,
+      "training_third_fallback_call": false,
+      "two_new_labeled_views_cost_two_slots": true,
+      "unused_queried_oracle_views_count": true
+    },
+    "thinking": {
+      "both_configs_invalid": "engineering_block_no_extra_switch_sweep",
+      "calls_per_source": 2,
+      "comparison_sources_from_train": 20,
+      "do_not_assume_flag_took_effect": true,
+      "quality_equivalence_claim_from_small_comparison": false,
+      "selection_basis": "one_paired_training_comparison_structure_semantic_correctness_and_measured_cost",
+      "turn_off_only_if": [
+        "no_lower_structural_parse_pass_count",
+        "no_lower_task_correct_count",
+        "zero_on_correct_off_incorrect_pairs",
+        "lower_measured_cost"
+      ],
+      "verify_actual_backend_switch": true
+    }
+  },
+  "new_config_hash": "d63cc65096cde35e10cf49ae012fcdf62ef66e8efb3b3bc43248e57e6f27bcaa",
+  "baseline_counts": {
+    "executor": 124,
+    "teacher": 3
+  }
+}
