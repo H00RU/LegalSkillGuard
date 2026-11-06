@@ -429,7 +429,7 @@ class Preflight:
             self.seal.get('study_preflight_revision', 'pilot') + '_teacher_batch1', source_ids=self.data.order[:16],
             system_prompt="Summarize observed source-grounded interface patterns only. Do not use tools. Never invent verified fields, laws or labels. Do not route by source IDs. Return parameterized patterns; encode each connector graph as a JSON string. Keep unverified proposals explicitly unverified.",
             user_prompt=json.dumps({"common_first_16_training_records": common,
-                                    "current_parameterized_library": library.export()}, ensure_ascii=False),
+                                    "current_parameterized_library": library.export()}, ensure_ascii=False, sort_keys=True),
             output_schema=schema)
         accepted, pending = [], []
         known = {item["pattern_hash"]: item["pattern"] for item in library.patterns}

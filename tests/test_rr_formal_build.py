@@ -37,14 +37,16 @@ class Transport:
 
 class Teacher:
     calls=0
+    def __init__(self,always_fail=False):self.always_fail=always_fail
     def generate_json(self,**kwargs):
         self.calls+=1
-        if self.calls==1:raise RuntimeError('Artificial first teacher transport failure')
+        if self.calls==1 or self.always_fail:raise RuntimeError('Artificial teacher transport failure')
         return StructuredCodexResponse(value={'patterns':[],'notes':'artificial transport'},model='gpt-5.6-sol',
             request_sha256='fixture',response_sha256='fixture',cache_hit=False,invocation={'usage':{}})
 
 
-def test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free(tmp_path,monkeypatch):
+@pytest.mark.parametrize('old_teacher_count,always_fail',[(4,False),(6,True)])
+def test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free(tmp_path,monkeypatch,old_teacher_count,always_fail):
     import legal_skill_guard.rr.formal as mod
     manifest=fixture_root(tmp_path)
     cfgpath=tmp_path/'configs/rr_v2_formal.json';cfg=json.loads(cfgpath.read_text());cfg.update(run_enabled=True,full_build_enabled=True)
@@ -59,7 +61,7 @@ def test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free(t
         for i in range(127):
             bucket='thinking_comparison' if i<40 else 'full_build_including_pilot' if i<76 else 'shared_retries_and_recovery'
             db.execute('insert into calls values (?,?,?,?,?,?,?,?,?)',(f'oldE{i}','executor','pilot_ingestion',bucket,anchor,str(i),'failed',i,'{}'))
-        for i in range(4):db.execute('insert into calls values (?,?,?,?,?,?,?,?,?)',
+        for i in range(old_teacher_count):db.execute('insert into calls values (?,?,?,?,?,?,?,?,?)',
             (f'oldT{i}','teacher','pilot_teacher_summary','teacher',anchor,str(i),'failed',i,'{}'))
     old=b.export()['calls']
     artifacts=tmp_path/cfg['artifact_directory'];artifacts.mkdir(parents=True)
@@ -71,26 +73,37 @@ def test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free(t
     (olddir/'pilot_sources').mkdir(parents=True)
     for sid in manifest['pilot_order']:(olddir/'pilot_sources'/(digest(sid)+'.json')).write_text('{"forbidden":"old pilot"}')
     (olddir/'teacher_batch1.json').write_text('{"forbidden":"old teacher"}')
-    transport,teacher=Transport(),Teacher()
+    transport,teacher=Transport(),Teacher(always_fail=always_fail)
     monkeypatch.setattr(mod,'FormalExecutor',lambda ledger,directory,config:FormalExecutor(ledger,directory,config,opener=transport))
     monkeypatch.setattr(mod,'FormalTeacher',lambda ledger,directory,config:FormalTeacher(ledger,directory,config,adapter=teacher))
     monkeypatch.setattr(mod,'learn_source',mock_learning)
     run=FormalRun(tmp_path,partition='train');authorize_formal_fixture(run.ledger)
     result=run.train()
-    assert result['sources']==128 and result['batches']==8 and teacher.calls==9
+    teacher_calls=14 if always_fail else 9
+    assert result['sources']==128 and result['batches']==8 and teacher.calls==teacher_calls
     assert run.ledger.export()['executor_used']==127+transport.generations
-    assert run.ledger.export()['teacher_used']==13
+    assert run.ledger.export()['teacher_used']==old_teacher_count+teacher_calls
     assert transport.generations>128  # old20 were actually acquired afresh
     first=json.loads((artifacts/'sources'/(digest(manifest['formal_train_order'][0])+'.json')).read_text())
     assert first['library_before_hash']==digest(SkillLibrary(stage='formal_train').export())
     for k in (1,8):assert SkillLibrary.restore(artifacts/f'B{k}.frozen.json').frozen
     assert len(list((artifacts/'batches').glob('B*.json')))==8
+    if always_fail:
+        with run.ledger.transaction() as db:
+            charged={batch:db.execute('select count(*) from calls where id like ?',
+                (run.run_id+f':teacher:B{batch}:%',)).fetchone()[0] for batch in range(1,9)}
+        assert list(charged.values())==[2,2,2,2,2,2,1,1]
+        for batch in range(1,9):
+            saved=json.loads((artifacts/'batches'/f'B{batch}.json').read_text())['teacher_batch_record']
+            assert saved['response'] is None and not saved['batch_record_accepted']
     before=run.ledger.export()['calls'];old_generations=transport.generations
     # Resume an interrupted source using its failed+completed charged requests,
     # rather than paying again. All later source/batch checkpoints remain intact.
     (artifacts/'sources'/(digest(manifest['formal_train_order'][0])+'.json')).unlink()
+    # Also exercise interruption after a paid teacher result but before summary save.
+    (artifacts/'batches/B1/teacher_batch1.json').unlink()
     FormalRun(tmp_path,partition='train').train()
-    assert teacher.calls==9 and transport.generations==old_generations
+    assert teacher.calls==teacher_calls and transport.generations==old_generations
     assert run.ledger.export()['calls']==before
     assert all(next(x for x in before if x['id']==r['id'])==r for r in old)
     with pytest.raises(BudgetError,match='evaluation'):

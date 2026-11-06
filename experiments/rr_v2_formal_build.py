@@ -23,24 +23,28 @@ from legal_skill_guard.rr.readiness import current_binding
 
 ROOT=Path(__file__).resolve().parents[1]
 BASE='artifacts/rr_v2_formal_build_20261106'
-EVIDENCE='reports/rr_v2_evidence/formal_build_20261106'
 
 
 def prepare(root=ROOT):
     cfg=json.loads((root/'configs/rr_v2_preflight.json').read_text())
     formal=json.loads((root/'configs/rr_v2_formal.json').read_text())
     protocol=json.loads((root/'reports/legalskillguard_rule_reasoning_protocol_v2.json').read_text())
-    baseline=json.loads((root/BASE/'baseline.json').read_text())
+    baseline=json.loads((root/formal['baseline_file']).read_text())
     manifest=json.loads((root/cfg['source_manifest']).read_text())
     auth=json.loads((root/formal['authorization']).read_text())
     offline=json.loads((root/'reports/rr_v2_evidence/offline_latest.json').read_text())
     files=science_files(root);binding=current_binding(root)
     allowed={'legal_skill_guard/rr/formal.py','experiments/rr_v2_formal_build.py','experiments/rr_v2_offline.py',
         'tests/test_rr_formal_build.py','tests/test_rr_pipeline.py','tests/test_rr_controls_and_scoring.py',
-        'configs/rr_v2_formal.json','configs/rr_v2_preflight.json','reports/legalskillguard_rule_reasoning_protocol_v2.json'}
+        'configs/rr_v2_formal.json','configs/rr_v2_preflight.json','reports/legalskillguard_rule_reasoning_protocol_v2.json',
+        'legal_skill_guard/rr/strict_contract.py','legal_skill_guard/rr/preflight.py'}
     changed={n for n in set(files)|set(baseline['protected_files']) if files.get(n)!=baseline['protected_files'].get(n)}
     if not changed<=allowed or binding['config_hash']!=baseline['prior_readiness']['execution_binding']['config_hash']:
-        raise ValueError('Only launch/restore changes are allowed; executor/teacher/mechanisms stay fixed')
+        raise ValueError('Only citation-contract and launch/restore changes are allowed; model settings and mechanisms stay fixed')
+    proof=json.loads((root/formal['citation_fix_evidence']).read_text())
+    if proof['corrected_strict_contract_sha256']!=files['legal_skill_guard/rr/strict_contract.py'] or \
+            proof['new_rejected_public_headers'] or not all(p['new_closing_quote_allowed'] and not p['old_closing_quote_allowed'] for p in proof['actual_prefix_closure_probes']):
+        raise ValueError('Actual offline citation-decoder regression is required')
     if offline['exit_code'] or not offline['network_blocked'] or any(
         hashlib.sha256((root/p).read_bytes()).hexdigest()!=h for p,h in offline['files'].items()):
         raise ValueError('Current offline acceptance required')
@@ -79,11 +83,15 @@ def prepare(root=ROOT):
         counts=dict(db.execute('select role,count(*) from calls group by role'))
         spent=dict(db.execute('select bucket,count(*) from calls group by bucket'))
     if counts!=baseline['counts'] or any(x[6]=='reserved' for x in old_calls) or digest(old_calls)!=baseline['calls_hash']:
-        raise ValueError('Preserve terminal127/4 original ledger before launch')
+        raise ValueError('Current terminal baseline must retain every original and aborted call')
     if any(spent.get(k,0)>v for k,v in auth['executor_allocation'].items()):raise ValueError('Reallocation cannot erase existing spend')
+    teacher_max=min(16,20-counts['teacher'])
+    if teacher_max<8 or teacher_max!=protocol['request_budget']['full_build_teacher_max'] or teacher_max!=auth['new_teacher_max']:
+        raise ValueError('Reserve at least one fresh teacher call per batch within original20')
+    if counts['executor']+256+5472>6000:raise ValueError('Preserve the original future evaluation reserve')
     policy={'execution_binding':{k:binding[k] for k in ('code_hash','config_hash')},'allocation':auth['executor_allocation'],
         'authorization_hash':digest(auth),'order_hash':digest(manifest['formal_train_order']),
-        'baseline_counts':counts,'formal_executor_max':256,'formal_teacher_max':16,
+        'baseline_counts':counts,'formal_executor_max':256,'formal_teacher_max':teacher_max,
         'future_executor_reserve':5472,'teacher_total_max':20}
     ledger=BudgetLedger(root/cfg['ledger_path'],sources=manifest['allowlist'],code_hash=spec['code_hash'],config_hash=spec['config_hash'])
     with ledger.transaction() as db:
@@ -97,9 +105,10 @@ def prepare(root=ROOT):
         'initial_contracts':contract,'offline_evidence_hash':digest(offline),'model_card':card,
         'baseline_calls_hash':baseline['calls_hash'],'baseline_oracle_hash':baseline['oracle_hash']}
     immutable_json(root/formal['artifact_directory']/'seal.json',seal)
-    path=root/EVIDENCE;path.mkdir(parents=True,exist_ok=True)
-    immutable_json(path/'launch_checks.json',{'binding':binding,'launch_only_changed_paths':sorted(changed),
-        'core_generation_paths_unchanged':True,'old_counts':counts,'budget_policy':policy,
+    path=(root/formal['launch_checks_file']).parent;path.mkdir(parents=True,exist_ok=True)
+    immutable_json(root/formal['launch_checks_file'],{'binding':binding,'necessary_changed_paths':sorted(changed),
+        'citation_contract_fix_evidence':formal['citation_fix_evidence'],'model_parameters_and_methods_unchanged':True,
+        'old_counts':counts,'budget_policy':policy,
         'context_sources':128,'max_initial_tokens':largest['input_tokens'],'model_generations_added':0,
         'formal_evaluation_enabled':False,'frozen_test_enabled':False})
     print(json.dumps({'sealed':True,'binding':binding,'sources':128,'initial_patterns':0,'budget':policy}),flush=True)

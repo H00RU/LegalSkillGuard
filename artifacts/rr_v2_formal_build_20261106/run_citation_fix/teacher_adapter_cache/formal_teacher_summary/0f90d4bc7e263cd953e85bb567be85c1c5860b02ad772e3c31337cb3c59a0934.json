@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "request_sha256": "0f90d4bc7e263cd953e85bb567be85c1c5860b02ad772e3c31337cb3c59a0934",
+  "response_sha256": "057c9b9b01d64c510af4381e67c9234f7dad5230d57a92c34d3c77e499b777d8",
+  "model": "gpt-5.6-sol",
+  "purpose": "formal_teacher_summary",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"op\":\"join_on\",\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "保留当前库中唯一有来源依据的参数化模式。16条航空数据记录均为 primitive_observation_unavailable，且 pattern 为 null、minimal_field_sets 与 collisions 均为空，因此未从这些记录新增或验证任何字段、规律、标签或连接图；translation_unresolved 及程序状态不构成接口模式证据。"
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-06T18:32:19.736412+00:00",
+    "finished_at": "2026-11-06T18:32:36.258671+00:00",
+    "elapsed_seconds": 16.522,
+    "returncode": 0,
+    "event_log_sha256": "127ccee36622a412bea14f9082f706b01f85061b1f3c637174db587bff4975f8",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 16079,
+      "cached_input_tokens": 0,
+      "output_tokens": 228,
+      "reasoning_output_tokens": 72
+    },
+    "estimated_credits": null
+  }
+}

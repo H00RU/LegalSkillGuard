@@ -150,6 +150,12 @@ class FormalTeacher(TeacherClient):
     summary_purpose = "formal_teacher_summary"
 
 
+class TeacherBatchExhausted(RuntimeError):
+    def __init__(self, status):
+        super().__init__(status)
+        self.status = status
+
+
 def dry_run(root: Path) -> dict:
     cfg = json.loads((root / "configs/rr_v2_formal.json").read_text())
     manifest = json.loads((root / "reports/rr_v2_evidence/data_manifest.json").read_text())
@@ -242,20 +248,31 @@ class FormalRun:
                 owner.verify_binding()
                 for attempt in range(2):
                     cid=f'{owner.run_id}:teacher:B{batch}:{attempt}'
-                    try:return owner.teacher.summarize(cid,**kwargs)
+                    with owner.ledger.transaction() as db:
+                        prior=db.execute('select status from calls where id=?',(cid,)).fetchone()
+                        used=db.execute("select count(*) from calls where role='teacher'").fetchone()[0]
+                    if prior and prior[0]=='failed':
+                        continue
+                    if not prior and used >= 20-(8-batch):
+                        raise TeacherBatchExhausted('teacher_role_budget_exhausted' if batch==8 else
+                                                    'teacher_budget_reserved_for_remaining_batches')
+                    try:
+                        response=owner.teacher.summarize(cid,**kwargs)
+                        # Cache transport metadata is not part of the paid result.
+                        response.pop('ledger_cache_hit',None)
+                        return response
                     except Exception:
                         with owner.ledger.transaction() as db:
                             row=db.execute('select status,result from calls where id=?',(cid,)).fetchone()
                         if not row or row[0]!='failed':raise
-                raise RuntimeError('Both charged teacher attempts failed')
+                raise TeacherBatchExhausted('two_teacher_attempts_failed')
         proxy=SimpleNamespace(artifacts=self.artifacts/'batches'/f'B{batch}',
             data=SimpleNamespace(order=self.order[(batch-1)*16:batch*16]),teacher=BatchTeacher(),
             seal={'binding':self.binding,'offline_mock':False,'study_preflight_revision':self.run_id})
         try:return Preflight._summarize(proxy,records,library)
-        except RuntimeError as exc:
-            if str(exc)!='Both charged teacher attempts failed':raise
+        except TeacherBatchExhausted as exc:
             failed={'source_ids':proxy.data.order,'reuse_requires_matching_binding':self.binding,
-                'batch_record_accepted':False,'response':None,'status':'two_teacher_attempts_failed',
+                'batch_record_accepted':False,'response':None,'status':exc.status,
                 'offline_mock':False,'accepted_pattern_hashes':[],'pending_proposals':[]}
             immutable_json(proxy.artifacts/'teacher_batch1.json',failed)
             return failed

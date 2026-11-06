@@ -125,7 +125,7 @@
   },
   "execution_model": "frozen_LLM_parser_plus_deterministic_symbolic_backend",
   "execution_request": {
-    "active_stage": "formal_shared_build_only",
+    "active_stage": "citation_fix_uniform_formal_shared_build",
     "allowed": [
       "formal_shared_build",
       "checkpoint_freeze",
@@ -143,7 +143,8 @@
     "research_design_locked": true,
     "test_labels_or_reference_answers_for_debugging": false,
     "thinking_live_comparison_enabled": false,
-    "formal_eval_enabled": false
+    "formal_eval_enabled": false,
+    "recovery_of_aborted_run": "rr_v2_formal_build_20261106"
   },
   "methods": {
     "A": "source_closed_completion_stability_with_answer_separating_batches",
@@ -288,14 +289,14 @@
       "dev_six_arms": 864,
       "diagnostics": 384,
       "frozen_test_six_arms": 3456,
-      "full_build_including_pilot": 292,
+      "full_build_including_pilot": 357,
       "native_empty": 192,
-      "shared_retries_and_recovery": 196,
+      "shared_retries_and_recovery": 131,
       "thinking_comparison": 40
     },
     "executor_max": 6000,
     "full_build_executor_max": 256,
-    "full_build_teacher_max": 16,
+    "full_build_teacher_max": 14,
     "new_paid_authorization": false,
     "preparation_is_not_free": true,
     "retries_count_against_original_ledger": true,

@@ -55,6 +55,29 @@ def test_actual_invalid_JSON_cannot_be_consumed_by_citation_pattern():
     assert re.fullmatch(CITATION_PATTERN, '11 U.S.C. § 522(d)(3)')
 
 
+def test_citation_pattern_admits_all_original_public_train_statute_headers():
+    import re
+    from legal_skill_guard.rr.engine import source_text
+    from legal_skill_guard.rr.strict_contract import CITATION_PATTERN
+    sources = json.loads((ROOT/'data/packets/rr_v2/public_train.json').read_text())['sources']
+    originals = [s for s in sources if s['dataset']=='OpenExempt']
+    assert len(originals)==32
+    header = re.compile(r'^(?:11 U\.S\.C\.|Ariz\. Rev\. Stat\.|735 Ill\. Comp\. Stat\.|Or\. Rev\. Stat\.|42 Pa\. Cons\. Stat\.|Wis\. Stat\.) ')
+    citations = {line.strip() for s in originals for line in source_text(s).splitlines()
+                 if header.match(line.strip())}
+    assert '735 Ill. Comp. Stat. 5/12-1001(a)' in citations
+    assert all(re.fullmatch(CITATION_PATTERN,c) for c in citations)
+
+
+@pytest.mark.parametrize('bad', ['', 'invented rule', '735 Ill. Comp. Stat. fake',
+    '735 Ill. Comp. Stat. 5/12-1001(a)"},"query":true',
+    '735 Ill. Comp. Stat. 5/12-1001(a)\\tail', '735 Ill. Comp. Stat. 5/12-1001(a)\ncontrol'])
+def test_illinois_citation_fix_keeps_format_and_json_boundary_checks(bad):
+    import re
+    from legal_skill_guard.rr.strict_contract import CITATION_PATTERN
+    assert not re.fullmatch(CITATION_PATTERN,bad)
+
+
 def test_real_strict_failure_has_pathful_type_diagnostics_and_is_not_adaptable():
     import jsonschema
 

@@ -7,7 +7,9 @@ from .interfaces import FIELDS
 
 TARGETS = ("OpenExempt", "RuleArena_Airline", "SARA_v2_Binary")
 EXPRESSION_DEPTH = 16  # JSON containers stay below the parser's64-level limit.
-CITATION_PATTERN = r'^[^"\\\x00-\x1f]+§[^"\\\x00-\x1f]+$'
+# The supplied Illinois statutes use canonical citations without a section sign.
+# Preserve the JSON-string exclusions; a section sign is not a universal format.
+CITATION_PATTERN = r'^(?:[^"\\\x00-\x1f]+§[^"\\\x00-\x1f]+|735 Ill\. Comp\. Stat\. [0-9]+/[0-9]+-[0-9]+(?:\([A-Za-z0-9]+\))*)$'
 
 
 def obj(properties):
