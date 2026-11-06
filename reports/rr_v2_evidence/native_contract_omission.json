@@ -1,0 +1,121 @@
+{
+  "captured_utc": "2026-11-05T12:25:05.379123+00:00",
+  "kind": "verified_native_output_contract_omission_not_quality_tuning",
+  "affected_dataset": "OpenExempt",
+  "public_native_answer_schemas": {
+    "EC": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "EV": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "citation",
+            "claim_value"
+          ],
+          "properties": {
+            "citation": {
+              "type": "string"
+            },
+            "claim_value": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  },
+  "transport_answer_schema": {
+    "anyOf": [
+      {
+        "type": "string"
+      },
+      {
+        "type": "integer"
+      },
+      {
+        "type": "object",
+        "additionalProperties": true
+      },
+      {
+        "type": "null"
+      }
+    ]
+  },
+  "fixed_train_prompt_checks": [
+    {
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "prompt_hash": "ff21437a1b19ad01c1305d3778d08020e03e6d6162f140341c90dc22afb6cfdc",
+      "has_claim_value_field": false,
+      "has_citation_field_name": false,
+      "mentions_supplied_schema": true
+    },
+    {
+      "source": "OpenExempt:fe5acb6c980638b2750321e28fadcc69d98f49992871bfc44accbc3b147ca597",
+      "prompt_hash": "c9f056df02a3c333a8d50e7e463064817e2c2fd8781f3f64734b8d6dabc77e36",
+      "has_claim_value_field": false,
+      "has_citation_field_name": false,
+      "mentions_supplied_schema": true
+    },
+    {
+      "source": "OpenExempt:ae1e4bdb9abb4f7bea56b7d39a89776db8e4ed5f2ee7048f51e882a3555c9244",
+      "prompt_hash": "2ac95134c0dd6a9f43c953d34d29b22c986ace74a667ff5536116926170dcc54",
+      "has_claim_value_field": false,
+      "has_citation_field_name": false,
+      "mentions_supplied_schema": true
+    },
+    {
+      "source": "OpenExempt:cdf5d6eb5caa700c844bb8f89116b4ba97d73b5011e69e2919c02c00aeb63ef7",
+      "prompt_hash": "a072f062aa196907eaff115a7efd647ee4278be8f390d37962a47318d5fd57d2",
+      "has_claim_value_field": false,
+      "has_citation_field_name": false,
+      "mentions_supplied_schema": true
+    }
+  ],
+  "source_and_grading_packets_unchanged": true,
+  "root_cause": "Bundled answer has no EC/EV native field constraints in the supplied response schema; EV public text refers to a schema that does not expose citation/claim_value.",
+  "current_scientific_source_unchanged_while_live": true,
+  "prior_additional_model_reruns": 0,
+  "targeted_model_rerun_round_used": false,
+  "next_required_after_original_run_terminal": "Preserve original40 paired records and manifest. Repair OE native response contract only, then verify both modes on exactly the8 affected existing source/profile pairs using the recovery bucket and single paid rerun round; no other sources/profiles/seeds. The unchanged SARA harm case predicts ON retention, but does not replace verification of corrected native output behavior.",
+  "budget_counts_observed": [
+    [
+      "thinking_probe",
+      "completed",
+      13
+    ],
+    [
+      "thinking_probe",
+      "reserved",
+      1
+    ]
+  ],
+  "unchanged_non_OE_harm_cases_observed": [
+    {
+      "source": "SARA_v2_Binary:8175fcb9abeb3ba15e5b58a33f9b479944ee37eab0c0cfa9557393b5193ece97",
+      "dataset": "SARA_v2_Binary",
+      "on_record_hash": "64f11863673a45c31d90f3bc5eeb27338d6b07e4b70791222b1da51c1af4d16b",
+      "off_record_hash": "926e2d89ddebeac6ae6b0850c0e82f1197c30132bc05491ad8fb1e5567d1b0ad",
+      "on_correct": true,
+      "off_correct": false
+    }
+  ],
+  "decision_proof": {
+    "kind": "fixed_policy_implication_not_new_quality_sweep",
+    "condition": "At least one task-correct ON/task-incorrect OFF case remains with exactly unchanged non-OE prompt, schema, config, source and analysis under an OE-only native-contract repair.",
+    "implication": "The predeclared zero-harm requirement for selecting OFF remains false for every possible repaired OE outcome. Retaining ON therefore does not require extra thinking generations for this repair.",
+    "evaluation_timing": "Verify all40 original records and exact unaffected-case invariance after the original process terminates; never select or launch pilot before that.",
+    "extra_probe_calls_required_if_condition_proven": 0
+  },
+  "updated_utc": "2026-11-05T12:31:49.743827+00:00"
+}

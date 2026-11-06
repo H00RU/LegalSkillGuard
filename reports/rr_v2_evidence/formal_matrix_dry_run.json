@@ -1,0 +1,76 @@
+{
+  "executed": false,
+  "model_calls": 0,
+  "formal_execution_authorized": false,
+  "shared_training_builds": 1,
+  "profiles": [
+    {
+      "name": "M00",
+      "compilation": "full",
+      "interface": "ordinary_IO_local_binding_repair",
+      "max_model_calls": 3,
+      "tools": [
+        "bounded_IR",
+        "deterministic_primitives",
+        "completion_backend"
+      ]
+    },
+    {
+      "name": "M10",
+      "compilation": "answer_separating",
+      "interface": "ordinary_IO_local_binding_repair",
+      "max_model_calls": 3,
+      "tools": [
+        "bounded_IR",
+        "deterministic_primitives",
+        "completion_backend"
+      ]
+    },
+    {
+      "name": "M01",
+      "compilation": "full",
+      "interface": "collision_refined",
+      "max_model_calls": 3,
+      "tools": [
+        "bounded_IR",
+        "deterministic_primitives",
+        "completion_backend"
+      ]
+    },
+    {
+      "name": "M11",
+      "compilation": "answer_separating",
+      "interface": "collision_refined",
+      "max_model_calls": 3,
+      "tools": [
+        "bounded_IR",
+        "deterministic_primitives",
+        "completion_backend"
+      ]
+    },
+    {
+      "name": "MA",
+      "compilation": "generic_CEGAR_fixed_batch",
+      "interface": "collision_refined",
+      "max_model_calls": 3,
+      "tools": [
+        "bounded_IR",
+        "deterministic_primitives",
+        "completion_backend"
+      ]
+    },
+    {
+      "name": "MB",
+      "compilation": "answer_separating",
+      "interface": "all_extracted_metadata_example_synthesis",
+      "max_model_calls": 3,
+      "tools": [
+        "bounded_IR",
+        "deterministic_primitives",
+        "completion_backend"
+      ]
+    }
+  ],
+  "dev_outputs_per_arm": 48,
+  "test_outputs_per_arm": 192
+}

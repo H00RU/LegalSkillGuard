@@ -1,0 +1,976 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "answer",
+    "program",
+    "compiled_units",
+    "unsupported_units",
+    "interfaces"
+  ],
+  "properties": {
+    "answer": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "EC",
+            "EV"
+          ],
+          "properties": {
+            "EC": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "EV": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "citation",
+                    "claim_value"
+                  ],
+                  "properties": {
+                    "citation": {
+                      "type": "string"
+                    },
+                    "claim_value": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "program": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "body"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "expression"
+              ]
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "bindings",
+                "query",
+                "source_links"
+              ],
+              "properties": {
+                "bindings": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/binding"
+                  }
+                },
+                "query": {
+                  "$ref": "#/$defs/operation"
+                },
+                "source_links": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "body"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "connector"
+              ]
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "bindings",
+                "candidates",
+                "source_links",
+                "project"
+              ],
+              "properties": {
+                "bindings": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/binding"
+                  }
+                },
+                "candidates": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/$defs/connector"
+                  },
+                  "minItems": 1,
+                  "maxItems": 32
+                },
+                "source_links": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1
+                  }
+                },
+                "project": {
+                  "enum": [
+                    "identity",
+                    "amount_value"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "body"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "unsupported"
+              ]
+            },
+            "body": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {}
+            }
+          }
+        }
+      ]
+    },
+    "compiled_units": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "unsupported_units": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "interfaces": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fields",
+          "graph",
+          "bindings"
+        ],
+        "properties": {
+          "fields": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "entity_equality",
+                "membership",
+                "owner_period_keys",
+                "contribution_lineage",
+                "aggregation_stage",
+                "balance",
+                "allocation_policy",
+                "order_observable"
+              ]
+            }
+          },
+          "graph": {
+            "$ref": "#/$defs/connector"
+          },
+          "bindings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/binding"
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "expression": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "var"
+          ],
+          "properties": {
+            "var": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/operation"
+        }
+      ]
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "op",
+        "args"
+      ],
+      "properties": {
+        "op": {
+          "enum": [
+            "if",
+            "and",
+            "or",
+            "not",
+            "eq",
+            "ne",
+            "lt",
+            "le",
+            "add",
+            "sub",
+            "min",
+            "max",
+            "scale",
+            "divide_constant",
+            "array",
+            "pair",
+            "object",
+            "concat"
+          ]
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/expression"
+          }
+        }
+      }
+    },
+    "binding": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "value",
+            "type",
+            "source"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "value": {
+              "type": "integer"
+            },
+            "type": {
+              "enum": [
+                "integer"
+              ]
+            },
+            "source": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "value",
+            "type",
+            "source"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            },
+            "type": {
+              "enum": [
+                "rational"
+              ]
+            },
+            "source": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "value",
+            "type",
+            "source"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "type": {
+              "enum": [
+                "scalar"
+              ]
+            },
+            "source": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "value",
+            "type",
+            "source"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "value": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "columns",
+                "rows",
+                "closed"
+              ],
+              "properties": {
+                "columns": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "rows": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "closed": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "type": {
+              "enum": [
+                "relation"
+              ]
+            },
+            "source": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "value",
+            "type",
+            "source"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "value",
+                  "unit",
+                  "owner",
+                  "period",
+                  "lineage",
+                  "stage"
+                ],
+                "properties": {
+                  "value": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "unit": {
+                    "type": "string"
+                  },
+                  "owner": {
+                    "type": "string"
+                  },
+                  "period": {
+                    "type": "string"
+                  },
+                  "lineage": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 1
+                  },
+                  "stage": {
+                    "enum": [
+                      "element",
+                      "closed_group"
+                    ]
+                  }
+                }
+              }
+            },
+            "type": {
+              "enum": [
+                "amounts"
+              ]
+            },
+            "source": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "value",
+            "type",
+            "source"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "key",
+                  "balance",
+                  "policy",
+                  "order_observable"
+                ],
+                "properties": {
+                  "key": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "balance": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "policy": {
+                    "enum": [
+                      "input_order",
+                      "reverse_order"
+                    ]
+                  },
+                  "order_observable": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            },
+            "type": {
+              "enum": [
+                "allowance_bank"
+              ]
+            },
+            "source": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "value",
+            "type",
+            "source"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "type": {
+              "enum": [
+                "resource_key"
+              ]
+            },
+            "source": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "value",
+            "type",
+            "source"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "type": {
+              "enum": [
+                "slot_list"
+              ]
+            },
+            "source": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "connector": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "slot"
+          ],
+          "properties": {
+            "slot": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "inputs",
+            "params"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "bind_rename"
+              ]
+            },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/connector"
+              },
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "from",
+                "to"
+              ],
+              "properties": {
+                "from": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "to": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "inputs",
+            "params"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "join_on"
+              ]
+            },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/connector"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "keys"
+              ],
+              "properties": {
+                "keys": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "inputs",
+            "params"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "project_exists"
+              ]
+            },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/connector"
+              },
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {}
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "inputs",
+            "params"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "group_by"
+              ]
+            },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/connector"
+              },
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "keys"
+              ],
+              "properties": {
+                "keys": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "inputs",
+            "params"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "map"
+              ]
+            },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/connector"
+              },
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "primitive",
+                "limit_slot",
+                "scope"
+              ],
+              "properties": {
+                "primitive": {
+                  "enum": [
+                    "cap"
+                  ]
+                },
+                "limit_slot": {
+                  "type": "string"
+                },
+                "scope": {
+                  "enum": [
+                    "element",
+                    "closed_group"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "inputs",
+            "params"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "map"
+              ]
+            },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/connector"
+              },
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "primitive"
+              ],
+              "properties": {
+                "primitive": {
+                  "enum": [
+                    "exists"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "inputs",
+            "params"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "fold_reduce"
+              ]
+            },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/connector"
+              },
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "primitive"
+              ],
+              "properties": {
+                "primitive": {
+                  "enum": [
+                    "sum_amounts",
+                    "all",
+                    "any"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "op",
+            "inputs",
+            "params"
+          ],
+          "properties": {
+            "op": {
+              "enum": [
+                "thread_allowance"
+              ]
+            },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/connector"
+              },
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "bank_slot",
+                "key_slot"
+              ],
+              "properties": {
+                "bank_slot": {
+                  "type": "string"
+                },
+                "key_slot": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

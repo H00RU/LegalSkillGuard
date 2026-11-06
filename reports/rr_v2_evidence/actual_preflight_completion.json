@@ -1,0 +1,181 @@
+{
+  "kind": "actual_fixed20_TRAIN_engineering_preflight_not_formal_evaluation",
+  "captured_utc": "2026-11-06T00:46:27.922072+00:00",
+  "groups": {
+    "preflight_bug_retry": {
+      "calls": 8,
+      "completed": 8,
+      "failed": 0,
+      "prompt_tokens": 103670,
+      "completion_tokens": 17089,
+      "reasoning_output_tokens": 0,
+      "usage_missing_calls": 0,
+      "elapsed_seconds": 529.241927,
+      "total_tokens_known": 120759
+    },
+    "pilot_ingestion": {
+      "calls": 36,
+      "completed": 36,
+      "failed": 0,
+      "prompt_tokens": 210636,
+      "completion_tokens": 105910,
+      "reasoning_output_tokens": 0,
+      "usage_missing_calls": 0,
+      "elapsed_seconds": 3079.504705,
+      "total_tokens_known": 316546
+    },
+    "pilot_teacher_summary": {
+      "calls": 2,
+      "completed": 1,
+      "failed": 1,
+      "prompt_tokens": 21564,
+      "completion_tokens": 372,
+      "reasoning_output_tokens": 71,
+      "usage_missing_calls": 1,
+      "elapsed_seconds": 246.18595,
+      "total_tokens_known": 21936
+    },
+    "thinking_probe": {
+      "calls": 40,
+      "completed": 40,
+      "failed": 0,
+      "prompt_tokens": 180664,
+      "completion_tokens": 102212,
+      "reasoning_output_tokens": 0,
+      "usage_missing_calls": 0,
+      "elapsed_seconds": 2935.309334,
+      "total_tokens_known": 282876
+    }
+  },
+  "inclusive_elapsed_seconds_including_interruptions": 45332.99816083908,
+  "executor_total_calls": 84,
+  "teacher_total_calls": 2,
+  "executor_total_tokens": 720181,
+  "teacher_known_tokens": 21936,
+  "teacher_failed_call_usage_unknown": true,
+  "executor_incremental_api_cash_usd": 0,
+  "gpu_cost_usd": null,
+  "teacher_cash_usd": null,
+  "pilot_by_dataset": {
+    "ContractNLI": {
+      "sources": 4,
+      "calls": 8,
+      "structural_pass": 1,
+      "model_IR_pass": 1,
+      "source_all_task_correct": 4,
+      "native_correct_views": 4,
+      "native_views": 4,
+      "answered": 4,
+      "stable": 0,
+      "stable_wrong": 0,
+      "oracle_views": 0,
+      "oracle_failures": 0,
+      "learning": {
+        "no_counterfactual_oracle": 4
+      },
+      "program_status": {
+        "parse_failure": 3,
+        "unsupported_no_certificate": 1
+      }
+    },
+    "OpenExempt": {
+      "sources": 4,
+      "calls": 8,
+      "structural_pass": 0,
+      "model_IR_pass": 0,
+      "source_all_task_correct": 0,
+      "native_correct_views": 0,
+      "native_views": 8,
+      "answered": 4,
+      "stable": 0,
+      "stable_wrong": 0,
+      "oracle_views": 6,
+      "oracle_failures": 0,
+      "learning": {
+        "identified_on_observed_collisions": 4
+      },
+      "program_status": {
+        "invalid_IR": 1,
+        "parse_failure": 3
+      }
+    },
+    "ProofWriter_OWA_depth5": {
+      "sources": 4,
+      "calls": 4,
+      "structural_pass": 4,
+      "model_IR_pass": 1,
+      "source_all_task_correct": 4,
+      "native_correct_views": 4,
+      "native_views": 4,
+      "answered": 4,
+      "stable": 4,
+      "stable_wrong": 0,
+      "oracle_views": 16,
+      "oracle_failures": 0,
+      "learning": {
+        "identified_on_observed_collisions": 4
+      },
+      "program_status": {
+        "invalid_IR": 3,
+        "unsupported_no_certificate": 1
+      }
+    },
+    "RuleArena_Airline": {
+      "sources": 4,
+      "calls": 8,
+      "structural_pass": 0,
+      "model_IR_pass": 0,
+      "source_all_task_correct": 0,
+      "native_correct_views": 0,
+      "native_views": 4,
+      "answered": 1,
+      "stable": 0,
+      "stable_wrong": 0,
+      "oracle_views": 16,
+      "oracle_failures": 0,
+      "learning": {
+        "identified_on_observed_collisions": 4
+      },
+      "program_status": {
+        "parse_failure": 3,
+        "invalid_IR": 1
+      }
+    },
+    "SARA_v2_Binary": {
+      "sources": 4,
+      "calls": 8,
+      "structural_pass": 0,
+      "model_IR_pass": 0,
+      "source_all_task_correct": 2,
+      "native_correct_views": 2,
+      "native_views": 4,
+      "answered": 4,
+      "stable": 0,
+      "stable_wrong": 0,
+      "oracle_views": 12,
+      "oracle_failures": 1,
+      "learning": {
+        "no_observed_collision": 2,
+        "reference_oracle_unresolved": 1,
+        "identified_on_observed_collisions": 1
+      },
+      "program_status": {
+        "parse_failure": 4
+      }
+    }
+  },
+  "source_and_view_counts_do_not_include_reused_cache_as_new_calls": true,
+  "formal_training_started": false,
+  "frozen_test_started": false,
+  "pilot_model_program_status_all_calls": {
+    "parse_failure": 26,
+    "invalid_IR": 8,
+    "unsupported_no_certificate": 2
+  },
+  "pilot_final_executable_model_IR_sources": 0,
+  "pilot_source_accuracy_equal_benchmark_macro": 0.5,
+  "pilot_answered_sources": 17,
+  "pilot_stable_sources": 4,
+  "pilot_stable_wrong_sources": 0,
+  "executor_elapsed_seconds_sum": 6544.055966
+}

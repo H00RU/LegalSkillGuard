@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "authority": "explicit_user_chat_authorization",
+  "recorded_utc": "2026-11-06T01:47:19.383991+00:00",
+  "user_message": "明确授权第二轮针对严格 schema 与可执行 IR 的定点修复验证，最多新增12次 executor 物理请求，失败和重试均计入；若当前账本确为84次，本轮结束最多96次，全局100次上限不变，teacher不新增。将本地执行协议的允许修复轮次同步为2并记录本次授权，不重置任何账本。先核实36条失败的共同原因，并检查已有原始输出能否通过无歧义、保持语义的确定性适配恢复，禁止补造缺失语义或借助测试答案修复。真实验证先使用最多2次请求检查新 schema 能否产生通过类型、执行及对应语义检查的 IR；若仍出现同类系统性失败，立即停止真实调用，保留余量并报告原因。验证成立后再使用本轮剩余额度，仅处理原固定20个训练来源中的受影响项，不增加来源或调参轮次。交付修复前后证据、实际费用、成功及未解决来源清单。只有原 goal 的实现与预检条件全部满足才标记完成，不能把少数成功样例当作整体通过；无法补齐则如实报告未完成。本次仍不启动完整主训练、正式评测或论文写作。",
+  "user_message_sha256": "a078b137b1171cbadd060e65a88e22d579bf90895aa9251a4f717eec85120332",
+  "prior_executor_calls_verified": 84,
+  "prior_teacher_calls_verified": 2,
+  "max_new_physical_executor_requests": 12,
+  "executor_total_this_round_max": 96,
+  "executor_global_max": 100,
+  "teacher_calls_added": 0,
+  "allowed_repair_rounds": 2,
+  "initial_gate_max_requests": 2,
+  "stop_immediately_on_same_systemic_failure": true,
+  "deterministic_semantics_preserving_recovery_first": true,
+  "same_fixed20_TRAIN_sources_only": true,
+  "ledger_reset_forbidden": true,
+  "new_oracle_queries": 0,
+  "formal_training_authorized": false,
+  "formal_evaluation_authorized": false
+}

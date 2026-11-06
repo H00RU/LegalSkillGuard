@@ -1,0 +1,37 @@
+{
+  "artifact_directory": "artifacts/rr_v2_preflight",
+  "executor": {
+    "base_url": "http://127.0.0.1:8000/v1",
+    "concurrency": 1,
+    "context_tokens": 32768,
+    "max_tokens": 8192,
+    "model": "Qwen/Qwen3-8B",
+    "model_retries": 0,
+    "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "seed": 45,
+    "temperature": 0.6,
+    "timeout_seconds": 600,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "executor_cumulative_max": 6000,
+  "formal_run_enabled": false,
+  "frozen_test_enabled": false,
+  "ledger_path": "artifacts/rr_v2_preflight/research_ledger.sqlite3",
+  "max_targeted_bugfix_rounds": null,
+  "new_paid_resources": false,
+  "protocol_id": "LSG-RR-v2",
+  "repair_execution_policy": "docs/rr_v2/original_budget_preflight_authorization.json",
+  "second_round_authorization": "docs/rr_v2/round2_user_authorization.json",
+  "source_manifest": "reports/rr_v2_evidence/data_manifest.json",
+  "stage": "preflight_only",
+  "teacher": {
+    "executable": "/home/yndx/.local/bin/codex",
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "high",
+    "retries": 0,
+    "timeout_seconds": 600
+  },
+  "thinking_selection": "fixed_paired_protocol_no_parameter_sweep",
+  "teacher_cumulative_max": 20
+}

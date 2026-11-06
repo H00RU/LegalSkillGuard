@@ -1,0 +1,71 @@
+{
+  "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+  "json_schema_contract_passed": true,
+  "IR_typecheck_passed": false,
+  "IR_execution_completed": false,
+  "primary_backend_error": [
+    "Nonboolean operand"
+  ],
+  "query": {
+    "args": [
+      "s157"
+    ],
+    "op": "and"
+  },
+  "binding_value_types": [
+    {
+      "name": "EC",
+      "type": "scalar",
+      "python_value_type": "str"
+    },
+    {
+      "name": "EV",
+      "type": "scalar",
+      "python_value_type": "str"
+    },
+    {
+      "name": "program",
+      "type": "scalar",
+      "python_value_type": "str"
+    }
+  ],
+  "invalid_semantic_node_references": [
+    "s157"
+  ],
+  "public_source_grounding": {
+    "pass": false,
+    "checks": [
+      {
+        "check": "uses_extracted_input_not_answer_literal",
+        "pass": false
+      },
+      {
+        "check": "query_literals_are_public_or_fixed_task_or_logic_symbols",
+        "pass": false
+      },
+      {
+        "binding": "EC",
+        "source": "s157",
+        "pass": false,
+        "basis": "scalar_text_in_cited_public_unit"
+      },
+      {
+        "binding": "EV",
+        "source": "s157",
+        "pass": false,
+        "basis": "scalar_text_in_cited_public_unit"
+      },
+      {
+        "binding": "program",
+        "source": "s157",
+        "pass": false,
+        "basis": "scalar_text_in_cited_public_unit"
+      }
+    ],
+    "scope": "public_literal_grounding_and_original_TRAIN_reference_check_not_universal_NL_equivalence"
+  },
+  "new_response_lossless_format_edits": 0,
+  "native_program_reference_scoring_reached": false,
+  "no_semantics_fabricated": true,
+  "explanation": "The model encoded EC/EV answers and its prior program as scalar strings, then used the source ID s157 as a Boolean and operand. A source identifier is not a Boolean proposition; coercing it or returning the separate answer would invent/replace program semantics."
+}

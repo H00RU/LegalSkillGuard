@@ -1,0 +1,14 @@
+{
+  "call_id": "cumulative:typed_contract_v2:SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+  "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+  "content": "{\"program\": {\"kind\": \"expression\", \"body\": {\"bindings\": [{\"name\": \"n_payment\", \"type\": \"integer\", \"value\": 12980, \"source\": \"s52\"}, {\"name\": \"n_threshold_1\", \"type\": \"integer\", \"value\": 1500, \"source\": \"s4\"}, {\"name\": \"n_threshold_2\", \"type\": \"integer\", \"value\": 20000, \"source\": \"s9\"}], \"query\": {\"op\": \"if\", \"args\": [{\"op\": \"and\", \"args\": [{\"op\": \"eq\", \"args\": [{\"var\": \"n_payment\"}, {\"op\": \"scale\", \"args\": [10, {\"var\": \"n_payment\"}]}]}, {\"op\": \"ne\", \"args\": [{\"var\": \"n_payment\"}, {\"op\": \"scale\", \"args\": [1000, {\"var\": \"n_payment\"}]}]}]}, \"Entailment\", \"Contradiction\"]}, \"source_links\": {\"s52\": [\"query\"], \"s53\": [\"query\"]}}}, \"answer\": \"Contradiction\", \"compiled_units\": [\"s52\", \"s53\"], \"unsupported_units\": [], \"interfaces\": []}",
+  "finish_reason": "stop",
+  "usage": {
+    "completion_tokens": 808,
+    "prompt_tokens": 3015,
+    "prompt_tokens_details": null,
+    "total_tokens": 3823
+  },
+  "wire_artifact": "/home/yndx/hhy/legal-skill-rr-v2/artifacts/rr_v2_preflight/cumulative_repair/typed_contract_v2/calls/27c884259e7dd1a103af27349a3c951adc0ce64d2ed9d3712c04365c367facea/wire_response.json",
+  "wire_file_sha256": "fe385e34f226f6fea3685c6e092e7d90ba6e298307cf476fb18bf3b88b43dfaf"
+}

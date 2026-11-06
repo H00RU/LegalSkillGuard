@@ -1,0 +1,103 @@
+--- a/legal_skill_guard/rr/engine.py
++++ b/legal_skill_guard/rr/engine.py
+@@ -18,6 +18,7 @@
+ from .learning import parameterize_graph
+ from .public_horn import parse_public
+ from .scoring import LABELS
++from .strict_contract import strict_proposal_schema as _strict_proposal_schema
+ 
+ PROPOSAL_SCHEMA = {
+     "type": "object", "additionalProperties": False,
+@@ -330,14 +331,14 @@
+ def proposal_schema(dataset: str) -> dict:
+     """Expose native OE field types, without gold-derived assets or citations."""
+     if dataset != "OpenExempt":
+-        return PROPOSAL_SCHEMA
++        return _strict_proposal_schema(dataset, PROPOSAL_SCHEMA)
+     from legal_skill_guard.openexempt import answer_schema
+     schema = deepcopy(PROPOSAL_SCHEMA)
+     schema["properties"]["answer"] = {"anyOf": [
+         {"type": "object", "additionalProperties": False, "required": ["EC", "EV"],
+          "properties": {family: answer_schema(family) for family in ("EC", "EV")}},
+         {"type": "null"}]}
+-    return schema
++    return _strict_proposal_schema(dataset, schema)
+ 
+ 
+ def wire_messages(source: dict, *, previous: dict | None = None) -> list[dict]:
+--- /dev/null
++++ b/legal_skill_guard/rr/strict_contract.py
+@@ -0,0 +1,73 @@
++"""Typed executable proposal wire contract; semantic checks stay in engine."""
++from __future__ import annotations
++
++from copy import deepcopy
++
++from .interfaces import FIELDS
++
++TARGETS = ("OpenExempt", "RuleArena_Airline", "SARA_v2_Binary")
++
++
++def obj(properties):
++    return {"type": "object", "additionalProperties": False,
++            "required": list(properties), "properties": properties}
++
++
++def array(items):
++    return {"type": "array", "items": items}
++
++
++def ref(name):
++    return {"$ref": "#/$defs/" + name}
++
++
++def strict_proposal_schema(dataset, base_schema):
++    if dataset not in TARGETS:
++        return deepcopy(base_schema)
++    schema = deepcopy(base_schema)
++    string = {"type": "string"}
++    strings = array(string)
++    scalar = {"anyOf": [{"type": "string"}, {"type": "integer"}, {"type": "boolean"}]}
++    atom = {"anyOf": [{"type": "string"}, {"type": "integer"}, {"type": "boolean"},
++                      {"type": "null"}, obj({"var": string}), ref("operation")]}
++    operation = obj({"op": {"enum": ["if", "and", "or", "not", "eq", "ne", "lt", "le", "add", "sub",
++                                     "min", "max", "scale", "divide_constant", "array", "pair", "object", "concat"]},
++                     "args": array(ref("expression"))})
++    amount = obj({"value": {"type": "integer", "minimum": 0}, "unit": string, "owner": string,
++                  "period": string, "lineage": {**strings, "minItems": 1},
++                  "stage": {"enum": ["element", "closed_group"]}})
++    key = {**strings, "minItems": 3, "maxItems": 3}
++    bank = obj({"key": key, "balance": {"type": "integer", "minimum": 0},
++                "policy": {"enum": ["input_order", "reverse_order"]}, "order_observable": {"type": "boolean"}})
++    types = {"integer": {"type": "integer"}, "rational": {"type": "string"}, "scalar": scalar,
++             "relation": obj({"columns": strings, "rows": array(strings), "closed": {"type": "boolean"}}),
++             "amounts": array(amount), "allowance_bank": array(bank), "resource_key": key, "slot_list": strings}
++    binding = {"anyOf": [obj({"name": string, "value": value, "type": {"enum": [kind]}, "source": string})
++                         for kind, value in types.items()]}
++    bindings = array(ref("binding"))
++    links = {"type": "object", "additionalProperties": {**strings, "minItems": 1}}
++    def connector(op, arity, params):
++        return obj({"op": {"enum": [op]}, "inputs": {"type": "array", "items": ref("connector"),
++                    "minItems": arity, "maxItems": arity}, "params": obj(params)})
++    graphs = {"anyOf": [obj({"slot": string}),
++        connector("bind_rename", 1, {"from": strings, "to": strings}),
++        connector("join_on", 2, {"keys": strings}), connector("project_exists", 1, {}),
++        connector("group_by", 1, {"keys": strings}),
++        connector("map", 1, {"primitive": {"enum": ["cap"]}, "limit_slot": string,
++                             "scope": {"enum": ["element", "closed_group"]}}),
++        connector("map", 1, {"primitive": {"enum": ["exists"]}}),
++        connector("fold_reduce", 1, {"primitive": {"enum": ["sum_amounts", "all", "any"]}}),
++        connector("thread_allowance", 1, {"bank_slot": string, "key_slot": string})]}
++    expression_body = obj({"bindings": bindings, "query": ref("operation"), "source_links": links})
++    connector_body = obj({"bindings": bindings, "candidates": {"type": "array", "items": ref("connector"),
++                         "minItems": 1, "maxItems": 32}, "source_links": links,
++                          "project": {"enum": ["identity", "amount_value"]}})
++    schema["$defs"] = {"expression": atom, "operation": operation, "binding": binding, "connector": graphs}
++    schema["properties"]["program"] = {"anyOf": [
++        obj({"kind": {"enum": ["expression"]}, "body": expression_body}),
++        obj({"kind": {"enum": ["connector"]}, "body": connector_body}),
++        obj({"kind": {"enum": ["unsupported"]}, "body": obj({})})]}
++    schema["properties"]["interfaces"] = {"type": "array", "maxItems": 8,
++        "items": obj({"fields": array({"enum": list(FIELDS)}), "graph": ref("connector"), "bindings": bindings})}
++    return schema
++

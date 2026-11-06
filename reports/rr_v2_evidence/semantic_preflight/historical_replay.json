@@ -1,0 +1,1119 @@
+{
+  "scope": "Current-code analysis only; original response and original outcomes retained",
+  "calls": 12,
+  "new_model_requests": 0,
+  "new_oracles": 0,
+  "missing_semantics_synthesized": false,
+  "strict_passes": 0,
+  "records": [
+    {
+      "physical": 85,
+      "call_id": "strict_contract_fix:OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028:True",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "raw_unchanged": true,
+      "raw_sha256": "24743eb42263e042f09daa15b5137e3bcf7270f999f138eade81446f441e4a12",
+      "current_validation": {
+        "pass": false,
+        "systemic_failure": true,
+        "reason": "strict_schema_or_JSON_failure",
+        "error": "No schema union alternative accepts this value\n\nFailed validating 'anyOf' in schema['properties']['program']:\n    {'anyOf': [{'type': 'object',\n                'additionalProperties': False,\n                'required': ['kind', 'body'],\n                'properties': {'kind': {'enum': ['expression']},\n                               'body': {'type': 'object',\n                                        'additionalProperties': False,\n                                        'required': ['bindings',\n                                                     'query',\n                                                     'source_links'],\n                                        'properties': {'bindings': {'type': 'array',\n                                                                    'items': {'$ref': '#/$defs/expression_binding'},\n                                                                    'minItems': 1},\n                                                       'query': {'type': 'object',\n                                                                 'additionalProperties': False,\n                                                                 'required': ['op',\n                                                                              'args'],\n                                                                 'properties': {'op': {'enum': ['object']},\n                                                                                'args': {'type': 'array',\n                      ",
+        "typed_schema_pass": false,
+        "model_IR_executed": false
+      },
+      "current_native_answer_score": {
+        "task_correct": false,
+        "views": {
+          "EC": {
+            "valid": true,
+            "correct": false,
+            "metric": "complete_mapping_exact_match",
+            "official_metrics": {
+              "status": "scored",
+              "metrics": {
+                "precision": 1.0,
+                "recall": 0.6666666666666666,
+                "f1": 0.8,
+                "invalid_format": 0,
+                "exact_target": false,
+                "full_output_f1": 0.8,
+                "full_output_precision": 1.0,
+                "full_output_recall": 0.6666666666666666,
+                "full_output_claim_tp": 4,
+                "full_output_claim_fp": 0,
+                "full_output_claim_fn": 2,
+                "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                "officially_unscored_predicted_claims": 0,
+                "officially_unscored_predicted_assets": {},
+                "negative_target_asset_predicted_claims": 0,
+                "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+              }
+            }
+          },
+          "EV": {
+            "valid": true,
+            "correct": false,
+            "metric": "complete_mapping_exact_match",
+            "official_metrics": {
+              "status": "scored",
+              "metrics": {
+                "precision": 0.75,
+                "recall": 0.5,
+                "f1": 0.6000000000000001,
+                "mare": 0.03530670470756064,
+                "invalid_format": 0,
+                "exact_target": false,
+                "full_output_f1": 0.6,
+                "full_output_precision": 0.75,
+                "full_output_recall": 0.5,
+                "full_output_claim_tp": 3,
+                "full_output_claim_fp": 1,
+                "full_output_claim_fn": 3,
+                "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                "officially_unscored_predicted_claims": 0,
+                "officially_unscored_predicted_assets": {},
+                "negative_target_asset_predicted_claims": 0,
+                "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+              }
+            }
+          }
+        }
+      },
+      "current_diagnostics": [
+        "[{'path': 'program.body.query.args[0]', 'expected': 'boolean', 'actual': ['string']}, {'path': 'program.body.source_links.s157[0]', 'expected': 'existing semantic node (query or binding:NAME)', 'actual': 's157'}]"
+      ]
+    },
+    {
+      "physical": 86,
+      "call_id": "cumulative:typed_contract_v1:OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "raw_unchanged": true,
+      "raw_sha256": "e74648cda26311f6ba4aa98beb39ddd47d611f000c1812de477e9b98d3ce5e32",
+      "current_validation": {
+        "pass": false,
+        "systemic_failure": true,
+        "reason": "strict_schema_or_JSON_failure",
+        "error": "No schema union alternative accepts this value\n\nFailed validating 'anyOf' in schema['properties']['program']:\n    {'anyOf': [{'type': 'object',\n                'additionalProperties': False,\n                'required': ['kind', 'body'],\n                'properties': {'kind': {'enum': ['expression']},\n                               'body': {'type': 'object',\n                                        'additionalProperties': False,\n                                        'required': ['bindings',\n                                                     'query',\n                                                     'source_links'],\n                                        'properties': {'bindings': {'type': 'array',\n                                                                    'items': {'$ref': '#/$defs/expression_binding'},\n                                                                    'minItems': 1},\n                                                       'query': {'type': 'object',\n                                                                 'additionalProperties': False,\n                                                                 'required': ['op',\n                                                                              'args'],\n                                                                 'properties': {'op': {'enum': ['object']},\n                                                                                'args': {'type': 'array',\n                      ",
+        "typed_schema_pass": false,
+        "model_IR_executed": false
+      },
+      "current_native_answer_score": {
+        "task_correct": false,
+        "views": {
+          "EC": {
+            "valid": true,
+            "correct": false,
+            "metric": "complete_mapping_exact_match",
+            "official_metrics": {
+              "status": "scored",
+              "metrics": {
+                "precision": 1.0,
+                "recall": 0.6666666666666666,
+                "f1": 0.8,
+                "invalid_format": 0,
+                "exact_target": false,
+                "full_output_f1": 0.8,
+                "full_output_precision": 1.0,
+                "full_output_recall": 0.6666666666666666,
+                "full_output_claim_tp": 4,
+                "full_output_claim_fp": 0,
+                "full_output_claim_fn": 2,
+                "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                "officially_unscored_predicted_claims": 0,
+                "officially_unscored_predicted_assets": {},
+                "negative_target_asset_predicted_claims": 0,
+                "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+              }
+            }
+          },
+          "EV": {
+            "valid": true,
+            "correct": false,
+            "metric": "complete_mapping_exact_match",
+            "official_metrics": {
+              "status": "scored",
+              "metrics": {
+                "precision": 0.75,
+                "recall": 0.5,
+                "f1": 0.6000000000000001,
+                "mare": 0.03530670470756064,
+                "invalid_format": 0,
+                "exact_target": false,
+                "full_output_f1": 0.6,
+                "full_output_precision": 0.75,
+                "full_output_recall": 0.5,
+                "full_output_claim_tp": 3,
+                "full_output_claim_fp": 1,
+                "full_output_claim_fn": 3,
+                "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                "officially_unscored_predicted_claims": 0,
+                "officially_unscored_predicted_assets": {},
+                "negative_target_asset_predicted_claims": 0,
+                "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+              }
+            }
+          }
+        }
+      },
+      "current_diagnostics": [
+        "[{'path': 'program.body.query.args[0].args[0].args[1].args[0]', 'expected': 'string', 'actual': ['number']}, {'path': 'program.body.query.args[0].args[1].args[0].args[1].args[0]', 'expected': 'string', 'actual': ['number']}, {'path': 'program.body.query.args[0].args[2].args[0].args[1].args[0]', 'expected': 'string', 'actual': ['number']}, {'path': 'program.body.query.args[0].args[2].args[1].args[1].args[0]', 'expected': 'string', 'actual': ['number']}]"
+      ],
+      "historical_validation": {
+        "pass": false,
+        "typed_schema_pass": true,
+        "model_IR_executed": false,
+        "reason": "no_executable_model_IR",
+        "program_native_score": null
+      }
+    },
+    {
+      "physical": 87,
+      "call_id": "cumulative:typed_contract_v1:RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+      "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+      "raw_unchanged": true,
+      "raw_sha256": "a5732287d100d1f2195fd42e9efa79f95a14b50de5bf5fde926370fb83acc233",
+      "current_validation": {
+        "pass": false,
+        "systemic_failure": true,
+        "reason": "strict_schema_or_JSON_failure",
+        "error": "Unterminated string starting at: line 1 column 5946 (char 5945)",
+        "typed_schema_pass": false,
+        "model_IR_executed": false
+      },
+      "current_native_answer_score": {
+        "task_correct": false,
+        "views": {
+          "main": {
+            "valid": false,
+            "correct": false,
+            "metric": "exact_match"
+          }
+        }
+      },
+      "current_diagnostics": [
+        "Proposal exceeds bounded JSON nesting depth (64)"
+      ],
+      "historical_validation": {
+        "pass": false,
+        "typed_schema_pass": false,
+        "model_IR_executed": false,
+        "reason": "strict_schema_or_JSON_failure",
+        "program_native_score": null
+      }
+    },
+    {
+      "physical": 88,
+      "call_id": "cumulative:typed_contract_v2:RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+      "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+      "raw_unchanged": true,
+      "raw_sha256": "ef988c5e3d9afe0fe9ff9d86da2d1ab804241da5be428b0abf02611e3033feeb",
+      "current_validation": {
+        "pass": false,
+        "systemic_failure": false,
+        "reason": "TRAIN_semantics_or_source_grounding_unresolved",
+        "typed_schema_pass": true,
+        "model_IR_executed": true,
+        "program_native_score": {
+          "task_correct": false,
+          "views": {
+            "main": {
+              "valid": true,
+              "correct": false,
+              "metric": "exact_match"
+            }
+          }
+        },
+        "source_grounding": {
+          "pass": false,
+          "checks": [
+            {
+              "check": "uses_extracted_input_not_answer_literal",
+              "pass": true
+            },
+            {
+              "check": "query_literals_are_public_or_fixed_task_or_logic_symbols",
+              "pass": false
+            },
+            {
+              "binding": "n_count",
+              "source": "s156",
+              "pass": false,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "binding": "n_fee_first",
+              "source": "s19",
+              "pass": false,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "binding": "n_fee_second",
+              "source": "s19",
+              "pass": true,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "binding": "n_fee_third",
+              "source": "s19",
+              "pass": false,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "binding": "n_fee_fourth",
+              "source": "s19",
+              "pass": false,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "binding": "n_additional_fee1",
+              "source": "s141",
+              "pass": false,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "binding": "n_additional_fee2",
+              "source": "s141",
+              "pass": false,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "binding": "n_additional_fee3",
+              "source": "s141",
+              "pass": false,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "binding": "n_additional_fee4",
+              "source": "s141",
+              "pass": false,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "binding": "n_ticket_price",
+              "source": "s155",
+              "pass": false,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "check": "native_JSON_preserves_exact_result",
+              "pass": true
+            }
+          ],
+          "scope": "public_literal_grounding_and_original_TRAIN_reference_check_not_universal_NL_equivalence"
+        },
+        "grading_scope": "original_fixed_TRAIN_label_only",
+        "new_oracle_queries": 0
+      },
+      "current_native_answer_score": {
+        "task_correct": false,
+        "views": {
+          "main": {
+            "valid": true,
+            "correct": false,
+            "metric": "exact_match"
+          }
+        }
+      },
+      "current_diagnostics": [],
+      "historical_validation": {
+        "pass": false,
+        "typed_schema_pass": true,
+        "model_IR_executed": true,
+        "reason": "TRAIN_semantics_or_source_grounding_unresolved",
+        "program_native_score": {
+          "task_correct": false,
+          "views": {
+            "main": {
+              "valid": true,
+              "correct": false,
+              "metric": "exact_match"
+            }
+          }
+        }
+      }
+    },
+    {
+      "physical": 89,
+      "call_id": "cumulative:typed_contract_v2:SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+      "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+      "raw_unchanged": true,
+      "raw_sha256": "cb3dfd770e5de47cb9616c032fe16e25cc2f6dafce1db28a309e26285fccf0bf",
+      "current_validation": {
+        "pass": false,
+        "systemic_failure": false,
+        "reason": "TRAIN_semantics_or_source_grounding_unresolved",
+        "typed_schema_pass": true,
+        "model_IR_executed": true,
+        "program_native_score": {
+          "task_correct": false,
+          "views": {
+            "main": {
+              "valid": true,
+              "correct": false,
+              "metric": "accuracy"
+            }
+          }
+        },
+        "source_grounding": {
+          "pass": false,
+          "checks": [
+            {
+              "check": "uses_extracted_input_not_answer_literal",
+              "pass": true
+            },
+            {
+              "check": "query_literals_are_public_or_fixed_task_or_logic_symbols",
+              "pass": false
+            },
+            {
+              "binding": "n_payment",
+              "source": "s52",
+              "pass": true,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "binding": "n_threshold_1",
+              "source": "s4",
+              "pass": true,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "binding": "n_threshold_2",
+              "source": "s9",
+              "pass": true,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "check": "native_JSON_preserves_exact_result",
+              "pass": true
+            }
+          ],
+          "scope": "public_literal_grounding_and_original_TRAIN_reference_check_not_universal_NL_equivalence"
+        },
+        "grading_scope": "original_fixed_TRAIN_label_only",
+        "new_oracle_queries": 0
+      },
+      "current_native_answer_score": {
+        "task_correct": false,
+        "views": {
+          "main": {
+            "valid": true,
+            "correct": false,
+            "metric": "accuracy"
+          }
+        }
+      },
+      "current_diagnostics": [],
+      "historical_validation": {
+        "pass": false,
+        "typed_schema_pass": true,
+        "model_IR_executed": true,
+        "reason": "TRAIN_semantics_or_source_grounding_unresolved",
+        "program_native_score": {
+          "task_correct": false,
+          "views": {
+            "main": {
+              "valid": true,
+              "correct": false,
+              "metric": "accuracy"
+            }
+          }
+        }
+      }
+    },
+    {
+      "physical": 90,
+      "call_id": "cumulative:typed_contract_v3:SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+      "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+      "raw_unchanged": true,
+      "raw_sha256": "3d4dcbd467c8714da03adbe814200496793599b23b402fd89b825c8e1f234ce8",
+      "current_validation": {
+        "pass": false,
+        "systemic_failure": true,
+        "reason": "strict_schema_or_JSON_failure",
+        "error": "No schema union alternative accepts this value\n\nFailed validating 'anyOf' in schema['properties']['program']:\n    {'anyOf': [{'type': 'object',\n                'additionalProperties': False,\n                'required': ['kind', 'body'],\n                'properties': {'kind': {'enum': ['expression']},\n                               'body': {'type': 'object',\n                                        'additionalProperties': False,\n                                        'required': ['bindings',\n                                                     'query',\n                                                     'source_links'],\n                                        'properties': {'bindings': {'type': 'array',\n                                                                    'items': {'$ref': '#/$defs/expression_binding'},\n                                                                    'minItems': 1},\n                                                       'query': {'type': 'object',\n                                                                 'additionalProperties': False,\n                                                                 'required': ['op',\n                                                                              'args'],\n                                                                 'properties': {'op': {'enum': ['if']},\n                                                                                'args': {'type': 'array',\n                          ",
+        "typed_schema_pass": false,
+        "model_IR_executed": false
+      },
+      "current_native_answer_score": {
+        "task_correct": false,
+        "views": {
+          "main": {
+            "valid": true,
+            "correct": false,
+            "metric": "accuracy"
+          }
+        }
+      },
+      "current_diagnostics": [],
+      "historical_validation": {
+        "pass": false,
+        "typed_schema_pass": true,
+        "model_IR_executed": true,
+        "reason": "TRAIN_semantics_or_source_grounding_unresolved",
+        "program_native_score": {
+          "task_correct": true,
+          "views": {
+            "main": {
+              "valid": true,
+              "correct": true,
+              "metric": "accuracy"
+            }
+          }
+        }
+      }
+    },
+    {
+      "physical": 91,
+      "call_id": "cumulative:typed_contract_v4:SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+      "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+      "raw_unchanged": true,
+      "raw_sha256": "cc0109f6ca8613a8ec90448a1415ab74b072795b690f0c8e330a03f808868be2",
+      "current_validation": {
+        "pass": false,
+        "systemic_failure": false,
+        "reason": "TRAIN_semantics_or_source_grounding_unresolved",
+        "typed_schema_pass": true,
+        "model_IR_executed": true,
+        "program_native_score": {
+          "task_correct": false,
+          "views": {
+            "main": {
+              "valid": true,
+              "correct": false,
+              "metric": "accuracy"
+            }
+          }
+        },
+        "source_grounding": {
+          "pass": true,
+          "checks": [
+            {
+              "check": "uses_extracted_input_not_answer_literal",
+              "pass": true
+            },
+            {
+              "check": "query_literals_are_public_or_fixed_task_or_logic_symbols",
+              "pass": true
+            },
+            {
+              "binding": "s_3306b10A",
+              "source": "s53",
+              "pass": true,
+              "basis": "scalar_text_in_cited_public_unit"
+            },
+            {
+              "binding": "n_payment_amount",
+              "source": "s52",
+              "pass": true,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "binding": "n_threshold",
+              "source": "s9",
+              "pass": true,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "check": "native_JSON_preserves_exact_result",
+              "pass": true
+            }
+          ],
+          "scope": "public_literal_grounding_and_original_TRAIN_reference_check_not_universal_NL_equivalence"
+        },
+        "grading_scope": "original_fixed_TRAIN_label_only",
+        "new_oracle_queries": 0
+      },
+      "current_native_answer_score": {
+        "task_correct": false,
+        "views": {
+          "main": {
+            "valid": true,
+            "correct": false,
+            "metric": "accuracy"
+          }
+        }
+      },
+      "current_diagnostics": [],
+      "historical_validation": {
+        "pass": false,
+        "typed_schema_pass": true,
+        "model_IR_executed": true,
+        "reason": "TRAIN_semantics_or_source_grounding_unresolved",
+        "program_native_score": {
+          "task_correct": false,
+          "views": {
+            "main": {
+              "valid": true,
+              "correct": false,
+              "metric": "accuracy"
+            }
+          }
+        }
+      }
+    },
+    {
+      "physical": 92,
+      "call_id": "cumulative:typed_contract_v4:OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "raw_unchanged": true,
+      "raw_sha256": "4b390b038c5352ca7b44585e246ccad312a9db733f2b3e41d14dc2b6884afe81",
+      "current_validation": {
+        "pass": false,
+        "systemic_failure": true,
+        "reason": "strict_schema_or_JSON_failure",
+        "error": "No schema union alternative accepts this value\n\nFailed validating 'anyOf' in schema['properties']['program']:\n    {'anyOf': [{'type': 'object',\n                'additionalProperties': False,\n                'required': ['kind', 'body'],\n                'properties': {'kind': {'enum': ['expression']},\n                               'body': {'type': 'object',\n                                        'additionalProperties': False,\n                                        'required': ['bindings',\n                                                     'query',\n                                                     'source_links'],\n                                        'properties': {'bindings': {'type': 'array',\n                                                                    'items': {'$ref': '#/$defs/expression_binding'},\n                                                                    'minItems': 1},\n                                                       'query': {'type': 'object',\n                                                                 'additionalProperties': False,\n                                                                 'required': ['op',\n                                                                              'args'],\n                                                                 'properties': {'op': {'enum': ['object']},\n                                                                                'args': {'type': 'array',\n                      ",
+        "typed_schema_pass": false,
+        "model_IR_executed": false
+      },
+      "current_native_answer_score": {
+        "task_correct": false,
+        "views": {
+          "EC": {
+            "valid": true,
+            "correct": false,
+            "metric": "complete_mapping_exact_match",
+            "official_metrics": {
+              "status": "scored",
+              "metrics": {
+                "precision": 1.0,
+                "recall": 0.6666666666666666,
+                "f1": 0.8,
+                "invalid_format": 0,
+                "exact_target": false,
+                "full_output_f1": 0.8,
+                "full_output_precision": 1.0,
+                "full_output_recall": 0.6666666666666666,
+                "full_output_claim_tp": 4,
+                "full_output_claim_fp": 0,
+                "full_output_claim_fn": 2,
+                "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                "officially_unscored_predicted_claims": 0,
+                "officially_unscored_predicted_assets": {},
+                "negative_target_asset_predicted_claims": 0,
+                "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+              }
+            }
+          },
+          "EV": {
+            "valid": true,
+            "correct": false,
+            "metric": "complete_mapping_exact_match",
+            "official_metrics": {
+              "status": "scored",
+              "metrics": {
+                "precision": 0.0,
+                "recall": 0.0,
+                "f1": 0.0,
+                "mare": null,
+                "invalid_format": 0,
+                "exact_target": false,
+                "full_output_f1": 0,
+                "full_output_precision": 0,
+                "full_output_recall": 0.0,
+                "full_output_claim_tp": 0,
+                "full_output_claim_fp": 0,
+                "full_output_claim_fn": 6,
+                "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                "officially_unscored_predicted_claims": 0,
+                "officially_unscored_predicted_assets": {},
+                "negative_target_asset_predicted_claims": 0,
+                "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+              }
+            }
+          }
+        }
+      },
+      "current_diagnostics": [
+        "[{'path': 'program.body.query.args[0].args[1].args[0].args[1].args[0].var', 'expected': 'bound variable name', 'actual': \"'s_citation1'\"}]"
+      ],
+      "historical_validation": {
+        "pass": false,
+        "typed_schema_pass": true,
+        "model_IR_executed": false,
+        "reason": "no_executable_model_IR",
+        "program_native_score": null
+      }
+    },
+    {
+      "physical": 93,
+      "call_id": "cumulative:typed_contract_v5:OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "raw_unchanged": true,
+      "raw_sha256": "578204228fa588058459e1860277e95e06fa5384e6a2d5d3b61d33827d3bbc3c",
+      "current_validation": {
+        "pass": false,
+        "systemic_failure": true,
+        "reason": "strict_schema_or_JSON_failure",
+        "error": "No schema union alternative accepts this value\n\nFailed validating 'anyOf' in schema['properties']['program']:\n    {'anyOf': [{'type': 'object',\n                'additionalProperties': False,\n                'required': ['kind', 'body'],\n                'properties': {'kind': {'enum': ['expression']},\n                               'body': {'type': 'object',\n                                        'additionalProperties': False,\n                                        'required': ['bindings',\n                                                     'query',\n                                                     'source_links'],\n                                        'properties': {'bindings': {'type': 'array',\n                                                                    'items': {'$ref': '#/$defs/expression_binding'},\n                                                                    'minItems': 1},\n                                                       'query': {'type': 'object',\n                                                                 'additionalProperties': False,\n                                                                 'required': ['op',\n                                                                              'args'],\n                                                                 'properties': {'op': {'enum': ['object']},\n                                                                                'args': {'type': 'array',\n                      ",
+        "typed_schema_pass": false,
+        "model_IR_executed": false
+      },
+      "current_native_answer_score": {
+        "task_correct": false,
+        "views": {
+          "EC": {
+            "valid": true,
+            "correct": false,
+            "metric": "complete_mapping_exact_match",
+            "official_metrics": {
+              "status": "scored",
+              "metrics": {
+                "precision": 0.5,
+                "recall": 0.16666666666666666,
+                "f1": 0.25,
+                "invalid_format": 0,
+                "exact_target": false,
+                "full_output_f1": 0.2857142857142857,
+                "full_output_precision": 1.0,
+                "full_output_recall": 0.16666666666666666,
+                "full_output_claim_tp": 1,
+                "full_output_claim_fp": 0,
+                "full_output_claim_fn": 5,
+                "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                "officially_unscored_predicted_claims": 0,
+                "officially_unscored_predicted_assets": {},
+                "negative_target_asset_predicted_claims": 0,
+                "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+              }
+            }
+          },
+          "EV": {
+            "valid": true,
+            "correct": false,
+            "metric": "complete_mapping_exact_match",
+            "official_metrics": {
+              "status": "scored",
+              "metrics": {
+                "precision": 1.0,
+                "recall": 0.5,
+                "f1": 0.65,
+                "mare": 0.0,
+                "invalid_format": 0,
+                "exact_target": false,
+                "full_output_f1": 0.6666666666666666,
+                "full_output_precision": 1.0,
+                "full_output_recall": 0.5,
+                "full_output_claim_tp": 3,
+                "full_output_claim_fp": 0,
+                "full_output_claim_fn": 3,
+                "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                "officially_unscored_predicted_claims": 0,
+                "officially_unscored_predicted_assets": {},
+                "negative_target_asset_predicted_claims": 0,
+                "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+              }
+            }
+          }
+        }
+      },
+      "current_diagnostics": [],
+      "historical_validation": {
+        "pass": false,
+        "typed_schema_pass": true,
+        "model_IR_executed": true,
+        "reason": "TRAIN_semantics_or_source_grounding_unresolved",
+        "program_native_score": {
+          "task_correct": false,
+          "views": {
+            "EC": {
+              "valid": true,
+              "correct": false,
+              "metric": "complete_mapping_exact_match",
+              "official_metrics": {
+                "status": "scored",
+                "metrics": {
+                  "precision": 0.0,
+                  "recall": 0.0,
+                  "f1": 0.0,
+                  "invalid_format": 0,
+                  "exact_target": false,
+                  "full_output_f1": 0,
+                  "full_output_precision": 0.0,
+                  "full_output_recall": 0.0,
+                  "full_output_claim_tp": 0,
+                  "full_output_claim_fp": 1,
+                  "full_output_claim_fn": 6,
+                  "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                  "officially_unscored_predicted_claims": 0,
+                  "officially_unscored_predicted_assets": {},
+                  "negative_target_asset_predicted_claims": 0,
+                  "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+                }
+              }
+            },
+            "EV": {
+              "valid": true,
+              "correct": false,
+              "metric": "complete_mapping_exact_match",
+              "official_metrics": {
+                "status": "native_format_rejection",
+                "metrics": null
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "physical": 94,
+      "call_id": "cumulative:typed_contract_v6:OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "raw_unchanged": true,
+      "raw_sha256": "87e7ea81227cdb7d56e45a29a9adb9f9a9f9dc628b203ca18c4ffd250a328236",
+      "current_validation": {
+        "pass": false,
+        "systemic_failure": true,
+        "reason": "strict_schema_or_JSON_failure",
+        "error": "Expecting property name enclosed in double quotes: line 1 column 672 (char 671)",
+        "typed_schema_pass": false,
+        "model_IR_executed": false
+      },
+      "current_native_answer_score": {
+        "task_correct": false,
+        "views": {
+          "EC": {
+            "valid": false,
+            "correct": false,
+            "metric": "complete_mapping_exact_match"
+          },
+          "EV": {
+            "valid": false,
+            "correct": false,
+            "metric": "complete_mapping_exact_match"
+          }
+        }
+      },
+      "current_diagnostics": [
+        "Expecting property name enclosed in double quotes: line 1 column 672 (char 671)"
+      ],
+      "historical_validation": {
+        "pass": false,
+        "typed_schema_pass": false,
+        "model_IR_executed": false,
+        "reason": "strict_schema_or_JSON_failure",
+        "program_native_score": null
+      }
+    },
+    {
+      "physical": 95,
+      "call_id": "cumulative:typed_contract_v7:OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "raw_unchanged": true,
+      "raw_sha256": "581b270b2174f16403353371252c9a72c8459dcd022c903a40e951a8f6f443df",
+      "current_validation": {
+        "pass": false,
+        "systemic_failure": true,
+        "reason": "no_executable_model_IR",
+        "typed_schema_pass": true,
+        "model_IR_executed": false
+      },
+      "current_native_answer_score": {
+        "task_correct": false,
+        "views": {
+          "EC": {
+            "valid": true,
+            "correct": false,
+            "metric": "complete_mapping_exact_match",
+            "official_metrics": {
+              "status": "scored",
+              "metrics": {
+                "precision": 1.0,
+                "recall": 0.6666666666666666,
+                "f1": 0.8,
+                "invalid_format": 0,
+                "exact_target": false,
+                "full_output_f1": 0.8,
+                "full_output_precision": 1.0,
+                "full_output_recall": 0.6666666666666666,
+                "full_output_claim_tp": 4,
+                "full_output_claim_fp": 0,
+                "full_output_claim_fn": 2,
+                "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                "officially_unscored_predicted_claims": 0,
+                "officially_unscored_predicted_assets": {},
+                "negative_target_asset_predicted_claims": 0,
+                "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+              }
+            }
+          },
+          "EV": {
+            "valid": true,
+            "correct": false,
+            "metric": "complete_mapping_exact_match",
+            "official_metrics": {
+              "status": "scored",
+              "metrics": {
+                "precision": 0.75,
+                "recall": 0.5,
+                "f1": 0.6000000000000001,
+                "mare": 0.03530670470756064,
+                "invalid_format": 0,
+                "exact_target": false,
+                "full_output_f1": 0.6,
+                "full_output_precision": 0.75,
+                "full_output_recall": 0.5,
+                "full_output_claim_tp": 3,
+                "full_output_claim_fp": 1,
+                "full_output_claim_fn": 3,
+                "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                "officially_unscored_predicted_claims": 0,
+                "officially_unscored_predicted_assets": {},
+                "negative_target_asset_predicted_claims": 0,
+                "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+              }
+            }
+          }
+        }
+      },
+      "current_diagnostics": [
+        "Duplicate output field"
+      ],
+      "historical_validation": {
+        "pass": false,
+        "typed_schema_pass": true,
+        "model_IR_executed": false,
+        "reason": "no_executable_model_IR",
+        "program_native_score": null
+      }
+    },
+    {
+      "physical": 96,
+      "call_id": "cumulative:typed_contract_v8:OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "raw_unchanged": true,
+      "raw_sha256": "963d7d369d4890435a58769823309986821d03961534493fc0b555b894fb57fa",
+      "current_validation": {
+        "pass": false,
+        "systemic_failure": false,
+        "reason": "TRAIN_semantics_or_source_grounding_unresolved",
+        "typed_schema_pass": true,
+        "model_IR_executed": true,
+        "program_native_score": {
+          "task_correct": false,
+          "views": {
+            "EC": {
+              "valid": true,
+              "correct": false,
+              "metric": "complete_mapping_exact_match",
+              "official_metrics": {
+                "status": "scored",
+                "metrics": {
+                  "precision": 0.8333333333333333,
+                  "recall": 0.6666666666666666,
+                  "f1": 0.7333333333333334,
+                  "invalid_format": 0,
+                  "exact_target": false,
+                  "full_output_f1": 0.7272727272727272,
+                  "full_output_precision": 0.8,
+                  "full_output_recall": 0.6666666666666666,
+                  "full_output_claim_tp": 4,
+                  "full_output_claim_fp": 1,
+                  "full_output_claim_fn": 2,
+                  "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                  "officially_unscored_predicted_claims": 0,
+                  "officially_unscored_predicted_assets": {},
+                  "negative_target_asset_predicted_claims": 0,
+                  "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+                }
+              }
+            },
+            "EV": {
+              "valid": true,
+              "correct": false,
+              "metric": "complete_mapping_exact_match",
+              "official_metrics": {
+                "status": "scored",
+                "metrics": {
+                  "precision": 0.5833333333333333,
+                  "recall": 0.5,
+                  "f1": 0.5333333333333333,
+                  "mare": 0.03530670470756064,
+                  "invalid_format": 0,
+                  "exact_target": false,
+                  "full_output_f1": 0.5454545454545454,
+                  "full_output_precision": 0.6,
+                  "full_output_recall": 0.5,
+                  "full_output_claim_tp": 3,
+                  "full_output_claim_fp": 2,
+                  "full_output_claim_fn": 3,
+                  "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                  "officially_unscored_predicted_claims": 0,
+                  "officially_unscored_predicted_assets": {},
+                  "negative_target_asset_predicted_claims": 0,
+                  "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+                }
+              }
+            }
+          }
+        },
+        "source_grounding": {
+          "pass": false,
+          "checks": [
+            {
+              "check": "uses_extracted_input_not_answer_literal",
+              "pass": true
+            },
+            {
+              "check": "query_literals_are_public_or_fixed_task_or_logic_symbols",
+              "pass": false
+            },
+            {
+              "binding": "s_asset1",
+              "source": "s159",
+              "pass": true,
+              "basis": "scalar_text_in_cited_public_unit"
+            },
+            {
+              "binding": "n_value1",
+              "source": "s159",
+              "pass": true,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "binding": "s_asset2",
+              "source": "s159",
+              "pass": true,
+              "basis": "scalar_text_in_cited_public_unit"
+            },
+            {
+              "binding": "n_value2",
+              "source": "s159",
+              "pass": true,
+              "basis": "exact_numeric_literal_in_cited_public_unit"
+            },
+            {
+              "check": "native_JSON_preserves_exact_result",
+              "pass": true
+            }
+          ],
+          "scope": "public_literal_grounding_and_original_TRAIN_reference_check_not_universal_NL_equivalence"
+        },
+        "grading_scope": "original_fixed_TRAIN_label_only",
+        "new_oracle_queries": 0
+      },
+      "current_native_answer_score": {
+        "task_correct": false,
+        "views": {
+          "EC": {
+            "valid": true,
+            "correct": false,
+            "metric": "complete_mapping_exact_match",
+            "official_metrics": {
+              "status": "scored",
+              "metrics": {
+                "precision": 0.8333333333333333,
+                "recall": 0.6666666666666666,
+                "f1": 0.7333333333333334,
+                "invalid_format": 0,
+                "exact_target": false,
+                "full_output_f1": 0.7272727272727272,
+                "full_output_precision": 0.8,
+                "full_output_recall": 0.6666666666666666,
+                "full_output_claim_tp": 4,
+                "full_output_claim_fp": 1,
+                "full_output_claim_fn": 2,
+                "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                "officially_unscored_predicted_claims": 0,
+                "officially_unscored_predicted_assets": {},
+                "negative_target_asset_predicted_claims": 0,
+                "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+              }
+            }
+          },
+          "EV": {
+            "valid": true,
+            "correct": false,
+            "metric": "complete_mapping_exact_match",
+            "official_metrics": {
+              "status": "scored",
+              "metrics": {
+                "precision": 0.5833333333333333,
+                "recall": 0.5,
+                "f1": 0.5333333333333333,
+                "mare": 0.03530670470756064,
+                "invalid_format": 0,
+                "exact_target": false,
+                "full_output_f1": 0.5454545454545454,
+                "full_output_precision": 0.6,
+                "full_output_recall": 0.5,
+                "full_output_claim_tp": 3,
+                "full_output_claim_fp": 2,
+                "full_output_claim_fn": 3,
+                "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                "officially_unscored_predicted_claims": 0,
+                "officially_unscored_predicted_assets": {},
+                "negative_target_asset_predicted_claims": 0,
+                "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+              }
+            }
+          }
+        }
+      },
+      "current_diagnostics": [],
+      "historical_validation": {
+        "pass": false,
+        "typed_schema_pass": true,
+        "model_IR_executed": true,
+        "reason": "TRAIN_semantics_or_source_grounding_unresolved",
+        "program_native_score": {
+          "task_correct": false,
+          "views": {
+            "EC": {
+              "valid": true,
+              "correct": false,
+              "metric": "complete_mapping_exact_match",
+              "official_metrics": {
+                "status": "scored",
+                "metrics": {
+                  "precision": 0.8333333333333333,
+                  "recall": 0.6666666666666666,
+                  "f1": 0.7333333333333334,
+                  "invalid_format": 0,
+                  "exact_target": false,
+                  "full_output_f1": 0.7272727272727272,
+                  "full_output_precision": 0.8,
+                  "full_output_recall": 0.6666666666666666,
+                  "full_output_claim_tp": 4,
+                  "full_output_claim_fp": 1,
+                  "full_output_claim_fn": 2,
+                  "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                  "officially_unscored_predicted_claims": 0,
+                  "officially_unscored_predicted_assets": {},
+                  "negative_target_asset_predicted_claims": 0,
+                  "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+                }
+              }
+            },
+            "EV": {
+              "valid": true,
+              "correct": false,
+              "metric": "complete_mapping_exact_match",
+              "official_metrics": {
+                "status": "scored",
+                "metrics": {
+                  "precision": 0.5833333333333333,
+                  "recall": 0.5,
+                  "f1": 0.5333333333333333,
+                  "mare": 0.03530670470756064,
+                  "invalid_format": 0,
+                  "exact_target": false,
+                  "full_output_f1": 0.5454545454545454,
+                  "full_output_precision": 0.6,
+                  "full_output_recall": 0.5,
+                  "full_output_claim_tp": 3,
+                  "full_output_claim_fp": 2,
+                  "full_output_claim_fn": 3,
+                  "secondary_all_claim_micro_within_case_not_original_macro_F1": true,
+                  "officially_unscored_predicted_claims": 0,
+                  "officially_unscored_predicted_assets": {},
+                  "negative_target_asset_predicted_claims": 0,
+                  "official_evaluator_commit": "ec6fa2547431096588ce2d3ef107b8adc33cd4fe"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
