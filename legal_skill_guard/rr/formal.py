@@ -1,4 +1,4 @@
-"""Future formal hooks over the original ledger; all current launch gates are off."""
+"""One sealed formal shared build over the original ledger; evaluation is separate."""
 from __future__ import annotations
 
 import hashlib
@@ -8,7 +8,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from .checkpoint import immutable_json
-from .client import ExecutorClient, TeacherClient
+from .client import ExecutorClient, TeacherClient, WireError
 from .controls import ARMS, SharedMaterial, project_material
 from .coverage import digest
 from .engine import proposal_schema
@@ -42,10 +42,16 @@ def diagnostic_plan(manifest: dict) -> list[dict]:
 class FormalLedger(BudgetLedger):
     """Uses the *same* SQLite tables and original 6000/20 allocation."""
     def __init__(self, path, *, sources, code_hash, config_hash, protocol, manifest, partition,
-                 origin_binding=None):
+                 origin_binding=None, run_id='formal'):
         if not protocol["run_enabled"] or partition == "test" and not protocol["execution_request"]["frozen_test_enabled"]:
             raise BudgetError("Formal training/evaluation is not authorized")
         self.protocol, self.manifest, self.partition = protocol, manifest, partition
+        self.run_id = run_id
+        self.allocation = protocol['request_budget']['executor_allocation']
+        if set(self.allocation) != set(BUCKETS) or sum(self.allocation.values()) != 6000:
+            raise BudgetError('Original 6000 allocation must remain intact')
+        if partition != 'train' and not protocol['execution_request'].get('formal_eval_enabled', False):
+            raise BudgetError('Formal evaluation remains disabled')
         self.train_order = manifest["formal_train_order"]
         self.allowed_formal = {r["key"] for d in manifest["split"]["datasets"].values() for r in d[partition]}
         origin = origin_binding or {"code_hash": code_hash, "config_hash": config_hash}
@@ -63,6 +69,8 @@ class FormalLedger(BudgetLedger):
 
     def reserve(self, call_id, *, role, purpose, source, request):
         self._source(source)
+        if purpose in {'formal_train','formal_teacher_summary'} and not call_id.startswith(self.run_id+':'):
+            raise BudgetError('Call ID must belong to the fixed formal run')
         mapping = {"formal_train": "full_build_including_pilot", "formal_dev": "dev_six_arms",
                    "formal_test": "frozen_test_six_arms", "formal_B1": "B1_test_M11",
                    "formal_diagnostic": "diagnostics", "formal_native_empty": "native_empty",
@@ -78,6 +86,10 @@ class FormalLedger(BudgetLedger):
         request_hash = digest({"request": request, "spec": self.spec,
                                "execution_binding": self.execution_binding})
         with self.transaction() as db:
+            policy=db.execute('select value from meta where key=?',('formal_run:'+self.run_id,)).fetchone()
+            if not policy or json.loads(policy[0])['execution_binding']!=self.execution_binding or \
+                    json.loads(policy[0])['allocation']!=self.allocation:
+                raise BudgetError('Current formal authorization/budget binding required')
             row = db.execute("SELECT role,purpose,source,request_hash,status,result FROM calls WHERE id=?", (call_id,)).fetchone()
             if row:
                 if row[:4] != (role, purpose, source, request_hash):
@@ -89,12 +101,13 @@ class FormalLedger(BudgetLedger):
             if total >= (6000 if role == "executor" else 20):
                 raise BudgetError("Original study total exhausted")
             used = db.execute("SELECT COUNT(*) FROM calls WHERE bucket=?", (bucket,)).fetchone()[0]
-            if used >= (20 if role == "teacher" else BUCKETS[bucket]):
+            if used >= (20 if role == "teacher" else self.allocation[bucket]):
                 raise BudgetError("Original allocation exhausted")
             if purpose == "formal_train":
-                consumed = db.execute("SELECT COUNT(*) FROM calls WHERE source=? AND bucket='full_build_including_pilot'", (source,)).fetchone()[0]
+                prefix = self.run_id + ':'
+                consumed = db.execute("SELECT COUNT(*) FROM calls WHERE source=? AND purpose='formal_train' AND substr(id,1,?)=?", (source,len(prefix),prefix)).fetchone()[0]
                 if consumed >= 2:
-                    raise BudgetError("Training source already spent its two calls, including preflight")
+                    raise BudgetError("Current formal source already spent its two physical calls")
             if purpose in {"formal_dev", "formal_test", "formal_B1", "formal_diagnostic", "formal_native_empty"}:
                 prefix, step = call_id.rsplit(":", 1)
                 limit = 1 if purpose == "formal_native_empty" else 3
@@ -109,12 +122,19 @@ class FormalLedger(BudgetLedger):
                 if len(batch) != 16 or batch not in [self.train_order[i:i + 16] for i in range(0, 128, 16)]:
                     raise BudgetError("Teacher batch does not match the fixed build order")
                 anchors = tuple(batch)
-                count = db.execute("SELECT COUNT(*) FROM calls WHERE role='teacher' AND source IN (" + ",".join("?" for _ in anchors) + ")", anchors).fetchone()[0]
+                prefix = self.run_id + ':'
+                count = db.execute("SELECT COUNT(*) FROM calls WHERE role='teacher' AND purpose='formal_teacher_summary' AND substr(id,1,?)=? AND source IN (" + ",".join("?" for _ in anchors) + ")", (len(prefix),prefix,*anchors)).fetchone()[0]
                 if count >= 2:
-                    raise BudgetError("Teacher batch two-call limit includes preflight and failures")
+                    raise BudgetError("Current formal teacher batch two-call limit includes failures")
+            if db.execute("SELECT 1 FROM calls WHERE status='reserved'").fetchone():
+                raise BudgetError('Reconcile the existing physical request before dispatch')
             db.execute("INSERT INTO calls VALUES (?,?,?,?,?,?,?,?,NULL)",
                        (call_id, role, purpose, bucket, source, request_hash, "reserved", time.time()))
         return {"dispatch": True, "request_hash": request_hash}
+
+    def export(self):
+        value=super().export()
+        return {**value,'active_formal_allocation':self.allocation,'formal_run_id':self.run_id}
 
 
 class FormalExecutor(ExecutorClient):
@@ -149,7 +169,9 @@ class FormalRun:
         self.cfg = json.loads((root / "configs/rr_v2_formal.json").read_text())
         self.protocol = json.loads((root / "reports/legalskillguard_rule_reasoning_protocol_v2.json").read_text())
         if not self.cfg["run_enabled"] or not self.protocol["run_enabled"]:
-            raise BudgetError("Formal run stays disabled; this goal must stop after bounded preflight")
+            raise BudgetError("Formal run is disabled")
+        if partition != 'train' and not self.cfg.get('evaluation_enabled',False):
+            raise BudgetError('Formal evaluation remains disabled')
         if partition == "train" and (not self.cfg["full_build_enabled"] or not self.protocol["execution_request"]["full_build_enabled"]):
             raise BudgetError("128-source build is disabled")
         if partition == "test" and (not self.cfg["frozen_test_enabled"] or not self.protocol["execution_request"]["frozen_test_enabled"]):
@@ -166,17 +188,22 @@ class FormalRun:
                     "thinking": self.protocol["thinking"]}
         self.binding = {"code_hash": scientific_code_binding(code), "config_hash": digest(semantic),
                         "data_hash": self.manifest["data_hash"], "source_manifest_hash": digest(self.manifest)}
-        self.readiness = validate_readiness(root)
-        self.preflight_binding = self.readiness['preflight_binding']
-        self.pref = root / self.readiness['preflight_artifact_directory']
+        self.seal = json.loads((self.artifacts/'seal.json').read_text())
+        self.run_id = self.cfg['run_id']
+        self.verify_binding()
         self.ledger = FormalLedger(root / config["ledger_path"], sources=self.manifest["allowlist"],
             code_hash=self.binding["code_hash"], config_hash=self.binding["config_hash"],
             protocol=self.protocol, manifest=self.manifest, partition=partition,
-            origin_binding=self.readiness['ledger_origin_binding'])
+            origin_binding=self.seal['ledger_origin_binding'],run_id=self.run_id)
         self.executor = FormalExecutor(self.ledger, self.artifacts, config["executor"])
         self.teacher = FormalTeacher(self.ledger, self.artifacts, config["teacher"])
-        self.teacher.adapter.executable = self.readiness["teacher_transport"]["executable"]
+        self.teacher.adapter.executable = self.seal["teacher_transport"]["executable"]
         self.order = self.manifest["formal_train_order"]
+
+    def verify_binding(self):
+        if self.binding!=self.seal['binding'] or self.cfg!=self.seal['formal_config'] or \
+                science_files(self.root)!=self.seal['protected_files']:
+            raise ValueError('Frozen formal source/configuration differs')
 
     def packet(self, kind: str, partition: str):
         path = self.root / "data/packets/rr_v2" / (f"public_{partition}.json" if kind == "public" else f"grading_only/{partition}.json")
@@ -185,8 +212,53 @@ class FormalRun:
         return json.loads(path.read_text())["sources"]
 
     def _call(self, *, call_id, source, purpose, prompt, thinking, schema):
-        return self.executor.generate(call_id, source=source["key"], purpose=purpose,
-                                      messages=prompt, thinking=thinking, schema=schema)
+        self.verify_binding()
+        # Failed physical attempts are evidence, not a reason to redispatch the
+        # same ID on resume. Missing response text stays empty/unanswered.
+        with self.ledger.transaction() as db:
+            prior=db.execute('select status,request_hash,result,source,purpose from calls where id=?',(call_id,)).fetchone()
+        payload=self.executor.payload(messages=prompt,thinking=thinking,schema=schema)
+        expected=digest({'request':{'thinking':thinking,'payload':payload},'spec':self.ledger.spec,
+                         'execution_binding':self.ledger.execution_binding})
+        if prior and prior[0]=='failed':
+            if prior[1]!=expected or prior[3:]!=(source['key'],purpose):
+                raise BudgetError('Failed request input/binding changed')
+        else:
+            try:
+                return self.executor.generate(call_id, source=source["key"], purpose=purpose,
+                                              messages=prompt, thinking=thinking, schema=schema)
+            except WireError:
+                with self.ledger.transaction() as db:
+                    prior=db.execute('select status,request_hash,result,source,purpose from calls where id=?',(call_id,)).fetchone()
+                if not prior or prior[0]!='failed':raise
+        failure=json.loads(prior[2])
+        return {'content':'','request_hash':prior[1],'usage':failure.get('usage'),
+                'elapsed_seconds':failure['elapsed_seconds'],'wire_status':'failed','wire_diagnostic':failure}
+
+    def batch_summary(self, records, library, batch):
+        owner=self
+        class BatchTeacher:
+            def summarize(inner, call_id, **kwargs):
+                owner.verify_binding()
+                for attempt in range(2):
+                    cid=f'{owner.run_id}:teacher:B{batch}:{attempt}'
+                    try:return owner.teacher.summarize(cid,**kwargs)
+                    except Exception:
+                        with owner.ledger.transaction() as db:
+                            row=db.execute('select status,result from calls where id=?',(cid,)).fetchone()
+                        if not row or row[0]!='failed':raise
+                raise RuntimeError('Both charged teacher attempts failed')
+        proxy=SimpleNamespace(artifacts=self.artifacts/'batches'/f'B{batch}',
+            data=SimpleNamespace(order=self.order[(batch-1)*16:batch*16]),teacher=BatchTeacher(),
+            seal={'binding':self.binding,'offline_mock':False,'study_preflight_revision':self.run_id})
+        try:return Preflight._summarize(proxy,records,library)
+        except RuntimeError as exc:
+            if str(exc)!='Both charged teacher attempts failed':raise
+            failed={'source_ids':proxy.data.order,'reuse_requires_matching_binding':self.binding,
+                'batch_record_accepted':False,'response':None,'status':'two_teacher_attempts_failed',
+                'offline_mock':False,'accepted_pattern_hashes':[],'pending_proposals':[]}
+            immutable_json(proxy.artifacts/'teacher_batch1.json',failed)
+            return failed
 
     def train(self):
         if self.partition != "train":
@@ -197,21 +269,24 @@ class FormalRun:
         completed = []
         for source_id in self.order:
             source = public[source_id]
-            prior = self.pref / "pilot_sources" / f"{digest(source_id)}.json"
             path = self.artifacts / "sources" / f"{digest(source_id)}.json"
-            record_path = path if path.exists() else prior
-            if record_path.exists():
-                record = json.loads(record_path.read_text())
-                expected_binding = self.preflight_binding if record_path == prior else self.binding
-                if record["binding"] != expected_binding or record["input_hash"] != source["content_hash"] or record["offline_mock"]:
+            self.verify_binding()
+            before_library=digest(library.export())
+            if path.exists():
+                record = json.loads(path.read_text())
+                if record["binding"] != self.binding or record["run_id"] != self.run_id or \
+                        record['library_before_hash']!=before_library or record["input_hash"] != source["content_hash"] or record["offline_mock"]:
                     raise ValueError("Training reuse input/code/config/state mismatch")
             else:
                 record = ingest_source(source=source, grade=grading[source_id], library=library,
                     thinking=self.executor.config["enable_thinking"], call=self._call, learner=learn_source,
                     ledger=self.ledger, artifacts=self.artifacts, binding=self.binding,
-                    purpose="formal_train", id_prefix="formal", offline_mock=False,
+                    purpose="formal_train", id_prefix=self.run_id, offline_mock=False,
+                    oracle_artifacts=self.root/self.cfg['oracle_artifact_directory'],
                     tokenize=lambda prompt: self.executor.tokenize(prompt, thinking=self.executor.config['enable_thinking']),
                     request_config=self.config['executor'])
+                record.update(run_id=self.run_id,library_before_hash=before_library,generation_binding=self.binding,
+                              generation_thinking=False,record_kind='fresh_formal_training')
                 immutable_json(path, record)
             pattern = record["learning"].get("learned_pattern")
             if pattern:
@@ -219,19 +294,7 @@ class FormalRun:
             completed.append(record)
             if len(completed) % 16 == 0:
                 batch = len(completed) // 16
-                if batch == 1:
-                    teacher_record = json.loads((self.pref / "teacher_batch1.json").read_text())
-                    if teacher_record["source_ids"] != self.order[:16] or teacher_record["reuse_requires_matching_binding"] != self.preflight_binding:
-                        raise ValueError("Preflight teacher batch cannot be reused")
-                else:
-                    teacher = self.teacher
-                    class BatchTeacher:
-                        def summarize(inner, call_id, **kwargs):
-                            return teacher.summarize(f"formal_teacher_batch{batch}", **kwargs)
-                    proxy = SimpleNamespace(artifacts=self.artifacts / "batches" / f"B{batch}",
-                        data=SimpleNamespace(order=self.order[(batch - 1) * 16:batch * 16]),
-                        teacher=BatchTeacher(), seal={"binding": self.binding, "offline_mock": False})
-                    teacher_record = Preflight._summarize(proxy, completed[-16:], library)
+                teacher_record = self.batch_summary(completed[-16:],library,batch)
                 snapshot = {"stage": f"B{batch}", "binding": self.binding,
                             "completed_sources": [r["source"] for r in completed],
                             "source_record_hashes": [digest(r) for r in completed],
@@ -252,7 +315,8 @@ class FormalRun:
                                   "wire_request_hash": c["request_hash"]} for c in record["calls"]]
                     material = SharedMaterial(record["source"], proposals, labels,
                         record["learning"]["oracle_views"],
-                        {"batch_record": digest(teacher_record), "summary": teacher_record["response"]["value"]},
+                        {"batch_record": digest(teacher_record), "summary": teacher_record["response"]["value"]
+                         if teacher_record['response'] else {'status':teacher_record['status']}},
                         [record["learning"]["learned_pattern"]] if record["learning"].get("learned_pattern") else [])
                     immutable_json(self.artifacts / "arm_shared_material" / f"{digest(record['source'])}.json",
                                    {arm: project_material(material, arm) for arm in ARMS})
@@ -265,11 +329,17 @@ class FormalRun:
                     example_model = fit_shared_examples(public, completed, grading)
                     immutable_json(self.artifacts / f"B{batch}.MB.frozen.json", example_model)
             atomic_json(self.artifacts / "state.json", {"complete_sources": len(completed),
-                        "source_record_hashes": [digest(r) for r in completed], "binding": self.binding})
+                        "source_record_hashes": [digest(r) for r in completed], "binding": self.binding,
+                        'run_id':self.run_id,'last_source':source_id,'completed_batches':len(completed)//16})
+            print(json.dumps({'event':'source_complete','index':len(completed),'source':source_id,
+                'certificate':record['analysis']['certificate_status'],'B_status':record['learning']['status'],
+                'requests':len(record['calls'])}),flush=True)
         return {"training_complete": True, "sources": len(completed), "batches": 8,
                 "auto_evaluate_after_training": False, "ledger": self.ledger.export()}
 
     def evaluate(self, checkpoint="B8"):
+        if not self.cfg.get('evaluation_enabled',False) or self.partition not in {'dev','test'}:
+            raise BudgetError('Formal evaluation remains disabled')
         if checkpoint not in {"B1", "B8"} or checkpoint == "B1" and self.partition != "test":
             raise BudgetError("B1 is the single additional frozen M11 test only")
         library_path = self.artifacts / f"{checkpoint}.frozen.json"
@@ -328,6 +398,8 @@ class FormalRun:
         return results
 
     def native_empty(self):
+        if not self.cfg.get('evaluation_enabled',False) or self.partition!='test':
+            raise BudgetError('Formal evaluation remains disabled')
         if self.partition != "test" or not (self.artifacts / "batches/B8.json").exists():
             raise BudgetError("Native empty reference is a separate post-B8 frozen test")
         snapshot = json.loads((self.artifacts / "batches/B8.json").read_text())
@@ -362,6 +434,8 @@ class FormalRun:
         return scores
 
     def diagnostics(self, public_packet: Path, grading_packet: Path):
+        if not self.cfg.get('evaluation_enabled',False) or self.partition!='test':
+            raise BudgetError('Formal evaluation remains disabled')
         """Future frozen diagnostics over explicitly committed, source-local views.
 
         The packet is a public construction artifact, with 0..2 validated views

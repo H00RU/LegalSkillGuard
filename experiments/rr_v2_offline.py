@@ -20,14 +20,16 @@ TESTS = ["tests/test_rr_coverage.py", "tests/test_rr_interfaces.py",
          "tests/test_rr_ledger.py", "tests/test_rr_state_and_partitions.py",
          "tests/test_rr_adapters.py", "tests/test_rr_controls_and_scoring.py",
          "tests/test_rr_client_and_learning.py", "tests/test_rr_engine.py", "tests/test_rr_pipeline.py",
-         "tests/test_rr_method_gaps.py"]
+         "tests/test_rr_method_gaps.py", "tests/test_rr_formal_build.py"]
 
 
 def main() -> int:
     os.chdir(ROOT)
     protocol = json.loads((ROOT / "reports/legalskillguard_rule_reasoning_protocol_v2.json").read_text())
-    if protocol["run_enabled"] or protocol["execution_request"]["frozen_test_enabled"]:
-        raise RuntimeError("Formal run/test switches must remain disabled")
+    if protocol["execution_request"]["frozen_test_enabled"] or protocol['execution_request'].get('formal_eval_enabled',False):
+        raise RuntimeError("Formal evaluation/test switches must remain disabled")
+    if protocol['run_enabled'] and not protocol['execution_request']['full_build_enabled']:
+        raise RuntimeError('Only the explicitly authorized build may be enabled')
     files = [*sorted((ROOT / "legal_skill_guard/rr").glob("*.py")),
              *sorted((ROOT / "experiments").glob("rr_v2*.py")),
              *sorted((ROOT / "tests/fixtures").glob("rr_*.json")),

@@ -125,29 +125,25 @@
   },
   "execution_model": "frozen_LLM_parser_plus_deterministic_symbolic_backend",
   "execution_request": {
-    "active_stage": "implementation_and_bounded_live_preflight",
+    "active_stage": "formal_shared_build_only",
     "allowed": [
-      "implementation",
-      "public_data_preparation",
-      "source_split_and_hash_checks",
-      "synthetic_and_train_dev_offline_semantic_checks",
-      "mock_client_smoke_tests",
-      "dry_run",
-      "bounded_thinking_comparison",
-      "bounded_live_training_source_pilot",
+      "formal_shared_build",
+      "checkpoint_freeze",
+      "training_restore",
       "documentation"
     ],
     "auto_advance_to_experiments": false,
     "frozen_test_enabled": false,
-    "full_build_enabled": false,
+    "full_build_enabled": true,
     "future_research_quotas_are_not_current_execution_authorization": true,
     "handoff": "reports/legalskillguard_server_handoff_v2.md",
     "model_calls_enabled": true,
-    "model_calls_scope": "preflight_allowlist_only_subject_to_existing_resource_authorization",
-    "pilot_enabled": true,
+    "model_calls_scope": "fixed_128_train_only_no_evaluation",
+    "pilot_enabled": false,
     "research_design_locked": true,
     "test_labels_or_reference_answers_for_debugging": false,
-    "thinking_live_comparison_enabled": true
+    "thinking_live_comparison_enabled": false,
+    "formal_eval_enabled": false
   },
   "methods": {
     "A": "source_closed_completion_stability_with_answer_separating_batches",
@@ -163,7 +159,7 @@
       "preflight_bug_retry"
     ],
     "auto_advance_to_formal_training": false,
-    "enabled": true,
+    "enabled": false,
     "executor_allocation": {
       "pilot_ingestion": 40,
       "shared_failed_calls_and_bug_retries": 232,
@@ -197,7 +193,8 @@
       "source_manifest": "reports/rr_v2_evidence/data_manifest.json",
       "teacher_baseline": 2,
       "teacher_model_unchanged": true,
-      "teacher_original_study_max": 20
+      "teacher_original_study_max": 20,
+      "user_text": "继续当前 goal：取消律师模型、教师模型2次的预检上限，在原研究总预算和已明确授权的资源、费用范围内，自主完成必要修复与验证，不再按轮次询问。保留已有调用账本，避免无变化的重复请求；确需超出授权时，一次性说明所需额度和理由。不要扩大重构、不追加数据、不降低验收标准、不启动主训练。完成后更新报告并给出阶段结论，只有全部验收通过才标记 goal 完成。"
     },
     "requires_existing_resource_authorization": true,
     "same_sources_for_thinking_and_pilot": true,
@@ -250,6 +247,7 @@
         "teacher_calls_added": 0,
         "teacher_cumulative_max": 2,
         "test_labels_allowed": false,
+        "user_latest_text": "本条替代此前“最多一轮定点修复重跑”和“第二轮首请求类型失败即结束”等限制，不再按修复轮次逐次请求授权，其余研究范围和验收条件保持不变。先核实持久化请求账本及是否仍有运行中的请求，不重置计数、不重复启动任务。executor 本次累计上限为96，且继续受全局100次硬上限约束；如果实际累计仍为85，最多再使用11次物理请求，失败、重试及底层自动重试均计入。teacher 已达2/2，不得新增。将调整后的规则写入当前交接文件，避免恢复后重新套用旧停止条件。修复失败样本后的再次验证须有明确修改和离线证据；修复验证通过后，继续执行原定未完成来源属于正常预检，不要求为了每个请求再次修改代码。",
         "validated_version_may_continue_unfinished_fixed_sources": true
       },
       "requires_existing_resource_authorization": true,
@@ -290,9 +288,9 @@
       "dev_six_arms": 864,
       "diagnostics": 384,
       "frozen_test_six_arms": 3456,
-      "full_build_including_pilot": 256,
+      "full_build_including_pilot": 292,
       "native_empty": 192,
-      "shared_retries_and_recovery": 232,
+      "shared_retries_and_recovery": 196,
       "thinking_comparison": 40
     },
     "executor_max": 6000,
@@ -304,9 +302,9 @@
     "teacher_max": 20,
     "this_is_not_Codex_token_budget": true
   },
-  "run_enabled": false,
-  "run_enabled_scope": "formal_training_and_evaluation",
-  "status": "implementation_and_bounded_live_preflight_pending",
+  "run_enabled": true,
+  "run_enabled_scope": "formal_training_only",
+  "status": "single_formal_build_authorized",
   "stop_rules": {
     "automatic_second_stage": false,
     "empty_Omega": "conflict_not_vacuous_certification",
@@ -362,5 +360,6 @@
     "training_third_fallback_call": false,
     "two_new_labeled_views_cost_two_slots": true,
     "unused_queried_oracle_views_count": true
-  }
+  },
+  "formal_build_authorization": "docs/rr_v2/formal_build_authorization_20261106.json"
 }

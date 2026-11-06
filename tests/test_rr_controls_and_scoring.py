@@ -45,6 +45,7 @@ def test_three_requests_are_entire_prediction_limit_including_fixed_fallback(fir
 def test_formal_matrix_only_dry_run():
     p = json.loads((Path(__file__).resolve().parents[1] /
                     "reports/legalskillguard_rule_reasoning_protocol_v2.json").read_text())
+    p['run_enabled']=False  # a pure matrix fixture, never an evaluation launch
     result = dry_run_matrix(p)
     assert not result["executed"] and result["model_calls"] == 0
     assert result["shared_training_builds"] == 1

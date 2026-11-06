@@ -414,10 +414,14 @@ def test_formal_only_execution_binding_preserves_original_rows_and_budgets(tmp_p
     ledger = FormalLedger(path, sources=manifest["allowlist"], code_hash="formal_only", config_hash="f",
         protocol=protocol, manifest=manifest, partition="train", origin_binding={"code_hash": "old", "config_hash": "f"})
     assert ledger.spec["code_hash"] == "old" and ledger.execution_binding["code_hash"] == "formal_only"
-    ledger.reserve("remaining", role="executor", purpose="formal_train", source=source, request={})
-    assert ledger.export()["calls"][:1] == old and ledger.export()["executor_used"] == 2
-    with pytest.raises(BudgetError, match="including preflight"):
-        ledger.reserve("extra", role="executor", purpose="formal_train", source=source, request={})
+    authorize_formal_fixture(ledger)
+    for step in range(2):
+        cid=f'formal:{source}:{step}'
+        ledger.reserve(cid, role="executor", purpose="formal_train", source=source, request={})
+        ledger.finish(cid,status='completed',result={})
+    assert ledger.export()["calls"][:1] == old and ledger.export()["executor_used"] == 3
+    with pytest.raises(BudgetError, match="two physical"):
+        ledger.reserve("formal:extra", role="executor", purpose="formal_train", source=source, request={})
 
 
 def test_raw_recovery_is_reversible_and_never_invents_missing_program_semantics():
@@ -582,6 +586,17 @@ def fixture_root(tmp_path):
         target = tmp_path / name
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes((ROOT / name).read_bytes())
+        # These are historical preflight controller fixtures, with closed gates,
+        # independent of the newly authorized real formal-build configuration.
+        obj=json.loads(target.read_text())
+        if name.endswith('protocol_v2.json'):
+            obj['run_enabled']=False
+            obj['execution_request']['full_build_enabled']=False
+        elif name.endswith('rr_v2_formal.json'):
+            obj['run_enabled']=False;obj['full_build_enabled']=False
+        elif name.endswith('rr_v2_preflight.json'):
+            obj['formal_run_enabled']=False
+        target.write_text(json.dumps(obj))
     evidence = tmp_path / "reports/rr_v2_evidence"
     evidence.mkdir()
     (evidence / "data_manifest.json").write_text(json.dumps(manifest))
@@ -767,7 +782,13 @@ def test_durable_oracle_reserves_before_reference_dispatch_and_reuses_record(tmp
         cnli.query({"i": 0})
 
 
-def test_formal_ledger_reuses_preflight_spend_and_caps_entire_prediction(tmp_path):
+def authorize_formal_fixture(ledger):
+    with ledger.transaction() as db:
+        db.execute('insert into meta values (?,?)',('formal_run:'+ledger.run_id,json.dumps({
+            'execution_binding':ledger.execution_binding,'allocation':ledger.allocation})))
+
+
+def test_formal_ledger_preserves_history_and_uses_fresh_source_cap(tmp_path):
     manifest = fixture_root(tmp_path)
     allow = manifest["allowlist"]
     path = tmp_path / "formal-budget"
@@ -775,20 +796,27 @@ def test_formal_ledger_reuses_preflight_spend_and_caps_entire_prediction(tmp_pat
     source = manifest["pilot_order"][0]
     for i in range(2):
         before.reserve(f"pilot{i}", role="executor", purpose="pilot_ingestion", source=source, request={})
+        before.finish(f'pilot{i}',status='completed',result={})
     protocol = json.loads((ROOT / "reports/legalskillguard_rule_reasoning_protocol_v2.json").read_text())
     protocol["run_enabled"] = True
     ledger = FormalLedger(path, sources=allow, code_hash="c", config_hash="f", protocol=protocol,
                           manifest=manifest, partition="train")
-    with pytest.raises(BudgetError, match="including preflight"):
-        ledger.reserve("formal0", role="executor", purpose="formal_train", source=source, request={})
+    authorize_formal_fixture(ledger)
+    for i in range(2):
+        ledger.reserve(f'formal:{source}:{i}', role="executor", purpose="formal_train", source=source, request={})
+        ledger.finish(f'formal:{source}:{i}',status='completed',result={})
+    with pytest.raises(BudgetError,match='two physical'):
+        ledger.reserve('formal:third',role='executor',purpose='formal_train',source=source,request={})
+    protocol['execution_request']['formal_eval_enabled']=True  # artificial ledger-cap fixture only
     ledger = FormalLedger(path, sources=allow, code_hash="c", config_hash="f", protocol=protocol,
                           manifest=manifest, partition="dev")
     source = manifest["split"]["datasets"]["OpenExempt"]["dev"][0]["key"]
     for i in range(3):
         ledger.reserve(f"pred:arm:{source}:{i}", role="executor", purpose="formal_dev", source=source, request={})
+        ledger.finish(f'pred:arm:{source}:{i}',status='completed',result={})
     with pytest.raises(BudgetError, match="index"):
         ledger.reserve(f"pred:arm:{source}:3", role="executor", purpose="formal_dev", source=source, request={})
-    assert ledger.export()["executor_used"] == 5
+    assert ledger.export()["executor_used"] == 7
 
 
 def test_processing_only_parser_repair_preserves_generation_hashes_and_does_not_repeat_calls(tmp_path):
