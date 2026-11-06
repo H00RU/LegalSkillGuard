@@ -1,0 +1,62 @@
+{
+  "scope": "actual stored SARA interface, original public facts only",
+  "source": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+  "record_hash": "183660673fab31361ee971abda58391cb641aa3350d999b658cbe70e9a397d96",
+  "generation_binding": {
+    "code_hash": "54b353ac46fda34ba0237f2c000634a3ecca84b0cbc5c2f0054f854efd7d2194",
+    "config_hash": "d63cc65096cde35e10cf49ae012fcdf62ef66e8efb3b3bc43248e57e6f27bcaa",
+    "data_hash": "5b7683f05c921598c4bab6dc29834df3dc7595e3795d46551732446efa3eacc0",
+    "source_manifest_hash": "ef0f419d13f5219f0faeb97543b52d27be8c50a67243103e542013dc24ae3ca4"
+  },
+  "processing_binding": {
+    "code_hash": "7628be5932adcaa1e29c76e5901673998b69e9c26214799c124e8d1bcce3f2a0",
+    "config_hash": "d63cc65096cde35e10cf49ae012fcdf62ef66e8efb3b3bc43248e57e6f27bcaa",
+    "data_hash": "5b7683f05c921598c4bab6dc29834df3dc7595e3795d46551732446efa3eacc0",
+    "source_manifest_hash": "ef0f419d13f5219f0faeb97543b52d27be8c50a67243103e542013dc24ae3ca4"
+  },
+  "checks": [
+    {
+      "step": 1,
+      "request_hash": "37d398c3940b02ab9692a8259d93f6931b7d254264dc56b4a85cd0cac1493583",
+      "binding_names": [
+        "n_income",
+        "n_tax",
+        "n_threshold_1",
+        "n_threshold_2",
+        "n_threshold_3"
+      ],
+      "binding_types": {
+        "n_income": "integer",
+        "n_tax": "integer",
+        "n_threshold_1": "integer",
+        "n_threshold_2": "integer",
+        "n_threshold_3": "integer"
+      },
+      "stored_graph": {
+        "inputs": [
+          {
+            "slot": "slot0"
+          },
+          {
+            "slot": "slot1"
+          }
+        ],
+        "op": "join_on",
+        "params": {
+          "keys": [
+            "column0"
+          ]
+        }
+      },
+      "execution": "rejected",
+      "error_type": "KeyError",
+      "error": "'slot0'"
+    }
+  ],
+  "diagnosis": "The saved graph refers to slot0/slot1 while the supplied bindings only define scalar n_* values; no executable relation binding is supplied for the requested join. Rejection is correct, not evidence of learned numerical composition.",
+  "new_model_calls": 0,
+  "new_oracle_views": 0,
+  "grading_targets_read": false,
+  "raw_records_modified": false,
+  "network_and_subprocesses_blocked": true
+}

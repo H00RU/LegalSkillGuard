@@ -1,6 +1,8 @@
 """One sealed formal shared build over the original ledger; evaluation is separate."""
 from __future__ import annotations
 
+import base64
+from copy import deepcopy
 import hashlib
 import json
 import time
@@ -196,6 +198,23 @@ class FormalRun:
                         "data_hash": self.manifest["data_hash"], "source_manifest_hash": digest(self.manifest)}
         self.seal = json.loads((self.artifacts/'seal.json').read_text())
         self.run_id = self.cfg['run_id']
+        self.processing_binding = dict(self.binding)
+        self.processing_repair = None
+        self.processing_revision = None
+        self.resume_pattern_order = {}
+        repair_path = self.artifacts/'processing_repair.json'
+        if repair_path.exists():
+            self.processing_repair = json.loads(repair_path.read_text())
+            self.processing_revision = digest(self.processing_repair)
+            # Paid request identity remains attached to the unchanged generation
+            # contract. The separately sealed processing revision is explicit.
+            self.binding = dict(self.seal['binding'])
+            wire_path = self.root/self.processing_repair['cached_wire_request']
+            if hashlib.sha256(wire_path.read_bytes()).hexdigest() != self.processing_repair['cached_wire_request_sha256']:
+                raise ValueError('Preserved paid wire changed')
+            wire = json.loads(base64.b64decode(json.loads(wire_path.read_text())['body_b64']))
+            patterns = json.loads(wire['messages'][0]['content'].split('\nCurrent learned role constraints: ',1)[1])
+            self.resume_pattern_order = {digest(p):p for p in patterns}
         self.verify_binding()
         self.ledger = FormalLedger(root / config["ledger_path"], sources=self.manifest["allowlist"],
             code_hash=self.binding["code_hash"], config_hash=self.binding["config_hash"],
@@ -207,8 +226,25 @@ class FormalRun:
         self.order = self.manifest["formal_train_order"]
 
     def verify_binding(self):
-        if self.binding!=self.seal['binding'] or self.cfg!=self.seal['formal_config'] or \
-                science_files(self.root)!=self.seal['protected_files']:
+        current = science_files(self.root)
+        expected = self.seal['protected_files']
+        if self.processing_repair is not None:
+            repair = self.processing_repair
+            allowed = {'legal_skill_guard/rr/source_learning.py','legal_skill_guard/rr/formal.py',
+                       'tests/test_rr_sara_reference_recovery.py'}
+            changed = {p for p in set(current)|set(expected) if current.get(p)!=expected.get(p)}
+            if repair['kind']!='sara_reference_conjunction_20261107' or repair['run_id']!=self.run_id or \
+                    repair['parent_seal_hash']!=digest(self.seal) or repair['generation_binding']!=self.binding or \
+                    repair['processing_binding']!=self.processing_binding or not changed<=allowed or \
+                    set(repair['changed_files'])!=changed or \
+                    {k:v for k,v in self.processing_binding.items() if k!='code_hash'}!={k:v for k,v in self.binding.items() if k!='code_hash'} or \
+                    digest(json.loads((self.artifacts/'processing_repair.json').read_text()))!=self.processing_revision:
+                raise ValueError('Unverified formal processing continuation')
+            for path, wanted in repair['proof_files'].items():
+                if hashlib.sha256((self.root/path).read_bytes()).hexdigest()!=wanted:
+                    raise ValueError('Formal processing compatibility evidence changed')
+            expected = repair['protected_files']
+        if self.binding!=self.seal['binding'] or self.cfg!=self.seal['formal_config'] or current!=expected:
             raise ValueError('Frozen formal source/configuration differs')
 
     def packet(self, kind: str, partition: str):
@@ -284,16 +320,27 @@ class FormalRun:
         grading = self.packet("grading", "train")
         library = SkillLibrary(stage="formal_train")
         completed = []
+        state_path = self.artifacts/'state.json'
+        committed_prefix = json.loads(state_path.read_text())['complete_sources'] if state_path.exists() else 0
         for source_id in self.order:
             source = public[source_id]
             path = self.artifacts / "sources" / f"{digest(source_id)}.json"
             self.verify_binding()
             before_library=digest(library.export())
+            if self.processing_repair and len(completed)<self.processing_repair['preserved_sources'] and not path.exists():
+                raise ValueError('A preserved compatible source record is missing')
             if path.exists():
                 record = json.loads(path.read_text())
                 if record["binding"] != self.binding or record["run_id"] != self.run_id or \
                         record['library_before_hash']!=before_library or record["input_hash"] != source["content_hash"] or record["offline_mock"]:
                     raise ValueError("Training reuse input/code/config/state mismatch")
+                if self.processing_repair:
+                    index = len(completed)
+                    if index<self.processing_repair['preserved_sources']:
+                        if digest(record)!=self.processing_repair['preserved_record_hashes'][index]:
+                            raise ValueError('Preserved compatible source record changed')
+                    elif record.get('processing_revision')!=self.processing_revision or record.get('processing_binding')!=self.processing_binding:
+                        raise ValueError('Current processing revision differs')
             else:
                 record = ingest_source(source=source, grade=grading[source_id], library=library,
                     thinking=self.executor.config["enable_thinking"], call=self._call, learner=learn_source,
@@ -304,10 +351,15 @@ class FormalRun:
                     request_config=self.config['executor'])
                 record.update(run_id=self.run_id,library_before_hash=before_library,generation_binding=self.binding,
                               generation_thinking=False,record_kind='fresh_formal_training')
+                if self.processing_revision:
+                    record.update(processing_binding=self.processing_binding,processing_revision=self.processing_revision)
                 immutable_json(path, record)
             pattern = record["learning"].get("learned_pattern")
             if pattern:
                 library.add(pattern, source=source_id)
+            for item in library.patterns:
+                if item['pattern_hash'] in self.resume_pattern_order:
+                    item['pattern'] = deepcopy(self.resume_pattern_order[item['pattern_hash']])
             completed.append(record)
             if len(completed) % 16 == 0:
                 batch = len(completed) // 16
@@ -345,9 +397,10 @@ class FormalRun:
                     # control. Concrete examples never enter its frozen state.
                     example_model = fit_shared_examples(public, completed, grading)
                     immutable_json(self.artifacts / f"B{batch}.MB.frozen.json", example_model)
-            atomic_json(self.artifacts / "state.json", {"complete_sources": len(completed),
-                        "source_record_hashes": [digest(r) for r in completed], "binding": self.binding,
-                        'run_id':self.run_id,'last_source':source_id,'completed_batches':len(completed)//16})
+            if len(completed)>=committed_prefix:
+                atomic_json(self.artifacts / "state.json", {"complete_sources": len(completed),
+                            "source_record_hashes": [digest(r) for r in completed], "binding": self.binding,
+                            'run_id':self.run_id,'last_source':source_id,'completed_batches':len(completed)//16})
             print(json.dumps({'event':'source_complete','index':len(completed),'source':source_id,
                 'certificate':record['analysis']['certificate_status'],'B_status':record['learning']['status'],
                 'requests':len(record['calls'])}),flush=True)

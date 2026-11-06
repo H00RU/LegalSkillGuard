@@ -56,7 +56,8 @@ def sara_case(grade: dict) -> tuple[str, str]:
     prefix, tests = raw.split("% Test", 1)
     query = re.search(r":-\s*(.*?)\.\s*(?:\n|$)", tests, re.S)[1].strip()
     query = query.removeprefix("\\+").strip()
-    if not re.fullmatch(r's[\w]+\([\w\s,".\-]*\)', query):
+    atom = r's[0-9]\w*\([\w\s,".\-]*\)'
+    if not re.fullmatch(atom + r'(?:\s*,\s*' + atom + r')*', query):
         raise ValueError("Unsupported reference question syntax")
     return prefix, query
 

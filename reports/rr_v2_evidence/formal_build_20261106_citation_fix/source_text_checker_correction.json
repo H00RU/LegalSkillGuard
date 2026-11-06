@@ -1,0 +1,36 @@
+{
+  "initial_helper_sha256": "e75f678f044d9de9bbed40f1f873ffd85d84c7ce79650268f563d964e78ee155",
+  "initial_report": "mechanism_interpretation.initial_checker.json",
+  "initial_false_positive_source_mismatches": 22,
+  "cause": "The source-text check reconstructed later prompt diagnostics and archived bindings too. Archived JSON sorts dictionary keys; real wire retained original key order. This differs after the full selected public source block, not within that block.",
+  "concrete_example": {
+    "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+    "first_difference_character": 21490,
+    "actual_binding_key_order": [
+      "name",
+      "type",
+      "value",
+      "source"
+    ],
+    "archive_reconstruction_key_order": [
+      "name",
+      "source",
+      "type",
+      "value"
+    ],
+    "actual_selected_public_source_prefix_exact": true
+  },
+  "correction": "Compare the exact numbered selected-public-source block, leaving independent literal-body SHA and input-token checks unchanged. No scientific code/configuration/response/score changed.",
+  "new_model_calls": 0,
+  "corrected_helper_sha256": "80aa81965a85d95515bc4ca68d2939a562ba0cce0eb6d7c7ee59c30fe39489fc",
+  "corrected_source_prefix": 45,
+  "corrected_source_text_mismatches": 0,
+  "unchanged_cost_or_body_mismatches": 0,
+  "intermediate_evidence": "mechanism_interpretation.source_prefix_v1.json",
+  "intermediate_false_positive_source_mismatches": 4,
+  "additional_checker_issue": "SARA appends its verbatim exact-claim suffix after previous diagnostics. Only the numbered source block has a fixed leading position; the exact query is separately checked anywhere in the wire.",
+  "final_helper_sha256": "0805a27c557955b8bf89178cd4657368ad26244858279137f3ac61ce45b002b5",
+  "final_checked_sources": 46,
+  "final_selected_source_mismatches": 0,
+  "final_cost_or_body_mismatches": 0
+}

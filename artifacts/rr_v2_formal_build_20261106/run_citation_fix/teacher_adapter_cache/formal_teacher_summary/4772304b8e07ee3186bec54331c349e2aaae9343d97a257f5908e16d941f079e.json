@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "request_sha256": "4772304b8e07ee3186bec54331c349e2aaae9343d97a257f5908e16d941f079e",
+  "response_sha256": "578821e1449f3a777489e7dab51379b26a9abebd6967d5867fbd5488b5dde7f8",
+  "model": "gpt-5.6-sol",
+  "purpose": "formal_teacher_summary",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"op\":\"join_on\",\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      },
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"op\":\"join_on\",\"params\":{\"keys\":[\"column0\"]}}",
+          "{\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"op\":\"join_on\",\"params\":{\"keys\":[]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "The 16 supplied training records contain no verified pattern or refinement: all lack certificates and counterfactual oracles; 15 report unsupported programs and one reports invalid_IR. Therefore only the two already observed, parameterized library patterns are retained, with no universal semantic-equivalence claim."
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-06T19:38:57.929499+00:00",
+    "finished_at": "2026-11-06T19:39:12.228778+00:00",
+    "elapsed_seconds": 14.299,
+    "returncode": 0,
+    "event_log_sha256": "d543958f3afd9291475e381a3b5c02d9a91cd055a569b290ca291790bb8747ed",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 16229,
+      "cached_input_tokens": 13440,
+      "output_tokens": 322,
+      "reasoning_output_tokens": 89
+    },
+    "estimated_credits": null
+  }
+}

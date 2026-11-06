@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "request_sha256": "f149d6f3260ece8618f3392c1d710ad0f1874802b53a709be778c86f9399942d",
+  "response_sha256": "f4956ebc2f12aae46b60a2e9dcc022178aab44c6ea65f2f48ffb107c9a6a4f2b",
+  "model": "gpt-5.6-sol",
+  "purpose": "formal_teacher_summary",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"op\":\"join_on\",\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      },
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"op\":\"join_on\",\"params\":{\"keys\":[\"column0\"]}}",
+          "{\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"op\":\"join_on\",\"params\":{\"keys\":[]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "Two distinct parameterized patterns are explicitly observed and corroborated by the current library. Records with no observed collision provide no additional pattern. ContractNLI records are unsupported and have no counterfactual oracle, so no pattern is inferred from them. No universal semantic-equivalence claim is made."
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-06T19:24:26.167718+00:00",
+    "finished_at": "2026-11-06T19:24:38.487910+00:00",
+    "elapsed_seconds": 12.32,
+    "returncode": 0,
+    "event_log_sha256": "b543ba13afd04cb4993dcbe6a76bf35a1c5ac900b2e084857c099e9340034ed8",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 18593,
+      "cached_input_tokens": 11136,
+      "output_tokens": 290,
+      "reasoning_output_tokens": 56
+    },
+    "estimated_credits": null
+  }
+}

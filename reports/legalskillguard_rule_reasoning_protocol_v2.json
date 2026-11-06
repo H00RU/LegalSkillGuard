@@ -194,8 +194,7 @@
       "source_manifest": "reports/rr_v2_evidence/data_manifest.json",
       "teacher_baseline": 2,
       "teacher_model_unchanged": true,
-      "teacher_original_study_max": 20,
-      "user_text": "继续当前 goal：取消律师模型、教师模型2次的预检上限，在原研究总预算和已明确授权的资源、费用范围内，自主完成必要修复与验证，不再按轮次询问。保留已有调用账本，避免无变化的重复请求；确需超出授权时，一次性说明所需额度和理由。不要扩大重构、不追加数据、不降低验收标准、不启动主训练。完成后更新报告并给出阶段结论，只有全部验收通过才标记 goal 完成。"
+      "teacher_original_study_max": 20
     },
     "requires_existing_resource_authorization": true,
     "same_sources_for_thinking_and_pilot": true,
@@ -248,7 +247,6 @@
         "teacher_calls_added": 0,
         "teacher_cumulative_max": 2,
         "test_labels_allowed": false,
-        "user_latest_text": "本条替代此前“最多一轮定点修复重跑”和“第二轮首请求类型失败即结束”等限制，不再按修复轮次逐次请求授权，其余研究范围和验收条件保持不变。先核实持久化请求账本及是否仍有运行中的请求，不重置计数、不重复启动任务。executor 本次累计上限为96，且继续受全局100次硬上限约束；如果实际累计仍为85，最多再使用11次物理请求，失败、重试及底层自动重试均计入。teacher 已达2/2，不得新增。将调整后的规则写入当前交接文件，避免恢复后重新套用旧停止条件。修复失败样本后的再次验证须有明确修改和离线证据；修复验证通过后，继续执行原定未完成来源属于正常预检，不要求为了每个请求再次修改代码。",
         "validated_version_may_continue_unfinished_fixed_sources": true
       },
       "requires_existing_resource_authorization": true,

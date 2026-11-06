@@ -1,16 +1,33 @@
-# LegalSkillGuard RR-v2 — method implementation and readiness
+# LegalSkillGuard RR-v2 — fixed shared training build
 
-The A production residual/planning/token-cost path, five-bank executable/interface contract, and B typed connector-learning entry are connected and verified. Main training and formal evaluation remain disabled. The engineering recommendation is to enter stage review before the original shared training build.
+The original 128 TRAIN sources and eight batches are complete, starting from an empty
+library. B1/B8 and ordinary-control frozen states are preserved. Formal evaluation,
+frozen tests and paper writing have not been started. Stop for review before evaluation.
 
-- [Current repair and readiness report](reports/legalskillguard_rr_v2_method_gap_repair_20261106.md)
-- [Implementation report](reports/legalskillguard_rr_v2_implementation_check_report.md) · [acceptance audit](reports/rr_v2_evidence/method_gap_repair/acceptance_audit.json) · [current readiness receipt](reports/rr_v2_evidence/formal_readiness_method_gaps.json)
-- [Current source](legal_skill_guard/rr) · [tests](tests/test_rr_method_gaps.py) · [reproduce](docs/rr_v2/REPRODUCE.md)
-- [Before/after failure and request ledger](reports/rr_v2_evidence/method_gap_repair/request_ledger.json) · [source-level status](reports/rr_v2_evidence/method_gap_repair/source_status.json)
-- [Actual tokenizer/decoder check](reports/rr_v2_evidence/method_gap_repair/backend.json) · [real OFF A/B primary path](artifacts/rr_v2_preflight/method_gap_repair_v2/live/primary_path.json) · [current restore](reports/rr_v2_evidence/method_gap_repair/current_restore.json)
-- [Publication manifest](reports/rr_v2_evidence/method_gap_repair/publication_manifest.json)
+- [Build report](reports/legalskillguard_rr_v2_formal_build_20261106.md) · [128-source status](reports/rr_v2_evidence/formal_build_20261106_citation_fix/source_status.csv)
+- [Final audit](reports/rr_v2_evidence/formal_build_20261106_citation_fix/final_audit.json) · [actual cached recovery](reports/rr_v2_evidence/formal_build_20261106_citation_fix/cached_recovery.json)
+- [B1](artifacts/rr_v2_formal_build_20261106/run_citation_fix/B1.frozen.json) · [B8](artifacts/rr_v2_formal_build_20261106/run_citation_fix/B8.frozen.json) · [all checkpoints](artifacts/rr_v2_formal_build_20261106/run_citation_fix/batches)
+- [Coverage](reports/rr_v2_evidence/formal_build_20261106_citation_fix/mechanism_coverage.json) · [failure classes](reports/rr_v2_evidence/formal_build_20261106_citation_fix/failure_classification.json) · [costs](reports/rr_v2_evidence/formal_build_20261106_citation_fix/cost_summary.json)
+- [Source](legal_skill_guard/rr) · [formal controller](experiments/rr_v2_formal_build.py) · [reproduce/recover](docs/rr_v2/FORMAL_BUILD_REPRODUCE.md)
+- [Previous method repair](reports/legalskillguard_rr_v2_method_gap_repair_20261106.md) · [prior study](paper/README.md)
+- [Publication manifest](reports/rr_v2_evidence/formal_build_20261106_citation_fix/publication_manifest.json)
 
-154 related offline checks and 78 actual decoder cases passed. This stage added 3 executor requests, including one invalid IR, and 1 teacher request; cumulative ledger is 127 executor / 4 teacher within the original 6000/20 allocation, with all original rows retained. Future executor calls use thinking OFF under the explicit user override. Historical ON generations remain historical, not OFF prediction cache entries. Fallback correctness does not count as A/B core success. The corrected historical B witness count is 12 pairs across 3 of the 4 original core sources, not the former 22 pairs across 4 sources.
+Executor thinking is OFF. Teacher is gpt-5.6-sol with reasoning_effort=high through the
+existing Codex CLI; no explicit temperature. Cumulative physical counts are
+424/6000 executor and 14/20 teacher.
+Failures remain charged; fallback correctness is not core mechanism success. Training
+reference matching is not formal evaluation. Old preflight and aborted-build completions/summaries are
+historical and were not reused as this fresh build's completion records.
 
-Development branch only: `research/legalskillguard-rr-v2`. Main is unchanged. This is a curated content mirror, without private local Git ancestry. Source/tests/raw TRAIN evidence retain bytes except listed removal of private authorization prose. Models, environments, host binaries, private operation records, credentials, SQLite meta values and DEV/TEST packets/labels are omitted. The bound local README stays unchanged locally; portable public navigation replaces it here. The public export does not claim to contain the bound host runtime. The [previous study and manuscript](paper/README.md) remain preserved.
+The aborted citation-contract version is retained separately with65 executor and2
+teacher attempts and34 completed source records. Its canonical Illinois citation
+closure defect and offline repair evidence are linked in the current report. The
+corrected run starts from the unchanged cumulative192/6 ledger and an empty library;
+it does not present the old partial build as current completions.
 
-Stage implementation and public delivery are verified. Main training remains disabled; stop for stage review. See the publication verification receipt and current acceptance audit.
+This development-branch content mirror preserves raw TRAIN scientific evidence and the
+previous public tree, without private local Git ancestry. Private SQLite metadata,
+credentials, machine-operation history, model weights/environments, bound host binaries,
+and DEV/TEST packets or labels are omitted. Public navigation is an explicit variant of
+the locally frozen README/handoff. See the manifest for exported bytes and omissions;
+the clone alone does not provision the bound host runtime. Main is unchanged.

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "request_sha256": "62e08d1ba0ede9e44cda5d52ad7912feba902eba3f14766522ccdb9be70c76cf",
+  "response_sha256": "f2eb0cf698770867ddcf42af04d3405c23a11732c02427941c14c5c14914fefd",
+  "model": "gpt-5.6-sol",
+  "purpose": "formal_teacher_summary",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"op\":\"join_on\",\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      },
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"op\":\"join_on\",\"params\":{\"keys\":[\"column0\"]}}",
+          "{\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"op\":\"join_on\",\"params\":{\"keys\":[]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "仅汇总有观测碰撞证据的参数化模式。无碰撞记录、原始观测不可用记录及翻译未解决记录未被推断为新模式；未提出或验证任何普遍语义等价性。"
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-06T19:21:07.702629+00:00",
+    "finished_at": "2026-11-06T19:21:20.996008+00:00",
+    "elapsed_seconds": 13.293,
+    "returncode": 0,
+    "event_log_sha256": "c6db0852d0c03ef5ab9c201457cfecd1002da38c8c46d08307f4c92f1489bccd",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 18104,
+      "cached_input_tokens": 0,
+      "output_tokens": 306,
+      "reasoning_output_tokens": 75
+    },
+    "estimated_credits": null
+  }
+}
