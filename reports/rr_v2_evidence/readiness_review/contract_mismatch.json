@@ -1,0 +1,162 @@
+{
+  "new_model_calls": 0,
+  "records": [
+    {
+      "index": 4,
+      "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+      "wire_schema_accepts": true,
+      "program_kind": "expression",
+      "interfaces": [
+        {
+          "allowed_semantic_field_names": [
+            "membership"
+          ],
+          "graph": {
+            "op": "join_on",
+            "inputs": [
+              {
+                "slot": "slot0"
+              },
+              {
+                "slot": "slot1"
+              }
+            ],
+            "params": {
+              "keys": [
+                "column0"
+              ]
+            }
+          },
+          "bindings": [
+            {
+              "name": "membership",
+              "value": {
+                "op": "eq",
+                "args": [
+                  "s2",
+                  "s3"
+                ]
+              },
+              "type": "relation",
+              "source": "s2"
+            }
+          ]
+        }
+      ],
+      "parser_program_status": "parse_failure",
+      "parser_diagnostics": [
+        "Interface proposal needs fixed fields, graph and source-linked bindings"
+      ],
+      "native_answer": "NotMentioned"
+    },
+    {
+      "index": 9,
+      "source": "ContractNLI:e671a984356facb0c0666809e219fa44fa18d30e4f6252bbb33d8869fc43b1c9",
+      "wire_schema_accepts": true,
+      "program_kind": "unsupported",
+      "interfaces": [
+        {
+          "allowed_semantic_fields": [
+            "membership",
+            "entity_equality"
+          ],
+          "graph": {
+            "op": "join_on",
+            "inputs": [
+              {
+                "slot": "slot0"
+              },
+              {
+                "slot": "slot1"
+              }
+            ],
+            "params": {
+              "keys": [
+                "column0",
+                "column1"
+              ]
+            }
+          },
+          "bindings": [
+            {
+              "var": "var0",
+              "source": "s14",
+              "unit": "s14"
+            },
+            {
+              "var": "var1",
+              "source": "s12",
+              "unit": "s12"
+            }
+          ]
+        }
+      ],
+      "parser_program_status": "parse_failure",
+      "parser_diagnostics": [
+        "Interface proposal needs fixed fields, graph and source-linked bindings"
+      ],
+      "native_answer": "NotMentioned"
+    },
+    {
+      "index": 14,
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "wire_schema_accepts": true,
+      "program_kind": "expression",
+      "interfaces": [
+        {
+          "allowed_semantic_field_names": [
+            "entity_equality",
+            "membership"
+          ],
+          "graph": [
+            {
+              "op": "join_on",
+              "inputs": [
+                {
+                  "slot": "slot0"
+                },
+                {
+                  "slot": "slot1"
+                }
+              ],
+              "params": {
+                "keys": [
+                  "column0"
+                ]
+              }
+            }
+          ],
+          "bindings": [
+            {
+              "name": "entity_equality",
+              "value": "NotMentioned",
+              "type": "scalar",
+              "source": "s23"
+            },
+            {
+              "name": "membership",
+              "value": "NotMentioned",
+              "type": "scalar",
+              "source": "s28"
+            }
+          ]
+        }
+      ],
+      "parser_program_status": "parse_failure",
+      "parser_diagnostics": [
+        "Interface proposal needs fixed fields, graph and source-linked bindings"
+      ],
+      "native_answer": "NotMentioned"
+    },
+    {
+      "index": 19,
+      "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+      "wire_schema_accepts": true,
+      "program_kind": "unsupported",
+      "interfaces": [],
+      "parser_program_status": "unsupported_no_certificate",
+      "parser_diagnostics": [],
+      "native_answer": "NotMentioned"
+    }
+  ]
+}

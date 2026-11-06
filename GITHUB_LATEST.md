@@ -1,23 +1,13 @@
-# Repository update — 5 November 2026
+# RR-v2 implementation and readiness review — 6 November 2026
 
-This update organizes the project for stage handoff. It does not replace the utility-v6 paper, experimental results, training data, scoring rules or learned B1/B8 libraries.
+Current decision: **resolve the A planning/cost integration and the common interface schema/parser mismatch before main training**. No model calls or main training were started by the review. Existing four ProofWriter A/B successes and all unresolved outcomes are preserved.
 
-## Included
+- [Readiness review](reports/legalskillguard_rr_v2_readiness_review_20261106.md): original acceptance criteria, real versus offline evidence, all sixteen other sources, minimum next checks.
+- [Implementation report](reports/legalskillguard_rr_v2_implementation_check_report.md) and [current decision](reports/rr_v2_evidence/training_readiness_decision.json).
+- [Implementation modules](legal_skill_guard/rr), [related tests](tests), [original plan](reports/legalskillguard_rule_reasoning_plan_v2_20261105.md).
+- [A/B real evidence](reports/rr_v2_evidence/semantic_preflight/core_acceptance.json), [review audit](reports/rr_v2_evidence/readiness_review/audit.json), [charged calls](reports/rr_v2_evidence/readiness_review/charged_calls_export.json).
+- [Publication manifest](reports/rr_v2_evidence/readiness_review/publication_manifest.json).
 
-- A single [project map](PROJECT_MAP.md) and [portable stage handoff](docs/handoff_next_stage.md).
-- The [post-cleanup integrity report](docs/PROJECT_INTEGRITY_20261105.json), including the five pre-existing AST-lock test failures.
-- Unmodified November 4–5 TRAIN diagnostic scripts, protocols, raw calls and analyses, indexed [here](recovery/updates/20261105_handoff/README.md).
-- A main-branch landing page pointing to this maintained research branch, without deleting its earlier code.
+Development branch: `research/legalskillguard-rr-v2`; `main` is unchanged. Local implementation commit `ba1eded37986fa67be74d4578ce26ed129ebd700`; public commits mirror its current source and the review without publishing private local Git ancestry. Scientific code binding `47cddfaed75c295bf7655a7a2167e940db85c7c2b7520625a9534e746baa6b14` remains the local execution binding.
 
-The source, configurations, tests and deployment files checked against the pre-update research branch were already identical; they are not silently reimplemented by this publication. English/Chinese v16 manuscripts, original result tables, formal run records and previous recovery volumes remain unchanged.
-
-## Preserved v16 delivery
-
-- [Manuscript index](paper/README.md)
-- [English PDF](artifacts/research/manuscript_review_20261030/utility_v6_astra_revision_v16_delivery_20261104/utility_v6_working_en.pdf)
-- [Eleven-condition table](paper/tables/utility_frozen_results_with_skillcommit_20261104.json)
-- [Reproduction guide](docs/research/PAPER_REPRODUCTION_GUIDE_20261102.md)
-- [Supplementary Data 1](artifacts/research/manuscript_revision_astra_20261104/Supplementary_Data_1_20261104.zip.parts/README.md)
-
-Publication-specific documentation is a portable, author-neutral view. Private conversation history, working-goal logs, local writing skills, host backup contents and account materials are not uploaded. Scientific records retain their original bytes, including observed model and teacher identities and original runtime path references.
-
+Public navigation is portable. Original source, tests, raw responses, TRAIN-only evidence, and scores retain bytes, except explicitly listed removal of private authorization prose. The frozen local README remains local; its original hash is preserved in the scientific receipts. Host runtimes, model weights, credentials, private conversation logs and SQLite meta values are not uploaded. The public export is not a self-contained host environment; its manifest identifies omissions and byte mappings. Older utility-v6 publications remain in the tree and history, including the [manuscript index](paper/README.md).
