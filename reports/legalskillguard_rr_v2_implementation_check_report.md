@@ -2,7 +2,7 @@
 
 本次补齐A生产残余规划与真实token成本、五库程序/接口契约及B其他受支持任务候选学习。154项相关检查、78个实际解码用例及当前20来源免费恢复通过；新OFF真实PW样例A/B分别语义通过，CNLI回退不计核心。B旧碰撞口径22→12、有效历史来源4→3，失败与不足完整保留。
 
-详见[本轮完整报告](legalskillguard_rr_v2_method_gap_repair_20261106.md)、[逐项验收](rr_v2_evidence/method_gap_repair/acceptance_audit.json)和[当前准备凭据](rr_v2_evidence/formal_readiness_method_gaps.json)。累计127 executor/4 teacher；交付核验完成后关闭Goal并停止待复核。本次未启动主训练、正式评测或论文。
+详见[本轮完整报告](legalskillguard_rr_v2_method_gap_repair_20261106.md)、[逐项验收](rr_v2_evidence/method_gap_repair/acceptance_audit.json)和[当前准备凭据](rr_v2_evidence/formal_readiness_method_gaps.json)。累计127 executor/4 teacher；开发分支交付已独立核验，关闭Goal后停止待复核。本次未启动主训练、正式评测或论文。
 
 以下是按时间保留的修复进展及旧报告，旧状态不覆盖本轮结论。
 

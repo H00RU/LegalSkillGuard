@@ -1,6 +1,6 @@
 # RR-v2 方法缺口修复与训练就绪验收
 
-2026-11-06。**工程验收通过：可以进入主训练的阶段审批；本次未启动主训练。** 此结论基于 A/B 实际入口、五库契约、固定20来源恢复、真实定点补验、账本和后续流程的联合证据，不以单个成功或零回退为门槛。交付正在开发分支核验；完成交付后关闭本阶段 Goal 并停止，等待复核。
+2026-11-06。**工程验收通过：可以进入主训练的阶段审批；本次未启动主训练。** 此结论基于 A/B 实际入口、五库契约、固定20来源恢复、真实定点补验、账本和后续流程的联合证据，不以单个成功或零回退为门槛。实现与报告已在开发分支独立核验，main未改；本阶段工作完成，关闭Goal后停止，等待复核。
 
 ## 缺口、修改与证据
 
@@ -92,3 +92,7 @@ python -c 'from pathlib import Path; from legal_skill_guard.rr.readiness import 
 模型环境中的`python -m experiments.rr_v2_method_backend`只加载本地tokenizer/xgrammar，不加载权重、不生成；CPU部分禁网络，另对既有服务做只读/tokenize核对。当前[backend证据](rr_v2_evidence/method_gap_repair/backend.json)、[历史核心重验](rr_v2_evidence/method_gap_repair/historical_core.json)、[当前恢复](rr_v2_evidence/method_gap_repair/current_restore.json)、[逐项验收](rr_v2_evidence/method_gap_repair/acceptance_audit.json)分开提供。
 
 本轮属于现有研究方案的工程补齐，未改研究问题、五库来源、评分与验收门槛；thinking OFF为用户明确覆盖的执行配置。推荐的最小下一步是完成本阶段复核后，按原协议一次共享建库；本次停在此处，不启动训练、正式评测或论文。
+
+## 开发分支交付
+
+[实现提交](https://github.com/H00RU/LegalSkillGuard/commit/3e8e259071d9092ba77aaf3588374347c6d3caf1) · [修复前契约提交](https://github.com/H00RU/LegalSkillGuard/commit/2398ee16ee34f75371cb03cfcbdaa604ba4447aa) · [独立交付核验](rr_v2_evidence/method_gap_repair/publication_verified.json)。520个导出路径及报告/代码HTTP字节核验通过；本地实现提交`762a1391b53caea41d07cee4196f264e25c0bc17`，不推送私人本地Git祖先。main保持`ae7e09230b4eb675b7299f73c4775787ccb2b65b`。
