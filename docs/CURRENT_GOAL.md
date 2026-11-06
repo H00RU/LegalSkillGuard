@@ -31,3 +31,5 @@ credentials, machine-operation history, model weights/environments, bound host b
 and DEV/TEST packets or labels are omitted. Public navigation is an explicit variant of
 the locally frozen README/handoff. See the manifest for exported bytes and omissions;
 the clone alone does not provision the bound host runtime. Main is unchanged.
+
+Independent public delivery verification is complete. All128 build records and frozen artifacts are retained. Stop here for review; evaluation remains disabled.

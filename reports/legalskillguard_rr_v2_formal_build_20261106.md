@@ -1,6 +1,6 @@
 # RR-v2 正式共享建库
 
-更新：2026-11-06T19:45:03.451101+00:00。**128来源及8批已完成并通过只读工件审计，交付核验待完成。** 本阶段没有进行六臂正式评测、冻结测试或论文写作；训练参考匹配只是训练材料检查，不是性能评测或机制涨分证据。
+更新：2026-11-06T19:45:03.451101+00:00。**128来源、8批、B1/B8冻结及完整交付核验已完成；本阶段停止，等待复核。** 本阶段没有进行六臂正式评测、冻结测试或论文写作；训练参考匹配只是训练材料检查，不是性能评测或机制涨分证据。
 
 从空技能库按原固定顺序执行一次128来源、8批建库。旧20来源预检、故障版本34个完成来源及其teacher汇总保留为历史，不作为本轮完成记录。原来源仍在128中，没有新增来源或种子；每个正式来源最多2次executor，每批最多2次teacher。适用的旧oracle仅通过同source/view/reference哈希复用，每来源额外视图累计最多4，不重置旧计数。
 
@@ -145,3 +145,7 @@ PYTHONPATH=. python reports/rr_v2_evidence/formal_build_20261106_citation_fix/ch
 ```
 
 完整环境、恢复与复现边界见[本轮复现说明](../docs/rr_v2/FORMAL_BUILD_REPRODUCE.md)。当前评测与冻结测试开关仍关闭。本阶段完成交付后停止，等待用户复核；不自动进入评测。
+
+## 开发分支交付
+
+[实现提交](https://github.com/H00RU/LegalSkillGuard/commit/d01850c42653b4a6404201e6f5635010ea246163) · [独立远端核验](rr_v2_evidence/formal_build_20261106_citation_fix/publication_verified.json) · [逐项完成审计](rr_v2_evidence/formal_build_20261106_citation_fix/acceptance_audit.json)。2087个导出路径已独立fetch并逐字节核验，报告、代码和B8的HTTP内容相同；最终报告与交付凭据更新另由[交付增量清单](rr_v2_evidence/formal_build_20261106_citation_fix/delivery_manifest.json)标识。main保持`ae7e09230b4eb675b7299f73c4775787ccb2b65b`。本轮普通失败、未决、回退和历史账本均保留；全部交付核验后关闭Goal，停止等待评测阶段复核。

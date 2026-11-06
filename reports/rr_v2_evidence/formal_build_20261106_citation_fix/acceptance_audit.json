@@ -1,0 +1,144 @@
+{
+  "captured_utc": "2026-11-06T19:48:40.203666+00:00",
+  "objective": "one fresh fixed128 shared build; no evaluation",
+  "execution_binding": {
+    "code_hash": "54b353ac46fda34ba0237f2c000634a3ecca84b0cbc5c2f0054f854efd7d2194",
+    "config_hash": "d63cc65096cde35e10cf49ae012fcdf62ef66e8efb3b3bc43248e57e6f27bcaa",
+    "data_hash": "5b7683f05c921598c4bab6dc29834df3dc7595e3795d46551732446efa3eacc0",
+    "source_manifest_hash": "ef0f419d13f5219f0faeb97543b52d27be8c50a67243103e542013dc24ae3ca4"
+  },
+  "processing_binding": {
+    "code_hash": "7628be5932adcaa1e29c76e5901673998b69e9c26214799c124e8d1bcce3f2a0",
+    "config_hash": "d63cc65096cde35e10cf49ae012fcdf62ef66e8efb3b3bc43248e57e6f27bcaa",
+    "data_hash": "5b7683f05c921598c4bab6dc29834df3dc7595e3795d46551732446efa3eacc0",
+    "source_manifest_hash": "ef0f419d13f5219f0faeb97543b52d27be8c50a67243103e542013dc24ae3ca4"
+  },
+  "processing_revision": "5c5524b60500cfb9ea62f4882d8cb9ee159209f4800ae66093ddc9d8557e2c4e",
+  "completion_proven": true,
+  "stage_delivery_complete": true,
+  "goal_tool_status_at_capture": "active_pending_final_tool_close",
+  "requirements": [
+    {
+      "id": "fixed_train_scope",
+      "status": "verified",
+      "finding": "Original unique 128 TRAIN sources, original order, eight batches; no added source/seed",
+      "evidence": [
+        "final_audit.json",
+        "source_status.json",
+        "launch_checks.json"
+      ]
+    },
+    {
+      "id": "fresh_empty_uniform",
+      "status": "verified",
+      "finding": "Empty initial library and fresh run records; unchanged generation contract plus compatible reference-only processing repair with exact76-source replay",
+      "evidence": [
+        "final_audit.json",
+        "empty_start_evidence.json",
+        "launch_checks.json"
+      ]
+    },
+    {
+      "id": "effective_models",
+      "status": "verified",
+      "finding": "Every executor wire has thinking OFF and fixed sampling; teacher requests bind high/model and observed actual CLI arguments",
+      "evidence": [
+        "final_audit.json",
+        "teacher_effective_argv.json"
+      ]
+    },
+    {
+      "id": "cumulative_accounting",
+      "status": "verified",
+      "finding": "Original 127E/4T charges, 118 metadata values and 50 oracle rows retained; all per-source/batch/global caps and future reserve preserved",
+      "evidence": [
+        "final_audit.json",
+        "cost_summary.json",
+        "baseline_public.json",
+        "charged_calls_export.json"
+      ]
+    },
+    {
+      "id": "all_sources",
+      "status": "verified",
+      "finding": "All 128 source records and charged formal executor requests reconciled, including model errors and failures",
+      "evidence": [
+        "final_audit.json",
+        "source_status.csv",
+        "request_ledger.csv"
+      ]
+    },
+    {
+      "id": "all_batches",
+      "status": "verified",
+      "finding": "Eight fresh bounded teacher batches and exact library/source-prefix checkpoints",
+      "evidence": [
+        "final_audit.json",
+        "material_audit.json"
+      ]
+    },
+    {
+      "id": "frozen_libraries",
+      "status": "verified",
+      "finding": "B1/B8 restored from current prefixes and both MB controls recomputed from the same paid TRAIN material",
+      "evidence": [
+        "final_audit.json",
+        "material_audit.json"
+      ]
+    },
+    {
+      "id": "mechanisms_failures",
+      "status": "verified",
+      "finding": "Real training coverage/fallback and failure reasons retained; B learning independently re-executed on attempt-specific recorded views",
+      "evidence": [
+        "mechanism_coverage.json",
+        "failure_classification.json",
+        "mechanism_reexecution.json",
+        "mechanism_interpretation.json"
+      ]
+    },
+    {
+      "id": "terminal_recovery",
+      "status": "verified",
+      "finding": "Original controller terminal; production cached recovery visits all128 at zero new model/oracle calls and leaves saved bytes/ledger unchanged",
+      "evidence": [
+        "final_audit.json",
+        "cached_recovery.json",
+        "cached_recovery.initial_python_type_failure.json"
+      ]
+    },
+    {
+      "id": "stage_boundary",
+      "status": "verified",
+      "finding": "No six-arm formal evaluation, frozen testing or paper writing; training checks are not formal scores",
+      "evidence": [
+        "final_audit.json",
+        "material_audit.json",
+        "cached_recovery.json"
+      ]
+    },
+    {
+      "id": "cost_and_reproducibility",
+      "status": "verified",
+      "finding": "Request/token/time ledger, unknown invoices, binding hashes and recovery/reproduction commands delivered",
+      "evidence": [
+        "cost_summary.json",
+        "request_ledger.csv"
+      ]
+    },
+    {
+      "id": "publication",
+      "status": "verified",
+      "finding": "Development-branch content independently fetched and byte/HTTP verified; main unchanged",
+      "evidence": [
+        "publication_manifest.json",
+        "publication_verified.json"
+      ]
+    }
+  ],
+  "quality_or_zero_fallback_gate_added": false,
+  "all_branches_real_tested_requirement_added": false,
+  "formal_evaluation_started": false,
+  "frozen_test_started": false,
+  "paper_started": false
+}
