@@ -87,10 +87,53 @@ def close_expression_inputs(schema, bindings):
     return schema
 
 
+def interface_definitions(source_unit_ids=None):
+    """One wire/runtime contract for source bindings and the seven connectors."""
+    string = {"type": "string"}
+    strings = array(string)
+    scalar = {"anyOf": [{"type": "string"}, {"type": "integer"}, {"type": "boolean"}]}
+    amount = obj({"value": {"type": "integer", "minimum": 0}, "unit": string, "owner": string,
+                  "period": string, "lineage": {**strings, "minItems": 1},
+                  "stage": {"enum": ["element", "closed_group"]}})
+    key = {**strings, "minItems": 3, "maxItems": 3}
+    bank = obj({"key": key, "balance": {"type": "integer", "minimum": 0},
+                "policy": {"enum": ["input_order", "reverse_order"]}, "order_observable": {"type": "boolean"}})
+    types = {"integer": {"type": "integer"}, "rational": {"type": "string"}, "scalar": scalar,
+             "relation": obj({"columns": strings, "rows": array(strings), "closed": {"type": "boolean"}}),
+             "amount": amount, "amounts": array(amount), "allowance_bank": array(bank), "resource_key": key, "slot_list": strings}
+    source_ref = {"enum": list(source_unit_ids)} if source_unit_ids is not None else string
+    binding = {"anyOf": [obj({"name": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"}, "value": value, "type": {"enum": [kind]}, "source": source_ref})
+                         for kind, value in types.items()]}
+    def connector(op, arity, params):
+        result = obj({"op": {"enum": [op]}, "inputs": {"type": "array", "items": ref("connector"),
+                    "minItems": arity, "maxItems": arity}, "params": obj(params)})
+        if not params:
+            result["required"].remove("params")
+        return result
+    graphs = {"anyOf": [obj({"slot": string}),
+        connector("bind_rename", 1, {"from": strings, "to": strings}),
+        connector("join_on", 2, {"keys": strings}), connector("project_exists", 1, {}),
+        connector("group_by", 1, {"keys": strings}),
+        connector("map", 1, {"primitive": {"enum": ["cap"]}, "limit_slot": string,
+                             "scope": {"enum": ["element", "closed_group"]}}),
+        connector("map", 1, {"primitive": {"enum": ["exists", "sum_amounts"]}}),
+        connector("fold_reduce", 1, {"primitive": {"enum": ["sum_amounts", "all", "any"]}}),
+        connector("thread_allowance", 1, {"bank_slot": string, "key_slot": string})]}
+    return {"binding": binding, "connector": graphs}
+
+
+def interface_schema():
+    return {"type": "array", "maxItems": 8,
+        "items": obj({"fields": array({"enum": list(FIELDS)}),
+                      "graph": ref("connector"), "bindings": array(ref("binding"))})}
+
+
 def strict_proposal_schema(dataset, base_schema, *, source_unit_ids=None):
-    if dataset not in TARGETS:
-        return deepcopy(base_schema)
     schema = deepcopy(base_schema)
+    if dataset not in TARGETS:
+        schema["$defs"] = interface_definitions(source_unit_ids)
+        schema["properties"]["interfaces"] = interface_schema()
+        return schema
     string = {"type": "string"}
     strings = array(string)
     scalar = {"anyOf": [{"type": "string"}, {"type": "integer"}, {"type": "boolean"}]}
@@ -124,18 +167,8 @@ def strict_proposal_schema(dataset, base_schema, *, source_unit_ids=None):
     operation_schema = {"anyOf": [ref("number_operation"), ref("boolean_operation"),
         conditional("expression"), operation("array", ref("expression")), pair_op,
         operation("object", ref("pair_operation")), operation("concat", ref("array_expression"))]}
-    amount = obj({"value": {"type": "integer", "minimum": 0}, "unit": string, "owner": string,
-                  "period": string, "lineage": {**strings, "minItems": 1},
-                  "stage": {"enum": ["element", "closed_group"]}})
-    key = {**strings, "minItems": 3, "maxItems": 3}
-    bank = obj({"key": key, "balance": {"type": "integer", "minimum": 0},
-                "policy": {"enum": ["input_order", "reverse_order"]}, "order_observable": {"type": "boolean"}})
-    types = {"integer": {"type": "integer"}, "rational": {"type": "string"}, "scalar": scalar,
-             "relation": obj({"columns": strings, "rows": array(strings), "closed": {"type": "boolean"}}),
-             "amounts": array(amount), "allowance_bank": array(bank), "resource_key": key, "slot_list": strings}
+    definitions = interface_definitions(source_unit_ids)
     source_ref = {"enum": list(source_unit_ids)} if source_unit_ids is not None else string
-    binding = {"anyOf": [obj({"name": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"}, "value": value, "type": {"enum": [kind]}, "source": source_ref})
-                         for kind, value in types.items()]}
     bindings = array(ref("binding"))
     expression_binding = {'anyOf': [obj({'name': {'type': 'string', 'pattern': '^' + prefix + '_[A-Za-z0-9_]+$'},
         'type': {'enum': [kind]}, 'value': value, 'source': source_ref})
@@ -149,18 +182,6 @@ def strict_proposal_schema(dataset, base_schema, *, source_unit_ids=None):
                  "properties": {key: {**node_names, "minItems": 1} for key in source_unit_ids}}
         for key in ("compiled_units", "unsupported_units"):
             schema["properties"][key]["items"] = source_ref
-    def connector(op, arity, params):
-        return obj({"op": {"enum": [op]}, "inputs": {"type": "array", "items": ref("connector"),
-                    "minItems": arity, "maxItems": arity}, "params": obj(params)})
-    graphs = {"anyOf": [obj({"slot": string}),
-        connector("bind_rename", 1, {"from": strings, "to": strings}),
-        connector("join_on", 2, {"keys": strings}), connector("project_exists", 1, {}),
-        connector("group_by", 1, {"keys": strings}),
-        connector("map", 1, {"primitive": {"enum": ["cap"]}, "limit_slot": string,
-                             "scope": {"enum": ["element", "closed_group"]}}),
-        connector("map", 1, {"primitive": {"enum": ["exists"]}}),
-        connector("fold_reduce", 1, {"primitive": {"enum": ["sum_amounts", "all", "any"]}}),
-        connector("thread_allowance", 1, {"bank_slot": string, "key_slot": string})]}
     depth = EXPRESSION_DEPTH
     if dataset == 'RuleArena_Airline':
         query = {'anyOf': [ref(f'number_operation_{depth}'), positional('if', [
@@ -187,7 +208,9 @@ def strict_proposal_schema(dataset, base_schema, *, source_unit_ids=None):
                            "query": query, "source_links": links})
     connector_body = obj({"bindings": bindings, "candidates": {"type": "array", "items": ref("connector"),
                          "minItems": 1, "maxItems": 32}, "source_links": links,
-                          "project": {"enum": ["identity", "amount_value"]}})
+                          "project": {"enum": ["identity", "amount_value", "amount_values", "entailment_label"]},
+                          "query": query})
+    connector_body['required'].remove('query')
     expressions = {"expression": atom, "operation": operation_schema,
         "number_operation": number_ops, "boolean_operation": boolean_ops, "pair_operation": pair_op,
         "number_expression": {"anyOf": [{"type": "integer"}, typed_variable('n'), ref("number_operation"), conditional("number_expression")]},
@@ -196,13 +219,12 @@ def strict_proposal_schema(dataset, base_schema, *, source_unit_ids=None):
         "array_expression": {"anyOf": [variable, operation("array", ref("expression")), pair_op,
             operation("concat", ref("array_expression")), conditional("array_expression")]}}
     schema['$defs'] = {**bounded_expressions(expressions), 'expression_binding': expression_binding,
-                       'binding': binding, 'connector': graphs}
+                       **definitions}
     schema["properties"]["program"] = {"anyOf": [
         obj({"kind": {"enum": ["expression"]}, "body": expression_body}),
         obj({"kind": {"enum": ["connector"]}, "body": connector_body}),
         obj({"kind": {"enum": ["unsupported"]}, "body": obj({})})]}
-    schema["properties"]["interfaces"] = {"type": "array", "maxItems": 8,
-        "items": obj({"fields": array({"enum": list(FIELDS)}), "graph": ref("connector"), "bindings": bindings})}
+    schema["properties"]["interfaces"] = interface_schema()
     schema['properties'] = {k: schema['properties'][k] for k in
                             ['program', 'answer', 'compiled_units', 'unsupported_units', 'interfaces']}
     return schema

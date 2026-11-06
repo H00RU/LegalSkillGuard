@@ -97,6 +97,9 @@ class Unsupported(ValueError):
 
 def evaluate(node: Any, env: dict[str, Any]) -> Any:
     """Small data-only IR. Explicit variables; no eval, import or code generation."""
+    from .public_horn import GroundHornQuery
+    if isinstance(node, GroundHornQuery):
+        return node.evaluate(env)
     if type(node) in (bool, int, str, Fraction) or node is None:
         return node
     if not isinstance(node, dict):
@@ -283,10 +286,13 @@ def complete(theory: FiniteTheory, *, deadline: float | None = None,
                 raise Unsupported("Constraint must be Boolean")
             if not all(checks):
                 continue
-            answer = evaluate(theory.query, env)
+            from .public_horn import GroundHornQuery
+            answer = theory.query.evaluate(env, seconds=max(0, end - clock())) if isinstance(theory.query, GroundHornQuery) else evaluate(theory.query, env)
             if answer is None:
                 raise Unsupported("Null is a system result, not a task answer")
             worlds.append(World(choices, answer))
+    except TimeoutError as exc:
+        return CompletionResult('budget_exhausted', worlds, version, str(exc))
     except Unsupported as exc:
         return CompletionResult("unsupported_no_certificate", worlds, version, str(exc))
     if not worlds:
@@ -382,11 +388,11 @@ def plan_batch(theory: FiniteTheory, token_cost: Callable[[set[str]], int], budg
     return out
 
 
-def certificate(theory: FiniteTheory, result: CompletionResult) -> dict:
+def certificate(theory: FiniteTheory, result: CompletionResult, *, deadline=None) -> dict:
     if result.status != "completion_stable" or result.theory_hash != theory.version:
         raise ValueError("No current stable certificate")
     # Recheck, rather than accepting a caller-constructed result as a proof.
-    check = complete(theory)
+    check = complete(theory, deadline=deadline)
     if check.status != "completion_stable" or digest(check.answer) != digest(result.answer):
         raise ValueError("Certificate verification failed")
     def proof_value(value):

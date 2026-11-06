@@ -138,3 +138,43 @@ def test_new_user_policy_keeps_old_charges_and_exact_planned_two_pass_scope(tmp_
     assert b.export()['teacher_used']==3
     with pytest.raises(BudgetError,match='implicit'):
         b.reserve('teacher3',role='teacher',purpose='pilot_teacher_summary',source=s,request=teacher_request)
+
+
+def test_explicit_thinking_override_is_only_config_change_and_never_resets_calls(tmp_path):
+    from copy import deepcopy
+    from legal_skill_guard.rr.coverage import digest
+    old = {'executor': {'temperature': .6}, 'teacher': {'reasoning_effort': 'high'}}
+    new = deepcopy(old)
+    new['executor']['enable_thinking'] = False
+    b = BudgetLedger(tmp_path / 'ledger.sqlite3', sources=sources(), code_hash='code', config_hash=digest(old))
+    s = sources()[DATASETS[0]][0]
+    b.reserve('original', role='executor', purpose='pilot_ingestion', source=s, request={})
+    b.finish('original', status='failed', result={'error':'retained'})
+    history = b.export()['calls']
+    b.register_study_authorization(dict(authority='explicit_user_chat_authorization',
+        executor_original_study_max=6000, teacher_original_study_max=20,
+        preflight_executor_cap_removed=True, preflight_teacher_cap_removed=True,
+        main_training_enabled=False, no_new_sources=True))
+    auth = dict(authority='explicit_user_chat_authorization', executor_enable_thinking=False,
+        old_semantic_config=old, new_semantic_config=new, new_config_hash=digest(new),
+        baseline_counts={'executor':1,'teacher':0})
+    for field in ('executor', 'teacher'):
+        wrong = deepcopy(auth)
+        wrong['new_semantic_config'][field]['temperature'] = .8
+        wrong['new_config_hash'] = digest(wrong['new_semantic_config'])
+        with pytest.raises(BudgetError, match='Only the explicitly'):
+            b.register_thinking_off_authorization(wrong)
+    b.register_thinking_off_authorization(auth)
+    binding = {'code_hash':'new', 'config_hash':digest(new)}
+    b.register_study_revision('off', new_binding=binding, change='explicit OFF', offline_evidence_hash='offline')
+    b = BudgetLedger(b.path, sources=sources(), **binding)
+    request = {'thinking':False, 'payload':{'fixture':True}}
+    b.register_study_request('off-call', revision='off', source=s, request=request)
+    with pytest.raises(BudgetError, match='thinking-OFF'):
+        b.register_study_request('on-call', revision='off', source=s, request={**request,'thinking':True})
+    args = dict(role='executor', purpose='preflight_bug_retry', source=s, request=request)
+    assert b.reserve('off-call', **args)['dispatch']
+    b.finish('off-call', status='completed', result={'thinking_requested':False})
+    assert not b.reserve('off-call', **args)['dispatch']
+    assert b.export()['calls'][0] == history[0]
+    assert b.export()['executor_used'] == 2

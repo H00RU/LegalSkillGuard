@@ -8,10 +8,11 @@ training material. The finite candidate pool is never a completion certificate.
 from __future__ import annotations
 
 import time
+import re
 from copy import deepcopy
 
 from .coverage import SourceLedger, digest
-from .engine import _native, decode_slots, source_text
+from .engine import _native, connector_output, decode_slots, source_text
 from .horn import Atom
 from .interfaces import Amount, Connector, InterfaceError, Relation
 from .learning import parameterize_graph
@@ -168,10 +169,12 @@ def ordinary_horn_prediction(source: dict, frozen: dict) -> dict | None:
             "candidate_count": len(masks), "training_examples_matched": family is not None}
 
 
-def _case(body: dict, graph: dict, source: dict) -> tuple[str, dict, dict]:
+def _case(body: dict, graph: dict, source: dict, *, bound_slots=None):
     ledger = SourceLedger.from_text(source_text(source))
     units = {c.id: ledger.text[c.start:c.end] for c in ledger.clauses}
-    slots, _ = decode_slots(body, set(units), units)
+    slots = bound_slots
+    if slots is None:
+        slots, _ = decode_slots(body, set(units), units)
     names = {name: f"slot{i}" for i, name in enumerate(slots)}
     columns = {}
 
@@ -195,7 +198,10 @@ def _case(body: dict, graph: dict, source: dict) -> tuple[str, dict, dict]:
             if key.endswith("_slot"):
                 params[key] = names[value]
             elif key in {"keys", "from", "to"}:
-                params[key] = [column(x) for x in value]
+                child_slot = node.get('inputs', [{}])[0].get('slot')
+                amount_group = node['op'] == 'group_by' and child_slot in slots and \
+                    isinstance(slots[child_slot], list) and all(isinstance(a, Amount) for a in slots[child_slot])
+                params[key] = list(value) if amount_group else [column(x) for x in value]
             elif key in {"primitive", "scope"}:
                 params[key] = value
             else:
@@ -230,17 +236,40 @@ def _case(body: dict, graph: dict, source: dict) -> tuple[str, dict, dict]:
             kind.update(columns=list(environment[names[binding["name"]]].columns), closed=value.closed)
         kinds.append(kind)
     projection = body.get("project", "identity")
-    signature = digest({"slot_types": kinds, "projection": projection})
-    return signature, normalized, environment
+    wrapper = {'project': projection}
+    def rename_query(node, *, shape=False):
+        if isinstance(node, dict):
+            if set(node) == {'var'}:
+                if node['var'] not in names and not re.fullmatch(r'[nbs]_result(?:_[0-9]+)?', node['var']):
+                    raise ValueError('Unbound query name cannot be a compatibility fingerprint')
+                return {'var': names.get(node['var'], node['var'])}
+            return {k: rename_query(v, shape=shape) for k, v in node.items()}
+        if isinstance(node, list):
+            return [rename_query(v, shape=shape) for v in node]
+        return {'literal_type': type(node).__name__} if shape and not isinstance(node, str) else node
+    # Concrete wrapper constants stay in ephemeral training examples only.
+    # The frozen compatibility key masks literals, never hashes answer/case values.
+    def query_shape(node):
+        if isinstance(node, dict):
+            if set(node) == {'var'}:
+                return rename_query(node)
+            if node.get('op') not in {'if','and','or','xor','not','eq','ne','add','sub','min','max','lt','le',
+                                      'scale','divide_constant','array','pair','object','concat'}:
+                raise ValueError('Unsupported query cannot define a reusable example family')
+            return {k: v if k == 'op' else query_shape(v) for k, v in node.items()}
+        if isinstance(node, list):
+            return [query_shape(v) for v in node]
+        return {'literal_type': type(node).__name__}
+    if 'query' in body:
+        wrapper['query'] = rename_query(body['query'])
+    signature = digest({'slot_types': kinds, 'projection': projection,
+                        'query_shape': query_shape(body['query']) if 'query' in body else None})
+    return signature, normalized, environment, wrapper
 
 
-def _predict(graph: dict, environment: dict, projection: str):
+def _predict(graph: dict, environment: dict, wrapper):
     value = Connector(graph).execute(deepcopy(environment))
-    if projection == "amount_value" and isinstance(value, Amount):
-        return value.value
-    if projection != "identity":
-        raise InterfaceError("Unsupported output projection")
-    return _native(value)
+    return connector_output(value, wrapper, environment)
 
 
 def fit_shared_examples(sources: dict, records: list[dict], labels: dict) -> dict:
@@ -261,26 +290,47 @@ def fit_shared_examples(sources: dict, records: list[dict], labels: dict) -> dic
             if len(body.get("candidates", [])) > 32:
                 skipped += 1
                 continue
-            for graph in body.get("candidates", [])[:32]:
+            from .typed_learning import candidates as typed_candidates, public_variant, bind_variant
+            try:
+                ledger = SourceLedger.from_text(source_text(source))
+                units = {c.id: ledger.text[c.start:c.end] for c in ledger.clauses}
+                slots, _ = decode_slots(body, set(units), units)
+                candidate_graphs = typed_candidates(slots, body.get('candidates', []))
+            except (ValueError, TypeError, KeyError, InterfaceError):
+                candidate_graphs = body.get('candidates', [])[:32]
+            for graph in candidate_graphs:
                 try:
-                    signature, normalized, environment = _case(body, graph, source)
+                    signature, normalized, environment, wrapper = _case(body, graph, source)
                 except (ValueError, TypeError, KeyError, InterfaceError):
                     skipped += 1
                     continue
                 group = groups.setdefault(signature, {"graphs": {}, "examples": {},
                                                        "projection": body.get("project", "identity")})
                 group["graphs"][digest(normalized)] = normalized
-                key = digest({"environment": environment, "answer": answer})
-                group["examples"][key] = (environment, answer)
+                key = digest({'environment': environment, 'answer': answer, 'wrapper': wrapper})
+                group['examples'][key] = (environment, answer, wrapper)
+                for view in record['learning']['oracle_views']:
+                    if view.get('status') == 'reference_failed' or view.get('answer') is None:
+                        continue
+                    try:
+                        variant = public_variant(source, target, view['view'])
+                        bound = bind_variant(source, variant, body.get('bindings', []))
+                        sig, _, env, wrap = _case(body, graph, variant, bound_slots=bound)
+                        if sig != signature:
+                            continue
+                        key = digest({'environment': env, 'answer': view['answer'], 'wrapper': wrap})
+                        group['examples'][key] = (env, view['answer'], wrap)
+                    except (ValueError, TypeError, KeyError, InterfaceError):
+                        continue
     families = []
     for signature, group in sorted(groups.items()):
         accepted, rejected = [], []
         candidates = sorted(group["graphs"].items())[:32]
         for key, graph in candidates:
             valid = True
-            for environment, answer in group["examples"].values():
+            for environment, answer, wrapper in group["examples"].values():
                 try:
-                    valid &= digest(_predict(graph, environment, group["projection"])) == digest(answer)
+                    valid &= digest(_predict(graph, environment, wrapper)) == digest(answer)
                 except (ValueError, TypeError, KeyError, InterfaceError):
                     valid = False
                 if not valid:
@@ -319,7 +369,7 @@ def filter_shared_examples(proposal: dict, source: dict, frozen: dict) -> tuple[
     kept = []
     for graph in body.get("candidates", [])[:32]:
         try:
-            signature, normalized, _ = _case(body, graph, source)
+            signature, normalized, _, _ = _case(body, graph, source)
             family = families.get(signature, {})
             key = digest(normalized)
             if key in family.get("rejected_graph_hashes", []):

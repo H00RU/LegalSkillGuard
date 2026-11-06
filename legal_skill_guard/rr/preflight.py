@@ -6,6 +6,8 @@ import hashlib
 import json
 import os
 import tempfile
+import time
+from copy import deepcopy
 from pathlib import Path
 
 from .checkpoint import Checkpoints, immutable_json
@@ -20,6 +22,7 @@ from .ledger import BudgetLedger
 from .scoring import official_openexempt_metrics, task_score
 from .source_learning import DurableOracle, learn_source
 from .thinking import select_thinking
+from .compilation import prepare_request
 
 
 def atomic_json(path: Path, value: dict):
@@ -224,32 +227,46 @@ def score_source(source: dict, analysis: dict, grade: dict, *, native_oe: bool =
 
 def ingest_source(*, source: dict, grade: dict, library: SkillLibrary, thinking: bool,
                   call, learner, ledger, artifacts: Path, binding: dict,
-                  purpose: str, id_prefix: str, offline_mock: bool, oracle_artifacts: Path | None = None) -> dict:
-    calls, previous, learning = [], None, None
+                  purpose: str, id_prefix: str, offline_mock: bool, oracle_artifacts: Path | None = None,
+                  tokenize=None, request_config=None) -> dict:
+    calls, previous, learning, actions, remaining = [], None, None, [], 5.0
+    learning_attempts = []
     for step in range(2):
-        prompt = messages(source, previous=previous)
-        prompt[0]["content"] += "\nCurrent learned role constraints: " + json.dumps([p["pattern"] for p in library.patterns])
+        suffix = "\nCurrent learned role constraints: " + json.dumps([p["pattern"] for p in library.patterns])
+        user_suffix = ''
         if learning is not None:
-            prompt[1]["content"] += "\nTraining interface repair evidence (no reference program): " + json.dumps({
+            user_suffix = "\nTraining interface repair evidence (no reference program): " + json.dumps({
                 "status": learning["status"], "refinement": learning.get("refinement"),
-                "learned_pattern": learning.get("learned_pattern")})
+                "learned_pattern": learning.get("learned_pattern"),
+                'connector_synthesis_status': learning.get('connector_synthesis_status'),
+                'schema_repair_needed': learning.get('schema_repair_needed', False)})
+        started = time.monotonic()
+        prepared = prepare_request(source, previous=previous, system_suffix=suffix,
+            user_suffix=user_suffix, tokenize=tokenize, request_config=request_config, thinking=thinking,
+            planning_seconds=remaining)
+        remaining = max(0, remaining - (time.monotonic() - started))
+        if prepared['action'] is not None:
+            actions.append(prepared['action'])
         wire = call(call_id=f"{id_prefix}:{source['key']}:{step}", source=source,
-                    purpose=purpose, prompt=prompt, thinking=thinking,
-                    schema=proposal_schema(source["dataset"], source=source, previous=previous))
-        analysis = analyze(source, wire["content"])
+                    purpose=purpose, prompt=prepared['messages'], thinking=thinking, schema=prepared['schema'])
+        started = time.monotonic()
+        analysis = analyze(source, wire['content'], planning_seconds=remaining)
+        remaining = max(0, remaining - (time.monotonic() - started))
         calls.append({"step": step, "request_hash": wire["request_hash"], "analysis": analysis,
                       "raw_content": wire["content"], "usage": wire["usage"],
                       "elapsed_seconds": wire["elapsed_seconds"]})
         previous = analysis
-        if learning is None:
+        if learning is None or learning.get('schema_repair_needed', False):
             oracle = DurableOracle(ledger, oracle_artifacts or artifacts, source, grade)
-            learning = learner(source, grade, oracle)
+            learning = learner(source, grade, oracle, proposal=analysis.get('proposal'))
+            learning_attempts.append({'step': step, 'learning': deepcopy(learning)})
         if analysis["certificate_status"] == "completion_stable":
             break
     return {"source": source["key"], "dataset": source["dataset"], "calls": calls,
             "analysis": previous, "learning": learning,
             "score": score_source(source, previous, grade, native_oe=not offline_mock),
-            "binding": binding, "input_hash": source["content_hash"], "offline_mock": offline_mock}
+            "binding": binding, "input_hash": source["content_hash"], "offline_mock": offline_mock,
+            "translation_actions": actions, 'learning_attempts': learning_attempts}
 
 
 class Preflight:
@@ -468,11 +485,14 @@ class Preflight:
             else:
                 grade = self.data.grade(source_id)
                 record = ingest_source(source=source, grade=grade, library=library,
-                    thinking=selection["selected_thinking"], call=self._call, learner=self.learner,
+                    thinking=self.config['executor']['enable_thinking'], call=self._call, learner=self.learner,
                     ledger=self.ledger, artifacts=self.artifacts, binding=self.seal["binding"],
                     purpose="preflight_bug_retry" if self.seal.get('study_preflight_revision') else "pilot_ingestion",
                     id_prefix=self.seal.get('study_preflight_revision', "pilot"), offline_mock=self.seal["offline_mock"],
-                    oracle_artifacts=self.oracle_artifacts)
+                    oracle_artifacts=self.oracle_artifacts,
+                    tokenize=(lambda prompt: self.executor.tokenize(prompt, thinking=self.config['executor']['enable_thinking']))
+                             if not self.seal['offline_mock'] else None,
+                    request_config=self.config['executor'])
                 if "processing_continuation" in self.seal:
                     record["generation_binding"] = self.seal["processing_continuation"]["generation_binding"]
                 immutable_json(path, record)

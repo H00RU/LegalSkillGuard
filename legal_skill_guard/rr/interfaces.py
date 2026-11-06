@@ -9,6 +9,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 from itertools import combinations
 from typing import Any, Callable
+from functools import lru_cache
 
 from .coverage import digest
 
@@ -22,6 +23,13 @@ CONNECTORS = frozenset({"bind_rename", "join_on", "project_exists", "group_by",
 
 class InterfaceError(ValueError):
     pass
+
+
+@lru_cache(maxsize=1)
+def _connector_validator():
+    import jsonschema
+    from .strict_contract import interface_definitions
+    return jsonschema.Draft202012Validator({'$ref': '#/$defs/connector', '$defs': interface_definitions()})
 
 
 @dataclass(frozen=True)
@@ -172,7 +180,9 @@ def alpha_structure(value: Any) -> Any:
     IDs must be explicitly tagged {entity: name} / {lineage: name}. Arbitrary
     strings cannot become learning metadata. Field names are fixed role names.
     """
-    names: dict[str, dict[str, str]] = {"entity": {}, "lineage": {}}
+    entity_names = {}
+    names: dict[str, dict[str, str]] = {'entity': entity_names, 'owner': entity_names,
+                                       'period': {}, 'rule': {}, 'lineage': {}}
 
     def visit(node):
         if isinstance(node, dict):
@@ -285,6 +295,11 @@ class Connector:
     graph: dict
 
     def validate(self) -> None:
+        import jsonschema
+        try:
+            _connector_validator().validate(self.graph)
+        except jsonschema.ValidationError as exc:
+            raise InterfaceError('Connector violates the shared wire/executor contract: ' + exc.message) from exc
         def check(node):
             if not isinstance(node, dict):
                 raise InterfaceError("Graph must be a data-only connector")
@@ -313,31 +328,58 @@ class Connector:
             op, p = node["op"], node.get("params", {})
             args = [run(n) for n in node["inputs"]]
             if op == "bind_rename" and len(args) == 1:
+                if not isinstance(args[0], Relation):
+                    raise InterfaceError('Rename requires a relation')
                 return args[0].rename(dict(zip(p["from"], p["to"], strict=True)))
             if op == "join_on" and len(args) == 2:
+                if not all(isinstance(arg, Relation) for arg in args):
+                    raise InterfaceError('Join requires relation inputs')
                 return args[0].join(args[1], tuple(p["keys"]))
             if op == "project_exists" and len(args) == 1:
                 if not isinstance(args[0], Relation):
                     raise InterfaceError("Cannot recover witnesses from Boolean output")
                 return args[0].exists()
             if op == "group_by" and len(args) == 1:
-                return args[0].group(tuple(p["keys"]))
+                if isinstance(args[0], Relation):
+                    return args[0].group(tuple(p['keys']))
+                if isinstance(args[0], list) and all(isinstance(a, Amount) for a in args[0]):
+                    if not set(p['keys']) <= {'owner', 'period', 'unit'}:
+                        raise InterfaceError('Amount grouping requires extracted semantic keys')
+                    groups = {}
+                    for amount in args[0]:
+                        key = tuple(getattr(amount, field) for field in p['keys'])
+                        groups.setdefault(key, []).append(amount)
+                    return groups
+                raise InterfaceError('Grouping requires a closed relation or supplied Amount collection')
             if op == "map" and len(args) == 1 and p["primitive"] == "cap":
                 if isinstance(args[0], Amount):
                     return cap(args[0], slots[p["limit_slot"]], scope=p["scope"])
+                if not isinstance(args[0], list) or not all(isinstance(a, Amount) for a in args[0]):
+                    raise InterfaceError('Cap map requires typed Amount inputs')
                 return [cap(a, slots[p["limit_slot"]], scope=p["scope"]) for a in args[0]]
             if op == "map" and len(args) == 1 and p["primitive"] == "exists":
-                if not all(isinstance(r, Relation) for r in args[0]):
+                if not isinstance(args[0], (dict, list)):
+                    raise InterfaceError('Exists map requires a supplied relation collection')
+                items = list(args[0].values()) if isinstance(args[0], dict) else args[0]
+                if not all(isinstance(r, Relation) for r in items):
                     raise InterfaceError("Exists map requires available relations")
-                return [r.exists() for r in args[0]]
+                return [r.exists() for r in items]
+            if op == 'map' and len(args) == 1 and p['primitive'] == 'sum_amounts':
+                if not isinstance(args[0], dict):
+                    raise InterfaceError('Group sum requires explicit grouped input')
+                return [sum_amounts(items) for items in args[0].values()]
             if op == "fold_reduce" and len(args) == 1 and p["primitive"] == "sum_amounts":
+                if not isinstance(args[0], list) or not all(isinstance(a, Amount) for a in args[0]):
+                    raise InterfaceError('Amount reduction requires typed Amount inputs')
                 return sum_amounts(args[0])
             if op == "fold_reduce" and len(args) == 1 and p["primitive"] in {"all", "any"}:
-                if not all(type(x) is bool for x in args[0]):
+                if not isinstance(args[0], list) or not all(type(x) is bool for x in args[0]):
                     raise InterfaceError("Boolean reduction requires Boolean inputs")
                 return (all if p["primitive"] == "all" else any)(args[0])
             if op == "thread_allowance" and len(args) == 1:
                 bank = slots[p["bank_slot"]]
+                if not isinstance(bank, AllowanceBank) or not isinstance(args[0], list) or not all(isinstance(a, Amount) for a in args[0]):
+                    raise InterfaceError('Allowance threading requires one shared bank and typed Amount inputs')
                 return bank.thread(slots[p["key_slot"]], args[0])
             raise InterfaceError("Unsupported connector arity/primitive")
 

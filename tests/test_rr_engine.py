@@ -53,7 +53,9 @@ def test_native_oe_contract_is_visible_and_typed_without_gold_names():
     prompt = wire_messages(source)
     assert "claim_value" in prompt[0]["content"] and "citation" in prompt[0]["content"]
     for dataset in ["RuleArena_Airline", "SARA_v2_Binary", "ProofWriter_OWA_depth5", "ContractNLI"]:
-        assert proposal_schema(dataset) == PROPOSAL_SCHEMA
+        answer = {'RuleArena_Airline': 100, 'SARA_v2_Binary': 'Entailment',
+                  'ProofWriter_OWA_depth5': 'Unknown', 'ContractNLI': 'NotMentioned'}[dataset]
+        jsonschema.validate(proposal(answer=answer), proposal_schema(dataset))
 
 
 def test_source_linked_arithmetic_is_executed_and_output_not_rewritten_by_model():

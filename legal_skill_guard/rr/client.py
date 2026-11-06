@@ -22,6 +22,17 @@ class WireError(RuntimeError):
     pass
 
 
+def request_payload(config, *, messages, thinking, schema=None):
+    payload = {'model': config['model'], 'messages': messages,
+               'temperature': config['temperature'], 'top_p': config['top_p'],
+               'top_k': config['top_k'], 'max_tokens': config['max_tokens'],
+               'seed': config['seed'], 'chat_template_kwargs': {'enable_thinking': thinking}}
+    if schema is not None:
+        payload['response_format'] = {'type': 'json_schema', 'json_schema': {
+            'name': 'rr_joint_proposal', 'strict': True, 'schema': schema}}
+    return payload
+
+
 class ExecutorClient:
     def __init__(self, ledger: BudgetLedger | None, artifacts: Path, config: dict, *, opener=None):
         self.ledger, self.artifacts, self.config = ledger, Path(artifacts), config
@@ -72,19 +83,13 @@ class ExecutorClient:
         if self.ledger is None:
             raise BudgetError("Read-only environment client cannot generate text")
         self.ledger._source(source)
+        if thinking is not self.config['enable_thinking']:
+            raise BudgetError('Executor thinking differs from the explicit current execution profile')
         if purpose not in PURPOSES or purpose == "pilot_teacher_summary" or type(thinking) is not bool:
             raise BudgetError("Executor source/purpose/thinking profile outside preflight policy")
 
     def payload(self, *, messages, thinking, schema=None):
-        cfg = self.config
-        payload = {"model": cfg["model"], "messages": messages,
-                   "temperature": cfg["temperature"], "top_p": cfg["top_p"],
-                   "top_k": cfg["top_k"], "max_tokens": cfg["max_tokens"],
-                   "seed": cfg["seed"], "chat_template_kwargs": {"enable_thinking": thinking}}
-        if schema is not None:
-            payload["response_format"] = {"type": "json_schema", "json_schema": {
-                "name": "rr_joint_proposal", "strict": True, "schema": schema}}
-        return payload
+        return request_payload(self.config, messages=messages, thinking=thinking, schema=schema)
 
     def generate(self, call_id: str, *, source: str, purpose: str, messages: list[dict],
                  thinking: bool, schema: dict | None = None) -> dict:

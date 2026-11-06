@@ -120,6 +120,8 @@ class FormalLedger(BudgetLedger):
 class FormalExecutor(ExecutorClient):
     def validate_scope(self, source, purpose, thinking):
         self.ledger._source(source)
+        if thinking is not self.config['enable_thinking']:
+            raise BudgetError('Executor thinking differs from explicit user-selected OFF profile')
         if purpose not in {"formal_train", "formal_dev", "formal_test", "formal_B1", "formal_diagnostic", "formal_native_empty"} or type(thinking) is not bool:
             raise BudgetError("Invalid authorized formal executor purpose")
 
@@ -154,12 +156,8 @@ class FormalRun:
             raise BudgetError("Frozen testing remains disabled")
         self.partition = partition
         config = json.loads((root / "configs/rr_v2_preflight.json").read_text())
+        self.config = config
         self.artifacts = root / self.cfg["artifact_directory"]
-        self.pref = root / config["artifact_directory"]
-        self.seal = json.loads(active_seal_path(self.pref).read_text())
-        self.pref = self.pref / self.seal.get("processing_continuation", {}).get("artifact_subdirectory", "")
-        if self.seal["offline_mock"]:
-            raise BudgetError("Mock artifacts cannot seed a formal study")
         self.manifest = json.loads((root / config["source_manifest"]).read_text())
         code = science_files(root)
         semantic = {"executor": config["executor"], "teacher": config["teacher"],
@@ -168,23 +166,16 @@ class FormalRun:
                     "thinking": self.protocol["thinking"]}
         self.binding = {"code_hash": scientific_code_binding(code), "config_hash": digest(semantic),
                         "data_hash": self.manifest["data_hash"], "source_manifest_hash": digest(self.manifest)}
-        self.preflight_binding = self.seal["binding"]
-        self.readiness = None
-        if (root / READINESS_RECEIPT).exists():
-            self.readiness = validate_readiness(root, self.preflight_binding)
-        elif self.binding != self.preflight_binding:
-            raise BudgetError("Changed execution code requires a verified formal-only preparation receipt")
-        self.selection = json.loads((self.pref / self.seal.get("wire_repair", {}).get("selection_file", "thinking_selection.json")).read_text())
-        if self.selection["engineering_block"]:
-            raise BudgetError("Preflight thinking selection unresolved")
-        self.ledger = FormalLedger(root / config["ledger_path"], sources=self.seal["allowlist"],
+        self.readiness = validate_readiness(root)
+        self.preflight_binding = self.readiness['preflight_binding']
+        self.pref = root / self.readiness['preflight_artifact_directory']
+        self.ledger = FormalLedger(root / config["ledger_path"], sources=self.manifest["allowlist"],
             code_hash=self.binding["code_hash"], config_hash=self.binding["config_hash"],
             protocol=self.protocol, manifest=self.manifest, partition=partition,
-            origin_binding={k: self.preflight_binding[k] for k in ("code_hash", "config_hash")})
+            origin_binding=self.readiness['ledger_origin_binding'])
         self.executor = FormalExecutor(self.ledger, self.artifacts, config["executor"])
         self.teacher = FormalTeacher(self.ledger, self.artifacts, config["teacher"])
-        if self.readiness is not None:
-            self.teacher.adapter.executable = self.readiness["teacher_transport"]["executable"]
+        self.teacher.adapter.executable = self.readiness["teacher_transport"]["executable"]
         self.order = self.manifest["formal_train_order"]
 
     def packet(self, kind: str, partition: str):
@@ -216,9 +207,11 @@ class FormalRun:
                     raise ValueError("Training reuse input/code/config/state mismatch")
             else:
                 record = ingest_source(source=source, grade=grading[source_id], library=library,
-                    thinking=self.selection["selected_thinking"], call=self._call, learner=learn_source,
+                    thinking=self.executor.config["enable_thinking"], call=self._call, learner=learn_source,
                     ledger=self.ledger, artifacts=self.artifacts, binding=self.binding,
-                    purpose="formal_train", id_prefix="formal", offline_mock=False)
+                    purpose="formal_train", id_prefix="formal", offline_mock=False,
+                    tokenize=lambda prompt: self.executor.tokenize(prompt, thinking=self.executor.config['enable_thinking']),
+                    request_config=self.config['executor'])
                 immutable_json(path, record)
             pattern = record["learning"].get("learned_pattern")
             if pattern:
@@ -299,11 +292,13 @@ class FormalRun:
                     def generate(prompt, *, purpose, step, arm, schema):
                         return owner.executor.generate(f"{owner.partition}:{checkpoint}:{arm}:{source['key']}:{step}",
                             source=source["key"], purpose="formal_B1" if checkpoint == "B1" else f"formal_{owner.partition}", messages=prompt,
-                            thinking=owner.selection["selected_thinking"], schema=schema)
+                            thinking=owner.executor.config["enable_thinking"], schema=schema)
                     try:
                         result = route_prediction(source, arm=arm, library=library, generate=generate,
                                                   protocol=self.protocol, partition=self.partition,
-                                                  example_model=example_model if arm == "MB" else None)
+                                                  example_model=example_model if arm == "MB" else None,
+                                                  tokenize=lambda prompt: self.executor.tokenize(prompt, thinking=self.executor.config['enable_thinking']),
+                                                  request_config=self.config['executor'], thinking=self.executor.config['enable_thinking'])
                     except Exception as exc:
                         result = {"arm": arm, "result": {"answer": None, "certificate_status": "budget_exhausted"},
                                   "failure": repr(exc), "source_failure_retained_in_denominator": True}
@@ -349,7 +344,7 @@ class FormalRun:
                 prompt = messages(source)
                 prompt[0]["content"] = "Answer the public task directly. You have no learned library or execution tools. Return the native answer in answer, program={kind:unsupported,body:{}}, empty compiled_units, unsupported_units and interfaces."
                 wire = self.executor.generate(f"native_empty:{source['key']}:0", source=source["key"],
-                    purpose="formal_native_empty", messages=prompt, thinking=self.selection["selected_thinking"], schema=proposal_schema(source["dataset"], source=source))
+                    purpose="formal_native_empty", messages=prompt, thinking=self.executor.config["enable_thinking"], schema=proposal_schema(source["dataset"], source=source))
                 try:
                     answer = json.loads(wire["content"])["answer"]
                 except (ValueError, KeyError, TypeError):
@@ -414,11 +409,13 @@ class FormalRun:
                         def generate(prompt, *, purpose, step, arm, schema):
                             return self.executor.generate(f"diagnostic:{index}:{arm}:{parent['key']}:{step}",
                                 source=parent["key"], purpose="formal_diagnostic", messages=prompt,
-                                thinking=self.selection["selected_thinking"], schema=schema)
+                                thinking=self.executor.config["enable_thinking"], schema=schema)
                         try:
                             routed = route_prediction(source, arm=arm, library=library, generate=generate,
                                                       protocol=self.protocol, partition="test",
-                                                      example_model=example_model if arm == "MB" else None)
+                                                      example_model=example_model if arm == "MB" else None,
+                                                      tokenize=lambda prompt: self.executor.tokenize(prompt, thinking=self.executor.config['enable_thinking']),
+                                                      request_config=self.config['executor'], thinking=self.executor.config['enable_thinking'])
                         except Exception as exc:
                             routed = {"result": {"answer": None, "certificate_status": "translation_unresolved"},
                                       "failure": repr(exc), "source_failure_retained_in_denominator": True}

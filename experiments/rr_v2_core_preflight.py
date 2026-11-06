@@ -24,7 +24,9 @@ class CoreLedger(BudgetLedger):
 
 def checks(record,trace):
     a=record['analysis']
-    main_a=a['certificate_status']=='completion_stable' and a.get('certificate_basis')=='complete_restricted_public_grammar_not_connector_H'
+    main_a=a['certificate_status']=='completion_stable' and a.get('certificate_basis') in {
+        'complete_restricted_public_grammar_not_connector_H',
+        'partial_public_Horn_complete_fact_observations_not_H'}
     semantic=record['score']['task_correct']
     b=trace.get('selected_connector_semantics',[])
     rejected=trace.get('initial_candidates',0)-trace.get('base_retained',0)+sum(x['removed'] for x in trace.get('events',[]))
@@ -81,7 +83,7 @@ def one(root,index):
     client=ExecutorClient(ledger,root/DIRECTORY,cfg['executor'])
     library=SkillLibrary.restore(root/'artifacts/rr_v2_preflight/semantic_common_path_v3/partial_library.frozen.json')
     trace={}
-    def actual_learner(source,grade,oracle):return learn_source(source,grade,oracle,trace=trace)
+    def actual_learner(source,grade,oracle,*,proposal=None):return learn_source(source,grade,oracle,proposal=proposal,trace=trace)
     def call(**kw):
         payload=client.payload(messages=kw['prompt'],thinking=kw['thinking'],schema=kw['schema'])
         ledger.register_study_request(kw['call_id'],revision=REVISION,source=sid,

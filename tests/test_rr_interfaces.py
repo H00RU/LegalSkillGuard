@@ -147,7 +147,7 @@ def test_connector_execution_filter_and_H_is_not_omega():
 def test_candidate_limit_and_parameterized_graph():
     with pytest.raises(InterfaceError, match="32"):
         ConnectorPool([join_graph()] * 33)
-    with pytest.raises(InterfaceError, match="parameterized"):
+    with pytest.raises(InterfaceError, match="contract"):
         Connector({"op": "map", "inputs": [{"slot": "items"}],
                    "params": {"primitive": "cap", "limit": 400}}).validate()
 

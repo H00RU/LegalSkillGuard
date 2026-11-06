@@ -6,10 +6,29 @@ reference representations, gold labels or proofs in this prediction module.
 from __future__ import annotations
 
 import re
+import time
 from dataclasses import dataclass, field, replace
 
 from .coverage import FiniteTheory, Residual, SourceLedger, complete, plan_batch
 from .horn import Atom, Rule, closure
+
+
+@dataclass(frozen=True)
+class GroundHornQuery:
+    fixed_facts: tuple[Atom, ...]
+    choices: dict[str, Atom]
+    rules: tuple[Rule, ...]
+    query: Atom
+
+    def evaluate(self, env, *, seconds=5):
+        facts = set(self.fixed_facts)
+        facts.update(atom for slot, atom in self.choices.items() if env[slot])
+        result = closure(facts, list(self.rules), self.query, seconds=seconds)
+        if result['status'] == 'conflict':
+            return '__CONFLICT__'
+        if result['status'] != 'closure_complete':
+            raise TimeoutError('Bounded public Horn closure did not complete')
+        return result['answer']
 
 VERBS = {v: v + "s" for v in ("eat", "like", "need", "visit", "see", "chase")}
 VERBS.update({v: v for v in tuple(VERBS.values())})
@@ -77,13 +96,52 @@ class PublicHorn:
     errors: dict[str, str] = field(default_factory=dict)
     residual_contracts: dict[str, dict] = field(default_factory=dict)
 
-    def execute(self) -> dict:
+    def execute(self, *, seconds=5) -> dict:
         if self.query is None:
             return {"answer": None, "status": "translation_unresolved", "trace": []}
-        return closure(self.facts, self.rules, self.query)
+        return closure(self.facts, self.rules, self.query, seconds=seconds)
 
-    def completion_theory(self) -> FiniteTheory:
-        result = self.execute()
+    def partial_theory(self, read_units) -> FiniteTheory:
+        """Partial compilation of the actual public Horn input grammar.
+
+        A ground fact has no reads and writes exactly its asserted atom. Its
+        Boolean presence is a complete observation. Unread rules/query or any
+        unmatched sentence retain unknown scope; answer-effect TOP is not used
+        as a clause observation. Full grammar matching is a containment premise.
+        """
+        from copy import deepcopy
+        ledger = deepcopy(self.ledger)
+        read = set(read_units)
+        if not read <= {c.id for c in ledger.clauses}:
+            raise ValueError('Partial Horn proposal names absent source units')
+        domains, obligations, choices, fixed = {}, [], {}, []
+        context = tuple(sorted(read - set(self.residuals)))
+        # Determine kinds by actual grammar parsing and rule source IDs, rather
+        # than a guessed fact count when the public grammar is incomplete.
+        rules_by_source = {r.source: r for r in self.rules}
+        query_source = ledger.clauses[-1].id
+        for i, clause in enumerate(ledger.clauses):
+            if clause.id in read and clause.id not in self.residuals:
+                ledger.clauses[i] = replace(clause, state='compiled')
+                if clause.id not in rules_by_source and clause.id != query_source:
+                    fixed.append(parse_atom(ledger.text[clause.start:clause.end]))
+            elif clause.id not in self.residuals and clause.id not in rules_by_source and clause.id != query_source:
+                atom = parse_atom(ledger.text[clause.start:clause.end])
+                slot = 'fact_' + clause.id
+                domains[slot], choices[slot] = (False, True), atom
+                obligations.append(Residual(clause.id, (slot,), 'public_structure', False))
+                ledger.clauses[i] = replace(clause, state='residual', context=context)
+            else:
+                obligations.append(Residual(clause.id, (), 'unverified_llm', True))
+                ledger.clauses[i] = replace(clause, state='residual')
+        compiled_rules = tuple(r for r in self.rules if r.source in read)
+        query = GroundHornQuery(tuple(sorted(fixed)), choices, compiled_rules, self.query) if self.query else None
+        return FiniteTheory(ledger, {}, domains, query, obligations,
+            containment_assumptions=('complete restricted public Horn grammar',
+                                    'unread ground assertion writes only its public atom'))
+
+    def completion_theory(self, *, result=None) -> FiniteTheory:
+        result = self.execute() if result is None else result
         if result["status"] != "closure_complete":
             answer = "__CONFLICT__" if result["status"] == "conflict" else None
         else:
@@ -109,11 +167,13 @@ class PublicHorn:
         return FiniteTheory(self.ledger, {}, domains, query, residuals,
                             containment_assumptions=("complete match of restricted public English grammar",))
 
-    def assess(self, token_cost, budget: int) -> dict:
-        theory = self.completion_theory()
-        if not self.residuals and self.execute()["status"] != "closure_complete":
-            return {"status": self.execute()["status"], "answer": None, "batch": []}
-        result = complete(theory)
+    def assess(self, token_cost=None, budget: int = 0, *, seconds=5) -> dict:
+        deadline = time.monotonic() + max(0, min(seconds, 5))
+        executed = self.execute(seconds=max(0, deadline - time.monotonic()))
+        if executed['status'] == 'budget_exhausted' or not self.residuals and executed['status'] != 'closure_complete':
+            return {'status': executed['status'], 'answer': None, 'batch': []}
+        theory = self.completion_theory(result=executed)
+        result = complete(theory, deadline=deadline)
         if not self.residuals or result.status == "completion_stable":
             return {"status": result.status, "answer": result.answer, "batch": [],
                     "theory_hash": theory.version, "residual_contracts": self.residual_contracts}
@@ -125,7 +185,10 @@ class PublicHorn:
             return {"status": result.status, "answer": None, "batch": list(self.residuals),
                     "planning_status": "conservative_full_source_no_separation_claim",
                     "theory_hash": theory.version, "residual_contracts": self.residual_contracts}
-        plan = plan_batch(theory, token_cost, budget)
+        if token_cost is None:
+            return {'status': result.status, 'answer': None, 'batch': list(self.residuals),
+                    'planning_status': 'token_cost_unavailable', 'theory_hash': theory.version}
+        plan = plan_batch(theory, token_cost, budget, seconds=max(0, deadline - time.monotonic()))
         selected = list(plan.selected)
         if plan.status in {"budget_exhausted", "conflict", "translation_unresolved"} and not selected:
             # Size/solver limits never discard source units. A conservative full

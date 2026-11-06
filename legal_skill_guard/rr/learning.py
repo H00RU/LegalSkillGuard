@@ -29,7 +29,8 @@ def parameterize_graph(graph: dict) -> dict:
             if key.endswith("_slot"):
                 params[key] = role(slots, value, "slot")
             elif key in {"keys", "from", "to"}:
-                params[key] = [role(columns, x, "column") for x in value]
+                params[key] = list(value) if node['op'] == 'group_by' and set(value) <= {'owner', 'period', 'unit'} else \
+                    [role(columns, x, "column") for x in value]
             elif key in {"primitive", "scope"} and value in {
                     "cap", "sum_amounts", "exists", "all", "any", "element", "closed_group"}:
                 params[key] = value

@@ -113,6 +113,9 @@ class BudgetLedger:
         with self.transaction() as db:
             active = db.execute("SELECT value FROM meta WHERE key='study_preflight_authorization'").fetchone()
             if active:
+                off = db.execute("select 1 from meta where key='executor_thinking_off_authorization'").fetchone()
+                if off and role == 'executor' and request.get('thinking') is not False:
+                    raise BudgetError('Explicit user policy forbids new thinking-ON generation')
                 prior = db.execute('SELECT role,purpose,source,request_hash,status,result FROM calls WHERE id=?', (call_id,)).fetchone()
                 if prior:
                     if prior[:4] != (role, purpose, source, request_hash):
@@ -254,7 +257,11 @@ class BudgetLedger:
             raise BudgetError('Concrete change and current offline evidence required')
         # Runtime/generation parameters remain fixed. Source schema and common-path code may change.
         if new_binding['config_hash'] != self.spec['config_hash']:
-            raise BudgetError('No generation-parameter sweep')
+            with self.transaction() as db:
+                row = db.execute("SELECT value FROM meta WHERE key='executor_thinking_off_authorization'").fetchone()
+            override = json.loads(row[0]) if row else None
+            if not override or override['new_config_hash'] != new_binding['config_hash']:
+                raise BudgetError('Configuration changed without the explicit thinking-OFF authorization')
         record = dict(new_binding=new_binding, change=change, offline_evidence_hash=offline_evidence_hash)
         with self.transaction() as db:
             if not db.execute("SELECT 1 FROM meta WHERE key='study_preflight_authorization'").fetchone() or \
@@ -266,11 +273,40 @@ class BudgetLedger:
                 raise BudgetError('Revision evidence is immutable')
             db.execute('INSERT OR IGNORE INTO meta VALUES (?,?)', (key, json.dumps(record)))
 
+    def register_thinking_off_authorization(self, authorization):
+        """One explicit profile change; all original rows and other settings stay fixed."""
+        from copy import deepcopy
+        old = authorization['old_semantic_config']
+        new = authorization['new_semantic_config']
+        expected = deepcopy(old)
+        expected['executor']['enable_thinking'] = False
+        if authorization.get('authority') != 'explicit_user_chat_authorization' or \
+                authorization.get('executor_enable_thinking') is not False or \
+                digest(old) != self.spec['config_hash'] or new != expected or \
+                digest(new) != authorization['new_config_hash']:
+            raise BudgetError('Only the explicitly authorized thinking-OFF change is allowed')
+        with self.transaction() as db:
+            key = 'executor_thinking_off_authorization'
+            prior = db.execute('select value from meta where key=?', (key,)).fetchone()
+            if prior:
+                if json.loads(prior[0]) != authorization:
+                    raise BudgetError('Thinking override receipt is immutable')
+                return
+            if db.execute("select 1 from calls where status='reserved'").fetchone():
+                raise BudgetError('Reconcile the existing request before changing profiles')
+            counts = dict(db.execute('select role,count(*) from calls group by role'))
+            if any(counts.get(role, 0) != authorization['baseline_counts'].get(role, 0) for role in ['executor','teacher']):
+                raise BudgetError('Thinking override baseline differs from persistent accounting')
+            db.execute('insert into meta values (?,?)', (key, json.dumps(authorization)))
+
     def register_study_request(self, call_id, *, revision, source, request, role='executor', step=0):
         self._source(source)
         if role not in {'executor', 'teacher'} or step not in (0, 1):
             raise BudgetError('Invalid fixed preflight request')
         with self.transaction() as db:
+            off = db.execute("select 1 from meta where key='executor_thinking_off_authorization'").fetchone()
+            if off and role == 'executor' and request.get('thinking') is not False:
+                raise BudgetError('New executor requests must use the explicit thinking-OFF profile')
             row = db.execute('SELECT value FROM meta WHERE key=?', ('study_revision:' + revision,)).fetchone()
             if not row:
                 raise BudgetError('Register offline-verified revision first')
@@ -294,8 +330,8 @@ class BudgetLedger:
                     raise BudgetError('Teacher only summarizes the original first16 batch')
                 for sid in request['source_ids']:
                     self._source(sid)
-            elif request.get('thinking') is not True:
-                raise BudgetError('Preserve selected thinking profile')
+            elif not off and request.get('thinking') is not True:
+                raise BudgetError('Preserve selected thinking profile unless explicitly overridden')
             db.execute('INSERT INTO meta VALUES (?,?)', (key, json.dumps(record)))
 
     def register_cumulative_policy(self, authorization):

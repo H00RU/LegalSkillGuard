@@ -376,37 +376,6 @@ def test_MB_ordinary_Horn_synthesis_uses_the_same_paid_view_without_collision_re
     assert result["status"] == "ambiguous_connector" and result["answer"] is None
 
 
-def test_A_route_uses_exact_joint_plan_and_shared_context_closure():
-    from dataclasses import asdict, replace
-
-    from legal_skill_guard.rr.coverage import FiniteTheory, Residual, SourceLedger, plan_batch
-    from legal_skill_guard.rr.routing import translation_action
-    source = {"dataset": "ProofWriter_OWA_depth5", "public": {"facts": ["Definition."],
-        "rules": ["First clause.", "Second clause.", "Unrelated."], "query": "Question."}}
-    ledger = SourceLedger.from_text("Definition.\nFirst clause.\nSecond clause.\nUnrelated.\nQuestion.")
-    ledger.clauses[0] = replace(ledger.clauses[0], state="compiled")
-    ledger.clauses[4] = replace(ledger.clauses[4], state="compiled")
-    ledger.clauses[1] = replace(ledger.clauses[1], context=("s0",))
-    ledger.clauses[2] = replace(ledger.clauses[2], context=("s0",))
-    theory = FiniteTheory(ledger, {}, {"a": (False, True), "b": (False, True), "c": (False, True)},
-        {"op": "xor", "args": [{"var": "a"}, {"var": "b"}]},
-        [Residual("s1", ("a",), "public_structure", False),
-         Residual("s2", ("b",), "public_structure", False),
-         Residual("s3", ("c",), "public_structure", False)])
-    plan = plan_batch(theory, lambda closure: 10 + len(closure), 100)
-    previous = {"residual_units": ["s1", "s2", "s3"], "certificate_status": "translation_unresolved",
-                "source_ledger_snapshot": [asdict(c) for c in ledger.clauses],
-                "public_grammar_assessment": {"batch": list(plan.selected), "planning_status": plan.status}}
-    action = translation_action(source, previous, "answer_separating")
-    assert action["selected"] == ["s1", "s2"] and action["context_closure"] == ["s0", "s1", "s2"]
-    assert action["joint_separation_complete"]
-    assert translation_action(source, previous, "full")["selected"] == ["s1", "s2", "s3"]
-    assert translation_action(source, previous, "generic_CEGAR_fixed_batch")["selected"] == ["s1"]
-    previous["public_grammar_assessment"] = {"batch": ["absent"]}
-    with pytest.raises(ValueError, match="absent"):
-        translation_action(source, previous, "answer_separating")
-
-
 def test_MB_rejects_identity_metadata_and_does_not_truncate_oversized_H():
     from legal_skill_guard.rr.example_synthesis import filter_shared_examples, fit_shared_examples
     s, r, y = ordinary_connector_case(["Bob"], ["Bob"], "private_case_id")
@@ -651,7 +620,7 @@ class MockTeacher:
         return result
 
 
-def mock_learning(source, grade, oracle):
+def mock_learning(source, grade, oracle, *, proposal=None):
     return {"status": "artificial_transport_check", "oracle_views": [],
             "learned_pattern": {"fields": ["entity_equality"], "graphs": [],
                                 "basis": "observed_source_collisions", "universal_semantic_equivalence_claim": False}}
@@ -766,6 +735,7 @@ def test_source_local_collision_learning_queries_no_more_than_four_and_parameter
         "rules": ["If someone is red and nice then they are young."], "query": "Bob is young."}}
     class Oracle:
         views = []
+        def cached_views(self): return []
         def query(self, view):
             self.views.append(view)
             return parse_public(view["public"]).execute()["answer"]
@@ -875,7 +845,7 @@ def test_processing_only_parser_repair_preserves_generation_hashes_and_does_not_
         assert db.execute("select count(*) from meta where key='bugfix'").fetchone()[0] == 1
 
 
-def test_single_native_contract_rerun_is_eight_scoped_calls_then_same_twenty_pilot(tmp_path):
+def test_historical_native_migration_rejects_current_contract_without_rebilling(tmp_path):
     import shutil
     module = tmp_path / "legal_skill_guard/rr"
     module.mkdir(parents=True)
@@ -901,55 +871,13 @@ def test_single_native_contract_rerun_is_eight_scoped_calls_then_same_twenty_pil
         "generation_binding": original.seal["binding"],
         "frozen_archive_sha256": hashlib.sha256(archive_path.read_bytes()).hexdigest()}))
     (module / "repair.py").write_text('# artificial source revision for the repair state-machine test\n')
-    seal_native_contract_repair(tmp_path)
-    resumed = Preflight(tmp_path, executor=actor, teacher=teacher, learner=mock_learning)
-    actor.ledger = teacher.ledger = resumed.ledger
-    source = resumed.data.public(resumed.data.order[0])
-    with pytest.raises(BudgetError, match="Finish"):
-        resumed._call(call_id="earlypilot", source=source, purpose="pilot_ingestion", prompt=messages(source), thinking=True)
-    with pytest.raises(BudgetError, match="registered"):
-        actor.generate("extra_repair", source=source["key"], purpose="preflight_bug_retry", messages=[], thinking=True, schema={})
-    with pytest.raises(BudgetError, match="fresh sweep"):
-        actor.generate("new_sweep", source=source["key"], purpose="thinking_probe", messages=[], thinking=True, schema={})
-    resumed.thinking()
-    assert resumed.ledger.export()["executor_used"] == 48
-    assert resumed.ledger.export()["calls"][:40] == old_rows
-    assert len(list((resumed.artifacts / "thinking_native_contract_fix").glob("*.json"))) == 40
-    def old_failing_learner(source, grade, oracle):
-        if source["dataset"] == "SARA_v2_Binary":
-            raise RuntimeError("artificial old reference-output fault")
-        return mock_learning(source, grade, oracle)
-    resumed.learner = old_failing_learner
-    with pytest.raises(RuntimeError, match="reference-output"):
-        resumed.pilot()
-    prior_rows = resumed.ledger.export()["calls"]
-    assert len(prior_rows) == 53
-    saved = resumed.artifacts / "preserved_before_sara_oracle_fix"
-    saved.mkdir()
-    (saved / "seal.json").write_text(json.dumps(resumed.seal))
-    archive_path = saved / "frozen_scientific_files.tar.gz"
-    with tarfile.open(archive_path, "w:gz") as archive:
-        for name in resumed.seal["protected_files"]:
-            archive.add(tmp_path / name, arcname=name)
-    (saved / "receipt.json").write_text(json.dumps({"client_terminal_verified": True,
-        "client_pid": 2147483647,
-        "frozen_archive_sha256": hashlib.sha256(archive_path.read_bytes()).hexdigest()}))
-    target = module / "source_learning.py"
-    target.write_text(target.read_text() + '\n# artificial oracle-processing revision\n')
-    seal_oracle_processing_repair(tmp_path)
-    resumed = Preflight(tmp_path, executor=actor, teacher=teacher, learner=mock_learning)
-    actor.ledger = teacher.ledger = resumed.ledger
-    assert resumed.artifacts.name == "oracle_guard"
-    assert resumed.thinking()["binding"] != resumed.seal["binding"]
-    result = resumed.pilot()
-    assert result["sources"] == 20 and result["ledger"]["executor_used"] == 84
-    assert result["ledger"]["teacher_used"] == 1
-    assert resumed.ledger.export()["calls"][:53] == prior_rows
-    before = resumed.ledger.export()
-    resumed.thinking()
-    assert resumed.pilot() == result and resumed.ledger.export() == before
-    with pytest.raises(BudgetError, match="one actual"):
-        resumed.ledger.start_model_rerun_round(reason="second quality sweep", new_binding=resumed.ledger.execution_binding)
+    # The historical migration assumes every non-OE adapter uses the old base
+    # schema. Current label/partial-Horn contracts intentionally differ. Keep
+    # its refusal intact; the current repair uses a new bound processing stage.
+    with pytest.raises(ValueError, match="unaffected response schema changed"):
+        seal_native_contract_repair(tmp_path)
+    assert original.ledger.export()["calls"] == old_rows
+    assert len(old_rows) == 40
 
 
 def test_failed_reference_view_is_charged_quarantined_and_does_not_stop_learning(tmp_path, monkeypatch):
@@ -1005,7 +933,7 @@ def test_common_train_and_six_arm_repair_share_grounded_input_contract(tmp_path)
         def _source(self,key):assert key==source['key']
     learning={'status':'unresolved','oracle_views':[]}
     record=ingest_source(source=source,grade={'answer':'Entailment'},library=SkillLibrary(),thinking=True,
-        call=call,learner=lambda *args:learning,ledger=Scope(),artifacts=tmp_path,binding={},
+        call=call,learner=lambda *args, **kwargs:learning,ledger=Scope(),artifacts=tmp_path,binding={},
         purpose='pilot_ingestion',id_prefix='synthetic',offline_mock=True)
     assert len(train)==len(record['calls'])==2
     assert train[1]['schema']==schema and 'n_paid' in train[1]['prompt'][1]['content']
@@ -1037,6 +965,7 @@ def test_real_B_algorithm_trace_executes_connector_semantics_without_cached_lear
         'answer_type':'three_valued_owa','facts':['Bob is red.','Alice is nice.','Charlie is blue.','Dave is green.'],
         'rules':['If someone is red and nice then they are young.'],'query':'Bob is young.'}}
     class NativeOracle:
+        def cached_views(self): return []
         def query(self,view):return parse_public(view['public']).execute()['answer']
     trace={}
     result=learn_source(source,{'answer':'Unknown'},NativeOracle(),trace=trace)

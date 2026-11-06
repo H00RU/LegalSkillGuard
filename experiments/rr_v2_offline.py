@@ -19,7 +19,8 @@ ROOT = Path(__file__).resolve().parents[1]
 TESTS = ["tests/test_rr_coverage.py", "tests/test_rr_interfaces.py",
          "tests/test_rr_ledger.py", "tests/test_rr_state_and_partitions.py",
          "tests/test_rr_adapters.py", "tests/test_rr_controls_and_scoring.py",
-         "tests/test_rr_client_and_learning.py", "tests/test_rr_engine.py", "tests/test_rr_pipeline.py"]
+         "tests/test_rr_client_and_learning.py", "tests/test_rr_engine.py", "tests/test_rr_pipeline.py",
+         "tests/test_rr_method_gaps.py"]
 
 
 def main() -> int:

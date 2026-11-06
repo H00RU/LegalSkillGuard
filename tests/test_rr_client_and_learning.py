@@ -23,11 +23,11 @@ def budget(tmp_path):
     return BudgetLedger(tmp_path / "ledger.sqlite3", sources=sources(), code_hash="code", config_hash="cfg")
 
 
-def config():
+def config(*, thinking=False):
     return {"base_url": "http://127.0.0.1:8000/v1", "model": "Qwen/Qwen3-8B",
             "model_retries": 0, "model_root": "/fake/model", "context_tokens": 32768,
             "max_tokens": 4096, "temperature": .6, "top_p": .95, "top_k": 20,
-            "seed": 45, "timeout_seconds": 30}
+            "seed": 45, "timeout_seconds": 30, "enable_thinking": thinking}
 
 
 class FakeTransport:
@@ -54,7 +54,7 @@ class FakeTransport:
 
 def test_wire_payloads_persist_and_completed_resume_never_connects(tmp_path):
     transport, b = FakeTransport(), budget(tmp_path)
-    c = ExecutorClient(b, tmp_path / "artifacts", config(), opener=transport)
+    c = ExecutorClient(b, tmp_path / "artifacts", config(thinking=True), opener=transport)
     assert c.readiness()["ready"]
     args = dict(source=sources()[DATASETS[0]][0], purpose="thinking_probe",
                 messages=[{"role": "user", "content": "artificial fixture"}], thinking=True)
@@ -67,6 +67,19 @@ def test_wire_payloads_persist_and_completed_resume_never_connects(tmp_path):
     assert (raw / "wire_response.json").exists() and (raw / "request.json").exists()
     assert transport.calls[-1][1]["chat_template_kwargs"] == {"enable_thinking": True}
     assert json.loads((raw / "request.json").read_text())["generation_call_already_reserved"]
+
+
+def test_explicit_off_profile_rejects_on_before_network_and_billing(tmp_path):
+    transport, b = FakeTransport(), budget(tmp_path)
+    c = ExecutorClient(b, tmp_path, config(), opener=transport)
+    with pytest.raises(BudgetError, match="thinking differs"):
+        c.generate("forbidden", source=sources()[DATASETS[0]][0], purpose="thinking_probe",
+                   messages=[], thinking=True)
+    assert not transport.calls and b.export()["executor_used"] == 0
+    result = c.generate("off", source=sources()[DATASETS[0]][0], purpose="thinking_probe",
+                        messages=[], thinking=False)
+    assert result['thinking_requested'] is False and result['reasoning_content'] is None
+    assert transport.calls[-1][1]['chat_template_kwargs']['enable_thinking'] is False
 
 
 def test_unknown_source_and_purpose_are_rejected_before_any_tokenization(tmp_path):

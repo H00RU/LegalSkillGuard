@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import time
 from copy import deepcopy
 
 from .controls import ARMS, PredictionBudget
@@ -10,6 +11,7 @@ from .engine import analyze, source_text, proposal_schema
 from .engine import wire_messages as messages
 from .example_synthesis import filter_shared_examples, ordinary_horn_prediction
 from .interfaces import FIELDS
+from .compilation import prepare_request
 
 
 def _walk(node):
@@ -54,44 +56,10 @@ def apply_interfaces(proposal: dict, arm: str, library: dict) -> dict:
     return result
 
 
-def translation_action(source: dict, previous: dict, compilation: str) -> dict:
-    """Consume the source-level coverage planner without treating H as Omega."""
-    ledger = SourceLedger.from_text(source_text(source))
-    if previous.get("source_ledger_snapshot"):
-        saved = [Clause(**{**c, "context": tuple(c.get("context", ()))})
-                 for c in previous["source_ledger_snapshot"]]
-        restored = SourceLedger(ledger.text, saved)
-        restored.validate()
-        if {c.id for c in saved} != {c.id for c in ledger.clauses}:
-            raise ValueError("Coverage action source registry differs")
-        ledger = restored
-    units = {c.id for c in ledger.clauses}
-    residual = previous.get("residual_units", [])
-    assessment = previous.get("public_grammar_assessment", {})
-    if compilation == "generic_CEGAR_fixed_batch":
-        selected, basis = residual[:1], "generic_fixed_one_unit"
-    elif compilation == "full":
-        selected, basis = residual, "full_source_translation"
-    elif "batch" in assessment:
-        selected = assessment["batch"]
-        basis = assessment.get("planning_status", "coverage_assessment")
-    else:
-        # Unverified natural-language scope remains TOP. The exact finite
-        # kernel cannot certify a cheaper action without a source-level
-        # observation contract, so keep all open clauses in the action.
-        selected, basis = residual, "conservative_full_source_no_separation_claim"
-    if not set(selected) <= units:
-        raise ValueError("Coverage planner selected an absent source unit")
-    if not selected and previous.get("certificate_status") != "completion_stable":
-        selected, basis = sorted(units), "full_source_IR_repair"
-    return {"selected": list(selected), "context_closure": sorted(ledger.closure(set(selected))),
-            "selection_basis": basis, "source_ledger_hash": ledger.version,
-            "joint_separation_complete": basis == "separation_complete"}
-
-
 def route_prediction(source: dict, *, arm: str, library: dict, generate, protocol: dict,
                      partition: str, offline_mock: bool = False,
-                     example_model: dict | None = None) -> dict:
+                     example_model: dict | None = None, tokenize=None,
+                     request_config=None, thinking=True) -> dict:
     if arm not in ARMS:
         raise ValueError("Unknown inference arm")
     if not library.get("frozen"):
@@ -105,28 +73,34 @@ def route_prediction(source: dict, *, arm: str, library: dict, generate, protoco
     example_before = digest(example_model)
     profile, budget = ARMS[arm], PredictionBudget()
     history, actions = [], []
-    previous = None
+    previous, remaining = None, 5.0
     for step in range(2):
         purpose = "parse" if step == 0 else "repair"
         budget.reserve(purpose)
-        prompt = messages(source, previous=previous)
-        prompt[0]["content"] += "\nCompilation policy: " + profile.compilation + ". Interface policy: " + profile.interface + "."
+        suffix = "\nCompilation policy: " + profile.compilation + ". Interface policy: " + profile.interface + "."
         if profile.interface == "collision_refined":
-            prompt[0]["content"] += "\nFrozen role patterns: " + json.dumps([x["pattern"] for x in library.get("patterns", [])])
-        if step and previous is not None:
-            action = translation_action(source, previous, profile.compilation)
-            actions.append(action)
-            prompt[1]["content"] += "\nSelected translation batch and verified planning basis: " + json.dumps(action)
-        wire = generate(prompt, purpose=purpose, step=step, arm=arm,
-                        schema=proposal_schema(source["dataset"], source=source, previous=previous))
-        result = analyze(source, wire["content"])
+            suffix += "\nFrozen role patterns: " + json.dumps([x["pattern"] for x in library.get("patterns", [])])
+        started = time.monotonic()
+        prepared = prepare_request(source, previous=previous, compilation=profile.compilation,
+            system_suffix=suffix, tokenize=tokenize, request_config=request_config, thinking=thinking,
+            planning_seconds=remaining)
+        remaining = max(0, remaining - (time.monotonic() - started))
+        if prepared['action'] is not None:
+            actions.append(prepared['action'])
+        wire = generate(prepared['messages'], purpose=purpose, step=step, arm=arm,
+                        schema=prepared['schema'])
+        started = time.monotonic()
+        result = analyze(source, wire['content'], planning_seconds=remaining)
+        remaining = max(0, remaining - (time.monotonic() - started))
         if "proposal" in result:
             constrained = apply_interfaces(result["proposal"], arm, library)
             example_evidence = None
             if arm == "MB" and example_model is not None:
                 constrained, example_evidence = filter_shared_examples(constrained, source, example_model)
             if constrained != result["proposal"]:
-                result = analyze(source, json.dumps(constrained))
+                started = time.monotonic()
+                result = analyze(source, json.dumps(constrained), planning_seconds=remaining)
+                remaining = max(0, remaining - (time.monotonic() - started))
             if example_evidence is not None:
                 result["ordinary_example_synthesis"] = example_evidence
         if arm == "MB" and example_model is not None:
@@ -144,7 +118,7 @@ def route_prediction(source: dict, *, arm: str, library: dict, generate, protoco
         prompt[0]["content"] += "\nFinal fixed fallback. Preserve all uncertainty; give the native task answer without claiming a certificate."
         wire = generate(prompt, purpose="fallback", step=len(history), arm=arm,
                         schema=proposal_schema(source["dataset"], source=source))
-        fallback = analyze(source, wire["content"])
+        fallback = analyze(source, wire['content'], planning_seconds=remaining)
         fallback["certificate_status"] = "unsupported_no_certificate" if source["dataset"] == "ContractNLI" else "translation_unresolved"
         fallback["fallback_used"] = True
         previous = fallback

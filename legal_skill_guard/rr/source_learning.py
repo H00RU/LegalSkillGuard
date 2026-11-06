@@ -66,13 +66,20 @@ def sara_answer(grade: dict, view: dict) -> str:
     if view.get("edit") is not None:
         edit = view["edit"]
         lines = prefix.splitlines()
-        if set(edit) != {"line", "old", "new"} or edit["old"] not in _people(prefix) or edit["new"] not in _people(prefix):
+        if edit['old'] not in _people(prefix) or edit['new'] not in _people(prefix):
             raise ValueError("Invalid source-local person reassignment")
-        line = lines[edit["line"]]
-        if not re.match(r"(?:agent_|patient_)\(", line) or f'"{edit["old"]}"' not in line:
-            raise ValueError("Only an existing event participant may be reassigned")
-        lines[edit["line"]] = line.replace(f'"{edit["old"]}"', f'"{edit["new"]}"', 1)
-        prefix = "\n".join(lines) + "\n"
+        if set(edit) == {'scope', 'old', 'new'} and edit['scope'] == 'all_fact_occurrences':
+            prefix = prefix.replace('"' + edit['old'] + '"', '"' + edit['new'] + '"')
+        elif set(edit) == {'line', 'old', 'new'}:
+            # Previously charged single-fact views remain reproducible, with
+            # no claim that their natural-language rendering is available.
+            line = lines[edit['line']]
+            if not re.match(r'(?:agent_|patient_)\(', line) or '"' + edit['old'] + '"' not in line:
+                raise ValueError('Only an existing event participant may be reassigned')
+            lines[edit['line']] = line.replace('"' + edit['old'] + '"', '"' + edit['new'] + '"', 1)
+            prefix = '\n'.join(lines) + '\n'
+        else:
+            raise ValueError('Unknown person-reassignment semantics')
     runtime = ROOT / ".local-tools/rr-v2-swipl/root/usr"
     environment = dict(os.environ)
     environment["SWI_HOME_DIR"] = str(runtime / "lib/swi-prolog")
@@ -211,6 +218,27 @@ class DurableOracle:
                               "elapsed_seconds": time.monotonic() - start})
         return answer
 
+    def cached_views(self):
+        """Recover charged views before considering fresh legal fact edits."""
+        import sqlite3
+        directory = self.root / 'oracle_views' / digest(self.source['key'])
+        paths = list(directory.glob('*/request.json'))
+        if not paths:
+            return []
+        with sqlite3.connect('file:' + str(self.ledger.path) + '?mode=ro', uri=True) as db:
+            order = {key: stamp for key, stamp in db.execute(
+                'select view_hash,reserved_at from oracle_views where source=?', (self.source['key'],))}
+        records = []
+        for path in paths:
+            item = json.loads(path.read_text())
+            key = digest(item['view'])
+            if item['source'] != self.source['key'] or item['reference_hash'] != digest(self.grade) or key not in order:
+                raise ValueError('Cached view provenance differs from charged source')
+            records.append((order[key], key, item['view']))
+        if len(records) > 4:
+            raise ValueError('Source has more than four charged reference views')
+        return [item[2] for item in sorted(records)]
+
 
 def _atom_text(atom: Atom) -> str:
     if len(atom.arguments) == 1:
@@ -240,13 +268,10 @@ def candidate_views(source: dict, grade: dict) -> list[dict]:
     elif dataset == "SARA_v2_Binary":
         prefix, _ = sara_case(grade)
         people = _people(prefix)
-        for i, line in enumerate(prefix.splitlines()):
-            if not re.match(r"(?:agent_|patient_)\(", line):
-                continue
-            for old in people:
-                for new in people:
-                    if old != new and f'"{old}"' in line:
-                        views.append({"kind": dataset, "edit": {"line": i, "old": old, "new": new}})
+        for old in people:
+            for new in people:
+                if old != new:
+                    views.append({'kind': dataset, 'edit': {'scope': 'all_fact_occurrences', 'old': old, 'new': new}})
     elif dataset == "ProofWriter_OWA_depth5":
         parsed = parse_public(source["public"])
         if parsed.residuals:
@@ -283,11 +308,12 @@ def coarse_and_metadata(source: dict, grade: dict, view: dict) -> tuple[dict, di
         return {"weights": sorted(b["weight"] for b in bags), "sizes": sorted(tuple(b["size"]) for b in bags)}, \
             {"membership": [[sizes.index(tuple(b["size"])), weights.index(b["weight"])] for b in bags]}
     if dataset == "ProofWriter_OWA_depth5":
-        atoms = [parse_atom(t) for t in view["public"]["facts"]]
-        signature = sorted((a.predicate, a.positive, len(a.arguments)) for a in atoms)
         parsed = parse_public(view["public"])
-        return {"primitive_existence_signature": signature}, {"entity_equality": {
-            "facts": [[{"entity": x} for x in a.arguments] for a in atoms],
+        relations = [[_matches(atom, parsed.facts) for atom in rule.body] for rule in parsed.rules]
+        return {'primitive_outputs': [[relation.exists() for relation in rule] for rule in relations],
+                'initial_query_evidence': [parsed.query in parsed.facts, parsed.query.negate() in parsed.facts]}, {'entity_equality': {
+            'rule_inputs': [[[[{'entity': str(cell)} for cell in row] for row in relation.rows]
+                            for relation in rule] for rule in relations],
             "query_roles": [{"entity": x} for x in parsed.query.arguments],
             "rule_constant_roles": [[{"entity": x} for a in r.body + (r.head,) for x in a.arguments if not x.startswith("?")]
                                     for r in parsed.rules]}}
@@ -296,7 +322,10 @@ def coarse_and_metadata(source: dict, grade: dict, view: dict) -> tuple[dict, di
         lines = prefix.splitlines()
         if view["edit"] is not None:
             edit = view["edit"]
-            lines[edit["line"]] = lines[edit["line"]].replace(f'"{edit["old"]}"', f'"{edit["new"]}"', 1)
+            if edit.get('scope') == 'all_fact_occurrences':
+                lines = [line.replace('"' + edit['old'] + '"', '"' + edit['new'] + '"') for line in lines]
+            else:
+                lines[edit['line']] = lines[edit['line']].replace('"' + edit['old'] + '"', '"' + edit['new'] + '"', 1)
         names = _people(prefix)
         facts = [line for line in lines if re.match(r"\w+_\(", line)]
         return {"predicate_counts": sorted(re.match(r"(\w+_)\(", f)[1] for f in facts)}, \
@@ -383,15 +412,31 @@ def predict_horn_sketch(public: dict, graphs: list[dict]) -> str | None:
     return None
 
 
-def learn_source(source: dict, grade: dict, oracle: DurableOracle, *, trace: dict | None = None) -> dict:
+def learn_source(source: dict, grade: dict, oracle: DurableOracle, *, proposal=None, trace: dict | None = None) -> dict:
     if source["dataset"] == "ContractNLI":
         return {"status": "no_counterfactual_oracle", "oracle_views": [], "learned_pattern": None,
                 "finite_candidate_pool_is_Omega": False}
+    if source['dataset'] != 'ProofWriter_OWA_depth5':
+        from .typed_learning import learn_typed_source
+        return learn_typed_source(source, grade, oracle, proposal=proposal, trace=trace)
+    parsed = parse_public(source['public'])
+    if parsed.residuals:
+        if trace is not None:
+            trace.update(source=source['key'], candidate_generator_invoked=True,
+                         candidate_generator='public_Horn', initial_candidates=0,
+                         residual_units=parsed.residuals, grammar_errors=parsed.errors)
+        return {'status': 'unsupported_public_primitive_grammar', 'oracle_views': [],
+                'learned_pattern': None, 'connector_candidates_retained': 0,
+                'connector_synthesis_status': 'primitive_observation_unavailable',
+                'finite_candidate_pool_is_Omega': False}
     base = original_view(source, grade)
     answer = grade["targets"] if source["dataset"] == "OpenExempt" else grade["answer"]
     coarse, metadata = coarse_and_metadata(source, grade, base)
     observations = [Observation(coarse, metadata, answer, digest(base))]
     remaining = candidate_views(source, grade)
+    cached = oracle.cached_views()
+    cached_keys = {digest(v) for v in cached}
+    remaining = [v for v in remaining if digest(v) not in cached_keys]
     sketches = horn_sketches(source["public"]) if source["dataset"] == "ProofWriter_OWA_depth5" else []
     if trace is not None:
         trace.update(source=source['key'],events=[],initial_candidates=len(sketches),
@@ -410,9 +455,12 @@ def learn_source(source: dict, grade: dict, oracle: DurableOracle, *, trace: dic
             disagreements = sum(a != b for a, b in combinations(predictions, 2))
             predicted_change = sum(p is not None and p != answer for p in predictions)
             ranked.append((-disagreements, -predicted_change, digest(view), view))
-        if not ranked:
+        if cached:
+            view = cached.pop(0)
+        elif not ranked:
             break
-        view = min(ranked, key=lambda x: x[:3])[3]
+        else:
+            view = min(ranked, key=lambda x: x[:3])[3]
         key = digest(view)
         remaining = [v for v in remaining if digest(v) != key]
         try:
