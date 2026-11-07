@@ -4,7 +4,48 @@
 Current snapshot: Goal active and incomplete. Previous code-v1 and typed-v1 builds were stopped and preserved at69 and5 committed sources, respectively; neither has an accepted primary model IR. Current phase: fixed128_declarative_build_live. Current compiler uses the canonical typed AST with source-keyed nullable scopes, finite provenance and input-first declaration order. Truncated responses provide complete-prefix errors only, never reconstructed IR. Latest settled probe: executor_ast_typed_operands_v1_20261107. Thinking remains OFF. Current runtime passed518 offline checks and8 installed-backend syntax checks; these are not semantic method scores. Coherent original fixed128/8-batch build, six-arm DEV, core mechanism and cross-bank evidence remain incomplete. Fallback and exact reused teacher material do not establish core success. No TEST or paper work has started.
 <!-- /current_live_status -->
 
-## 当前训练指标复核（2026-11-07）
+<!-- current_train_prefix -->
+## 当前统一版本的TRAIN前缀
+
+更新时间：2026-11-07T17:30:35.079981+00:00；仅统计已结算的12个来源。
+
+| 指标 | 当前结果 |
+|---|---:|
+| 已提交来源 / 原定来源 | 12 / 128 |
+| 已完成批次 / 原定批次 | 0 / 8 |
+| TRAIN匹配（含允许的回退） | 1 / 12（8.33%） |
+| 无回退的TRAIN匹配 | 0 / 12 |
+| 接纳的模型IR | 0 / 12 |
+| A条件完成证书来源 | 0 / 12 |
+| B模型IR路径实际执行来源 | 0 / 12 |
+| 回退来源 | 1 / 12 |
+
+回退答对和回退中的存储图调用单列，不计核心机制成功。IR接纳或条件证书也不单独证明源文语义忠实。[当前指标JSON](rr_method_runtime_20261107/training_metrics_status_20261107.json)、[来源状态CSV](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_source_status.csv)保留分母与路径；下方其他科学版本分别保存，不拼接成绩。
+<!-- /current_train_prefix -->
+
+## 前10来源的完整响应定位与输入审计补齐
+
+第10个ContractNLI来源的首响应正常stop，输出1921 token、耗时70.684秒，通过实际wire schema和规范解码，但未通过编译。[原响应离线重放](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_ContractNLI_complete_output_audit.json)确认：模型将20个公开段落逐个复制成字符串binding，未生成观察、计算节点、scope或条款；查询把已声明的s19（公开假设原文字符串）用作布尔条件，实际类型诊断为expected=boolean、actual=string。另有未翻译的条件前文s8，查询没有读取任何受保护条款输出。原提示已要求对应类型和guard，编译器拒绝与之相符；不是未声明变量，也不是正常执行后的错误。第二响应达到8192上限而不完整。两条输出原样保留，不补法律规则、猜类型或用答案修补。
+
+本次还修正了一个报告层核验缺口：旧实际发送审计仅在旧code接口下比对完整源单元，对当前结构化接口跳过该断言，旧收据的对应字段为false。现已在未绑定的报告脚本中对当前每条请求强制比对原TRAIN公开units、dataset、task_id及task_metadata，并保留[修正前收据](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_dispatch_audit_v1_before_public_unit_assertion.json)。前10来源20次实际请求全部一致；[离线负例](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_dispatch_audit_v2_regression.json)只在内存副本删去最后一个源单元，确实被源文完整性断言拒绝。未修改原请求、响应或账本，未新增模型及oracle调用；正在运行的科学源码、配置和seal绑定不变。
+
+这两项证据分别定位模型输出错误和报告验证缺口，不将离线审计通过计作A/B成功。继续同一封存版本的原128来源/8批建库，再完成原定DEV与机制审计；不增加数据、种子或逐样例提示扫描。
+
+## 已结算前12来源实际提供了哪些B学习输入
+
+公开任务输入与内部可执行输入分开核对：前12来源24次实际请求均包含完整原公开源单元，未发生源文裁剪；但当前没有接纳的模型IR，真实A残余/分离批次后续请求仍为0。下表按本次前12来源快照列出B入口状态，[机制与逐来源记录](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_mechanism_prefix_audit.json)持续保存具体来源、候选数及原始记录SHA。
+
+| 数据集 | 来源数 | 当前B入口证据 |
+|---|---:|---|
+| OpenExempt | 3 | typed_inputs_unavailable；模型源程序连接候选0 |
+| Airline | 3 | typed_inputs_unavailable；模型源程序连接候选0 |
+| SARA | 2 | typed_inputs_unavailable；模型源程序连接候选0 |
+| ContractNLI | 2 | 原协议无反事实oracle；预测另有IR失败，不能混为一个原因 |
+| ProofWriter | 2 | 公共Horn输入；1次碰撞识别模式、1次无新碰撞，模型源程序连接候选0 |
+
+当前零候选停在类型化源程序入口，不能表述为“B已检查这些法律/数值连接器但没有效果”。记录里的primitive_source=model_source_linked_inputs标记预定路径，并不证明已有可用类型化输入；实际生成、执行和完整检查的候选数另列。已有oracle视图被读取或回放也不补造缺失IR。ProofWriter的一个已存模式为entity_equality/join_on的参数化连接形状，当前只有回退中的同库实际使用，未学得新的法律规则或数值连接模式，尚无外库实际复用。上述内容来自现有代码和原记录的离线核对，不是新增模型实验，也不添加验收门槛。
+
+## 历史版本训练指标复核（2026-11-07，原时点快照）
 
 | 独立科学版本 | 已提交来源 / 原定来源 | TRAIN匹配（含回退） | 接纳的模型IR | 核心主路径匹配 |
 |---|---:|---:|---:|---:|
@@ -17,9 +58,47 @@ Current snapshot: Goal active and incomplete. Previous code-v1 and typed-v1 buil
 
 当前typed-v1前缀形成1个entity_equality/join_on连接形状，来自既定Horn输入，后续实际图调用0；不能据此宣称学会法律规则或跨库迁移。当前两版建库没有A残余/分离批次或B模型IR主路径成功；原128统一建库及六臂DEV仍未完成。493项离线检查全部通过属于工程回归，不等于主方法效果。
 
-历史完整旧版TRAIN为59/128（46.09%），92/128（71.88%）走fallback；该分数只作旧版材料核验，不能充当当前修复版本的训练结果。[本次指标快照](rr_method_runtime_20261107/training_metrics_status_20261107.json)保留各版本分母和证据。此次状态复核新增模型调用0，原始结果、请求账本及冻结库未改；Goal保持未完成。
+历史完整旧版TRAIN为59/128（46.09%），92/128（71.88%）走fallback；该分数只作旧版材料核验，不能充当当前修复版本的训练结果。[原时点指标快照](rr_method_runtime_20261107/training_metrics_status_20261107_before_ast_build.json)保留各版本分母和证据。该次状态复核新增模型调用0，原始结果、请求账本及冻结库未改；Goal保持未完成。
 
 
+
+## 首个TRAIN匹配：回退中的真实同库图调用
+
+第9个ProofWriter来源在两次模型IR输出均截断后进入原方案允许的受限Horn恢复，原TRAIN语义匹配通过。执行trace记录28次query_relevant的已存entity_equality/join_on图调用，均发生在这一个来源中；模式支持来自当前前缀第4个ProofWriter来源，属于同库存储模式复用，不是28个成功来源，也不是跨库迁移。两次模型请求输入合计7454、输出16384 token，耗时合计950.271秒；恢复没有新增模型请求。[原始记录/调用及路径核查](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_first_fallback_graph_use_audit.json)保留source记录、hash、实际graph调用与物理请求。
+
+截至前9来源，TRAIN匹配为1/9（11.11%，来自回退），回退比例1/9，核心IR接纳0/9、无回退匹配0；A真实后续选择0、B模型IR主路径0。日志中的B=true仅表示该恢复路径实际执行了存储图，不作为核心机制验收。未用这个匹配宣称主训练就绪，原128/8建库和六臂DEV仍未完成，未启动TEST或论文。
+
+## 其余四库的曝光与实际复用边界
+
+前8个已结算来源中，ProofWriter识别的entity_equality图已在ContractNLI、OpenExempt、Airline、SARA四库后续来源的实际提示里提供，实际图调用仍0。[四库曝光核查](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_four_bank_exposure_audit.json)逐项列出消费者来源、原模式来源和证据类别。当前只能报告曝光，不能称为迁移成功，也不能称为已经测出“无效迁移”或负迁移；尚未有实际外库调用供原定开发对照及必要最小屏蔽诊断归因。未为此追加模型请求、来源、种子或额外对照矩阵。
+
+当前前8来源均未接纳IR，16条实际HTTP已核对；第9来源仍按原预算解析。原128/8建库、六臂DEV与机制语义验收继续，所有失败作为结果保留，不因本次审计或少量样例结束Goal。
+
+## 法律数值来源中的连接模式曝光
+
+第6个来源为第二个OpenExempt来源，已获得第4个ProofWriter来源识别的entity_equality/join_on模式；两次请求后仍无接纳IR，未实际调用该图。当前已确认ContractNLI及OpenExempt两种外库来源的提示曝光，实际复用0；不能将公共模式在提示中出现称为跨库迁移，也未据此声称受益或负迁移。[OpenExempt逐请求/曝光核查](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_OpenExempt_exposure_audit.json)与[机制前缀审计](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_mechanism_prefix_audit.json)保留原始来源和实际结果。运行按原顺序继续，数据、配置及8ea35e0绑定实现保持冻结，Goal未完成。
+
+## 五库首个来源与原协议数据边界
+
+当前统一版本已结算前5来源，五库各1个；10条响应中9条length、1条stop，接纳的可执行IR、A/B主路径与TRAIN匹配均为0。第4来源的完整wire因真实引用语义错误被拒绝，其余为生成未完整；这些不是执行器运行后产生的错误，也不据此前缀推断剩余来源的成绩。[来源及请求矩阵](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_complete_prefix_failure_matrix.json)持续保存各阶段、token、耗时和原始哈希。
+
+ContractNLI原协议明确automatic_gold_variants=False、formal_completeness_claim=False，当前no_counterfactual_oracle是原有数据边界，不是缺失的工程接口；它的两条预测另因8192截断未形成IR，不能混为同一失败原因。该来源确已曝光到ProofWriter前缀识别的entity_equality图，但实际调用0，不能据混合输入或曝光声称跨库复用。[协议/曝光核查](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_ContractNLI_scope_and_exposure_audit.json)同时保留两项事实。本次不追加来源或反事实gold、不改变正确性条件；运行持续，尚未完成原128/8、六臂DEV和核心机制/跨库验收。
+
+## 首个完整响应与B连接模式的前缀证据
+
+当前第4个ProofWriter来源第二次响应正常stop，输入3783、输出2826 token，102.784秒；完整JSON通过当前wire schema，但源文观察引用未通过编译器检查。[完整响应逐字段核查](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_first_complete_output_audit.json)发现16个predicate与所引单元不匹配、9个entity与所引事实不匹配；多个is/needs/sees统一引用了不含该词的s14，部分entity其实是规则或查询。不是空白格式误差，不能靠无歧义空白适配恢复；候选原样保留，不替换来源、补实体/谓词或借答案修复。其余完整类型/规则诊断也保存，未将wire通过计作IR执行或核心成功。这说明失败不仅来自输出token上限。
+
+该来源的B获取路径从既定公共Horn原语及4条已有碰撞视图识别出entity_equality，对应join_on(column0)的参数化连接图a0e975c…；与历史库同形。当前仅证明该组件在新前缀中识别/保存了连接模式，不是新法律规则，尚无预测中的实际图调用或跨库复用。[前缀机制审计](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_mechanism_prefix_audit.json)将原语来源、重复发现、曝光和真正执行分列。前4来源8次实际HTTP均与封存输入/配置一致；A/B主路径及TRAIN匹配仍为0，按原固定版本继续后续来源。
+
+## 统一AST版本建库的已结算前缀
+
+当前原128来源运行继续。已结算的前三个来源分别为OpenExempt、Airline、SARA，各使用原定两次请求；六条均finish=length、输出8192 token，尚未形成接纳的IR、执行、A/B或TRAIN匹配。此为生成不完整阶段的失败，不能归为执行器运行错误，也不据此推断未完成来源的结果。[实际逐来源/逐请求矩阵](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_complete_prefix_failure_matrix.json)列出原始响应哈希、token、耗时、失败阶段和原学习状态。控制器存活、科学绑定不变，按原顺序继续；不增加来源、seed、第三次TRAIN请求或针对单条样例再调提示。
+
+## 前次公开快照的核验记录
+
+[此前规范AST/完整前缀诊断代码及报告快照](https://github.com/H00RU/LegalSkillGuard/blob/1c5f201219cfdc383d05b53899f81f77454fc3b0/reports/legalskillguard_method_runtime_20261107.md)已同步开发分支，科学实现8ea35e0，包含518项相关离线检查及原始失败。已独立从GitHub拉取，2881个清单文件、清单及2份核验文件逐项SHA256一致；[对应核验收据](https://github.com/H00RU/LegalSkillGuard/blob/d325ce331adcda7c8c88c04fdeb5fe510fe58249/reports/rr_method_runtime_20261107/publication_verified.json)确认main保持ae7e092，私有本地Git祖先未上传。机器运行身份/备份物理路径仅作明确portable variants，原始TRAIN响应字节不变，variant的byte_identical与实际哈希一致。
+
+这是当前原128来源/8批建库运行中的快照，非完整建库/六臂DEV或核心语义通过。发布流程没有新增模型调用；运行中的建库请求仍在同一账本正常计数。此前公开快照均按各自时间保留，不替代当前实现的完整Goal验收。
 
 ## 严格操作数真实结果与统一版本接续
 

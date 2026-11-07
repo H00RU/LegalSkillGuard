@@ -99,7 +99,15 @@ def main():
             'native_fallback_used': outcome['fallback_used'],
             'controlled_Horn_fallback_used': bool(outcome.get('model_source_IR_still_unresolved')),
             'fallback_used': outcome['fallback_used'] or bool(outcome.get('model_source_IR_still_unresolved')),
-            'learning_status': learning['status']})
+            'learning_status': learning['status'],
+            'learning_primitive_source': learning['primitive_source'],
+            'model_program_candidate_present': prediction['program'] is not None,
+            'model_connector_candidates_generated': learning['connector_candidates_generated']
+                if learning['primitive_source'] == 'model_source_linked_inputs' else None,
+            'model_connector_candidates_fully_checked': learning['connector_candidates_fully_checked']
+                if learning['primitive_source'] == 'model_source_linked_inputs' else None,
+            'source_program_diagnostic': learning.get('source_program_diagnostic'),
+            'recorded_oracle_views': len(learning['oracle_views'])})
     for batch in range(1, len(rows) // 16 + 1):
         path = stage / 'build/batches' / f'B{batch}.json'
         if path.exists():
@@ -109,6 +117,17 @@ def main():
         'prefix_sources_audited': len(rows), 'expected_sources': 128, 'rows': rows,
         'library_prefix_hashes_and_call_view_budgets_verified': True,
         'model_error_types': dict(errors),
+        'effective_learning_inputs': {
+            'by_dataset': {bank: {'sources': sum(row['dataset'] == bank for row in rows),
+                'learning_status_counts': dict(Counter(row['learning_status'] for row in rows if row['dataset'] == bank)),
+                'compiled_model_IR_sources': sum(row['dataset'] == bank and row['program_status'] == 'source_IR_compiled' for row in rows),
+                'model_connector_candidate_sources': sum(row['dataset'] == bank and row['learning_primitive_source'] == 'model_source_linked_inputs' and row['model_connector_candidates_generated'] > 0 for row in rows),
+                'predefined_Horn_input_sources': sum(row['dataset'] == bank and row['learning_primitive_source'] == 'predefined_public_Horn_grammar_not_new_rule_learning' for row in rows)}
+                for bank in sorted({row['dataset'] for row in rows})},
+            'primitive_source_label_alone_is_not_evidence_of_available_typed_inputs': True,
+            'zero_generated_candidates_is_not_evidence_of_a_tested_connector_failure': True,
+            'no_counterfactual_oracle_is_a_learning_data_boundary_separate_from_prediction_errors': True,
+            'this_input_audit_adds_no_acceptance_requirement': True},
         'fallback': {'native_sources':sum(row['native_fallback_used'] for row in rows),
             'controlled_Horn_sources':sum(row['controlled_Horn_fallback_used'] for row in rows),
             'all_fallback_sources':sum(row['fallback_used'] for row in rows), 'denominator':len(rows),

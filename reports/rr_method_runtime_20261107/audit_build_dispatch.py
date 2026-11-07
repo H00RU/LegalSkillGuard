@@ -34,11 +34,16 @@ def main():
             break
         record = json.loads(source_path.read_text()); source_count += 1
         _, expected = compiler_prompt(public[source])
-        units = json.loads(expected)['units']
+        expected_public = json.loads(expected)
+        units = expected_public['units']
         for call in record['prediction']['calls']:
             step = call['step']
             saved = json.loads((stage / 'build/journals' / digest(source) / f'request{step}.json').read_text())
             dispatch = json.loads(saved['dispatch_json'])
+            payload = json.loads(dispatch['messages'][1]['content'])
+            assert payload['units'] == units, 'Public source units differ from the original TRAIN packet'
+            for key in ('dataset', 'task_id', 'task_metadata'):
+                assert payload[key] == expected_public[key], 'Public task identity differs: ' + key
             call_id = args.run_id + ':build:' + digest(source) + ':' + str(step)
             folder = stage / 'build/calls' / digest(call_id)
             wire = json.loads((folder / 'wire_request.json').read_text())
@@ -48,21 +53,20 @@ def main():
             assert body == json.dumps(expected_wire, ensure_ascii=False).encode()
             tokenization = json.loads((folder / 'request.json').read_text())['tokenization']
             assert tokenization['count'] <= config['context_tokens'] - config['max_tokens']
-            compiler_request = set(dispatch['schema']['properties']) == {'code'}
-            if compiler_request:
-                payload = json.loads(dispatch['messages'][1]['content'])
-                assert payload['source'] == source and payload['units'] == units
             usage = call.get('usage')
             match = usage['prompt_tokens'] == tokenization['count'] if usage else None
             if usage:
                 assert match
             rows.append({'source': source, 'step': step, 'call_id': call_id,
                 'wire_sha256': wire['body_sha256'], 'exact_saved_dispatch_and_sampling': True,
-                'thinking_off': True, 'full_original_units_verified': compiler_request,
+                'thinking_off': True, 'full_original_units_verified': True,
+                'public_task_identity_verified': True,
                 'serving_count': tokenization['count'], 'response_prompt_count_matches': match,
                 'response_count_unavailable': usage is None})
     receipt = {'captured_utc': datetime.now(timezone.utc).isoformat(), 'run_id': args.run_id,
         'prefix_sources_audited': source_count, 'calls': rows,
+        'audit_version': 2,
+        'all_original_public_units_and_task_identities_verified': True,
         'all_available_response_prompt_counts_match_serving_measurement': True,
         'source_or_schema_or_sampler_changes_detected': False,
         'grading_packets_opened': False, 'new_model_or_oracle_calls': 0,

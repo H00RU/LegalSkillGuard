@@ -1,0 +1,96 @@
+{
+  "checked_utc": "2026-11-07T17:10:43.359648+00:00",
+  "run_id": "method_runtime_ast_v1_20261107",
+  "source": "ContractNLI:e671a984356facb0c0666809e219fa44fa18d30e4f6252bbb33d8869fc43b1c9",
+  "physical_call_id": "method_runtime_ast_v1_20261107:build:91368467e36419cf12f322325fcf2a231aa1f6eb135a8c40376ed535f24675ea:0",
+  "source_record_sha256": "9b0c035cfdb89b7ce71ffed69791fcb180172a8b7e98d3501ba6befefc206482",
+  "raw_response_sha256": "6ed44748170f79bfc93f0a4f3269087856e87291d9452ce982c4b72bf623eba4",
+  "request_journal_sha256": "41aac5d1f5dd9cf02e606a60ef20a185f62750c4d673238a75e5e1e72842f518",
+  "wire_schema_acceptance_replayed": true,
+  "canonical_decoder_acceptance_replayed": true,
+  "compiler_rejection_replayed": {
+    "type": "Unsupported",
+    "message": "Native answer query must use guarded clause outputs, not bypass them through local/scope nodes"
+  },
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 4268,
+    "total_tokens": 6189,
+    "completion_tokens": 1921,
+    "prompt_tokens_details": null
+  },
+  "elapsed_seconds": 70.68420870043337,
+  "declarations": {
+    "bindings": 20,
+    "observations": 0,
+    "rule_residuals": 0,
+    "nodes": 0,
+    "scopes": 0,
+    "clauses": 0
+  },
+  "query_reads": [
+    "s19"
+  ],
+  "undeclared_query_symbols": [],
+  "query_binding_types": {
+    "s19": "scalar"
+  },
+  "query_binding_values": {
+    "s19": "Receiving Party shall not reverse engineer any objects which embody Disclosing Party's Confidential Information."
+  },
+  "referenced_public_unit_roles": {
+    "s19": {
+      "role": "query",
+      "view": null
+    }
+  },
+  "independent_type_diagnostics": [
+    {
+      "path": "query.args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0]",
+      "expected": "boolean",
+      "actual": [
+        "string"
+      ]
+    }
+  ],
+  "source_only_feedback": {
+    "issues": [
+      {
+        "path": "query.args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0]",
+        "expected": "boolean",
+        "actual": [
+          "string"
+        ]
+      },
+      {
+        "path": "scopes",
+        "expected": "executable scope for conditional public preface",
+        "actual": {
+          "source": "s8",
+          "text": "I hereby acknowledge and agree that all information pertaining to the professional practice(s) that I am introduced to by ROI Corporation shall be obtained exclusively through ROI Corporation and that I WILL NOT CONTACT THE OWNER(s), STAFF, PATIENTS or other advisors of the practice(s), unless I am ACCOMPANIED BY AN ASSOCIATE OF ROI CORPORATION. I further agree not to write or mark the Appraisal(s), nor shall I copy or reproduce any information in any manner whatsoever without the prior consent of ROI Corporation."
+        }
+      },
+      {
+        "path": "query",
+        "expected": "read at least one guarded clause output",
+        "actual": [
+          "s19"
+        ]
+      }
+    ],
+    "source_only": true,
+    "grading_information_used": false,
+    "candidate_modified": false,
+    "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions."
+  },
+  "prompt_explicitly_requires_declared_symbols_and_guarded_outputs": true,
+  "primary_failure_class": "model_output_error",
+  "reason": "The model copies all20 public paragraphs into string bindings and emits no guarded clauses. Its nested query consumes the declared string s19 (the public hypothesis) as a Boolean. Complete JSON does not translate the source reasoning.",
+  "semantic_preserving_format_adapter_available": false,
+  "adapter_reason": "The existing response needs no formatting recovery. Adding a legal clause or the missing symbol meaning would introduce absent semantics.",
+  "candidate_modified": false,
+  "grading_packets_opened": false,
+  "new_model_or_oracle_calls": 0,
+  "bound_science_unchanged": true,
+  "this_is_rejection_evidence_not_core_success": true
+}

@@ -49,7 +49,8 @@ def main():
             'stored_pattern_executed': outcome['B_main_path_executed'],
             'learning_status': record['learning']['status']})
     state_file = stage / 'build/state.json'
-    committed = json.loads(state_file.read_text())['complete_sources'] if state_file.exists() else 0
+    build_state = json.loads(state_file.read_text()) if state_file.exists() else {}
+    committed = build_state.get('complete_sources', 0)
     completion_file = stage / 'build/completion.json'
     completion = json.loads(completion_file.read_text()) if completion_file.exists() else None
     now = datetime.now(timezone.utc).isoformat()
@@ -57,6 +58,7 @@ def main():
         'identity_live': identity_live, 'session_id': args.session_id, 'sealed_science_unchanged': True,
         'counts': counts, 'pending': pending, 'source_records': len(rows), 'committed_sources': committed,
         'expected_sources': 128, 'expected_batches': 8,
+        'completed_batches': build_state.get('completed_batches', 0),
         'datasets_completed': dict(Counter(row['dataset'] for row in rows)),
         'source_IR_compiled': sum(row['model_source_IR_compiled'] for row in rows),
         'conditional_source_IR_certificates': sum(row['conditional_source_IR_certificate'] for row in rows),
@@ -74,6 +76,31 @@ def main():
         'full_goal_complete': False}
     folder = Path(__file__).resolve().parent
     (folder / (args.run_id + '_build_observation.json')).write_text(json.dumps(observation, ensure_ascii=False, sort_keys=True, indent=2) + '\n')
+    finished_executor = [json.loads(result) for role, _, result in run_calls
+                         if role == 'executor' and result]
+    metrics = {'captured_utc': now, 'run_id': args.run_id,
+        'metric_role': 'Current sealed build TRAIN prefix; not DEV, TEST or a source-faithfulness certificate',
+        'sealed_code_hash': seal['code_hash'],
+        'active_build_controller': identity_live and controller['status'] == 'running',
+        'committed_sources': committed, 'expected_sources': 128,
+        'completed_batches': observation['completed_batches'], 'expected_batches': 8,
+        'prefix_denominator': len(rows),
+        'TRAIN_matches_including_fallback': observation['TRAIN_matches_including_predefined_paths'],
+        'TRAIN_matches_without_fallback': observation['TRAIN_matches_without_fallback'],
+        'model_source_IR_compiled': observation['source_IR_compiled'],
+        'conditional_A_certificates': observation['conditional_source_IR_certificates'],
+        'primary_model_IR_B_execution_sources': observation['primary_source_IR_B_execution_sources'],
+        'fallback_sources': observation['fallback_sources_including_Horn_recovery'],
+        'stored_pattern_execution_sources_including_fallback': observation['stored_pattern_execution_sources'],
+        'settled_executor_responses': len(finished_executor),
+        'executor_finish_reasons': dict(Counter(result.get('finish_reason') for result in finished_executor)),
+        'this_run_physical_counts': observation['this_run_physical_counts'],
+        'cumulative_physical_requests': counts, 'pending_requests': len(pending),
+        'current_unified_128_build_complete': completion is not None,
+        'current_six_arm_DEV_complete': False, 'full_goal_complete': False,
+        'historical_metrics_preserved_separately': 'training_metrics_status_20261107_before_ast_build.json',
+        'new_model_calls_by_this_status_check': 0, 'original_response_and_ledger_modified': False}
+    (folder / 'training_metrics_status_20261107.json').write_text(json.dumps(metrics, ensure_ascii=False, sort_keys=True, indent=2) + '\n')
     if rows:
         with (folder / (args.run_id + '_source_status.csv')).open('w') as stream:
             writer = csv.DictWriter(stream, fieldnames=list(rows[0]), lineterminator='\n')
@@ -106,7 +133,31 @@ def main():
         '普通模型错误保留，旧结果/冻结库/账本不变；六臂DEV和TEST未启动，Goal active未完成。')
     report = root / 'reports/legalskillguard_method_runtime_20261107.md'
     text = report.read_text(); start, end = '<!-- current_live_status -->', '<!-- /current_live_status -->'
-    report.write_text(text[:text.index(start)] + start + '\n' + line + '\n' + end + text[text.index(end) + len(end):])
+    text = text[:text.index(start)] + start + '\n' + line + '\n' + end + text[text.index(end) + len(end):]
+    prefix_start, prefix_end = '<!-- current_train_prefix -->', '<!-- /current_train_prefix -->'
+    denominator = len(rows)
+    matches = observation['TRAIN_matches_including_predefined_paths']
+    rate = f'{100 * matches / denominator:.2f}%' if denominator else '尚无已结算来源'
+    prefix_text = (prefix_start + '\n## 当前统一版本的TRAIN前缀\n\n'
+        f'更新时间：{now}；仅统计已结算的{denominator}个来源。\n\n'
+        '| 指标 | 当前结果 |\n|---|---:|\n'
+        f'| 已提交来源 / 原定来源 | {committed} / 128 |\n'
+        f'| 已完成批次 / 原定批次 | {observation["completed_batches"]} / 8 |\n'
+        f'| TRAIN匹配（含允许的回退） | {matches} / {denominator}（{rate}） |\n'
+        f'| 无回退的TRAIN匹配 | {observation["TRAIN_matches_without_fallback"]} / {denominator} |\n'
+        f'| 接纳的模型IR | {observation["source_IR_compiled"]} / {denominator} |\n'
+        f'| A条件完成证书来源 | {observation["conditional_source_IR_certificates"]} / {denominator} |\n'
+        f'| B模型IR路径实际执行来源 | {observation["primary_source_IR_B_execution_sources"]} / {denominator} |\n'
+        f'| 回退来源 | {observation["fallback_sources_including_Horn_recovery"]} / {denominator} |\n\n'
+        '回退答对和回退中的存储图调用单列，不计核心机制成功。IR接纳或条件证书也不单独证明源文语义忠实。'
+        '[当前指标JSON](rr_method_runtime_20261107/training_metrics_status_20261107.json)、'
+        f'[来源状态CSV](rr_method_runtime_20261107/{args.run_id}_source_status.csv)保留分母与路径；'
+        '下方其他科学版本分别保存，不拼接成绩。\n' + prefix_end)
+    if prefix_start in text:
+        text = text[:text.index(prefix_start)] + prefix_text + text[text.index(prefix_end) + len(prefix_end):]
+    else:
+        text = text.replace(end, end + '\n\n' + prefix_text, 1)
+    report.write_text(text)
     for directory in (root, Path('/home/yndx/hhy/legal-skill-current')):
         for name in ('PROJECT_MAP.md', 'docs/CURRENT_GOAL.md', 'docs/handoff_next_stage.md'):
             path = directory / name; lines = path.read_text().splitlines()
