@@ -109,16 +109,1953 @@
     },
     {
       "call_id": "method_runtime_c6_20261107:thinking:11e49fc459a3a5eb1547dc9a5fceb75987acb34e77cb15271f3961b5f0cbcf71:False:0",
+      "decode_error": {
+        "message": "Unterminated string starting at: line 1 column 21551 (char 21550)",
+        "type": "JSONDecodeError"
+      },
+      "elapsed_seconds": 348.81075394991785,
+      "finish_reason": "length",
+      "raw_content_sha256": "55949a8856aa901523fcbe07367687e58a10b3c5964d974b4f238d6369ee6d6c",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 8192,
+        "prompt_tokens": 21629,
+        "prompt_tokens_details": null,
+        "total_tokens": 29821
+      }
+    },
+    {
+      "call_id": "method_runtime_c6_20261107:thinking:11e49fc459a3a5eb1547dc9a5fceb75987acb34e77cb15271f3961b5f0cbcf71:False:1",
+      "decode_error": {
+        "message": "Unterminated string starting at: line 1 column 28090 (char 28089)",
+        "type": "JSONDecodeError"
+      },
+      "elapsed_seconds": 496.5127809718251,
+      "finish_reason": "length",
+      "raw_content_sha256": "e892b9f29901d83d6f0a267f0c972c4e3f1ad94219047436922f1de8db17e8ee",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 8192,
+        "prompt_tokens": 21666,
+        "prompt_tokens_details": null,
+        "total_tokens": 29858
+      }
+    },
+    {
+      "call_id": "method_runtime_c6_20261107:thinking:8aa4fa79552b63da56fa8135a51ae6fa6425ec2d21ff209b6576fafe581ddc02:False:1",
+      "decode_error": {
+        "message": "Expecting ',' delimiter: line 1 column 20000 (char 19999)",
+        "type": "JSONDecodeError"
+      },
+      "elapsed_seconds": 355.5489372452721,
+      "finish_reason": "length",
+      "raw_content_sha256": "f53083b89e0384a31af5330b627d33bca87ac0ee74f3052e399cbad1a56b7af0",
+      "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 8192,
+        "prompt_tokens": 11103,
+        "prompt_tokens_details": null,
+        "total_tokens": 19295
+      }
+    },
+    {
+      "actual_wire_valid": true,
+      "call_id": "method_runtime_c6_20261107:thinking:d2f0e6f9aa2313cc9a64ca5797a4dad55f20b51107fc77f63b09e58767ac52b0:True:0",
+      "compile_error": {
+        "message": "Public literal grounding failed: [{'binding': 'b_terminated', 'sources': ['s52'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_disability', 'sources': ['s52'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_plan', 'sources': ['s52'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_2019', 'sources': ['s52'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}]",
+        "path": [],
+        "type": "Unsupported"
+      },
+      "decoded": true,
+      "elapsed_seconds": 74.34994848258793,
+      "finish_reason": "stop",
+      "offline_compiles": false,
+      "raw_content_sha256": "d0f2dd7beb7e2a25ddc9b3dbcec50b79cae6302a9bcc515b2062e557a86302a6",
+      "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+      "source_only_feedback": {
+        "candidate_modified": false,
+        "grading_information_used": false,
+        "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+        "issues": [
+          {
+            "actual": {
+              "cited_text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability.",
+              "sources": [
+                "s52"
+              ],
+              "value": {
+                "lineage": [
+                  "s52"
+                ],
+                "owner": "Alice",
+                "period": "2019",
+                "stage": "element",
+                "unit": "event",
+                "value": 1
+              }
+            },
+            "expected": "amount_quoted_in_cited_public_unit",
+            "path": "bindings[1].value"
+          },
+          {
+            "actual": {
+              "cited_text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability.",
+              "sources": [
+                "s52"
+              ],
+              "value": {
+                "lineage": [
+                  "s52"
+                ],
+                "owner": "Bob",
+                "period": "2019",
+                "stage": "element",
+                "unit": "condition",
+                "value": 1
+              }
+            },
+            "expected": "amount_quoted_in_cited_public_unit",
+            "path": "bindings[2].value"
+          },
+          {
+            "actual": {
+              "cited_text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability.",
+              "sources": [
+                "s52"
+              ],
+              "value": {
+                "lineage": [
+                  "s52"
+                ],
+                "owner": "Alice",
+                "period": "2019",
+                "stage": "element",
+                "unit": "boolean",
+                "value": 0
+              }
+            },
+            "expected": "amount_quoted_in_cited_public_unit",
+            "path": "bindings[3].value"
+          },
+          {
+            "actual": {
+              "cited_text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability.",
+              "sources": [
+                "s52"
+              ],
+              "value": {
+                "lineage": [
+                  "s52"
+                ],
+                "owner": "Alice",
+                "period": "2019",
+                "stage": "element",
+                "unit": "year",
+                "value": 1
+              }
+            },
+            "expected": "amount_quoted_in_cited_public_unit",
+            "path": "bindings[4].value"
+          },
+          {
+            "actual": "employed",
+            "expected": "exact substring of cited source",
+            "path": "observations[0].predicate"
+          },
+          {
+            "actual": "paid",
+            "expected": "exact substring of cited source",
+            "path": "observations[1].predicate"
+          },
+          {
+            "actual": "terminated",
+            "expected": "exact substring of cited source",
+            "path": "observations[2].predicate"
+          },
+          {
+            "actual": "disability_payment",
+            "expected": "exact substring of cited source",
+            "path": "observations[3].predicate"
+          },
+          {
+            "actual": "under a plan established by the employer",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[0].quote"
+          },
+          {
+            "actual": {
+              "source": "s32",
+              "text": "    (1) agricultural labor unless-"
+            },
+            "expected": "executable scope for conditional public preface",
+            "path": "scopes"
+          }
+        ],
+        "source_only": true
+      },
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 2330,
+        "prompt_tokens": 5990,
+        "prompt_tokens_details": null,
+        "total_tokens": 8320
+      }
+    },
+    {
+      "actual_wire_valid": true,
+      "call_id": "method_runtime_c6_20261107:thinking:d2f0e6f9aa2313cc9a64ca5797a4dad55f20b51107fc77f63b09e58767ac52b0:True:1",
+      "compile_error": {
+        "message": "Public literal grounding failed: [{'binding': 'b_terminated', 'sources': ['s52'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_disability', 'sources': ['s52'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_plan', 'sources': ['s52'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_2019', 'sources': ['s52'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}]",
+        "path": [],
+        "type": "Unsupported"
+      },
+      "decoded": true,
+      "elapsed_seconds": 60.50683318823576,
+      "finish_reason": "stop",
+      "offline_compiles": false,
+      "raw_content_sha256": "d0f2dd7beb7e2a25ddc9b3dbcec50b79cae6302a9bcc515b2062e557a86302a6",
+      "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+      "source_only_feedback": {
+        "candidate_modified": false,
+        "grading_information_used": false,
+        "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+        "issues": [
+          {
+            "actual": {
+              "cited_text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability.",
+              "sources": [
+                "s52"
+              ],
+              "value": {
+                "lineage": [
+                  "s52"
+                ],
+                "owner": "Alice",
+                "period": "2019",
+                "stage": "element",
+                "unit": "event",
+                "value": 1
+              }
+            },
+            "expected": "amount_quoted_in_cited_public_unit",
+            "path": "bindings[1].value"
+          },
+          {
+            "actual": {
+              "cited_text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability.",
+              "sources": [
+                "s52"
+              ],
+              "value": {
+                "lineage": [
+                  "s52"
+                ],
+                "owner": "Bob",
+                "period": "2019",
+                "stage": "element",
+                "unit": "condition",
+                "value": 1
+              }
+            },
+            "expected": "amount_quoted_in_cited_public_unit",
+            "path": "bindings[2].value"
+          },
+          {
+            "actual": {
+              "cited_text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability.",
+              "sources": [
+                "s52"
+              ],
+              "value": {
+                "lineage": [
+                  "s52"
+                ],
+                "owner": "Alice",
+                "period": "2019",
+                "stage": "element",
+                "unit": "boolean",
+                "value": 0
+              }
+            },
+            "expected": "amount_quoted_in_cited_public_unit",
+            "path": "bindings[3].value"
+          },
+          {
+            "actual": {
+              "cited_text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability.",
+              "sources": [
+                "s52"
+              ],
+              "value": {
+                "lineage": [
+                  "s52"
+                ],
+                "owner": "Alice",
+                "period": "2019",
+                "stage": "element",
+                "unit": "year",
+                "value": 1
+              }
+            },
+            "expected": "amount_quoted_in_cited_public_unit",
+            "path": "bindings[4].value"
+          },
+          {
+            "actual": "employed",
+            "expected": "exact substring of cited source",
+            "path": "observations[0].predicate"
+          },
+          {
+            "actual": "paid",
+            "expected": "exact substring of cited source",
+            "path": "observations[1].predicate"
+          },
+          {
+            "actual": "terminated",
+            "expected": "exact substring of cited source",
+            "path": "observations[2].predicate"
+          },
+          {
+            "actual": "disability_payment",
+            "expected": "exact substring of cited source",
+            "path": "observations[3].predicate"
+          },
+          {
+            "actual": "under a plan established by the employer",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[0].quote"
+          },
+          {
+            "actual": {
+              "source": "s32",
+              "text": "    (1) agricultural labor unless-"
+            },
+            "expected": "executable scope for conditional public preface",
+            "path": "scopes"
+          }
+        ],
+        "source_only": true
+      },
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 1847,
+        "prompt_tokens": 7304,
+        "prompt_tokens_details": null,
+        "total_tokens": 9151
+      }
+    },
+    {
+      "call_id": "method_runtime_c6_20261107:thinking:d2f0e6f9aa2313cc9a64ca5797a4dad55f20b51107fc77f63b09e58767ac52b0:False:0",
+      "decode_error": {
+        "message": "Unterminated string starting at: line 1 column 14500 (char 14499)",
+        "type": "JSONDecodeError"
+      },
+      "elapsed_seconds": 530.8391875978559,
+      "finish_reason": "length",
+      "raw_content_sha256": "5d385f2edc18957cff0bfb7042d3f0e73b7c23eab22c14f5372d06439692aa8d",
+      "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 8192,
+        "prompt_tokens": 5994,
+        "prompt_tokens_details": null,
+        "total_tokens": 14186
+      }
+    },
+    {
+      "call_id": "method_runtime_c6_20261107:thinking:d2f0e6f9aa2313cc9a64ca5797a4dad55f20b51107fc77f63b09e58767ac52b0:False:1",
+      "decode_error": {
+        "message": "Expecting value: line 1 column 20362 (char 20361)",
+        "type": "JSONDecodeError"
+      },
+      "elapsed_seconds": 449.07830275036395,
+      "finish_reason": "length",
+      "raw_content_sha256": "123aed5930e88c94082ed4bab8984f2f0099341eeca8a3af217c08f397386aaf",
+      "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 8192,
+        "prompt_tokens": 6031,
+        "prompt_tokens_details": null,
+        "total_tokens": 14223
+      }
+    },
+    {
+      "actual_wire_valid": true,
+      "call_id": "method_runtime_c6_20261107:thinking:6b7b567fbd135fc44465bebff0472ec4e7989336fa6e40ebf3f4d81af98eb505:True:0",
+      "compile_error": {
+        "message": "Factual observations need unique b_ names",
+        "path": [],
+        "type": "Unsupported"
+      },
+      "decoded": true,
+      "elapsed_seconds": 128.2778642270714,
+      "finish_reason": "stop",
+      "offline_compiles": false,
+      "raw_content_sha256": "05a32a60ab25a2277024933093c8f8206066111b5fd65bf28500fb63dc073988",
+      "source": "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096",
+      "source_only_feedback": {
+        "candidate_modified": false,
+        "grading_information_used": false,
+        "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+        "issues": [
+          {
+            "actual": {
+              "first_path": "bindings[0].name",
+              "name": "b_cat_chases_squirrel"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[0].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[1].name",
+              "name": "b_cat_blue"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[1].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[2].name",
+              "name": "b_cow_chases_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[2].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[3].name",
+              "name": "b_cow_chases_squirrel"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[3].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[4].name",
+              "name": "b_cow_kind"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[4].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[5].name",
+              "name": "b_cow_not_young"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[5].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[6].name",
+              "name": "b_mouse_chases_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[6].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[7].name",
+              "name": "b_mouse_needs_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[7].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[8].name",
+              "name": "b_mouse_sees_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[8].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[9].name",
+              "name": "b_mouse_sees_squirrel"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[9].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[10].name",
+              "name": "b_squirrel_chases_cow"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[10].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[11].name",
+              "name": "b_squirrel_not_chase_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[11].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[12].name",
+              "name": "b_squirrel_not_round"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[12].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[13].name",
+              "name": "b_squirrel_young"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[13].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[14].name",
+              "name": "b_cat_not_round"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[14].name"
+          },
+          {
+            "actual": {
+              "first_path": "rule_residuals[0].name",
+              "name": "b_plan_scope"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[1].name"
+          },
+          {
+            "actual": {
+              "first_path": "rule_residuals[0].name",
+              "name": "b_plan_scope"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[2].name"
+          },
+          {
+            "actual": {
+              "first_path": "rule_residuals[0].name",
+              "name": "b_plan_scope"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[3].name"
+          },
+          {
+            "actual": {
+              "first_path": "rule_residuals[0].name",
+              "name": "b_plan_scope"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[4].name"
+          },
+          {
+            "actual": {
+              "first_path": "rule_residuals[0].name",
+              "name": "b_plan_scope"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[5].name"
+          },
+          {
+            "actual": {
+              "first_path": "rule_residuals[0].name",
+              "name": "b_plan_scope"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[6].name"
+          },
+          {
+            "actual": {
+              "first_path": "rule_residuals[0].name",
+              "name": "b_plan_scope"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[7].name"
+          },
+          {
+            "actual": {
+              "first_path": "scopes[1].name",
+              "name": "scope_plan"
+            },
+            "expected": "unique symbol name",
+            "path": "scopes[2].name"
+          },
+          {
+            "actual": {
+              "first_path": "scopes[1].name",
+              "name": "scope_plan"
+            },
+            "expected": "unique symbol name",
+            "path": "scopes[3].name"
+          },
+          {
+            "actual": {
+              "first_path": "scopes[1].name",
+              "name": "scope_plan"
+            },
+            "expected": "unique symbol name",
+            "path": "scopes[4].name"
+          },
+          {
+            "actual": {
+              "first_path": "scopes[1].name",
+              "name": "scope_plan"
+            },
+            "expected": "unique symbol name",
+            "path": "scopes[5].name"
+          },
+          {
+            "actual": {
+              "first_path": "scopes[1].name",
+              "name": "scope_plan"
+            },
+            "expected": "unique symbol name",
+            "path": "scopes[6].name"
+          },
+          {
+            "actual": {
+              "first_path": "scopes[1].name",
+              "name": "scope_plan"
+            },
+            "expected": "unique symbol name",
+            "path": "scopes[7].name"
+          },
+          {
+            "actual": {
+              "first_path": "scopes[1].name",
+              "name": "scope_plan"
+            },
+            "expected": "unique symbol name",
+            "path": "scopes[8].name"
+          },
+          {
+            "actual": {
+              "first_path": "clauses[0].name",
+              "name": "eligible"
+            },
+            "expected": "unique symbol name",
+            "path": "clauses[1].name"
+          },
+          {
+            "actual": {
+              "first_path": "clauses[0].name",
+              "name": "eligible"
+            },
+            "expected": "unique symbol name",
+            "path": "clauses[2].name"
+          },
+          {
+            "actual": {
+              "first_path": "clauses[0].name",
+              "name": "eligible"
+            },
+            "expected": "unique symbol name",
+            "path": "clauses[3].name"
+          },
+          {
+            "actual": {
+              "first_path": "clauses[0].name",
+              "name": "eligible"
+            },
+            "expected": "unique symbol name",
+            "path": "clauses[4].name"
+          },
+          {
+            "actual": {
+              "first_path": "clauses[0].name",
+              "name": "eligible"
+            },
+            "expected": "unique symbol name",
+            "path": "clauses[5].name"
+          },
+          {
+            "actual": {
+              "first_path": "clauses[0].name",
+              "name": "eligible"
+            },
+            "expected": "unique symbol name",
+            "path": "clauses[6].name"
+          },
+          {
+            "actual": "chase the squirrel",
+            "expected": "exact substring of cited source",
+            "path": "observations[0].predicate"
+          },
+          {
+            "actual": "is blue",
+            "expected": "exact substring of cited source",
+            "path": "observations[1].predicate"
+          },
+          {
+            "actual": "chase the cat",
+            "expected": "exact substring of cited source",
+            "path": "observations[2].predicate"
+          },
+          {
+            "actual": "chase the squirrel",
+            "expected": "exact substring of cited source",
+            "path": "observations[3].predicate"
+          },
+          {
+            "actual": "is kind",
+            "expected": "exact substring of cited source",
+            "path": "observations[4].predicate"
+          },
+          {
+            "actual": "is not young",
+            "expected": "exact substring of cited source",
+            "path": "observations[5].predicate"
+          },
+          {
+            "actual": "chase the cat",
+            "expected": "exact substring of cited source",
+            "path": "observations[6].predicate"
+          },
+          {
+            "actual": "needs the cat",
+            "expected": "exact substring of cited source",
+            "path": "observations[7].predicate"
+          },
+          {
+            "actual": "sees the cat",
+            "expected": "exact substring of cited source",
+            "path": "observations[8].predicate"
+          },
+          {
+            "actual": "sees the squirrel",
+            "expected": "exact substring of cited source",
+            "path": "observations[9].predicate"
+          },
+          {
+            "actual": "chase the cow",
+            "expected": "exact substring of cited source",
+            "path": "observations[10].predicate"
+          },
+          {
+            "actual": "does not chase the cat",
+            "expected": "exact substring of cited source",
+            "path": "observations[11].predicate"
+          },
+          {
+            "actual": "is not round",
+            "expected": "exact substring of cited source",
+            "path": "observations[12].predicate"
+          },
+          {
+            "actual": "is young",
+            "expected": "exact substring of cited source",
+            "path": "observations[13].predicate"
+          },
+          {
+            "actual": "is not round",
+            "expected": "exact substring of cited source",
+            "path": "observations[14].predicate"
+          },
+          {
+            "actual": "If someone chases the cat then they are kind.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[0].quote"
+          },
+          {
+            "actual": "If someone is kind then they see the cow.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[1].quote"
+          },
+          {
+            "actual": "If someone is young and they need the cow then they are not round.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[2].quote"
+          },
+          {
+            "actual": "If someone needs the cow and they chase the mouse then the mouse sees the cow.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[3].quote"
+          },
+          {
+            "actual": "If someone needs the cow then they are kind.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[4].quote"
+          },
+          {
+            "actual": "If someone sees the cow and they chase the cat then the cat needs the cow.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[5].quote"
+          },
+          {
+            "actual": "If someone sees the cow then they need the mouse.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[6].quote"
+          },
+          {
+            "actual": "If the cat needs the cow then the cat chases the mouse.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[7].quote"
+          }
+        ],
+        "source_only": true
+      },
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 3488,
+        "prompt_tokens": 3683,
+        "prompt_tokens_details": null,
+        "total_tokens": 7171
+      }
+    },
+    {
+      "actual_wire_valid": true,
+      "call_id": "method_runtime_c6_20261107:thinking:6b7b567fbd135fc44465bebff0472ec4e7989336fa6e40ebf3f4d81af98eb505:True:1",
+      "compile_error": {
+        "message": "Factual observations need unique b_ names",
+        "path": [],
+        "type": "Unsupported"
+      },
+      "decoded": true,
+      "elapsed_seconds": 141.39192945882678,
+      "finish_reason": "stop",
+      "offline_compiles": false,
+      "raw_content_sha256": "31f9bce2abcf419bbb1df214b82a87a0ffb27028da631004b8bbdeb3527f6617",
+      "source": "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096",
+      "source_only_feedback": {
+        "candidate_modified": false,
+        "grading_information_used": false,
+        "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+        "issues": [
+          {
+            "actual": {
+              "first_path": "bindings[0].name",
+              "name": "b_cat_chases_squirrel"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[0].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[1].name",
+              "name": "b_cat_blue"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[1].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[2].name",
+              "name": "b_cow_chases_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[2].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[3].name",
+              "name": "b_cow_chases_squirrel"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[3].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[4].name",
+              "name": "b_cow_kind"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[4].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[5].name",
+              "name": "b_cow_not_young"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[5].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[6].name",
+              "name": "b_mouse_chases_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[6].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[7].name",
+              "name": "b_mouse_needs_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[7].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[8].name",
+              "name": "b_mouse_sees_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[8].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[9].name",
+              "name": "b_mouse_sees_squirrel"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[9].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[10].name",
+              "name": "b_squirrel_chases_cow"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[10].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[11].name",
+              "name": "b_squirrel_not_chase_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[11].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[12].name",
+              "name": "b_squirrel_not_round"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[12].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[13].name",
+              "name": "b_squirrel_young"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[13].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[14].name",
+              "name": "b_cat_not_round"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[14].name"
+          },
+          {
+            "actual": "chase the squirrel",
+            "expected": "exact substring of cited source",
+            "path": "observations[0].predicate"
+          },
+          {
+            "actual": "is blue",
+            "expected": "exact substring of cited source",
+            "path": "observations[1].predicate"
+          },
+          {
+            "actual": "chase the cat",
+            "expected": "exact substring of cited source",
+            "path": "observations[2].predicate"
+          },
+          {
+            "actual": "chase the squirrel",
+            "expected": "exact substring of cited source",
+            "path": "observations[3].predicate"
+          },
+          {
+            "actual": "is kind",
+            "expected": "exact substring of cited source",
+            "path": "observations[4].predicate"
+          },
+          {
+            "actual": "is not young",
+            "expected": "exact substring of cited source",
+            "path": "observations[5].predicate"
+          },
+          {
+            "actual": "chase the cat",
+            "expected": "exact substring of cited source",
+            "path": "observations[6].predicate"
+          },
+          {
+            "actual": "needs the cat",
+            "expected": "exact substring of cited source",
+            "path": "observations[7].predicate"
+          },
+          {
+            "actual": "sees the cat",
+            "expected": "exact substring of cited source",
+            "path": "observations[8].predicate"
+          },
+          {
+            "actual": "sees the squirrel",
+            "expected": "exact substring of cited source",
+            "path": "observations[9].predicate"
+          },
+          {
+            "actual": "chase the cow",
+            "expected": "exact substring of cited source",
+            "path": "observations[10].predicate"
+          },
+          {
+            "actual": "does not chase the cat",
+            "expected": "exact substring of cited source",
+            "path": "observations[11].predicate"
+          },
+          {
+            "actual": "is not round",
+            "expected": "exact substring of cited source",
+            "path": "observations[12].predicate"
+          },
+          {
+            "actual": "is young",
+            "expected": "exact substring of cited source",
+            "path": "observations[13].predicate"
+          },
+          {
+            "actual": "is not round",
+            "expected": "exact substring of cited source",
+            "path": "observations[14].predicate"
+          },
+          {
+            "actual": "If someone chases the cat then they are kind.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[0].quote"
+          },
+          {
+            "actual": "If someone is kind then they see the cow.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[1].quote"
+          },
+          {
+            "actual": "If someone is young and they need the cow then they are not round.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[2].quote"
+          },
+          {
+            "actual": "If someone needs the cow and they chase the mouse then the mouse sees the cow.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[3].quote"
+          },
+          {
+            "actual": "If someone needs the cow then they are kind.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[4].quote"
+          },
+          {
+            "actual": "If someone sees the cow and they chase the cat then the cat needs the cow.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[5].quote"
+          },
+          {
+            "actual": "If someone sees the cow then they need the mouse.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[6].quote"
+          },
+          {
+            "actual": "If the cat needs the cow then the cat chases the mouse.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[7].quote"
+          }
+        ],
+        "source_only": true
+      },
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 3612,
+        "prompt_tokens": 7750,
+        "prompt_tokens_details": null,
+        "total_tokens": 11362
+      }
+    },
+    {
+      "actual_wire_valid": true,
+      "call_id": "method_runtime_c6_20261107:thinking:6b7b567fbd135fc44465bebff0472ec4e7989336fa6e40ebf3f4d81af98eb505:False:0",
+      "compile_error": {
+        "message": "Factual observations need unique b_ names",
+        "path": [],
+        "type": "Unsupported"
+      },
+      "decoded": true,
+      "elapsed_seconds": 134.46244545467198,
+      "finish_reason": "stop",
+      "offline_compiles": false,
+      "raw_content_sha256": "089c2b06da2a63b9e1242eda5c6c69e270f0acc248f0354c0fa7ba7dc9d8137f",
+      "source": "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096",
+      "source_only_feedback": {
+        "candidate_modified": false,
+        "grading_information_used": false,
+        "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+        "issues": [
+          {
+            "actual": {
+              "first_path": "bindings[0].name",
+              "name": "b_cat_chases_squirrel"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[0].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[1].name",
+              "name": "b_cat_blue"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[1].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[2].name",
+              "name": "b_cow_chases_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[2].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[3].name",
+              "name": "b_cow_chases_squirrel"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[3].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[4].name",
+              "name": "b_cow_kind"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[4].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[5].name",
+              "name": "b_cow_not_young"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[5].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[6].name",
+              "name": "b_mouse_chases_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[6].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[7].name",
+              "name": "b_mouse_needs_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[7].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[8].name",
+              "name": "b_mouse_sees_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[8].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[9].name",
+              "name": "b_mouse_sees_squirrel"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[9].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[10].name",
+              "name": "b_squirrel_chases_cow"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[10].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[11].name",
+              "name": "b_squirrel_not_chase_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[11].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[12].name",
+              "name": "b_squirrel_not_round"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[12].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[13].name",
+              "name": "b_squirrel_young"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[13].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[14].name",
+              "name": "b_rule_chase_kind"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[0].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[15].name",
+              "name": "b_rule_kind_see_cow"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[1].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[16].name",
+              "name": "b_rule_young_needs_not_round"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[2].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[17].name",
+              "name": "b_rule_needs_chase_see_cow"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[3].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[18].name",
+              "name": "b_rule_needs_kind"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[4].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[19].name",
+              "name": "b_rule_see_cow_chase_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[5].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[20].name",
+              "name": "b_rule_see_cow_needs_mouse"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[6].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[21].name",
+              "name": "b_rule_cat_needs_cow"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[7].name"
+          },
+          {
+            "actual": "chases",
+            "expected": "exact substring of cited source",
+            "path": "observations[2].predicate"
+          },
+          {
+            "actual": "chases",
+            "expected": "exact substring of cited source",
+            "path": "observations[3].predicate"
+          },
+          {
+            "actual": "chases",
+            "expected": "exact substring of cited source",
+            "path": "observations[6].predicate"
+          },
+          {
+            "actual": "needs",
+            "expected": "exact substring of cited source",
+            "path": "observations[7].predicate"
+          },
+          {
+            "actual": "sees",
+            "expected": "exact substring of cited source",
+            "path": "observations[8].predicate"
+          },
+          {
+            "actual": "sees",
+            "expected": "exact substring of cited source",
+            "path": "observations[9].predicate"
+          },
+          {
+            "actual": "chases",
+            "expected": "exact substring of cited source",
+            "path": "observations[10].predicate"
+          },
+          {
+            "actual": "does not chase",
+            "expected": "exact substring of cited source",
+            "path": "observations[11].predicate"
+          },
+          {
+            "actual": "is not",
+            "expected": "exact substring of cited source",
+            "path": "observations[12].predicate"
+          },
+          {
+            "actual": "If someone chases the cat then they are kind.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[0].quote"
+          },
+          {
+            "actual": "If someone is kind then they see the cow.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[1].quote"
+          },
+          {
+            "actual": "If someone is young and they need the cow then they are not round.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[2].quote"
+          },
+          {
+            "actual": "If someone needs the cow and they chase the mouse then the mouse sees the cow.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[3].quote"
+          },
+          {
+            "actual": "If someone needs the cow then they are kind.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[4].quote"
+          },
+          {
+            "actual": "If someone sees the cow and they chase the cat then the cat needs the cow.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[5].quote"
+          },
+          {
+            "actual": "If someone sees the cow then they need the mouse.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[6].quote"
+          },
+          {
+            "actual": "If the cat needs the cow then the cat chases the mouse.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[7].quote"
+          },
+          {
+            "actual": [
+              "n_query_cat_not_round"
+            ],
+            "expected": "read at least one guarded clause output",
+            "path": "query"
+          }
+        ],
+        "source_only": true
+      },
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 3309,
+        "prompt_tokens": 3687,
+        "prompt_tokens_details": null,
+        "total_tokens": 6996
+      }
+    },
+    {
+      "actual_wire_valid": true,
+      "call_id": "method_runtime_c6_20261107:thinking:6b7b567fbd135fc44465bebff0472ec4e7989336fa6e40ebf3f4d81af98eb505:False:1",
+      "compile_error": {
+        "message": "Factual observations need unique b_ names",
+        "path": [],
+        "type": "Unsupported"
+      },
+      "decoded": true,
+      "elapsed_seconds": 138.479149854742,
+      "finish_reason": "stop",
+      "offline_compiles": false,
+      "raw_content_sha256": "089c2b06da2a63b9e1242eda5c6c69e270f0acc248f0354c0fa7ba7dc9d8137f",
+      "source": "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096",
+      "source_only_feedback": {
+        "candidate_modified": false,
+        "grading_information_used": false,
+        "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+        "issues": [
+          {
+            "actual": {
+              "first_path": "bindings[0].name",
+              "name": "b_cat_chases_squirrel"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[0].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[1].name",
+              "name": "b_cat_blue"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[1].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[2].name",
+              "name": "b_cow_chases_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[2].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[3].name",
+              "name": "b_cow_chases_squirrel"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[3].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[4].name",
+              "name": "b_cow_kind"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[4].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[5].name",
+              "name": "b_cow_not_young"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[5].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[6].name",
+              "name": "b_mouse_chases_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[6].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[7].name",
+              "name": "b_mouse_needs_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[7].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[8].name",
+              "name": "b_mouse_sees_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[8].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[9].name",
+              "name": "b_mouse_sees_squirrel"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[9].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[10].name",
+              "name": "b_squirrel_chases_cow"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[10].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[11].name",
+              "name": "b_squirrel_not_chase_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[11].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[12].name",
+              "name": "b_squirrel_not_round"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[12].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[13].name",
+              "name": "b_squirrel_young"
+            },
+            "expected": "unique symbol name",
+            "path": "observations[13].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[14].name",
+              "name": "b_rule_chase_kind"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[0].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[15].name",
+              "name": "b_rule_kind_see_cow"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[1].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[16].name",
+              "name": "b_rule_young_needs_not_round"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[2].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[17].name",
+              "name": "b_rule_needs_chase_see_cow"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[3].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[18].name",
+              "name": "b_rule_needs_kind"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[4].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[19].name",
+              "name": "b_rule_see_cow_chase_cat"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[5].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[20].name",
+              "name": "b_rule_see_cow_needs_mouse"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[6].name"
+          },
+          {
+            "actual": {
+              "first_path": "bindings[21].name",
+              "name": "b_rule_cat_needs_cow"
+            },
+            "expected": "unique symbol name",
+            "path": "rule_residuals[7].name"
+          },
+          {
+            "actual": "chases",
+            "expected": "exact substring of cited source",
+            "path": "observations[2].predicate"
+          },
+          {
+            "actual": "chases",
+            "expected": "exact substring of cited source",
+            "path": "observations[3].predicate"
+          },
+          {
+            "actual": "chases",
+            "expected": "exact substring of cited source",
+            "path": "observations[6].predicate"
+          },
+          {
+            "actual": "needs",
+            "expected": "exact substring of cited source",
+            "path": "observations[7].predicate"
+          },
+          {
+            "actual": "sees",
+            "expected": "exact substring of cited source",
+            "path": "observations[8].predicate"
+          },
+          {
+            "actual": "sees",
+            "expected": "exact substring of cited source",
+            "path": "observations[9].predicate"
+          },
+          {
+            "actual": "chases",
+            "expected": "exact substring of cited source",
+            "path": "observations[10].predicate"
+          },
+          {
+            "actual": "does not chase",
+            "expected": "exact substring of cited source",
+            "path": "observations[11].predicate"
+          },
+          {
+            "actual": "is not",
+            "expected": "exact substring of cited source",
+            "path": "observations[12].predicate"
+          },
+          {
+            "actual": "If someone chases the cat then they are kind.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[0].quote"
+          },
+          {
+            "actual": "If someone is kind then they see the cow.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[1].quote"
+          },
+          {
+            "actual": "If someone is young and they need the cow then they are not round.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[2].quote"
+          },
+          {
+            "actual": "If someone needs the cow and they chase the mouse then the mouse sees the cow.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[3].quote"
+          },
+          {
+            "actual": "If someone needs the cow then they are kind.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[4].quote"
+          },
+          {
+            "actual": "If someone sees the cow and they chase the cat then the cat needs the cow.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[5].quote"
+          },
+          {
+            "actual": "If someone sees the cow then they need the mouse.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[6].quote"
+          },
+          {
+            "actual": "If the cat needs the cow then the cat chases the mouse.",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[7].quote"
+          },
+          {
+            "actual": [
+              "n_query_cat_not_round"
+            ],
+            "expected": "read at least one guarded clause output",
+            "path": "query"
+          }
+        ],
+        "source_only": true
+      },
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 3308,
+        "prompt_tokens": 7729,
+        "prompt_tokens_details": null,
+        "total_tokens": 11037
+      }
+    },
+    {
+      "call_id": "method_runtime_c6_20261107:thinking:0a7d458904f99b01bb76dc35d89dd0786d88b8abb97c50aa5385a967d0e6aed9:True:0",
+      "decode_error": {
+        "message": "Unterminated string starting at: line 1 column 23397 (char 23396)",
+        "type": "JSONDecodeError"
+      },
+      "elapsed_seconds": 330.28058739285916,
+      "finish_reason": "length",
+      "raw_content_sha256": "8af55cb8052c29de142d7cd591a87bc4ea1375cc365477519dfed96cd96afd79",
+      "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 8192,
+        "prompt_tokens": 6914,
+        "prompt_tokens_details": null,
+        "total_tokens": 15106
+      }
+    },
+    {
+      "actual_wire_valid": true,
+      "call_id": "method_runtime_c6_20261107:thinking:0a7d458904f99b01bb76dc35d89dd0786d88b8abb97c50aa5385a967d0e6aed9:True:1",
+      "compile_error": {
+        "message": "Public literal grounding failed: [{'binding': 'n_count', 'sources': ['s3'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'n_minimum', 'sources': ['s2'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}]",
+        "path": [],
+        "type": "Unsupported"
+      },
+      "decoded": true,
+      "elapsed_seconds": 31.699074718169868,
+      "finish_reason": "stop",
+      "offline_compiles": false,
+      "raw_content_sha256": "25cdf2a634bd141903f6e3a9bb4587e14b7f2e9adca3b7d7762c83156487b144",
+      "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+      "source_only_feedback": {
+        "candidate_modified": false,
+        "grading_information_used": false,
+        "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+        "issues": [
+          {
+            "actual": {
+              "cited_text": "REGISTRATION NUMBER ________________________________",
+              "sources": [
+                "s3"
+              ],
+              "value": 3
+            },
+            "expected": "exact_numeric_literal_in_cited_public_unit",
+            "path": "bindings[0].value"
+          },
+          {
+            "actual": {
+              "cited_text": "COMPANY NAME ________________________________ (\"Applicant\")",
+              "sources": [
+                "s2"
+              ],
+              "value": 2
+            },
+            "expected": "exact_numeric_literal_in_cited_public_unit",
+            "path": "bindings[1].value"
+          },
+          {
+            "actual": "requests under the parcel plan",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[0].quote"
+          }
+        ],
+        "source_only": true
+      },
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 1010,
+        "prompt_tokens": 6951,
+        "prompt_tokens_details": null,
+        "total_tokens": 7961
+      }
+    },
+    {
+      "call_id": "method_runtime_c6_20261107:thinking:0a7d458904f99b01bb76dc35d89dd0786d88b8abb97c50aa5385a967d0e6aed9:False:0",
+      "decode_error": {
+        "message": "Unterminated string starting at: line 1 column 34121 (char 34120)",
+        "type": "JSONDecodeError"
+      },
+      "elapsed_seconds": 280.4151600096375,
+      "finish_reason": "length",
+      "raw_content_sha256": "13125843d58f75a1f7ccb687d9da571c0555c5d35214020d7f3ea99484a1a4d3",
+      "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 8192,
+        "prompt_tokens": 6918,
+        "prompt_tokens_details": null,
+        "total_tokens": 15110
+      }
+    },
+    {
+      "actual_wire_valid": true,
+      "call_id": "method_runtime_c6_20261107:thinking:0a7d458904f99b01bb76dc35d89dd0786d88b8abb97c50aa5385a967d0e6aed9:False:1",
+      "compile_error": {
+        "message": "A rule residual must quote a proper subexpression, not a whole untranslated clause",
+        "path": [],
+        "type": "Unsupported"
+      },
+      "decoded": true,
+      "elapsed_seconds": 155.93754109181464,
+      "finish_reason": "stop",
+      "offline_compiles": false,
+      "raw_content_sha256": "34b6b444c819d4db2bd7e1b5e4c26269054fa467ca84b34057340f6437af5bf3",
+      "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+      "source_only_feedback": {
+        "candidate_modified": false,
+        "grading_information_used": false,
+        "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+        "issues": [
+          {
+            "actual": "requests under the parcel plan",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[0].quote"
+          }
+        ],
+        "source_only": true
+      },
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 4413,
+        "prompt_tokens": 6955,
+        "prompt_tokens_details": null,
+        "total_tokens": 11368
+      }
+    },
+    {
+      "actual_wire_valid": true,
+      "call_id": "method_runtime_c6_20261107:thinking:c77434cd01f6338d8773ce952f26077ca5cb638ea4aa770b39217a3297edff21:True:0",
+      "compile_error": {
+        "message": "Public literal grounding failed: [{'binding': 'b_gas_range', 'sources': ['s160'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'b_rifle', 'sources': ['s160'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}]",
+        "path": [],
+        "type": "Unsupported"
+      },
+      "decoded": true,
+      "elapsed_seconds": 81.26386007852852,
+      "finish_reason": "stop",
+      "offline_compiles": false,
+      "raw_content_sha256": "ea03dc4dee40403efd5996f7d5a3e488ee834f676769d29742fe7f5dbf847f3a",
+      "source": "OpenExempt:fe5acb6c980638b2750321e28fadcc69d98f49992871bfc44accbc3b147ca597",
+      "source_only_feedback": {
+        "candidate_modified": false,
+        "grading_information_used": false,
+        "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+        "issues": [
+          {
+            "actual": {
+              "cited_text": "Output contract: Return only a JSON object: keys are the actual asset descriptions in Facts; values are arrays of all applicable public citation label IDs from the supplied vocabulary, or [] if none. Labels are only output encodings, not eligibility answers.",
+              "sources": [
+                "s160"
+              ],
+              "value": 680
+            },
+            "expected": "exact_numeric_literal_in_cited_public_unit",
+            "path": "bindings[0].value"
+          },
+          {
+            "actual": {
+              "cited_text": "Output contract: Return only a JSON object: keys are the actual asset descriptions in Facts; values are arrays of all applicable public citation label IDs from the supplied vocabulary, or [] if none. Labels are only output encodings, not eligibility answers.",
+              "sources": [
+                "s160"
+              ],
+              "value": 600
+            },
+            "expected": "exact_numeric_literal_in_cited_public_unit",
+            "path": "bindings[1].value"
+          },
+          {
+            "actual": "exempt under",
+            "expected": "exact substring of cited source",
+            "path": "observations[0].predicate"
+          },
+          {
+            "actual": "exempt under",
+            "expected": "exact substring of cited source",
+            "path": "observations[1].predicate"
+          },
+          {
+            "actual": "11 U.S.C. § 522(b)",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[0].quote"
+          },
+          {
+            "actual": [
+              "boolean"
+            ],
+            "expected": "number",
+            "path": "scopes[0].condition.args[1].args[1]"
+          },
+          {
+            "actual": [
+              "boolean"
+            ],
+            "expected": "number",
+            "path": "scopes[1].condition.args[1].args[1]"
+          },
+          {
+            "actual": [
+              "boolean"
+            ],
+            "expected": "number",
+            "path": "scopes[2].condition.args[1].args[1]"
+          }
+        ],
+        "source_only": true
+      },
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 2159,
+        "prompt_tokens": 21633,
+        "prompt_tokens_details": null,
+        "total_tokens": 23792
+      }
+    },
+    {
+      "actual_wire_valid": true,
+      "call_id": "method_runtime_c6_20261107:thinking:c77434cd01f6338d8773ce952f26077ca5cb638ea4aa770b39217a3297edff21:True:1",
+      "compile_error": {
+        "message": "Observation predicate is not an exact source quote",
+        "path": [],
+        "type": "Unsupported"
+      },
+      "decoded": true,
+      "elapsed_seconds": 51.541843867860734,
+      "finish_reason": "stop",
+      "offline_compiles": false,
+      "raw_content_sha256": "6cca5ba688999f54114388057c1255d312fe24485c5b4cf7c6eef1a89f63fbd7",
+      "source": "OpenExempt:fe5acb6c980638b2750321e28fadcc69d98f49992871bfc44accbc3b147ca597",
+      "source_only_feedback": {
+        "candidate_modified": false,
+        "grading_information_used": false,
+        "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+        "issues": [
+          {
+            "actual": "exempt under",
+            "expected": "exact substring of cited source",
+            "path": "observations[0].predicate"
+          },
+          {
+            "actual": "exempt under",
+            "expected": "exact substring of cited source",
+            "path": "observations[1].predicate"
+          },
+          {
+            "actual": "11 U.S.C. § 522(b)",
+            "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+            "path": "rule_residuals[0].quote"
+          },
+          {
+            "actual": [
+              "boolean"
+            ],
+            "expected": "number",
+            "path": "scopes[0].condition.args[1].args[1]"
+          },
+          {
+            "actual": [
+              "boolean"
+            ],
+            "expected": "number",
+            "path": "scopes[1].condition.args[1].args[1]"
+          }
+        ],
+        "source_only": true
+      },
+      "status": "completed",
+      "usage": {
+        "completion_tokens": 1278,
+        "prompt_tokens": 22477,
+        "prompt_tokens_details": null,
+        "total_tokens": 23755
+      }
+    },
+    {
+      "call_id": "method_runtime_c6_20261107:thinking:c77434cd01f6338d8773ce952f26077ca5cb638ea4aa770b39217a3297edff21:False:0",
       "elapsed_seconds": null,
       "finish_reason": null,
-      "seconds_since_reserved": 118.7,
-      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "seconds_since_reserved": 133.6,
+      "source": "OpenExempt:fe5acb6c980638b2750321e28fadcc69d98f49992871bfc44accbc3b147ca597",
       "status": "reserved",
       "usage": null
     }
   ],
-  "captured_utc": "2026-11-07T04:28:17.221353+00:00",
-  "completed_profiles": 2,
+  "captured_utc": "2026-11-07T05:31:45.112409+00:00",
+  "completed_profiles": 11,
   "controller": {
     "action": "thinking",
     "pid": 287642,
@@ -126,14 +2063,15 @@
     "status": "running"
   },
   "counts": {
-    "executor": 468,
+    "executor": 485,
     "teacher": 17
   },
-  "decoded_responses": 2,
+  "decoded_responses": 12,
   "expected_profiles": 40,
   "fallback_or_synthetic_results_counted_as_core_success": false,
   "finish_reasons": {
-    "stop": 2
+    "length": 7,
+    "stop": 12
   },
   "full_goal_complete": false,
   "grading_packets_opened": false,
@@ -144,6 +2082,54 @@
   "profiles": [
     {
       "already_recorded_TRAIN_match": false,
+      "dataset": "OpenExempt",
+      "elapsed_seconds": 845.323534921743,
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "structural_pass": false,
+      "thinking": false,
+      "usage": {
+        "completion_tokens": 16384,
+        "prompt_tokens": 43295
+      }
+    },
+    {
+      "already_recorded_TRAIN_match": false,
+      "dataset": "SARA_v2_Binary",
+      "elapsed_seconds": 134.8567816708237,
+      "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+      "structural_pass": false,
+      "thinking": true,
+      "usage": {
+        "completion_tokens": 4177,
+        "prompt_tokens": 13294
+      }
+    },
+    {
+      "already_recorded_TRAIN_match": false,
+      "dataset": "ProofWriter_OWA_depth5",
+      "elapsed_seconds": 272.94159530941397,
+      "source": "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096",
+      "structural_pass": false,
+      "thinking": false,
+      "usage": {
+        "completion_tokens": 6617,
+        "prompt_tokens": 11416
+      }
+    },
+    {
+      "already_recorded_TRAIN_match": false,
+      "dataset": "OpenExempt",
+      "elapsed_seconds": 132.80570394638926,
+      "source": "OpenExempt:fe5acb6c980638b2750321e28fadcc69d98f49992871bfc44accbc3b147ca597",
+      "structural_pass": false,
+      "thinking": true,
+      "usage": {
+        "completion_tokens": 3437,
+        "prompt_tokens": 44110
+      }
+    },
+    {
+      "already_recorded_TRAIN_match": false,
       "dataset": "RuleArena_Airline",
       "elapsed_seconds": 445.73608204349875,
       "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
@@ -152,6 +2138,66 @@
       "usage": {
         "completion_tokens": 12257,
         "prompt_tokens": 22161
+      }
+    },
+    {
+      "already_recorded_TRAIN_match": false,
+      "dataset": "ProofWriter_OWA_depth5",
+      "elapsed_seconds": 269.6697936858982,
+      "source": "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096",
+      "structural_pass": false,
+      "thinking": true,
+      "usage": {
+        "completion_tokens": 7100,
+        "prompt_tokens": 11433
+      }
+    },
+    {
+      "already_recorded_TRAIN_match": false,
+      "dataset": "RuleArena_Airline",
+      "elapsed_seconds": 666.0609389320016,
+      "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+      "structural_pass": false,
+      "thinking": false,
+      "usage": {
+        "completion_tokens": 16384,
+        "prompt_tokens": 22169
+      }
+    },
+    {
+      "already_recorded_TRAIN_match": false,
+      "dataset": "ContractNLI",
+      "elapsed_seconds": 436.3527011014521,
+      "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+      "structural_pass": false,
+      "thinking": false,
+      "usage": {
+        "completion_tokens": 12605,
+        "prompt_tokens": 13873
+      }
+    },
+    {
+      "already_recorded_TRAIN_match": false,
+      "dataset": "ContractNLI",
+      "elapsed_seconds": 361.97966211102903,
+      "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+      "structural_pass": false,
+      "thinking": true,
+      "usage": {
+        "completion_tokens": 9202,
+        "prompt_tokens": 13865
+      }
+    },
+    {
+      "already_recorded_TRAIN_match": false,
+      "dataset": "SARA_v2_Binary",
+      "elapsed_seconds": 979.9174903482199,
+      "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+      "structural_pass": false,
+      "thinking": false,
+      "usage": {
+        "completion_tokens": 16384,
+        "prompt_tokens": 12025
       }
     },
     {
@@ -169,10 +2215,10 @@
   ],
   "run_id": "method_runtime_c6_20261107",
   "sealed_science_unchanged": true,
-  "settled_seconds": 202.1436473838985,
+  "settled_seconds": 3991.5398477241397,
   "settled_tokens": {
-    "completion_tokens": 5071,
-    "prompt_tokens": 44335
+    "completion_tokens": 89169,
+    "prompt_tokens": 218749
   },
   "structural_profiles": 0
 }

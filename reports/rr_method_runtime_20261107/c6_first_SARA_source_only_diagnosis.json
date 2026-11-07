@@ -1,0 +1,226 @@
+{
+  "calls": [
+    {
+      "call_id": "method_runtime_c6_20261107:thinking:d2f0e6f9aa2313cc9a64ca5797a4dad55f20b51107fc77f63b09e58767ac52b0:True:0",
+      "status": "completed",
+      "request_hash": "6d2a4363093a75ae5202991df6c5df02a67da4c6097b096fc9577ad8ff7deb42",
+      "finish_reason": "stop",
+      "raw_content_sha256": "d0f2dd7beb7e2a25ddc9b3dbcec50b79cae6302a9bcc515b2062e557a86302a6",
+      "wire_body_sha256": "ce817195b0345a815c931769e028e2d794f42739c89f977b9b817e7721cb9a00",
+      "message_chars": [
+        7038,
+        18626
+      ],
+      "feedback_present": false,
+      "has_nodes": true,
+      "has_query": true,
+      "binding_name_occurrences": 19,
+      "tail": "an\", \"source\": \"s22\", \"condition\": {\"var\": \"b_plan\"}}], \"clauses\": [{\"name\": \"clause_exclusion\", \"sources\": [\"s22\"], \"value\": {\"op\": \"if\", \"args\": [{\"var\": \"n_exclusion\"}, {\"var\": \"b_plan_scope\"}, false]}, \"otherwise\": false}], \"query\": {\"op\": \"if\", \"args\": [{\"var\": \"clause_exclusion\"}, \"Contradiction\", \"Entailment\"]}}",
+      "s52": {
+        "role": {
+          "role": "fact",
+          "view": null
+        },
+        "text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability."
+      },
+      "suspect_bindings": [
+        {
+          "name": "b_terminated",
+          "value": {
+            "value": 1,
+            "unit": "event",
+            "owner": "Alice",
+            "period": "2019",
+            "lineage": [
+              "s52"
+            ],
+            "stage": "element"
+          },
+          "type": "amount",
+          "sources": [
+            "s52"
+          ]
+        },
+        {
+          "name": "b_disability",
+          "value": {
+            "value": 1,
+            "unit": "condition",
+            "owner": "Bob",
+            "period": "2019",
+            "lineage": [
+              "s52"
+            ],
+            "stage": "element"
+          },
+          "type": "amount",
+          "sources": [
+            "s52"
+          ]
+        },
+        {
+          "name": "b_plan",
+          "value": {
+            "value": 0,
+            "unit": "boolean",
+            "owner": "Alice",
+            "period": "2019",
+            "lineage": [
+              "s52"
+            ],
+            "stage": "element"
+          },
+          "type": "amount",
+          "sources": [
+            "s52"
+          ]
+        },
+        {
+          "name": "b_2019",
+          "value": {
+            "value": 1,
+            "unit": "year",
+            "owner": "Alice",
+            "period": "2019",
+            "lineage": [
+              "s52"
+            ],
+            "stage": "element"
+          },
+          "type": "amount",
+          "sources": [
+            "s52"
+          ]
+        }
+      ]
+    },
+    {
+      "call_id": "method_runtime_c6_20261107:thinking:d2f0e6f9aa2313cc9a64ca5797a4dad55f20b51107fc77f63b09e58767ac52b0:True:1",
+      "status": "completed",
+      "request_hash": "c3fc25d4ca3ed07007a70d960e565b823a2f25241052f05010990c2f203bca8e",
+      "finish_reason": "stop",
+      "raw_content_sha256": "d0f2dd7beb7e2a25ddc9b3dbcec50b79cae6302a9bcc515b2062e557a86302a6",
+      "wire_body_sha256": "11f18ff69a8021443eb86d76d74f3701cbc351bd38530af1573ef644743fbd03",
+      "message_chars": [
+        7038,
+        23508
+      ],
+      "feedback_present": true,
+      "has_nodes": true,
+      "has_query": true,
+      "binding_name_occurrences": 19,
+      "tail": "an\", \"source\": \"s22\", \"condition\": {\"var\": \"b_plan\"}}], \"clauses\": [{\"name\": \"clause_exclusion\", \"sources\": [\"s22\"], \"value\": {\"op\": \"if\", \"args\": [{\"var\": \"n_exclusion\"}, {\"var\": \"b_plan_scope\"}, false]}, \"otherwise\": false}], \"query\": {\"op\": \"if\", \"args\": [{\"var\": \"clause_exclusion\"}, \"Contradiction\", \"Entailment\"]}}",
+      "s52": {
+        "role": {
+          "role": "fact",
+          "view": null
+        },
+        "text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability."
+      },
+      "suspect_bindings": [
+        {
+          "name": "b_terminated",
+          "value": {
+            "value": 1,
+            "unit": "event",
+            "owner": "Alice",
+            "period": "2019",
+            "lineage": [
+              "s52"
+            ],
+            "stage": "element"
+          },
+          "type": "amount",
+          "sources": [
+            "s52"
+          ]
+        },
+        {
+          "name": "b_disability",
+          "value": {
+            "value": 1,
+            "unit": "condition",
+            "owner": "Bob",
+            "period": "2019",
+            "lineage": [
+              "s52"
+            ],
+            "stage": "element"
+          },
+          "type": "amount",
+          "sources": [
+            "s52"
+          ]
+        },
+        {
+          "name": "b_plan",
+          "value": {
+            "value": 0,
+            "unit": "boolean",
+            "owner": "Alice",
+            "period": "2019",
+            "lineage": [
+              "s52"
+            ],
+            "stage": "element"
+          },
+          "type": "amount",
+          "sources": [
+            "s52"
+          ]
+        },
+        {
+          "name": "b_2019",
+          "value": {
+            "value": 1,
+            "unit": "year",
+            "owner": "Alice",
+            "period": "2019",
+            "lineage": [
+              "s52"
+            ],
+            "stage": "element"
+          },
+          "type": "amount",
+          "sources": [
+            "s52"
+          ]
+        }
+      ]
+    },
+    {
+      "call_id": "method_runtime_c6_20261107:thinking:d2f0e6f9aa2313cc9a64ca5797a4dad55f20b51107fc77f63b09e58767ac52b0:False:0",
+      "status": "completed",
+      "request_hash": "bb1c6d29dffac543ddd4e3c2e449e6f0aad4dcd1d4891ad2493e563e68cee960",
+      "finish_reason": "length",
+      "raw_content_sha256": "5d385f2edc18957cff0bfb7042d3f0e73b7c23eab22c14f5372d06439692aa8d",
+      "wire_body_sha256": "a31285b3668d7877e0a9d7031a3eec01da6b8f6b516ccf231d4654ffaf7d555c",
+      "message_chars": [
+        7038,
+        18626
+      ],
+      "feedback_present": false,
+      "has_nodes": false,
+      "has_query": false,
+      "binding_name_occurrences": 116,
+      "tail": "\", \"sources\": [\"s52\"]}, {\"name\": \"b_employer_paid_wages_2019_20000_20_20_20_20_20_20_20_20_20_20_2\", \"value\": 0, \"type\": \"integer\", \"sources\": [\"s52\"]}, {\"name\": \"b_employer_paid_wages_2019_20000_20_20_20_20_20_20_20_20_20_20_2\", \"value\": 0, \"type\": \"integer\", \"sources\": [\"s52\"]}, {\"name\": \"b_employer_paid_wages_2019_2",
+      "s52": {
+        "role": {
+          "role": "fact",
+          "view": null
+        },
+        "text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability."
+      }
+    },
+    {
+      "call_id": "method_runtime_c6_20261107:thinking:d2f0e6f9aa2313cc9a64ca5797a4dad55f20b51107fc77f63b09e58767ac52b0:False:1",
+      "status": "reserved",
+      "request_hash": "d9c9d333262c7dd28d98fedb1bcc9f55085876267f7b689db8ab32a5b7324b31",
+      "finish_reason": null
+    }
+  ],
+  "only_original_public_train_and_physical_responses": true,
+  "grading_packets_opened": false,
+  "generation_calls": 0,
+  "no_program_repair_or_coercion": true
+}

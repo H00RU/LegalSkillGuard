@@ -17,7 +17,8 @@ from legal_skill_guard.rr.preflight import science_files
 
 
 def main():
-    parser=argparse.ArgumentParser();parser.add_argument('--run-id',required=True);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--run-id',required=True)
+    parser.add_argument('--summary-only',action='store_true');args=parser.parse_args()
     root=Path(__file__).resolve().parents[2];stage=root/'artifacts/rr_method_runtime_20261107'/args.run_id
     seal=json.loads((stage/'seal.json').read_text());unchanged=science_files(root)==seal['files']
     if not unchanged:raise AssertionError('Observe the sealed code only; do not regrade under changed science')
@@ -102,9 +103,12 @@ def main():
                 p=directory/name;lines=p.read_text().splitlines()
                 i=next(i for i,line in enumerate(lines) if line.startswith('实时状态（'));lines[i]=summary
                 p.write_text('\n'.join(lines)+'\n')
-    print(json.dumps({k:v for k,v in value.items() if k not in {'calls','profiles'}},ensure_ascii=False))
-    for c in calls:
-        print(json.dumps({k:c[k] for k in ('call_id','status','finish_reason','offline_compiles','compile_error','decode_error') if k in c},ensure_ascii=False))
+    print(json.dumps({**{k:v for k,v in value.items() if k not in {'calls','profiles'}},
+        'pending_calls':[{'call_id':c['call_id'],'seconds_since_reserved':c['seconds_since_reserved']}
+            for c in calls if c['status']=='reserved']},ensure_ascii=False))
+    if not args.summary_only:
+        for c in calls:
+            print(json.dumps({k:c[k] for k in ('call_id','status','finish_reason','offline_compiles','compile_error','decode_error') if k in c},ensure_ascii=False))
 
 
 if __name__=='__main__':main()

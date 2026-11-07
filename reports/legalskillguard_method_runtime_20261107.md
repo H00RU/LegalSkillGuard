@@ -31,7 +31,17 @@ Current snapshot: Goal active and incomplete. The original fixed20 paired curren
 | ContractNLI | 20/24 | 83.3% | 24/24 |
 | 合计 | 59/128 | 46.1% | 92/128（71.9%） |
 
-[原来源级指标](rr_method_runtime_20261107/training_metrics_snapshot_20261107.json)包含fallback，ProofWriter的旧A证书主要来自预定义Horn路径；均不能替代新方法的独立编译、真实规则学习或实际存储图使用验收。新实现完整128建库尚未开始，六臂DEV尚无结果，TEST未启动。c3仅完成7/40个配置，主路径结构和对应TRAIN匹配均0，不能与旧128拼接。
+[原来源级指标](rr_method_runtime_20261107/training_metrics_snapshot_20261107.json)包含fallback，ProofWriter的旧A证书主要来自预定义Horn路径；均不能替代新方法的独立编译、真实规则学习或实际存储图使用验收。新实现完整128建库尚未开始，六臂DEV尚无结果，TEST未启动。当前固定20配对进度见顶部实时记录，各旧版本的未完成配对分别保留，不能与当前配置或旧128拼接。
+
+## c6新增响应的源文核对与成本（2026-11-07 04:59 UTC）
+
+[SARA完整原始响应的源文诊断](rr_method_runtime_20261107/c6_first_SARA_source_only_diagnosis.json)核实：两条ON输出相同，但两次实际请求正文哈希不同；第二次确实携带了第一次的原程序和金额溯源错误，不是客户端漏发反馈。四个条件被模型写成数值0或1的amount，并附上event、condition、boolean、year单位；s52实际给出Alice/Bob的雇佣、残疾、解约及12980美元付款，没有这些金额字面量或单位。这些输出保持失败，不把0/1强转成事实Boolean，不补造规则。OFF首条在bindings阶段写出116次name字段，含重复名称，尚未输出nodes或query便达到8192 token；该条不能仅归因为正确完整程序所需长度超过上限。此诊断只读原TRAIN公开输入、已结算响应和请求，不打开评分包、不新增生成或oracle。
+
+[5条实际截断前缀的逐字段分析](rr_method_runtime_20261107/c6_truncated_prefix_diagnosis.json)只读取未修改原文中已闭合的JSON数组项，不补上结束符、不把部分输出当作IR。4条在bindings、1条在scopes截断；其中4条已经出现重复内部名称：OE首条58处、OE第二条nodes22处及scopes82处、SARA两条分别95和151处。Airline该条的226个完整绑定名称不同，仍未输出后续规则节点。现有证据说明重复生成和绑定膨胀实际消耗了输出额度，不能据此声称单纯提高8192上限就会产生可接受程序；部分前缀也不计作主路径或语义通过。
+
+[ContractNLI示例内容误用诊断](rr_method_runtime_20261107/c6_format_example_copy_diagnosis.json)核实首个来源ON第二条实际响应：finish=stop、内容727字符、completion1010 token。bindings、rule_residuals、nodes、scopes、clauses及query六个字段与无关格式示例完全相同，唯一差异是observations变为空数组，因此不是整个程序的原样复制。实际发送的dataset、source及格式示例均与当前绑定一致，系统提示也明确禁止复制示例；未发生客户端把当前任务替换成示例的问题。此项是错误模型输出，不是长度截断，不计格式或核心语义成功；原程序未做任何修补。该诊断只读取现存响应和请求，无新生成、oracle或评分信息。
+
+[当前累计成本](rr_method_runtime_20261107/goal_cost_snapshot_20261107.json)及[逐请求账本](rr_method_runtime_20261107/goal_request_ledger_current.csv)于04:59 UTC核对为474E/17T、pending1；相对同一Goal起点新增50E/3T（含在途），已结算报告输入742641、输出261239 token、请求耗时10174.44秒。教师reasoning字段14139单列，不重复加到输出。局部executor每请求API增量现金支出为0，GPU分摊与教师现金账单未知，不能据此声称研究总费用为0。[历史保全](rr_method_runtime_20261107/history_preservation_current_runtime.json)再次核对原438条请求、121条meta、130条oracle及1233个旧运行文件不变。快照脚本不会改写c5等历史结算证据。
 
 
 
@@ -270,3 +280,12 @@ c5在物理请求全部结算后停止、退出143、取消0。新增4E，3次le
 
 
 c6已完成[逐字兼容配置重放](rr_method_runtime_20261107/c6_exact_paid_profiles_replay.json)：3条原Airline真实wire分别匹配原ON初译、ON纠正、OFF初译。当前生产函数重新形成1个ON配置和OFF step0 journal；物理账本逐行不变，新增model/teacher0。原ON纠正的两项字面量错误照旧拒绝，不记核心成功。全部原20来源/顺序及空库比较条件未变，OE的上下文请求不匹配旧wire，未复用旧OE结果。正常controller现从原第1来源开始真实验证，后续遇到已兼容配置/状态则按原journal恢复，不重买这3条响应。当前完整比较仍未结束。
+
+
+## 当前开发分支交付已核验（2026-11-07）
+
+修正后的科学源代码/报告快照为[6b056b9](https://github.com/H00RU/LegalSkillGuard/commit/6b056b9f7fec7cae2c787776749a56b64428b754)，对应本地实现2db5ac8。1534个误带的环境或非科学备份路径已从当前公开树移除，原始科学源代码、测试、失败输出和物理账本保留。独立远端fetch逐项核对872个清单文件，SHA256全部匹配；当前导出没有环境镜像或空文件。此前未完成的核验没有记作成功。
+
+[核验凭据](https://github.com/H00RU/LegalSkillGuard/blob/f041773f9b258ca5a1bfbd08cf6df93a8670cc3d/reports/rr_method_runtime_20261107/publication_verified.json)已单独推送并从远端核对两份凭据文件，开发分支现为f041773。源代码和原报告字节仍以6b056b9快照为准；main前后均为ae7e09230b4eb675b7299f73c4775787ccb2b65b，未更改，未上传私有Git祖先或SQLite私有meta。公开报告页面已实际打开验证可访问。发表动作新增模型/teacher/oracle0。
+
+这是进行中的版本交付，不是最终冻结。当前c6仍按原20来源完整配对运行；截至2026-11-07T04:48:53Z，5/40配置（含逐字兼容重放）已经记录，结构和对应TRAIN匹配均0，源于现有模型的无依据字面量、错误法律谓词或输出截断。累计473E/17T、pending1。控制器真实身份和3737冻结文件保持一致，未重启、未改模型配置、未启动新128/DEV/TEST。后续依据完整当前版本结果继续原Goal，不凭本次修复或GitHub同步标记完成。
