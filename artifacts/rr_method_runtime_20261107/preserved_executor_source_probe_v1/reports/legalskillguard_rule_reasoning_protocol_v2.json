@@ -1,0 +1,364 @@
+{
+  "A_limits": {
+    "candidate_pool_H_is_not_Omega": true,
+    "certification_requirements": [
+      "nonempty_Omega",
+      "supported_semantic_domain",
+      "conditional_reference_containment",
+      "all_completions_same_nonconflict_answer",
+      "solver_proof_success"
+    ],
+    "drop_residuals_to_meet_limit": false,
+    "max_model_parsing_calls_per_prediction": 2,
+    "max_residual_groups_per_planning_unit": 12,
+    "max_separation_solver_calls_per_prediction": 32,
+    "max_symbolic_planning_seconds_per_prediction": 5,
+    "reserved_fallback_calls_per_prediction": 1
+  },
+  "B_limits": {
+    "alpha_renaming_required": true,
+    "cap_is_consumable_resource": false,
+    "connectors": [
+      "bind_rename",
+      "join_on",
+      "project_exists",
+      "group_by",
+      "map",
+      "fold_reduce",
+      "thread_allowance"
+    ],
+    "forbidden_metadata": [
+      "case_id_for_routing",
+      "gold",
+      "source_unique_strings",
+      "answer_fingerprints"
+    ],
+    "metadata": [
+      "entity_equality",
+      "membership",
+      "owner_period_keys",
+      "contribution_lineage",
+      "aggregation_stage",
+      "balance",
+      "allocation_policy",
+      "order_observable"
+    ],
+    "unequal_semantics_cost_tiebreak_allowed": false,
+    "witness_from_boolean_output_can_be_invented": false
+  },
+  "current_scope": "implementation_offline_checks_and_bounded_live_preflight",
+  "data": {
+    "ContractNLI": {
+      "automatic_gold_variants": false,
+      "dev_sources": 8,
+      "formal_completeness_claim": false,
+      "group": "contract",
+      "one_fixed_hypothesis_per_contract": true,
+      "test_sources": 32,
+      "train_sources": 24
+    },
+    "OpenExempt": {
+      "dev_sources": 8,
+      "group": "case",
+      "test_sources": 32,
+      "train_sources": 32,
+      "views": [
+        "EC",
+        "EV"
+      ]
+    },
+    "ProofWriter_OWA_depth5": {
+      "dev_sources": 8,
+      "group": "theory",
+      "one_query_per_theory": true,
+      "test_sources": 32,
+      "train_sources": 24
+    },
+    "RuleArena_Airline": {
+      "dev_sources": 8,
+      "group": "source_problem",
+      "test_sources": 32,
+      "train_sources": 24
+    },
+    "SARA_v2_Binary": {
+      "cross_split_clusters": "exclude_from_train_and_dev",
+      "dev_sources": 8,
+      "group": "fact_stem_cluster",
+      "test_sources": 32,
+      "train_sources": 24
+    }
+  },
+  "date": "2026-11-05",
+  "evaluation": {
+    "B1_extra_arm": "M11",
+    "aggregation": "within_source_then_equal_benchmark_macro_average",
+    "baseline_specific_preparation": "deterministic_only_no_extra_paid_calls",
+    "common_training_material_access": "same_model_proposals_labels_and_oracle_views_all_arms",
+    "comparison_design": "shared_training_material_frozen_inference_controls_not_six_independent_training_runs",
+    "dev_full_passes_per_arm": 1,
+    "dev_outputs_per_arm": 48,
+    "diagnostic_arms_per_view": 2,
+    "diagnostic_benchmarks": [
+      "OpenExempt",
+      "RuleArena_Airline",
+      "SARA_v2_Binary",
+      "ProofWriter_OWA_depth5"
+    ],
+    "diagnostic_comparator": "MA_for_A_or_MB_for_B_preassigned",
+    "diagnostic_sources_per_benchmark": 8,
+    "diagnostic_variants_per_source": 2,
+    "extra_hyperparameter_dev_runs": false,
+    "full_metadata_baseline_has_gold_interfaces": false,
+    "main_arms": [
+      "M00",
+      "M10",
+      "M01",
+      "M11",
+      "MA",
+      "MB"
+    ],
+    "max_model_calls_per_prediction_all_arms": 3,
+    "native_empty_reference_separate": true,
+    "test_outputs_per_arm": 192,
+    "test_updates_to_library": false,
+    "uncertainty_unit": "source_cluster"
+  },
+  "execution_model": "frozen_LLM_parser_plus_deterministic_symbolic_backend",
+  "execution_request": {
+    "active_stage": "citation_fix_uniform_formal_shared_build",
+    "allowed": [
+      "formal_shared_build",
+      "checkpoint_freeze",
+      "training_restore",
+      "documentation"
+    ],
+    "auto_advance_to_experiments": false,
+    "formal_eval_enabled": false,
+    "frozen_test_enabled": false,
+    "full_build_enabled": true,
+    "future_research_quotas_are_not_current_execution_authorization": true,
+    "handoff": "reports/legalskillguard_server_handoff_v2.md",
+    "model_calls_enabled": true,
+    "model_calls_scope": "fixed_128_train_only_no_evaluation",
+    "pilot_enabled": false,
+    "recovery_of_aborted_run": "rr_v2_formal_build_20261106",
+    "research_design_locked": true,
+    "test_labels_or_reference_answers_for_debugging": false,
+    "thinking_live_comparison_enabled": false
+  },
+  "formal_build_authorization": "docs/rr_v2/formal_build_authorization_20261106.json",
+  "methods": {
+    "A": "source_closed_completion_stability_with_answer_separating_batches",
+    "B": "collision_witness_guided_scope_and_usage_interface_refinement"
+  },
+  "paid_calls_authorized_by_this_file": false,
+  "preflight": {
+    "accepted_teacher_batch_records_reused_in_formal_build": true,
+    "allowed_call_purposes": [
+      "thinking_probe",
+      "pilot_ingestion",
+      "pilot_teacher_summary",
+      "preflight_bug_retry"
+    ],
+    "auto_advance_to_formal_training": false,
+    "enabled": false,
+    "executor_allocation": {
+      "pilot_ingestion": 40,
+      "shared_failed_calls_and_bug_retries": 232,
+      "thinking_pairs": 40
+    },
+    "executor_max_calls": null,
+    "executor_max_including_failures_and_retries": null,
+    "executor_original_study_max": 6000,
+    "force_thinking_off": false,
+    "frozen_test_labels_allowed": false,
+    "global_ledger_mapping": {
+      "pilot_ingestion": "full_build_including_pilot",
+      "shared_failed_calls_and_bug_retries": "shared_retries_and_recovery",
+      "thinking_pairs": "thinking_comparison"
+    },
+    "historical_limits_before_latest_user_authorization": {
+      "accepted_teacher_batch_records_reused_in_formal_build": true,
+      "allowed_call_purposes": [
+        "thinking_probe",
+        "pilot_ingestion",
+        "pilot_teacher_summary",
+        "preflight_bug_retry"
+      ],
+      "auto_advance_to_formal_training": false,
+      "enabled": true,
+      "executor_allocation": {
+        "pilot_ingestion": 40,
+        "shared_failed_calls_and_bug_retries": 20,
+        "thinking_pairs": 40
+      },
+      "executor_max_including_failures_and_retries": 100,
+      "force_thinking_off": false,
+      "frozen_test_labels_allowed": false,
+      "global_ledger_mapping": {
+        "pilot_ingestion": "full_build_including_pilot",
+        "shared_failed_calls_and_bug_retries": "shared_retries_and_recovery",
+        "thinking_pairs": "thinking_comparison"
+      },
+      "lock_source_ids_before_first_model_call": true,
+      "max_targeted_live_bugfix_rerun_rounds": null,
+      "no_duplicate_billing_on_resume": true,
+      "not_a_Codex_token_budget": true,
+      "record_reuse_requires_matching_input_config_and_code_hashes": true,
+      "repair_execution_policy": {
+        "authority": "explicit_user_chat_authorization",
+        "executor_baseline": 85,
+        "executor_cumulative_max": 96,
+        "executor_global_hard_max": 100,
+        "first_type_failure_stops_session": false,
+        "formal_eval_enabled": false,
+        "main_training_enabled": false,
+        "policy_id": "cumulative_repair_96",
+        "repair_round_limit": null,
+        "same_failed_sample_retry_requires_change_and_offline_evidence": true,
+        "source_manifest": "reports/rr_v2_evidence/data_manifest.json",
+        "teacher_calls_added": 0,
+        "teacher_cumulative_max": 2,
+        "test_labels_allowed": false,
+        "validated_version_may_continue_unfinished_fixed_sources": true
+      },
+      "requires_existing_resource_authorization": true,
+      "same_sources_for_thinking_and_pilot": true,
+      "second_round_contract_repair": {
+        "authorization": "docs/rr_v2/round2_user_authorization.json",
+        "executor_before": 84,
+        "executor_physical_requests_max": 12,
+        "executor_total_round_end_max": 96,
+        "gate_requires": [
+          "typed_IR",
+          "actual_backend_execution",
+          "corresponding_TRAIN_semantic_checks"
+        ],
+        "global_executor_cap_unchanged": 100,
+        "initial_gate_physical_requests_max": 2,
+        "new_teacher_calls": 0,
+        "no_new_sources_or_hyperparameter_rounds": true,
+        "same_systemic_failure": "stop_immediately_preserve_remaining_allowance"
+      },
+      "significant_accuracy_gain_required": false,
+      "sources_per_dataset": 4,
+      "teacher_calls_deduct_from_original_total": true,
+      "teacher_max_including_failures_and_retries": 2,
+      "train_sources": 20,
+      "unaffected_records_not_rerun": true
+    },
+    "lock_source_ids_before_first_model_call": true,
+    "max_targeted_live_bugfix_rerun_rounds": null,
+    "no_duplicate_billing_on_resume": true,
+    "not_a_Codex_token_budget": true,
+    "operative_authorization": "docs/rr_v2/original_budget_preflight_authorization.json",
+    "record_reuse_requires_matching_input_config_and_code_hashes": true,
+    "repair_execution_policy": {
+      "authority": "explicit_user_chat_authorization",
+      "automatic_retries": 0,
+      "executor_baseline": 96,
+      "executor_original_study_max": 6000,
+      "main_training_enabled": false,
+      "no_new_resources_or_unapproved_costs": true,
+      "no_new_sources": true,
+      "policy_id": "original_study_budget_preflight",
+      "preflight_executor_cap_removed": true,
+      "preflight_teacher_cap_removed": true,
+      "repair_round_limit": null,
+      "source_manifest": "reports/rr_v2_evidence/data_manifest.json",
+      "teacher_baseline": 2,
+      "teacher_model_unchanged": true,
+      "teacher_original_study_max": 20
+    },
+    "requires_existing_resource_authorization": true,
+    "same_sources_for_thinking_and_pilot": true,
+    "significant_accuracy_gain_required": false,
+    "sources_per_dataset": 4,
+    "teacher_calls_deduct_from_original_total": true,
+    "teacher_max_calls": null,
+    "teacher_max_including_failures_and_retries": null,
+    "teacher_original_study_max": 20,
+    "train_sources": 20,
+    "unaffected_records_not_rerun": true
+  },
+  "protocol_id": "LSG-RR-v2",
+  "request_budget": {
+    "executor_allocation": {
+      "B1_test_M11": 576,
+      "dev_six_arms": 864,
+      "diagnostics": 384,
+      "frozen_test_six_arms": 3456,
+      "full_build_including_pilot": 357,
+      "native_empty": 192,
+      "shared_retries_and_recovery": 131,
+      "thinking_comparison": 40
+    },
+    "executor_max": 6000,
+    "full_build_executor_max": 256,
+    "full_build_teacher_max": 14,
+    "new_paid_authorization": false,
+    "preparation_is_not_free": true,
+    "retries_count_against_original_ledger": true,
+    "teacher_max": 20,
+    "this_is_not_Codex_token_budget": true
+  },
+  "run_enabled": true,
+  "run_enabled_scope": "formal_training_only",
+  "status": "single_formal_build_authorized",
+  "stop_rules": {
+    "automatic_second_stage": false,
+    "empty_Omega": "conflict_not_vacuous_certification",
+    "empty_connector_pool": "one_budgeted_schema_repair_or_fallback",
+    "exhausted_budget": "save_partial_artifacts_and_report_incomplete",
+    "no_significant_gain": "report_fixed_results_no_extra_seeds_tasks_or_test_changes",
+    "unsupported_semantics": "no_certificate_fixed_fallback"
+  },
+  "supersedes_research_design": "LSG-RR-v1",
+  "test_inference_forbidden_inputs": [
+    "gold_labels",
+    "reference_programs",
+    "gold_interfaces",
+    "reference_proofs"
+  ],
+  "thinking": {
+    "both_configs_invalid": "engineering_block_no_extra_switch_sweep",
+    "calls_per_source": 2,
+    "comparison_sources_from_train": 20,
+    "do_not_assume_flag_took_effect": true,
+    "quality_equivalence_claim_from_small_comparison": false,
+    "selection_basis": "one_paired_training_comparison_structure_semantic_correctness_and_measured_cost",
+    "turn_off_only_if": [
+      "no_lower_structural_parse_pass_count",
+      "no_lower_task_correct_count",
+      "zero_on_correct_off_incorrect_pairs",
+      "lower_measured_cost"
+    ],
+    "verify_actual_backend_switch": true
+  },
+  "training": {
+    "OpenExempt_views_bundled_per_source_call": true,
+    "batches": 8,
+    "first_source_call": "joint_A_skeleton_and_B_interface_proposal",
+    "freeze_checkpoints": [
+      "B1",
+      "B8"
+    ],
+    "full_builds": 1,
+    "max_additional_oracle_views_per_source": 4,
+    "max_connector_candidates_per_source": 32,
+    "max_executor_calls_per_source": 2,
+    "max_teacher_calls_per_batch": 2,
+    "oracle_view_budget_scope": "collision_discovery_interface_refinement_and_connector_disambiguation_combined",
+    "pilot_gate": "engineering_and_data_validity_not_significant_accuracy_gain",
+    "pilot_sources": 20,
+    "pilot_sources_included_in_training": true,
+    "second_source_call": "joint_missing_translation_witness_extraction_and_schema_repair",
+    "seeds": 1,
+    "sources_per_batch": 16,
+    "test_opening": "after_B8_and_all_configuration_frozen",
+    "total_sources": 128,
+    "training_third_fallback_call": false,
+    "two_new_labeled_views_cost_two_slots": true,
+    "unused_queried_oracle_views_count": true
+  }
+}

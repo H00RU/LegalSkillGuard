@@ -30,6 +30,34 @@ class GroundHornQuery:
             raise TimeoutError('Bounded public Horn closure did not complete')
         return result['answer']
 
+
+@dataclass(frozen=True)
+class LibraryHornQuery(GroundHornQuery):
+    """The selected B graph executor, including in every completion world.
+
+    Grammar parsing/matching/closure remain predefined. Only immutable explicit
+    library graphs implement shared-witness joins; missing graphs never use the
+    ordinary Horn evaluator as a replacement. This is not novel A rule learning.
+    """
+    library: dict
+
+    def execute(self,env,*,seconds=5):
+        from types import SimpleNamespace
+        from .coverage import Unsupported
+        from .horn_connectors import execute_parsed_with_library
+        if any(type(env[slot]) is not bool for slot in self.choices):
+            raise Unsupported('Source ground-assertion choices must be Boolean')
+        facts=set(self.fixed_facts)|{atom for slot,atom in self.choices.items() if env[slot]}
+        parsed=SimpleNamespace(facts=facts,rules=list(self.rules),query=self.query)
+        result=execute_parsed_with_library(parsed,self.library,seconds=seconds)
+        if result['status']=='conflict':return {**result,'answer':'__CONFLICT__'}
+        if result['status']!='closure_complete':
+            raise Unsupported('Selected learned Horn execution failed: '+result['status'])
+        return result
+
+    def evaluate(self,env,*,seconds=5):
+        return self.execute(env,seconds=seconds)['answer']
+
 VERBS = {v: v + "s" for v in ("eat", "like", "need", "visit", "see", "chase")}
 VERBS.update({v: v for v in tuple(VERBS.values())})
 

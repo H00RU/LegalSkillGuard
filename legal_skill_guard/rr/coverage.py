@@ -98,7 +98,13 @@ class Unsupported(ValueError):
 def evaluate(node: Any, env: dict[str, Any]) -> Any:
     """Small data-only IR. Explicit variables; no eval, import or code generation."""
     from .public_horn import GroundHornQuery
+    from .connector_completion import ConnectorQuery
+    from .scoped_program import ScopedQuery
     if isinstance(node, GroundHornQuery):
+        return node.evaluate(env)
+    if isinstance(node, ConnectorQuery):
+        return node.evaluate(env)
+    if isinstance(node, ScopedQuery):
         return node.evaluate(env)
     if type(node) in (bool, int, str, Fraction) or node is None:
         return node
@@ -117,6 +123,12 @@ def evaluate(node: Any, env: dict[str, Any]) -> Any:
             raise Unsupported("Nonboolean guard")
         return evaluate(args[1] if cond else args[2], env)
     values = [evaluate(a, env) for a in args]
+    if op == 'number_at' and len(values) == 2:
+        vector,index=values
+        if (not isinstance(vector,list) or any(type(v) not in (int,Fraction) for v in vector)
+                or type(args[1]) is not int or not 0 <= index < len(vector)):
+            raise Unsupported('Number vector access needs exact values and an in-range literal index')
+        return vector[index]
     if op == "array":
         return values
     if op == "concat" and all(isinstance(v, list) for v in values):
@@ -144,7 +156,7 @@ def evaluate(node: Any, env: dict[str, Any]) -> Any:
         numerical = all(type(v) in (int, Fraction) for v in values)
         same = (numerical or type(values[0]) is type(values[1])) and values[0] == values[1]
         return same if op == "eq" else not same
-    if op in {"add", "sub", "min", "max", "lt", "le", "scale", "divide_constant"}:
+    if op in {"add", "sub", "min", "max", "lt", "le", "scale", "divide_constant", "ceil_divide_constant"}:
         if any(type(v) not in (int, Fraction) for v in values):
             raise Unsupported("Only exact integer/rational arithmetic in this backend")
         if op == "add":
@@ -163,6 +175,9 @@ def evaluate(node: Any, env: dict[str, Any]) -> Any:
                 return a * b
             if op == "divide_constant" and type(args[1]) in (int, Fraction) and b != 0:
                 return Fraction(a) / Fraction(b)
+            if op == 'ceil_divide_constant' and type(args[1]) in (int,Fraction) and b > 0:
+                quotient=Fraction(a)/Fraction(b)
+                return -(-quotient.numerator//quotient.denominator)
     raise Unsupported(f"Unsupported operation or arity: {op}")
 
 
@@ -254,6 +269,34 @@ class CompletionResult:
     theory_hash: str
     reason: str = ""
     answer: Any = None
+    projection: dict = field(default_factory=dict)
+
+
+def completion_projection(theory):
+    """Sound syntactic noninterference for the compact, data-only query DAG.
+
+    Unknown source scope is checked separately and is never removed here.
+    Constraints participate in the read set. Other query implementations keep
+    exhaustive enumeration of every declared domain.
+    """
+    from .scoped_program import ScopedQuery, expression_reads
+    names=set(theory.domains)
+    if not isinstance(theory.query,ScopedQuery) or any(
+            not isinstance(c,dict) and type(c) not in (bool,int,str,Fraction,type(None))
+            for c in theory.constraints):
+        active=names
+    else:
+        active=theory.query.completion_dependencies()
+        for constraint in theory.constraints:
+            active |= expression_reads(constraint)
+        active &= names
+    inactive=names-active
+    multiplicity=1
+    for name in inactive:multiplicity*=len(theory.domains[name])
+    return {'active_slots':sorted(active),'inactive_slots':sorted(inactive),
+            'inactive_domain_multiplicity':multiplicity,
+            'basis':'transitive_AST_read_noninterference' if inactive else 'all_domains_enumerated',
+            'inactive_values_resolved':False}
 
 
 def complete(theory: FiniteTheory, *, deadline: float | None = None,
@@ -272,14 +315,18 @@ def complete(theory: FiniteTheory, *, deadline: float | None = None,
         return CompletionResult("translation_unresolved", [], version, "scope has no sound footprint")
     if any(r.evidence == "unverified_llm" for r in theory.residuals):
         return CompletionResult("translation_unresolved", [], version, "unverified TOP observation")
+    if any(not values for values in theory.domains.values()):
+        return CompletionResult("conflict", [], version, "empty_Omega")
+    projection=completion_projection(theory)
     end = clock() + 5 if deadline is None else deadline
     worlds = []
-    names = sorted(theory.domains)
+    names = projection['active_slots']
+    witness={name:theory.domains[name][0] for name in projection['inactive_slots']}
     try:
         for index, values in enumerate(product(*(theory.domains[n] for n in names))):
             if index >= max_worlds or clock() >= end:
                 return CompletionResult("budget_exhausted", worlds, version, "enumeration/time limit")
-            choices = dict(zip(names, values))
+            choices = {**witness, **dict(zip(names, values))}
             env = {**theory.facts, **choices}
             checks = [evaluate(c, env) for c in theory.constraints]
             if any(type(c) is not bool for c in checks):
@@ -300,8 +347,8 @@ def complete(theory: FiniteTheory, *, deadline: float | None = None,
     if any(w.answer == "__CONFLICT__" for w in worlds):
         return CompletionResult("conflict", worlds, version, "conflicting completion remains")
     if len({digest(w.answer) for w in worlds}) == 1:
-        return CompletionResult("completion_stable", worlds, version, answer=worlds[0].answer)
-    return CompletionResult("translation_unresolved", worlds, version, "different-answer completions")
+        return CompletionResult("completion_stable", worlds, version, answer=worlds[0].answer,projection=projection)
+    return CompletionResult("translation_unresolved", worlds, version, "different-answer completions",projection=projection)
 
 
 def differing_pair(worlds: list[World], residuals: list[Residual], selected: set[str],
@@ -343,7 +390,8 @@ def plan_batch(theory: FiniteTheory, token_cost: Callable[[set[str]], int], budg
         return out
     if len({digest(w.answer) for w in result.worlds}) < 2:
         return out
-    units = sorted(r.source for r in theory.residuals)
+    active=set(result.projection.get('active_slots',theory.domains))
+    units = sorted(r.source for r in theory.residuals if active.intersection(r.slots))
     if len(units) > 12:
         out.status = "budget_exhausted"  # never truncate residual groups
         return out
@@ -404,7 +452,10 @@ def certificate(theory: FiniteTheory, result: CompletionResult, *, deadline=None
             return [proof_value(v) for v in value]
         return value
     return {"status": result.status, "answer": proof_value(result.answer), "theory_hash": theory.version,
-            "source_hash": theory.ledger.version, "completion_count": len(check.worlds),
+            "source_hash": theory.ledger.version,
+            "completion_count": len(check.worlds)*check.projection.get('inactive_domain_multiplicity',1),
+            "enumerated_query_worlds":len(check.worlds),
+            "projection":check.projection,
             "backend": "exact_finite_enumeration_v1",
             "conditional_reference_containment": list(theory.containment_assumptions),
             "natural_language_faithfulness_proven": False}

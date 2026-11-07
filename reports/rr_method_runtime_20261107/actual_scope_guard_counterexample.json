@@ -1,0 +1,84 @@
+{
+  "classification": "offline counterexample on the two unchanged real compiler programs, not a real model branch or oracle view",
+  "old_program_hash": "073f0e4002dd59018e69354325624585fbefa19449829441c1696314c1af677a",
+  "new_program_hash": "7c25b5a631672a7faa0ab3063e9c6290c58036d9c44aaef96f695201f0abd3c7",
+  "scope_source": "s5",
+  "scope_choice": false,
+  "completion_choices": {
+    "b_spouse_dies_during_taxable_year": true,
+    "b_legally_separated": false,
+    "b_individual_is_married": true,
+    "b_files_separate_return": true,
+    "b_maintains_home_household": true,
+    "b_principal_abode_of_child": true,
+    "b_furnishes_household_cost": true,
+    "b_spouse_not_household_member": true,
+    "b_subsection_reference_applies": false,
+    "b_more_than_half_year": true,
+    "b_section_151_deduction": true,
+    "b_over_half_cost": true,
+    "b_last_six_months": true
+  },
+  "old_unscoped_b_consequence": true,
+  "new_guarded_b_consequence": false,
+  "new_inherited_scope_edges": [
+    {
+      "name": "c_determination_policy",
+      "sources": [
+        "s2"
+      ],
+      "context": [
+        "s0",
+        "s1",
+        "s2"
+      ],
+      "enforced_scopes": [
+        "sc_general_rule",
+        "sc_section_7703"
+      ]
+    },
+    {
+      "name": "c_a2_applies",
+      "sources": [
+        "s3"
+      ],
+      "context": [
+        "s0",
+        "s1",
+        "s3"
+      ],
+      "enforced_scopes": [
+        "sc_general_rule",
+        "sc_section_7703"
+      ]
+    },
+    {
+      "name": "c_b_not_considered_married",
+      "sources": [
+        "s6",
+        "s7",
+        "s8",
+        "s9"
+      ],
+      "context": [
+        "s0",
+        "s4",
+        "s5",
+        "s6",
+        "s7",
+        "s8",
+        "s9"
+      ],
+      "enforced_scopes": [
+        "sc_living_apart",
+        "sc_referenced_provisions",
+        "sc_section_7703"
+      ]
+    }
+  ],
+  "new_missing_scope_sources": [],
+  "new_unused_scope_sources": [],
+  "new_model_calls": 0,
+  "new_oracle_views": 0,
+  "main_query_scope": "source-instance-bound current inputs; no claim of universal date algorithm or unseen-source reuse"
+}

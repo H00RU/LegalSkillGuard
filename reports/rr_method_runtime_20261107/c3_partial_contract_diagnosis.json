@@ -1,0 +1,326 @@
+{
+  "captured_utc": "2026-11-07T02:25:45.205923+00:00",
+  "complete_JSON_wire_invalid": 0,
+  "complete_JSON_wire_valid": 4,
+  "completed_physical_calls": 6,
+  "decode_or_diagnostic_errors": 2,
+  "full_goal_complete": false,
+  "grading_information_used": false,
+  "new_model_calls": 0,
+  "rows": [
+    {
+      "elapsed_seconds": 71.24090789724141,
+      "finish_reason": "stop",
+      "id": "method_runtime_c3_20261107:thinking:11e49fc459a3a5eb1547dc9a5fceb75987acb34e77cb15271f3961b5f0cbcf71:True:0",
+      "raw_content_sha256": "12a5ab17cfaaee9945fe13d2794ba6716b55a31a8d1c2b295dc69fa924044ab9",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "source_only_issue_count": 9,
+      "source_only_issue_groups": {
+        "bindings": 2,
+        "observations": 1,
+        "rule_residuals": 4,
+        "scopes": 2
+      },
+      "source_only_issue_sample": [
+        {
+          "actual": {
+            "cited_text": "All wearing apparel of not more than a fair market value of five hundred dollars.",
+            "sources": [
+              "s201"
+            ],
+            "value": 15000
+          },
+          "expected": "exact_numeric_literal_in_cited_public_unit",
+          "path": "bindings[3].value"
+        },
+        {
+          "actual": {
+            "cited_text": "Ariz. Rev. Stat. § 33-1125(1)",
+            "sources": [
+              "s200"
+            ],
+            "value": 500
+          },
+          "expected": "exact_numeric_literal_in_cited_public_unit",
+          "path": "bindings[5].value"
+        },
+        {
+          "actual": "wearing apparel",
+          "expected": "exact substring of cited source",
+          "path": "observations[1].predicate"
+        },
+        {
+          "actual": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings...",
+          "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+          "path": "rule_residuals[0].quote"
+        },
+        {
+          "actual": "Household furniture... aggregate fair market value does not exceed $15,000.",
+          "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+          "path": "rule_residuals[1].quote"
+        },
+        {
+          "actual": "The debtor's interest, not to exceed $700 in value in any particular item...",
+          "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+          "path": "rule_residuals[2].quote"
+        }
+      ],
+      "usage": {
+        "completion_tokens": 1698,
+        "prompt_tokens": 21782,
+        "prompt_tokens_details": null,
+        "total_tokens": 23480
+      },
+      "wire_body_sha256": "f3c35fba392afbe551ebccbfb087116c33fc7bd54dd741739f022d31f571852f",
+      "wire_schema_errors": [],
+      "wire_schema_valid": true
+    },
+    {
+      "elapsed_seconds": 73.68524153251201,
+      "finish_reason": "stop",
+      "id": "method_runtime_c3_20261107:thinking:11e49fc459a3a5eb1547dc9a5fceb75987acb34e77cb15271f3961b5f0cbcf71:True:1",
+      "raw_content_sha256": "100a3db74358004dbf5512e71f664c472331b7eeb8cdb53fca56a6ea46fdec1b",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "source_only_issue_count": 7,
+      "source_only_issue_groups": {
+        "bindings": 1,
+        "observations": 1,
+        "rule_residuals": 3,
+        "scopes": 2
+      },
+      "source_only_issue_sample": [
+        {
+          "actual": {
+            "cited_text": "Ariz. Rev. Stat. § 33-1125(1)",
+            "sources": [
+              "s200"
+            ],
+            "value": 500
+          },
+          "expected": "exact_numeric_literal_in_cited_public_unit",
+          "path": "bindings[5].value"
+        },
+        {
+          "actual": "wearing apparel",
+          "expected": "exact substring of cited source",
+          "path": "observations[1].predicate"
+        },
+        {
+          "actual": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+          "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+          "path": "rule_residuals[0].quote"
+        },
+        {
+          "actual": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+          "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+          "path": "rule_residuals[2].quote"
+        },
+        {
+          "actual": "All wearing apparel of not more than a fair market value of five hundred dollars.",
+          "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+          "path": "rule_residuals[3].quote"
+        },
+        {
+          "actual": {
+            "source": "s121",
+            "text": "General monetary exemption. General rule.--In addition to any other property specifically exempted by this subchapter, property of the judgment debtor (including bank notes, money, securities, real property, judgments or other indebtedness due the judgment debtor) to the value of $300 shall be exempt from attachment or execution on a judgment. Within such time as may be prescribed by general rules the judgment debtor may claim the exemption in kind and may designate the specific items of property to which the exemption provided by this section shall be applicable unless the designated property is not capable of appropriate division, or the judgment debtor may claim the exemption in cash out of the proceeds of the sale. For married persons, each spouse is entitled to the exemptions provided in this section."
+          },
+          "expected": "executable scope for conditional public preface",
+          "path": "scopes"
+        }
+      ],
+      "usage": {
+        "completion_tokens": 1748,
+        "prompt_tokens": 23464,
+        "prompt_tokens_details": null,
+        "total_tokens": 25212
+      },
+      "wire_body_sha256": "73d47c7e5833ca361ed108dc39cab2f775d8754e2148bd12534cab8bd800b13e",
+      "wire_schema_errors": [],
+      "wire_schema_valid": true
+    },
+    {
+      "decode_or_diagnostic_error": {
+        "message": "Unterminated string starting at: line 1 column 21994 (char 21993)",
+        "type": "JSONDecodeError"
+      },
+      "elapsed_seconds": 418.9596128137782,
+      "finish_reason": "length",
+      "id": "method_runtime_c3_20261107:thinking:11e49fc459a3a5eb1547dc9a5fceb75987acb34e77cb15271f3961b5f0cbcf71:False:0",
+      "raw_content_sha256": "74e6b1cf0577d5013f076a9c04ab26138fd781826402123270d194b7dc8a6fc8",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "usage": {
+        "completion_tokens": 8192,
+        "prompt_tokens": 21786,
+        "prompt_tokens_details": null,
+        "total_tokens": 29978
+      },
+      "wire_body_sha256": "5b5691ef26cf66f1e5ddd71cded75d006fc2341002acb8c16471702647cf4fe8"
+    },
+    {
+      "decode_or_diagnostic_error": {
+        "message": "Unterminated string starting at: line 1 column 11893 (char 11892)",
+        "type": "JSONDecodeError"
+      },
+      "elapsed_seconds": 274.38918231613934,
+      "finish_reason": "length",
+      "id": "method_runtime_c3_20261107:thinking:11e49fc459a3a5eb1547dc9a5fceb75987acb34e77cb15271f3961b5f0cbcf71:False:1",
+      "raw_content_sha256": "3b0e5c34ccb6452a5c318f8ca10ab8292fe82ad8f831fe9a634f44d3ea964a6b",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "usage": {
+        "completion_tokens": 8192,
+        "prompt_tokens": 21823,
+        "prompt_tokens_details": null,
+        "total_tokens": 30015
+      },
+      "wire_body_sha256": "7396b6b217fa01b66e747e85ff7185cf3fbe11a650614b17939accd6be1de4f6"
+    },
+    {
+      "elapsed_seconds": 102.3061896758154,
+      "finish_reason": "stop",
+      "id": "method_runtime_c3_20261107:thinking:8aa4fa79552b63da56fa8135a51ae6fa6425ec2d21ff209b6576fafe581ddc02:True:0",
+      "raw_content_sha256": "4fe1e33137f044b411be269dfc42735d6b1136996ff3b74d5a128eafef3c169c",
+      "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+      "source_only_issue_count": 13,
+      "source_only_issue_groups": {
+        "bindings": 3,
+        "observations": 8,
+        "query": 1,
+        "rule_residuals": 1
+      },
+      "source_only_issue_sample": [
+        {
+          "actual": {
+            "cited_text": "| Within and between U.S., Canada, Puerto Rico and U.S. Virgin Islands                                                                                         | $100          | $100       | $100            | $100       | $100      |\n| Between Mexico, Caribbean or Central America, South America and U.S., Puerto Rico, U.S. Virgin Islands, Canada; or between the Caribbean and Central America | $100          | $100       | $100            | $100       | $100      |\n| To or from Australia and New Zealand                                                                                                                         | $100          | $100       | $100            | $100       | $100      |",
+            "sources": [
+              "s133",
+              "s135",
+              "s137"
+            ],
+            "value": 200
+          },
+          "expected": "exact_numeric_literal_in_cited_public_unit",
+          "path": "bindings[1].value"
+        },
+        {
+          "actual": {
+            "cited_text": "| Within and between U.S., Canada, Puerto Rico and U.S. Virgin Islands                                                                                         | $100          | $100       | $100            | $100       | $100      |\n| Between Mexico, Caribbean or Central America, South America and U.S., Puerto Rico, U.S. Virgin Islands, Canada; or between the Caribbean and Central America | $100          | $100       | $100            | $100       | $100      |\n| To or from Australia and New Zealand                                                                                                                         | $100          | $100       | $100            | $100       | $100      |",
+            "sources": [
+              "s133",
+              "s135",
+              "s137"
+            ],
+            "value": 200
+          },
+          "expected": "exact_numeric_literal_in_cited_public_unit",
+          "path": "bindings[2].value"
+        },
+        {
+          "actual": {
+            "cited_text": "| Within and between U.S., Canada, Puerto Rico and U.S. Virgin Islands                                                                                         | $100          | $100       | $100            | $100       | $100      |\n| Between Mexico, Caribbean or Central America, South America and U.S., Puerto Rico, U.S. Virgin Islands, Canada; or between the Caribbean and Central America | $100          | $100       | $100            | $100       | $100      |\n| To or from Australia and New Zealand                                                                                                                         | $100          | $100       | $100            | $100       | $100      |",
+            "sources": [
+              "s133",
+              "s135",
+              "s137"
+            ],
+            "value": 200
+          },
+          "expected": "exact_numeric_literal_in_cited_public_unit",
+          "path": "bindings[3].value"
+        },
+        {
+          "actual": "bag",
+          "expected": "exact substring of cited source",
+          "path": "observations[0].entity"
+        },
+        {
+          "actual": "oversize",
+          "expected": "exact substring of cited source",
+          "path": "observations[0].predicate"
+        },
+        {
+          "actual": "bag",
+          "expected": "exact substring of cited source",
+          "path": "observations[1].entity"
+        }
+      ],
+      "usage": {
+        "completion_tokens": 3219,
+        "prompt_tokens": 11032,
+        "prompt_tokens_details": null,
+        "total_tokens": 14251
+      },
+      "wire_body_sha256": "afb3b3654bd3043976967a91a7faddec3f9c6bedd4cd9e61077c77dfc1766853",
+      "wire_schema_errors": [],
+      "wire_schema_valid": true
+    },
+    {
+      "elapsed_seconds": 82.84368089865893,
+      "finish_reason": "stop",
+      "id": "method_runtime_c3_20261107:thinking:8aa4fa79552b63da56fa8135a51ae6fa6425ec2d21ff209b6576fafe581ddc02:True:1",
+      "raw_content_sha256": "539a85852e5c599eb16b29ec41f3ec34aa33bc057090fda9b9e420c03d09f901",
+      "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+      "source_only_issue_count": 12,
+      "source_only_issue_groups": {
+        "bindings": 2,
+        "observations": 8,
+        "query": 1,
+        "rule_residuals": 1
+      },
+      "source_only_issue_sample": [
+        {
+          "actual": {
+            "cited_text": "| Within and between U.S., Puerto Rico and U.S. Virgin Islands                                                                                                                         | $40           | $40         | $0              | $0       | $0    |",
+            "sources": [
+              "s25"
+            ],
+            "value": 45
+          },
+          "expected": "exact_numeric_literal_in_cited_public_unit",
+          "path": "bindings[2].value"
+        },
+        {
+          "actual": {
+            "cited_text": "| Within and between U.S., Canada, Puerto Rico and U.S. Virgin Islands                                                                                       | $150          | $150       | $150            | $150     | $150   |",
+            "sources": [
+              "s57"
+            ],
+            "value": 200
+          },
+          "expected": "exact_numeric_literal_in_cited_public_unit",
+          "path": "bindings[3].value"
+        },
+        {
+          "actual": "bag",
+          "expected": "exact substring of cited source",
+          "path": "observations[0].entity"
+        },
+        {
+          "actual": "oversize",
+          "expected": "exact substring of cited source",
+          "path": "observations[0].predicate"
+        },
+        {
+          "actual": "bag",
+          "expected": "exact substring of cited source",
+          "path": "observations[1].entity"
+        },
+        {
+          "actual": "oversize",
+          "expected": "exact substring of cited source",
+          "path": "observations[1].predicate"
+        }
+      ],
+      "usage": {
+        "completion_tokens": 2538,
+        "prompt_tokens": 12212,
+        "prompt_tokens_details": null,
+        "total_tokens": 14750
+      },
+      "wire_body_sha256": "7859f6fb1d1b53684cb2182700f1d414918c3aa9d80c13f09df2c41f12d64f12",
+      "wire_schema_errors": [],
+      "wire_schema_valid": true
+    }
+  ],
+  "scope": "Completed c3 calls only; exact literal wire schemas and source-only diagnostics; no new labels/generation"
+}

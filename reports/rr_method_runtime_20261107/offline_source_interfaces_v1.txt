@@ -1,0 +1,295 @@
+FFFFF..F................                                                 [100%]
+=================================== FAILURES ===================================
+______ test_real_connector_interventions_compare_the_complete_native_task ______
+tests/test_rr_source_interface_learning.py:59: in test_real_connector_interventions_compare_the_complete_native_task
+    result=learn_source_interfaces(source,grade,oracle,program=program)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_interface_learning.py:90: in learn_source_interfaces
+    try:compiled=compile_source(source,program,library=library)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:185: in compile_source
+    validate_wire(program,program_schema(source,library))
+legal_skill_guard/rr/wire_validation.py:52: in validate_wire
+    WireValidator(schema).validate(value)
+../legal-skill-current/.venv/lib/python3.11/site-packages/jsonschema/validators.py:450: in validate
+    raise error
+E   jsonschema.exceptions.ValidationError: No schema union alternative accepts this value
+E   
+E   Failed validating 'anyOf' in schema['properties']['nodes']['items']:
+E       {'anyOf': [{'type': 'object',
+E                   'additionalProperties': False,
+E                   'required': ['name', 'kind', 'body'],
+E                   'properties': {'name': {'type': 'string'},
+E                                  'kind': {'enum': ['expression'],
+E                                           'type': 'string'},
+E                                  'body': {'$ref': '#/$defs/expr'}}},
+E                  {'type': 'object',
+E                   'additionalProperties': False,
+E                   'required': ['name', 'kind', 'body'],
+E                   'properties': {'name': {'type': 'string'},
+E                                  'kind': {'enum': ['connector'],
+E                                           'type': 'string'},
+E                                  'body': {'type': 'object',
+E                                           'additionalProperties': False,
+E                                           'required': ['graph', 'project'],
+E                                           'properties': {'graph': {'$ref': '#/$defs/connector'},
+E                                                          'project': {'enum': ['identity',
+E                                                                               'amount_value',
+E                                                                               'amount_values',
+E                                                                               'entailment_label'],
+E                                                                      'type': 'string'}}}}}]}
+E   
+E   On instance['nodes'][0]:
+E       {'name': 'joined',
+E        'kind': 'connector',
+E        'body': {'graph': {'op': 'project_exists',
+E                           'inputs': [{'op': 'join_on',
+E                                       'inputs': [{'slot': 'licensed'},
+E                                                  {'slot': 'insured'}],
+E                                       'params': {'keys': ['person']}}]},
+E                 'project': 'identity'}}
+_ test_changed_entity_view_preserves_literal_provenance_without_modifying_the_original _
+tests/test_rr_source_interface_learning.py:74: in test_changed_entity_view_preserves_literal_provenance_without_modifying_the_original
+    compiled,observed=rebind_source_program(source,variant,program,[])
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_interface_learning.py:68: in rebind_source_program
+    compiled=compile_source(variant,result,library=library)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:185: in compile_source
+    validate_wire(program,program_schema(source,library))
+legal_skill_guard/rr/wire_validation.py:52: in validate_wire
+    WireValidator(schema).validate(value)
+../legal-skill-current/.venv/lib/python3.11/site-packages/jsonschema/validators.py:450: in validate
+    raise error
+E   jsonschema.exceptions.ValidationError: No schema union alternative accepts this value
+E   
+E   Failed validating 'anyOf' in schema['properties']['nodes']['items']:
+E       {'anyOf': [{'type': 'object',
+E                   'additionalProperties': False,
+E                   'required': ['name', 'kind', 'body'],
+E                   'properties': {'name': {'type': 'string'},
+E                                  'kind': {'enum': ['expression'],
+E                                           'type': 'string'},
+E                                  'body': {'$ref': '#/$defs/expr'}}},
+E                  {'type': 'object',
+E                   'additionalProperties': False,
+E                   'required': ['name', 'kind', 'body'],
+E                   'properties': {'name': {'type': 'string'},
+E                                  'kind': {'enum': ['connector'],
+E                                           'type': 'string'},
+E                                  'body': {'type': 'object',
+E                                           'additionalProperties': False,
+E                                           'required': ['graph', 'project'],
+E                                           'properties': {'graph': {'$ref': '#/$defs/connector'},
+E                                                          'project': {'enum': ['identity',
+E                                                                               'amount_value',
+E                                                                               'amount_values',
+E                                                                               'entailment_label'],
+E                                                                      'type': 'string'}}}}}]}
+E   
+E   On instance['nodes'][0]:
+E       {'name': 'joined',
+E        'kind': 'connector',
+E        'body': {'graph': {'op': 'project_exists',
+E                           'inputs': [{'op': 'join_on',
+E                                       'inputs': [{'slot': 'licensed'},
+E                                                  {'slot': 'insured'}],
+E                                       'params': {'keys': ['person']}}]},
+E                 'project': 'identity'}}
+_______ test_empty_executable_H_cannot_be_rescued_by_a_field_refinement ________
+tests/test_rr_source_interface_learning.py:85: in test_empty_executable_H_cannot_be_rescued_by_a_field_refinement
+    result=learn_source_interfaces(source,grade,RecordedOracle(tmp_path/'book.sqlite3',source['key']),program=program)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_interface_learning.py:90: in learn_source_interfaces
+    try:compiled=compile_source(source,program,library=library)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:185: in compile_source
+    validate_wire(program,program_schema(source,library))
+legal_skill_guard/rr/wire_validation.py:52: in validate_wire
+    WireValidator(schema).validate(value)
+../legal-skill-current/.venv/lib/python3.11/site-packages/jsonschema/validators.py:450: in validate
+    raise error
+E   jsonschema.exceptions.ValidationError: No schema union alternative accepts this value
+E   
+E   Failed validating 'anyOf' in schema['properties']['nodes']['items']:
+E       {'anyOf': [{'type': 'object',
+E                   'additionalProperties': False,
+E                   'required': ['name', 'kind', 'body'],
+E                   'properties': {'name': {'type': 'string'},
+E                                  'kind': {'enum': ['expression'],
+E                                           'type': 'string'},
+E                                  'body': {'$ref': '#/$defs/expr'}}},
+E                  {'type': 'object',
+E                   'additionalProperties': False,
+E                   'required': ['name', 'kind', 'body'],
+E                   'properties': {'name': {'type': 'string'},
+E                                  'kind': {'enum': ['connector'],
+E                                           'type': 'string'},
+E                                  'body': {'type': 'object',
+E                                           'additionalProperties': False,
+E                                           'required': ['graph', 'project'],
+E                                           'properties': {'graph': {'$ref': '#/$defs/connector'},
+E                                                          'project': {'enum': ['identity',
+E                                                                               'amount_value',
+E                                                                               'amount_values',
+E                                                                               'entailment_label'],
+E                                                                      'type': 'string'}}}}}]}
+E   
+E   On instance['nodes'][0]:
+E       {'name': 'joined',
+E        'kind': 'connector',
+E        'body': {'graph': {'op': 'project_exists',
+E                           'inputs': [{'op': 'join_on',
+E                                       'inputs': [{'slot': 'licensed'},
+E                                                  {'slot': 'insured'}],
+E                                       'params': {'keys': ['person']}}]},
+E                 'project': 'identity'}}
+_______ test_four_already_charged_missing_views_do_not_buy_a_new_budget ________
+tests/test_rr_source_interface_learning.py:94: in test_four_already_charged_missing_views_do_not_buy_a_new_budget
+    result=learn_source_interfaces(source,grade,oracle,program=program)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_interface_learning.py:90: in learn_source_interfaces
+    try:compiled=compile_source(source,program,library=library)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:185: in compile_source
+    validate_wire(program,program_schema(source,library))
+legal_skill_guard/rr/wire_validation.py:52: in validate_wire
+    WireValidator(schema).validate(value)
+../legal-skill-current/.venv/lib/python3.11/site-packages/jsonschema/validators.py:450: in validate
+    raise error
+E   jsonschema.exceptions.ValidationError: No schema union alternative accepts this value
+E   
+E   Failed validating 'anyOf' in schema['properties']['nodes']['items']:
+E       {'anyOf': [{'type': 'object',
+E                   'additionalProperties': False,
+E                   'required': ['name', 'kind', 'body'],
+E                   'properties': {'name': {'type': 'string'},
+E                                  'kind': {'enum': ['expression'],
+E                                           'type': 'string'},
+E                                  'body': {'$ref': '#/$defs/expr'}}},
+E                  {'type': 'object',
+E                   'additionalProperties': False,
+E                   'required': ['name', 'kind', 'body'],
+E                   'properties': {'name': {'type': 'string'},
+E                                  'kind': {'enum': ['connector'],
+E                                           'type': 'string'},
+E                                  'body': {'type': 'object',
+E                                           'additionalProperties': False,
+E                                           'required': ['graph', 'project'],
+E                                           'properties': {'graph': {'$ref': '#/$defs/connector'},
+E                                                          'project': {'enum': ['identity',
+E                                                                               'amount_value',
+E                                                                               'amount_values',
+E                                                                               'entailment_label'],
+E                                                                      'type': 'string'}}}}}]}
+E   
+E   On instance['nodes'][0]:
+E       {'name': 'joined',
+E        'kind': 'connector',
+E        'body': {'graph': {'op': 'project_exists',
+E                           'inputs': [{'op': 'join_on',
+E                                       'inputs': [{'slot': 'licensed'},
+E                                                  {'slot': 'insured'}],
+E                                       'params': {'keys': ['person']}}]},
+E                 'project': 'identity'}}
+____ test_unbound_cached_view_cannot_verify_a_graph_or_trigger_more_queries ____
+tests/test_rr_source_interface_learning.py:110: in test_unbound_cached_view_cannot_verify_a_graph_or_trigger_more_queries
+    result=learn_source_interfaces(source,grade,oracle,program=program)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_interface_learning.py:90: in learn_source_interfaces
+    try:compiled=compile_source(source,program,library=library)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:185: in compile_source
+    validate_wire(program,program_schema(source,library))
+legal_skill_guard/rr/wire_validation.py:52: in validate_wire
+    WireValidator(schema).validate(value)
+../legal-skill-current/.venv/lib/python3.11/site-packages/jsonschema/validators.py:450: in validate
+    raise error
+E   jsonschema.exceptions.ValidationError: No schema union alternative accepts this value
+E   
+E   Failed validating 'anyOf' in schema['properties']['nodes']['items']:
+E       {'anyOf': [{'type': 'object',
+E                   'additionalProperties': False,
+E                   'required': ['name', 'kind', 'body'],
+E                   'properties': {'name': {'type': 'string'},
+E                                  'kind': {'enum': ['expression'],
+E                                           'type': 'string'},
+E                                  'body': {'$ref': '#/$defs/expr'}}},
+E                  {'type': 'object',
+E                   'additionalProperties': False,
+E                   'required': ['name', 'kind', 'body'],
+E                   'properties': {'name': {'type': 'string'},
+E                                  'kind': {'enum': ['connector'],
+E                                           'type': 'string'},
+E                                  'body': {'type': 'object',
+E                                           'additionalProperties': False,
+E                                           'required': ['graph', 'project'],
+E                                           'properties': {'graph': {'$ref': '#/$defs/connector'},
+E                                                          'project': {'enum': ['identity',
+E                                                                               'amount_value',
+E                                                                               'amount_values',
+E                                                                               'entailment_label'],
+E                                                                      'type': 'string'}}}}}]}
+E   
+E   On instance['nodes'][0]:
+E       {'name': 'joined',
+E        'kind': 'connector',
+E        'body': {'graph': {'op': 'project_exists',
+E                           'inputs': [{'op': 'join_on',
+E                                       'inputs': [{'slot': 'licensed'},
+E                                                  {'slot': 'insured'}],
+E                                       'params': {'keys': ['person']}}]},
+E                 'project': 'identity'}}
+________ test_unused_connectors_cannot_become_learned_executable_cases _________
+tests/test_rr_source_interface_learning.py:171: in test_unused_connectors_cannot_become_learned_executable_cases
+    compiled=compile_source(source,program)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:185: in compile_source
+    validate_wire(program,program_schema(source,library))
+legal_skill_guard/rr/wire_validation.py:52: in validate_wire
+    WireValidator(schema).validate(value)
+../legal-skill-current/.venv/lib/python3.11/site-packages/jsonschema/validators.py:450: in validate
+    raise error
+E   jsonschema.exceptions.ValidationError: No schema union alternative accepts this value
+E   
+E   Failed validating 'anyOf' in schema['properties']['nodes']['items']:
+E       {'anyOf': [{'type': 'object',
+E                   'additionalProperties': False,
+E                   'required': ['name', 'kind', 'body'],
+E                   'properties': {'name': {'type': 'string'},
+E                                  'kind': {'enum': ['expression'],
+E                                           'type': 'string'},
+E                                  'body': {'$ref': '#/$defs/expr'}}},
+E                  {'type': 'object',
+E                   'additionalProperties': False,
+E                   'required': ['name', 'kind', 'body'],
+E                   'properties': {'name': {'type': 'string'},
+E                                  'kind': {'enum': ['connector'],
+E                                           'type': 'string'},
+E                                  'body': {'type': 'object',
+E                                           'additionalProperties': False,
+E                                           'required': ['graph', 'project'],
+E                                           'properties': {'graph': {'$ref': '#/$defs/connector'},
+E                                                          'project': {'enum': ['identity',
+E                                                                               'amount_value',
+E                                                                               'amount_values',
+E                                                                               'entailment_label'],
+E                                                                      'type': 'string'}}}}}]}
+E   
+E   On instance['nodes'][0]:
+E       {'name': 'joined',
+E        'kind': 'connector',
+E        'body': {'graph': {'op': 'project_exists',
+E                           'inputs': [{'op': 'join_on',
+E                                       'inputs': [{'slot': 'licensed'},
+E                                                  {'slot': 'insured'}],
+E                                       'params': {'keys': ['person']}}]},
+E                 'project': 'identity'}}
+=========================== short test summary info ============================
+FAILED tests/test_rr_source_interface_learning.py::test_real_connector_interventions_compare_the_complete_native_task
+FAILED tests/test_rr_source_interface_learning.py::test_changed_entity_view_preserves_literal_provenance_without_modifying_the_original
+FAILED tests/test_rr_source_interface_learning.py::test_empty_executable_H_cannot_be_rescued_by_a_field_refinement
+FAILED tests/test_rr_source_interface_learning.py::test_four_already_charged_missing_views_do_not_buy_a_new_budget
+FAILED tests/test_rr_source_interface_learning.py::test_unbound_cached_view_cannot_verify_a_graph_or_trigger_more_queries
+FAILED tests/test_rr_source_interface_learning.py::test_unused_connectors_cannot_become_learned_executable_cases
+6 failed, 18 passed in 0.95s

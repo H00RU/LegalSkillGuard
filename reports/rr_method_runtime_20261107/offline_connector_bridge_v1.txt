@@ -1,0 +1,357 @@
+........................................................................ [ 39%]
+.........................................F...F.......................... [ 78%]
+.......................................                                  [100%]
+=================================== FAILURES ===================================
+_ test_B_non_ProofWriter_learning_executes_candidates_through_ingestion_and_freezes _
+
+tmp_path = PosixPath('/tmp/pytest-of-yndx/pytest-2335/test_B_non_ProofWriter_learnin0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f4ed8b76650>
+
+    def test_B_non_ProofWriter_learning_executes_candidates_through_ingestion_and_freezes(tmp_path, monkeypatch):
+        source, proposal, grade = allowance_case()
+        # Only the artificial microcase's reference is supplied. The production
+        # learner, candidate generator, binder, execution and durable accounting run.
+        def reference(s, g, view):
+            first, second = [b['weight'] for b in view['arguments']['bag_list'][1:]]
+            used_first = min(first, 100)
+            return first - used_first + 2 * max(0, second - (100 - used_first))
+        monkeypatch.setattr('legal_skill_guard.rr.source_learning.evaluate_reference', reference)
+        scope, trace = Scope(), {}
+        def learner(s, g, oracle, *, proposal=None):
+            return learn_source(s, g, oracle, proposal=proposal, trace=trace)
+        def call(**kw):
+            jsonschema.validate(proposal, kw['schema'])
+            return {'content': json.dumps(proposal), 'request_hash': digest(kw['prompt']), 'usage': {}, 'elapsed_seconds': 0}
+>       record = ingest_source(source=source, grade=grade, library=SkillLibrary(), thinking=True, call=call,
+            learner=learner, ledger=scope, artifacts=tmp_path, binding={}, purpose='pilot_ingestion',
+            id_prefix='artificial', offline_mock=True)
+
+tests/test_rr_method_gaps.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+legal_skill_guard/rr/preflight.py:250: in ingest_source
+    wire = call(call_id=f"{id_prefix}:{source['key']}:{step}", source=source,
+tests/test_rr_method_gaps.py:196: in call
+    jsonschema.validate(proposal, kw['schema'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+instance = {'answer': 200, 'program': {'kind': 'connector', 'body': {'bindings': [{'name': 'first', 'type': 'amount', 'source': '...': 'key'}}], 'project': 'amount_values', 'source_links': {}, ...}}, 'compiled_units': [], 'unsupported_units': [], ...}
+schema = {'type': 'object', 'additionalProperties': False, 'required': ['answer', 'program', 'compiled_units', 'unsupported_uni...', 's1', 's2', 's3']}}, 'unsupported_units': {'type': 'array', 'items': {'enum': ['s0', 's1', 's2', 's3']}}, ...}, ...}
+cls = <class 'jsonschema.validators.Draft202012Validator'>, args = ()
+kwargs = {}
+
+    def validate(instance, schema, cls=None, *args, **kwargs):  # noqa: D417
+        """
+        Validate an instance under the given schema.
+    
+            >>> validate([2, 3, 4], {"maxItems": 2})
+            Traceback (most recent call last):
+                ...
+            ValidationError: [2, 3, 4] is too long
+    
+        :func:`~jsonschema.validators.validate` will first verify that the
+        provided schema is itself valid, since not doing so can lead to less
+        obvious error messages and fail in less obvious or consistent ways.
+    
+        If you know you have a valid schema already, especially
+        if you intend to validate multiple instances with
+        the same schema, you likely would prefer using the
+        `jsonschema.protocols.Validator.validate` method directly on a
+        specific validator (e.g. ``Draft202012Validator.validate``).
+    
+    
+        Arguments:
+    
+            instance:
+    
+                The instance to validate
+    
+            schema:
+    
+                The schema to validate with
+    
+            cls (jsonschema.protocols.Validator):
+    
+                The class that will be used to validate the instance.
+    
+        If the ``cls`` argument is not provided, two things will happen
+        in accordance with the specification. First, if the schema has a
+        :kw:`$schema` keyword containing a known meta-schema [#]_ then the
+        proper validator will be used. The specification recommends that
+        all schemas contain :kw:`$schema` properties for this reason. If no
+        :kw:`$schema` property is found, the default validator class is the
+        latest released draft.
+    
+        Any other provided positional and keyword arguments will be passed
+        on when instantiating the ``cls``.
+    
+        Raises:
+    
+            `jsonschema.exceptions.ValidationError`:
+    
+                if the instance is invalid
+    
+            `jsonschema.exceptions.SchemaError`:
+    
+                if the schema itself is invalid
+    
+        .. rubric:: Footnotes
+        .. [#] known by a validator registered with
+            `jsonschema.validators.validates`
+    
+        """
+        if cls is None:
+            cls = validator_for(schema)
+    
+        cls.check_schema(schema)
+        validator = cls(schema, *args, **kwargs)
+        error = exceptions.best_match(validator.iter_errors(instance))
+        if error is not None:
+>           raise error
+E           jsonschema.exceptions.ValidationError: {'name': 'first', 'type': 'amount', 'source': 's2', 'value': {'value': 80, 'unit': 'dollar', 'owner': 'family', 'period': 'year', 'lineage': ['first'], 'stage': 'element'}} is not valid under any of the given schemas
+E           
+E           Failed validating 'anyOf' in schema[0]['properties']['body']['properties']['bindings']['items']:
+E               {'anyOf': [{'type': 'object',
+E                           'additionalProperties': False,
+E                           'required': ['name', 'type', 'value', 'source'],
+E                           'properties': {'name': {'type': 'string',
+E                                                   'pattern': '^n_[A-Za-z0-9_]+$'},
+E                                          'type': {'enum': ['integer']},
+E                                          'value': {'type': 'integer'},
+E                                          'source': {'enum': ['s0',
+E                                                              's1',
+E                                                              's2',
+E                                                              's3']}}},
+E                          {'type': 'object',
+E                           'additionalProperties': False,
+E                           'required': ['name', 'type', 'value', 'source'],
+E                           'properties': {'name': {'type': 'string',
+E                                                   'pattern': '^n_[A-Za-z0-9_]+$'},
+E                                          'type': {'enum': ['rational']},
+E                                          'value': {'type': 'string'},
+E                                          'source': {'enum': ['s0',
+E                                                              's1',
+E                                                              's2',
+E                                                              's3']}}},
+E                          {'type': 'object',
+E                           'additionalProperties': False,
+E                           'required': ['name', 'type', 'value', 'source'],
+E                           'properties': {'name': {'type': 'string',
+E                                                   'pattern': '^n_[A-Za-z0-9_]+$'},
+E                                          'type': {'enum': ['scalar']},
+E                                          'value': {'type': 'integer'},
+E                                          'source': {'enum': ['s0',
+E                                                              's1',
+E                                                              's2',
+E                                                              's3']}}},
+E                          {'type': 'object',
+E                           'additionalProperties': False,
+E                           'required': ['name', 'type', 'value', 'source'],
+E                           'properties': {'name': {'type': 'string',
+E                                                   'pattern': '^s_[A-Za-z0-9_]+$'},
+E                                          'type': {'enum': ['scalar']},
+E                                          'value': {'type': 'string'},
+E                                          'source': {'enum': ['s0',
+E                                                              's1',
+E                                                              's2',
+E                                                              's3']}}}]}
+E           
+E           On instance['body']['bindings'][0]:
+E               {'name': 'first',
+E                'type': 'amount',
+E                'source': 's2',
+E                'value': {'value': 80,
+E                          'unit': 'dollar',
+E                          'owner': 'family',
+E                          'period': 'year',
+E                          'lineage': ['first'],
+E                          'stage': 'element'}}
+
+../legal-skill-current/.venv/lib/python3.11/site-packages/jsonschema/validators.py:1332: ValidationError
+_______ test_B_SARA_uses_a_renderable_fact_edit_and_real_join_execution ________
+
+tmp_path = PosixPath('/tmp/pytest-of-yndx/pytest-2335/test_B_SARA_uses_a_renderable_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f4f2c0eb210>
+
+    def test_B_SARA_uses_a_renderable_fact_edit_and_real_join_execution(tmp_path, monkeypatch):
+        source = {'key': 'artificial:existing_entity_join', 'dataset': 'SARA_v2_Binary', 'public': {
+            'rules': 'The claim holds iff the same person paid and received.',
+            'facts': 'Alice paid Bob.', 'query': 'Did the same person pay and receive?'}}
+        source['content_hash'] = digest(source['public'])
+        prefix = 'agent_(payment,"Alice").\npatient_(payment,"Bob").\nperson_("Alice").\nperson_("Bob").\n'
+        monkeypatch.setattr('legal_skill_guard.rr.source_learning.sara_case', lambda grade: (prefix, 'same_person'))
+        def reference(s, g, view):
+            left, right = 'Alice', 'Bob'
+            edit = view['edit']
+            assert edit['scope'] == 'all_fact_occurrences'
+            left = edit['new'] if left == edit['old'] else left
+            right = edit['new'] if right == edit['old'] else right
+            return 'Entailment' if left == right else 'Contradiction'
+        monkeypatch.setattr('legal_skill_guard.rr.source_learning.evaluate_reference', reference)
+        bindings = [{'name': name, 'type': 'relation', 'source': 's1', 'value': {
+            'columns': ['person'], 'rows': [[person]], 'closed': True}} for name, person in [('payer','Alice'),('payee','Bob')]]
+        graph = {'op': 'project_exists', 'inputs': [{'op': 'join_on', 'inputs': [{'slot': 'payer'},{'slot': 'payee'}],
+                 'params': {'keys': ['person']}}]}
+        proposal = {'answer': 'Contradiction', 'program': {'kind': 'connector', 'body': {
+            'bindings': bindings, 'candidates': [graph], 'project': 'entailment_label', 'source_links': {}}},
+            'compiled_units': [], 'unsupported_units': [], 'interfaces': []}
+        trace = {}
+        def learner(s, g, oracle, *, proposal=None):
+            return learn_source(s, g, oracle, proposal=proposal, trace=trace)
+        def call(**kw):
+            jsonschema.validate(proposal, kw['schema'])
+            return {'content': json.dumps(proposal), 'request_hash': digest(kw['prompt']), 'usage': {}, 'elapsed_seconds': 0}
+        scope = Scope()
+>       record = ingest_source(source=source, grade={'answer':'Contradiction'}, library=SkillLibrary(), thinking=True,
+            call=call, learner=learner, ledger=scope, artifacts=tmp_path, binding={},
+            purpose='pilot_ingestion', id_prefix='artificial', offline_mock=True)
+
+tests/test_rr_method_gaps.py:306: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+legal_skill_guard/rr/preflight.py:250: in ingest_source
+    wire = call(call_id=f"{id_prefix}:{source['key']}:{step}", source=source,
+tests/test_rr_method_gaps.py:303: in call
+    jsonschema.validate(proposal, kw['schema'])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+instance = {'answer': 'Contradiction', 'program': {'kind': 'connector', 'body': {'bindings': [{'name': 'payer', 'type': 'relation...s': [{...}]}], 'project': 'entailment_label', 'source_links': {}}}, 'compiled_units': [], 'unsupported_units': [], ...}
+schema = {'type': 'object', 'additionalProperties': False, 'required': ['answer', 'program', 'compiled_units', 'unsupported_uni...'enum': ['s0', 's1', 's2']}}, 'unsupported_units': {'type': 'array', 'items': {'enum': ['s0', 's1', 's2']}}, ...}, ...}
+cls = <class 'jsonschema.validators.Draft202012Validator'>, args = ()
+kwargs = {}
+
+    def validate(instance, schema, cls=None, *args, **kwargs):  # noqa: D417
+        """
+        Validate an instance under the given schema.
+    
+            >>> validate([2, 3, 4], {"maxItems": 2})
+            Traceback (most recent call last):
+                ...
+            ValidationError: [2, 3, 4] is too long
+    
+        :func:`~jsonschema.validators.validate` will first verify that the
+        provided schema is itself valid, since not doing so can lead to less
+        obvious error messages and fail in less obvious or consistent ways.
+    
+        If you know you have a valid schema already, especially
+        if you intend to validate multiple instances with
+        the same schema, you likely would prefer using the
+        `jsonschema.protocols.Validator.validate` method directly on a
+        specific validator (e.g. ``Draft202012Validator.validate``).
+    
+    
+        Arguments:
+    
+            instance:
+    
+                The instance to validate
+    
+            schema:
+    
+                The schema to validate with
+    
+            cls (jsonschema.protocols.Validator):
+    
+                The class that will be used to validate the instance.
+    
+        If the ``cls`` argument is not provided, two things will happen
+        in accordance with the specification. First, if the schema has a
+        :kw:`$schema` keyword containing a known meta-schema [#]_ then the
+        proper validator will be used. The specification recommends that
+        all schemas contain :kw:`$schema` properties for this reason. If no
+        :kw:`$schema` property is found, the default validator class is the
+        latest released draft.
+    
+        Any other provided positional and keyword arguments will be passed
+        on when instantiating the ``cls``.
+    
+        Raises:
+    
+            `jsonschema.exceptions.ValidationError`:
+    
+                if the instance is invalid
+    
+            `jsonschema.exceptions.SchemaError`:
+    
+                if the schema itself is invalid
+    
+        .. rubric:: Footnotes
+        .. [#] known by a validator registered with
+            `jsonschema.validators.validates`
+    
+        """
+        if cls is None:
+            cls = validator_for(schema)
+    
+        cls.check_schema(schema)
+        validator = cls(schema, *args, **kwargs)
+        error = exceptions.best_match(validator.iter_errors(instance))
+        if error is not None:
+>           raise error
+E           jsonschema.exceptions.ValidationError: {'name': 'payer', 'type': 'relation', 'source': 's1', 'value': {'columns': ['person'], 'rows': [['Alice']], 'closed': True}} is not valid under any of the given schemas
+E           
+E           Failed validating 'anyOf' in schema[0]['properties']['body']['properties']['bindings']['items']:
+E               {'anyOf': [{'type': 'object',
+E                           'additionalProperties': False,
+E                           'required': ['name', 'type', 'value', 'source'],
+E                           'properties': {'name': {'type': 'string',
+E                                                   'pattern': '^n_[A-Za-z0-9_]+$'},
+E                                          'type': {'enum': ['integer']},
+E                                          'value': {'type': 'integer'},
+E                                          'source': {'enum': ['s0', 's1', 's2']}}},
+E                          {'type': 'object',
+E                           'additionalProperties': False,
+E                           'required': ['name', 'type', 'value', 'source'],
+E                           'properties': {'name': {'type': 'string',
+E                                                   'pattern': '^n_[A-Za-z0-9_]+$'},
+E                                          'type': {'enum': ['rational']},
+E                                          'value': {'type': 'string'},
+E                                          'source': {'enum': ['s0', 's1', 's2']}}},
+E                          {'type': 'object',
+E                           'additionalProperties': False,
+E                           'required': ['name', 'type', 'value', 'source'],
+E                           'properties': {'name': {'type': 'string',
+E                                                   'pattern': '^n_[A-Za-z0-9_]+$'},
+E                                          'type': {'enum': ['scalar']},
+E                                          'value': {'type': 'integer'},
+E                                          'source': {'enum': ['s0', 's1', 's2']}}},
+E                          {'type': 'object',
+E                           'additionalProperties': False,
+E                           'required': ['name', 'type', 'value', 'source'],
+E                           'properties': {'name': {'type': 'string',
+E                                                   'pattern': '^s_[A-Za-z0-9_]+$'},
+E                                          'type': {'enum': ['scalar']},
+E                                          'value': {'type': 'string'},
+E                                          'source': {'enum': ['s0', 's1', 's2']}}}]}
+E           
+E           On instance['body']['bindings'][0]:
+E               {'name': 'payer',
+E                'type': 'relation',
+E                'source': 's1',
+E                'value': {'columns': ['person'], 'rows': [['Alice']], 'closed': True}}
+
+../legal-skill-current/.venv/lib/python3.11/site-packages/jsonschema/validators.py:1332: ValidationError
+=============================== warnings summary ===============================
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-rr-v2/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:215: RuntimeWarning: Mean of empty slice
+    score_array[sample_index, :] = asset_score_array.mean(axis=0) # Sample-based scores
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-current/.venv/lib/python3.11/site-packages/numpy/_core/_methods.py:134: RuntimeWarning: invalid value encountered in divide
+    ret = um.true_divide(
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-rr-v2/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:246: RuntimeWarning: Mean of empty slice
+    score_array[sample_index, :] = np.nanmean(asset_score_array, axis=0) # Sample-based scores
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-rr-v2/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:248: RuntimeWarning: Mean of empty slice
+    precision, recall, f1, mare = np.nanmean(score_array, axis=0)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_rr_method_gaps.py::test_B_non_ProofWriter_learning_executes_candidates_through_ingestion_and_freezes
+FAILED tests/test_rr_method_gaps.py::test_B_SARA_uses_a_renderable_fact_edit_and_real_join_execution
+2 failed, 181 passed, 8 warnings in 77.23s (0:01:17)

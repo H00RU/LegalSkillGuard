@@ -1,0 +1,390 @@
+{
+  "checked_utc": "2026-11-07T01:19:38.697580+00:00",
+  "checks_retain_the_actual_model_errors": true,
+  "cost": {
+    "GPU_allocation_cost_usd": null,
+    "actual_paid_teacher_invoice": null,
+    "completion_tokens": 18283,
+    "elapsed_seconds": 578.4732962902635,
+    "executor_requests": 6,
+    "finish_reasons": {
+      "stop": 6
+    },
+    "incremental_local_API_cash_usd": 0,
+    "prompt_tokens": 105909,
+    "teacher_requests": 0
+  },
+  "full_goal_complete": false,
+  "new_model_calls_by_audit": 0,
+  "new_prompt_not_yet_real_validated": true,
+  "records": [
+    {
+      "call_id": "method_runtime_c1_20261107:thinking:11e49fc459a3a5eb1547dc9a5fceb75987acb34e77cb15271f3961b5f0cbcf71:True:0",
+      "first_issues": [
+        {
+          "actual": {
+            "first_path": "bindings[0].name",
+            "name": "b_float_shelf_exempt"
+          },
+          "expected": "unique symbol name",
+          "path": "observations[0].name"
+        },
+        {
+          "actual": {
+            "first_path": "bindings[1].name",
+            "name": "b_robe_exempt"
+          },
+          "expected": "unique symbol name",
+          "path": "observations[1].name"
+        },
+        {
+          "actual": {
+            "first_path": "bindings[0].name",
+            "name": "b_float_shelf_exempt"
+          },
+          "expected": "unique symbol name",
+          "path": "rule_residuals[0].name"
+        },
+        {
+          "actual": {
+            "first_path": "bindings[1].name",
+            "name": "b_robe_exempt"
+          },
+          "expected": "unique symbol name",
+          "path": "rule_residuals[1].name"
+        },
+        {
+          "actual": {
+            "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.\nConsumer goods. Household goods and furnishings, wearing apparel, keepsakes, jewelry and other articles of personal adornment, appliances, books, musical instruments, firearms, sporting goods, animals, or other tangible personal property held primarily for the personal, family or household use of the debtor or a dependent of the debtor, not to exceed $12,000 in aggregate value.",
+            "sources": [
+              "s176",
+              "s305"
+            ],
+            "value": {
+              "lineage": [
+                "s176"
+              ],
+              "owner": "s176",
+              "period": "s176",
+              "stage": "closed_group",
+              "unit": "s176",
+              "value": 800
+            }
+          },
+          "expected": "amount_quoted_in_cited_public_unit",
+          "path": "bindings[0].value"
+        }
+      ],
+      "issue_count": 12,
+      "issue_groups": {
+        "bindings": 2,
+        "observations": 4,
+        "rule_residuals": 4,
+        "scopes": 2
+      },
+      "offline_compile_error": {
+        "message": "Public literal grounding failed: [{'binding': 'b_float_shelf_exempt', 'sources': ['s176', 's305'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_robe_exempt', 'sources': ['s201', 's176', 's305'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}]",
+        "type": "Unsupported"
+      },
+      "raw_content_sha256": "105604dde8830e1c30b999691fbe771731f53c3f32d5df76cda2169393590285",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028"
+    },
+    {
+      "call_id": "method_runtime_c1_20261107:thinking:11e49fc459a3a5eb1547dc9a5fceb75987acb34e77cb15271f3961b5f0cbcf71:True:1",
+      "first_issues": [
+        {
+          "actual": {
+            "first_path": "bindings[0].name",
+            "name": "b_float_shelf_exempt"
+          },
+          "expected": "unique symbol name",
+          "path": "observations[0].name"
+        },
+        {
+          "actual": {
+            "first_path": "bindings[1].name",
+            "name": "b_robe_exempt"
+          },
+          "expected": "unique symbol name",
+          "path": "observations[1].name"
+        },
+        {
+          "actual": {
+            "first_path": "bindings[0].name",
+            "name": "b_float_shelf_exempt"
+          },
+          "expected": "unique symbol name",
+          "path": "rule_residuals[0].name"
+        },
+        {
+          "actual": {
+            "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+            "sources": [
+              "s176"
+            ],
+            "value": {
+              "lineage": [
+                "s176"
+              ],
+              "owner": "s176",
+              "period": "s176",
+              "stage": "closed_group",
+              "unit": "s176",
+              "value": 800
+            }
+          },
+          "expected": "amount_quoted_in_cited_public_unit",
+          "path": "bindings[0].value"
+        },
+        {
+          "actual": {
+            "cited_text": "All wearing apparel of not more than a fair market value of five hundred dollars.",
+            "sources": [
+              "s201"
+            ],
+            "value": {
+              "lineage": [
+                "s201"
+              ],
+              "owner": "s201",
+              "period": "s201",
+              "stage": "closed_group",
+              "unit": "s201",
+              "value": 105
+            }
+          },
+          "expected": "amount_quoted_in_cited_public_unit",
+          "path": "bindings[1].value"
+        }
+      ],
+      "issue_count": 10,
+      "issue_groups": {
+        "bindings": 2,
+        "observations": 4,
+        "rule_residuals": 2,
+        "scopes": 2
+      },
+      "offline_compile_error": {
+        "message": "Public literal grounding failed: [{'binding': 'b_float_shelf_exempt', 'sources': ['s176'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_robe_exempt', 'sources': ['s201'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}]",
+        "type": "Unsupported"
+      },
+      "raw_content_sha256": "8d34b11a7d79697d3ef1ef4d4f8bba7dfe567f357091e69928b967c5ef4d09f5",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028"
+    },
+    {
+      "call_id": "method_runtime_c1_20261107:thinking:11e49fc459a3a5eb1547dc9a5fceb75987acb34e77cb15271f3961b5f0cbcf71:False:0",
+      "first_issues": [
+        {
+          "actual": {
+            "first_path": "bindings[4].name",
+            "name": "b_wall_mounted_shelf_exemption"
+          },
+          "expected": "unique symbol name",
+          "path": "observations[0].name"
+        },
+        {
+          "actual": {
+            "first_path": "bindings[5].name",
+            "name": "b_hooded_fleece_rob_exemption"
+          },
+          "expected": "unique symbol name",
+          "path": "observations[1].name"
+        },
+        {
+          "actual": {
+            "first_path": "bindings[4].name",
+            "name": "b_wall_mounted_shelf_exemption"
+          },
+          "expected": "unique symbol name",
+          "path": "rule_residuals[0].name"
+        },
+        {
+          "actual": {
+            "first_path": "bindings[5].name",
+            "name": "b_hooded_fleece_rob_exemption"
+          },
+          "expected": "unique symbol name",
+          "path": "rule_residuals[1].name"
+        },
+        {
+          "actual": {
+            "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+            "sources": [
+              "s176"
+            ],
+            "value": "11 U.S.C. § 522(d)(3)"
+          },
+          "expected": "scalar_text_in_cited_public_unit",
+          "path": "bindings[4].value"
+        }
+      ],
+      "issue_count": 23,
+      "issue_groups": {
+        "bindings": 10,
+        "observations": 4,
+        "rule_residuals": 4,
+        "scopes": 5
+      },
+      "offline_compile_error": {
+        "message": "Public literal grounding failed: [{'binding': 'b_wall_mounted_shelf_exemption', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_limit', 'sources': ['s175'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_limit', 'sources': ['s175'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_remaining', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_remaining', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_status', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_status', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_remaining_total', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_remaining_total', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}]",
+        "type": "Unsupported"
+      },
+      "raw_content_sha256": "ffa70f5406d013d4ffb04fe8352cc3fec646d60102696ee3bbed8bdb0f91b86d",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028"
+    },
+    {
+      "call_id": "method_runtime_c1_20261107:thinking:11e49fc459a3a5eb1547dc9a5fceb75987acb34e77cb15271f3961b5f0cbcf71:False:1",
+      "first_issues": [
+        {
+          "actual": {
+            "first_path": "bindings[4].name",
+            "name": "b_wall_mounted_shelf_exemption"
+          },
+          "expected": "unique symbol name",
+          "path": "observations[0].name"
+        },
+        {
+          "actual": {
+            "first_path": "bindings[5].name",
+            "name": "b_hooded_fleece_rob_exemption"
+          },
+          "expected": "unique symbol name",
+          "path": "observations[1].name"
+        },
+        {
+          "actual": {
+            "first_path": "bindings[4].name",
+            "name": "b_wall_mounted_shelf_exemption"
+          },
+          "expected": "unique symbol name",
+          "path": "rule_residuals[0].name"
+        },
+        {
+          "actual": {
+            "first_path": "bindings[5].name",
+            "name": "b_hooded_fleece_rob_exemption"
+          },
+          "expected": "unique symbol name",
+          "path": "rule_residuals[1].name"
+        },
+        {
+          "actual": {
+            "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+            "sources": [
+              "s176"
+            ],
+            "value": "11 U.S.C. § 522(d)(3)"
+          },
+          "expected": "scalar_text_in_cited_public_unit",
+          "path": "bindings[4].value"
+        }
+      ],
+      "issue_count": 23,
+      "issue_groups": {
+        "bindings": 10,
+        "observations": 4,
+        "rule_residuals": 4,
+        "scopes": 5
+      },
+      "offline_compile_error": {
+        "message": "Public literal grounding failed: [{'binding': 'b_wall_mounted_shelf_exemption', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_limit', 'sources': ['s175'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_limit', 'sources': ['s175'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_remaining', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_remaining', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_status', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_status', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_remaining_total', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_remaining_total', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}]",
+        "type": "Unsupported"
+      },
+      "raw_content_sha256": "c29cf6a62326f3d931f03ea37b2e602765e32862e1e1cad8a7aef9e44906efb9",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028"
+    },
+    {
+      "call_id": "method_runtime_c1_20261107:thinking:8aa4fa79552b63da56fa8135a51ae6fa6425ec2d21ff209b6576fafe581ddc02:True:0",
+      "first_issues": [
+        {
+          "actual": "bag",
+          "expected": "exact substring of cited source",
+          "path": "observations[0].entity"
+        },
+        {
+          "actual": "bag",
+          "expected": "exact substring of cited source",
+          "path": "observations[1].entity"
+        },
+        {
+          "actual": "bag",
+          "expected": "exact substring of cited source",
+          "path": "observations[2].entity"
+        },
+        {
+          "actual": "bag",
+          "expected": "exact substring of cited source",
+          "path": "observations[3].entity"
+        },
+        {
+          "actual": [
+            "number"
+          ],
+          "expected": "boolean",
+          "path": "scopes[1].condition"
+        }
+      ],
+      "issue_count": 8,
+      "issue_groups": {
+        "observations": 4,
+        "scopes": 4
+      },
+      "offline_compile_error": {
+        "message": "Observation entity is not an exact source quote",
+        "type": "Unsupported"
+      },
+      "raw_content_sha256": "673573ee4f0215f856fffee8bb15f82725b8b600086c99bb9a204035196c63f8",
+      "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8"
+    },
+    {
+      "call_id": "method_runtime_c1_20261107:thinking:8aa4fa79552b63da56fa8135a51ae6fa6425ec2d21ff209b6576fafe581ddc02:True:1",
+      "first_issues": [
+        {
+          "actual": {
+            "cited_text": "| Between South America (excluding Colombia, Ecuador, Peru, Guyana, Suriname) and U.S., Puerto Rico, U.S. Virgin Islands, Canada, Mexico, Caribbean (including Haiti), Central America | $60           | $0          | $0              | $0       | $0    |",
+            "sources": [
+              "s33"
+            ],
+            "value": 75
+          },
+          "expected": "exact_numeric_literal_in_cited_public_unit",
+          "path": "bindings[0].value"
+        },
+        {
+          "actual": "luggage box",
+          "expected": "exact substring of cited source",
+          "path": "observations[1].entity"
+        },
+        {
+          "actual": "backpack",
+          "expected": "exact substring of cited source",
+          "path": "observations[3].entity"
+        },
+        {
+          "actual": "luggage box",
+          "expected": "exact substring of cited source",
+          "path": "observations[4].entity"
+        },
+        {
+          "actual": [
+            "number"
+          ],
+          "expected": "boolean",
+          "path": "scopes[1].condition"
+        }
+      ],
+      "issue_count": 9,
+      "issue_groups": {
+        "bindings": 1,
+        "observations": 3,
+        "scopes": 5
+      },
+      "offline_compile_error": {
+        "message": "Public literal grounding failed: [{'binding': 'n_first_bag_fee', 'sources': ['s33'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}]",
+        "type": "Unsupported"
+      },
+      "raw_content_sha256": "744002521747093008c915468a9cca660e6fd3eb67372e43c0d02b880af891d5",
+      "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8"
+    }
+  ]
+}

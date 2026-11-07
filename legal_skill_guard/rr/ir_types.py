@@ -10,7 +10,7 @@ class IRTypeError(ValueError):
         super().__init__(str(diagnostics))
 
 
-def check_expression(body, slots):
+def check_expression(body, slots, *, slot_types=None):
     errors = []
 
     def issue(path, expected, actual):
@@ -25,12 +25,16 @@ def check_expression(body, slots):
             return "string"
         if value is None:
             return "null"
-        return "array" if isinstance(value, list) else type(value).__name__
+        if isinstance(value,list) and value and all(type(v) in (int,Fraction) for v in value):
+            return 'numbers'
+        return "array" if isinstance(value, list) else "object" if isinstance(value, dict) else type(value).__name__
 
     def infer(node, path):
         if not isinstance(node, dict):
             return {literal_type(node)}
         if set(node) == {"var"}:
+            if slot_types is not None and node['var'] in slot_types:
+                return set(slot_types[node['var']])
             if node["var"] not in slots:
                 issue(path + ".var", "bound variable name", repr(node["var"]))
                 return {"invalid"}
@@ -40,14 +44,15 @@ def check_expression(body, slots):
             return {"invalid"}
         op, args = node["op"], node["args"]
         arities = {"if": 3, "not": 1, "xor": 2, "eq": 2, "ne": 2, "lt": 2,
-                   "le": 2, "sub": 2, "scale": 2, "divide_constant": 2, "pair": 2}
+                   "le": 2, "sub": 2, "scale": 2, "divide_constant": 2,
+                   "ceil_divide_constant":2,"number_at":2,"pair": 2}
         if op in arities and len(args) != arities[op] or op in {"min", "max"} and not args:
             issue(path + ".args", f"arity {arities.get(op, 'at least 1')}", len(args))
             return {"invalid"}
         types = [infer(arg, f"{path}.args[{i}]") for i, arg in enumerate(args)]
 
         def require(i, wanted):
-            allowed = {"array", "pair"} if wanted == "array" else {wanted}
+            allowed = {"array", "pair", "numbers"} if wanted == "array" else {wanted}
             if not types[i] <= allowed:
                 issue(f"{path}.args[{i}]", wanted, sorted(types[i]))
 
@@ -60,16 +65,23 @@ def check_expression(body, slots):
             return {"boolean"}
         if op in {"eq", "ne"}:
             return {"boolean"}  # evaluator explicitly defines cross-type inequality
-        if op in {"add", "sub", "min", "max", "lt", "le", "scale", "divide_constant"}:
+        if op in {"add", "sub", "min", "max", "lt", "le", "scale", "divide_constant", "ceil_divide_constant"}:
             for i in range(len(args)):
                 require(i, "number")
             if op == "scale" and type(args[0]) not in (int, Fraction):
                 issue(path + ".args[0]", "literal numeric scale constant", args[0])
             if op == "divide_constant" and (type(args[1]) not in (int, Fraction) or args[1] == 0):
                 issue(path + ".args[1]", "nonzero literal numeric denominator", args[1])
+            if op == 'ceil_divide_constant' and (type(args[1]) not in (int,Fraction) or args[1] <= 0):
+                issue(path+'.args[1]','positive literal numeric denominator',args[1])
             return {"boolean" if op in {"lt", "le"} else "number"}
+        if op == 'number_at':
+            require(0,'numbers');require(1,'number')
+            if type(args[1]) is not int or args[1] < 0:
+                issue(path+'.args[1]','nonnegative literal integer index',args[1])
+            return {'number'}
         if op == "array":
-            return {"array"}
+            return {'numbers'} if types and all(t<={'number'} for t in types) else {"array"}
         if op == "pair":
             require(0, "string")
             return {"pair"}
@@ -80,11 +92,11 @@ def check_expression(body, slots):
         if op == "concat":
             for i in range(len(args)):
                 require(i, "array")
-            return {"array"}
+            return {'numbers'} if types and all(t<={'numbers'} for t in types) else {"array"}
         issue(path + ".op", "supported expression operator", op)
         return {"invalid"}
 
-    infer(body["query"], "program.body.query")
+    result_types = infer(body["query"], "program.body.query")
     nodes = {"query"} | {"binding:" + name for name in slots}
     for source, values in body.get("source_links", {}).items():
         for i, value in enumerate(values):
@@ -92,4 +104,4 @@ def check_expression(body, slots):
                 issue(f"program.body.source_links.{source}[{i}]", "existing semantic node (query or binding:NAME)", value)
     if errors:
         raise IRTypeError(errors)
-    return {"pass": True, "all_branches_checked": True}
+    return {"pass": True, "all_branches_checked": True, 'result_types': sorted(result_types)}

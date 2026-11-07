@@ -1,0 +1,37 @@
+FFF.............                                                         [100%]
+=================================== FAILURES ===================================
+__ test_actual_stored_graph_is_evaluated_in_both_different_answer_completions __
+tests/test_rr_library_horn_completion.py:27: in test_actual_stored_graph_is_evaluated_in_both_different_answer_completions
+    theory=case(['s0','s2','s3']);before=digest(theory.query.library)
+           ^^^^^^^^^^^^^^^^^^^^^^
+tests/test_rr_library_horn_completion.py:18: in case
+    parsed=parse_public(public)
+           ^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/public_horn.py:231: in parse_public
+    raise ValueError("This grammar applies only to public OWA inputs")
+E   ValueError: This grammar applies only to public OWA inputs
+____ test_complete_source_proof_and_main_trace_use_the_same_stored_executor ____
+tests/test_rr_library_horn_completion.py:37: in test_complete_source_proof_and_main_trace_use_the_same_stored_executor
+    theory=case();result=complete(theory);proof=certificate(theory,result)
+           ^^^^^^
+tests/test_rr_library_horn_completion.py:18: in case
+    parsed=parse_public(public)
+           ^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/public_horn.py:231: in parse_public
+    raise ValueError("This grammar applies only to public OWA inputs")
+E   ValueError: This grammar applies only to public OWA inputs
+_ test_missing_or_corrupt_library_never_uses_a_correct_predefined_join_to_certify _
+tests/test_rr_library_horn_completion.py:48: in test_missing_or_corrupt_library_never_uses_a_correct_predefined_join_to_certify
+    theory=case(patterns=frozen)
+           ^^^^^^^^^^^^^^^^^^^^^
+tests/test_rr_library_horn_completion.py:18: in case
+    parsed=parse_public(public)
+           ^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/public_horn.py:231: in parse_public
+    raise ValueError("This grammar applies only to public OWA inputs")
+E   ValueError: This grammar applies only to public OWA inputs
+=========================== short test summary info ============================
+FAILED tests/test_rr_library_horn_completion.py::test_actual_stored_graph_is_evaluated_in_both_different_answer_completions
+FAILED tests/test_rr_library_horn_completion.py::test_complete_source_proof_and_main_trace_use_the_same_stored_executor
+FAILED tests/test_rr_library_horn_completion.py::test_missing_or_corrupt_library_never_uses_a_correct_predefined_join_to_certify
+3 failed, 13 passed in 0.93s

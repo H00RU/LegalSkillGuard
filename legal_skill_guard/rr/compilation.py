@@ -21,11 +21,11 @@ def source_theory(source, previous):
         if theory.version != previous['completion_assessment']['theory_hash']:
             raise ValueError('Public Horn residual state differs from source')
         return theory
-    if proposal.get('program', {}).get('kind') != 'expression':
+    if proposal.get('program', {}).get('kind') not in {'expression', 'connector'}:
         return None
     ledger = SourceLedger.from_text(source_text(source))
     units = {c.id: ledger.text[c.start:c.end] for c in ledger.clauses}
-    theory = _program(proposal['program'], set(units), units, ledger=ledger,
+    theory = _program(previous['completion_program'], set(units), units, ledger=ledger,
                       declared=proposal['compiled_units']).get('completion_theory')
     if theory is not None and theory.version != previous['completion_assessment']['theory_hash']:
         raise ValueError('Current source/compiled state differs from its residual theory')

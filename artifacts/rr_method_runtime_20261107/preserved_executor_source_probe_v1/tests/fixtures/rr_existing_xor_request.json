@@ -1,0 +1,128 @@
+{
+  "kind": "existing_artificial_XOR_microcase_not_benchmark_data",
+  "source": {
+    "key": "artificial:existing_xor",
+    "dataset": "RuleArena_Airline",
+    "public": {
+      "rules": "General rule: pay the base iff exception XOR gift.\nBoolean b_exception = true.\nBoolean b_gift = false.\nBoolean b_unrelated = true.",
+      "prompt": "Base is 80."
+    },
+    "content_hash": "f4c80df5b46a5f054569b9a503d54e68f8045dc3632b26b0455bb6d1e56b8a5e"
+  },
+  "proposals": [
+    {
+      "program": {
+        "kind": "expression",
+        "body": {
+          "bindings": [
+            {
+              "name": "n_base",
+              "type": "integer",
+              "value": 80,
+              "source": "s4"
+            }
+          ],
+          "query": {
+            "op": "if",
+            "args": [
+              {
+                "op": "xor",
+                "args": [
+                  {
+                    "var": "b_exception"
+                  },
+                  {
+                    "var": "b_gift"
+                  }
+                ]
+              },
+              {
+                "var": "n_base"
+              },
+              0
+            ]
+          },
+          "source_links": {
+            "s0": [
+              "query"
+            ],
+            "s4": [
+              "binding:n_base"
+            ]
+          }
+        }
+      },
+      "answer": 0,
+      "compiled_units": [
+        "s0",
+        "s4"
+      ],
+      "unsupported_units": [],
+      "interfaces": []
+    },
+    {
+      "program": {
+        "kind": "expression",
+        "body": {
+          "bindings": [
+            {
+              "name": "n_base",
+              "type": "integer",
+              "value": 80,
+              "source": "s4"
+            },
+            {
+              "name": "b_exception",
+              "type": "scalar",
+              "value": true,
+              "source": "s1"
+            },
+            {
+              "name": "b_gift",
+              "type": "scalar",
+              "value": false,
+              "source": "s2"
+            }
+          ],
+          "query": {
+            "op": "if",
+            "args": [
+              {
+                "op": "xor",
+                "args": [
+                  {
+                    "var": "b_exception"
+                  },
+                  {
+                    "var": "b_gift"
+                  }
+                ]
+              },
+              {
+                "var": "n_base"
+              },
+              0
+            ]
+          },
+          "source_links": {
+            "s0": [
+              "query"
+            ],
+            "s4": [
+              "binding:n_base"
+            ]
+          }
+        }
+      },
+      "answer": 0,
+      "compiled_units": [
+        "s0",
+        "s4",
+        "s1",
+        "s2"
+      ],
+      "unsupported_units": [],
+      "interfaces": []
+    }
+  ]
+}

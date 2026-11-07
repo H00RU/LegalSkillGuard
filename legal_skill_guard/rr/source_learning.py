@@ -25,6 +25,7 @@ from .interfaces import Connector, Observation, Relation, refine
 from .learning import parameterize_graph
 from .oracles import ROOT, airline, proofwriter, reference_atom
 from .public_horn import parse_atom, parse_public
+from .horn_connectors import matches as _matches,rule_graph,horn_sketches,predict_horn_sketch
 
 
 def _people(program: str) -> list[str]:
@@ -332,85 +333,6 @@ def coarse_and_metadata(source: dict, grade: dict, view: dict) -> tuple[dict, di
         return {"predicate_counts": sorted(re.match(r"(\w+_)\(", f)[1] for f in facts)}, \
             {"entity_equality": [[{"entity": x} for x in re.findall(r'"([^"\n]+)"', f) if x in names] for f in facts]}
     return {}, {}
-
-
-def _matches(pattern: Atom, facts: set[Atom]) -> Relation:
-    columns = tuple(dict.fromkeys(a for a in pattern.arguments if a.startswith("?")))
-    rows = []
-    for fact in sorted(facts):
-        if (pattern.predicate, pattern.positive, len(pattern.arguments)) != (fact.predicate, fact.positive, len(fact.arguments)):
-            continue
-        binding = {}
-        for formal, actual in zip(pattern.arguments, fact.arguments):
-            if formal.startswith("?"):
-                if formal in binding and binding[formal] != actual:
-                    break
-                binding[formal] = actual
-            elif formal != actual:
-                break
-        else:
-            rows.append(tuple(binding[c] for c in columns))
-    return Relation(columns, tuple(rows))
-
-
-def rule_graph(rule, *, erase_equalities: bool) -> dict:
-    graph = {"slot": "atom0"}
-    columns = {x for x in rule.body[0].arguments if x.startswith("?")}
-    for i, atom in enumerate(rule.body[1:], 1):
-        current = {x for x in atom.arguments if x.startswith("?")}
-        shared = sorted(columns & current)
-        right = {"slot": f"atom{i}"}
-        if erase_equalities and shared:
-            renamed = [f"rhs{i}_{x}" for x in shared]
-            right = {"op": "bind_rename", "inputs": [right], "params": {"from": shared, "to": renamed}}
-            current = (current - set(shared)) | set(renamed)
-            shared = []
-        graph = {"op": "join_on", "inputs": [graph, right], "params": {"keys": shared}}
-        columns |= current
-    return graph
-
-
-def horn_sketches(public: dict) -> list[list[dict]]:
-    parsed = parse_public(public)
-    if parsed.residuals:
-        return []
-    n = len(parsed.rules)
-    masks = [set(), set(range(n))] + [{i} for i in range(n)] + [set(range(n)) - {i} for i in range(n)]
-    result, seen = [], set()
-    for mask in masks:
-        graphs = [rule_graph(r, erase_equalities=i in mask) for i, r in enumerate(parsed.rules)]
-        key = digest(graphs)
-        if key not in seen:
-            seen.add(key)
-            result.append(graphs)
-        if len(result) == 32:
-            break
-    return result
-
-
-def predict_horn_sketch(public: dict, graphs: list[dict]) -> str | None:
-    parsed = parse_public(public)
-    if parsed.residuals or len(graphs) != len(parsed.rules):
-        return None
-    facts = set(parsed.facts)
-    deadline = time.monotonic() + 5
-    for _ in range(32):
-        new = set()
-        for rule, graph in zip(parsed.rules, graphs):
-            if time.monotonic() >= deadline:
-                return None
-            relation = Connector(graph).execute({f"atom{i}": _matches(a, facts) for i, a in enumerate(rule.body)})
-            for row in relation.rows:
-                bound = dict(zip(relation.columns, row))
-                if any(x.startswith("?") and x not in bound for x in rule.head.arguments):
-                    return None  # cannot invent a witness erased by projection
-                new.add(Atom(rule.head.predicate, tuple(bound.get(x, x) for x in rule.head.arguments), rule.head.positive))
-        if new <= facts:
-            if parsed.query in facts and parsed.query.negate() in facts:
-                return None
-            return "True" if parsed.query in facts else "False" if parsed.query.negate() in facts else "Unknown"
-        facts |= new
-    return None
 
 
 def learn_source(source: dict, grade: dict, oracle: DurableOracle, *, proposal=None, trace: dict | None = None) -> dict:

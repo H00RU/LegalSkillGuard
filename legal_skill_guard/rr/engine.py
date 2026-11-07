@@ -153,7 +153,7 @@ def decode_slots(body: dict, unit_ids: set[str], source_units: dict[str, str]) -
     return slots, sources
 
 
-def connector_output(value, body, slots):
+def connector_output(value, body, slots, *, exact=False):
     """Explicit native projection plus an optional source-linked query wrapper."""
     mode = body.get('project', 'identity')
     if mode == 'amount_value' and isinstance(value, Amount):
@@ -182,10 +182,10 @@ def connector_output(value, body, slots):
         from .ir_types import check_expression
         check_expression({'query': body['query']}, env)
         value = evaluate(body['query'], env)
-    return _native(value)
+    return value if exact else _native(value)
 
 
-def _program(program: dict, unit_ids: set[str], source_units: dict[str, str], *, ledger=None, declared=()) -> dict:
+def _program(program: dict, unit_ids: set[str], source_units: dict[str, str], *, ledger=None, declared=(), library=None) -> dict:
     kind, body = program["kind"], program["body"]
     if kind == "unsupported":
         return {"status": "unsupported_no_certificate", "candidate_answer": None, "covered": set()}
@@ -201,6 +201,7 @@ def _program(program: dict, unit_ids: set[str], source_units: dict[str, str], *,
     if any(not isinstance(v, list) or not v for v in links.values()):
         raise ValueError("Each source link must identify one or more semantic nodes")
     known_nodes = {"query"} | {f"binding:{name}" for name in slots}
+    theory, pattern_uses = None, []
     if kind == "expression":
         if set(body) - {"bindings", "query", "source_links"}:
             raise ValueError("Unknown expression program fields")
@@ -217,21 +218,48 @@ def _program(program: dict, unit_ids: set[str], source_units: dict[str, str], *,
         value = None if domains else evaluate(query, slots)
         status = "partially_compiled_expression" if domains else "executed_expression"
     elif kind == "connector":
-        if set(body) - {"bindings", "candidates", "source_links", "project", "query"}:
+        if set(body) - {"bindings", "candidates", "selected", "source_links", "project", "query"}:
             raise ValueError("Unknown connector program fields")
+        from .pattern_execution import expand_graph
+        body = deepcopy(body)
+        for i, graph in enumerate(body['candidates']):
+            body['candidates'][i], uses = expand_graph(graph, library, set(slots))
+            pattern_uses.extend({**use, 'candidate': i} for use in uses)
         pool = ConnectorPool([Connector(graph) for graph in body["candidates"]])
         known_nodes |= {f"connector:{i}" for i in range(len(pool.candidates))}
-        def project(v):
-            return connector_output(v, body, slots)
-        result = pool.predict(slots, project=project)
-        value, status = result["answer"], result["status"]
+        if 'selected' in body:
+            index = body['selected']
+            if type(index) is not int or not 0 <= index < len(pool.candidates):
+                raise ValueError('Selected connector must name an existing concrete graph')
+            known_nodes -= {f'connector:{i}' for i in range(len(pool.candidates)) if i != index}
+            from .connector_completion import ConnectorQuery
+            query = ConnectorQuery(deepcopy(pool.candidates[index].graph),
+                {k: deepcopy(body[k]) for k in ('project', 'query') if k in body})
+            theory = expression_theory(deepcopy(ledger), slots, query,
+                set(declared) & (binding_sources | set(links)), body.get('bindings', [])) if ledger is not None else None
+            execution = None if theory is not None and theory.domains else query.execute(slots)
+            value = execution['answer'] if execution is not None else None
+            status = 'partially_compiled_connector' if value is None else 'executed_connector'
+            result = {'execution_states': [execution['execution_state']] if execution is not None else []}
+            for use in pattern_uses:
+                use['status'] = ('executed_main_program' if execution is not None else 'awaiting_source_completion') \
+                    if use['candidate'] == index else 'expanded_unselected_candidate'
+        else:
+            def project(v):
+                return connector_output(v, body, slots)
+            result = pool.predict(slots, project=project)
+            value, status = result["answer"], result["status"]
+            for use in pattern_uses:
+                use['status'] = 'executed_H_candidate_only'
     else:
         raise ValueError("Unsupported program kind")
     if any(not set(nodes) <= known_nodes for nodes in links.values()):
         raise ValueError("Source link names a missing program node")
     return {"status": status, "candidate_answer": _native(value),
             "covered": binding_sources | set(links), "slots": slots,
-            "completion_theory": theory if kind == 'expression' else None,
+            "completion_theory": theory,
+            "execution_program": {'kind': kind, 'body': deepcopy(body)},
+            "pattern_uses": pattern_uses,
             "execution_states": result.get("execution_states", []) if kind == "connector" else []}
 
 
@@ -259,7 +287,7 @@ def _decode_proposal(content: str) -> dict:
     return json.loads(content)
 
 
-def analyze(source: dict, content: str, *, planning_seconds=5) -> dict:
+def analyze(source: dict, content: str, *, planning_seconds=5, library=None) -> dict:
     deadline = time.monotonic() + max(0, min(planning_seconds, 5))
     ledger = SourceLedger.from_text(source_text(source))
     unit_ids = {c.id for c in ledger.clauses}
@@ -280,21 +308,28 @@ def analyze(source: dict, content: str, *, planning_seconds=5) -> dict:
             raise ValueError("Unknown or contradictory source coverage declarations")
         result["structural_pass"] = valid_answer(source["dataset"], proposal["answer"])
         result["answer"] = proposal["answer"] if result["structural_pass"] else None
-        result["interfaces"] = proposal["interfaces"]
         result["proposal"] = proposal
-        for interface in result["interfaces"]:
+        from .pattern_execution import expand_graph
+        resolved_interfaces, interface_uses = [], []
+        for i, original_interface in enumerate(proposal['interfaces']):
+            interface = deepcopy(original_interface)
             if set(interface) != {"fields", "graph", "bindings"}:
                 raise ValueError("Interface proposal needs fixed fields, graph and source-linked bindings")
             from .interfaces import FIELDS
             if not isinstance(interface["fields"], list) or not set(interface["fields"]) <= set(FIELDS):
                 raise ValueError("Forbidden or unknown interface field")
+            interface['graph'], uses = expand_graph(interface['graph'], library,
+                {b['name'] for b in interface['bindings']})
+            interface_uses.extend({**use, 'interface': i, 'status': 'expanded_interface_candidate_only'} for use in uses)
             parameterize_graph(interface["graph"])
             decode_slots(interface, unit_ids, source_units)
+            resolved_interfaces.append(interface)
+        result['interfaces'] = resolved_interfaces
         try:
             if proposal['program']['kind'] == 'public_horn' and source['dataset'] != 'ProofWriter_OWA_depth5':
                 raise ValueError('Public Horn compilation requires the public Horn adapter')
             program = _program(proposal["program"], unit_ids, source_units,
-                               ledger=ledger, declared=declared)
+                               ledger=ledger, declared=declared, library=library)
         except (ValueError, TypeError, KeyError, Unsupported, InterfaceError) as exc:
             result["program_status"] = "invalid_IR"
             result["diagnostics"].append(str(exc))
@@ -304,6 +339,10 @@ def analyze(source: dict, content: str, *, planning_seconds=5) -> dict:
         result["structural_pass"] = result["structural_pass"] and result["model_IR_pass"]
         result["candidate_answer"] = program["candidate_answer"]
         result["execution_states"] = program.get("execution_states", [])
+        result['pattern_uses'] = program.get('pattern_uses', []) + interface_uses
+        result['executable_proposal'] = {**deepcopy(proposal),
+            'program': program.get('execution_program', deepcopy(proposal['program'])),
+            'interfaces': resolved_interfaces}
         accepted = declared & program["covered"]
         for i, clause in enumerate(ledger.clauses):
             if clause.id in accepted:
@@ -353,7 +392,12 @@ def analyze(source: dict, content: str, *, planning_seconds=5) -> dict:
             # translations close every source unit. This is conditional on NL
             # translation faithfulness, never inferred from H agreement.
             theory = program['completion_theory']
+            result['completion_program'] = program['execution_program']
             checked = complete(theory, deadline=deadline)
+            if checked.worlds:
+                for use in result['pattern_uses']:
+                    if use['status'] == 'awaiting_source_completion':
+                        use['status'] = 'executed_in_source_completions'
             result['completion_assessment'] = {'status': checked.status, 'theory_hash': theory.version,
                 'complete_observations': {r.source: list(r.slots) for r in theory.residuals if not r.unknown_scope},
                 'unknown_scope': [r.source for r in theory.residuals if r.unknown_scope]}
@@ -363,6 +407,7 @@ def analyze(source: dict, content: str, *, planning_seconds=5) -> dict:
                 result["certificate_status"] = checked.status
                 result["answer"] = _native(checked.answer)
                 result["certificate"] = proof
+                result['certificate_basis'] = 'source_completion_selected_connector_not_H' if proposal['program']['kind']=='connector' else 'source_completion_expression'
             elif checked.status == "completion_stable":
                 result["certificate_status"] = "unsupported_no_certificate"
                 result["diagnostics"].append("Exact rational would require rounding in the native JSON answer")
@@ -410,7 +455,14 @@ def messages(source: dict, *, previous: dict | None = None, selected_units=None)
         "join/group/map/reduce graph, but never use source IDs or answers as routing features. "
         "Each interfaces entry has exactly fields (allowed semantic field names), graph (connector DSL), "
         "and bindings (same source-linked binding format); use [] when unavailable. "
-        "A connector body has bindings,candidates,source_links,project; optional query wraps its result. "
+        "A connector body has bindings,candidates,selected,source_links,project; optional query wraps its result. "
+        "selected is the zero-based index of the concrete graph implementing the source rules. "
+        "Candidate agreement is not a completeness proof; unresolved source scope remains unresolved. "
+        "When an available learned pattern fits extracted primitives, invoke it explicitly inside the graph as "
+        "{pattern:its_hash,variant:graph_index,slots:{slot0:current_binding_name,...},"
+        "columns:{column0:current_column_name,...}}. Supply every template role and column. "
+        "The runtime instantiates the stored graph; copying its structure independently is not a recorded reuse. "
+        "Do not invoke a pattern without matching current-source typed primitives. "
         "Projection modes: identity, amount_value (one Amount), amount_values (list of Amount), "
         "entailment_label (Boolean claim to binary Entailment/Contradiction). A wrapper query reads "
         "n_result/b_result/s_result, or n_result_0,n_result_1,... for numeric list results. "
@@ -434,7 +486,7 @@ def messages(source: dict, *, previous: dict | None = None, selected_units=None)
         keys = ['program_status', 'residual_units', 'diagnostics']
         user += "\nOne remaining joint repair/translation call. Previous mechanical diagnostics:\n" + \
             json.dumps({k: previous.get(k) for k in keys}, ensure_ascii=False)
-        if previous.get('program_status') == 'partially_compiled_expression':
+        if previous.get('program_status') in {'partially_compiled_expression', 'partially_compiled_connector'}:
             user += '\nCurrent compiled query and public input bindings (return the cumulative program, keep other units residual):\n' + \
                 json.dumps(previous['proposal']['program']['body'], ensure_ascii=False)
         elif previous.get('program_status') == 'partially_compiled_public_horn':
@@ -530,7 +582,7 @@ def wire_messages(source: dict, *, previous: dict | None = None, selected_units=
     if source['dataset'] not in TARGETS:
         return messages(source, previous=previous, selected_units=selected_units)
     from .compiler_prompt import compiler_instructions
-    prompt = messages(source, previous=previous if previous and previous.get('program_status') == 'partially_compiled_expression' else None,
+    prompt = messages(source, previous=previous if previous and previous.get('program_status') in {'partially_compiled_expression', 'partially_compiled_connector'} else None,
                       selected_units=selected_units)
     prompt[0]["content"] += compiler_instructions(source['dataset'])
     if previous is not None:

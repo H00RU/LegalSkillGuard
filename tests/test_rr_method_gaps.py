@@ -172,7 +172,7 @@ def allowance_case():
         {'name': 'key', 'type': 'resource_key', 'source': 's0', 'value': key}]
     graph = {'op': 'thread_allowance', 'inputs': [{'slot': 'items'}], 'params': {'bank_slot': 'bank', 'key_slot': 'key'}}
     proposal = {'answer': 200, 'program': {'kind': 'connector', 'body': {
-        'bindings': bindings, 'candidates': [graph], 'project': 'amount_values', 'source_links': {},
+        'bindings': bindings, 'candidates': [graph], 'selected': 0, 'project': 'amount_values', 'source_links': {},
         'query': {'op': 'add', 'args': [{'var': 'n_result_0'}, {'op': 'scale', 'args': [2, {'var': 'n_result_1'}]}]}}},
         'compiled_units': [], 'unsupported_units': [], 'interfaces': []}
     grade = {'answer': 200, 'reference_arguments': {'bag_list': [
@@ -294,7 +294,7 @@ def test_B_SARA_uses_a_renderable_fact_edit_and_real_join_execution(tmp_path, mo
     graph = {'op': 'project_exists', 'inputs': [{'op': 'join_on', 'inputs': [{'slot': 'payer'},{'slot': 'payee'}],
              'params': {'keys': ['person']}}]}
     proposal = {'answer': 'Contradiction', 'program': {'kind': 'connector', 'body': {
-        'bindings': bindings, 'candidates': [graph], 'project': 'entailment_label', 'source_links': {}}},
+        'bindings': bindings, 'candidates': [graph], 'selected': 0, 'project': 'entailment_label', 'source_links': {}}},
         'compiled_units': [], 'unsupported_units': [], 'interfaces': []}
     trace = {}
     def learner(s, g, oracle, *, proposal=None):

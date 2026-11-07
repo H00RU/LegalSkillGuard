@@ -232,7 +232,8 @@ def ingest_source(*, source: dict, grade: dict, library: SkillLibrary, thinking:
     calls, previous, learning, actions, remaining = [], None, None, [], 5.0
     learning_attempts = []
     for step in range(2):
-        suffix = "\nCurrent learned role constraints: " + json.dumps([p["pattern"] for p in library.patterns])
+        suffix = "\nAvailable learned patterns: " + json.dumps([
+            {k: p[k] for k in ('pattern_hash', 'pattern')} for p in library.patterns])
         user_suffix = ''
         if learning is not None:
             user_suffix = "\nTraining interface repair evidence (no reference program): " + json.dumps({
@@ -250,7 +251,7 @@ def ingest_source(*, source: dict, grade: dict, library: SkillLibrary, thinking:
         wire = call(call_id=f"{id_prefix}:{source['key']}:{step}", source=source,
                     purpose=purpose, prompt=prepared['messages'], thinking=thinking, schema=prepared['schema'])
         started = time.monotonic()
-        analysis = analyze(source, wire['content'], planning_seconds=remaining)
+        analysis = analyze(source, wire['content'], planning_seconds=remaining, library=library.export())
         remaining = max(0, remaining - (time.monotonic() - started))
         calls.append({"step": step, "request_hash": wire["request_hash"], "analysis": analysis,
                       "raw_content": wire["content"], "usage": wire["usage"],
@@ -258,7 +259,7 @@ def ingest_source(*, source: dict, grade: dict, library: SkillLibrary, thinking:
         previous = analysis
         if learning is None or learning.get('schema_repair_needed', False):
             oracle = DurableOracle(ledger, oracle_artifacts or artifacts, source, grade)
-            learning = learner(source, grade, oracle, proposal=analysis.get('proposal'))
+            learning = learner(source, grade, oracle, proposal=analysis.get('executable_proposal'))
             learning_attempts.append({'step': step, 'learning': deepcopy(learning)})
         if analysis["certificate_status"] == "completion_stable":
             break

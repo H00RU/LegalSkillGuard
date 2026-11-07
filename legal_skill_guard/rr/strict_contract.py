@@ -25,8 +25,18 @@ def ref(name):
     return {"$ref": "#/$defs/" + name}
 
 
+def type_enum_schemas(node):
+    """Use the same explicit enum types in prompt and response-format schemas."""
+    if isinstance(node,dict):
+        if 'enum' in node and 'type' not in node:
+            node['type']='integer' if all(type(v) is int for v in node['enum']) else 'string'
+        for value in list(node.values()):type_enum_schemas(value)
+    elif isinstance(node,list):
+        for value in node:type_enum_schemas(value)
+
+
 def bounded_expressions(definitions):
-    """Unroll only expression AST edges; aliases do not consume a depth level."""
+    """Bound expression/graph child edges; aliases consume no depth level."""
     names = set(definitions)
     def rewrite(node, depth, in_args=False):
         if isinstance(node, list):
@@ -39,7 +49,7 @@ def bounded_expressions(definitions):
             if remaining == 0 and target.endswith('operation'):
                 return False
             return ref(f'{target}_{remaining}')
-        result = {k: rewrite(v, depth, in_args or k == 'args') for k, v in node.items()}
+        result = {k: rewrite(v, depth, in_args or k in {'args', 'inputs'}) for k, v in node.items()}
         if result.get('type') == 'array' and result.get('items') is False and 'prefixItems' not in result:
             result['maxItems'] = 0
         return result
@@ -89,7 +99,7 @@ def close_expression_inputs(schema, bindings):
     return schema
 
 
-def interface_definitions(source_unit_ids=None):
+def interface_definitions(source_unit_ids=None, *, literal_text=None):
     """One wire/runtime contract for source bindings and the seven connectors."""
     string = {"type": "string"}
     strings = array(string)
@@ -103,6 +113,21 @@ def interface_definitions(source_unit_ids=None):
     types = {"integer": {"type": "integer"}, "rational": {"type": "string"}, "scalar": scalar,
              "relation": obj({"columns": strings, "rows": array(strings), "closed": {"type": "boolean"}}),
              "amount": amount, "amounts": array(amount), "allowance_bank": array(bank), "resource_key": key, "slot_list": strings}
+    if literal_text is not None:
+        # Mirror necessary lexical conditions of binding_literal_audit. This
+        # never infers factual truth, an amount, or a missing legal rule.
+        import re
+        from .grounding import _numbers
+        numbers = _numbers(literal_text)
+        booleans = [value for value in (False, True)
+                    if re.search(r'\b' + str(value).lower() + r'\b', literal_text, re.I)]
+        scalar['anyOf'] = [string] + ([{'type': 'integer'}] if numbers else []) + \
+            ([{'type': 'boolean', 'enum': booleans}] if booleans else [])
+        if not numbers:
+            for kind in ('integer', 'rational', 'amount'):
+                del types[kind]
+            for kind in ('amounts', 'allowance_bank'):
+                types[kind]['maxItems'] = 0
     source_ref = {"enum": list(source_unit_ids)} if source_unit_ids is not None else string
     binding = {"anyOf": [obj({"name": {"type": "string", "pattern": "^[A-Za-z_][A-Za-z0-9_]*$"}, "value": value, "type": {"enum": [kind]}, "source": source_ref})
                          for kind, value in types.items()]}
@@ -113,6 +138,10 @@ def interface_definitions(source_unit_ids=None):
             result["required"].remove("params")
         return result
     graphs = {"anyOf": [obj({"slot": string}),
+        obj({'pattern': {'type': 'string', 'pattern': '^[a-f0-9]{64}$'},
+             'variant': {'type': 'integer', 'minimum': 0},
+             'slots': {'type': 'object', 'additionalProperties': string},
+             'columns': {'type': 'object', 'additionalProperties': string}}),
         connector("bind_rename", 1, {"from": strings, "to": strings}),
         connector("join_on", 2, {"keys": strings}), connector("project_exists", 1, {}),
         connector("group_by", 1, {"keys": strings}),
@@ -209,7 +238,7 @@ def strict_proposal_schema(dataset, base_schema, *, source_unit_ids=None):
     expression_body = obj({"bindings": {**array(ref('expression_binding')), 'minItems': 1},
                            "query": query, "source_links": links})
     connector_body = obj({"bindings": bindings, "candidates": {"type": "array", "items": ref("connector"),
-                         "minItems": 1, "maxItems": 32}, "source_links": links,
+                         "minItems": 1, "maxItems": 32}, "selected": {"type": "integer", "minimum": 0, "maximum": 31}, "source_links": links,
                           "project": {"enum": ["identity", "amount_value", "amount_values", "entailment_label"]},
                           "query": query})
     connector_body['required'].remove('query')

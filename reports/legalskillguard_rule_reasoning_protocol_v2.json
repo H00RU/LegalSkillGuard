@@ -133,6 +133,7 @@
       "documentation"
     ],
     "auto_advance_to_experiments": false,
+    "formal_eval_enabled": false,
     "frozen_test_enabled": false,
     "full_build_enabled": true,
     "future_research_quotas_are_not_current_execution_authorization": true,
@@ -140,12 +141,12 @@
     "model_calls_enabled": true,
     "model_calls_scope": "fixed_128_train_only_no_evaluation",
     "pilot_enabled": false,
+    "recovery_of_aborted_run": "rr_v2_formal_build_20261106",
     "research_design_locked": true,
     "test_labels_or_reference_answers_for_debugging": false,
-    "thinking_live_comparison_enabled": false,
-    "formal_eval_enabled": false,
-    "recovery_of_aborted_run": "rr_v2_formal_build_20261106"
+    "thinking_live_comparison_enabled": false
   },
+  "formal_build_authorization": "docs/rr_v2/formal_build_authorization_20261106.json",
   "methods": {
     "A": "source_closed_completion_stability_with_answer_separating_batches",
     "B": "collision_witness_guided_scope_and_usage_interface_refinement"
@@ -166,7 +167,9 @@
       "shared_failed_calls_and_bug_retries": 232,
       "thinking_pairs": 40
     },
+    "executor_max_calls": null,
     "executor_max_including_failures_and_retries": null,
+    "executor_original_study_max": 6000,
     "force_thinking_off": false,
     "frozen_test_labels_allowed": false,
     "global_ledger_mapping": {
@@ -174,36 +177,6 @@
       "shared_failed_calls_and_bug_retries": "shared_retries_and_recovery",
       "thinking_pairs": "thinking_comparison"
     },
-    "lock_source_ids_before_first_model_call": true,
-    "max_targeted_live_bugfix_rerun_rounds": null,
-    "no_duplicate_billing_on_resume": true,
-    "not_a_Codex_token_budget": true,
-    "record_reuse_requires_matching_input_config_and_code_hashes": true,
-    "repair_execution_policy": {
-      "authority": "explicit_user_chat_authorization",
-      "automatic_retries": 0,
-      "executor_baseline": 96,
-      "executor_original_study_max": 6000,
-      "main_training_enabled": false,
-      "no_new_resources_or_unapproved_costs": true,
-      "no_new_sources": true,
-      "policy_id": "original_study_budget_preflight",
-      "preflight_executor_cap_removed": true,
-      "preflight_teacher_cap_removed": true,
-      "repair_round_limit": null,
-      "source_manifest": "reports/rr_v2_evidence/data_manifest.json",
-      "teacher_baseline": 2,
-      "teacher_model_unchanged": true,
-      "teacher_original_study_max": 20
-    },
-    "requires_existing_resource_authorization": true,
-    "same_sources_for_thinking_and_pilot": true,
-    "significant_accuracy_gain_required": false,
-    "sources_per_dataset": 4,
-    "teacher_calls_deduct_from_original_total": true,
-    "teacher_max_including_failures_and_retries": null,
-    "train_sources": 20,
-    "unaffected_records_not_rerun": true,
     "historical_limits_before_latest_user_authorization": {
       "accepted_teacher_batch_records_reused_in_formal_build": true,
       "allowed_call_purposes": [
@@ -274,11 +247,39 @@
       "train_sources": 20,
       "unaffected_records_not_rerun": true
     },
-    "executor_max_calls": null,
-    "teacher_max_calls": null,
+    "lock_source_ids_before_first_model_call": true,
+    "max_targeted_live_bugfix_rerun_rounds": null,
+    "no_duplicate_billing_on_resume": true,
+    "not_a_Codex_token_budget": true,
     "operative_authorization": "docs/rr_v2/original_budget_preflight_authorization.json",
-    "executor_original_study_max": 6000,
-    "teacher_original_study_max": 20
+    "record_reuse_requires_matching_input_config_and_code_hashes": true,
+    "repair_execution_policy": {
+      "authority": "explicit_user_chat_authorization",
+      "automatic_retries": 0,
+      "executor_baseline": 96,
+      "executor_original_study_max": 6000,
+      "main_training_enabled": false,
+      "no_new_resources_or_unapproved_costs": true,
+      "no_new_sources": true,
+      "policy_id": "original_study_budget_preflight",
+      "preflight_executor_cap_removed": true,
+      "preflight_teacher_cap_removed": true,
+      "repair_round_limit": null,
+      "source_manifest": "reports/rr_v2_evidence/data_manifest.json",
+      "teacher_baseline": 2,
+      "teacher_model_unchanged": true,
+      "teacher_original_study_max": 20
+    },
+    "requires_existing_resource_authorization": true,
+    "same_sources_for_thinking_and_pilot": true,
+    "significant_accuracy_gain_required": false,
+    "sources_per_dataset": 4,
+    "teacher_calls_deduct_from_original_total": true,
+    "teacher_max_calls": null,
+    "teacher_max_including_failures_and_retries": null,
+    "teacher_original_study_max": 20,
+    "train_sources": 20,
+    "unaffected_records_not_rerun": true
   },
   "protocol_id": "LSG-RR-v2",
   "request_budget": {
@@ -359,6 +360,5 @@
     "training_third_fallback_call": false,
     "two_new_labeled_views_cost_two_slots": true,
     "unused_queried_oracle_views_count": true
-  },
-  "formal_build_authorization": "docs/rr_v2/formal_build_authorization_20261106.json"
+  }
 }

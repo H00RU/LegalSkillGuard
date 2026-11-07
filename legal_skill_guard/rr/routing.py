@@ -32,7 +32,8 @@ def apply_interfaces(proposal: dict, arm: str, library: dict) -> dict:
     required = active & extracted
     body = result["program"]["body"]
     candidates = []
-    for graph in body.get("candidates", []):
+    old_to_new = {}
+    for index, graph in enumerate(body.get("candidates", [])):
         valid = True
         nodes = list(_walk(graph))
         if "entity_equality" in required:
@@ -51,8 +52,16 @@ def apply_interfaces(proposal: dict, arm: str, library: dict) -> dict:
                     if scope == "closed_group" and child.get("op") == "map":
                         valid = False
         if valid:
+            old_to_new[index] = len(candidates)
             candidates.append(graph)
     body["candidates"] = candidates
+    if 'selected' in body:
+        body['selected'] = old_to_new.get(body['selected'], -1)
+    for nodes in body.get('source_links', {}).values():
+        for i, node in enumerate(nodes):
+            if node.startswith('connector:'):
+                old = int(node.split(':')[1])
+                nodes[i] = 'connector:' + str(old_to_new[old]) if old in old_to_new else 'removed_connector:' + str(old)
     return result
 
 
@@ -79,7 +88,8 @@ def route_prediction(source: dict, *, arm: str, library: dict, generate, protoco
         budget.reserve(purpose)
         suffix = "\nCompilation policy: " + profile.compilation + ". Interface policy: " + profile.interface + "."
         if profile.interface == "collision_refined":
-            suffix += "\nFrozen role patterns: " + json.dumps([x["pattern"] for x in library.get("patterns", [])])
+            suffix += "\nAvailable learned patterns: " + json.dumps([
+                {k:x[k] for k in ('pattern_hash', 'pattern')} for x in library.get('patterns', [])])
         started = time.monotonic()
         prepared = prepare_request(source, previous=previous, compilation=profile.compilation,
             system_suffix=suffix, tokenize=tokenize, request_config=request_config, thinking=thinking,
@@ -90,17 +100,29 @@ def route_prediction(source: dict, *, arm: str, library: dict, generate, protoco
         wire = generate(prepared['messages'], purpose=purpose, step=step, arm=arm,
                         schema=prepared['schema'])
         started = time.monotonic()
-        result = analyze(source, wire['content'], planning_seconds=remaining)
+        result = analyze(source, wire['content'], planning_seconds=remaining,
+            library=library if profile.interface == 'collision_refined' else None)
         remaining = max(0, remaining - (time.monotonic() - started))
         if "proposal" in result:
-            constrained = apply_interfaces(result["proposal"], arm, library)
+            original_proposal = deepcopy(result['proposal'])
+            pattern_uses = deepcopy(result.get('pattern_uses', []))
+            executable = result.get('executable_proposal', result['proposal'])
+            constrained = apply_interfaces(executable, arm, library)
             example_evidence = None
             if arm == "MB" and example_model is not None:
                 constrained, example_evidence = filter_shared_examples(constrained, source, example_model)
-            if constrained != result["proposal"]:
+            if constrained != executable:
                 started = time.monotonic()
                 result = analyze(source, json.dumps(constrained), planning_seconds=remaining)
                 remaining = max(0, remaining - (time.monotonic() - started))
+                result['proposal'] = original_proposal
+                selected = constrained.get('program', {}).get('body', {}).get('selected', -1)
+                graphs = constrained.get('program', {}).get('body', {}).get('candidates', [])
+                executed = {digest(n) for n in _walk(graphs[selected])} if type(selected) is int and 0<=selected<len(graphs) and result.get('execution_states') else set()
+                for use in pattern_uses:
+                    if 'candidate' in use:
+                        use['status'] = 'executed_main_program' if use['expanded_graph_hash'] in executed else 'not_executed_after_interface_policy'
+                result['pattern_uses'] = pattern_uses
             if example_evidence is not None:
                 result["ordinary_example_synthesis"] = example_evidence
         if arm == "MB" and example_model is not None:

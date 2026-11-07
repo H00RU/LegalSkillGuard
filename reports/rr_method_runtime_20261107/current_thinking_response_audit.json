@@ -1,0 +1,883 @@
+{
+  "checked_utc": "2026-11-07T01:23:43.092197+00:00",
+  "comparison_complete": false,
+  "completed_profiles": 2,
+  "expected_profiles": 40,
+  "findings": [
+    {
+      "TRAIN_correct": false,
+      "attempts": [
+        {
+          "elapsed_seconds": 64.39546285569668,
+          "offline_compile": "rejected",
+          "offline_error": {
+            "message": "Public literal grounding failed: [{'binding': 'b_wall_mounted_shelf_exemption', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_limit', 'sources': ['s175'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_limit', 'sources': ['s175'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_remaining', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_remaining', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_status', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_status', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_remaining_total', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_remaining_total', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}]",
+            "type": "Unsupported"
+          },
+          "raw_content_sha256": "ffa70f5406d013d4ffb04fe8352cc3fec646d60102696ee3bbed8bdb0f91b86d",
+          "recorded_analysis": {
+            "A_main_path_executed": false,
+            "B_main_path_executed": false,
+            "answer": null,
+            "certificate_status": "translation_unresolved",
+            "error": {
+              "message": "Public literal grounding failed: [{'binding': 'b_wall_mounted_shelf_exemption', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_limit', 'sources': ['s175'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_limit', 'sources': ['s175'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_remaining', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_remaining', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_status', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_status', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_remaining_total', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_remaining_total', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}]",
+              "type": "Unsupported"
+            },
+            "fallback_used": false,
+            "program_status": "invalid_IR",
+            "structural_pass": false
+          },
+          "request_hash": "6cd9e25542ce7c76301211eeccfb6ab59228a0f94de15d767c3e93cb047a400f",
+          "source_only_feedback": {
+            "candidate_modified": false,
+            "grading_information_used": false,
+            "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+            "issues": [
+              {
+                "actual": {
+                  "first_path": "bindings[4].name",
+                  "name": "b_wall_mounted_shelf_exemption"
+                },
+                "expected": "unique symbol name",
+                "path": "observations[0].name"
+              },
+              {
+                "actual": {
+                  "first_path": "bindings[5].name",
+                  "name": "b_hooded_fleece_rob_exemption"
+                },
+                "expected": "unique symbol name",
+                "path": "observations[1].name"
+              },
+              {
+                "actual": {
+                  "first_path": "bindings[4].name",
+                  "name": "b_wall_mounted_shelf_exemption"
+                },
+                "expected": "unique symbol name",
+                "path": "rule_residuals[0].name"
+              },
+              {
+                "actual": {
+                  "first_path": "bindings[5].name",
+                  "name": "b_hooded_fleece_rob_exemption"
+                },
+                "expected": "unique symbol name",
+                "path": "rule_residuals[1].name"
+              },
+              {
+                "actual": {
+                  "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                  "sources": [
+                    "s176"
+                  ],
+                  "value": "11 U.S.C. § 522(d)(3)"
+                },
+                "expected": "scalar_text_in_cited_public_unit",
+                "path": "bindings[4].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                  "sources": [
+                    "s176"
+                  ],
+                  "value": "11 U.S.C. § 522(d)(3)"
+                },
+                "expected": "scalar_text_in_cited_public_unit",
+                "path": "bindings[5].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "11 U.S.C. § 522(d)(3)",
+                  "sources": [
+                    "s175"
+                  ],
+                  "value": 14875
+                },
+                "expected": "exact_numeric_literal_in_cited_public_unit",
+                "path": "bindings[8].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "11 U.S.C. § 522(d)(3)",
+                  "sources": [
+                    "s175"
+                  ],
+                  "value": 14875
+                },
+                "expected": "exact_numeric_literal_in_cited_public_unit",
+                "path": "bindings[9].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "11 U.S.C. § 522(d)(3)",
+                  "sources": [
+                    "s175"
+                  ],
+                  "value": {
+                    "lineage": [
+                      "s175"
+                    ],
+                    "owner": "wall-mounted floating shelf made of reclaimed barn wood",
+                    "period": "exemption limit",
+                    "stage": "closed_group",
+                    "unit": "value",
+                    "value": 14875
+                  }
+                },
+                "expected": "amount_quoted_in_cited_public_unit",
+                "path": "bindings[10].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "11 U.S.C. § 522(d)(3)",
+                  "sources": [
+                    "s175"
+                  ],
+                  "value": {
+                    "lineage": [
+                      "s175"
+                    ],
+                    "owner": "hooded fleece robe with belt and two front pockets",
+                    "period": "exemption limit",
+                    "stage": "closed_group",
+                    "unit": "value",
+                    "value": 14875
+                  }
+                },
+                "expected": "amount_quoted_in_cited_public_unit",
+                "path": "bindings[11].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                  "sources": [
+                    "s176"
+                  ],
+                  "value": "exempt"
+                },
+                "expected": "scalar_text_in_cited_public_unit",
+                "path": "bindings[14].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                  "sources": [
+                    "s176"
+                  ],
+                  "value": "exempt"
+                },
+                "expected": "scalar_text_in_cited_public_unit",
+                "path": "bindings[15].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "11 U.S.C. § 522(d)(3)",
+                  "sources": [
+                    "s175"
+                  ],
+                  "value": {
+                    "lineage": [
+                      "s175"
+                    ],
+                    "owner": "wall-mounted floating shelf made of reclaimed barn wood",
+                    "period": "exemption limit",
+                    "stage": "closed_group",
+                    "unit": "value",
+                    "value": 14875
+                  }
+                },
+                "expected": "amount_quoted_in_cited_public_unit",
+                "path": "bindings[16].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "11 U.S.C. § 522(d)(3)",
+                  "sources": [
+                    "s175"
+                  ],
+                  "value": {
+                    "lineage": [
+                      "s175"
+                    ],
+                    "owner": "hooded fleece robe with belt and two front pockets",
+                    "period": "exemption limit",
+                    "stage": "closed_group",
+                    "unit": "value",
+                    "value": 14875
+                  }
+                },
+                "expected": "amount_quoted_in_cited_public_unit",
+                "path": "bindings[17].value"
+              },
+              {
+                "actual": "exempt under 11 U.S.C. § 522(d)(3)",
+                "expected": "exact substring of cited source",
+                "path": "observations[0].predicate"
+              },
+              {
+                "actual": "exempt under 11 U.S.C. § 522(d)(3)",
+                "expected": "exact substring of cited source",
+                "path": "observations[1].predicate"
+              },
+              {
+                "actual": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+                "path": "rule_residuals[0].quote"
+              },
+              {
+                "actual": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+                "path": "rule_residuals[1].quote"
+              },
+              {
+                "actual": [
+                  "string"
+                ],
+                "expected": "boolean",
+                "path": "scopes[1].condition"
+              },
+              {
+                "actual": [
+                  "number"
+                ],
+                "expected": "boolean",
+                "path": "scopes[2].condition"
+              },
+              {
+                "actual": [
+                  "number"
+                ],
+                "expected": "boolean",
+                "path": "scopes[3].condition"
+              },
+              {
+                "actual": {
+                  "source": "s121",
+                  "text": "General monetary exemption. General rule.--In addition to any other property specifically exempted by this subchapter, property of the judgment debtor (including bank notes, money, securities, real property, judgments or other indebtedness due the judgment debtor) to the value of $300 shall be exempt from attachment or execution on a judgment. Within such time as may be prescribed by general rules the judgment debtor may claim the exemption in kind and may designate the specific items of property to which the exemption provided by this section shall be applicable unless the designated property is not capable of appropriate division, or the judgment debtor may claim the exemption in cash out of the proceeds of the sale. For married persons, each spouse is entitled to the exemptions provided in this section."
+                },
+                "expected": "executable scope for conditional public preface",
+                "path": "scopes"
+              },
+              {
+                "actual": {
+                  "source": "s282",
+                  "text": "General monetary exemption. General rule.--In addition to any other property specifically exempted by this subchapter, property of the judgment debtor (including bank notes, money, securities, real property, judgments or other indebtedness due the judgment debtor) to the value of $300 shall be exempt from attachment or execution on a judgment. Within such time as may be prescribed by general rules the judgment debtor may claim the exemption in kind and may designate the specific items of property to which the exemption provided by this section shall be applicable unless the designated property is not capable of appropriate division, or the judgment debtor may claim the exemption in cash out of the proceeds of the sale. For married persons, each spouse is entitled to the exemptions provided in this section."
+                },
+                "expected": "executable scope for conditional public preface",
+                "path": "scopes"
+              }
+            ],
+            "source_only": true
+          },
+          "step": 0,
+          "usage": {
+            "completion_tokens": 1921,
+            "prompt_tokens": 20244,
+            "prompt_tokens_details": null,
+            "total_tokens": 22165
+          }
+        },
+        {
+          "elapsed_seconds": 65.69455575291067,
+          "offline_compile": "rejected",
+          "offline_error": {
+            "message": "Public literal grounding failed: [{'binding': 'b_wall_mounted_shelf_exemption', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_limit', 'sources': ['s175'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_limit', 'sources': ['s175'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_remaining', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_remaining', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_status', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_status', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_remaining_total', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_remaining_total', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}]",
+            "type": "Unsupported"
+          },
+          "raw_content_sha256": "c29cf6a62326f3d931f03ea37b2e602765e32862e1e1cad8a7aef9e44906efb9",
+          "recorded_analysis": {
+            "A_main_path_executed": false,
+            "B_main_path_executed": false,
+            "answer": null,
+            "certificate_status": "translation_unresolved",
+            "error": {
+              "message": "Public literal grounding failed: [{'binding': 'b_wall_mounted_shelf_exemption', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_limit', 'sources': ['s175'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_limit', 'sources': ['s175'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_remaining', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_remaining', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_status', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_status', 'sources': ['s176'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'b_wall_mounted_shelf_exemption_remaining_total', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_hooded_fleece_rob_exemption_remaining_total', 'sources': ['s175'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}]",
+              "type": "Unsupported"
+            },
+            "fallback_used": false,
+            "program_status": "invalid_IR",
+            "structural_pass": false
+          },
+          "request_hash": "2738fde5777be4b196d3065dd1f3368b73aabd0ddfe5ea25caa3da20ecbcf143",
+          "source_only_feedback": {
+            "candidate_modified": false,
+            "grading_information_used": false,
+            "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+            "issues": [
+              {
+                "actual": {
+                  "first_path": "bindings[4].name",
+                  "name": "b_wall_mounted_shelf_exemption"
+                },
+                "expected": "unique symbol name",
+                "path": "observations[0].name"
+              },
+              {
+                "actual": {
+                  "first_path": "bindings[5].name",
+                  "name": "b_hooded_fleece_rob_exemption"
+                },
+                "expected": "unique symbol name",
+                "path": "observations[1].name"
+              },
+              {
+                "actual": {
+                  "first_path": "bindings[4].name",
+                  "name": "b_wall_mounted_shelf_exemption"
+                },
+                "expected": "unique symbol name",
+                "path": "rule_residuals[0].name"
+              },
+              {
+                "actual": {
+                  "first_path": "bindings[5].name",
+                  "name": "b_hooded_fleece_rob_exemption"
+                },
+                "expected": "unique symbol name",
+                "path": "rule_residuals[1].name"
+              },
+              {
+                "actual": {
+                  "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                  "sources": [
+                    "s176"
+                  ],
+                  "value": "11 U.S.C. § 522(d)(3)"
+                },
+                "expected": "scalar_text_in_cited_public_unit",
+                "path": "bindings[4].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                  "sources": [
+                    "s176"
+                  ],
+                  "value": "11 U.S.C. § 522(d)(3)"
+                },
+                "expected": "scalar_text_in_cited_public_unit",
+                "path": "bindings[5].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "11 U.S.C. § 522(d)(3)",
+                  "sources": [
+                    "s175"
+                  ],
+                  "value": 14875
+                },
+                "expected": "exact_numeric_literal_in_cited_public_unit",
+                "path": "bindings[8].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "11 U.S.C. § 522(d)(3)",
+                  "sources": [
+                    "s175"
+                  ],
+                  "value": 14875
+                },
+                "expected": "exact_numeric_literal_in_cited_public_unit",
+                "path": "bindings[9].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "11 U.S.C. § 522(d)(3)",
+                  "sources": [
+                    "s175"
+                  ],
+                  "value": {
+                    "lineage": [
+                      "s175"
+                    ],
+                    "owner": "wall-mounted floating shelf made of reclaimed barn wood",
+                    "period": "exemption limit",
+                    "stage": "closed_group",
+                    "unit": "value",
+                    "value": 14875
+                  }
+                },
+                "expected": "amount_quoted_in_cited_public_unit",
+                "path": "bindings[10].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "11 U.S.C. § 522(d)(3)",
+                  "sources": [
+                    "s175"
+                  ],
+                  "value": {
+                    "lineage": [
+                      "s175"
+                    ],
+                    "owner": "hooded fleece robe with belt and two front pockets",
+                    "period": "exemption limit",
+                    "stage": "closed_group",
+                    "unit": "value",
+                    "value": 14875
+                  }
+                },
+                "expected": "amount_quoted_in_cited_public_unit",
+                "path": "bindings[11].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                  "sources": [
+                    "s176"
+                  ],
+                  "value": "exempt"
+                },
+                "expected": "scalar_text_in_cited_public_unit",
+                "path": "bindings[14].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                  "sources": [
+                    "s176"
+                  ],
+                  "value": "exempt"
+                },
+                "expected": "scalar_text_in_cited_public_unit",
+                "path": "bindings[15].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "11 U.S.C. § 522(d)(3)",
+                  "sources": [
+                    "s175"
+                  ],
+                  "value": {
+                    "lineage": [
+                      "s175"
+                    ],
+                    "owner": "wall-mounted floating shelf made of reclaimed barn wood",
+                    "period": "exemption limit",
+                    "stage": "closed_group",
+                    "unit": "value",
+                    "value": 14875
+                  }
+                },
+                "expected": "amount_quoted_in_cited_public_unit",
+                "path": "bindings[16].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "11 U.S.C. § 522(d)(3)",
+                  "sources": [
+                    "s175"
+                  ],
+                  "value": {
+                    "lineage": [
+                      "s175"
+                    ],
+                    "owner": "hooded fleece robe with belt and two front pockets",
+                    "period": "exemption limit",
+                    "stage": "closed_group",
+                    "unit": "value",
+                    "value": 14875
+                  }
+                },
+                "expected": "amount_quoted_in_cited_public_unit",
+                "path": "bindings[17].value"
+              },
+              {
+                "actual": "exempt under 11 U.S.C. § 522(d)(3)",
+                "expected": "exact substring of cited source",
+                "path": "observations[0].predicate"
+              },
+              {
+                "actual": "exempt under 11 U.S.C. § 522(d)(3)",
+                "expected": "exact substring of cited source",
+                "path": "observations[1].predicate"
+              },
+              {
+                "actual": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+                "path": "rule_residuals[0].quote"
+              },
+              {
+                "actual": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+                "path": "rule_residuals[1].quote"
+              },
+              {
+                "actual": [
+                  "string"
+                ],
+                "expected": "boolean",
+                "path": "scopes[1].condition"
+              },
+              {
+                "actual": [
+                  "number"
+                ],
+                "expected": "boolean",
+                "path": "scopes[2].condition"
+              },
+              {
+                "actual": [
+                  "number"
+                ],
+                "expected": "boolean",
+                "path": "scopes[3].condition"
+              },
+              {
+                "actual": {
+                  "source": "s121",
+                  "text": "General monetary exemption. General rule.--In addition to any other property specifically exempted by this subchapter, property of the judgment debtor (including bank notes, money, securities, real property, judgments or other indebtedness due the judgment debtor) to the value of $300 shall be exempt from attachment or execution on a judgment. Within such time as may be prescribed by general rules the judgment debtor may claim the exemption in kind and may designate the specific items of property to which the exemption provided by this section shall be applicable unless the designated property is not capable of appropriate division, or the judgment debtor may claim the exemption in cash out of the proceeds of the sale. For married persons, each spouse is entitled to the exemptions provided in this section."
+                },
+                "expected": "executable scope for conditional public preface",
+                "path": "scopes"
+              },
+              {
+                "actual": {
+                  "source": "s282",
+                  "text": "General monetary exemption. General rule.--In addition to any other property specifically exempted by this subchapter, property of the judgment debtor (including bank notes, money, securities, real property, judgments or other indebtedness due the judgment debtor) to the value of $300 shall be exempt from attachment or execution on a judgment. Within such time as may be prescribed by general rules the judgment debtor may claim the exemption in kind and may designate the specific items of property to which the exemption provided by this section shall be applicable unless the designated property is not capable of appropriate division, or the judgment debtor may claim the exemption in cash out of the proceeds of the sale. For married persons, each spouse is entitled to the exemptions provided in this section."
+                },
+                "expected": "executable scope for conditional public preface",
+                "path": "scopes"
+              }
+            ],
+            "source_only": true
+          },
+          "step": 1,
+          "usage": {
+            "completion_tokens": 1886,
+            "prompt_tokens": 23671,
+            "prompt_tokens_details": null,
+            "total_tokens": 25557
+          }
+        }
+      ],
+      "dataset": "OpenExempt",
+      "final_status": "invalid_IR",
+      "record": "artifacts/rr_method_runtime_20261107/method_runtime_c1_20261107/thinking/records/190107f4f95dccf264114f0b0e8716d4587b3c7e6d464ca67f4e2469770ed7a9.json",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "thinking": false
+    },
+    {
+      "TRAIN_correct": false,
+      "attempts": [
+        {
+          "elapsed_seconds": 87.40814647078514,
+          "offline_compile": "rejected",
+          "offline_error": {
+            "message": "Public literal grounding failed: [{'binding': 'b_float_shelf_exempt', 'sources': ['s176', 's305'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_robe_exempt', 'sources': ['s201', 's176', 's305'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}]",
+            "type": "Unsupported"
+          },
+          "raw_content_sha256": "105604dde8830e1c30b999691fbe771731f53c3f32d5df76cda2169393590285",
+          "recorded_analysis": {
+            "A_main_path_executed": false,
+            "B_main_path_executed": false,
+            "answer": null,
+            "certificate_status": "translation_unresolved",
+            "error": {
+              "message": "Public literal grounding failed: [{'binding': 'b_float_shelf_exempt', 'sources': ['s176', 's305'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_robe_exempt', 'sources': ['s201', 's176', 's305'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}]",
+              "type": "Unsupported"
+            },
+            "fallback_used": false,
+            "program_status": "invalid_IR",
+            "structural_pass": false
+          },
+          "request_hash": "f2a3b157828770384632ce236842cd3e9ab559ced8150ddbabd069600a7ef451",
+          "source_only_feedback": {
+            "candidate_modified": false,
+            "grading_information_used": false,
+            "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+            "issues": [
+              {
+                "actual": {
+                  "first_path": "bindings[0].name",
+                  "name": "b_float_shelf_exempt"
+                },
+                "expected": "unique symbol name",
+                "path": "observations[0].name"
+              },
+              {
+                "actual": {
+                  "first_path": "bindings[1].name",
+                  "name": "b_robe_exempt"
+                },
+                "expected": "unique symbol name",
+                "path": "observations[1].name"
+              },
+              {
+                "actual": {
+                  "first_path": "bindings[0].name",
+                  "name": "b_float_shelf_exempt"
+                },
+                "expected": "unique symbol name",
+                "path": "rule_residuals[0].name"
+              },
+              {
+                "actual": {
+                  "first_path": "bindings[1].name",
+                  "name": "b_robe_exempt"
+                },
+                "expected": "unique symbol name",
+                "path": "rule_residuals[1].name"
+              },
+              {
+                "actual": {
+                  "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.\nConsumer goods. Household goods and furnishings, wearing apparel, keepsakes, jewelry and other articles of personal adornment, appliances, books, musical instruments, firearms, sporting goods, animals, or other tangible personal property held primarily for the personal, family or household use of the debtor or a dependent of the debtor, not to exceed $12,000 in aggregate value.",
+                  "sources": [
+                    "s176",
+                    "s305"
+                  ],
+                  "value": {
+                    "lineage": [
+                      "s176"
+                    ],
+                    "owner": "s176",
+                    "period": "s176",
+                    "stage": "closed_group",
+                    "unit": "s176",
+                    "value": 800
+                  }
+                },
+                "expected": "amount_quoted_in_cited_public_unit",
+                "path": "bindings[0].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "All wearing apparel of not more than a fair market value of five hundred dollars.\nThe debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.\nConsumer goods. Household goods and furnishings, wearing apparel, keepsakes, jewelry and other articles of personal adornment, appliances, books, musical instruments, firearms, sporting goods, animals, or other tangible personal property held primarily for the personal, family or household use of the debtor or a dependent of the debtor, not to exceed $12,000 in aggregate value.",
+                  "sources": [
+                    "s201",
+                    "s176",
+                    "s305"
+                  ],
+                  "value": {
+                    "lineage": [
+                      "s201"
+                    ],
+                    "owner": "s201",
+                    "period": "s201",
+                    "stage": "closed_group",
+                    "unit": "s201",
+                    "value": 105
+                  }
+                },
+                "expected": "amount_quoted_in_cited_public_unit",
+                "path": "bindings[1].value"
+              },
+              {
+                "actual": "exempt",
+                "expected": "exact substring of cited source",
+                "path": "observations[0].predicate"
+              },
+              {
+                "actual": "exempt",
+                "expected": "exact substring of cited source",
+                "path": "observations[1].predicate"
+              },
+              {
+                "actual": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+                "path": "rule_residuals[0].quote"
+              },
+              {
+                "actual": "All wearing apparel of not more than a fair market value of five hundred dollars.",
+                "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+                "path": "rule_residuals[1].quote"
+              },
+              {
+                "actual": {
+                  "source": "s121",
+                  "text": "General monetary exemption. General rule.--In addition to any other property specifically exempted by this subchapter, property of the judgment debtor (including bank notes, money, securities, real property, judgments or other indebtedness due the judgment debtor) to the value of $300 shall be exempt from attachment or execution on a judgment. Within such time as may be prescribed by general rules the judgment debtor may claim the exemption in kind and may designate the specific items of property to which the exemption provided by this section shall be applicable unless the designated property is not capable of appropriate division, or the judgment debtor may claim the exemption in cash out of the proceeds of the sale. For married persons, each spouse is entitled to the exemptions provided in this section."
+                },
+                "expected": "executable scope for conditional public preface",
+                "path": "scopes"
+              },
+              {
+                "actual": {
+                  "source": "s282",
+                  "text": "General monetary exemption. General rule.--In addition to any other property specifically exempted by this subchapter, property of the judgment debtor (including bank notes, money, securities, real property, judgments or other indebtedness due the judgment debtor) to the value of $300 shall be exempt from attachment or execution on a judgment. Within such time as may be prescribed by general rules the judgment debtor may claim the exemption in kind and may designate the specific items of property to which the exemption provided by this section shall be applicable unless the designated property is not capable of appropriate division, or the judgment debtor may claim the exemption in cash out of the proceeds of the sale. For married persons, each spouse is entitled to the exemptions provided in this section."
+                },
+                "expected": "executable scope for conditional public preface",
+                "path": "scopes"
+              }
+            ],
+            "source_only": true
+          },
+          "step": 0,
+          "usage": {
+            "completion_tokens": 2632,
+            "prompt_tokens": 20240,
+            "prompt_tokens_details": null,
+            "total_tokens": 22872
+          }
+        },
+        {
+          "elapsed_seconds": 64.21879700943828,
+          "offline_compile": "rejected",
+          "offline_error": {
+            "message": "Public literal grounding failed: [{'binding': 'b_float_shelf_exempt', 'sources': ['s176'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_robe_exempt', 'sources': ['s201'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}]",
+            "type": "Unsupported"
+          },
+          "raw_content_sha256": "8d34b11a7d79697d3ef1ef4d4f8bba7dfe567f357091e69928b967c5ef4d09f5",
+          "recorded_analysis": {
+            "A_main_path_executed": false,
+            "B_main_path_executed": false,
+            "answer": null,
+            "certificate_status": "translation_unresolved",
+            "error": {
+              "message": "Public literal grounding failed: [{'binding': 'b_float_shelf_exempt', 'sources': ['s176'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}, {'binding': 'b_robe_exempt', 'sources': ['s201'], 'pass': False, 'basis': 'amount_quoted_in_cited_public_unit'}]",
+              "type": "Unsupported"
+            },
+            "fallback_used": false,
+            "program_status": "invalid_IR",
+            "structural_pass": false
+          },
+          "request_hash": "ee692fe9ca5a17b3b5a529ba5b84a2371caf9ff1b7123fb22a177d1daf29ebd8",
+          "source_only_feedback": {
+            "candidate_modified": false,
+            "grading_information_used": false,
+            "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+            "issues": [
+              {
+                "actual": {
+                  "first_path": "bindings[0].name",
+                  "name": "b_float_shelf_exempt"
+                },
+                "expected": "unique symbol name",
+                "path": "observations[0].name"
+              },
+              {
+                "actual": {
+                  "first_path": "bindings[1].name",
+                  "name": "b_robe_exempt"
+                },
+                "expected": "unique symbol name",
+                "path": "observations[1].name"
+              },
+              {
+                "actual": {
+                  "first_path": "bindings[0].name",
+                  "name": "b_float_shelf_exempt"
+                },
+                "expected": "unique symbol name",
+                "path": "rule_residuals[0].name"
+              },
+              {
+                "actual": {
+                  "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                  "sources": [
+                    "s176"
+                  ],
+                  "value": {
+                    "lineage": [
+                      "s176"
+                    ],
+                    "owner": "s176",
+                    "period": "s176",
+                    "stage": "closed_group",
+                    "unit": "s176",
+                    "value": 800
+                  }
+                },
+                "expected": "amount_quoted_in_cited_public_unit",
+                "path": "bindings[0].value"
+              },
+              {
+                "actual": {
+                  "cited_text": "All wearing apparel of not more than a fair market value of five hundred dollars.",
+                  "sources": [
+                    "s201"
+                  ],
+                  "value": {
+                    "lineage": [
+                      "s201"
+                    ],
+                    "owner": "s201",
+                    "period": "s201",
+                    "stage": "closed_group",
+                    "unit": "s201",
+                    "value": 105
+                  }
+                },
+                "expected": "amount_quoted_in_cited_public_unit",
+                "path": "bindings[1].value"
+              },
+              {
+                "actual": "exempt",
+                "expected": "exact substring of cited source",
+                "path": "observations[0].predicate"
+              },
+              {
+                "actual": "exempt",
+                "expected": "exact substring of cited source",
+                "path": "observations[1].predicate"
+              },
+              {
+                "actual": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+                "path": "rule_residuals[0].quote"
+              },
+              {
+                "actual": {
+                  "source": "s121",
+                  "text": "General monetary exemption. General rule.--In addition to any other property specifically exempted by this subchapter, property of the judgment debtor (including bank notes, money, securities, real property, judgments or other indebtedness due the judgment debtor) to the value of $300 shall be exempt from attachment or execution on a judgment. Within such time as may be prescribed by general rules the judgment debtor may claim the exemption in kind and may designate the specific items of property to which the exemption provided by this section shall be applicable unless the designated property is not capable of appropriate division, or the judgment debtor may claim the exemption in cash out of the proceeds of the sale. For married persons, each spouse is entitled to the exemptions provided in this section."
+                },
+                "expected": "executable scope for conditional public preface",
+                "path": "scopes"
+              },
+              {
+                "actual": {
+                  "source": "s282",
+                  "text": "General monetary exemption. General rule.--In addition to any other property specifically exempted by this subchapter, property of the judgment debtor (including bank notes, money, securities, real property, judgments or other indebtedness due the judgment debtor) to the value of $300 shall be exempt from attachment or execution on a judgment. Within such time as may be prescribed by general rules the judgment debtor may claim the exemption in kind and may designate the specific items of property to which the exemption provided by this section shall be applicable unless the designated property is not capable of appropriate division, or the judgment debtor may claim the exemption in cash out of the proceeds of the sale. For married persons, each spouse is entitled to the exemptions provided in this section."
+                },
+                "expected": "executable scope for conditional public preface",
+                "path": "scopes"
+              }
+            ],
+            "source_only": true
+          },
+          "step": 1,
+          "usage": {
+            "completion_tokens": 1879,
+            "prompt_tokens": 21822,
+            "prompt_tokens_details": null,
+            "total_tokens": 23701
+          }
+        }
+      ],
+      "dataset": "OpenExempt",
+      "final_status": "invalid_IR",
+      "record": "artifacts/rr_method_runtime_20261107/method_runtime_c1_20261107/thinking/records/edb98899ab39abc4347c8ad5e8e67e11f6efe0574f5e7d6e61f4d487c500181e.json",
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "thinking": true
+    }
+  ],
+  "full_goal_complete": false,
+  "ledger_counts": {
+    "executor": 433,
+    "teacher": 17
+  },
+  "new_model_calls_by_audit": 0,
+  "pending": 0,
+  "scope": "completed current comparison profiles only; source-only offline diagnosis; no new labels or generation",
+  "semantic_acceptance": "IR validity or TRAIN label match alone does not prove translation faithfulness",
+  "stats": {
+    "false": {
+      "TRAIN_correct": 0,
+      "complete_profiles": 1,
+      "completion_tokens": 3807,
+      "elapsed_seconds": 130.09001860860735,
+      "prompt_tokens": 43915,
+      "structural_pass": 0
+    },
+    "true": {
+      "TRAIN_correct": 0,
+      "complete_profiles": 1,
+      "completion_tokens": 4511,
+      "elapsed_seconds": 151.62694348022342,
+      "prompt_tokens": 42062,
+      "structural_pass": 0
+    }
+  }
+}

@@ -327,7 +327,7 @@ def learn_typed_source(source, grade, oracle, *, proposal=None, trace=None):
     pattern = None
     incomplete = any((digest(h), v['view_hash']) in unbound for h in retained
                      for v in queried if v.get('status') != 'reference_failed')
-    if refinement.status == 'identified_on_observed_collisions':
+    if refinement.status == 'identified_on_observed_collisions' and retained and not incomplete:
         graphs = {digest(parameterize_graph(h['graph'])): parameterize_graph(h['graph']) for h in retained}
         pattern = {'fields': list(refinement.minimal_field_sets[0]), 'graphs': list(graphs.values()),
                    'basis': 'observed_source_collisions', 'universal_semantic_equivalence_claim': False}
