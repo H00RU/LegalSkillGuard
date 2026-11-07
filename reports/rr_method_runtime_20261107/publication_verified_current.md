@@ -1,13 +1,13 @@
 # 当前验证快照的远端核验
 
-核验时间：2026-11-07T05:34:28.467333+00:00。
+核验时间：2026-11-07T09:30:45.368793+00:00。
 
-已独立从 GitHub 拉取提交 873349abda7b32d03d7686604c2ec25e94c4c243，逐项核对清单中的 983 个文件，SHA256 全部一致，发布清单本身也一致。当前科学实现仍为本地2db5ac8，新增内容为真实响应、来源诊断、进度及费用证据。
+已独立从 GitHub 拉取提交 2f845d866e6b9b74d06209e4317da9429490ca7e，逐项核对清单中的 1395 个文件，SHA256 全部一致，发布清单本身也一致。该快照科学实现为本地9a1f623，新增内容为真实响应、来源诊断、进度及费用证据。
 
-- [当前报告](https://github.com/H00RU/LegalSkillGuard/blob/873349abda7b32d03d7686604c2ec25e94c4c243/reports/legalskillguard_method_runtime_20261107.md)
-- [源代码](https://github.com/H00RU/LegalSkillGuard/tree/873349abda7b32d03d7686604c2ec25e94c4c243/legal_skill_guard/rr)
+- [当前报告](https://github.com/H00RU/LegalSkillGuard/blob/2f845d866e6b9b74d06209e4317da9429490ca7e/reports/legalskillguard_method_runtime_20261107.md)
+- [源代码](https://github.com/H00RU/LegalSkillGuard/tree/2f845d866e6b9b74d06209e4317da9429490ca7e/legal_skill_guard/rr)
 - [完整核验JSON](publication_verified.json)
-- [对应发布清单](https://github.com/H00RU/LegalSkillGuard/blob/873349abda7b32d03d7686604c2ec25e94c4c243/reports/rr_method_runtime_20261107/publication_manifest.json)
+- [对应发布清单](https://github.com/H00RU/LegalSkillGuard/blob/2f845d866e6b9b74d06209e4317da9429490ca7e/reports/rr_method_runtime_20261107/publication_manifest.json)
 
 main 保持 ae7e09230b4eb675b7299f73c4775787ccb2b65b，私有本地Git祖先未上传。本发布流程没有调用模型。
 
