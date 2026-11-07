@@ -1,27 +1,40 @@
 # LegalSkillGuard 主方法与开发验证
 
 <!-- current_live_status -->
-Current snapshot: Goal active and incomplete. Previous code-v1 and typed-v1 builds were stopped and preserved at69 and5 committed sources, respectively; neither has an accepted primary model IR. Current phase: fixed128_declarative_build_live. Current compiler uses the canonical typed AST with source-keyed nullable scopes, finite provenance and input-first declaration order. Truncated responses provide complete-prefix errors only, never reconstructed IR. Latest settled probe: executor_ast_typed_operands_v1_20261107. Thinking remains OFF. Current runtime passed518 offline checks and8 installed-backend syntax checks; these are not semantic method scores. Coherent original fixed128/8-batch build, six-arm DEV, core mechanism and cross-bank evidence remain incomplete. Fallback and exact reused teacher material do not establish core success. No TEST or paper work has started.
+Current snapshot: Goal active and incomplete. Previous code-v1 and typed-v1 builds were stopped and preserved at69 and5 committed sources, respectively; neither has an accepted primary model IR. Current phase: fixed128_declarative_build_live. Current compiler uses the canonical typed AST with source-keyed nullable scopes, finite provenance and input-first declaration order. Truncated responses provide complete-prefix errors only, never reconstructed IR. Latest settled probe: executor_ast_typed_operands_v1_20261107. Thinking remains OFF. Current runtime passed518 offline checks and8 installed-backend syntax checks; these are not semantic method scores. The first16-source B1/B1.MB and all6 common-material projections were verified; its only library pattern is entity_equality, MB has0 typed program families and3 Horn families, and both TRAIN matches are fallback. Coherent original fixed128/8-batch build, six-arm DEV, core mechanism and cross-bank evidence remain incomplete. Fallback and exact reused teacher material do not establish core success. No TEST or paper work has started.
 <!-- /current_live_status -->
 
 <!-- current_train_prefix -->
 ## 当前统一版本的TRAIN前缀
 
-更新时间：2026-11-07T17:30:35.079981+00:00；仅统计已结算的12个来源。
+更新时间：2026-11-07T18:15:22.840415+00:00；仅统计已结算的16个来源。
 
 | 指标 | 当前结果 |
 |---|---:|
-| 已提交来源 / 原定来源 | 12 / 128 |
-| 已完成批次 / 原定批次 | 0 / 8 |
-| TRAIN匹配（含允许的回退） | 1 / 12（8.33%） |
-| 无回退的TRAIN匹配 | 0 / 12 |
-| 接纳的模型IR | 0 / 12 |
-| A条件完成证书来源 | 0 / 12 |
-| B模型IR路径实际执行来源 | 0 / 12 |
-| 回退来源 | 1 / 12 |
+| 已提交来源 / 原定来源 | 16 / 128 |
+| 已完成批次 / 原定批次 | 1 / 8 |
+| TRAIN匹配（含允许的回退） | 2 / 16（12.50%） |
+| 无回退的TRAIN匹配 | 0 / 16 |
+| 接纳的模型IR | 0 / 16 |
+| A条件完成证书来源 | 0 / 16 |
+| B模型IR路径实际执行来源 | 0 / 16 |
+| 回退来源 | 2 / 16 |
 
 回退答对和回退中的存储图调用单列，不计核心机制成功。IR接纳或条件证书也不单独证明源文语义忠实。[当前指标JSON](rr_method_runtime_20261107/training_metrics_status_20261107.json)、[来源状态CSV](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_source_status.csv)保留分母与路径；下方其他科学版本分别保存，不拼接成绩。
 <!-- /current_train_prefix -->
+
+## 首批16来源、B1与六臂共用材料已核验
+
+统一版本8ea35e0已保存原首16来源、B1及B1.MB，当前为1/8批，原128来源建库继续。[实际批次核验](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_batch_material_verification.json)逐项确认原定来源顺序、源记录hash、入批库hash、同一教师材料，以及每个来源六臂投影中的共同材料hash一致；没有额外制备调用。源文发送核验已覆盖首16来源32条实际请求，均与原公开units、任务身份、封存OFF配置一致。
+
+| 首批冻结工件 | 内容payload SHA256 |
+|---|---|
+| [B1库](../artifacts/rr_method_runtime_20261107/method_runtime_ast_v1_20261107/build/B1.frozen.json) | 4f2df3e9d0658c3bab2abd0a2fa75597fc75c2f7496688252b32f954b8da4729 |
+| [B1.MB对照](../artifacts/rr_method_runtime_20261107/method_runtime_ast_v1_20261107/build/B1.MB.frozen.json) | 2bcbb09ef7c5fcc15631c557b819382d77182c220847afeb61dcde837a081f6d |
+
+教师汇总严格复用原已结算的method_runtime_code_v1_20261107:build:teacher:B1:0：相同16来源及顺序、当前教师配置、完整提示、schema、原始请求/结果文件SHA及账本结果均一致。该原响应只贡献同一份教学材料，不导入当前前缀未验证模式，不计本运行新教师调用，也不替代模型IR或核心机制证据。原请求SHA为6f0203bdfb29840fe000b405f95834b8948a564852ed17ce3a2f0bc6653ddf1c，原结果SHA为e7ee73a715ae5628a435538f0f6a7fcc229734a4757c647338aa16a9eeb44411；物理来源和用量留在批次收据。
+
+首批32次executor响应中29次length、3次stop；接纳模型IR为0。TRAIN匹配2/16，均来自Horn恢复；A真实后续解析/观察选择0，核心模型IR路径B使用0。B1只有1个entity_equality/join_on模式，支持来自第4和14个ProofWriter来源；实际46次使用均发生在两个同库回退来源中。B1.MB的source_count为16，实际类型化源程序families为0、Horn families为3，extra_model_calls为0；不能把16个输入来源写成16个有效程序族。首批交付与材料一致性已通过，核心方法验收仍未满足；跨库目前只有曝光，尚无实际复用证据。原剩余112来源、其余7批和六臂DEV仍待完成，不标记Goal完成或启动TEST。
 
 ## 前10来源的完整响应定位与输入审计补齐
 
@@ -30,6 +43,8 @@ Current snapshot: Goal active and incomplete. Previous code-v1 and typed-v1 buil
 本次还修正了一个报告层核验缺口：旧实际发送审计仅在旧code接口下比对完整源单元，对当前结构化接口跳过该断言，旧收据的对应字段为false。现已在未绑定的报告脚本中对当前每条请求强制比对原TRAIN公开units、dataset、task_id及task_metadata，并保留[修正前收据](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_dispatch_audit_v1_before_public_unit_assertion.json)。前10来源20次实际请求全部一致；[离线负例](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_dispatch_audit_v2_regression.json)只在内存副本删去最后一个源单元，确实被源文完整性断言拒绝。未修改原请求、响应或账本，未新增模型及oracle调用；正在运行的科学源码、配置和seal绑定不变。
 
 这两项证据分别定位模型输出错误和报告验证缺口，不将离线审计通过计作A/B成功。继续同一封存版本的原128来源/8批建库，再完成原定DEV与机制审计；不增加数据、种子或逐样例提示扫描。
+
+恢复契约另做了定点核对：第10及第15来源的完整候选虽保留在journal中用于诊断，但compiled_valid=false时，实际下一请求的accepted_program均为null，反馈明确source_only且candidate_modified=false。[原请求及状态哈希](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_rejected_candidate_retry_audit.json)排除了“被拒候选被冒充为已接纳程序”的假设；当前代码和真实发送一致，故未据此修改科学实现。第15来源首响应另有Boolean期望与relation实际类型冲突及无guarded clause输出，继续原预算内第二请求。
 
 ## 已结算前12来源实际提供了哪些B学习输入
 
@@ -67,6 +82,10 @@ Current snapshot: Goal active and incomplete. Previous code-v1 and typed-v1 buil
 第9个ProofWriter来源在两次模型IR输出均截断后进入原方案允许的受限Horn恢复，原TRAIN语义匹配通过。执行trace记录28次query_relevant的已存entity_equality/join_on图调用，均发生在这一个来源中；模式支持来自当前前缀第4个ProofWriter来源，属于同库存储模式复用，不是28个成功来源，也不是跨库迁移。两次模型请求输入合计7454、输出16384 token，耗时合计950.271秒；恢复没有新增模型请求。[原始记录/调用及路径核查](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_first_fallback_graph_use_audit.json)保留source记录、hash、实际graph调用与物理请求。
 
 截至前9来源，TRAIN匹配为1/9（11.11%，来自回退），回退比例1/9，核心IR接纳0/9、无回退匹配0；A真实后续选择0、B模型IR主路径0。日志中的B=true仅表示该恢复路径实际执行了存储图，不作为核心机制验收。未用这个匹配宣称主训练就绪，原128/8建库和六臂DEV仍未完成，未启动TEST或论文。
+
+前14来源补充核验：第14个ProofWriter来源两次响应均length8192，耗时291.734与354.004秒；随后Horn恢复匹配TRAIN，实际执行此前已存图18次。累计两次匹配均为回退，46次图调用分布在这两个来源，全部是同库复用，核心模型IR路径仍为0。该来源的碰撞学习再次识别entity_equality/join_on，pattern hash与第4来源相同，属于已有结构的重复识别和增加支持来源，库的不同模式数仍为1；预测中的图支持只来自当时已见的第4来源，没有用本来源事后学习结果冒充事前复用。[前缀机制及逐来源原始记录SHA](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_mechanism_prefix_audit.json)将首次获取、重复识别、实际执行和回退分别记录。原始B=true、native fallback_used=false与completion_stable均保留，结合model_source_IR_still_unresolved=true明确归类为回退，不能当作A完成证书或核心B通过。
+
+本次重复识别也暴露了报告脚本的可变引用错误：审计把当前支持来源列表直接放入结果，后续合并同一模式时，46条审计使用记录被错误追加第14来源。原始预测trace和科学流程使用独立库快照，没有这个污染，两来源实际事前支持均只有第4来源。现已仅在未绑定的报告脚本中复制该列表，并在全部前缀重建结束后再次核对支持来源必须早于预测。[错误审计原件](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_mechanism_audit_before_support_snapshot_fix.json)与[真实记录离线回归](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_support_snapshot_regression.json)保留前后证据；修复后46条全部与不可变原trace一致，原记录hash、预测、匹配数、A证据和回退归类不变。未修改科学绑定或账本，没有新增模型/oracle请求；此前公开前12来源的快照尚未发生此后续合并，其收据不受本次可变引用错误影响。
 
 ## 其余四库的曝光与实际复用边界
 

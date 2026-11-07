@@ -1,0 +1,62 @@
+{
+  "checked_utc": "2026-11-07T17:56:23.552523+00:00",
+  "run_id": "method_runtime_ast_v1_20261107",
+  "rows": [
+    {
+      "source_journal": "91368467e36419cf12f322325fcf2a231aa1f6eb135a8c40376ed535f24675ea",
+      "state0_sha256": "cb291a9880c6e4c7a0d91e710d855f14e7f2b76b724258e0c0497a733fd916bb",
+      "request1_sha256": "06cd5b2e791d340d4e143e5ae9e1340a993cefdb5bcbdd4d17cd4556a566d2e0",
+      "rejected_candidate_retained_for_diagnosis": true,
+      "compiled_valid": false,
+      "accepted_program_in_actual_retry": null,
+      "source_only_feedback": true,
+      "actual_feedback_issues": [
+        {
+          "path": "query.args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0]",
+          "expected": "boolean",
+          "actual": [
+            "string"
+          ]
+        },
+        {
+          "path": "query",
+          "expected": "read at least one guarded clause output",
+          "actual": [
+            "s19"
+          ]
+        }
+      ]
+    },
+    {
+      "source_journal": "401a31e3fdbc1c6a7d7d484935ede81337192240cd87c581b281f9990458db21",
+      "state0_sha256": "915064617fdccf50270e38d35abf5f5fac2fa1853b45817a1817a583dc75fba2",
+      "request1_sha256": "c9221e73804eb347a2134df7150f43fc86ad5e6becf1f7c50d2850bdb2d77eb2",
+      "rejected_candidate_retained_for_diagnosis": true,
+      "compiled_valid": false,
+      "accepted_program_in_actual_retry": null,
+      "source_only_feedback": true,
+      "actual_feedback_issues": [
+        {
+          "path": "query.args[2].args[2].args[2].args[2].args[2].args[2].args[2].args[2].args[2].args[2].args[2].args[2].args[2].args[2].args[2].args[0]",
+          "expected": "boolean",
+          "actual": [
+            "relation"
+          ]
+        },
+        {
+          "path": "query",
+          "expected": "read at least one guarded clause output",
+          "actual": [
+            "s48"
+          ]
+        }
+      ]
+    }
+  ],
+  "code": "legal_skill_guard/rr/source_inference.py",
+  "code_sha256": "140d31108782d21a4b2076adfef6ce90596e1c0392a94f5db1c64e790d6f412d",
+  "conclusion": "The two observed uncompiled complete candidates are not advertised as accepted_program in their retry requests. No implementation change is warranted by this hypothesis.",
+  "candidate_or_scientific_source_modified": false,
+  "grading_packets_opened": false,
+  "new_model_or_oracle_calls": 0
+}

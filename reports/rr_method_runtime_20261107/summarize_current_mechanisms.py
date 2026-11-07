@@ -66,7 +66,7 @@ def main():
         for use in execution.get('pattern_uses', []):
             key = use['pattern_hash']
             assert key in previous
-            support = previous[key]['evidence_sources']
+            support = list(previous[key]['evidence_sources'])
             assert use['supporting_training_sources'] == support
             assert set(support) <= set(seal['sources']['train'][:position])
             target_bank = record['dataset']
@@ -108,6 +108,8 @@ def main():
                 if learning['primitive_source'] == 'model_source_linked_inputs' else None,
             'source_program_diagnostic': learning.get('source_program_diagnostic'),
             'recorded_oracle_views': len(learning['oracle_views'])})
+    for use in uses:
+        assert set(use['supporting_sources_before_prediction']) <= set(seal['sources']['train'][:use['source_position']])
     for batch in range(1, len(rows) // 16 + 1):
         path = stage / 'build/batches' / f'B{batch}.json'
         if path.exists():
@@ -116,6 +118,8 @@ def main():
     result = {'captured_utc': datetime.now(timezone.utc).isoformat(), 'run_id': args.run_id,
         'prefix_sources_audited': len(rows), 'expected_sources': 128, 'rows': rows,
         'library_prefix_hashes_and_call_view_budgets_verified': True,
+        'prediction_support_copied_before_later_library_merges': True,
+        'all_final_support_snapshots_precede_prediction': True,
         'model_error_types': dict(errors),
         'effective_learning_inputs': {
             'by_dataset': {bank: {'sources': sum(row['dataset'] == bank for row in rows),
