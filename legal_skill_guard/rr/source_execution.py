@@ -12,7 +12,7 @@ import time
 from .coverage import Unsupported,certificate,complete,digest,plan_batch
 from .source_program import (accept_observations,compile_source,compiler_prompt,
     observation_request,source_theory)
-from .source_code import compiler_response_schema,decode_compiler_response
+from .compiler_contract import compiler_response_schema,decode_compiler_response
 from .strict_contract import obj
 from .wire_validation import validate_wire
 

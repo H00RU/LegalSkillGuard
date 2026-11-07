@@ -3,12 +3,111 @@
 This module reads public source text and candidate syntax. It does not observe
 facts, infer missing legal rules, open a grading packet or change the candidate.
 """
+import json
+from collections import Counter
+
 from .clause_scope import required_scope_sources
 from .grounding import binding_literal_audit
 from .ir_types import IRTypeError,check_expression
 from .scoped_program import expression_reads
 from .source_program import proper_rule_subexpression
 from .source_structure import inspect_source
+
+
+def incomplete_feedback(content):
+    """Diagnose complete declarations before truncation; never recover an IR.
+
+    Only complete JSON values at the root or in a declaration array are read.
+    An incomplete row, a duplicate JSON key or an unknown future declaration
+    cannot supply evidence. Checks use the real expression type checker and
+    do not infer missing bindings, truth values, clauses or query results.
+    """
+    from .raw_recovery import _unique_object
+    decoder=json.JSONDecoder(object_pairs_hook=_unique_object)
+    try:decoder.decode(content)
+    except json.JSONDecodeError:pass
+    except ValueError:return None
+    else:return None
+    groups={'bindings','observations','rule_residuals','nodes','scopes','clauses'}
+    records=[];fields=[];pos=0
+    def whitespace(at):
+        while at<len(content) and content[at] in ' \t\r\n':at+=1
+        return at
+    pos=whitespace(pos)
+    if content[pos:pos+1]!='{':return None
+    pos+=1
+    while True:
+        pos=whitespace(pos)
+        try:key,end=decoder.raw_decode(content,pos)
+        except (ValueError,TypeError):break
+        if not isinstance(key,str) or key in fields:break
+        pos=whitespace(end)
+        if content[pos:pos+1]!=':':break
+        pos=whitespace(pos+1);fields.append(key)
+        try:value,end=decoder.raw_decode(content,pos)
+        except (ValueError,TypeError):
+            # The complete rows of the first incomplete declaration array
+            # remain unambiguous; never append closing bytes or parse its tail.
+            if key in groups and key!='scopes' and content[pos:pos+1]=='[':
+                at=pos+1;i=0
+                while True:
+                    at=whitespace(at)
+                    try:row,end=decoder.raw_decode(content,at)
+                    except (ValueError,TypeError):break
+                    records.append((key,f'{key}[{i}]',row));i+=1
+                    at=whitespace(end)
+                    if content[at:at+1]!=',':break
+                    at+=1
+            break
+        if key=='scopes' and isinstance(value,dict):
+            records.extend((key,f'scopes.{sid}',row) for sid,row in value.items() if row is not None)
+        elif key in groups and isinstance(value,list):
+            records.extend((key,f'{key}[{i}]',row) for i,row in enumerate(value))
+        pos=whitespace(end)
+        if content[pos:pos+1]!=',':break
+        pos+=1
+    issues={};declared={};types={}
+    def issue(path,expected,actual):
+        identity=json.dumps([expected,actual],ensure_ascii=False,sort_keys=True)
+        if identity in issues:issues[identity]['occurrences']+=1
+        else:issues[identity]={'path':path,'expected':expected,'actual':actual,'occurrences':1}
+    for _,path,row in records:
+        if not isinstance(row,dict) or not isinstance(row.get('name'),str):continue
+        name=row['name']
+        if name in declared:issue(path+'.name','unique symbol name',{'name':name,'first_path':declared[name]})
+        else:declared[name]=path+'.name'
+    counts=Counter(row['name'] for _,_,row in records if isinstance(row,dict) and isinstance(row.get('name'),str))
+    for group,_,row in records:
+        if not isinstance(row,dict) or not isinstance(row.get('name'),str) or counts.get(row['name'])!=1:continue
+        if group in {'observations','rule_residuals'}:types[row['name']]={'boolean'}
+        elif group=='bindings':
+            kind=row.get('type');value=row.get('value')
+            if kind in {'integer','rational'}:types[row['name']]={'number'}
+            elif kind=='scalar' and type(value) in (bool,int,str):
+                types[row['name']]={{bool:'boolean',int:'number',str:'string'}[type(value)]}
+            elif kind=='relation':types[row['name']]={'relation'}
+    for group,path,row in records:
+        if not isinstance(row,dict):continue
+        keys=('condition',) if group=='scopes' else ('value','otherwise') if group=='clauses' else \
+             ('body',) if group=='nodes' and row.get('kind')=='expression' else ()
+        for key in keys:
+            if key not in row or not expression_reads(row[key])<=set(types):continue
+            body={'op':'not','args':[row[key]]} if group=='scopes' else row[key]
+            prefix='program.body.query.args[0]' if group=='scopes' else 'program.body.query'
+            try:
+                result=check_expression({'query':body},{},slot_types=types)
+                if group=='nodes' and counts.get(row.get('name'))==1:
+                    types[row['name']]=set(result['result_types'])
+            except IRTypeError as exc:
+                for d in exc.diagnostics:issue(path+'.'+key+d['path'].removeprefix(prefix),d['expected'],d['actual'])
+            except (TypeError,ValueError,KeyError,IndexError):
+                # Malformed syntax is diagnosed by normal full-response
+                # validation, never by guessing a type from an incomplete IR.
+                continue
+    return {'source_only':True,'prefix_only':True,'candidate_reconstructed':False,
+        'complete_declaration_count':len(records),'issue_count':sum(d['occurrences'] for d in issues.values()),
+        'issues':sorted(issues.values(),key=lambda d:d['expected']=='unique symbol name')[:12],
+        'instruction':'These are errors in complete earlier declarations, not a recovered program. Return a complete fresh source-grounded translation; do not extend or copy the truncated tail.'}
 
 
 def validation_feedback(source,program):

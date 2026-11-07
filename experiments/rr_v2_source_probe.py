@@ -9,6 +9,7 @@ import hashlib
 import json
 from pathlib import Path
 import sqlite3
+from jsonschema import ValidationError
 
 from legal_skill_guard.rr.checkpoint import immutable_json
 from legal_skill_guard.rr.coverage import digest
@@ -16,12 +17,12 @@ from legal_skill_guard.rr.method_client import MethodExecutor,MethodTeacher,TEAC
 from legal_skill_guard.rr.method_ledger import MethodLedger
 from legal_skill_guard.rr.preflight import science_files,scientific_code_binding,score_source
 from legal_skill_guard.rr.source_program import compile_source,compiler_prompt
-from legal_skill_guard.rr.source_code import compiler_response_schema,decode_compiler_response,SourceCodeError
+from legal_skill_guard.rr.compiler_contract import compiler_response_schema,decode_compiler_response
 from legal_skill_guard.rr.source_execution import assess_source,prepare_followup,accept_followup
 
 
 QUESTION='Can an actual TRAIN clause compile into a compact source-scoped DAG, factual observations and independent Omega checking without native-answer delegation?'
-OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v16.json'
+OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v21.json'
 
 
 def load(root,run_id,source_id=None,library_path=None,compiler_role='executor'):
@@ -93,7 +94,10 @@ def executor_candidate(root,origin,source,config):
     if (seal['run_id']!=origin or seal['source']!=source or
             seal['config']['compiler_role']!='executor' or seal['config']['executor']!=config['executor']):
         raise ValueError('Executor repair requires its own candidate, identical public source and executor profile')
-    if seal['schema']!=compiler_response_schema(source,config.get('library')):
+    current_schema=compiler_response_schema(source,config.get('library'))
+    old_properties=seal['schema'].get('properties',{})
+    if seal['schema']!=current_schema and (set(old_properties)!=set(current_schema['properties']) or
+            old_properties.get('scopes',{}).get('type')!='object'):
         raise ValueError('Repair origin must use the current structured compiler contract')
     cfg=json.loads((root/'configs/rr_v2_preflight.json').read_text())
     with sqlite3.connect('file:'+str(root/cfg['ledger_path'])+'?mode=ro',uri=True) as db:
@@ -102,9 +106,25 @@ def executor_candidate(root,origin,source,config):
         raise ValueError('No completed independent executor candidate exists')
     from legal_skill_guard.rr.raw_recovery import _unique_object
     response=json.loads(row[4]);path=stage/'program.json';parse_error=None
-    try:program=decode_compiler_response(json.loads(response['content'],object_pairs_hook=_unique_object),source,config.get('library'))
-    except SourceCodeError as exc:
-        program=None;parse_error={'type':type(exc).__name__,'message':str(exc),'diagnostics':exc.diagnostics}
+    try:parsed=json.loads(response['content'],object_pairs_hook=_unique_object)
+    except json.JSONDecodeError as exc:
+        # A charged incomplete JSON response supplies diagnosis, never a
+        # candidate IR. This remains useful after a documented schema fix.
+        if path.exists():raise ValueError('Incomplete JSON cannot have a saved IR')
+        from legal_skill_guard.rr.source_validation import incomplete_feedback
+        return seal,None,{'paid_call_id':origin+':compile','program_hash':digest(None),
+            'request_hash':response['request_hash'],'generation_binding':seal['binding'],
+            'raw_content_sha256':hashlib.sha256(response['content'].encode()).hexdigest(),
+            'parse_error':{'type':type(exc).__name__,'message':str(exc),'line':exc.lineno,
+                'column':exc.colno,'position':exc.pos,
+                'complete_prefix_diagnosis':incomplete_feedback(response['content'])},'diagnosis_only_no_IR_reused':True,
+            'teacher_candidate_used':False,'new_model_calls':0}
+    if seal['schema']!=current_schema:
+        raise ValueError('Repair origin must use the current structured compiler contract')
+    try:program=decode_compiler_response(parsed,source,config.get('library'))
+    except (ValueError, ValidationError) as exc:
+        program=None;parse_error={'type':type(exc).__name__,'message':getattr(exc,'message',str(exc))}
+        if hasattr(exc,'path'):parse_error['field_path']=list(exc.path)
         if path.exists():raise ValueError('An unparseable paid response cannot have a saved IR')
     else:
         if json.loads(path.read_text())!=program:

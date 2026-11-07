@@ -1,9 +1,49 @@
 # LegalSkillGuard 主方法与开发验证
 
 <!-- current_live_status -->
-Current snapshot: Goal active and incomplete. The previous code-v1 build was stopped and preserved at69 committed sources with zero accepted model-IR programs. The repaired wire constrains typed declaration metadata and compact expressions; two real probes passed metadata but failed expression/IR checks. Thinking remains OFF. Current run: method_runtime_typed_v1_20261107, 0/128 sources committed; the original coherent fixed128/8-batch build and six-arm DEV remain incomplete. Current runtime passed479 offline checks and12 installed backend checks. Teacher responses are reused only for identical batch sources, configuration, prompts and schema, with physical origins retained. Fallback and reused teacher material do not establish core A/B success. No TEST or paper work has started.
+Current snapshot: Goal active and incomplete. Previous code-v1 and typed-v1 builds were stopped and preserved at69 and5 committed sources, respectively; neither has an accepted primary model IR. Current phase: fixed128_declarative_build_live. Current compiler uses the canonical typed AST with source-keyed nullable scopes, finite provenance and input-first declaration order. Truncated responses provide complete-prefix errors only, never reconstructed IR. Latest settled probe: executor_ast_typed_operands_v1_20261107. Thinking remains OFF. Current runtime passed518 offline checks and8 installed-backend syntax checks; these are not semantic method scores. Coherent original fixed128/8-batch build, six-arm DEV, core mechanism and cross-bank evidence remain incomplete. Fallback and exact reused teacher material do not establish core success. No TEST or paper work has started.
 <!-- /current_live_status -->
 
+## 当前训练指标复核（2026-11-07）
+
+| 独立科学版本 | 已提交来源 / 原定来源 | TRAIN匹配（含回退） | 接纳的模型IR | 核心主路径匹配 |
+|---|---:|---:|---:|---:|
+| code-v1，已停止保留 | 69 / 128 | 3 / 69（4.35%，均为回退） | 0 | 0 |
+| typed-v1，已停止保留 | 5 / 128 | 0 / 5（0%） | 0 | 0 |
+| AST v2，独立单来源修复验证 | 1个原定来源 | 未评分，输出未完整 | 0 | 0 |
+| 输入优先AST，独立单来源修复验证 | 同一个原定来源 | 未评分，输出未完整 | 0 | 0 |
+
+以上版本不混合统计，未完成来源不当作已评分错误。最新AST v2输入3344、输出8192 token，240.810秒，finish=length；已完整的条款段出现重复名称，尚未生成bindings及后续字段。之前来源数组无限重复的尾部已消失，生成仍因重复条款声明而截断；不补齐JSON或缺失语义，不算执行器运行错误。实际HTTP、原源文及锁定OFF配置一致，见[实际发送核验](rr_method_runtime_20261107/executor_ast_scope_v2_20261107_dispatch_audit.json)与[原始失败诊断](rr_method_runtime_20261107/ast_scope_v2_length_diagnosis.json)。
+
+当前typed-v1前缀形成1个entity_equality/join_on连接形状，来自既定Horn输入，后续实际图调用0；不能据此宣称学会法律规则或跨库迁移。当前两版建库没有A残余/分离批次或B模型IR主路径成功；原128统一建库及六臂DEV仍未完成。493项离线检查全部通过属于工程回归，不等于主方法效果。
+
+历史完整旧版TRAIN为59/128（46.09%），92/128（71.88%）走fallback；该分数只作旧版材料核验，不能充当当前修复版本的训练结果。[本次指标快照](rr_method_runtime_20261107/training_metrics_status_20261107.json)保留各版本分母和证据。此次状态复核新增模型调用0，原始结果、请求账本及冻结库未改；Goal保持未完成。
+
+
+
+## 严格操作数真实结果与统一版本接续
+
+严格操作数探针输入3613、输出8192 token，396.899秒，finish=length；没有进入IR执行或TRAIN评分。[实际发送核验](rr_method_runtime_20261107/executor_ast_typed_operands_v1_20261107_dispatch_audit.json)确认原公开源文、模型/OFF配置和schema一致。旧的直接嵌套pair及字符串数值向量形状被生成约束排除，但模型转为重复节点声明；完整前缀98个声明，存在规范化日期/法律关系表等未通过完整grounding的内容。不能闭合JSON、补造缺失条款/query或把类型约束计作核心成功。
+
+[当前前缀类型诊断](rr_method_runtime_20261107/typed_operands_v1_paid_prefix_types_diagnosis.json)只从完整、唯一的primitive声明和已通过实际类型检查的表达式节点取得类型。relation输入被当作字符串键的错误可以直接定位；未生成/重复歧义变量仍不猜类型。类型问题优先反馈，同类重复名称保留路径、次数与总数，避免十二个重复名称占满反馈。模型输入、生成schema和执行语义相对4020044不变；这是反馈缺口修复，未添加业务规则、来源、种子或调参轮次。
+
+B记录路径也已核对：ScopedQuery.execute通过LazyInputs仅求值查询真正读取的分支，只有实际执行的连接器追加pattern_uses，当前未发现无关节点误计的实现缺陷。此为代码/离线检查，当前真实B主路径成功仍为0。原始响应和全部3750余个绑定文件已[保存](rr_method_runtime_20261107/typed_operands_before_prefix_types_preservation.json)。[518项完整禁网络回归](rr_method_runtime_20261107/offline_method_run_v21.json)通过（8项既有警告），原128输入字节及生成schema相对上一版完全相同；46项相关定向通过。科学实现8ea35e0已提交，以固定实现执行method_runtime_ast_v1_20261107原128来源/8批建库，正常模型失败/回退照实保留，不再围绕同一个样例原样重发。原六臂DEV、实际机制和跨库证据仍为未完成交付，Goal保持未完成。
+
+## 已有操作数类型要求同步到生成约束
+
+输入优先探针真实响应耗时296.961秒，输入3921、输出8192 token，仍以length结束，没有IR、执行或TRAIN评分。[实际发送核验](rr_method_runtime_20261107/executor_ast_input_first_v1_20261107_dispatch_audit.json)确认HTTP与封存提示、源文、schema属性顺序及锁定OFF一致。其完整前缀含26个声明，两个观察/规则残余名称冲突，并出现20个完整节点，反复把pair嵌入pair的键及数值向量中。原始响应不改写，见[诊断](rr_method_runtime_20261107/input_first_v1_paid_diagnosis.json)与[结算后保存收据](rr_method_runtime_20261107/input_first_before_typed_operands_preservation.json)。顺序与反馈修复已落实，但未证明能消除模型重复生成。
+
+当前定点修复只同步原有操作数类型：pair的第一个参数必须是字符串表达式；number_at必须读取数值向量表达式。支持变量、条件分支、算术生成的数值向量及向量连接；不推断变量含义，不新增运算符、默认值、规则或声明数量上限。既有运行时类型、grounding、scope及完成检查原样保留。实际旧完整表达式在旧wire可接受、在原类型检查器失败；新wire提前拒绝，付费正确程序仍能精确编码/解码。
+
+同时核对了运行中vLLM后端源码：实际服务配置disable_any_whitespace，调用XGrammar的any_whitespace=False。新后端回归采用相同配置，保留旧宽空白检查原记录；这补足验证配置的一致性，不把它宣称为过去重复生成的原因。[515项完整离线回归](rr_method_runtime_20261107/offline_method_run_v20.json)通过（8项既有警告）；[六个阳性后端用例](rr_method_runtime_20261107/ast_scope_backend_v4.json)通过，[两个真实错误的修正序列化负例](rr_method_runtime_20261107/typed_operand_backend_negatives_v1.json)确实在body操作数处拒绝。最初负例因节点字段顺序被先拒绝，旧证据保留，只重查相同两个负例，未增加样本或模型请求。62项定向检查和原128输入21746≤24576通过，科学实现4020044已提交；当前对同一SARA来源独立真实验证。
+
+## 当前生成顺序与截断诊断修复
+
+AST v2已结算后，3756个绑定文件及整个付费探针已封存，[SHA与保存收据](rr_method_runtime_20261107/ast_v2_before_input_first_preservation.json)保留原始失败。实际完整前缀含34个声明；除条款内重复名称外，还与此前scope名称冲突，并有真实number_at数值向量类型错误。旧重试仅携带JSON截断位置，遗漏这些已可确定的错误，这是具体诊断缺口；模型输出错误本身不会因此被改判成功。
+
+当前调用路径让bindings、observations、rule_residuals先于nodes、scopes、clauses和query生成；同一字段常量控制提示、schema属性顺序和已接纳程序编码。规范IR、源文、作用范围、未知空间、A选批和B图执行语义保持不变，也未限制一个源单元只能有一个条款。提示明确区分声明变量引用与字符串字面量。生产TRAIN修复与独立探针共用新截断诊断：只读取完整JSON值，返回重复声明和不依赖未来符号的类型错误；不闭合JSON、不创造候选IR，不推断缺失变量类型。诊断按同类错误聚合，仅反馈前12种并记录总数，不影响完整程序的任何正确性检查。
+
+[实际前缀诊断](rr_method_runtime_20261107/ast_scope_v2_complete_prefix_feedback.json)包含254处已确定错误、12类紧凑反馈，覆盖重复名称及数值向量错误；这些数字是语法/类型诊断数量，不是评分。35项定向检查通过，实际付费IR、完整理论及A选s10的等价检查仍通过；实际XGrammar及Qwen token六项检查已通过，原128来源最长21711≤24576。[500项完整禁网络回归](rr_method_runtime_20261107/offline_method_run_v19.json)通过（8项既有警告）。初次499通过/1旧顺序断言及日志保留，断言已与新顺序同步。科学实现737eddf已提交；当前对同一SARA来源以新契约、真实诊断和既定OFF做独立executor验证，不把离线通过当作主路径成功。
 
 ## 严格声明字段与短表达式的定点修复
 
@@ -22,6 +62,30 @@ Current snapshot: Goal active and incomplete. The previous code-v1 build was sto
 为避免科学版本重建时重复支付完全相同的教师汇总，只在来源顺序、教师配置、系统/用户提示、schema映射全部相同，且原始请求/响应文件与已结算账本一致时复用；物理来源ID、原文件SHA和新增请求0写入新批次。缓存不导入未验证模式，当前库仍只接纳当前训练前缀已验证的模式；教师旧材料不替代当前executor核心机制验收。实际B1原文重放、任一字段改变不命中、记录篡改拒绝及控制器恢复共11项检查通过；[当前479项完整禁网络回归](rr_method_runtime_20261107/offline_method_run_v16.json)通过（8项既有警告），新生成契约及所有正确性检查未再改动。
 
 本次两条物理请求合计输入7139、输出864 token、请求耗时75.695秒，executor688/teacher21，pending0。局部executor增量API现金为0；GPU分摊、教师现金账单仍未知。原438请求、121条meta、130条oracle、1233个旧运行文件及4份旧冻结库保全核验通过，见[累计费用](rr_method_runtime_20261107/goal_cost_snapshot_20261107.json)。以上修复未改变研究方向、模型或验收标准；原完整建库、六臂DEV和核心机制/跨库证据仍待完成。
+
+## 当前严格契约与接续运行的公开交付
+
+[当前开发分支报告快照](https://github.com/H00RU/LegalSkillGuard/blob/7e0a6eaa2447ab97cb3be5e310502035ebb59c5d/reports/legalskillguard_method_runtime_20261107.md)及代码已同步，科学实现474b5c3。已独立从GitHub核对2665个清单文件、清单与2份核验文件，SHA256一致；[远端核验收据](https://github.com/H00RU/LegalSkillGuard/blob/a31e674cd81ac8a9694900a89038e91d1d198606/reports/rr_method_runtime_20261107/publication_verified.json)确认main保持ae7e09230b4eb675b7299f73c4775787ccb2b65b，私有本地Git祖先未上传。公开状态/备份收据的机器信息仅作明确列出的portable variants，原始TRAIN响应不改。这是typed-v1建库刚接续时的快照，不能当作完整建库、DEV或核心语义通过。
+
+新运行method_runtime_typed_v1_20261107从空库按原128来源/8批继续，[local process identity omitted]/[local process identity omitted]，[local process identity omitted]；所有绑定科学文件冻结。首个OpenExempt请求正常返回length，输入21417、输出8192 token，548.029秒；有重复声明且JSON未完整，未执行或评分。[实际长度失败证据](rr_method_runtime_20261107/typed_v1_first_length_output_diagnosis.json)保留原始哈希和paid artifact路径；没有补闭合、扩输出额度或修改模型参数。按原每来源两次预算接续修复请求，后续来源属于同一固定预检，不为单个请求再次调参。最新在途与来源级进度以顶部真实进程核验为准，旧69来源及两条短探针分别保留。
+
+## 规范AST与源单元scope映射：当前修复
+
+实际typed-v1前5来源的10条结果中，6条在8192输出处截断、2条表达式语法错误、2条ContractNLI字面量溯源错误；另一个来源的第1条已付费响应也保存。当前5来源没有被接纳的可执行IR、A/B主路径或TRAIN匹配。[来源级失败矩阵](rr_method_runtime_20261107/typed_v1_complete_prefix_failure_matrix.json)将字符串表示失败与实际语义/溯源错误分开，不把所有失败归为同一原因。当前库从第4来源已付费碰撞重新形成1个entity_equality连接形状，没有后续实际调用，不能算新法律规则或核心机制成功。
+
+原运行在699E/21T、pending0边界安全停止；[3752个绑定文件及运行/候选证据的备份](rr_method_runtime_20261107/typed_v1_before_AST_preservation.json)保留，原始结果、库、账本和oracle不改写。停止后的当前调用路径改用既有SourceIR规范AST，scope按实际规则源ID设唯一槽位；null仅表示没有接纳的scope，对应原IR的缺省/未知，不默认false。它消除自由代码字符串和重复scope-source选择；实际错误金额、引文和规则仍由原检查拒绝，没有补语义、借标签或导入教师答案。
+
+科学实现5e0e22a通过[489项完整禁网络回归](rr_method_runtime_20261107/offline_method_run_v17.json)（8项既有警告）、[实际付费SARA及五库共6项后端语法/Qwen token检查](rr_method_runtime_20261107/ast_scope_backend_v1.json)。实际付费程序IR、完整理论、A选择s10以及原B1图调用trace保持相同；原128来源输入最大21602≤24576，源文完整。历史代码读取器仅保留给已付费原文诊断，不作为当前模型格式的兼容入口。
+
+新独立executor探针executor_ast_scope_v1_20261107只用原最短SARA来源743ac2e…和既定OFF配置；模型、温度、seed、context/output、重试和来源不变。后端与离线检查不等于真实IR或语义成功；当前原128/8批统一建库、六臂DEV、机制/跨库检查与冻结建议仍是未完成交付，不以本次修复完成Goal。
+
+## AST真实首响应：有限来源集合的重复生成
+
+executor_ast_scope_v1_20261107输入3258、输出8192 token，236.109秒，finish=length，JSON未完整。实际尾部停在clauses[0].sources，重复s1来源ID；没有完成IR、执行或TRAIN评分。[原始失败与具体修复证据](rr_method_runtime_20261107/ast_scope_v1_provenance_loop_diagnosis.json)不补齐截断内容，也不以较强的schema冒称模型已学会规则。
+
+现将引擎已有的有限来源约束同步到生成：clause来源数量不超过当前规则单元数，primitive证据数量不超过当前源单元总数。空clause来源仍按原引擎允许，不新增单规则/零回退门槛；重复来源仍由原引擎拒绝。初次uniqueItems关键字被固定严格schema适配器拒绝，失败日志保留；改用支持的数量上限，未删除运行时唯一性。20项定向检查证明所有引擎接纳的来源列表仍符合新上限，并保留对重复、非规则及空primitive证据的拒绝。
+
+已有不完整JSON可在schema修复后提供原始位置诊断，不能恢复成候选IR；新修复验证只使用相同原公共来源和当前模型配置。全量及实际后端检查完成后再发请求，目前累计700E/21T、pending0。原Goal所有后续建库、六臂DEV与机制/跨库验收继续保留，未完成，不启动TEST或论文。
 
 ## 完整配对结论及当前接口修复
 
@@ -52,7 +116,7 @@ v4实际OFF响应以stop正常结束，输入3447、输出4753 token、耗时186
 
 ## 最新训练指标复核与v5之后的表示层修复
 
-本次只读核对SQLite及实际进程，未新增模型或oracle请求：executor累计545（544结算成功、1请求失败，模型输出错误仍计物理调用）、teacher累计17（16结算成功、1请求失败），pending0；v5控制器PID748154已不存在。旧版128来源参考匹配仍为59/128（46.1%），包含92/128（71.9%）fallback；各库分子分母见下方训练指标表。这是历史TRAIN材料检查，不是当前实现成绩。当前统一版本完整128/六臂DEV尚无结果，原20来源×ON/OFF共40配置的主路径通过0，不能以旧内置Horn或回退的正确答案填补。
+本次只读核对SQLite及实际进程，未新增模型或oracle请求：executor累计545（544结算成功、1请求失败，模型输出错误仍计物理调用）、teacher累计17（16结算成功、1请求失败），pending0；v5控制器[local process identity omitted]已不存在。旧版128来源参考匹配仍为59/128（46.1%），包含92/128（71.9%）fallback；各库分子分母见下方训练指标表。这是历史TRAIN材料检查，不是当前实现成绩。当前统一版本完整128/六臂DEV尚无结果，原20来源×ON/OFF共40配置的主路径通过0，不能以旧内置Horn或回退的正确答案填补。
 
 [v5真实响应](rr_method_runtime_20261107/source_probe_executor_source_native_query_v5_20261107.json)保留同一原SARA源文和v4未修改失败候选、156项源文诊断。修复后的真实wire已核实OFF、封存schema顺序与公共M11入口一致；实际输入13461、输出8192 token、耗时299.985秒、finish=length。输出再次复制并展开错误关系绑定，未完成JSON，未执行或评分。不能将此次失败描述成语义通过，也没有仅提高输出额度或放宽见证检查。
 
@@ -377,7 +441,7 @@ OFF首答已正常结束、5346输出token，其20个被拒金额中9个确实�
 
 c5已实际完成[逐字兼容prefix重放](rr_method_runtime_20261107/c5_exact_paid_prefix_replay.json)：3条原executor响应分别对应原ON初译、ON纠正、OFF初译，HTTP body逐字相同、原始响应/来源/物理ledger/result核验一致。新生产控制器重新生成1条ON配置记录及OFF step0状态，新增模型/teacher调用0，物理账本逐行不变。两条ON输出的原模型错误保留，OFF初译只消除了9条词面误报，仍有11条无依据金额，不把重放记作核心成功。
 
-[首个变化请求证据](rr_method_runtime_20261107/c5_first_changed_retry_proof.json)确认OFF step1实际body哈希已变化；原c4达到输出上限的纠正响应未复用，仍在原账本计费。当前正常controller从该请求继续，session69412；不重发前三条，不重启旧c4。该次兼容重放与新物理生成分列，当前完整20比较尚未结束。
+[首个变化请求证据](rr_method_runtime_20261107/c5_first_changed_retry_proof.json)确认OFF step1实际body哈希已变化；原c4达到输出上限的纠正响应未复用，仍在原账本计费。当前正常controller从该请求继续，[local process identity omitted]；不重发前三条，不重启旧c4。该次兼容重放与新物理生成分列，当前完整20比较尚未结束。
 
 
 ## 原32个OE来源的真实作用范围边界修复（2026-11-07）

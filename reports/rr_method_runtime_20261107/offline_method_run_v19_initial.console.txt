@@ -1,0 +1,51 @@
+{"checked_utc": "2026-11-07T14:45:37.244696+00:00", "exit_code": 1, "network_blocked": true, "source_bytes_unchanged_during_checks": true, "subprocess_blocked_except_exact_guarded_read_only_import_child": true, "approved_import_child_sha256": "69d0bfeb189aec1cc5ade124d9e440980963beb8983d62b249bff816cfb9f14c", "log_sha256": "632146725b4b34c712cf949da3a0fb4946bceeee79cb12be284602b048ceb338", "elapsed_seconds": 117.49775210116059, "new_model_calls": 0, "new_oracle_views": 0, "previous_full_regression": "offline_method_run_v18.json", "backend_evidence": ["ast_scope_backend_v3.json", "provenance_bounds_backend_v1.json"], "scope": "Actual AST v2 incomplete response: complete-prefix duplicate-name and real numeric-vector type diagnostics reach production train repair without recovering IR or inventing future symbol types; input-first compiler schema/prompt/accepted-program order with unchanged canonical semantics; actual repeated clause-source8192-token failure, finite distinct provenance matching engine requirements, charged incomplete-response diagnosis after schema change; canonical typed AST and nullable source-keyed scope map; exact paid IR/full-theory/A equivalence, unchanged unknown-scope/native/grounding checks, actual B graph trace, new-schema source/probe/followup persistence; exact settled teacher request/result reuse without a new physical ledger row; actual compact-v1 Bool-list, duplicate-name and provenance regression; explicit actual Boolean helper signatures; typed declaration metadata and compact expression wire; five immutable actual provenance failures, paid scope/full-theory and A-selection equivalence, rooted joint-envelope schema references, native query and all-branch rejection, fixed128/6DEV isolation/recovery and locked OFF", "controller_fixture_results_are_not_research_results": true}
+ **kwargs):
+                captured.append(kwargs['schema'])
+                raise RuntimeError('offline dispatch sentinel; no model call')
+        monkeypatch.setattr(probe, 'load', lambda *a, **k: ({'ledger_path': 'unused'}, {}, source, config, {}, stage))
+        monkeypatch.setattr(probe, 'science_files', lambda root: {})
+        monkeypatch.setattr(probe, 'MethodLedger', Ledger)
+        monkeypatch.setattr(probe, 'MethodTeacher', lambda *a, **k: None)
+        monkeypatch.setattr(probe, 'MethodExecutor', Executor)
+        if tamper:
+            with pytest.raises(ValueError, match='Ordered compiler schema'):
+                probe.run(tmp_path, 'order_probe')
+            assert captured == []
+        else:
+            result = probe.run(tmp_path, 'order_probe')
+            assert result['status'] == 'component_probe_unresolved'
+            assert len(captured) == 1
+            assert json.dumps(captured[0], ensure_ascii=False) == json.dumps(schema, ensure_ascii=False)
+>           assert list(captured[0]['properties'])[:2] == ['scopes', 'clauses']
+E           AssertionError: assert ['bindings', 'observations'] == ['scopes', 'clauses']
+E             
+E             At index 0 diff: 'bindings' != 'scopes'
+E             Use -v to get more diff
+
+tests/test_rr_probe_dispatch_order.py:56: AssertionError
+=============================== warnings summary ===============================
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-rr-v2/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:215: RuntimeWarning: Mean of empty slice
+    score_array[sample_index, :] = asset_score_array.mean(axis=0) # Sample-based scores
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-current/.venv/lib/python3.11/site-packages/numpy/_core/_methods.py:134: RuntimeWarning: invalid value encountered in divide
+    ret = um.true_divide(
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-rr-v2/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:246: RuntimeWarning: Mean of empty slice
+    score_array[sample_index, :] = np.nanmean(asset_score_array, axis=0) # Sample-based scores
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-rr-v2/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:248: RuntimeWarning: Mean of empty slice
+    precision, recall, f1, mare = np.nanmean(score_array, axis=0)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_rr_probe_dispatch_order.py::test_probe_dispatch_reconstructs_and_verifies_production_schema_order[False]
+1 failed, 499 passed, 8 warnings in 117.15s (0:01:57)
+

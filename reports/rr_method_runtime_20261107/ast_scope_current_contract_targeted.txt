@@ -1,0 +1,12 @@
+.F........                                                               [100%]
+=================================== FAILURES ===================================
+___ test_null_scope_is_absent_and_retains_unknown_scope_in_the_actual_theory ___
+tests/test_rr_ast_contract.py:45: in test_null_scope_is_absent_and_retains_unknown_scope_in_the_actual_theory
+    before=compile_source(source,original);after=compile_source(source,restored)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:261: in compile_source
+    raise Unsupported('A rule residual needs an explicit containing rule AST, not a guessed footprint')
+E   legal_skill_guard.rr.coverage.Unsupported: A rule residual needs an explicit containing rule AST, not a guessed footprint
+=========================== short test summary info ============================
+FAILED tests/test_rr_ast_contract.py::test_null_scope_is_absent_and_retains_unknown_scope_in_the_actual_theory
+1 failed, 9 passed in 0.45s

@@ -1,4 +1,7 @@
-"""A declarative Python-syntax frontend for the existing source IR.
+"""Historical declarative-code reader for preserved paid-response diagnostics.
+
+Current model dispatch uses compiler_contract.py; this reader does not extend
+the active wire contract or supply missing source semantics.
 
 This module parses syntax, never executes Python or supplies missing semantics.
 Its output still needs the existing source schema, grounding, type, scope,

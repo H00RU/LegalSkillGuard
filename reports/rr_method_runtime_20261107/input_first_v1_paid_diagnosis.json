@@ -1,0 +1,41 @@
+{
+  "checked_utc": "2026-11-07T14:57:10.255878+00:00",
+  "run_id": "executor_ast_input_first_v1_20261107",
+  "raw_result": "artifacts/rr_method_runtime_20261107/executor_ast_input_first_v1_20261107/result.json",
+  "raw_result_sha256": "6e9bf43b2bc4f893aa31780bc5c9d276a4666807974f2cee1a1a1e2657f838e8",
+  "raw_content_sha256": "472e2a46465bdce5ad3633f4741fa64b0a4386fe52d3bc0f5572f18717b8effd",
+  "complete_prefix_diagnosis": {
+    "source_only": true,
+    "prefix_only": true,
+    "candidate_reconstructed": false,
+    "complete_declaration_count": 26,
+    "issue_count": 2,
+    "issues": [
+      {
+        "path": "rule_residuals[0].name",
+        "expected": "unique symbol name",
+        "actual": {
+          "name": "b_s10_event_date_status",
+          "first_path": "observations[0].name"
+        },
+        "occurrences": 1
+      },
+      {
+        "path": "rule_residuals[1].name",
+        "expected": "unique symbol name",
+        "actual": {
+          "name": "b_s11_person_year_applies",
+          "first_path": "observations[1].name"
+        },
+        "occurrences": 1
+      }
+    ],
+    "instruction": "These are errors in complete earlier declarations, not a recovered program. Return a complete fresh source-grounded translation; do not extend or copy the truncated tail."
+  },
+  "raw_head_excerpt": "{\"bindings\": [{\"name\": \"s10\", \"type\": \"relation\", \"sources\": [\"s10\"], \"value\": {\"columns\": [\"event\", \"date\", \"status\"], \"rows\": [[\"married\", \"April 5th, 2012\", \"married\"], [\"legally separated\", \"September 16th, 2017\", \"separated\"]], \"closed\": true}}, {\"name\": \"s11\", \"type\": \"relation\", \"sources\": [\"s11\"], \"value\": {\"columns\": [\"person\", \"year\", \"applies\"], \"rows\": [[\"Alice\", \"2018\", \"applies\"]], \"closed\": true}}], \"observations\": [{\"name\": \"b_s10_event_date_status\", \"entity\": \"s10\", \"entity_sour",
+  "raw_tail_excerpt": "\"op\": \"pair\", \"args\": [{\"op\": \"pair\", \"args\": [{\"op\": \"pair\", \"args\": [{\"op\": \"pair\", \"args\": [{\"op\": \"pair\", \"args\": [{\"op\": \"pair\", \"args\": [{\"var\": \"n0\"}, {\"var\": \"n1\"}]}, {\"var\": \"n2\"}]}, {\"var\": \"n3\"}]}, {\"var\": \"n4\"}]}, {\"var\": \"n5\"}]}, {\"var\": \"n6\"}]}, {\"var\": \"n7\"}]}, {\"var\": \"n8\"}]}]}, 2]}]}}, {\"name\": \"n20\", \"kind\": \"expression\", \"body\": {\"op\": \"eq\", \"args\": [{\"op\": \"number_at\", \"args\": [{\"op\": \"array\", \"args\": [{\"op\": \"pair\", \"args\": [{\"op\": \"pair\", \"args\": [{\"op\": \"pair\", \"args\": [{\"",
+  "missing_semantics_filled": false,
+  "candidate_reconstructed": false,
+  "new_model_calls_by_diagnosis": 0,
+  "full_goal_complete": false
+}

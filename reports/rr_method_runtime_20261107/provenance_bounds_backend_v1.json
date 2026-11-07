@@ -1,0 +1,47 @@
+{
+  "checked_utc": "2026-11-07T14:20:44.025419+00:00",
+  "checks": [
+    {
+      "case": "clause_sources_at_bound",
+      "expected": true,
+      "byte_accepted": true,
+      "Qwen_tokens_accepted": true,
+      "first_rejection": null
+    },
+    {
+      "case": "actual_loop_beyond_rule_domain",
+      "expected": false,
+      "byte_accepted": false,
+      "Qwen_tokens_accepted": false,
+      "first_rejection": 39
+    },
+    {
+      "case": "clause_empty_remains_allowed_by_existing_engine",
+      "expected": true,
+      "byte_accepted": true,
+      "Qwen_tokens_accepted": true,
+      "first_rejection": null
+    },
+    {
+      "case": "binding_evidence_empty_rejected",
+      "expected": false,
+      "byte_accepted": false,
+      "Qwen_tokens_accepted": false,
+      "first_rejection": 0
+    },
+    {
+      "case": "binding_evidence_beyond_unit_domain",
+      "expected": false,
+      "byte_accepted": false,
+      "Qwen_tokens_accepted": false,
+      "first_rejection": 47
+    }
+  ],
+  "max_clause_source_units": 10,
+  "max_binding_source_units": 12,
+  "uniqueness_enforced_by_existing_engine_not_claimed_as_backend_feature": true,
+  "network_blocked": true,
+  "new_model_calls": 0,
+  "new_oracle_views": 0,
+  "does_not_validate_rule_semantics": true
+}

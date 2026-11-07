@@ -2,7 +2,7 @@
 from pathlib import Path
 
 from experiments.rr_v2_source_probe import load
-from legal_skill_guard.rr.source_code import compiler_response_schema,encode_compiler_program
+from legal_skill_guard.rr.compiler_contract import compiler_response_schema,encode_compiler_program
 
 
 def empty_program():
@@ -37,7 +37,7 @@ def test_paid_compiler_component_requires_identical_request_and_original_value(t
     with sqlite3.connect(tmp_path/'original.sqlite3') as db:
         db.execute('create table calls (id,role,source,status,result)')
         db.execute('insert into calls values (?,?,?,?,?)',('paid:compile','teacher',source['key'],'completed',
-            json.dumps({'value':encode_compiler_program(program),'source_ids':[source['key']],'response_sha256':'original-response'})))
+            json.dumps({'value':encode_compiler_program(program,source),'source_ids':[source['key']],'response_sha256':'original-response'})))
     value,proof=paid_compiler(tmp_path,'paid',source,{'teacher':teacher},'system','public',schema)
     assert value==program and proof['new_teacher_calls']==0
     with pytest.raises(ValueError,match='identical'):
@@ -80,7 +80,7 @@ def test_executor_feedback_requires_its_own_immutable_paid_candidate(tmp_path):
     with sqlite3.connect(tmp_path/'original.sqlite3') as db:
         db.execute('create table calls (id,role,purpose,source,status,result)')
         db.execute('insert into calls values (?,?,?,?,?,?)',('own:compile','executor','method_train_synthesis',
-            source['key'],'completed',json.dumps({'content':json.dumps(encode_compiler_program(program)),'request_hash':'original'})))
+            source['key'],'completed',json.dumps({'content':json.dumps(encode_compiler_program(program,source)),'request_hash':'original'})))
     _,candidate,proof=executor_candidate(tmp_path,'own',source,config)
     assert candidate==program and proof['teacher_candidate_used'] is False
     with pytest.raises(ValueError,match='identical public source'):

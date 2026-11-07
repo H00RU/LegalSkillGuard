@@ -8,7 +8,7 @@ import pytest
 import experiments.rr_v2_source_probe as probe
 from legal_skill_guard.rr.checkpoint import immutable_json
 from legal_skill_guard.rr.source_program import compiler_prompt, program_schema
-from legal_skill_guard.rr.source_code import compiler_response_schema
+from legal_skill_guard.rr.compiler_contract import compiler_response_schema
 
 
 @pytest.mark.parametrize('tamper', [False, True])
@@ -53,4 +53,4 @@ def test_probe_dispatch_reconstructs_and_verifies_production_schema_order(tmp_pa
         assert result['status'] == 'component_probe_unresolved'
         assert len(captured) == 1
         assert json.dumps(captured[0], ensure_ascii=False) == json.dumps(schema, ensure_ascii=False)
-        assert list(captured[0]['properties'])[:2] == ['scopes', 'clauses']
+        assert list(captured[0]['properties'])[:2] == ['bindings', 'observations']

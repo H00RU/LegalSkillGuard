@@ -1,0 +1,53 @@
+{
+  "captured_utc": "2026-11-07T13:15:18.837746+00:00",
+  "run_id": "method_runtime_typed_v1_20261107",
+  "completed_sources": 1,
+  "rows": [
+    {
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "step": 0,
+      "raw_sha256": "ac2a5c07dbdc79a4f0d4adb0511f83f9941a99d8065be1c59d7df2b2fec8bbad",
+      "error": {
+        "message": "Unterminated string starting at: line 1 column 24308 (char 24307)",
+        "type": "JSONDecodeError"
+      },
+      "adaptation_status": "incomplete_JSON_no_semantic_completion_allowed"
+    },
+    {
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "step": 1,
+      "raw_sha256": "0252ca797cbc863a59951264066201b258e3febe262630e000e18aaf866224e7",
+      "error": {
+        "diagnostics": [
+          {
+            "actual": "unmatched '}'",
+            "column": 999,
+            "expected": "one syntactically valid restricted expression",
+            "line": 1,
+            "path": "clauses[0].value_code"
+          }
+        ],
+        "message": "clauses[0].value_code: Invalid expression: unmatched '}' (<unknown>, line 1)",
+        "type": "SourceCodeError"
+      },
+      "duplicate_symbols": {
+        "wallmountedfloatingshelfmadeofreclaimedbarnwood": 2,
+        "hoodedfleecerobewithbeltandtwofrontpockets": 2,
+        "b_NAME": 4,
+        "s159": 2
+      },
+      "scope_source_multiplicity": {
+        "s15": 165
+      },
+      "adaptation_status": "duplicate_symbols_ambiguous_no_names_only_recovery"
+    }
+  ],
+  "statuses": {
+    "incomplete_JSON_no_semantic_completion_allowed": 1,
+    "duplicate_symbols_ambiguous_no_names_only_recovery": 1
+  },
+  "production_adapter_installed": false,
+  "missing_rules_facts_or_operands_invented": false,
+  "grading_packets_opened": false,
+  "new_model_calls": 0
+}

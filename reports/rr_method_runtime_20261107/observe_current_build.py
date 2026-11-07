@@ -80,7 +80,8 @@ def main():
             writer.writeheader(); writer.writerows(rows)
     state_path = root / 'docs/rr_v2/method_runtime_state_20261107.json'
     state = json.loads(state_path.read_text())
-    state.update(current_run_id=args.run_id, current_run_stage='build', active_probe_run_id=None,
+    state.update(current_run_id=args.run_id, current_run_stage='build', active_build_run_id=args.run_id,
+        active_probe_run_id=None,active_probe_session=None,active_probe_processes=[],
         previous_completed_thinking_run_id='method_runtime_c6_20261107',
         latest_completed_probe_run_id=state.get('latest_completed_probe_run_id','executor_compiler_contract_v2_20261107'),
         phase='fixed128_declarative_build_live' if identity_live else 'fixed128_build_' + controller['status'],
@@ -101,7 +102,7 @@ def main():
         f'累计{counts["executor"]}E/{counts["teacher"]}T、pending{len(pending)}。'
         f'当前模型IR编译{observation["source_IR_compiled"]}、条件完成证书{observation["conditional_source_IR_certificates"]}；'
         f'Horn回退来源{observation["controlled_Horn_fallback_sources"]}，其图调用不计核心主路径通过；'
-        '这些不等于源文语义验收。479项离线回归、12项新封装后端及128输入容量核验通过，OFF已锁定。'
+        '这些不等于源文语义验收。518项离线回归、八项实际解码后端及128输入容量核验通过，OFF已锁定。'
         '普通模型错误保留，旧结果/冻结库/账本不变；六臂DEV和TEST未启动，Goal active未完成。')
     report = root / 'reports/legalskillguard_method_runtime_20261107.md'
     text = report.read_text(); start, end = '<!-- current_live_status -->', '<!-- /current_live_status -->'

@@ -1,0 +1,134 @@
+{
+  "checked_utc": "2026-11-07T15:25:04.698714+00:00",
+  "run_id": "executor_ast_typed_operands_v1_20261107",
+  "raw_result_sha256": "51fcc200abe8286a6a171ae58e26c84d6f00a5a1322e4b16b507aca3999be220",
+  "raw_content_sha256": "ec809b5810f468d038a121c030a5e26ce1f153a28b3266b11ed0a8434f92e904",
+  "finish_reason": "length",
+  "usage": {
+    "completion_tokens": 8192,
+    "prompt_tokens": 3613,
+    "prompt_tokens_details": null,
+    "total_tokens": 11805
+  },
+  "elapsed_seconds": 396.89901909418404,
+  "complete_prefix_diagnosis": {
+    "source_only": true,
+    "prefix_only": true,
+    "candidate_reconstructed": false,
+    "complete_declaration_count": 98,
+    "issue_count": 162,
+    "issues": [
+      {
+        "path": "nodes[0].body.args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0]",
+        "expected": "numbers",
+        "actual": [
+          "array"
+        ],
+        "occurrences": 3
+      },
+      {
+        "path": "nodes[0].body.args[0].args[0].args[1].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0]",
+        "expected": "numbers",
+        "actual": [
+          "relation"
+        ],
+        "occurrences": 9
+      },
+      {
+        "path": "nodes[0].body.args[0].args[0].args[1].args[1].args[1].args[1].args[1].args[1].args[1].args[1].args[1].args[1].args[1].args[1].args[1].args[0]",
+        "expected": "boolean",
+        "actual": [
+          "relation"
+        ],
+        "occurrences": 14
+      },
+      {
+        "path": "nodes[0].body.args[0].args[0]",
+        "expected": "string",
+        "actual": [
+          "relation"
+        ],
+        "occurrences": 74
+      },
+      {
+        "path": "nodes[12].name",
+        "expected": "unique symbol name",
+        "actual": {
+          "name": "n_s10_event_date_status",
+          "first_path": "nodes[0].name"
+        },
+        "occurrences": 6
+      },
+      {
+        "path": "nodes[13].name",
+        "expected": "unique symbol name",
+        "actual": {
+          "name": "n_s11_person_year_applies",
+          "first_path": "nodes[1].name"
+        },
+        "occurrences": 6
+      },
+      {
+        "path": "nodes[14].name",
+        "expected": "unique symbol name",
+        "actual": {
+          "name": "n_s5_rule_applies",
+          "first_path": "nodes[2].name"
+        },
+        "occurrences": 5
+      },
+      {
+        "path": "nodes[15].name",
+        "expected": "unique symbol name",
+        "actual": {
+          "name": "n_s9_rule_applies",
+          "first_path": "nodes[3].name"
+        },
+        "occurrences": 5
+      },
+      {
+        "path": "nodes[16].name",
+        "expected": "unique symbol name",
+        "actual": {
+          "name": "n_s6_rule_applies",
+          "first_path": "nodes[4].name"
+        },
+        "occurrences": 5
+      },
+      {
+        "path": "nodes[17].name",
+        "expected": "unique symbol name",
+        "actual": {
+          "name": "n_s7_rule_applies",
+          "first_path": "nodes[5].name"
+        },
+        "occurrences": 5
+      },
+      {
+        "path": "nodes[18].name",
+        "expected": "unique symbol name",
+        "actual": {
+          "name": "n_s8_rule_applies",
+          "first_path": "nodes[6].name"
+        },
+        "occurrences": 5
+      },
+      {
+        "path": "nodes[19].name",
+        "expected": "unique symbol name",
+        "actual": {
+          "name": "n_s4_rule_applies",
+          "first_path": "nodes[7].name"
+        },
+        "occurrences": 5
+      }
+    ],
+    "instruction": "These are errors in complete earlier declarations, not a recovered program. Return a complete fresh source-grounded translation; do not extend or copy the truncated tail."
+  },
+  "new_schema_and_order_identical_to_paid_v20_probe": true,
+  "runtime_A_B_changed": false,
+  "candidate_IR_reconstructed": false,
+  "TRAIN_score": null,
+  "new_model_calls_by_diagnosis": 0,
+  "full_goal_complete": false
+}

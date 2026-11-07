@@ -126,6 +126,6 @@ def test_actual_first_compact_response_is_complete_but_not_executable_or_semanti
     assert validation_feedback(source,ir)==recorded['feedback']
     from legal_skill_guard.rr.source_program import compiler_prompt
     system,user=compiler_prompt(source,validation_feedback=recorded['feedback'])
-    assert 'never all_of([b_left, b_right])' in system
+    assert 'Use the actual JSON AST' in system
     assert json.loads(user)['validation_feedback']==recorded['feedback']
     assert 'Entailment' not in json.dumps(recorded['feedback'])

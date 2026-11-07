@@ -1,0 +1,26 @@
+{
+  "captured_utc": "2026-11-07T14:22:14.574356+00:00",
+  "run_id": "executor_ast_scope_v1_20261107",
+  "raw_fixture": "tests/fixtures/rr_actual_ast_scope_v1.json",
+  "finish_reason": "length",
+  "input_tokens": 3258,
+  "output_tokens": 8192,
+  "elapsed_seconds": 236.1092075575143,
+  "complete_JSON": false,
+  "field_path": "clauses[0].sources",
+  "actual": "repeated s1 source-unit IDs until output limit",
+  "expected": "a finite set of distinct actual rule source IDs",
+  "existing_checks": [
+    "clause_scope.lower_clauses rejects repeated/non-rule source IDs",
+    "source_bindings.decode_source_bindings rejects empty/repeated/nonexistent evidence IDs"
+  ],
+  "repair": "maxItems equals actual rule-unit count for clause sources; binding evidence maxItems equals actual total unit count; original runtime uniqueness remains mandatory",
+  "uniqueness_claimed_as_generation_backend_feature": false,
+  "initial_schema_keyword_attempt": "uniqueItems rejected by pinned strict-schema normalization; initial targeted failure log preserved. Unsupported keyword removed, existing engine uniqueness never changed.",
+  "actual_missing_semantics_supplied": false,
+  "incomplete_JSON_diagnostic_may_be_reused_after_schema_change": true,
+  "incomplete_response_IR_reused": false,
+  "new_model_calls_by_report": 0,
+  "core_success": false,
+  "teacher_calls_added": 0
+}

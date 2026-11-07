@@ -1,0 +1,68 @@
+"""Installed-backend feasibility of the unactivated canonical-AST candidate."""
+from datetime import datetime,timezone
+import importlib.metadata
+import json
+from pathlib import Path
+import socket
+import time
+
+import xgrammar as xgr
+from transformers import AutoTokenizer
+
+from check_structured_scope_candidate import candidate_schema,encode
+from verify_compiler_contract_backend_v1 import ordered
+
+
+def main():
+    def denied(*a,**k):raise AssertionError('No network or model call in backend feasibility')
+    socket.socket.connect=denied;socket.create_connection=denied
+    root=Path(__file__).resolve().parents[2];folder=Path(__file__).parent
+    cfg=json.loads((root/'configs/rr_v2_preflight.json').read_text())['executor']
+    tokenizer=AutoTokenizer.from_pretrained(cfg['model_root'],local_files_only=True)
+    size=json.loads((Path(cfg['model_root'])/'config.json').read_text())['vocab_size']
+    byte_info=xgr.TokenizerInfo([bytes([i]) for i in range(256)]+[b''],vocab_size=257,stop_token_ids=[256])
+    info=xgr.TokenizerInfo.from_huggingface(tokenizer,vocab_size=size)
+    byte_compiler=xgr.GrammarCompiler(byte_info,max_threads=1,cache_enabled=False)
+    token_compiler=xgr.GrammarCompiler(info,max_threads=1,cache_enabled=False)
+    case=json.loads((root/'tests/fixtures/rr_scope_v5_binding_projection.json').read_text())
+    packet=json.loads((root/'data/packets/rr_v2/public_train.json').read_text())
+    sources={s['key']:s for s in packet['sources']};shapes=json.loads((folder/'structured_scope_candidate_offline.json').read_text())['schema_shapes']
+    cases=[('actual_paid_SARA_IR',case['source'],case['canonical_program'])]
+    for row in shapes:
+        source=sources[row['source']]
+        # This deliberately unbound root exercises syntax only. It is neither
+        # an execution result nor a fabricated positive example.
+        program={key:[] for key in ('bindings','observations','rule_residuals','nodes','scopes','clauses')}
+        program['query']={'var':'unbound_no_semantic_success'}
+        cases.append((row['dataset']+'_syntax_only',source,program))
+    results=[]
+    with (folder/'structured_scope_backend_candidate_progress.jsonl').open('w') as progress:
+        for label,source,program in cases:
+            schema=candidate_schema(source);value=ordered(encode(program,source),schema,schema['$defs'])
+            text=json.dumps(value,ensure_ascii=False);spec=json.dumps(schema,ensure_ascii=False)
+            started=time.monotonic()
+            print(json.dumps({'phase':'compiling','case':label}),flush=True)
+            byte_grammar=byte_compiler.compile_json_schema(spec,any_whitespace=True)
+            token_grammar=token_compiler.compile_json_schema(spec,any_whitespace=True)
+            compilation=time.monotonic()-started
+            byte_ok=xgr.GrammarMatcher(byte_grammar).accept_string(text)
+            matcher=xgr.GrammarMatcher(token_grammar);mask=xgr.allocate_token_bitmask(1,info.vocab_size)
+            first=None
+            for index,token in enumerate(tokenizer.encode(text,add_special_tokens=False)):
+                matcher.fill_next_token_bitmask(mask)
+                allowed=bool((int(mask[0,token//32].item())>>(token%32))&1)
+                if not allowed or not matcher.accept_token(token):first={'index':index,'token_id':token};break
+            row={'case':label,'byte_accepted':byte_ok,'Qwen_tokens_accepted':first is None,
+                'first_rejection':first,'compilation_seconds':compilation,'elapsed_seconds':time.monotonic()-started,
+                'serialized_tokens':len(tokenizer.encode(text,add_special_tokens=False))}
+            progress.write(json.dumps(row)+'\n');progress.flush();print(json.dumps(row),flush=True)
+            assert byte_ok and first is None,row
+            results.append(row)
+    receipt={'checked_utc':datetime.now(timezone.utc).isoformat(),'candidate_not_activated':True,
+        'cases':results,'xgrammar_version':importlib.metadata.version('xgrammar'),
+        'all_5_original_banks_syntax_only':True,'model_weights_loaded':False,'new_model_calls':0,
+        'test_or_grading_packets_opened':False,'real_primary_success_claimed':False}
+    (folder/'structured_scope_backend_candidate.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n')
+
+
+if __name__=='__main__':main()

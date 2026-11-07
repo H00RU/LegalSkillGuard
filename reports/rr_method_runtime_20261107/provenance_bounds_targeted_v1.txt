@@ -1,0 +1,270 @@
+FFFFFFFFFFFFFF.F.FFF                                                     [100%]
+=================================== FAILURES ===================================
+_ test_actual_incomplete_sources_loop_is_not_completed_and_exceeds_existing_finite_domain _
+tests/test_rr_provenance_bounds.py:32: in test_actual_incomplete_sources_loop_is_not_completed_and_exceeds_existing_finite_domain
+    schema=program_schema(source)['properties']['clauses']['items']['properties']['sources']
+           ^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+_ test_clause_source_wire_membership_matches_actual_engine_unique_rule_contract _
+tests/test_rr_provenance_bounds.py:43: in test_clause_source_wire_membership_matches_actual_engine_unique_rule_contract
+    field=program_schema(source)['properties']['clauses']['items']['properties']['sources']
+          ^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+__ test_binding_evidence_bound_and_unique_match_existing_decoder_requirements __
+tests/test_rr_provenance_bounds.py:58: in test_binding_evidence_bound_and_unique_match_existing_decoder_requirements
+    schema=program_schema(source)
+           ^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+_ test_charged_incomplete_AST_supplies_diagnosis_after_a_schema_fix_without_fabricated_IR _
+tests/test_rr_provenance_bounds.py:73: in test_charged_incomplete_AST_supplies_diagnosis_after_a_schema_fix_without_fabricated_IR
+    old_schema=deepcopy(compiler_response_schema(source))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:21: in compiler_response_schema
+    schema=program_schema(source,library)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+________ test_actual_paid_IR_full_theory_and_A_selection_are_identical _________
+tests/test_rr_ast_contract.py:29: in test_actual_paid_IR_full_theory_and_A_selection_are_identical
+    assert not strict_output_schema_issues(compiler_response_schema(source))
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:21: in compiler_response_schema
+    schema=program_schema(source,library)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+___ test_null_scope_is_absent_and_retains_unknown_scope_in_the_actual_theory ___
+tests/test_rr_ast_contract.py:50: in test_null_scope_is_absent_and_retains_unknown_scope_in_the_actual_theory
+    restored=decode_compiler_response(wire,source);assert restored==original
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:33: in decode_compiler_response
+    validate_wire(response,compiler_response_schema(source,library))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:21: in compiler_response_schema
+    schema=program_schema(source,library)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+_____ test_fixed_rule_keys_cannot_omit_invent_or_use_factual_scope_sources _____
+tests/test_rr_ast_contract.py:60: in test_fixed_rule_keys_cannot_omit_invent_or_use_factual_scope_sources
+    with pytest.raises(ValidationError):decode_compiler_response({**wire,'scopes':bad},source)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:33: in decode_compiler_response
+    validate_wire(response,compiler_response_schema(source,library))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:21: in compiler_response_schema
+    schema=program_schema(source,library)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+_ test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar[True] _
+tests/test_rr_ast_contract.py:72: in test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar
+    with pytest.raises(ValidationError):decode_compiler_response(wire,case['source'])
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:33: in decode_compiler_response
+    validate_wire(response,compiler_response_schema(source,library))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:21: in compiler_response_schema
+    schema=program_schema(source,library)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+_ test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar[eq(year, 2018)] _
+tests/test_rr_ast_contract.py:72: in test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar
+    with pytest.raises(ValidationError):decode_compiler_response(wire,case['source'])
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:33: in decode_compiler_response
+    validate_wire(response,compiler_response_schema(source,library))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:21: in compiler_response_schema
+    schema=program_schema(source,library)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+_ test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar[bad_condition2] _
+tests/test_rr_ast_contract.py:72: in test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar
+    with pytest.raises(ValidationError):decode_compiler_response(wire,case['source'])
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:33: in decode_compiler_response
+    validate_wire(response,compiler_response_schema(source,library))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:21: in compiler_response_schema
+    schema=program_schema(source,library)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+_ test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar[bad_condition3] _
+tests/test_rr_ast_contract.py:72: in test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar
+    with pytest.raises(ValidationError):decode_compiler_response(wire,case['source'])
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:33: in decode_compiler_response
+    validate_wire(response,compiler_response_schema(source,library))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:21: in compiler_response_schema
+    schema=program_schema(source,library)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+_ test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar[bad_condition4] _
+tests/test_rr_ast_contract.py:72: in test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar
+    with pytest.raises(ValidationError):decode_compiler_response(wire,case['source'])
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:33: in decode_compiler_response
+    validate_wire(response,compiler_response_schema(source,library))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:21: in compiler_response_schema
+    schema=program_schema(source,library)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+____ test_legacy_array_code_and_side_answers_cannot_enter_the_current_path _____
+tests/test_rr_ast_contract.py:78: in test_legacy_array_code_and_side_answers_cannot_enter_the_current_path
+    with pytest.raises(ValidationError):decode_compiler_response(bad,source)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:33: in decode_compiler_response
+    validate_wire(response,compiler_response_schema(source,library))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:21: in compiler_response_schema
+    schema=program_schema(source,library)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+___ test_actual_B1_graph_reference_and_execution_trace_survive_current_wire ____
+tests/test_rr_ast_contract.py:93: in test_actual_B1_graph_reference_and_execution_trace_survive_current_wire
+    restored=decode_compiler_response(encode_compiler_program(program,source),source,library)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:33: in decode_compiler_response
+    validate_wire(response,compiler_response_schema(source,library))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:21: in compiler_response_schema
+    schema=program_schema(source,library)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+__ test_paid_compiler_component_requires_identical_request_and_original_value __
+tests/test_rr_source_probe.py:31: in test_paid_compiler_component_requires_identical_request_and_original_value
+    teacher={'model':'unchanged'};schema=compiler_response_schema(source);program=empty_program()
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:21: in compiler_response_schema
+    schema=program_schema(source,library)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+_______ test_executor_feedback_requires_its_own_immutable_paid_candidate _______
+tests/test_rr_source_probe.py:77: in test_executor_feedback_requires_its_own_immutable_paid_candidate
+    'schema':compiler_response_schema(source),'binding':{'code_hash':'original'}}))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/compiler_contract.py:21: in compiler_response_schema
+    schema=program_schema(source,library)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+______ test_incompatible_historical_envelope_cannot_be_reused_as_current _______
+tests/test_rr_source_probe.py:107: in test_incompatible_historical_envelope_cannot_be_reused_as_current
+    with pytest.raises(ValueError,match='current structured compiler contract'):
+E   AssertionError: Regex pattern did not match.
+E     Expected regex: 'current structured compiler contract'
+E     Actual message: "strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']"
+__________ test_executor_probe_prepares_exact_shared_repair_messages ___________
+tests/test_rr_probe_shared_request.py:35: in test_executor_probe_prepares_exact_shared_repair_messages
+    prepared=probe.prepare(tmp_path,'shared_request',executor_repair_origin='actual_v4')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+experiments/rr_v2_source_probe.py:154: in prepare
+    old_seal,previous,executor_origin=executor_candidate(root,executor_repair_origin,source,config)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_rr_probe_shared_request.py:29: in <lambda>
+    {'system':'previous','user':'previous','schema':program_schema(source)},program,
+                                                    ^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/source_program.py:126: in program_schema
+    return strict_output_schema(schema)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/inference/codex_cli_client.py:114: in strict_output_schema
+    raise ValueError(f"strict output schema normalization failed: {issues[:5]}")
+E   ValueError: strict output schema normalization failed: ['$.properties.clauses.items.properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[0].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[1].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[2].properties.sources:uniqueItems_not_supported', '$.$defs.binding.anyOf[3].properties.sources:uniqueItems_not_supported']
+=========================== short test summary info ============================
+FAILED tests/test_rr_provenance_bounds.py::test_actual_incomplete_sources_loop_is_not_completed_and_exceeds_existing_finite_domain
+FAILED tests/test_rr_provenance_bounds.py::test_clause_source_wire_membership_matches_actual_engine_unique_rule_contract
+FAILED tests/test_rr_provenance_bounds.py::test_binding_evidence_bound_and_unique_match_existing_decoder_requirements
+FAILED tests/test_rr_provenance_bounds.py::test_charged_incomplete_AST_supplies_diagnosis_after_a_schema_fix_without_fabricated_IR
+FAILED tests/test_rr_ast_contract.py::test_actual_paid_IR_full_theory_and_A_selection_are_identical
+FAILED tests/test_rr_ast_contract.py::test_null_scope_is_absent_and_retains_unknown_scope_in_the_actual_theory
+FAILED tests/test_rr_ast_contract.py::test_fixed_rule_keys_cannot_omit_invent_or_use_factual_scope_sources
+FAILED tests/test_rr_ast_contract.py::test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar[True]
+FAILED tests/test_rr_ast_contract.py::test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar[eq(year, 2018)]
+FAILED tests/test_rr_ast_contract.py::test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar[bad_condition2]
+FAILED tests/test_rr_ast_contract.py::test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar[bad_condition3]
+FAILED tests/test_rr_ast_contract.py::test_expression_text_and_recorded_API_misuses_are_not_in_the_bool_AST_grammar[bad_condition4]
+FAILED tests/test_rr_ast_contract.py::test_legacy_array_code_and_side_answers_cannot_enter_the_current_path
+FAILED tests/test_rr_ast_contract.py::test_actual_B1_graph_reference_and_execution_trace_survive_current_wire
+FAILED tests/test_rr_source_probe.py::test_paid_compiler_component_requires_identical_request_and_original_value
+FAILED tests/test_rr_source_probe.py::test_executor_feedback_requires_its_own_immutable_paid_candidate
+FAILED tests/test_rr_source_probe.py::test_incompatible_historical_envelope_cannot_be_reused_as_current
+FAILED tests/test_rr_probe_shared_request.py::test_executor_probe_prepares_exact_shared_repair_messages
+18 failed, 2 passed in 0.80s

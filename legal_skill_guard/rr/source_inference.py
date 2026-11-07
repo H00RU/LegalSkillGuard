@@ -21,8 +21,8 @@ from .source_execution import accept_followup,assess_source,prepare_followup
 from .source_interfaces import check_source_examples
 from .source_format import native_schema
 from .source_program import compile_source,compiler_prompt
-from .source_code import compiler_response_schema,decode_compiler_response
-from .source_validation import validation_feedback
+from .compiler_contract import compiler_response_schema,decode_compiler_response
+from .source_validation import incomplete_feedback,validation_feedback
 from .strict_contract import obj
 from .wire_validation import validate_wire
 
@@ -199,6 +199,8 @@ def predict_source(source,*,arm,library,generate,tokenize,request_config,thinkin
         except Exception as exc:
             compiled=None;last_error={'type':type(exc).__name__,'message':exc.message if isinstance(exc,ValidationError) else str(exc)}
             if isinstance(exc,ValidationError):last_error['field_path']=list(exc.path)
+            if isinstance(exc,json.JSONDecodeError) and wire:
+                last_error['complete_prefix_diagnosis']=incomplete_feedback(wire['content'])
             if hasattr(exc,'diagnostics'):last_error['diagnostics']=exc.diagnostics
             result={'answer':None,'certificate_status':'translation_unresolved','program_status':'invalid_IR',
                 'structural_pass':False,'fallback_used':False,'error':last_error,

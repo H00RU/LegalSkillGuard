@@ -71,6 +71,12 @@ def main():
             completed_source_records=len(list((build/'sources').glob('*.json'))),
             committed_sources=json.loads(saved.read_text())['complete_sources'] if saved.exists() else 0,
             build_completion_saved=(build/'completion.json').exists())
+    elif state.get('current_run_stage') == 'probe':
+        for key in ('completed_profiles','expected_profiles','comparison_complete'):
+            current_receipt.pop(key)
+        saved=root/'artifacts/rr_method_runtime_20261107'/run_id/'result.json'
+        current_receipt.update(phase='source_probe',expected_sources=1,
+            probe_status=json.loads(saved.read_text())['status'] if saved.exists() else 'in_progress')
     current_name = run_id + '_physical_cost_snapshot.json'
     (folder / current_name).write_text(json.dumps(current_receipt, ensure_ascii=False, sort_keys=True, indent=2) + '\n')
     path = folder / 'goal_cost_snapshot_20261107.json'

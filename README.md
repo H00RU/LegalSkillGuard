@@ -1,15 +1,15 @@
 # LegalSkillGuard — current method-runtime validation
 
-**Current Goal is incomplete.** The original fixed20 paired check completed40 profiles with zero core passes. Thinking is locked OFF. The repaired compiler and follow-up interfaces passed479 offline checks. The coherent original fixed128/8-batch build is running; the original six-arm DEV and final mechanism/cross-bank audit are pending. No formal TEST or manuscript work has begun.
+**Current Goal is incomplete.** The original fixed20 paired check completed40 profiles with zero core passes. Thinking is locked OFF. The canonical AST compiler uses source-keyed nullable scopes, finite provenance bounds and input-first declaration order and the existing pair-key/numeric-vector operand requirements. Complete-prefix diagnostics from truncated outputs never become an IR. The current518 offline checks and8 installed-backend syntax checks do not establish semantic success. Earlier build versions stopped at69 and5 sources; a coherent fixed128/8-batch build and original six-arm DEV remain incomplete. No TEST or paper work has begun.
 
 - [Current report](reports/legalskillguard_method_runtime_20261107.md)
 - [Current source](legal_skill_guard/rr) · [tests](tests) · [current status](docs/rr_v2/method_runtime_state_20261107.json)
-- [479-check offline receipt](reports/rr_method_runtime_20261107/offline_method_run_v16.json)
-- [Actual cardinal-literal before/after evidence](reports/rr_method_runtime_20261107/cardinal_literal_before_after_v1.json)
-- [Exact paid-prefix reuse](reports/rr_method_runtime_20261107/c6_exact_paid_profiles_replay.json)
+- [518-check offline receipt](reports/rr_method_runtime_20261107/offline_method_run_v21.json)
+- [Current training metrics](reports/rr_method_runtime_20261107/training_metrics_status_20261107.json)
+- [Actual truncated-prefix errors](reports/rr_method_runtime_20261107/ast_scope_v2_complete_prefix_feedback.json)
 - [Physical request snapshot](reports/rr_method_runtime_20261107/charged_calls_public_snapshot.json)
 - [Publication manifest](reports/rr_method_runtime_20261107/publication_manifest.json)
 
-The previous complete128 TRAIN check was59/128 and includes92 fallback sources; it is not the current implementation's result or a DEV/TEST evaluation. Fixed Horn components, fallback and invented examples are not counted as learned core effects. Three exact prior physical wires were replayed through the changed processor without new model calls; their original IDs and costs remain charged.
+The previous complete128 TRAIN check was59/128 and included92 fallback sources. It is a historical material check, not the current implementation's score or a DEV/TEST evaluation. Built-in Horn components and fallback do not count as learned core effects. Scientific versions remain separate; original responses, physical origins and costs remain charged and preserved.
 
-This is a curated content mirror on `research/legalskillguard-rr-v2`, preserving the public parent and leaving `main` unchanged. Code, tests and raw TRAIN research evidence retain bytes except the manifest's explicit public variants. Private local Git ancestry, conversation/working-goal history, machine-operation records, credentials, SQLite meta values, model weights/environments and DEV/TEST packets/labels are omitted. The bound local README and host runtime remain identified by the original scientific receipts; the public clone is not a copy of that host environment. Earlier studies and outcomes remain in history and in the existing tree.
+This is a curated content mirror on `research/legalskillguard-rr-v2`, preserving public ancestry and leaving `main` unchanged. Code, tests and raw TRAIN evidence retain bytes except explicit public variants listed in the manifest. Private local Git ancestry, conversation/working-goal history, machine-operation records, credentials, SQLite meta values, weights/environments and DEV/TEST packets/labels are omitted. The public clone is not a copy of the host environment. Earlier studies and unsuccessful outcomes remain preserved.
