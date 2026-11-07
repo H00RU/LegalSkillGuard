@@ -4,6 +4,20 @@
 Current snapshot: Goal active and incomplete. The original fixed20 paired current-contract validation is in progress; the changed implementation has not completed the fixed128 build or six-arm DEV. No TEST or paper work has started. Read the dated evidence below; offline checks and compatible paid-response replay are not core semantic success.
 <!-- /current_live_status -->
 
+## 当前阶段结论与证据分工
+
+当前实现尚未达到冻结测试条件。原128建库只提供旧TRAIN材料检查（59/128，含92个fallback）；新实现还没有完整128或六臂DEV结果。当前工作的直接阻断是自然规则的可接受执行输入不足；其中已证实并修复的工程原因包括消息/执行契约不一致、后端源编号枚举、无限嵌套、英文数词误拒，以及OE错误的条款父子上下文。修复检查通过不等于模型已经返回语义正确的程序。
+
+| 验收项 | 当前有效证据 | 当前缺口 |
+|---|---|---|
+| A真实作用范围、残余和分离选批 | 原SARA教师编译组件经实际事实解析、scope guard和完成空间执行；新控制器离线回归 | 当前统一Qwen编译流程尚无已接纳的完整真实来源，不能以组件重放替代 |
+| B碰撞驱动接口学习与存储图执行 | 原B1两来源的视图重放；后续ProofWriter来源实际执行存储图12次 | 同库组件证据；新128中的形成、实际使用和跨库情况尚未测得 |
+| 同一版本完整建库及原DEV六臂 | 控制器、同材料MB和恢复/标签隔离的离线证据 | 新128/8批及240个DEV来源预测尚未开始 |
+| 历史、账本和公开交付 | 原始结果/冻结库保全；物理请求逐项记账；开发分支中间快照 | 本阶段仍在验证，最终费用/冻结与正式测试建议待原Goal全部完成 |
+
+下面各节按日期保存原始诊断和修复证据；早期累计数和当时的“下一步”只表示当时状态。当前状态以顶部实时记录、SQLite及最新运行进程核验为准。
+
+
 ## 当前训练指标口径（2026-11-07）
 
 目前唯一完整128来源指标仍来自旧版建库，不能视为当前实现的训练表现或DEV/TEST成绩：
@@ -234,3 +248,25 @@ OFF首答已正常结束、5346输出token，其20个被拒金额中9个确实�
 c5已实际完成[逐字兼容prefix重放](rr_method_runtime_20261107/c5_exact_paid_prefix_replay.json)：3条原executor响应分别对应原ON初译、ON纠正、OFF初译，HTTP body逐字相同、原始响应/来源/物理ledger/result核验一致。新生产控制器重新生成1条ON配置记录及OFF step0状态，新增模型/teacher调用0，物理账本逐行不变。两条ON输出的原模型错误保留，OFF初译只消除了9条词面误报，仍有11条无依据金额，不把重放记作核心成功。
 
 [首个变化请求证据](rr_method_runtime_20261107/c5_first_changed_retry_proof.json)确认OFF step1实际body哈希已变化；原c4达到输出上限的纠正响应未复用，仍在原账本计费。当前正常controller从该请求继续，session69412；不重发前三条，不重启旧c4。该次兼容重放与新物理生成分列，当前完整20比较尚未结束。
+
+
+## 原32个OE来源的真实作用范围边界修复（2026-11-07）
+
+原始公开数据的EC/EV视图各提供72个独立法条标题，共144个；旧登记器仅识别Federal/Illinois的40个，遗漏Ariz./Or./Pa./Wis.的104个。层级又只按括号数量比较，令不同法域、不同法条甚至兄弟条款继承前一条款。真实首来源Ariz.33-1101(A)继承11U.S.C.522(m)，33-1101(B)又继承(A)；全32来源每个均有1368个错误标题祖先关系。它们会被lower_clauses物理用于守卫，属于作用范围实现错误，不应归因于模型。
+
+现按原公开六种引用拼写识别标题，并只在相同statute base、真实括号前缀之间继承上下文。没有推断缺失的父条款或法律真值。重复的独立Illinois标题不再被登记成指向另一重复标题的“引用”；真正行内引用原接口保留，本批真实OE此前那两处都是独立标题。Statutes标签、Solved Reasoning Steps及固定boilerplate按原数据字段登记为标题/指令；原已公开提供的司法辖区前提作为问题给定前提登记，未推断真值、未增加内容，不拿它当学到的新规则。全部原文与sN编号逐字不变，未译法律规则仍留残余。
+
+[全部128来源修复前后](rr_method_runtime_20261107/source_boundaries_before_after_v1.json)证明：32个OE来源均144/144标题识别、错误标题祖先关系0、伪标题引用0；其余96来源结构版本逐值不变。原s121/s282被错误传播的跨法域“条件前言”不再强加给别的法律，条款本身的条件仍须实际AST翻译。本证据证明登记和作用范围插入正确，不证明模型的自然语言翻译或任务答案。真实输入重复视图仅作[输入形状记录](rr_method_runtime_20261107/fixed20_public_source_shape_audit.json)，没有擅自去重或删除来源。
+
+[366项完整回归](rr_method_runtime_20261107/offline_method_run_v8.txt)通过，8项既有mock警告保留，检查时绑定文件字节不变。新增实际32来源边界检查和跨法域守卫负对照，SARA原作用范围路径未改变。[6748项编号后端及真实token掩码检查](rr_method_runtime_20261107/source_id_grammar_verification_v3.json)通过，两个旧paid wire仍原样保存。首次检查曾误以为旧OE残余指向公开前提，查回真实原文后确认它引用s176/s201真实法条，故格式仍应允许、整条残余仍由语义检查拒绝；仅纠正离线探针的错误预期，原失败日志保留，没有新增模型调用。[128来源容量](rr_method_runtime_20261107/compiler_input_budget_after_v8.json)在原B8/ON模板下最大22033，保持24576输入预算和8192输出预留。
+
+c5在物理请求全部结算后停止、退出143、取消0。新增4E，3次length和1次stop，输入56662、输出28641 token，耗时1118.402266秒；3/40配置与未形成配置的paid raw完整保留，旧三条兼容重放不新增物理行。Airline正常结束的纠正答仍把派生袋数作为字面量、错引用第三袋费用，按实际模型错误拒绝；OE边界修复不把该错误改判成功。[c5真实账本](rr_method_runtime_20261107/c5_settled_call_evidence.json)。
+
+为避免重复调用未受影响的来源，单配置处理抽成同一thinking_profile生产函数，正常比较与禁模型的逐字重放共用。重放可处理后置、相互独立的原配置，未改变seal中的原20来源/顺序或空库比较条件，不读取未来库内容；每条只有实际wire字节一致才复用，不按正确性选择，不复用旧分析或旧评分。正常controller继续原顺序，只有完整40配置才能选择thinking。新OE上下文请求改变，旧OE输出不可冒充当前生成；原Airline等未变请求可逐字核验后重放。
+
+累计465E/17T，本Goal新增41E/3T、oracle新增0、pending0；输入624620、输出219223 token，请求耗时8105.724482秒，教师reasoning14139另存不加总。执行器API现金增量0美元，GPU分摊和教师实际账单未知。[原始438请求/121meta/130oracle和1233旧文件保全](rr_method_runtime_20261107/history_preservation_after_source_boundary_repair.json)通过。原20完整比较、统一128建库、六臂DEV、实际学习/跨库使用与最终冻结交付仍待完成。当前Goal active未完成。
+
+公开b44437d是未完成中间快照。导出中误带了冻结环境的依赖源码；当前公开树将收紧到科学源代码、测试和原始研究证据，原始实验结果不删改。第一次远端核验在一个空依赖文件处未完成，不能记成全文件核验成功；修正导出后重新独立fetch并核对全部清单，main保持原提交。
+
+
+c6已完成[逐字兼容配置重放](rr_method_runtime_20261107/c6_exact_paid_profiles_replay.json)：3条原Airline真实wire分别匹配原ON初译、ON纠正、OFF初译。当前生产函数重新形成1个ON配置和OFF step0 journal；物理账本逐行不变，新增model/teacher0。原ON纠正的两项字面量错误照旧拒绝，不记核心成功。全部原20来源/顺序及空库比较条件未变，OE的上下文请求不匹配旧wire，未复用旧OE结果。正常controller现从原第1来源开始真实验证，后续遇到已兼容配置/状态则按原journal恢复，不重买这3条响应。当前完整比较仍未结束。

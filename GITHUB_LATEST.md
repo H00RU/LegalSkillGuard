@@ -4,7 +4,7 @@
 
 - [Current report](reports/legalskillguard_method_runtime_20261107.md)
 - [Current source](legal_skill_guard/rr) · [tests](tests) · [current status](docs/rr_v2/method_runtime_state_20261107.json)
-- [362-check offline receipt](reports/rr_method_runtime_20261107/offline_method_run_v7.json)
+- [366-check offline receipt](reports/rr_method_runtime_20261107/offline_method_run_v8.json)
 - [Actual cardinal-literal before/after evidence](reports/rr_method_runtime_20261107/cardinal_literal_before_after_v1.json)
 - [Exact paid-prefix reuse](reports/rr_method_runtime_20261107/c5_exact_paid_prefix_replay.json)
 - [Physical request snapshot](reports/rr_method_runtime_20261107/charged_calls_public_snapshot.json)

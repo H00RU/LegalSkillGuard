@@ -84,7 +84,23 @@ def main():
         run.dispatcher=paid_dispatcher
         try:
             result=getattr(run,args.phase)();outcome={'status':'entire_phase_replayed','result':result}
-        except NoExactPaidResponse as exc:outcome={'status':'first_unmatched_wire_ready_for_real_resume','reason':str(exc)}
+        except NoExactPaidResponse as exc:
+            misses=[str(exc)]
+            if args.phase=='thinking':
+                # Profiles are independent: empty library, original source,
+                # fixed seed and exact wire equality. Preserve compatible
+                # later profiles without changing the sealed original order.
+                ledger,executor,_,binding=run.clients('thinking',False)
+                profiles=json.loads((run.stage/'thinking/template_profiles.json').read_text())
+                public={s['key']:s for s in run.packet('public','train')}
+                for source_id in run.seal['thinking_sources']:
+                    for mode in (True,False):
+                        try:run.thinking_profile(public[source_id],mode,ledger,executor,binding,profiles)
+                        except NoExactPaidResponse as missing:
+                            if str(missing) not in misses:misses.append(str(missing))
+            outcome={'status':'compatible_profiles_and_journals_replayed_ready_for_real_resume',
+                'unmatched_requests':misses,'original_fixed20_order_unchanged':True,
+                'completed_profiles':len(list((run.stage/'thinking/records').glob('*.json')))}
         with sqlite3.connect('file:'+str(root/run.seal['ledger_path'])+'?mode=ro',uri=True) as db:
             assert db.execute('select * from calls order by id').fetchall()==before
         outcome.update(run_id=args.run_id,prior_run_id=args.prior_run_id,phase=args.phase,uses=uses,

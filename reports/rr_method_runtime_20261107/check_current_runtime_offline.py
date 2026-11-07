@@ -35,7 +35,7 @@ def main():
     subprocess.run=guarded_run;subprocess.Popen=denied
     before=science_files(root);started=time.monotonic()
     folder=root/'reports/rr_method_runtime_20261107'
-    log=folder/'offline_method_run_v7.txt'
+    log=folder/'offline_method_run_v8.txt'
     with log.open('w') as stream,redirect_stdout(stream),redirect_stderr(stream):
         code=int(pytest.main(['-q',*map(str,sorted((root/'tests').glob('test_rr*.py')))]))
     after=science_files(root);assert before==after
@@ -44,11 +44,11 @@ def main():
         'subprocess_blocked_except_exact_guarded_read_only_import_child':True,
         'approved_import_child_sha256':hashlib.sha256(approved.encode()).hexdigest(),
         'log_sha256':hashlib.sha256(log.read_bytes()).hexdigest(),'elapsed_seconds':time.monotonic()-started,
-        'new_model_calls':0,'new_oracle_views':0,'previous_full_regression':'offline_method_run_v6.json',
+        'new_model_calls':0,'new_oracle_views':0,'previous_full_regression':'offline_method_run_v7.json',
         'backend_evidence':'source_wire_bounds_backend_v1.json',
-        'scope':'Actual c4 English-cardinal false rejections, exact lexical amounts without invented rules, current source contracts, recovery, and complete RR/DEV isolation regressions',
+        'scope':'Actual OE citation scope contamination and instruction boundaries, original32-source context regression, exact paid profile reuse, full RR/DEV isolation regressions',
         'controller_fixture_results_are_not_research_results':True}
-    (folder/'offline_method_run_v7.json').write_text(json.dumps(receipt,ensure_ascii=False,sort_keys=True)+'\n')
+    (folder/'offline_method_run_v8.json').write_text(json.dumps(receipt,ensure_ascii=False,sort_keys=True)+'\n')
     print(json.dumps({k:v for k,v in receipt.items() if k!='files'}));print(log.read_text()[-3500:])
     raise SystemExit(code)
 

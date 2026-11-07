@@ -11,7 +11,8 @@ import re
 from .coverage import SourceLedger, digest
 
 
-CITATION = re.compile(r'(?:[0-9]+ U\.S\.C\. §\s*[0-9]+[A-Za-z]?(?:\([A-Za-z0-9]+\))*|'
+CITATION = re.compile(r'(?:(?:[0-9]+ U\.S\.C\.|Ariz\. Rev\. Stat\.|Or\. Rev\. Stat\.|'
+                      r'42 Pa\. Cons\. Stat\.|Wis\. Stat\.) §\s*[0-9]+(?:[.-][0-9]+)*[A-Za-z]?(?:\([A-Za-z0-9]+\))*|'
                       r'735 Ill\. Comp\. Stat\. [0-9]+/[0-9]+-[0-9]+(?:\([A-Za-z0-9]+\))*)')
 
 
@@ -61,13 +62,27 @@ def source_regions(source):
         facts = list(re.finditer(r'^Facts:\s*$', part, re.M))
         if len(statute)!=1 or len(facts)!=1 or statute[0].start()>=facts[0].start():
             raise ValueError('Ambiguous original OpenExempt source-field boundaries')
+        solved=list(re.finditer(r'^Solved Reasoning Steps:\s*$',part,re.M))
+        if len(solved)>1 or solved and not statute[0].end()<=solved[0].start()<facts[0].start():
+            raise ValueError('Ambiguous original OpenExempt supplied-premise boundaries')
         output = re.search(r'^Output contract:', part[facts[0].end():], re.M)
         end_facts = facts[0].end()+output.start() if output else len(part)
         regions.extend([(offset, offset+statute[0].start(), 'instruction', view),
-            (offset+statute[0].start(), offset+facts[0].start(), 'rule', view),
+            (offset+statute[0].start(),offset+statute[0].end(),'heading',view),
+            (offset+statute[0].end(),offset+(solved[0].start() if solved else facts[0].start()),'rule',view),
             (offset+facts[0].start(), offset+facts[0].end(), 'heading', view),
             (offset+facts[0].end(), offset+end_facts, 'fact', view),
             (offset+end_facts, offset+len(part), 'instruction', view)])
+        if solved:
+            regions.append((offset+solved[0].start(),offset+solved[0].end(),'instruction',view))
+            position=solved[0].end()
+            boilerplate=('The following reasoning steps have already been solved. '
+                         'Use this information to aid you in completing the remainder of the task.')
+            for line in part[position:facts[0].start()].splitlines(keepends=True):
+                # The adapter supplies these premises as public input. This
+                # registration neither verifies them nor infers new truth.
+                role='instruction' if not line.strip() or line.strip()==boilerplate else 'fact'
+                regions.append((offset+position,offset+position+len(line),role,view));position+=len(line)
         offset += len(part)+2
     return regions
 
@@ -97,21 +112,34 @@ def inspect_source(source):
         previous_region = region
         markdown = re.match(r'^(#{1,6})\s+', stripped)
         legal_heading = CITATION.fullmatch(stripped)
+        citation=None
+        if legal_heading:
+            base=re.sub(r'(?:\([A-Za-z0-9]+\))+$','',stripped)
+            citation=(base,tuple(re.findall(r'\([A-Za-z0-9]+\)',stripped[len(base):])))
         sara_heading = re.match(r'^§[0-9]+\.', stripped)
         enumerated = re.match(r'^\([A-Za-z0-9]+\)', stripped)
         level = len(markdown[1]) if markdown else len(re.findall(r'\([^)]*\)', stripped)) if legal_heading else 0 if sara_heading else \
             10+len(line)-len(line.lstrip()) if enumerated and region[0]=='rule' else None
         if level is not None:
-            while stack and stack[-1]['level']>=level:
-                stack.pop()
+            if citation is not None:
+                # A different statute is not a parent merely because its
+                # citation has fewer parentheses. Keep only actual prefixes
+                # within this same supplied statute, including its preface.
+                while stack:
+                    parent=stack[-1].get('citation')
+                    if parent and parent[0]==citation[0] and len(parent[1])<len(citation[1]) and \
+                            citation[1][:len(parent[1])]==parent[1]:break
+                    stack.pop()
+            else:
+                while stack and stack[-1]['level']>=level:stack.pop()
             if stack:
                 stack[-1]['has_child'] = True
             headings.append(clause.id)
         context = {frame['key'] for frame in stack}
         context.update(key for frame in stack for key in frame['preface'])
         exact = []
-        for citation in CITATION.findall(line):
-            target = citation_heads.get((region[1], citation))
+        for reference in (() if legal_heading else CITATION.findall(line)):
+            target = citation_heads.get((region[1], reference))
             if target and target!=clause.id:
                 exact.append(target)
                 context.add(target)
@@ -124,7 +152,7 @@ def inspect_source(source):
             unresolved[clause.id] = relative
         ledger.clauses[i] = replace(clause, context=tuple(sorted(context)))
         if level is not None:
-            stack.append({'level':level,'key':clause.id,'preface':set(),'has_child':False})
+            stack.append({'level':level,'key':clause.id,'preface':set(),'has_child':False,'citation':citation})
         elif stack and not stack[-1]['has_child']:
             stack[-1]['preface'].add(clause.id)
     ledger.validate()

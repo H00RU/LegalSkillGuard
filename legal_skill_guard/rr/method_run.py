@@ -27,7 +27,7 @@ from .thinking import select_thinking
 from .strict_contract import obj
 
 
-OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v7.json'
+OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v8.json'
 
 
 def prepare_method_run(root,run_id):
@@ -112,6 +112,36 @@ class MethodRun:
         dispatch_purpose=purpose
         return generate
 
+    def thinking_profile(self,source,thinking,ledger,executor,binding,profiles):
+        """One original comparison unit, also used by exact paid-wire replay."""
+        source_id=source['key']
+        if source_id not in self.seal['thinking_sources'] or type(thinking) is not bool:
+            raise ValueError('Only an original fixed20 comparison profile is allowed')
+        path=self.stage/'thinking'/'records'/(digest((source_id,thinking))+'.json')
+        if path.exists():record=json.loads(path.read_text())
+        else:
+            prefix=ledger.run_id+':'+digest(source_id)+':'+str(thinking)
+            prediction=predict_source(source,arm='M11',library={'frozen':False,'patterns':[]},
+                generate=self.dispatcher(ledger,executor,source,prefix,'method_thinking_comparison',thinking),
+                tokenize=executor.tokenize,request_config=self.config['executor'],thinking=thinking,
+                partition='train',controlled_shortcut=False,journal=self.stage/'thinking'/'journals'/digest((source_id,thinking)))
+            grade=self.packet('grading','train')[source_id]
+            score=score_source(source,prediction['result'],grade)
+            calls=prediction['calls'];usage_known=all(isinstance(c.get('usage'),dict) for c in calls)
+            record={'source':source_id,'dataset':source['dataset'],'thinking':thinking,'binding':binding,
+                'prediction':prediction,'score':score,'task_correct':score['task_correct'],
+                'structural_pass':any(h.get('structural_pass') for h in prediction['history']),
+                'usage':{'prompt_tokens':sum(c['usage']['prompt_tokens'] for c in calls),
+                         'completion_tokens':sum(c['usage']['completion_tokens'] for c in calls)} if usage_known else None,
+                'elapsed_seconds':sum(c.get('elapsed_seconds') or 0 for c in calls),
+                'reasoning_present':any(c.get('reasoning_content_present') for c in calls),
+                'template_profile_observed':profiles['different_actual_templates'],'actual_backend_effect_verified':False,
+                'source_hash':source['content_hash'],'comparison_unit':'whole bounded two-parse source pipeline'}
+            immutable_json(path,record)
+        if record['binding']!=binding or record['source_hash']!=source['content_hash']:
+            raise ValueError('Thinking comparison record changed')
+        return record
+
     def thinking(self):
         phase='thinking';ledger,executor,_,binding=self.clients(phase,False)
         probe=[{'role':'user','content':'Verify the configured chat-template thinking switch.'}]
@@ -123,29 +153,7 @@ class MethodRun:
         for source_id in self.seal['thinking_sources']:
             source=public[source_id]
             for thinking in (True,False):
-                path=self.stage/phase/'records'/(digest((source_id,thinking))+'.json')
-                if path.exists():record=json.loads(path.read_text())
-                else:
-                    prefix=ledger.run_id+':'+digest(source_id)+':'+str(thinking)
-                    prediction=predict_source(source,arm='M11',library={'frozen':False,'patterns':[]},
-                        generate=self.dispatcher(ledger,executor,source,prefix,'method_thinking_comparison',thinking),
-                        tokenize=executor.tokenize,request_config=self.config['executor'],thinking=thinking,
-                        partition='train',controlled_shortcut=False,journal=self.stage/phase/'journals'/digest((source_id,thinking)))
-                    grade=self.packet('grading','train')[source_id]
-                    score=score_source(source,prediction['result'],grade)
-                    calls=prediction['calls'];usage_known=all(isinstance(c.get('usage'),dict) for c in calls)
-                    record={'source':source_id,'dataset':source['dataset'],'thinking':thinking,'binding':binding,
-                        'prediction':prediction,'score':score,'task_correct':score['task_correct'],
-                        'structural_pass':any(h.get('structural_pass') for h in prediction['history']),
-                        'usage':{'prompt_tokens':sum(c['usage']['prompt_tokens'] for c in calls),
-                                 'completion_tokens':sum(c['usage']['completion_tokens'] for c in calls)} if usage_known else None,
-                        'elapsed_seconds':sum(c.get('elapsed_seconds') or 0 for c in calls),
-                        'reasoning_present':any(c.get('reasoning_content_present') for c in calls),
-                        'template_profile_observed':profiles['different_actual_templates'],'actual_backend_effect_verified':False,
-                        'source_hash':source['content_hash'],'comparison_unit':'whole bounded two-parse source pipeline'}
-                    immutable_json(path,record)
-                if record['binding']!=binding or record['source_hash']!=source['content_hash']:
-                    raise ValueError('Thinking comparison record changed')
+                record=self.thinking_profile(source,thinking,ledger,executor,binding,profiles)
                 records.append(record)
                 print(json.dumps({'stage':'thinking','complete_profiles':len(records),'source':source_id,
                     'thinking':thinking,'structure':record['structural_pass'],'correct':record['task_correct']}),flush=True)

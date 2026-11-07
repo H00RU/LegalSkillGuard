@@ -1,6 +1,6 @@
 # 当前统一运行与恢复
 
-运行ID：method_runtime_c5_20261107；入口experiments/rr_v2_method_runtime.py。旧FormalRun、旧blocked/次数/轮次说明不是当前启动队列。当前Goal未完成。
+运行ID：method_runtime_c6_20261107；入口experiments/rr_v2_method_runtime.py。旧FormalRun、旧blocked/次数/轮次说明不是当前启动队列。当前Goal未完成。
 
 先prepare，再thinking；人工复核由当前执行者读取真实输出完成，不要求用户逐项诊断。thinking固定原20来源，一次ON/OFF当前两步解析流程配对，每配置最多2次原定解析、无native fallback/teacher/oracle；仅本对比允许局部ON，原配置文件仍OFF。相比旧直接native输出比较，计量单位改为当前完整解析流程，不增加来源、seed、开关扫描或实验轮次。所有物理请求、失败、token和耗时保留。
 
@@ -27,3 +27,8 @@
 2026-11-07 03:39 UTC接续：c4在4E全部结算后停止，1/40配置及其余paid raw保留；退出143、取消0。旧数字字符检查实际误拒OE原文英文数词9个正确金额，另11个金额无依据，修复后仍拒绝。新增确定性普通cardinal解析（零至千位组合，含连字符/and），不拆出复合数内部数字，保持one-half精确分数，畸形/未支持表达保留拒绝。不补法条、事实真值或缺失金额，整条旧IR仍失败。362项完整回归通过，原128/B8/ON最大22220输入token；原配置不改。
 
 c5仍是同Goal、同SQLite的新科学绑定。先以replay_exact_paid_prefix.py将原TRAIN/model配置一致且实际HTTP body字节完全相同的旧executor响应送入当前生产控制器重新解析/评分，origin call ID及wire/response哈希逐项保存，不插入伪造物理账本行；teacher和真实generate在该重放进程中禁止。在首个不匹配的请求处保存当前journal，由普通controller继续真实请求。旧分析/旧评分不充当当前分析结果，不以响应正确性筛选缓存，失败和未复用请求仍计累计物理次数。恢复先查现存c5 controller、同一ledger pending和session，不能重启c4或重复准备。原完整20/128/DEV/跨库及交付条件不变。
+
+
+2026-11-07 04:16 UTC接续：c5四条新增E全部结算后停止（含3次length、1次stop），3/40配置及其余paid raw原样保留；旧3条逐字兼容响应的重放不新增物理行。累计465E/17T、pending0、取消0。OE所有32来源原144标题仅40识别，每来源1368个错误标题祖先关系；现完整识别144，按同一statute/真实括号前缀继承，不跨法域/兄弟条款，不将重复独立标题当引用。Statutes标签、Solved Reasoning Steps及其boilerplate不再是法律规则；原公开提供的司法辖区前提按问题给定前提登记，不推断真值，所有原文/sN编号保留。96个其他来源结构版本逐值不变，未把其他四库宣布就绪。366项完整回归、6748源编号后端检查通过，原128/B8/ON最长22033输入。
+
+单配置处理已抽为同一thinking_profile生产函数，比较与逐字重放共用；离线重放可保存相互独立且真正wire一致的后置配置，不改seal的原20名单/顺序、不带未来库内容、不按正确性筛选。正常controller仍按原20顺序执行，每配置原两步预算；只在完整40配置后选择thinking。c6是同Goal新科学绑定，旧c5不可重启，账本不重置。当前公开b44437d为未完成中间快照，依赖源码导出范围和独立核验需修正；不将已push当作整体验收通过。
