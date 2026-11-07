@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "request_sha256": "910b44faae6c6c264007fc6cc9097bb98e02aa6b72d7bcd479984507133076b8",
+  "response_sha256": "ae05ffc2d13c264f784cdc0ebc47baa8e152754106ff289437166d2ff205da9c",
+  "model": "gpt-5.6-sol",
+  "purpose": "method_train_compile",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "唯一观察到且已存入库的模式来自两个 ProofWriter_OWA_depth5 来源；entity_equality 在所观察的碰撞中构成区分字段。该模式仅以 observed_source_collisions 为依据，不主张普遍语义等价。其余记录未提供可总结的非空模式。"
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-07T11:06:05.948667+00:00",
+    "finished_at": "2026-11-07T11:06:30.269528+00:00",
+    "elapsed_seconds": 24.321,
+    "returncode": 0,
+    "event_log_sha256": "c4498987694f1c456308ea70212e2f7424ad7161cbdf54fd065b3424df3c88a6",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 16729,
+      "cached_input_tokens": 0,
+      "output_tokens": 221,
+      "reasoning_output_tokens": 69
+    },
+    "estimated_credits": null
+  }
+}

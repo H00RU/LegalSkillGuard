@@ -36,10 +36,14 @@ def main():
     for path in sorted((stage / 'build/sources').glob('*.json')):
         record = json.loads(path.read_text())
         outcome = record['prediction']['result']
+        controlled_fallback = bool(outcome.get('model_source_IR_still_unresolved'))
+        native_fallback = outcome['fallback_used']
         rows.append({'source': record['source'], 'source_position':seal['sources']['train'].index(record['source']), 'dataset': record['dataset'],
             'program_status': outcome['program_status'], 'certificate_status': outcome['certificate_status'],
             'TRAIN_match_including_predefined_paths': record['score']['task_correct'],
-            'fallback_used': outcome['fallback_used'],
+            'fallback_used': native_fallback or controlled_fallback,
+            'native_fallback_used': native_fallback,
+            'controlled_Horn_fallback_used': controlled_fallback,
             'model_source_IR_compiled': outcome['program_status'] == 'source_IR_compiled',
             'conditional_source_IR_certificate': outcome['A_main_path_executed'],
             'stored_pattern_executed': outcome['B_main_path_executed'],
@@ -58,6 +62,11 @@ def main():
         'conditional_source_IR_certificates': sum(row['conditional_source_IR_certificate'] for row in rows),
         'stored_pattern_execution_sources': sum(row['stored_pattern_executed'] for row in rows),
         'TRAIN_matches_including_predefined_paths': sum(row['TRAIN_match_including_predefined_paths'] for row in rows),
+        'fallback_sources_including_Horn_recovery': sum(row['fallback_used'] for row in rows),
+        'controlled_Horn_fallback_sources': sum(row['controlled_Horn_fallback_used'] for row in rows),
+        'native_fallback_sources': sum(row['native_fallback_used'] for row in rows),
+        'primary_source_IR_B_execution_sources': sum(row['stored_pattern_executed'] and row['model_source_IR_compiled'] and not row['fallback_used'] for row in rows),
+        'TRAIN_matches_without_fallback': sum(row['TRAIN_match_including_predefined_paths'] and not row['fallback_used'] for row in rows),
         'program_status_counts': dict(Counter(row['program_status'] for row in rows)),
         'this_run_physical_counts': dict(Counter(row[0] for row in run_calls)),
         'build_completion_saved': completion is not None, 'new_generation_or_grading_by_observer': 0,
@@ -87,6 +96,7 @@ def main():
         f'实际PID{controller["pid"]}/start_ticks{controller["start_ticks"]}，身份存活={identity_live}，session{args.session_id}。'
         f'累计{counts["executor"]}E/{counts["teacher"]}T、pending{len(pending)}。'
         f'当前模型IR编译{observation["source_IR_compiled"]}、条件完成证书{observation["conditional_source_IR_certificates"]}；'
+        f'Horn回退来源{observation["controlled_Horn_fallback_sources"]}，其图调用不计核心主路径通过；'
         '这些不等于源文语义验收。454项离线回归、9项新封装后端及128输入容量核验通过，OFF已锁定。'
         '普通模型错误保留，旧结果/冻结库/账本不变；六臂DEV和TEST未启动，Goal active未完成。')
     report = root / 'reports/legalskillguard_method_runtime_20261107.md'

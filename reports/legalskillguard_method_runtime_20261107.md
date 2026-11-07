@@ -1,7 +1,7 @@
 # LegalSkillGuard 主方法与开发验证
 
 <!-- current_live_status -->
-Current snapshot: Goal active and incomplete. The original fixed20 paired validation has completed all40 profiles with zero accepted core programs. OFF is locked. The declarative frontend, follow-up and recovery paths are integrated; the coherent original fixed128/8-batch build is running. The two code probes remain failed and are preserved; offline checks and ordinary model errors are reported separately. The build and six-arm DEV remain incomplete. No TEST or paper work has started. Read the dated evidence below; offline checks and compatible paid-response replay are not core semantic success.
+Current snapshot: Goal active and incomplete. The original fixed20 paired validation has completed all40 profiles with zero accepted core programs. OFF is locked. The declarative frontend, follow-up and recovery paths are integrated; the coherent original fixed128/8-batch build is running. The two code probes remain failed and are preserved; offline checks and ordinary model errors are reported separately. The first16-source B1 and same-material MB checkpoint is saved and verified. Controlled Horn recovery is reported as fallback, never primary model-IR success. The full build and six-arm DEV remain incomplete. No TEST or paper work has started. Read the dated evidence below; offline checks and compatible paid-response replay are not core semantic success.
 <!-- /current_live_status -->
 
 
@@ -65,6 +65,34 @@ v4实际OFF响应以stop正常结束，输入3447、输出4753 token、耗时186
 本版通过[454项完整禁网络回归](rr_method_runtime_20261107/offline_method_run_v13.json)，新封装9项后端核验通过，更新后[128来源输入容量](rr_method_runtime_20261107/source_code_input_budget_v2.json)最大21692≤24576；所有模型、温度、seed、输出/context及OFF配置不变。每来源最多2次生成、每批教师最多2次汇总、每来源最多4次原预算视图，保留已有相同视图缓存；原生回退、预定义Horn与模型主路径分列，不把格式、正确答案或旧模式冒称新核心学习。
 
 [当前运行及PID身份核验](rr_method_runtime_20261107/method_runtime_code_v1_20261107_build_observation.json)、[来源级进度](rr_method_runtime_20261107/method_runtime_code_v1_20261107_source_status.csv)和[累计费用](rr_method_runtime_20261107/goal_cost_snapshot_20261107.json)持续写入不绑定的状态文件。训练输入、源码、测试、配置和协议均在seal内冻结；运行中不改科学文件，也不并发启动另一建库。完整建库后接续原六臂DEV及A/B/跨库审计，所有条件满足前保持未完成，不启动TEST或论文。
+
+## 最新公开交付核验（建库进行中快照）
+
+当前实现及报告已同步[开发分支快照](https://github.com/H00RU/LegalSkillGuard/blob/5cedb8401e419ad06c53cfc0d655d7b0172d62b3/reports/legalskillguard_method_runtime_20261107.md)，科学代码对应本地ea34dbc。已独立从GitHub抓取核验1481个清单文件、清单本身与2份核验收据，SHA256一致；[核验收据](https://github.com/H00RU/LegalSkillGuard/blob/03173c0086622807c0208cc9ec389a91ad0e3e82/reports/rr_method_runtime_20261107/publication_verified.json)及本地`publication_branch_head.json`记录完整链。main仍为ae7e09230b4eb675b7299f73c4775787ccb2b65b，私有本地Git祖先未上传，发布未新增模型调用。该公开版本是建库进行中的固定时间快照，最新来源进度以本报告顶部和当前observer为准；文件核验不等于核心语义验收，Goal仍未完成。
+
+## 建库前缀的机制核验：首次碰撞模式与主路径使用分列
+
+当前第4来源（原ProofWriter43ec4119…）从空的当前库重新执行碰撞学习，4个已付费TRAIN视图产生3对区分`entity_equality`的碰撞，得到按共同实体列`join_on`的参数化图。[首次形成证据](rr_method_runtime_20261107/current_B_first_acquisition_20261107.json)核实四个view_hash均已在本Goal前计入原账本，未新增标签/模型请求；原语来自预定义公共Horn文法，不能计作新法律规则学习。模式与历史B8中同形图哈希相同，当前重新形成及以后真实存储调用分别记录，不把旧结果直接当作本次主路径成功。
+
+[当前前缀机制审计](rr_method_runtime_20261107/method_runtime_code_v1_20261107_mechanism_prefix_audit.json)按原来源顺序重算library_before_hash和每来源两次调用/四视图预算，区分模型SourceIR、预定义Horn、仅提示曝光、同形再发现和实际执行存储图。共享来源模式不直接计作外库独有贡献；真正外库调用还需原DEV及必要最小启用/屏蔽证据才能讨论因果效果。该审计只描述现存记录，不新增验收门槛、来源或模型调用。
+
+本次审计至第4来源，当前独立模型IR编译、A实际后续解析、A分离完备请求及后续存储图调用均未观察到，不能把一个已形成的B模式等同于整体方法通过。OE、Airline和SARA因模型未提供可执行IR而缺少B原语输入，保持`typed_inputs_unavailable`，不写成已经搜索完候选但无解。建库继续，所有结论以各自时间戳和分母为准。
+
+## 当前建库的实际输入核验
+
+[实际HTTP正文审计](rr_method_runtime_20261107/method_runtime_code_v1_20261107_dispatch_audit.json)覆盖当前前6来源、12个已完成请求：HTTP原始字节与journal保存的完整dispatch、封存采样配置及OFF模板逐一相等；编译请求的原始公开units逐项相等，响应中的prompt_tokens也全部等于发送前serving tokenizer的计数。没有源文、schema或采样漂移，也没有输入被静默裁剪的证据；每条输出8192限制与输入预算分开记录。本审计只读原TRAIN公开包和已有请求/结果，未打开评分包、未生成或查询新标签。
+
+这支持当前公开输入完整送达，不能推出已经获得足够的可执行原语或忠实规则翻译。当前模型SourceIR仍未编译通过，A残余选批尚未执行；缺输入来源与ContractNLI按原方案无反事实oracle分别记录，形成模式和实际调用也不混合。后续按同一封存运行继续，不根据这些普通输出错误追加来源或重新调参。
+
+## B1检查点与回退口径核对
+
+首批16来源的B1、B1.MB和教师汇总已保存。[B1核验](rr_method_runtime_20261107/current_B1_checkpoint_verification.json)逐项重算源记录哈希、库前缀和6臂共同材料哈希，全部一致；B1的模式证据来源均在前16来源内，MB也恰为16来源、额外准备调用0。教师本批实际1次汇总，只接纳当前公共训练证据已经验证的模式哈希，没有新增未验证的法律规则。原语/模式库仍只有实体等值连接这一种形状，不将库文件形成当作全部验收通过。
+
+前缀14来源已有2个ProofWriter结果匹配参考答案，46次实际存储图执行均与查询依赖有关，来源为先前第4来源学得的同库模式。两条预测均在模型IR失败后进入`controlled_public_grammar`，因此是Horn回退中的真实组件执行，**不计当前核心模型IR主路径成功**，也不是跨库迁移。原始`fallback_used=False`只表示没有走原生答案回退；原记录另有`model_source_IR_still_unresolved=True`。目前报告和来源CSV按实际控制流分列原生回退、Horn回退、预定义快捷路径及模型SourceIR，不修改原记录；此前仅以原生回退标志统计会漏报Horn恢复，属于报告口径缺陷。此时总回退为2/14，核心模型IR、A实际后续解析和核心B主路径均为0；完整比例随原运行继续更新。
+
+[确定性命名适配检查](rr_method_runtime_20261107/method_runtime_code_v1_20261107_name_adaptation_check.json)覆盖前17来源的34条已付费输出：31条没有完整可解析的声明式IR，另外3条即使只作可逆的内部变量alpha重命名，仍在原语事实/规则来源字段被拒绝。源文引用、数值和规则表达式未修改，也未补齐截断输出、读取评分包或安装生产适配分支；当前没有仅靠命名规范化就能恢复的合格IR。因此不能把上游缺可执行输入写成已经完成了A或B的语义验证。
+
+此处是当前实际失败与验证覆盖的分类，不增加涨分、技能数量、全分支实测或零回退要求。原进程、预算账本和所有seal绑定文件保持，继续剩余原128来源、8批和原六臂DEV；主方法语义及整体Goal仍未通过。
 
 ## 当前阶段结论与证据分工
 
