@@ -91,7 +91,7 @@ def _compiler_request(source,active,profile,program,last_error,tokenize,config,t
     action={'selection_basis':'full_source_repair_without_duplicating_rejected_candidate',
             'input_tokens':actual,'raw_candidate_preserved_in_prior_wire':True} if program is not None else None
     if actual>limit:raise Unsupported('Complete compiler request exceeds context; no source truncation')
-    return messages,compiler_response_schema(),action
+    return messages,compiler_response_schema(source,active),action
 
 
 def predict_source(source,*,arm,library,generate,tokenize,request_config,thinking,
@@ -177,7 +177,7 @@ def predict_source(source,*,arm,library,generate,tokenize,request_config,thinkin
                 by_name={r['name']:r for r in observation_rows};by_name.update({r['name']:r for r in rows})
                 observation_rows=list(by_name.values());program=compiled['program']
             else:
-                program=decode_compiler_response(parsed)
+                program=decode_compiler_response(parsed,source,active)
                 compiled=compile_source(source,program,library=active);observed={};observation_rows=[]
             remaining=max(0,remaining-(time.monotonic()-started));started=time.monotonic()
             assessment=assess_source(compiled,observed,compilation=profile.compilation,seconds=remaining)

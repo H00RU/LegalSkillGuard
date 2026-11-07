@@ -39,7 +39,7 @@ def test_current_prompt_preserves_actual_units_and_removes_unrelated_semantics()
         assert payload['units'] == record['old_units']
         assert list(payload)[-1] == 'units'
         assert 'format_only_example' not in payload
-        assert payload['accepted_program_code'] is None and 'previous_candidate' not in payload
+        assert payload['accepted_program'] is None and 'previous_candidate' not in payload
         schema = program_schema(sources[record['source']])
         for binding in schema['$defs']['binding']['anyOf']:
             assert list(binding['properties']) == ['name', 'type', 'sources', 'value']

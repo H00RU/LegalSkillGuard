@@ -90,7 +90,7 @@ def test_current_schema_and_prompt_are_strict_and_have_no_native_answer_field():
     assert strict_output_schema_issues(schema)==[]
     assert 'answer' not in schema['properties']
     system,user=compiler_prompt(source)
-    assert 'you do not provide their truth values in code' in system
+    assert 'you do not provide their truth values in the program' in system
     assert source['public']['prompt'] in user
 
 

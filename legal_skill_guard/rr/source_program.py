@@ -126,43 +126,50 @@ def program_schema(source,library=None):
 
 def compiler_prompt(source,library=None,accepted_program=None,validation_feedback=None,factual_observation_task=None):
     from .source_format import language_contract
-    from .source_code import render_source_code
+    from .source_code import encode_compiler_program
     structure=inspect_source(source)
     contexts=compact_contexts(structure)
     units=[{'id':c.id,**structure.roles[c.id],'text':structure.ledger.text[c.start:c.end],
             'context':contexts[c.id]} for c in structure.ledger.clauses]
     system=(
-        'Compile the CURRENT public rule task into declarative Python-syntax code, returned as {"code":STRING}. '
-        'The code is parsed into a data-only source-linked DAG, never run as Python. Do not solve the task '
+        'Compile the CURRENT public rule task into the seven-field structured program required by the response schema: '
+        'scopes, clauses, rule_residuals, observations, bindings, nodes, query. '
+        'Only local condition_code, value_code, otherwise_code and nodes[].code fields use restricted Python expressions. '
+        'The expressions are parsed into a data-only source-linked DAG, never run as Python. Do not solve the task '
         'or emit a native answer beside the program. No tools or grading information are available. '
-        'Use single-name assignments and a final query = EXPRESSION. No imports, attributes, loops, '
+        'Expression strings contain one expression, not assignments or declarations. No imports, attributes, loops, '
         'functions, comprehensions, arbitrary calls, mutation or reassignment. Internal names are unique '
         'ASCII identifiers of at most64 characters. A name has no implicit semantic meaning. '
-        'Write named rule declarations before query; query cannot itself be a clause/observation/scope/residual '
-        'declaration. Keep all parentheses balanced. Use Python True/False/None, not lowercase true/false/null. '
+        'Write executable scope and clause records first. query uses the native-result AST schema, '
+        'such as {"var":"named_clause"}; it is not a code string or a declaration. '
+        'Inside expression strings keep parentheses balanced and use Python True/False/None. '
+        'Outside strings use ordinary JSON true/false/null. '
         'There are no contradiction(), entailment() or other answer functions; native labels are quoted strings '
         'selected by executable guarded rules. join_on takes TWO declared relations and a params dictionary; '
         'project_exists takes ONE relation. A quoted sN ID or empty string is never a graph input. '
         'Do not enumerate every sentence into bindings. Declare only literal inputs and required predicates, '
         'then write executable rule expressions and guarded clauses; reuse named definitions. '
-        'Primitive inputs: name = TYPE(VALUE, sources=[UNIT_IDS]), with the nine actual typed shapes in '
-        'language_contract. Every numeric value and public string must be grounded in those units. '
+        'Primitive inputs are bindings records {name,type,sources,value}, with the actual typed shapes in '
+        'language_contract. Never construct inputs or declarations inside expression strings. '
+        'Provenance fields use the exact sN unit IDs, never task_id or arbitrary IDs. '
+        'Every numeric value and public string must be grounded in those units. '
         'A relation contains actual factual witnesses, one cell per column, citing all required factual lines. '
         'Source IDs are provenance metadata, never relation cells or conclusions. Boolean primitive values '
         'require literal true/false in the cited text; paragraph numbers, years and 0/1 are not truth values. '
-        'Factual predicates: b_name = observation(entity=QUOTE, entity_source=FACT_ID, '
-        'predicate=QUOTE, predicate_source=RULE_ID). Both quotes must be exact source substrings; '
-        'you do not provide their truth values in code. Reuse the same observation for identical quotes. '
+        'Factual predicates are observations records {name:b_NAME,entity:QUOTE,entity_source:FACT_ID, '
+        'predicate:QUOTE,predicate_source:RULE_ID}. Both quotes must be exact source substrings; '
+        'you do not provide their truth values in the program. Reuse the same observation for identical quotes. '
         'Legal effects, thresholds, arithmetic, dates and comparisons belong in expressions, not observations. '
-        'Missing legal/numeric subexpressions: b_name = residual(source=RULE_ID, quote=EXACT_SUBQUOTE). '
+        'Missing legal/numeric subexpressions are rule_residuals records {name:b_NAME,source:RULE_ID,quote:EXACT_SUBQUOTE}. '
         'These retain both False/True and are never sent to the factual observer. A residual must be a '
         'proper subexpression actually read by its containing clause or scope. Never replace an entire '
         'untranslated rule, final claim or numerical comparison with a fact predicate or guessed Boolean. '
-        'Local calculations: name = EXPRESSION. They do not discharge rule coverage. '
-        'Scope declarations: name = scope(source=ONE_RULE_ID, condition=BOOLEAN_EXPRESSION). '
+        'Local calculations are nodes records {name,kind:"expression",code:EXPRESSION_STRING}. '
+        'They do not discharge rule coverage. '
+        'Scope records contain {name,source:ONE_RULE_ID,condition_code:BOOLEAN_EXPRESSION_STRING}. '
         'Only a nonconditional structural title may use literal True. Scope conditions are executable, '
         'not policy strings. All required_scope_sources must have scopes, including conditional prefaces. '
-        'Rule outputs: name = clause(sources=[OWNED_RULE_IDS], value=EXPRESSION, otherwise=EXPRESSION). '
+        'Rule output clauses contain {name,sources:[OWNED_RULE_IDS],value_code:EXPRESSION_STRING,otherwise_code:EXPRESSION_STRING}. '
         'The engine physically guards each clause with all inherited scopes from the transitive source '
         'context. State the disabled value explicitly: False, 0, [], or None as appropriate. Do not guess it. '
         'Own only the rule units actually translated. A constant citation or unused scope does not cover '
@@ -174,14 +181,15 @@ def compiler_prompt(source,library=None,accepted_program=None,validation_feedbac
         'Helper functions: add, sub, min, max, xor, eq, ne, lt, le, scale, divide_constant, '
         'ceil_divide_constant, number_at, array, pair, object, concat, all_of, any_of. '
         'They implement the same typed operations, not arbitrary Python; all branches must type check. '
-        'all_of/any_of support an empty or single-element Boolean conjunction/disjunction. '
+        'all_of() and any_of() take separate Boolean arguments: all_of(b_left, b_right), '
+        'never all_of([b_left, b_right]). A list is not a Boolean. Empty or single-Boolean calls are supported. '
         'ceil_divide_constant(numeric, positive_literal_denominator) implements an increment or fraction thereof '
         'exactly; apply statutory bounds explicitly. Numeric vectors support vector[nonnegative_literal_index]; '
         'out-of-range access fails, with no default. A denominator 100 for percent or 2 for one-half is only '
         'the stated unit conversion, not a new factual amount. '
-        'Connector assignments call the seven operators from language_contract with explicit params dictionaries. '
+        'Connector nodes use kind:"connector" and code calling the seven operators from language_contract with explicit params dictionaries. '
         'Projections are identity, amount_value, amount_values and entailment_label. Named results or nested '
-        'calls are allowed. When an available learned graph matches actual slot and column obligations, '
+        'calls are allowed inside expressions. When an available learned graph matches actual slot and column obligations, '
         'invoke learned(pattern=HASH, variant=INDEX, slots={...}, columns={...}); copying its operators '
         'independently is not library use. Do not insert irrelevant calls to claim reuse. '
         'All consumption of one allowance bank must share one thread_allowance result; never clone or '
@@ -192,18 +200,18 @@ def compiler_prompt(source,library=None,accepted_program=None,validation_feedbac
         'Do not return a constant native result. Source identifiers are not operands. '
         'Do not invent laws, witnesses, dates or constants. A quoted timing policy is not an executable '
         'date comparison; use supported numeric comparisons or preserve proper unknown subexpressions. '
-        'accepted_program_code, when supplied, is the previously accepted translation; preserve unchanged '
+        'accepted_program, when supplied, is the previously accepted structured translation; preserve unchanged '
         'primitive names and quotes to retain factual evidence. validation_feedback is source-only compiler '
         'diagnosis, never target answers; repair concrete errors without coercion or invented rules. ')
     if factual_observation_task is not None:
-        system+=('Return the separately requested factual_observations outside the code: provide truth only '
+        system+=('Return the separately requested factual_observations outside the program: provide truth only '
             'for those requested factual predicates, null for unknown, and verbatim factual evidence for '
             'True/False. Never resolve a legal residual as a fact. ')
-    return system,json.dumps({'dataset':source['dataset'],'source':source['key'],
+    return system,json.dumps({'dataset':source['dataset'],'task_id':source['key'],
         'task_metadata':{'answer_type':source['public'].get('answer_type')},
         'language_contract':language_contract(source['dataset'],literal_text=structure.ledger.text),
         'required_scope_sources':required_scope_sources(structure),
-        'accepted_program_code':render_source_code(accepted_program) if accepted_program is not None else None,
+        'accepted_program':encode_compiler_program(accepted_program) if accepted_program is not None else None,
         'validation_feedback':validation_feedback,
         'requested_factual_observations':factual_observation_task,
         'available_learned_patterns':[{k:item[k] for k in ('pattern_hash','pattern')}

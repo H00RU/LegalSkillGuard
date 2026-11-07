@@ -82,22 +82,26 @@ def main():
     state = json.loads(state_path.read_text())
     state.update(current_run_id=args.run_id, current_run_stage='build', active_probe_run_id=None,
         previous_completed_thinking_run_id='method_runtime_c6_20261107',
-        latest_completed_probe_run_id='executor_source_code_v2_20261107',
+        latest_completed_probe_run_id=state.get('latest_completed_probe_run_id','executor_compiler_contract_v2_20261107'),
         phase='fixed128_declarative_build_live' if identity_live else 'fixed128_build_' + controller['status'],
-        implementation_commit='ea34dbc', controller_pid=controller['pid'],
+        implementation_commit=state['implementation_commit'], controller_pid=controller['pid'],
         controller_start_ticks=controller['start_ticks'], controller_session=args.session_id,
         controller_identity_live=identity_live, executor_total=counts['executor'], teacher_total=counts['teacher'],
         pending_requests=len(pending), last_update_utc=now, current_complete_sources=committed,
         current_source_records=len(rows), full_fixed128_build_completed=completion is not None,
         next_action='Continue this exact sealed fixed128/8-batch build and record ordinary model errors without repair sweeps; preserve source budgets, frozen libraries and ledger. Observe the real PID/session, do not duplicate or change bound files. After build perform original six-arm DEV and mechanism/cross-bank audits; no TEST, paper or premature completion.')
+    state['controller_processes'] = [controller] if identity_live and controller['status']=='running' else []
+    if completion is not None and controller['status']=='completed':
+        state['phase']='fixed128_build_completed_pending_DEV_and_core_audit'
+        state['next_action']='Verify all original128 records,8 batches,B1/B8 and same-material MB with the sealed controller, then run original six-arm DEV once under locked OFF. Preserve the completed build; do not launch it again, inspect TEST or mark Goal complete before core/semantic/cross-bank delivery.'
     state_path.write_text(json.dumps(state, ensure_ascii=False, sort_keys=True, indent=2) + '\n')
     activity='运行中' if identity_live and controller['status']=='running' else controller['status']
-    line = (f'实时状态（{now}）：统一版本ea34dbc的原128来源/8批建库{activity}，来源记录{len(rows)}/128、已提交前缀{committed}；'
+    line = (f'实时状态（{now}）：统一版本{state["implementation_commit"][:7]}的原128来源/8批建库{activity}，来源记录{len(rows)}/128、已提交前缀{committed}；'
         f'实际PID{controller["pid"]}/start_ticks{controller["start_ticks"]}，身份存活={identity_live}，session{args.session_id}。'
         f'累计{counts["executor"]}E/{counts["teacher"]}T、pending{len(pending)}。'
         f'当前模型IR编译{observation["source_IR_compiled"]}、条件完成证书{observation["conditional_source_IR_certificates"]}；'
         f'Horn回退来源{observation["controlled_Horn_fallback_sources"]}，其图调用不计核心主路径通过；'
-        '这些不等于源文语义验收。454项离线回归、9项新封装后端及128输入容量核验通过，OFF已锁定。'
+        '这些不等于源文语义验收。479项离线回归、12项新封装后端及128输入容量核验通过，OFF已锁定。'
         '普通模型错误保留，旧结果/冻结库/账本不变；六臂DEV和TEST未启动，Goal active未完成。')
     report = root / 'reports/legalskillguard_method_runtime_20261107.md'
     text = report.read_text(); start, end = '<!-- current_live_status -->', '<!-- /current_live_status -->'
@@ -105,7 +109,7 @@ def main():
     for directory in (root, Path('/home/yndx/hhy/legal-skill-current')):
         for name in ('PROJECT_MAP.md', 'docs/CURRENT_GOAL.md', 'docs/handoff_next_stage.md'):
             path = directory / name; lines = path.read_text().splitlines()
-            index = next(i for i, value in enumerate(lines) if value.startswith('实时状态（'))
+            index = next(i for i, value in enumerate(lines) if value.startswith(('实时状态（','当前执行更新（')))
             lines[index] = line; path.write_text('\n'.join(lines) + '\n')
     print(json.dumps(observation, ensure_ascii=False))
 

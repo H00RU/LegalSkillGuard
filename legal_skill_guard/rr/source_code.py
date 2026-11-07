@@ -7,6 +7,7 @@ resource and completion checks. It does not accept legacy response envelopes.
 from __future__ import annotations
 
 import ast
+from copy import deepcopy
 import re
 
 from .coverage import Unsupported
@@ -23,16 +24,99 @@ FUNCTIONS.update(all_of='and', any_of='or')
 FIELDS = ('bindings', 'observations', 'rule_residuals', 'nodes', 'scopes', 'clauses', 'query')
 
 
-def compiler_response_schema():
-    """The model-facing envelope; internal IR is checked separately in full."""
-    from .strict_contract import obj
-    return obj({'code': {'type': 'string'}})
+def compiler_response_schema(source, library=None):
+    """Constrain declaration metadata while keeping local expressions compact.
+
+    Reuse the actual SourceIR binding, provenance and native-query contracts.
+    Expression strings still pass the restricted parser and every IR check.
+    """
+    from .source_program import program_schema
+    from .strict_contract import obj, array
+    schema = program_schema(source, library)
+    fields = schema['properties']
+    symbol = fields['scopes']['items']['properties']['name']
+    rule = fields['scopes']['items']['properties']['source']
+    code = {'type': 'string', 'minLength': 1}
+    fields['scopes']['items'] = obj({'name': symbol, 'source': rule, 'condition_code': code})
+    fields['clauses']['items'] = obj({'name': symbol, 'sources': array(rule),
+        'value_code': code, 'otherwise_code': code})
+    fields['nodes'] = array(obj({'name': symbol,
+        'kind': {'type': 'string', 'enum': ['expression', 'connector']}, 'code': code}))
+    # Generate executable rules before optional witness tables. The order is
+    # part of dispatch identity, not a change to dependency or coverage rules.
+    order = ('scopes', 'clauses', 'rule_residuals', 'observations', 'bindings', 'nodes', 'query')
+    schema['properties'] = {key: fields[key] for key in order}
+    schema['required'] = list(order)
+    return schema
 
 
-def decode_compiler_response(response):
+def decode_compiler_response(response, source, library=None):
     from .wire_validation import validate_wire
-    validate_wire(response, compiler_response_schema())
-    return parse_source_code(response['code'])
+    validate_wire(response, compiler_response_schema(source, library))
+    parser = _Parser(ast.Module(body=[], type_ignores=[]))
+    parser.reserved.update(row['name'] for field in FIELDS[:-1] for row in response[field])
+    # Lifted graph temporaries must not capture an undeclared name referenced
+    # by the native query or a later expression/slot-parameter string.
+    parser.reserved.update(re.findall(r'\b_inline_[0-9]+\b', repr(response)))
+    for field in ('bindings', 'observations', 'rule_residuals'):
+        parser.program[field] = deepcopy(response[field])
+
+    def fragment(code, path, connector_name=None):
+        try:
+            try:
+                tree = ast.parse(code, mode='eval')
+            except (SyntaxError, ValueError, RecursionError) as exc:
+                raise SourceCodeError('Invalid expression: ' + str(exc), [{
+                    'path': path, 'line': getattr(exc, 'lineno', None),
+                    'column': getattr(exc, 'offset', None),
+                    'expected': 'one syntactically valid restricted expression',
+                    'actual': getattr(exc, 'msg', str(exc))}]) from exc
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Name):
+                    parser.reserved.add(node.id)
+                if _call_name(node) in PRIMITIVES | {'observation', 'residual', 'scope', 'clause'}:
+                    _fail(node, 'Declare typed inputs, observations, residuals, scopes and clauses in their schema fields')
+            if connector_name is not None:
+                return parser.connector(connector_name, tree.body)
+            return parser.expression(tree.body)
+        except SourceCodeError as exc:
+            for diagnostic in exc.diagnostics:
+                diagnostic['path'] = path
+            raise SourceCodeError(path + ': ' + str(exc), exc.diagnostics) from exc
+
+    for index, row in enumerate(response['nodes']):
+        path = f'nodes[{index}].code'
+        if row['kind'] == 'connector':
+            fragment(row['code'], path, row['name'])
+        else:
+            body = fragment(row['code'], path)
+            parser.program['nodes'].append({'name': row['name'], 'kind': 'expression', 'body': body})
+    for field, code_fields in (('scopes', ('condition',)), ('clauses', ('value', 'otherwise'))):
+        for index, row in enumerate(response[field]):
+            lowered = {key: deepcopy(value) for key, value in row.items() if not key.endswith('_code')}
+            for key in code_fields:
+                lowered[key] = fragment(row[key + '_code'], f'{field}[{index}].{key}_code')
+            parser.program[field].append(lowered)
+    parser.program['query'] = deepcopy(response['query'])
+    return parser.program
+
+
+def encode_compiler_program(program):
+    """Render accepted declarations without changing their IR meaning."""
+    if set(program) != set(FIELDS):
+        raise SourceCodeError('Expected the seven internal source IR fields')
+    result = {field: deepcopy(program[field]) for field in ('bindings', 'observations', 'rule_residuals')}
+    result['nodes'] = [{'name': row['name'], 'kind': row['kind'], 'code': _node_code(row)}
+                       for row in program['nodes']]
+    for field, code_fields in (('scopes', ('condition',)), ('clauses', ('value', 'otherwise'))):
+        result[field] = []
+        for row in program[field]:
+            rendered = {key: deepcopy(value) for key, value in row.items() if key not in code_fields}
+            rendered.update({key + '_code': _render_expression(row[key]) for key in code_fields})
+            result[field].append(rendered)
+    result['query'] = deepcopy(program['query'])
+    return {field: result[field] for field in
+            ('scopes', 'clauses', 'rule_residuals', 'observations', 'bindings', 'nodes', 'query')}
 
 
 class SourceCodeError(Unsupported):
@@ -302,6 +386,18 @@ def _render_graph(graph):
     return graph['op'] + '(' + ', '.join(arguments) + ')'
 
 
+def _node_code(row):
+    if row['kind'] == 'expression':
+        return _render_expression(row['body'])
+    if row['kind'] != 'connector':
+        raise SourceCodeError('Unknown internal node kind')
+    body = row['body']
+    value = _render_graph(body['graph'])
+    if body['project'] != 'identity' or 'slot' in body['graph']:
+        value = body['project'] + '(' + value + ')'
+    return value
+
+
 def render_source_code(program):
     """Render accepted internal IR for deterministic, semantics-free round trips."""
     if set(program) != set(FIELDS):
@@ -316,16 +412,7 @@ def render_source_code(program):
         for row in program[field]:
             lines.append(row['name'] + ' = ' + function + '(' + ', '.join(key + '=' + repr(row[key]) for key in keys) + ')')
     for row in program['nodes']:
-        if row['kind'] == 'expression':
-            value = _render_expression(row['body'])
-        elif row['kind'] == 'connector':
-            body = row['body']
-            value = _render_graph(body['graph'])
-            if body['project'] != 'identity' or 'slot' in body['graph']:
-                value = body['project'] + '(' + value + ')'
-        else:
-            raise SourceCodeError('Unknown internal node kind')
-        lines.append(row['name'] + ' = ' + value)
+        lines.append(row['name'] + ' = ' + _node_code(row))
     for row in program['scopes']:
         lines.append(row['name'] + ' = scope(source=' + repr(row['source']) + ', condition=' + _render_expression(row['condition']) + ')')
     for row in program['clauses']:

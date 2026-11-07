@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "request_sha256": "4e5e4478dd5fc8ddb4dfd6789ee21b324bfdab27462fb24fb56d7e7f87868824",
+  "response_sha256": "8f13c198e2faa05f74ed7824ecb9f3eae545f86c2ebd999bbd52a987cd3bf1b8",
+  "model": "gpt-5.6-sol",
+  "purpose": "method_train_compile",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "The only observed source-grounded pattern is the existing library pattern. No additional RuleArena_Airline pattern is supported: all 16 records have invalid_IR, translation_unresolved, typed_inputs_unavailable, and null refinement/pattern values."
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-07T11:57:26.544589+00:00",
+    "finished_at": "2026-11-07T11:57:48.442606+00:00",
+    "elapsed_seconds": 21.898,
+    "returncode": 0,
+    "event_log_sha256": "49e09a50f7e045a1fad7f70a613641847c748ea8588db1e8b9348fe4902bb020",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 15735,
+      "cached_input_tokens": 0,
+      "output_tokens": 352,
+      "reasoning_output_tokens": 221
+    },
+    "estimated_credits": null
+  }
+}

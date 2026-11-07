@@ -95,12 +95,15 @@ def prepare_followup(compiled,observed=None,*,compilation,tokenize,request_confi
             payload['units']=[u for u in payload['units'] if u['id'] in closure]
             payload['selected_residual_units']=sorted(selected)
             payload['context_closure']=list(key)
-            system+=(' Return an envelope with program holding {code:STRING} for the complete declarative program and '
+            system+=(' Return an envelope with program holding the complete seven-field structured program and '
                 'factual_observations holding exactly the requested fact rows. Preserve unchanged '
                 'primitive names/quotes and accepted definitions. Translate the selected rule residuals; '
                 'do not guess truth values for legal subexpressions. Unknown facts remain null.')
-            schema=obj({'program':compiler_response_schema(),
+            schema=obj({'program':compiler_response_schema(compiled['source'],library),
                 'factual_observations':factual_schema['properties']['observations']})
+            # JSON pointers are rooted at the whole response, including when
+            # the program is nested in the joint translation/facts envelope.
+            schema['$defs']=schema['properties']['program'].pop('$defs')
             if not names:schema['properties']['factual_observations']={'type':'array','maxItems':0,'items':{'type':'null'}}
             messages=[{'role':'system','content':system},{'role':'user','content':json.dumps(payload,ensure_ascii=False)}]
             kind='joint_rule_translation_and_facts'
@@ -138,7 +141,7 @@ def prepare_followup(compiled,observed=None,*,compilation,tokenize,request_confi
 def accept_followup(compiled,prepared,response,observed=None,*,library=None):
     validate_wire(response,prepared['schema']);observed=observed or {}
     if prepared['kind']=='joint_rule_translation_and_facts':
-        updated=compile_source(compiled['source'],decode_compiler_response(response['program']),library=library)
+        updated=compile_source(compiled['source'],decode_compiler_response(response['program'],compiled['source'],library),library=library)
         for name in set(observed)|set(prepared['names']):
             if updated['observations'].get(name)!=compiled['observations'][name]:
                 raise Unsupported('Changed primitive meaning cannot inherit an earlier/requested observation')

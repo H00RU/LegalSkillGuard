@@ -62,11 +62,11 @@ def test_long_rejected_candidate_can_be_omitted_while_complete_source_and_specif
     source,program=value['source'],value['canonical_program']
     def measured(messages,*,thinking):
         payload=json.loads(messages[1]['content'])
-        return {'count':500 if payload['accepted_program_code'] is not None else 100}
+        return {'count':500 if payload['accepted_program'] is not None else 100}
     messages,_,action=_compiler_request(source,None,ARMS['M11'],program,{'type':'IRTypeError','message':'bad Boolean guard'},
         measured,{'context_tokens':300,'max_tokens':0},False)
     payload=json.loads(messages[1]['content'])
-    assert payload['accepted_program_code'] is None and 'previous_candidate' not in payload
+    assert payload['accepted_program'] is None and 'previous_candidate' not in payload
     assert payload['validation_feedback']['previous_error']['type']=='IRTypeError'
     assert len(payload['units'])==len(inspect_source(source).ledger.clauses)
     assert action['raw_candidate_preserved_in_prior_wire']

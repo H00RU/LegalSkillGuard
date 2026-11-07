@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "request_sha256": "e2d4548b96cfcc4fc7fcfb657ca57d2fc4f293cca2df1fb28b00f5b009968bd0",
+  "response_sha256": "57a3c88b0a26639ec783e4afc0da31491b5ff66f22fecb70327080f548bfe8c9",
+  "model": "gpt-5.6-sol",
+  "purpose": "method_train_compile",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "One observed source-grounded pattern is present in both the training records and the library. It is supported by observed ProofWriter_OWA_depth5 collisions; no universal semantic-equivalence claim is made. Records with invalid_IR, translation_unresolved, unavailable typed inputs, or no counterfactual oracle contribute no verified pattern."
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-07T11:22:32.827151+00:00",
+    "finished_at": "2026-11-07T11:22:58.673191+00:00",
+    "elapsed_seconds": 25.846,
+    "returncode": 0,
+    "event_log_sha256": "67941131264c84f64f9f6af2a680e5683192bc9aebf93ff4550c4e393dec8f3c",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 16050,
+      "cached_input_tokens": 0,
+      "output_tokens": 198,
+      "reasoning_output_tokens": 51
+    },
+    "estimated_credits": null
+  }
+}

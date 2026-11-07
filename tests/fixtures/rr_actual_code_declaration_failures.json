@@ -1,0 +1,70 @@
+{
+  "scope": "Actual complete paid code-only outputs; no target labels, semantic completion or model calls. Current metadata checks reject the recorded provenance errors.",
+  "records": [
+    {
+      "source": "SARA_v2_Binary:8175fcb9abeb3ba15e5b58a33f9b479944ee37eab0c0cfa9557393b5193ece97",
+      "step": 0,
+      "raw_content": "{\"code\": \"s55 = observation(entity='s55', entity_source='SARA_v2_Binary:8175fcb9abeb3ba15e5b58a33f9b479944ee37eab0c0cfa9557393b5193ece97', predicate='In 2017, Alice was paid $33200. Alice and Bob have been married since Feb 3rd, 2017. Bob is allowed an itemized deduction of $4324. Alice and Bob file separate returns.', predicate_source='s55'); s56 = clause(sources=['s55'], value='True', otherwise='False'); query = s56\"}",
+      "raw_sha256": "f7e9ee1c0b13ee7c921b3d19b8e95e008cf43424efb21fde0625209c60e9c84a",
+      "field_path": [
+        "observations",
+        0,
+        "entity_source"
+      ],
+      "failure": "'SARA_v2_Binary:8175fcb9abeb3ba15e5b58a33f9b479944ee37eab0c0cfa9557393b5193ece97' does not match '^s55$'",
+      "origin_run": "method_runtime_code_v1_20261107"
+    },
+    {
+      "source": "RuleArena_Airline:92d91f15d181b5cdd9aedcaaa188e357186216ad80ed0937918e585c673f5fc3",
+      "step": 0,
+      "raw_content": "{\"code\": \"b_name = observation(entity='David', entity_source='s155', predicate='baggage', predicate_source='s155'); b_name2 = observation(entity='backpack', entity_source='s156', predicate='size', predicate_source='s156'); b_name3 = observation(entity='backpack', entity_source='s156', predicate='weight', predicate_source='s156'); b_name4 = observation(entity='luggage box', entity_source='s157', predicate='size', predicate_source='s157'); b_name5 = observation(entity='luggage box', entity_source='s157', predicate='weight', predicate_source='s157'); b_name6 = observation(entity='backpack', entity_source='s158', predicate='size', predicate_source='s158'); b_name7 = observation(entity='backpack', entity_source='s158', predicate='weight', predicate_source='s158'); b_name8 = observation(entity='backpack', entity_source='s159', predicate='size', predicate_source='s159'); b_name9 = observation(entity='backpack', entity_source='s159', predicate='weight', predicate_source='s159'); b_name10 = observation(entity='backpack', entity_source='s160', predicate='size', predicate_source='s160'); b_name11 = observation(entity='backpack', entity_source='s160', predicate='weight', predicate_source='s160'); b_name12 = observation(entity='backpack', entity_source='s161', predicate='size', predicate_source='s161'); b_name13 = observation(entity='backpack', entity_source='s161', predicate='weight', predicate_source='s161'); b_name14 = observation(entity='luggage box', entity_source='s162', predicate='size', predicate_source='s162'); b_name15 = observation(entity='luggage box', entity_source='s162', predicate='weight', predicate_source='s162'); b_name16 = observation(entity='luggage box', entity_source='s163', predicate='size', predicate_source='s163'); b_name17 = observation(entity='luggage box', entity_source='s163', predicate='weight', predicate_source='s163'); b_name18 = observation(entity='backpack', entity_source='s164', predicate='size', predicate_source='s164'); b_name19 = observation(entity='backpack', entity_source='s164', predicate='weight', predicate_source='s164'); b_name20 = observation(entity='backpack', entity_source='s165', predicate='size', predicate_source='s165'); b_name21 = observation(entity='backpack', entity_source='s165', predicate='weight', predicate_source='s165'); b_name22 = observation(entity='backpack', entity_source='s166', predicate='size', predicate_source='s166'); b_name23 = observation(entity='backpack', entity_source='s166', predicate='weight', predicate_source='s166'); query = 0\"}",
+      "raw_sha256": "a8b5d96f01d7f7d8274bb3c2d9819ec7a80d2a9b701f1bb84a8dee28a48ffc34",
+      "field_path": [
+        "observations",
+        0,
+        "predicate_source"
+      ],
+      "failure": "No schema union alternative accepts this value",
+      "origin_run": "method_runtime_code_v1_20261107"
+    },
+    {
+      "source": "SARA_v2_Binary:5c29a3a22f755d6a6253919de3327553f029a75827c72238547ebb6701b5ace7",
+      "step": 0,
+      "raw_content": "{\"code\": \"b_name = observation(entity='Alice', entity_source='s42', predicate='has a son', predicate_source='s42'); b_name2 = observation(entity='Bob', entity_source='s42', predicate='lived in the same home', predicate_source='s42'); b_name3 = observation(entity='Bob', entity_source='s42', predicate='married', predicate_source='s42'); b_name4 = observation(entity='Bob', entity_source='s42', predicate='bears a relationship', predicate_source='s42'); b_name5 = observation(entity='Bob', entity_source='s43', predicate='is a qualifying child', predicate_source='s43'); query = b_name5\"}",
+      "raw_sha256": "ed1a6faddbaa5f8d9ff3393f5927a6005236343b4a9931142b34ab7637fc2ef9",
+      "field_path": [
+        "observations",
+        0,
+        "predicate_source"
+      ],
+      "failure": "No schema union alternative accepts this value",
+      "origin_run": "method_runtime_code_v1_20261107"
+    },
+    {
+      "source": "RuleArena_Airline:0c00a88cdde7ed4f859d9e34869aceab7da4242d3b7aea07d8797388f27fc564",
+      "step": 1,
+      "raw_content": "{\"code\": \"b_name = observation(entity='James', entity_source='s155', predicate='baggage', predicate_source='s155'); b_name2 = observation(entity='backpack', entity_source='s156', predicate='size', predicate_source='s156'); b_name3 = observation(entity='luggage box', entity_source='s157', predicate='size', predicate_source='s157'); b_name4 = observation(entity='luggage box', entity_source='s158', predicate='size', predicate_source='s158'); b_name5 = observation(entity='backpack', entity_source='s159', predicate='size', predicate_source='s159'); b_name6 = observation(entity='backpack', entity_source='s160', predicate='size', predicate_source='s160'); b_name7 = observation(entity='luggage box', entity_source='s161', predicate='size', predicate_source='s161'); b_name8 = observation(entity='luggage box', entity_source='s162', predicate='size', predicate_source='s162'); b_name9 = observation(entity='luggage box', entity_source='s163', predicate='size', predicate_source='s163'); b_name10 = observation(entity='luggage box', entity_source='s164', predicate='size', predicate_source='s164'); b_name11 = observation(entity='backpack', entity_source='s165', predicate='size', predicate_source='s165'); b_name12 = observation(entity='luggage box', entity_source='s166', predicate='size', predicate_source='s166'); query = 0\"}",
+      "raw_sha256": "c7ca37762601a2af3938a837872993630e03f9ac7e28867f3fb6498b24c88fbf",
+      "field_path": [
+        "observations",
+        0,
+        "predicate_source"
+      ],
+      "failure": "No schema union alternative accepts this value",
+      "origin_run": "method_runtime_code_v1_20261107"
+    },
+    {
+      "source": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+      "step": 1,
+      "raw_content": "{\"code\": \"b_name = observation(entity='William', entity_source='s155', predicate='baggage', predicate_source='s155'); b_name2 = observation(entity='William', entity_source='s155', predicate='ticket', predicate_source='s155'); b_name3 = observation(entity='backpack', entity_source='s156', predicate='size', predicate_source='s156'); b_name4 = observation(entity='backpack', entity_source='s156', predicate='weight', predicate_source='s156'); b_name5 = observation(entity='backpack', entity_source='s157', predicate='size', predicate_source='s157'); b_name6 = observation(entity='backpack', entity_source='s157', predicate='weight', predicate_source='s157'); b_name7 = observation(entity='luggage_box', entity_source='s158', predicate='size', predicate_source='s158'); b_name8 = observation(entity='luggage_box', entity_source='s158', predicate='weight', predicate_source='s158'); b_name9 = observation(entity='luggage_box', entity_source='s159', predicate='size', predicate_source='s159'); b_name10 = observation(entity='luggage_box', entity_source='s159', predicate='weight', predicate_source='s159'); b_name11 = observation(entity='backpack', entity_source='s160', predicate='size', predicate_source='s160'); b_name12 = observation(entity='backpack', entity_source='s160', predicate='weight', predicate_source='s160'); b_name13 = observation(entity='luggage_box', entity_source='s161', predicate='size', predicate_source='s161'); b_name14 = observation(entity='luggage_box', entity_source='s161', predicate='weight', predicate_source='s161'); b_name15 = observation(entity='luggage_box', entity_source='s162', predicate='size', predicate_source='s162'); b_name16 = observation(entity='luggage_box', entity_source='s162', predicate='weight', predicate_source='s162'); b_name17 = observation(entity='luggage_box', entity_source='s163', predicate='size', predicate_source='s163'); b_name18 = observation(entity='luggage_box', entity_source='s163', predicate='weight', predicate_source='s163'); b_name19 = observation(entity='backpack', entity_source='s164', predicate='size', predicate_source='s164'); b_name20 = observation(entity='backpack', entity_source='s164', predicate='weight', predicate_source='s164'); b_name21 = observation(entity='luggage_box', entity_source='s165', predicate='size', predicate_source='s165'); b_name22 = observation(entity='luggage_box', entity_source='s165', predicate='weight', predicate_source='s165'); b_name23 = observation(entity='luggage_box', entity_source='s166', predicate='size', predicate_source='s166'); b_name24 = observation(entity='luggage_box', entity_source='s166', predicate='weight', predicate_source='s166'); b_name25 = observation(entity='ticket', entity_source='s167', predicate='price', predicate_source='s167'); query = b_name25\"}",
+      "raw_sha256": "61512f7eae1637e847107ead23328cc4584ec0c380dcdd2504422f27ca5d41f8",
+      "field_path": [
+        "observations",
+        0,
+        "predicate_source"
+      ],
+      "failure": "No schema union alternative accepts this value",
+      "origin_run": "method_runtime_code_v1_20261107"
+    }
+  ]
+}

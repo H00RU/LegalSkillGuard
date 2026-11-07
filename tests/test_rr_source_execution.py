@@ -10,7 +10,7 @@ from legal_skill_guard.inference.codex_cli_client import strict_output_schema_is
 from legal_skill_guard.rr.coverage import Unsupported,digest
 from legal_skill_guard.rr.source_execution import accept_followup,assess_source,exact_native,prepare_followup
 from legal_skill_guard.rr.source_program import compile_source,observation_request
-from legal_skill_guard.rr.source_code import render_source_code,parse_source_code
+from legal_skill_guard.rr.source_code import encode_compiler_program,decode_compiler_response
 from legal_skill_guard.rr.wire_validation import validate_wire
 
 
@@ -52,11 +52,11 @@ def test_full_policy_reads_all_residuals_and_keeps_legal_truth_outside_fact_obse
     assert not set(request['names'])&set(compiled['rule_residuals'])
     payload=json.loads(request['messages'][1]['content'])
     assert 'public_task' not in payload
-    assert parse_source_code(payload['accepted_program_code']) == compiled['program']
+    assert decode_compiler_response(payload['accepted_program'],compiled['source']) == compiled['program']
     assert 'previous_candidate' not in payload
     assert {u['id'] for u in payload['units']}==set(request['context_closure'])
     assert strict_output_schema_issues(request['schema'])==[]
-    response={'program':{'code':render_source_code(compiled['program'])},'factual_observations':[
+    response={'program':encode_compiler_program(compiled['program']),'factual_observations':[
         {'name':name,'value':None,'evidence':''} for name in request['names']]}
     validate_wire(response,request['schema'])
     updated,observed=accept_followup(compiled,request,response)
@@ -76,7 +76,7 @@ def test_fixed_batch_is_distinct_and_does_not_send_s5_legal_truth_to_the_observe
     assert request['selection_basis']=='generic_fixed_one_unit'
     assert request['selected']==['s5'] and request['kind']=='joint_rule_translation_and_facts'
     assert request['names']==[] and request['schema']['properties']['factual_observations']['maxItems']==0
-    response={'program':{'code':render_source_code(compiled['program'])},'factual_observations':[]}
+    response={'program':encode_compiler_program(compiled['program']),'factual_observations':[]}
     validate_wire(response,request['schema'])
     assert strict_output_schema_issues(request['schema'])==[]
     updated,observed=accept_followup(compiled,request,response)
@@ -88,7 +88,7 @@ def test_joint_retranslation_cannot_attach_cached_fact_truth_to_a_changed_entity
     request=prepare(compiled,policy='full',observed=observed)
     program=deepcopy(compiled['program'])
     next(o for o in program['observations'] if o['name']=='b_legally_separated')['entity']='Bob'
-    response={'program':{'code':render_source_code(program)},'factual_observations':[
+    response={'program':encode_compiler_program(program),'factual_observations':[
         {'name':name,'value':None,'evidence':''} for name in request['names']]}
     with pytest.raises(Unsupported,match='Changed primitive meaning'):
         accept_followup(compiled,request,response,observed)

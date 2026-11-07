@@ -1,0 +1,72 @@
+{
+  "checked_utc": "2026-11-07T12:40:39.691825+00:00",
+  "run_id": "executor_compiler_contract_v1_20261107",
+  "source": "SARA_v2_Binary:743ac2e5258037a15b0e3549f47db2e50d051ec4449a3493120048fee188a814",
+  "wire_body_sha256": "3de70709c4ff10e8365b86ee02d6e4103990c314dbc92e13cf889a24183bca07",
+  "actual_HTTP_payload_equals_sealed_messages_fresh_schema_and_locked_sampler": true,
+  "schema_serialization_order_matches_seal": true,
+  "all_original_public_units_preserved": true,
+  "thinking_requested": false,
+  "reasoning_content_present": false,
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 3466,
+    "total_tokens": 3832,
+    "completion_tokens": 366,
+    "prompt_tokens_details": null
+  },
+  "elapsed_seconds": 27.03229216579348,
+  "incremental_executor_API_cash_usd": 0,
+  "executor_GPU_allocation_cost_usd": null,
+  "raw_content_sha256": "95f6eede2b81f7dca2f9f75a1c92932f994f3f3eb76bdb154f46fab0b9081ba9",
+  "strict_metadata_passed": true,
+  "source_only_validation_feedback": {
+    "issues": [
+      {
+        "path": "rule_residuals[0].name",
+        "expected": "unique symbol name",
+        "actual": {
+          "name": "b_NAME",
+          "first_path": "observations[0].name"
+        }
+      },
+      {
+        "path": "observations[0].predicate",
+        "expected": "exact substring of cited source",
+        "actual": "married"
+      },
+      {
+        "path": "rule_residuals[0].quote",
+        "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+        "actual": "the determination of whether an individual is married shall be made as of the close of his taxable year"
+      },
+      {
+        "path": "clauses[0].value.args[0]",
+        "expected": "boolean",
+        "actual": [
+          "array"
+        ]
+      }
+    ],
+    "source_only": true,
+    "grading_information_used": false,
+    "candidate_modified": false,
+    "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions."
+  },
+  "result_status": "component_probe_unresolved",
+  "error_type": "ValidationError",
+  "error_path": [
+    "clauses",
+    0,
+    "value"
+  ],
+  "type_execution_or_semantic_success": false,
+  "ledger_counts": {
+    "executor": 687,
+    "teacher": 21
+  },
+  "pending": 0,
+  "new_model_or_oracle_calls": 0,
+  "test_labels_read": false,
+  "full_goal_complete": false
+}

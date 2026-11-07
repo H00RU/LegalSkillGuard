@@ -49,7 +49,7 @@ def language_contract(dataset, *, literal_text=None):
                  'params_schema':item['properties']['params']}
                 for item in definitions['connector']['anyOf'] if 'op' in item.get('properties',{})]
     return {
-        'primitive_declaration': 'name = TYPE(VALUE, sources=[UNIT_IDS]); VALUE follows the corresponding binding_value_schema. No initial bindings array is required. Declare only inputs actually used by the rule program.',
+        'primitive_declaration': 'bindings contains {name,type,sources:[UNIT_IDS],value}; value follows binding_value_schema. No declarations or typed input constructors are allowed inside expression strings. Declare only inputs actually used by the rule program.',
         'binding_value_schemas':values,
         'binding_semantics':{
             'integer_rational_scalar':'Exact public inputs only; derived quantities and legal conclusions belong in expression nodes. Amount or relation objects are not expression numbers or Booleans.',

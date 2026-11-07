@@ -1,0 +1,91 @@
+.................................................................F...... [ 15%]
+.................................................F...................... [ 30%]
+........................................................................ [ 45%]
+........................................................................ [ 61%]
+........................................................................ [ 76%]
+.....................................................................F.. [ 91%]
+......................................                                   [100%]
+=================================== FAILURES ===================================
+_ test_long_rejected_candidate_can_be_omitted_while_complete_source_and_specific_errors_stay _
+
+    def test_long_rejected_candidate_can_be_omitted_while_complete_source_and_specific_errors_stay():
+        root=Path(__file__).resolve().parents[1]
+        value=json.loads((root/'tests/fixtures/rr_scope_v5_binding_projection.json').read_text())
+        source,program=value['source'],value['canonical_program']
+        def measured(messages,*,thinking):
+            payload=json.loads(messages[1]['content'])
+            return {'count':500 if payload['accepted_program_code'] is not None else 100}
+>       messages,_,action=_compiler_request(source,None,ARMS['M11'],program,{'type':'IRTypeError','message':'bad Boolean guard'},
+            measured,{'context_tokens':300,'max_tokens':0},False)
+
+tests/test_rr_compiler_input.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+legal_skill_guard/rr/source_inference.py:90: in _compiler_request
+    actual=tokenize(messages,thinking=thinking)['count'];limit=config['context_tokens']-config['max_tokens']
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+messages = [{'role': 'system', 'content': 'Compile the CURRENT public rule task into the seven-field structured program required ...id":"s11","role":"query","view":null,"text":"Section 7703(a)(2) applies to Alice for the year 2018.","context":[]}]}'}]
+thinking = False
+
+    def measured(messages,*,thinking):
+        payload=json.loads(messages[1]['content'])
+>       return {'count':500 if payload['accepted_program_code'] is not None else 100}
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'accepted_program_code'
+
+tests/test_rr_compiler_input.py:65: KeyError
+__ test_current_prompt_preserves_actual_units_and_removes_unrelated_semantics __
+
+    def test_current_prompt_preserves_actual_units_and_removes_unrelated_semantics():
+        fixture, sources = material()
+        for record in fixture['records']:
+            _, user = compiler_prompt(sources[record['source']])
+            payload = json.loads(user)
+            assert payload['units'] == record['old_units']
+            assert list(payload)[-1] == 'units'
+            assert 'format_only_example' not in payload
+>           assert payload['accepted_program_code'] is None and 'previous_candidate' not in payload
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'accepted_program_code'
+
+tests/test_rr_current_query_contract.py:42: KeyError
+__ test_current_schema_and_prompt_are_strict_and_have_no_native_answer_field ___
+
+    def test_current_schema_and_prompt_are_strict_and_have_no_native_answer_field():
+        source,_=case()
+        schema=program_schema(source)
+        assert strict_output_schema_issues(schema)==[]
+        assert 'answer' not in schema['properties']
+        system,user=compiler_prompt(source)
+>       assert 'you do not provide their truth values in code' in system
+E       AssertionError: assert 'you do not provide their truth values in code' in 'Compile the CURRENT public rule task into the seven-field structured program required by the response schema: scopes,...k is source-only compiler diagnosis, never target answers; repair concrete errors without coercion or invented rules. '
+
+tests/test_rr_source_program.py:93: AssertionError
+=============================== warnings summary ===============================
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-rr-v2/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:215: RuntimeWarning: Mean of empty slice
+    score_array[sample_index, :] = asset_score_array.mean(axis=0) # Sample-based scores
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-current/.venv/lib/python3.11/site-packages/numpy/_core/_methods.py:134: RuntimeWarning: invalid value encountered in divide
+    ret = um.true_divide(
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-rr-v2/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:246: RuntimeWarning: Mean of empty slice
+    score_array[sample_index, :] = np.nanmean(asset_score_array, axis=0) # Sample-based scores
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-rr-v2/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:248: RuntimeWarning: Mean of empty slice
+    precision, recall, f1, mare = np.nanmean(score_array, axis=0)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_rr_compiler_input.py::test_long_rejected_candidate_can_be_omitted_while_complete_source_and_specific_errors_stay
+FAILED tests/test_rr_current_query_contract.py::test_current_prompt_preserves_actual_units_and_removes_unrelated_semantics
+FAILED tests/test_rr_source_program.py::test_current_schema_and_prompt_are_strict_and_have_no_native_answer_field
+3 failed, 467 passed, 8 warnings in 115.88s (0:01:55)

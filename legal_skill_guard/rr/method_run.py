@@ -26,7 +26,7 @@ from .source_learning import DurableOracle
 from .strict_contract import obj
 
 
-OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v13.json'
+OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v16.json'
 
 
 def load_executor_lock(root,executor):
@@ -140,6 +140,26 @@ class MethodRun:
         # ON/OFF sweep after a compiler contract repair or certify the new one.
         return False
 
+    def paid_batch_summary(self,request,batch):
+        """Reuse only an identical, settled physical teacher request."""
+        with sqlite3.connect('file:'+str(self.root/self.seal['ledger_path'])+'?mode=ro',uri=True) as db:
+            rows=db.execute("select id,result from calls where role='teacher' and purpose='method_train_compile' "
+                "and status='completed' and id like ? order by reserved_at desc",(f'%:build:teacher:B{batch}:%',)).fetchall()
+        for call_id,encoded in rows:
+            origin=call_id.split(':build:teacher:',1)[0]
+            directory=self.stage.parent/origin/'build/calls'/digest(call_id)
+            saved=directory/'request.json';result_path=directory/'result.json'
+            if not saved.exists() or not result_path.exists():continue
+            if json.loads(saved.read_text())!=request:continue
+            response=json.loads(encoded)
+            if json.loads(result_path.read_text())!=response or response['source_ids']!=request['source_ids']:
+                raise ValueError('Paid teacher request/result provenance differs from the preserved ledger')
+            return {**response,'paid_response_origin':{'call_id':call_id,
+                'request_file_sha256':hashlib.sha256(saved.read_bytes()).hexdigest(),
+                'result_file_sha256':hashlib.sha256(result_path.read_bytes()).hexdigest(),
+                'identical_sources_config_prompts_and_schema':True,'new_physical_teacher_requests':0}}
+        return None
+
     def summarize(self,teacher,ledger,records,library,batch):
         path=self.stage/'build'/'teacher_batches'/f'B{batch}.json'
         source_ids=[r['source'] for r in records]
@@ -160,10 +180,14 @@ class MethodRun:
         response=None;errors=[]
         for attempt in range(2):
             try:
-                response=teacher.summarize(ledger.run_id+f':teacher:B{batch}:{attempt}',source_ids=source_ids,
-                    system_prompt='Summarize only observed source-grounded patterns. No tools. Do not invent verified laws, fields, labels or routing IDs. Encode each graph as a JSON string; unverified proposals remain unverified.',
-                    user_prompt=json.dumps({'common_training_records':common,'library':library.export(),
-                        'previous_transport_or_schema_errors':errors},ensure_ascii=False),output_schema=schema)
+                kwargs={'source_ids':source_ids,
+                    'system_prompt':'Summarize only observed source-grounded patterns. No tools. Do not invent verified laws, fields, labels or routing IDs. Encode each graph as a JSON string; unverified proposals remain unverified.',
+                    'user_prompt':json.dumps({'common_training_records':common,'library':library.export(),
+                        'previous_transport_or_schema_errors':errors},ensure_ascii=False),'output_schema':schema}
+                response=self.paid_batch_summary({'config':self.config['teacher'],
+                    'purpose':'method_train_compile',**kwargs},batch)
+                if response is None:
+                    response=teacher.summarize(ledger.run_id+f':teacher:B{batch}:{attempt}',**kwargs)
                 break
             except BudgetError:raise
             except Exception as exc:errors.append({'type':type(exc).__name__,'message':str(exc)})

@@ -1,0 +1,157 @@
+{
+  "checked_utc": "2026-11-07T12:31:11.336555+00:00",
+  "checks": [
+    {
+      "case": "actual_paid_translation",
+      "expected": true,
+      "byte_accepted": true,
+      "actual_Qwen_tokens_accepted": true,
+      "first_rejection": null,
+      "value_sha256": "201d5ceeeeb4c89db08ace143049fee64299173ee2db8ecab645d0e82e21a3de"
+    },
+    {
+      "case": "code_only_rejected",
+      "expected": false,
+      "byte_accepted": false,
+      "actual_Qwen_tokens_accepted": false,
+      "first_rejection": {
+        "index": 1,
+        "token_id": 1851,
+        "mask_allowed": false,
+        "matcher_accepted": false
+      },
+      "value_sha256": "e2e0fa53ad00b9a3a59e539bedd0616cbbf848310a8b85535501e0614e4d5059"
+    },
+    {
+      "case": "internal_IR_rejected",
+      "expected": false,
+      "byte_accepted": false,
+      "actual_Qwen_tokens_accepted": false,
+      "first_rejection": {
+        "index": 1,
+        "token_id": 65495,
+        "mask_allowed": false,
+        "matcher_accepted": false
+      },
+      "value_sha256": "64cc9fc4d3f1e01eb72b2775de7d9aa0489a5c0dc04324daa97469718d50731a"
+    },
+    {
+      "case": "side_answer_rejected",
+      "expected": false,
+      "byte_accepted": false,
+      "actual_Qwen_tokens_accepted": false,
+      "first_rejection": {
+        "index": 1201,
+        "token_id": 2137,
+        "mask_allowed": false,
+        "matcher_accepted": false
+      },
+      "value_sha256": "59bc4555c8582b4c97aedab3a082fa09f239be5f3211d5a4955af4670dae2220"
+    },
+    {
+      "case": "joint_translation_and_facts",
+      "expected": true,
+      "byte_accepted": true,
+      "actual_Qwen_tokens_accepted": true,
+      "first_rejection": null,
+      "value_sha256": "815d11e13fee8efde008cbbeb5e132e9a3db3828c91644eb0b6d3260f59c9f11"
+    },
+    {
+      "case": "joint_code_only_rejected",
+      "expected": false,
+      "byte_accepted": false,
+      "actual_Qwen_tokens_accepted": false,
+      "first_rejection": {
+        "index": 4,
+        "token_id": 1851,
+        "mask_allowed": false,
+        "matcher_accepted": false
+      },
+      "value_sha256": "f676c7dc1985c7eb88a5cfd153eb34e9d771e886a706716b3a265da1eb089e09"
+    },
+    {
+      "case": "Boolean_native_query",
+      "expected": false,
+      "byte_accepted": false,
+      "actual_Qwen_tokens_accepted": false,
+      "first_rejection": {
+        "index": 1172,
+        "token_id": 830,
+        "mask_allowed": false,
+        "matcher_accepted": false
+      },
+      "value_sha256": "eedda949f8026dcd8b31903c6ffdcd68710d15fe5811d3f9c6da86ec31c0a418"
+    },
+    {
+      "case": "observation_bad_name",
+      "expected": false,
+      "byte_accepted": false,
+      "actual_Qwen_tokens_accepted": false,
+      "first_rejection": {
+        "index": 444,
+        "token_id": 82,
+        "mask_allowed": false,
+        "matcher_accepted": false
+      },
+      "value_sha256": "6ccf5a7c8c252a942d45bf6495bcdc9e7349244e8cb2a14c9bb4bd04401a98dc"
+    },
+    {
+      "case": "fact_source_is_rule",
+      "expected": false,
+      "byte_accepted": false,
+      "actual_Qwen_tokens_accepted": false,
+      "first_rejection": {
+        "index": 467,
+        "token_id": 15,
+        "mask_allowed": false,
+        "matcher_accepted": false
+      },
+      "value_sha256": "d79bdccfd9c7e1c3800e137ad01695aa2b596daa77085ea4da4f7fad1c2db604"
+    },
+    {
+      "case": "rule_source_is_fact",
+      "expected": false,
+      "byte_accepted": false,
+      "actual_Qwen_tokens_accepted": false,
+      "first_rejection": {
+        "index": 489,
+        "token_id": 15,
+        "mask_allowed": false,
+        "matcher_accepted": false
+      },
+      "value_sha256": "732db2582609090d817a4946d4f1625387ecec40d41aee208d00bf97e6fcbd93"
+    },
+    {
+      "case": "scope_source_is_fact",
+      "expected": false,
+      "byte_accepted": false,
+      "actual_Qwen_tokens_accepted": false,
+      "first_rejection": {
+        "index": 21,
+        "token_id": 15,
+        "mask_allowed": false,
+        "matcher_accepted": false
+      },
+      "value_sha256": "2df23873abfd96b12683688aaa881c1a7de36a4cdff244c1244bd725e19500eb"
+    },
+    {
+      "case": "binding_full_task_id",
+      "expected": false,
+      "byte_accepted": false,
+      "actual_Qwen_tokens_accepted": false,
+      "first_rejection": {
+        "index": 840,
+        "token_id": 50,
+        "mask_allowed": false,
+        "matcher_accepted": false
+      },
+      "value_sha256": "08998042ef3d4d6c3d3187eefb23ffb6de1613c3a5834a2daaea478ac260672f"
+    }
+  ],
+  "xgrammar_version": "0.1.23",
+  "network_blocked": true,
+  "new_model_calls": 0,
+  "new_oracle_views": 0,
+  "model_weights_loaded": false,
+  "interpretation": "Generation metadata/native-query syntax only; expression syntax, full source IR and semantic checks remain mandatory."
+}

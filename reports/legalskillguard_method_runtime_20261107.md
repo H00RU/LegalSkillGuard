@@ -1,9 +1,27 @@
 # LegalSkillGuard 主方法与开发验证
 
 <!-- current_live_status -->
-Current snapshot: Goal active and incomplete. The original fixed20 paired validation has completed all40 profiles with zero accepted core programs. OFF is locked. The declarative frontend, follow-up and recovery paths are integrated; the coherent original fixed128/8-batch build is running. The two code probes remain failed and are preserved; offline checks and ordinary model errors are reported separately. The first16-source B1 and same-material MB checkpoint is saved and verified. Controlled Horn recovery is reported as fallback, never primary model-IR success. The full build and six-arm DEV remain incomplete. No TEST or paper work has started. Read the dated evidence below; offline checks and compatible paid-response replay are not core semantic success.
+Current snapshot: Goal active and incomplete. The previous code-v1 build was stopped and preserved at69 committed sources with zero accepted model-IR programs. The repaired wire constrains typed declaration metadata and compact expressions; two real probes passed metadata but failed expression/IR checks. Thinking remains OFF. Current run: method_runtime_typed_v1_20261107, 0/128 sources committed; the original coherent fixed128/8-batch build and six-arm DEV remain incomplete. Current runtime passed479 offline checks and12 installed backend checks. Teacher responses are reused only for identical batch sources, configuration, prompts and schema, with physical origins retained. Fallback and reused teacher material do not establish core A/B success. No TEST or paper work has started.
 <!-- /current_live_status -->
 
+
+## 严格声明字段与短表达式的定点修复
+
+原code-v1建库已在所有物理请求结算后安全停止，69来源已提交，另一个来源的已付费首响应和恢复journal仍完整保留；累计686E/21T、pending0。3747个绑定文件及整个运行目录已备份，哈希见[封存收据](rr_method_runtime_20261107/source_code_v1_preservation.json)，原始响应、账本及冻结库不改写。此停点用于具体生成契约修复，Goal保持active；不恢复旧控制器，也不把其前缀拼入另一科学版本。
+
+前69来源的138条响应中，133条没有完整可解析的声明式IR，5条即使仅作可逆变量重命名仍有事实/规则来源错误。旧wire只约束单个代码字符串，声明字段与来源角色依赖生成后检查。当前接口重新使用实际SourceIR的类型、事实/规则ID、b_命名和原生查询schema约束元数据，仅局部计算使用短表达式字符串。表达式不执行Python，禁止在字符串中绕过声明字段构造输入/规则；原内部IR、A/B算法、所有分支类型、源文见证、scope和完成检查不变。[前后归因与证据](rr_method_runtime_20261107/compiler_contract_v1_before_after.json)区分契约薄弱点、实际模型错误及尚缺真实验证，未把此次修复认作所有失败的唯一解释。
+
+五条真实完整失败响应已按原始字节和SHA保存为回归；不会补造缺失语义。付费SARA程序的IR、完整理论哈希及A选择s10的离线结果保持一致。联合响应中的根schema引用位置已修正；初次回归中的旧提示字段/措辞断言也已同步，失败日志保留。原128来源的输入最大21810≤24576，无裁剪源文。新契约已通过[471项完整禁网络回归](rr_method_runtime_20261107/offline_method_run_v14.json)（8项既有警告）、[12项实际XGrammar/Qwen token约束检查](rr_method_runtime_20261107/compiler_contract_backend_v1.json)；自动节点名捕获未声明查询变量的问题已复现修正，原A选批及理论哈希不变。接着使用既定OFF及原采样配置开展独立executor验证；截至此离线节点没有新增调用，也没有新主路径成功或DEV成绩。此修复不改变研究方向、样本或验收口径。
+
+## 新契约两次真实验证与统一版本接续
+
+新契约两条独立executor响应均正常stop，输出分别366和498 token，未触及8192上限；实际HTTP正文与封存提示、来源、schema顺序及锁定OFF采样一致，原始公开units完整保留。两条声明元数据均通过，但第一条在布尔列表操作数处被IR schema拒绝，还存在重复名称、非原文谓词和整规则残余；第二条在nodes[0].code使用字符串下标，被受限解析器拒绝。[第一条实际wire和诊断](rr_method_runtime_20261107/executor_compiler_contract_v1_20261107_dispatch_diagnosis.json)、[第二条](rr_method_runtime_20261107/executor_compiler_contract_v2_20261107_dispatch_diagnosis.json)均保留，不补齐表达式，不把格式成功计主路径。没有执行、TRAIN语义匹配、A选批或B核心成功，也没有新增TEST/DEV来源。
+
+第一条真实错误已加入原始字节回归，并明确了现有all_of/any_of的独立布尔参数形式；对应472项完整禁网络检查通过，原128来源最大输入21840≤24576。第二条属于实际提示已禁止的表达式API误用；不再围绕这个样例反复调提示。接续同一固定模型配置的原128来源/8批建库，所有错误与回退作为实际结果保留，整体Goal仍未通过。
+
+为避免科学版本重建时重复支付完全相同的教师汇总，只在来源顺序、教师配置、系统/用户提示、schema映射全部相同，且原始请求/响应文件与已结算账本一致时复用；物理来源ID、原文件SHA和新增请求0写入新批次。缓存不导入未验证模式，当前库仍只接纳当前训练前缀已验证的模式；教师旧材料不替代当前executor核心机制验收。实际B1原文重放、任一字段改变不命中、记录篡改拒绝及控制器恢复共11项检查通过；[当前479项完整禁网络回归](rr_method_runtime_20261107/offline_method_run_v16.json)通过（8项既有警告），新生成契约及所有正确性检查未再改动。
+
+本次两条物理请求合计输入7139、输出864 token、请求耗时75.695秒，executor688/teacher21，pending0。局部executor增量API现金为0；GPU分摊、教师现金账单仍未知。原438请求、121条meta、130条oracle、1233个旧运行文件及4份旧冻结库保全核验通过，见[累计费用](rr_method_runtime_20261107/goal_cost_snapshot_20261107.json)。以上修复未改变研究方向、模型或验收标准；原完整建库、六臂DEV和核心机制/跨库证据仍待完成。
 
 ## 完整配对结论及当前接口修复
 
@@ -93,6 +111,18 @@ v4实际OFF响应以stop正常结束，输入3447、输出4753 token、耗时186
 [确定性命名适配检查](rr_method_runtime_20261107/method_runtime_code_v1_20261107_name_adaptation_check.json)覆盖前17来源的34条已付费输出：31条没有完整可解析的声明式IR，另外3条即使只作可逆的内部变量alpha重命名，仍在原语事实/规则来源字段被拒绝。源文引用、数值和规则表达式未修改，也未补齐截断输出、读取评分包或安装生产适配分支；当前没有仅靠命名规范化就能恢复的合格IR。因此不能把上游缺可执行输入写成已经完成了A或B的语义验证。
 
 此处是当前实际失败与验证覆盖的分类，不增加涨分、技能数量、全分支实测或零回退要求。原进程、预算账本和所有seal绑定文件保持，继续剩余原128来源、8批和原六臂DEV；主方法语义及整体Goal仍未通过。
+
+## B1阶段公开快照已独立核验
+
+[B1阶段报告快照](https://github.com/H00RU/LegalSkillGuard/blob/661b2e0256c4626e29f02d7624e2d40dd1abc427/reports/legalskillguard_method_runtime_20261107.md)已同步开发分支并独立抓取核验1908个清单文件、清单本身和2份核验收据，SHA256全部一致；[核验收据](https://github.com/H00RU/LegalSkillGuard/blob/b4260995292bbbb5f99f77dda3232d34733dc566/reports/rr_method_runtime_20261107/publication_verified.json)记录完整链，main仍为ae7e09230b4eb675b7299f73c4775787ccb2b65b。该快照保留原始失败、B1同材料核验及回退分类，不包含私有本地Git祖先。它是B1时点快照，之后建库持续运行；最新计数以顶部实际进程核验为准。发布没有调用模型，文件核验不等于核心机制或整体验收通过。
+
+## 前三批共同材料与教师记录核验
+
+[前三批核验](rr_method_runtime_20261107/method_runtime_code_v1_20261107_batch_material_verification.json)覆盖B1–B3、前48来源：每条源记录和每批库哈希均与保存的快照一致，6臂共同材料逐项相等，模式证据来源没有超出当时前缀。前三批教师分别成功汇总1次，记录模型均为gpt-5.6-sol，wrapper attempt为1、工具事件为False；接纳的模式哈希均来自当前已验证库，不将教师未验证提议当作新学习。
+
+这3条教师记录合计报告输入48446、输出620 token，reasoning字段178单列不叠加；estimated_credits和现金账单均未提供，不能换算或填成0费用。教师账本计数是已知CLI调用/包装层尝试；成功记录保存事件日志哈希而不含完整日志，不能仅凭该哈希独立重数提供方底层HTTP重试。这里保留计数可核验范围，不补造未知重试或费用，也不重置原账本。
+
+实际发送正文审计已扩至前51来源的102条请求，内容、原公开units、配置、OFF及输入token计数逐项匹配；命名适配检查同样覆盖102条，98条没有完整可解析IR，4条经只改内部名后仍被拒绝。当前核心输入生成的缺口持续记录，不能用回退中的58次存储图执行补作核心成功。该时点之后的进度以顶部真实进程和各审计时间戳为准；原建库继续。
 
 ## 当前阶段结论与证据分工
 

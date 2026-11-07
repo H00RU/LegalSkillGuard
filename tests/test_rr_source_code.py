@@ -12,7 +12,7 @@ from legal_skill_guard.rr.scoped_program import compile_query
 from legal_skill_guard.rr.source_bindings import decode_source_bindings
 from legal_skill_guard.rr.source_code import (
     GRAPHS, SourceCodeError, compiler_response_schema, decode_compiler_response,
-    parse_source_code, render_source_code,
+    parse_source_code, render_source_code, encode_compiler_program,
 )
 from legal_skill_guard.rr.source_execution import accept_followup, assess_source, prepare_followup
 from legal_skill_guard.rr.source_program import compile_source, source_theory
@@ -211,15 +211,18 @@ def test_unchosen_wrong_branch_still_fails_existing_all_branch_type_check():
         compile_query(ir['nodes'], ir['query'], {})
 
 
-def test_current_wire_is_strict_code_only_and_never_accepts_legacy_programs_or_side_answers():
+def test_current_wire_constrains_declarations_and_rejects_legacy_envelopes_or_side_answers():
     from jsonschema import ValidationError
     from legal_skill_guard.inference.codex_cli_client import strict_output_schema_issues
-    assert strict_output_schema_issues(compiler_response_schema()) == []
-    ir = program(7)
-    assert decode_compiler_response({'code':render_source_code(ir)}) == ir
-    for response in [ir, {'code':'query = 7','answer':7}, {'code':None}, {}]:
+    record = actual(); source = record['source']; ir = record['canonical_program']
+    schema = compiler_response_schema(source)
+    assert strict_output_schema_issues(schema) == []
+    encoded = encode_compiler_program(ir)
+    assert decode_compiler_response(encoded, source) == ir
+    assert list(schema['properties'])[:2] == ['scopes', 'clauses']
+    for response in [ir, {'code':render_source_code(ir)}, {**encoded, 'answer':7}, {}]:
         with pytest.raises(ValidationError):
-            decode_compiler_response(response)
+            decode_compiler_response(response, source)
 
 
 def test_actual_v1_code_failure_preserves_raw_bytes_and_precise_syntax_location():
@@ -229,7 +232,7 @@ def test_actual_v1_code_failure_preserves_raw_bytes_and_precise_syntax_location(
     assert hashlib.sha256(raw.encode()).hexdigest()==record['raw_content_sha256']
     assert record['finish_reason']=='stop' and record['usage']['completion_tokens']==74
     with pytest.raises(SourceCodeError) as caught:
-        decode_compiler_response(json.loads(raw))
+        parse_source_code(json.loads(raw)['code'])
     diagnostic=caught.value.diagnostics[0]
     assert diagnostic['line']==1 and diagnostic['column']>0
     assert diagnostic['expected']=='syntactically valid declarative assignments'

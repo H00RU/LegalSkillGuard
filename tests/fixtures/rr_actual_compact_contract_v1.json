@@ -1,0 +1,51 @@
+{
+  "call_id": "executor_compiler_contract_v1_20261107:compile",
+  "source": "SARA_v2_Binary:743ac2e5258037a15b0e3549f47db2e50d051ec4449a3493120048fee188a814",
+  "raw_content": "{\"scopes\": [{\"name\": \"s5\", \"source\": \"s5\", \"condition_code\": \"True\"}], \"clauses\": [{\"name\": \"s11\", \"sources\": [\"s1\", \"s2\", \"s3\", \"s4\", \"s5\", \"s6\", \"s7\", \"s8\", \"s9\"], \"value_code\": \"all_of([eq(['Alice', 'Bob'], ['Alice', 'Bob']), eq(['2018'], ['2018'])])\", \"otherwise_code\": \"False\"}], \"rule_residuals\": [{\"name\": \"b_NAME\", \"source\": \"s1\", \"quote\": \"the determination of whether an individual is married shall be made as of the close of his taxable year\"}], \"observations\": [{\"name\": \"b_NAME\", \"entity\": \"Alice\", \"entity_source\": \"s10\", \"predicate\": \"married\", \"predicate_source\": \"s1\"}], \"bindings\": [{\"name\": \"Alice\", \"type\": \"scalar\", \"sources\": [\"s10\"], \"value\": \"Alice\"}, {\"name\": \"Bob\", \"type\": \"scalar\", \"sources\": [\"s10\"], \"value\": \"Bob\"}, {\"name\": \"year\", \"type\": \"scalar\", \"sources\": [\"s11\"], \"value\": \"2018\"}], \"nodes\": [{\"name\": \"eq\", \"kind\": \"expression\", \"code\": \"eq(['Alice', 'Bob'], ['Alice', 'Bob'])\"}, {\"name\": \"eq_year\", \"kind\": \"expression\", \"code\": \"eq(['2018'], ['2018'])\"}], \"query\": {\"var\": \"s11\"}}",
+  "raw_content_sha256": "95f6eede2b81f7dca2f9f75a1c92932f994f3f3eb76bdb154f46fab0b9081ba9",
+  "finish_reason": "stop",
+  "usage": {
+    "prompt_tokens": 3466,
+    "total_tokens": 3832,
+    "completion_tokens": 366,
+    "prompt_tokens_details": null
+  },
+  "elapsed_seconds": 27.03229216579348,
+  "wire_metadata_valid": true,
+  "feedback": {
+    "issues": [
+      {
+        "path": "rule_residuals[0].name",
+        "expected": "unique symbol name",
+        "actual": {
+          "name": "b_NAME",
+          "first_path": "observations[0].name"
+        }
+      },
+      {
+        "path": "observations[0].predicate",
+        "expected": "exact substring of cited source",
+        "actual": "married"
+      },
+      {
+        "path": "rule_residuals[0].quote",
+        "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+        "actual": "the determination of whether an individual is married shall be made as of the close of his taxable year"
+      },
+      {
+        "path": "clauses[0].value.args[0]",
+        "expected": "boolean",
+        "actual": [
+          "array"
+        ]
+      }
+    ],
+    "source_only": true,
+    "grading_information_used": false,
+    "candidate_modified": false,
+    "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions."
+  },
+  "compiler_commit": "fcbbc7115e649cb46bb12ef5f811077da851d7d5",
+  "used_target_labels": false,
+  "test_labels_read": false
+}
