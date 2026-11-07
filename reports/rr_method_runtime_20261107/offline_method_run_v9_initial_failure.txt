@@ -1,0 +1,168 @@
+........................F............................................... [ 19%]
+........................................................................ [ 39%]
+........................................................................ [ 58%]
+........................................................................ [ 78%]
+....F................................................................... [ 97%]
+.........                                                                [100%]
+=================================== FAILURES ===================================
+_ test_actual_correct_word_amounts_are_recovered_but_eleven_invented_amounts_stay_rejected _
+
+    def test_actual_correct_word_amounts_are_recovered_but_eleven_invented_amounts_stay_rejected():
+        root=Path(__file__).resolve().parents[1]
+        fixture=json.loads((root/'tests/fixtures/rr_actual_method_c4_cardinals.json').read_text())
+        source=next(s for s in json.loads((root/'data/packets/rr_v2/public_train.json').read_text())['sources']
+                    if s['key']==fixture['source'])
+        program=json.loads(fixture['raw_content']);structure=inspect_source(source)
+        units={c.id:structure.ledger.text[c.start:c.end] for c in structure.ledger.clauses}
+        recovered={'b_ari_exemption_'+name for name in ('wearing_apparel','musical_instruments',
+            'horses_cows_poultry','engagement_wedding_rings','library_books','watch','firearms',
+            'tools_equipment','farm_machinery')}
+        actual=set();rejected=[];names={b['name'] for b in program['bindings']}
+        for b in program['bindings']:
+            text='\n'.join(units[s] for s in b['sources'])
+            check=binding_literal_audit(b['type'],b['value'],text,names)
+            if b['name'] in recovered:assert check['pass'];actual.add(b['name'])
+            if not check['pass']:rejected.append(b['name'])
+        assert actual==recovered and len(rejected)==11
+        assert not binding_literal_audit('integer',500,units['s200'],set())['pass']
+        assert not binding_literal_audit('integer',15000,units['s201'],set())['pass']
+        # Recovering nine true lexical values is not recovering the whole program.
+>       with pytest.raises(Unsupported):compile_source(source,program)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_rr_cardinal_literals.py:55: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+legal_skill_guard/rr/source_program.py:234: in compile_source
+    validate_wire(program,program_schema(source,library))
+legal_skill_guard/rr/wire_validation.py:52: in validate_wire
+    WireValidator(schema).validate(value)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Validator(schema={'$defs': {'binding': {'anyOf': [{'additionalProperties': False, 'properties': {'name': {...}, 'sourc...equired': ['bindings', 'observations', 'rule_residuals', 'nodes', 'scopes', 'clauses', ...], ...}, format_checker=None)
+args = ({'bindings': [{'name': 'b_wall_mounted_shelf_value', 'value': 800, 'type': 'integer', 'sources': ['s159']}, {'name': ... 'n_wall_mounted_shelf_exemption_6', 'kind': 'expression', 'body': {'op': 'and', 'args': [{...}, {...}]}}, ...], ...},)
+kwargs = {}
+
+    def validate(self, *args, **kwargs):
+        for error in self.iter_errors(*args, **kwargs):
+>           raise error
+E           jsonschema.exceptions.ValidationError: No schema union alternative accepts this value
+E           
+E           Failed validating 'anyOf' in schema['properties']['query']:
+E               {'anyOf': [{'type': 'null'},
+E                          {'type': 'object',
+E                           'additionalProperties': False,
+E                           'required': ['op', 'args'],
+E                           'properties': {'op': {'enum': ['object'], 'type': 'string'},
+E                                          'args': {'type': 'array',
+E                                                   'items': {'$ref': '#/$defs/expr_15'}}}},
+E                          {'type': 'object',
+E                           'additionalProperties': False,
+E                           'required': ['var'],
+E                           'properties': {'var': {'type': 'string',
+E                                                  'pattern': '^[A-Za-z_][A-Za-z0-9_]{0,63}$'}}},
+E                          {'type': 'object',
+E                           'additionalProperties': False,
+E                           'required': ['op', 'args'],
+E                           'properties': {'op': {'enum': ['if'], 'type': 'string'},
+E                                          'args': {'type': 'array',
+E                                                   'prefixItems': [{'$ref': '#/$defs/bool_expr_15'},
+E                                                                   {'$ref': '#/$defs/result_expr_15'},
+E                                                                   {'$ref': '#/$defs/result_expr_15'}],
+E                                                   'items': False,
+E                                                   'minItems': 3,
+E                                                   'maxItems': 3}}}]}
+E           
+E           On instance['query']:
+E               {'op': 'if',
+E                'args': [{'var': 'clause_total'},
+E                         {'op': 'add',
+E                          'args': [{'var': 'b_wall_mounted_shelf_value'},
+E                                   {'var': 'b_hooded_fleece_rob_value'}]},
+E                         '0']}
+
+../legal-skill-current/.venv/lib/python3.11/site-packages/jsonschema/validators.py:450: ValidationError
+_ test_actual_enum_leak_stays_rejected_and_wire_valid_whole_rule_stays_semantically_rejected _
+
+    def test_actual_enum_leak_stays_rejected_and_wire_valid_whole_rule_stays_semantically_rejected():
+        root=Path(__file__).resolve().parents[1]
+        sources={s['key']:s for s in json.loads((root/'data/packets/rr_v2/public_train.json').read_text())['sources']}
+        records=json.loads((root/'tests/fixtures/rr_actual_method_c2_enum.json').read_text())['records']
+        airline,oe=records
+        with pytest.raises(ValidationError):validate_wire(json.loads(airline['raw_content']),program_schema(sources[airline['source']]))
+        source=sources[oe['source']];program=json.loads(oe['raw_content'])
+>       validate_wire(program,program_schema(source))
+
+tests/test_rr_source_id_schema.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+legal_skill_guard/rr/wire_validation.py:52: in validate_wire
+    WireValidator(schema).validate(value)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = Validator(schema={'$defs': {'binding': {'anyOf': [{'additionalProperties': False, 'properties': {'name': {...}, 'sourc...equired': ['bindings', 'observations', 'rule_residuals', 'nodes', 'scopes', 'clauses', ...], ...}, format_checker=None)
+args = ({'bindings': [{'name': 'b_wall_shelf_value', 'value': 800, 'type': 'integer', 'sources': ['s159']}, {'name': 'b_robe_...[{...}, {...}]}}, {'name': 'n_robe_limit', 'kind': 'expression', 'body': {'op': 'le', 'args': [{...}, {...}]}}], ...},)
+kwargs = {}
+
+    def validate(self, *args, **kwargs):
+        for error in self.iter_errors(*args, **kwargs):
+>           raise error
+E           jsonschema.exceptions.ValidationError: No schema union alternative accepts this value
+E           
+E           Failed validating 'anyOf' in schema['properties']['query']:
+E               {'anyOf': [{'type': 'null'},
+E                          {'type': 'object',
+E                           'additionalProperties': False,
+E                           'required': ['op', 'args'],
+E                           'properties': {'op': {'enum': ['object'], 'type': 'string'},
+E                                          'args': {'type': 'array',
+E                                                   'items': {'$ref': '#/$defs/expr_15'}}}},
+E                          {'type': 'object',
+E                           'additionalProperties': False,
+E                           'required': ['var'],
+E                           'properties': {'var': {'type': 'string',
+E                                                  'pattern': '^[A-Za-z_][A-Za-z0-9_]{0,63}$'}}},
+E                          {'type': 'object',
+E                           'additionalProperties': False,
+E                           'required': ['op', 'args'],
+E                           'properties': {'op': {'enum': ['if'], 'type': 'string'},
+E                                          'args': {'type': 'array',
+E                                                   'prefixItems': [{'$ref': '#/$defs/bool_expr_15'},
+E                                                                   {'$ref': '#/$defs/result_expr_15'},
+E                                                                   {'$ref': '#/$defs/result_expr_15'}],
+E                                                   'items': False,
+E                                                   'minItems': 3,
+E                                                   'maxItems': 3}}}]}
+E           
+E           On instance['query']:
+E               {'op': 'if',
+E                'args': [{'var': 'clause_wall_shelf'},
+E                         {'var': 'clause_robe'},
+E                         'Entailment',
+E                         'Contradiction']}
+
+../legal-skill-current/.venv/lib/python3.11/site-packages/jsonschema/validators.py:450: ValidationError
+=============================== warnings summary ===============================
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-rr-v2/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:215: RuntimeWarning: Mean of empty slice
+    score_array[sample_index, :] = asset_score_array.mean(axis=0) # Sample-based scores
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-current/.venv/lib/python3.11/site-packages/numpy/_core/_methods.py:134: RuntimeWarning: invalid value encountered in divide
+    ret = um.true_divide(
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-rr-v2/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:246: RuntimeWarning: Mean of empty slice
+    score_array[sample_index, :] = np.nanmean(asset_score_array, axis=0) # Sample-based scores
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-rr-v2/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:248: RuntimeWarning: Mean of empty slice
+    precision, recall, f1, mare = np.nanmean(score_array, axis=0)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_rr_cardinal_literals.py::test_actual_correct_word_amounts_are_recovered_but_eleven_invented_amounts_stay_rejected
+FAILED tests/test_rr_source_id_schema.py::test_actual_enum_leak_stays_rejected_and_wire_valid_whole_rule_stays_semantically_rejected
+2 failed, 367 passed, 8 warnings in 116.04s (0:01:56)

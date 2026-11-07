@@ -20,7 +20,7 @@ from legal_skill_guard.rr.source_execution import assess_source,prepare_followup
 
 
 QUESTION='Can an actual TRAIN clause compile into a compact source-scoped DAG, factual observations and independent Omega checking without native-answer delegation?'
-OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v2.json'
+OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v10.json'
 
 
 def load(root,run_id,source_id=None,library_path=None,compiler_role='executor'):
@@ -77,7 +77,9 @@ def compiler_record(root,origin,source,config):
 
 def paid_compiler(root,origin,source,config,system,user,schema):
     seal,response,program=compiler_record(root,origin,source,config)
-    if (seal['system'],seal['user'],seal['schema'])!=(system,user,schema):
+    ordered_hash=hashlib.sha256(json.dumps(schema,ensure_ascii=False).encode()).hexdigest()
+    if (seal['system'],seal['user'],seal['schema'])!=(system,user,schema) or \
+            seal.get('schema_order_sha256')!=ordered_hash:
         raise ValueError('Paid compiler response requires identical public source, teacher, prompt and schema')
     return program,{'paid_call_id':origin+':compile','generation_binding':seal['binding'],
         'program_hash':digest(program),'response_sha256':response['response_sha256'],
@@ -138,7 +140,8 @@ def prepare(root,run_id,compiler_origin=None,repair_origin=None,source_id=None,l
     seal={'run_id':run_id,'question':QUESTION,'files':files,'config':config,'sources':sources,
         'binding':{'code_hash':scientific_code_binding(files),'config_hash':digest(config)},
         'authorization_hash':digest(auth),'source':source,'system':system,'user':user,
-        'schema':schema,'compiler_origin':origin,'repair_origin':repair_origin,'library_path':library_path,
+        'schema':schema,'schema_order_sha256':hashlib.sha256(json.dumps(schema,ensure_ascii=False).encode()).hexdigest(),
+        'compiler_origin':origin,'repair_origin':repair_origin,'library_path':library_path,
         'executor_repair_origin':executor_origin,'validation_feedback':feedback,
         'offline_evidence_hash':digest(receipt),
         'original_model_resources_only':True,'not_a_readiness_receipt':True}
@@ -204,6 +207,12 @@ def run(root,run_id):
     config['source_selection']=seal['config']['source_selection']
     if science_files(root)!=seal['files'] or seal['source']!=source or seal['config']!=config:
         raise ValueError('Frozen probe source/configuration changed')
+    # immutable_json canonically sorts mapping keys. Reconstruct the exact
+    # production schema order, then check its sealed byte identity before any
+    # generation. The canonical inspection copy is not a dispatch schema.
+    schema=program_schema(source,config['library'])
+    if schema!=seal['schema'] or hashlib.sha256(json.dumps(schema,ensure_ascii=False).encode()).hexdigest()!=seal['schema_order_sha256']:
+        raise ValueError('Ordered compiler schema differs from the sealed production request')
     ledger=MethodLedger(root/cfg['ledger_path'],run_id=run_id,binding=seal['binding'],sources=sources,
         authorization_hash=seal['authorization_hash'],question=QUESTION)
     teacher=MethodTeacher(ledger,stage,config['teacher'])
@@ -214,18 +223,18 @@ def run(root,run_id):
         if seal['compiler_origin']:
             origin=seal['compiler_origin']['paid_call_id'].removesuffix(':compile')
             program,result['compiler_response_origin']=paid_compiler(root,origin,source,config,
-                seal['system'],seal['user'],seal['schema'])
+                seal['system'],seal['user'],schema)
             if result['compiler_response_origin']!=seal['compiler_origin']:
                 raise ValueError('Paid component provenance changed')
         elif config['compiler_role']=='teacher':
             response=teacher.summarize(run_id+':compile',source_ids=[source['key']],
-                system_prompt=seal['system'],user_prompt=seal['user'],output_schema=seal['schema'])
+                system_prompt=seal['system'],user_prompt=seal['user'],output_schema=schema)
             program=response['value']
         else:
             from legal_skill_guard.rr.raw_recovery import _unique_object
             response=executor.generate(run_id+':compile',source=source['key'],purpose='method_train_synthesis',
                 messages=[{'role':'system','content':seal['system']},{'role':'user','content':seal['user']}],
-                thinking=config['executor']['enable_thinking'],schema=seal['schema'])
+                thinking=config['executor']['enable_thinking'],schema=schema)
             program=json.loads(response['content'],object_pairs_hook=_unique_object)
         immutable_json(stage/'program.json',program)
         result.update(execute_program(root,source,program,config,stage,executor,run_id))

@@ -25,14 +25,22 @@ def test_all128_actual_source_role_sets_keep_exact_membership_including_gaps():
 
 
 def test_actual_enum_leak_stays_rejected_and_wire_valid_whole_rule_stays_semantically_rejected():
+    from copy import deepcopy
     root=Path(__file__).resolve().parents[1]
     sources={s['key']:s for s in json.loads((root/'data/packets/rr_v2/public_train.json').read_text())['sources']}
     records=json.loads((root/'tests/fixtures/rr_actual_method_c2_enum.json').read_text())['records']
     airline,oe=records
     with pytest.raises(ValidationError):validate_wire(json.loads(airline['raw_content']),program_schema(sources[airline['source']]))
     source=sources[oe['source']];program=json.loads(oe['raw_content'])
-    validate_wire(program,program_schema(source))
-    with pytest.raises(Exception,match='proper subexpression'):compile_source(source,program)
+    with pytest.raises(ValidationError) as failure:validate_wire(program,program_schema(source))
+    assert list(failure.value.path)==['query']
+    # Isolate the existing residual check behind a valid variable-shaped root.
+    # This negative test variant is never a repaired prediction or scored IR.
+    component=deepcopy(program)
+    component['query']={'var':program['clauses'][0]['name']}
+    validate_wire(component,program_schema(source))
+    with pytest.raises(Exception,match='proper subexpression'):compile_source(source,component)
+    assert program==json.loads(oe['raw_content'])
 
 
 def test_actual_repeated_identifier_cannot_exhaust_the_output_but_source_quotes_remain_unbounded():

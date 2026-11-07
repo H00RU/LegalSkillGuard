@@ -58,6 +58,7 @@ def source_unit_schema(ids):
 
 def program_schema(source,library=None):
     from legal_skill_guard.inference.codex_cli_client import strict_output_schema
+    from .source_format import query_expression_schema
     structure=inspect_source(source)
     unit_ids=[c.id for c in structure.ledger.clauses]
     unit=source_unit_schema(unit_ids)
@@ -73,6 +74,10 @@ def program_schema(source,library=None):
         binding['properties']['name']=symbol
         binding['properties'].pop('source')
         binding['properties']['sources']={**array(unit),'minItems':1}
+        # Select the primitive type and evidence before generating its value.
+        # This is the same mapping contract, without a value-first union.
+        binding['properties']={key:binding['properties'][key] for key in ('name','type','sources','value')}
+        binding['required']=list(binding['properties'])
     # Strict teacher objects need concrete property names. Only actually
     # available learned patterns can enter this compiler's invocation menu.
     graphs=definitions['connector']['anyOf']
@@ -93,7 +98,8 @@ def program_schema(source,library=None):
         obj({'op':{'enum':['xor']},'args':{**array(ref('bool_expr')),'minItems':2,'maxItems':2}}),
         obj({'op':{'enum':['eq','ne','lt','le']},'args':{**array(ref('expr')),'minItems':2,'maxItems':2}}),
         obj({'op':{'enum':['if']},'args':{**array(ref('bool_expr')),'minItems':3,'maxItems':3}})]}
-    recursive={name:definitions[name] for name in ('expr','bool_expr','connector')}
+    definitions['result_expr']=query_expression_schema(source['dataset'],symbol)
+    recursive={name:definitions[name] for name in ('expr','bool_expr','connector','result_expr')}
     definitions.update(bounded_expressions(recursive))
     for name in recursive:
         definitions[name]=ref(f'{name}_{EXPRESSION_DEPTH}')
@@ -109,7 +115,7 @@ def program_schema(source,library=None):
         'nodes':array(ref('node')),
         'scopes':array(obj({'name':symbol,'source':rule_unit,'condition':ref('bool_expr')})),
         'clauses':array(obj({'name':symbol,'sources':array(rule_unit),'value':ref('expr'),'otherwise':ref('expr')})),
-        'query':ref('expr')})
+        'query':ref('result_expr')})
     if not facts or not rules:schema['properties']['observations']['maxItems']=0
     if not rules:
         for key in ('rule_residuals','scopes','clauses'):schema['properties'][key]['maxItems']=0
@@ -119,7 +125,7 @@ def program_schema(source,library=None):
 
 
 def compiler_prompt(source,library=None,previous_program=None,validation_feedback=None,factual_observation_task=None):
-    from .source_format import FORMAT_EXAMPLE,language_contract
+    from .source_format import language_contract
     structure=inspect_source(source)
     contexts=compact_contexts(structure)
     units=[{'id':c.id,**structure.roles[c.id],'text':structure.ledger.text[c.start:c.end],
@@ -130,6 +136,8 @@ def compiler_prompt(source,library=None,previous_program=None,validation_feedbac
         'bindings are only exact public literals/typed primitive inputs with sources:[UNIT_IDS] provenance. '
         'A relation assembled from multiple factual lines must cite all of those units; '
         'bindings use the plural sources array, never a singular source field. '
+        'Choose each binding type and source evidence before its value; '
+        'only literal primitive inputs belong here, never a second copy of an observation. '
         'booleans in bindings require a literal true/false in that unit. '
         'Integers, 0/1 and paragraph numbers are not truth values. '
         'Every year or other numeric binding must occur in its cited source units. '
@@ -204,19 +212,17 @@ def compiler_prompt(source,library=None,previous_program=None,validation_feedbac
         'the previous candidate is not a trusted source or a grading answer. '
         'validation_feedback contains source-only compiler diagnostics, never target answers. '
         'Correct those specific errors by retranslating the public rules; do not coerce types, '
-        'invent missing rules, or encode a clause identifier as its legal conclusion. '
-        'format_only_example is an invented, unrelated task illustrating the complete syntax; '
-        'its rules, source IDs, numbers and labels must not be copied into the CURRENT task.')
+        'invent missing rules, or encode a clause identifier as its legal conclusion.')
     return system,json.dumps({'dataset':source['dataset'],'source':source['key'],
         'task_metadata':{'answer_type':source['public'].get('answer_type')},
         'language_contract':language_contract(source['dataset'],literal_text=structure.ledger.text),
-        'units':units,'required_scope_sources':required_scope_sources(structure),
+        'required_scope_sources':required_scope_sources(structure),
         'previous_candidate':previous_program,
         'validation_feedback':validation_feedback,
         'requested_factual_observations':factual_observation_task,
-        'format_only_example':FORMAT_EXAMPLE,
         'available_learned_patterns':[{k:item[k] for k in ('pattern_hash','pattern')}
-            for item in (library or {}).get('patterns',[])]},ensure_ascii=False,separators=(',',':'))
+            for item in (library or {}).get('patterns',[])],
+        'units':units},ensure_ascii=False,separators=(',',':'))
 
 
 def proper_rule_subexpression(quote,text):

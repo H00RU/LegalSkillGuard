@@ -27,7 +27,7 @@ from .thinking import select_thinking
 from .strict_contract import obj
 
 
-OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v8.json'
+OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v10.json'
 
 
 def prepare_method_run(root,run_id):

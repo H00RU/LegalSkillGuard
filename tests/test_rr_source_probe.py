@@ -16,7 +16,7 @@ def test_actual_probe_load_binds_source_keys_and_original_resources():
 
 
 def test_paid_compiler_component_requires_identical_request_and_original_value(tmp_path):
-    import json,sqlite3
+    import hashlib,json,sqlite3
     import pytest
     from experiments.rr_v2_source_probe import paid_compiler
     stage=tmp_path/'artifacts/rr_method_runtime_20261107/paid'
@@ -24,7 +24,8 @@ def test_paid_compiler_component_requires_identical_request_and_original_value(t
     source={'key':'SARA:original','public':{'rules':'public only'}}
     teacher={'model':'unchanged'};schema={'type':'object'};program={'observations':[]}
     seal={'run_id':'paid','source':source,'config':{'teacher':teacher},'system':'system','user':'public',
-          'schema':schema,'binding':{'code_hash':'old','config_hash':'old'}}
+          'schema':schema,'schema_order_sha256':hashlib.sha256(json.dumps(schema,ensure_ascii=False).encode()).hexdigest(),
+          'binding':{'code_hash':'old','config_hash':'old'}}
     (stage/'seal.json').write_text(json.dumps(seal));(stage/'program.json').write_text(json.dumps(program))
     (tmp_path/'configs/rr_v2_preflight.json').write_text(json.dumps({'ledger_path':'original.sqlite3'}))
     with sqlite3.connect(tmp_path/'original.sqlite3') as db:

@@ -4,11 +4,13 @@ import json
 from pathlib import Path
 
 import pytest
+from jsonschema import ValidationError
 
 from legal_skill_guard.rr.grounding import _numbers,binding_literal_audit
 from legal_skill_guard.rr.source_program import compile_source
 from legal_skill_guard.rr.source_structure import inspect_source
 from legal_skill_guard.rr.coverage import Unsupported
+from legal_skill_guard.rr.source_bindings import decode_source_bindings
 
 
 @pytest.mark.parametrize('text,value',[('zero',0),('forty-five',45),('one hundred and eighty',180),
@@ -51,5 +53,9 @@ def test_actual_correct_word_amounts_are_recovered_but_eleven_invented_amounts_s
     assert actual==recovered and len(rejected)==11
     assert not binding_literal_audit('integer',500,units['s200'],set())['pass']
     assert not binding_literal_audit('integer',15000,units['s201'],set())['pass']
-    # Recovering nine true lexical values is not recovering the whole program.
-    with pytest.raises(Unsupported):compile_source(source,program)
+    # Check literal rejection independently of the now-earlier invalid native
+    # query rejection. The original program and all eleven errors stay intact.
+    with pytest.raises(Unsupported,match='Public literal grounding failed'):
+        decode_source_bindings(program['bindings'],units)
+    with pytest.raises(ValidationError) as failure:compile_source(source,program)
+    assert list(failure.value.path)==['query']

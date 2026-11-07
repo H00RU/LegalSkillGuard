@@ -175,8 +175,10 @@ def test_actual_second_response_cannot_supply_missing_executable_scope_ownership
 
 
 def test_format_example_is_executable_but_is_not_benchmark_evidence():
-    from legal_skill_guard.rr.source_format import FORMAT_EXAMPLE
+    import json
+    from pathlib import Path
     from copy import deepcopy
+    FORMAT_EXAMPLE=json.loads((Path(__file__).parent/'fixtures/rr_source_format_demonstration.json').read_text())
     source={'key':'SARA_v2_Binary:invented_format_only','dataset':'SARA_v2_Binary','public':deepcopy(FORMAT_EXAMPLE['public'])}
     compiled=compile_source(source,deepcopy(FORMAT_EXAMPLE['program']))
     assert complete(source_theory(compiled)).status=='translation_unresolved'

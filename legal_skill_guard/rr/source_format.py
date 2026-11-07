@@ -1,4 +1,4 @@
-"""Public task/language contracts and one unrelated example; no grading data."""
+"""Public task/language contracts; no grading or unrelated task examples."""
 
 
 def native_schema(dataset):
@@ -10,6 +10,27 @@ def native_schema(dataset):
     from legal_skill_guard.openexempt import answer_schema
     return {'anyOf':[{'type':'object','additionalProperties':False,'required':['EC','EV'],
         'properties':{family:answer_schema(family) for family in ('EC','EV')}},{'type':'null'}]}
+
+
+def query_expression_schema(dataset, symbol):
+    """Constrain result-producing syntax to the existing native result type.
+
+    Variables still undergo the real DAG type/execution checks. Conditions and
+    arithmetic operands retain the full expression language; strings inside a
+    comparison are not confused with final task labels.
+    """
+    from .strict_contract import obj, array, ref
+    native = native_schema(dataset)
+    if 'enum' in native:
+        atoms = [native]
+    elif dataset == 'RuleArena_Airline':
+        atoms = [native, obj({'op': {'enum': ['add', 'sub', 'scale', 'divide_constant',
+            'ceil_divide_constant', 'number_at', 'min', 'max']}, 'args': array(ref('expr'))})]
+    else:
+        atoms = [{'type': 'null'}, obj({'op': {'enum': ['object']}, 'args': array(ref('expr'))})]
+    return {'anyOf': atoms + [obj({'var': symbol}), obj({'op': {'enum': ['if']},
+        'args': {'type': 'array', 'prefixItems': [ref('bool_expr'), ref('result_expr'), ref('result_expr')],
+                 'items': False, 'minItems': 3, 'maxItems': 3}})]}
 
 
 def language_contract(dataset, *, literal_text=None):
@@ -28,6 +49,7 @@ def language_contract(dataset, *, literal_text=None):
                  'params_schema':item['properties']['params']}
                 for item in definitions['connector']['anyOf'] if 'op' in item.get('properties',{})]
     return {
+        'binding_record_order': ['name', 'type', 'sources', 'value'],
         'binding_value_schemas':values,
         'binding_semantics':{
             'integer_rational_scalar':'Exact public inputs only; derived quantities and legal conclusions belong in expression nodes. Amount or relation objects are not expression numbers or Booleans.',
@@ -58,20 +80,5 @@ def language_contract(dataset, *, literal_text=None):
             'are arrays of {citation:verbatim public citation,claim_value:numeric expression}. The public wording '
             'about a supplied response schema refers to this shape, not paragraph IDs or Entailment labels. '
             'For Airline include the public ticket price and all applicable baggage costs. A null or unsupported '
-            'result has no core success certificate. The unrelated format example does not redefine this task.'}
-
-FORMAT_EXAMPLE={
-    'public':{'rules':'# Eligibility\nFor purposes of requests under the parcel plan, if-\n    (a) Fragile parcels with at least 2 items qualify.',
-              'facts':'Alice has 3 fragile parcels.','query':'Do the parcels qualify?'},
-    'program':{
-        'bindings':[{'name':'n_count','type':'integer','value':3,'sources':['s3']},
-                    {'name':'n_minimum','type':'integer','value':2,'sources':['s2']}],
-        'observations':[{'name':'b_fragile','entity':'parcels','entity_source':'s3',
-                         'predicate':'Fragile','predicate_source':'s2'}],
-        'rule_residuals':[{'name':'b_plan_scope','source':'s1','quote':'requests under the parcel plan'}],
-        'nodes':[],
-        'scopes':[{'name':'scope_title','source':'s0','condition':True},
-                  {'name':'scope_plan','source':'s1','condition':{'var':'b_plan_scope'}}],
-        'clauses':[{'name':'eligible','sources':['s2'],'value':{'op':'and','args':[
-            {'var':'b_fragile'},{'op':'le','args':[{'var':'n_minimum'},{'var':'n_count'}]}]},'otherwise':False}],
-        'query':{'op':'if','args':[{'var':'eligible'},'Entailment','Contradiction']}}}
+            'result has no core success certificate. Literal labels in result-producing if branches '
+            'must belong to the current native schema; comparisons may still read ordinary public strings.'}

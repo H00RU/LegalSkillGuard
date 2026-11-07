@@ -1,8 +1,26 @@
 # LegalSkillGuard 主方法与开发验证
 
 <!-- current_live_status -->
-Current snapshot: Goal active and incomplete. The original fixed20 paired current-contract validation is in progress; the changed implementation has not completed the fixed128 build or six-arm DEV. No TEST or paper work has started. Read the dated evidence below; offline checks and compatible paid-response replay are not core semantic success.
+Current snapshot: Goal active and incomplete. The original fixed20 paired validation has completed all40 profiles with zero accepted core programs. OFF is locked and current contract-repair verification is in progress; the changed implementation has not completed the fixed128 build or six-arm DEV. No TEST or paper work has started. Read the dated evidence below; offline checks and compatible paid-response replay are not core semantic success.
 <!-- /current_live_status -->
+
+
+## 完整配对结论及当前接口修复
+
+c6已完成原固定20来源的全部40个配置，主路径结构通过0、对应TRAIN匹配0。新物理请求77次，另有3条完全相同的已付费响应重放，逻辑调用共80；新请求48条stop且符合实际wire schema、29条length，均未形成被接纳的完整程序。[来源级失败诊断](rr_method_runtime_20261107/c6_complete_failure_diagnosis.json)保存首个拒绝原因与完整配置选择，原始程序未改。
+
+ON逻辑请求合计521227 token、4251.19秒；OFF为668174 token、10816.97秒，包含各自重放响应的原耗时。真实模板切换已核实，ON20个配置有reasoning输出、OFF为0；两边语义成功均0，较短失败不构成方法收益。按最新偏好[锁定OFF](../docs/rr_v2/locked_executor_configuration_20261107.json)，不重开ON/OFF扫描；原c6工程阻断记录不改写，也不据此宣称就绪。
+
+当前修复移除了带完整业务语义的无关格式示例，把绑定字段顺序改为name/type/sources/value，并在wire中使根查询及if结果分支遵守现有原生输出类型。所有原源文单元保留，作用范围、未知残余、事实证据、类型、执行及语义检查不放宽。三个真实错误查询在原wire可接受、在新查询语法被拒绝；这表示更早拒绝错误，不表示旧输出恢复成功。[369项完整回归](rr_method_runtime_20261107/offline_method_run_v9.json)、[22项安装版本XGrammar与Qwen token-mask检查](rr_method_runtime_20261107/native_query_backend_v1.json)和[128来源容量检查](rr_method_runtime_20261107/compiler_input_budget_after_v9.json)通过。初次回归的两项拒绝顺序差异及日志原样另存，独立的11个虚构金额和整条规则残余仍明确被拒绝。修复后的真实生成效果尚待验证。
+
+当前累计542E/17T，较同一Goal起点新增118E/3T；无在途、无新增oracle。已结算报告输入1396199、输出583369 token、请求耗时22417.64秒；现金费用未知部分继续保留未知，详见累计账本。新的[GitHub报告快照](https://github.com/H00RU/LegalSkillGuard/blob/873349abda7b32d03d7686604c2ec25e94c4c243/reports/legalskillguard_method_runtime_20261107.md)及[独立远端核验](https://github.com/H00RU/LegalSkillGuard/blob/db0582700e769b1e845ff671fcee7d405b63fbea/reports/rr_method_runtime_20261107/publication_verified.json)已同步开发分支，核对983个快照文件、清单和2个核验文件；该快照记录的是配对进行期间的阶段证据，当前完整40配置证据以本地此节及对应诊断为准，main不变。
+
+
+## OFF修复验证及探针封存顺序修复
+
+`executor_source_native_query_v3_20261107`在原最短SARA来源743ac2e…执行1次OFF真实调用，输入3447、输出8192 token，耗时290.52秒，finish=length；在bindings阶段写出123个不同名称，仍未生成后续字段，未形成IR、执行或TRAIN成绩。[原始结果](rr_method_runtime_20261107/source_probe_executor_source_native_query_v3_20261107.json)完整保留，本次累计543E/17T，无在途请求。
+
+[实际wire前后顺序核对](rr_method_runtime_20261107/probe_schema_order_before_after_v1.json)发现，探针seal使用按键排序的immutable_json，恢复后误把这个映射直接当作生成schema：原设计顶层顺序和绑定name/type/sources/value被重排。主控制器的dispatch_json原本已保存字面顺序；此缺陷不是c6完整40失败的共同原因。探针现从封存源文/库及绑定代码重建主路径schema，再核对封存前的有序SHA256并发送；改变顺序的历史编译缓存不能当作相同请求复用。9项定向回归及[371项完整离线回归](rr_method_runtime_20261107/offline_method_run_v10.json)通过。该修复建立主路径与验证请求的一致性，不证明它是模型重复生成的唯一原因，也不把旧部分输出修补成成功。
 
 ## 当前阶段结论与证据分工
 
