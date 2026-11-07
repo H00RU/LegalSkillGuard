@@ -2,6 +2,12 @@
 from pathlib import Path
 
 from experiments.rr_v2_source_probe import load
+from legal_skill_guard.rr.source_code import compiler_response_schema,render_source_code
+
+
+def empty_program():
+    return {'bindings':[],'observations':[],'rule_residuals':[],'nodes':[],
+            'scopes':[],'clauses':[],'query':None}
 
 
 def test_actual_probe_load_binds_source_keys_and_original_resources():
@@ -22,7 +28,7 @@ def test_paid_compiler_component_requires_identical_request_and_original_value(t
     stage=tmp_path/'artifacts/rr_method_runtime_20261107/paid'
     stage.mkdir(parents=True);(tmp_path/'configs').mkdir()
     source={'key':'SARA:original','public':{'rules':'public only'}}
-    teacher={'model':'unchanged'};schema={'type':'object'};program={'observations':[]}
+    teacher={'model':'unchanged'};schema=compiler_response_schema();program=empty_program()
     seal={'run_id':'paid','source':source,'config':{'teacher':teacher},'system':'system','user':'public',
           'schema':schema,'schema_order_sha256':hashlib.sha256(json.dumps(schema,ensure_ascii=False).encode()).hexdigest(),
           'binding':{'code_hash':'old','config_hash':'old'}}
@@ -31,7 +37,7 @@ def test_paid_compiler_component_requires_identical_request_and_original_value(t
     with sqlite3.connect(tmp_path/'original.sqlite3') as db:
         db.execute('create table calls (id,role,source,status,result)')
         db.execute('insert into calls values (?,?,?,?,?)',('paid:compile','teacher',source['key'],'completed',
-            json.dumps({'value':program,'source_ids':[source['key']],'response_sha256':'original-response'})))
+            json.dumps({'value':{'code':render_source_code(program)},'source_ids':[source['key']],'response_sha256':'original-response'})))
     value,proof=paid_compiler(tmp_path,'paid',source,{'teacher':teacher},'system','public',schema)
     assert value==program and proof['new_teacher_calls']==0
     with pytest.raises(ValueError,match='identical'):
@@ -66,14 +72,15 @@ def test_executor_feedback_requires_its_own_immutable_paid_candidate(tmp_path):
     stage.mkdir(parents=True);(tmp_path/'configs').mkdir()
     source={'key':'SARA:original','public':{'rules':'public only'}}
     config={'executor':{'enable_thinking':False},'compiler_role':'executor'}
-    program={'observations':[]}
-    (stage/'seal.json').write_text(json.dumps({'run_id':'own','source':source,'config':config,'binding':{'code_hash':'original'}}))
+    program=empty_program()
+    (stage/'seal.json').write_text(json.dumps({'run_id':'own','source':source,'config':config,
+        'schema':compiler_response_schema(),'binding':{'code_hash':'original'}}))
     (stage/'program.json').write_text(json.dumps(program))
     (tmp_path/'configs/rr_v2_preflight.json').write_text(json.dumps({'ledger_path':'original.sqlite3'}))
     with sqlite3.connect(tmp_path/'original.sqlite3') as db:
         db.execute('create table calls (id,role,purpose,source,status,result)')
         db.execute('insert into calls values (?,?,?,?,?,?)',('own:compile','executor','method_train_synthesis',
-            source['key'],'completed',json.dumps({'content':json.dumps(program),'request_hash':'original'})))
+            source['key'],'completed',json.dumps({'content':json.dumps({'code':render_source_code(program)}),'request_hash':'original'})))
     _,candidate,proof=executor_candidate(tmp_path,'own',source,config)
     assert candidate==program and proof['teacher_candidate_used'] is False
     with pytest.raises(ValueError,match='identical public source'):
@@ -85,3 +92,35 @@ def test_executor_feedback_requires_its_own_immutable_paid_candidate(tmp_path):
     (stage/'program.json').write_text(json.dumps({'observations':['invented']}))
     with pytest.raises(ValueError,match='immutable executor response'):
         executor_candidate(tmp_path,'own',source,config)
+
+
+def test_actual_unparseable_paid_code_has_source_only_location_feedback_and_no_fabricated_IR(tmp_path):
+    import hashlib,json,sqlite3
+    from experiments.rr_v2_source_probe import executor_candidate
+    from legal_skill_guard.rr.controls import ARMS
+    from legal_skill_guard.rr.source_inference import _compiler_request
+    root=Path(__file__).resolve().parents[1]
+    raw=json.loads((root/'tests/fixtures/rr_actual_source_code_v1.json').read_text())
+    origin=raw['call_id'].removesuffix(':compile')
+    source=json.loads((root/'tests/fixtures/rr_scope_v5_binding_projection.json').read_text())['source']
+    config={'compiler_role':'executor','executor':json.loads((root/'configs/rr_v2_preflight.json').read_text())['executor']}
+    stage=tmp_path/'artifacts/rr_method_runtime_20261107'/origin;stage.mkdir(parents=True)
+    (tmp_path/'configs').mkdir()
+    (tmp_path/'configs/rr_v2_preflight.json').write_text(json.dumps({'ledger_path':'original.sqlite3'}))
+    seal={'run_id':origin,'source':source,'config':config,'schema':compiler_response_schema(),'binding':{'code_hash':'fixture_prior_generation'}}
+    (stage/'seal.json').write_text(json.dumps(seal))
+    with sqlite3.connect(tmp_path/'original.sqlite3') as db:
+        db.execute('create table calls (id,role,purpose,source,status,result)')
+        db.execute('insert into calls values (?,?,?,?,?,?)',(raw['call_id'],'executor','method_train_synthesis',
+            source['key'],'completed',json.dumps({'content':raw['raw_content'],'request_hash':raw['wire_body_sha256']})))
+    _,program,proof=executor_candidate(tmp_path,origin,source,config)
+    assert program is None and not (stage/'program.json').exists()
+    assert proof['raw_content_sha256']==hashlib.sha256(raw['raw_content'].encode()).hexdigest()
+    diagnosis=proof['parse_error']['diagnostics'][0]
+    assert diagnosis['path']=='code' and diagnosis['line']==1 and diagnosis['column']>0
+    assert diagnosis['actual']=="unmatched ')'"
+    messages,_,_=_compiler_request(seal['source'],None,ARMS['M11'],None,proof['parse_error'],
+        lambda *a,**k:{'count':100},seal['config']['executor'],False)
+    payload=json.loads(messages[1]['content'])
+    assert payload['validation_feedback']['previous_error']==proof['parse_error']
+    assert payload['accepted_program_code'] is None and 'previous_candidate' not in payload

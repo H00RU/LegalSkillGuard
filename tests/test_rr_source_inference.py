@@ -8,6 +8,7 @@ import pytest
 from legal_skill_guard.rr.coverage import digest
 from legal_skill_guard.rr.ledger import BudgetError
 from legal_skill_guard.rr.source_inference import predict_source
+from legal_skill_guard.rr.source_code import render_source_code
 from legal_skill_guard.rr.wire_validation import validate_wire
 
 
@@ -31,7 +32,7 @@ def test_actual_A_dispatch_selects_facts_and_uses_two_calls_without_fallback():
     source,program=actual();calls=[]
     def generate(messages,*,purpose,step,schema):
         calls.append((purpose,messages))
-        value=program if step==0 else {'observations':[{'name':'b_legally_separated','value':True,
+        value={'code':render_source_code(program)} if step==0 else {'observations':[{'name':'b_legally_separated','value':True,
             'evidence':'Alice and Bob were legally separated under a decree of divorce on September 16th, 2017.'}]}
         validate_wire(value,schema);return wire(value)
     result=run(source,generate)
@@ -46,10 +47,10 @@ def test_full_control_does_not_claim_core_success_from_a_correct_native_fallback
     source,program=actual();calls=[]
     def generate(messages,*,purpose,step,schema):
         calls.append(purpose)
-        if step==0:value=program
+        if step==0:value={'code':render_source_code(program)}
         elif step==1:
             request=json.loads(messages[1]['content'])
-            value={'program':program,'factual_observations':[{'name':r['name'],'value':None,'evidence':''}
+            value={'program':{'code':render_source_code(program)},'factual_observations':[{'name':r['name'],'value':None,'evidence':''}
                 for r in request['requested_factual_observations']]}
         else:value={'answer':'Entailment'}
         validate_wire(value,schema);return wire(value)
@@ -99,7 +100,7 @@ def test_interrupted_source_resumes_the_exact_followup_without_regenerating_paid
     def interrupted(messages,*,purpose,step,schema):
         first.append(step)
         if step==1:raise SystemExit('offline interruption before second generation')
-        return wire(program)
+        return wire({'code':render_source_code(program)})
     kwargs={'source':source,'arm':'M11','partition':'train','library':{'frozen':False,'patterns':[]},
         'tokenize':lambda messages,thinking:{'count':len(json.dumps(messages,ensure_ascii=False))},
         'request_config':{'context_tokens':100000,'max_tokens':8192},'thinking':False,'journal':tmp_path/'journal'}

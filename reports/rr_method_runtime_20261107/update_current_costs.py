@@ -62,6 +62,15 @@ def main():
                        'elapsed_seconds': sum(call['elapsed_seconds'] or 0 for call in current),
                        'no_new_generation_or_grading': True,
                        'exact_paid_replays_are_not_new_physical_requests': True}
+    if state.get('current_run_stage') == 'build':
+        for key in ('completed_profiles','expected_profiles','comparison_complete'):
+            current_receipt.pop(key)
+        build = root / 'artifacts/rr_method_runtime_20261107' / run_id / 'build'
+        saved = build / 'state.json'
+        current_receipt.update(phase='build', expected_sources=128, expected_batches=8,
+            completed_source_records=len(list((build/'sources').glob('*.json'))),
+            committed_sources=json.loads(saved.read_text())['complete_sources'] if saved.exists() else 0,
+            build_completion_saved=(build/'completion.json').exists())
     current_name = run_id + '_physical_cost_snapshot.json'
     (folder / current_name).write_text(json.dumps(current_receipt, ensure_ascii=False, sort_keys=True, indent=2) + '\n')
     path = folder / 'goal_cost_snapshot_20261107.json'

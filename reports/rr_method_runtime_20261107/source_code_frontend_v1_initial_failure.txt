@@ -1,0 +1,176 @@
+...................................FFFF..............................    [100%]
+=================================== FAILURES ===================================
+__ test_projections_and_stored_pattern_invocations_remain_explicit[identity] ___
+
+projection = 'identity'
+
+    @pytest.mark.parametrize('projection', ['identity', 'amount_value', 'amount_values', 'entailment_label'])
+    def test_projections_and_stored_pattern_invocations_remain_explicit(projection):
+        graph = {'pattern': 'a' * 64, 'variant': 0, 'slots': {'s0': 'input'}, 'columns': {'c0': 'person'}}
+        ir = program({'var': 'result'})
+        ir['nodes'] = [{'name': 'result', 'kind': 'connector', 'body': {'graph': graph, 'project': projection}}]
+        restored = parse_source_code(render_source_code(ir))
+        assert restored == ir
+        with pytest.raises(Unsupported, match='pattern'):
+>           compile_query(restored['nodes'], restored['query'], {'input': True})
+
+tests/test_rr_source_code.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+legal_skill_guard/rr/scoped_program.py:179: in compile_query
+    body['graph'],node['pattern_uses']=expand_graph(body['graph'],library,set(types))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/pattern_execution.py:80: in expand_graph
+    return expand(graph, '$'), uses
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = {'pattern': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'variant': 0, 'slots': {'s0': 'input'}, 'columns': {'c0': 'person'}}
+path = '$'
+
+    def expand(node, path):
+        if 'pattern' not in node:
+            result = deepcopy(node)
+            if 'inputs' in node:
+                result['inputs'] = [expand(child, path + '.inputs[' + str(i) + ']')
+                                    for i, child in enumerate(node['inputs'])]
+            return result
+        if set(node) != {'pattern', 'variant', 'slots', 'columns'}:
+            raise InterfaceError('Learned call requires pattern, variant and complete role/column bindings')
+        key, variant = node['pattern'], node['variant']
+        if key not in patterns:
+>           raise InterfaceError('Requested learned pattern is unavailable under the current library policy')
+E           legal_skill_guard.rr.interfaces.InterfaceError: Requested learned pattern is unavailable under the current library policy
+
+legal_skill_guard/rr/pattern_execution.py:47: InterfaceError
+_ test_projections_and_stored_pattern_invocations_remain_explicit[amount_value] _
+
+projection = 'amount_value'
+
+    @pytest.mark.parametrize('projection', ['identity', 'amount_value', 'amount_values', 'entailment_label'])
+    def test_projections_and_stored_pattern_invocations_remain_explicit(projection):
+        graph = {'pattern': 'a' * 64, 'variant': 0, 'slots': {'s0': 'input'}, 'columns': {'c0': 'person'}}
+        ir = program({'var': 'result'})
+        ir['nodes'] = [{'name': 'result', 'kind': 'connector', 'body': {'graph': graph, 'project': projection}}]
+        restored = parse_source_code(render_source_code(ir))
+        assert restored == ir
+        with pytest.raises(Unsupported, match='pattern'):
+>           compile_query(restored['nodes'], restored['query'], {'input': True})
+
+tests/test_rr_source_code.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+legal_skill_guard/rr/scoped_program.py:179: in compile_query
+    body['graph'],node['pattern_uses']=expand_graph(body['graph'],library,set(types))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/pattern_execution.py:80: in expand_graph
+    return expand(graph, '$'), uses
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = {'pattern': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'variant': 0, 'slots': {'s0': 'input'}, 'columns': {'c0': 'person'}}
+path = '$'
+
+    def expand(node, path):
+        if 'pattern' not in node:
+            result = deepcopy(node)
+            if 'inputs' in node:
+                result['inputs'] = [expand(child, path + '.inputs[' + str(i) + ']')
+                                    for i, child in enumerate(node['inputs'])]
+            return result
+        if set(node) != {'pattern', 'variant', 'slots', 'columns'}:
+            raise InterfaceError('Learned call requires pattern, variant and complete role/column bindings')
+        key, variant = node['pattern'], node['variant']
+        if key not in patterns:
+>           raise InterfaceError('Requested learned pattern is unavailable under the current library policy')
+E           legal_skill_guard.rr.interfaces.InterfaceError: Requested learned pattern is unavailable under the current library policy
+
+legal_skill_guard/rr/pattern_execution.py:47: InterfaceError
+_ test_projections_and_stored_pattern_invocations_remain_explicit[amount_values] _
+
+projection = 'amount_values'
+
+    @pytest.mark.parametrize('projection', ['identity', 'amount_value', 'amount_values', 'entailment_label'])
+    def test_projections_and_stored_pattern_invocations_remain_explicit(projection):
+        graph = {'pattern': 'a' * 64, 'variant': 0, 'slots': {'s0': 'input'}, 'columns': {'c0': 'person'}}
+        ir = program({'var': 'result'})
+        ir['nodes'] = [{'name': 'result', 'kind': 'connector', 'body': {'graph': graph, 'project': projection}}]
+        restored = parse_source_code(render_source_code(ir))
+        assert restored == ir
+        with pytest.raises(Unsupported, match='pattern'):
+>           compile_query(restored['nodes'], restored['query'], {'input': True})
+
+tests/test_rr_source_code.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+legal_skill_guard/rr/scoped_program.py:179: in compile_query
+    body['graph'],node['pattern_uses']=expand_graph(body['graph'],library,set(types))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/pattern_execution.py:80: in expand_graph
+    return expand(graph, '$'), uses
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = {'pattern': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'variant': 0, 'slots': {'s0': 'input'}, 'columns': {'c0': 'person'}}
+path = '$'
+
+    def expand(node, path):
+        if 'pattern' not in node:
+            result = deepcopy(node)
+            if 'inputs' in node:
+                result['inputs'] = [expand(child, path + '.inputs[' + str(i) + ']')
+                                    for i, child in enumerate(node['inputs'])]
+            return result
+        if set(node) != {'pattern', 'variant', 'slots', 'columns'}:
+            raise InterfaceError('Learned call requires pattern, variant and complete role/column bindings')
+        key, variant = node['pattern'], node['variant']
+        if key not in patterns:
+>           raise InterfaceError('Requested learned pattern is unavailable under the current library policy')
+E           legal_skill_guard.rr.interfaces.InterfaceError: Requested learned pattern is unavailable under the current library policy
+
+legal_skill_guard/rr/pattern_execution.py:47: InterfaceError
+_ test_projections_and_stored_pattern_invocations_remain_explicit[entailment_label] _
+
+projection = 'entailment_label'
+
+    @pytest.mark.parametrize('projection', ['identity', 'amount_value', 'amount_values', 'entailment_label'])
+    def test_projections_and_stored_pattern_invocations_remain_explicit(projection):
+        graph = {'pattern': 'a' * 64, 'variant': 0, 'slots': {'s0': 'input'}, 'columns': {'c0': 'person'}}
+        ir = program({'var': 'result'})
+        ir['nodes'] = [{'name': 'result', 'kind': 'connector', 'body': {'graph': graph, 'project': projection}}]
+        restored = parse_source_code(render_source_code(ir))
+        assert restored == ir
+        with pytest.raises(Unsupported, match='pattern'):
+>           compile_query(restored['nodes'], restored['query'], {'input': True})
+
+tests/test_rr_source_code.py:108: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+legal_skill_guard/rr/scoped_program.py:179: in compile_query
+    body['graph'],node['pattern_uses']=expand_graph(body['graph'],library,set(types))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/pattern_execution.py:80: in expand_graph
+    return expand(graph, '$'), uses
+           ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+node = {'pattern': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'variant': 0, 'slots': {'s0': 'input'}, 'columns': {'c0': 'person'}}
+path = '$'
+
+    def expand(node, path):
+        if 'pattern' not in node:
+            result = deepcopy(node)
+            if 'inputs' in node:
+                result['inputs'] = [expand(child, path + '.inputs[' + str(i) + ']')
+                                    for i, child in enumerate(node['inputs'])]
+            return result
+        if set(node) != {'pattern', 'variant', 'slots', 'columns'}:
+            raise InterfaceError('Learned call requires pattern, variant and complete role/column bindings')
+        key, variant = node['pattern'], node['variant']
+        if key not in patterns:
+>           raise InterfaceError('Requested learned pattern is unavailable under the current library policy')
+E           legal_skill_guard.rr.interfaces.InterfaceError: Requested learned pattern is unavailable under the current library policy
+
+legal_skill_guard/rr/pattern_execution.py:47: InterfaceError
+=========================== short test summary info ============================
+FAILED tests/test_rr_source_code.py::test_projections_and_stored_pattern_invocations_remain_explicit[identity]
+FAILED tests/test_rr_source_code.py::test_projections_and_stored_pattern_invocations_remain_explicit[amount_value]
+FAILED tests/test_rr_source_code.py::test_projections_and_stored_pattern_invocations_remain_explicit[amount_values]
+FAILED tests/test_rr_source_code.py::test_projections_and_stored_pattern_invocations_remain_explicit[entailment_label]
+4 failed, 65 passed in 0.24s

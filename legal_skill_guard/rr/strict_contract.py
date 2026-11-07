@@ -25,6 +25,35 @@ def ref(name):
     return {"$ref": "#/$defs/" + name}
 
 
+def source_expression_operations(operators):
+    """The actual expression checker's arities, also enforced during decoding."""
+    from .ir_types import FIXED_ARITIES, NONEMPTY_OPERATORS
+    groups={};special=[]
+    for op in operators:
+        if op=='if':
+            args={'type':'array','prefixItems':[ref('bool_expr'),ref('expr'),ref('expr')],
+                  'items':False,'minItems':3,'maxItems':3}
+            special.append(obj({'op':{'enum':[op]},'args':args}))
+        elif op in {'scale','divide_constant','ceil_divide_constant','number_at'}:
+            literal={'type':'integer'}
+            if op=='divide_constant':literal={'anyOf':[{'type':'integer','minimum':1},{'type':'integer','maximum':-1}]}
+            elif op=='ceil_divide_constant':literal['minimum']=1
+            elif op=='number_at':literal['minimum']=0
+            items=[literal,ref('expr')] if op=='scale' else [ref('expr'),literal]
+            special.append(obj({'op':{'enum':[op]},'args':{'type':'array','prefixItems':items,
+                'items':False,'minItems':2,'maxItems':2}}))
+        else:
+            boolean=op in {'and','or','xor','not'}
+            count=FIXED_ARITIES.get(op)
+            minimum=count if count is not None else int(op in NONEMPTY_OPERATORS)
+            groups.setdefault((minimum,count,boolean),[]).append(op)
+    for (minimum,maximum,boolean),ops in groups.items():
+        args={**array(ref('bool_expr' if boolean else 'expr')),'minItems':minimum}
+        if maximum is not None:args['maxItems']=maximum
+        special.append(obj({'op':{'enum':ops},'args':args}))
+    return special
+
+
 def type_enum_schemas(node):
     """Use the same explicit enum types in prompt and response-format schemas."""
     if isinstance(node,dict):

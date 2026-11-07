@@ -20,7 +20,8 @@ from .raw_recovery import _unique_object
 from .source_execution import accept_followup,assess_source,prepare_followup
 from .source_interfaces import check_source_examples
 from .source_format import native_schema
-from .source_program import compile_source,compiler_prompt,program_schema
+from .source_program import compile_source,compiler_prompt
+from .source_code import compiler_response_schema,decode_compiler_response
 from .source_validation import validation_feedback
 from .strict_contract import obj
 from .wire_validation import validate_wire
@@ -80,20 +81,17 @@ def _compiler_request(source,active,profile,program,last_error,tokenize,config,t
         for issue in feedback['issues']:
             if isinstance(issue.get('actual'),dict):issue['actual'].pop('cited_text',None)
     if last_error:feedback={**(feedback or {}),'previous_error':last_error}
-    system,user=compiler_prompt(source,active,previous_program=program,validation_feedback=feedback)
+    # Rejected complete candidates caused repeated copying of invalid witness
+    # tables. Preserve them in the journal, and regenerate from source plus
+    # concrete diagnostics. Only accepted follow-ups receive prior code.
+    system,user=compiler_prompt(source,active,validation_feedback=feedback)
     system+=' Compilation policy: '+profile.compilation+'. Interface policy: '+profile.interface+'.'
     messages=[{'role':'system','content':system},{'role':'user','content':user}]
     actual=tokenize(messages,thinking=thinking)['count'];limit=config['context_tokens']-config['max_tokens']
-    action=None
-    if actual>limit and program is not None:
-        payload=json.loads(user);payload['previous_candidate']=None
-        payload['repair_mode']='regenerate the complete program from the full source and specific prior errors'
-        messages[1]['content']=json.dumps(payload,ensure_ascii=False,separators=(',',':'))
-        actual=tokenize(messages,thinking=thinking)['count']
-        action={'selection_basis':'full_source_repair_without_duplicating_rejected_candidate',
-            'input_tokens':actual,'raw_candidate_preserved_in_prior_wire':True}
+    action={'selection_basis':'full_source_repair_without_duplicating_rejected_candidate',
+            'input_tokens':actual,'raw_candidate_preserved_in_prior_wire':True} if program is not None else None
     if actual>limit:raise Unsupported('Complete compiler request exceeds context; no source truncation')
-    return messages,program_schema(source,active),action
+    return messages,compiler_response_schema(),action
 
 
 def predict_source(source,*,arm,library,generate,tokenize,request_config,thinking,
@@ -179,7 +177,8 @@ def predict_source(source,*,arm,library,generate,tokenize,request_config,thinkin
                 by_name={r['name']:r for r in observation_rows};by_name.update({r['name']:r for r in rows})
                 observation_rows=list(by_name.values());program=compiled['program']
             else:
-                program=parsed;compiled=compile_source(source,program,library=active);observed={};observation_rows=[]
+                program=decode_compiler_response(parsed)
+                compiled=compile_source(source,program,library=active);observed={};observation_rows=[]
             remaining=max(0,remaining-(time.monotonic()-started));started=time.monotonic()
             assessment=assess_source(compiled,observed,compilation=profile.compilation,seconds=remaining)
             remaining=max(0,remaining-(time.monotonic()-started))

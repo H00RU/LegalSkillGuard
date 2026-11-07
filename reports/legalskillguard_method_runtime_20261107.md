@@ -1,7 +1,7 @@
 # LegalSkillGuard 主方法与开发验证
 
 <!-- current_live_status -->
-Current snapshot: Goal active and incomplete. The original fixed20 paired validation has completed all40 profiles with zero accepted core programs. OFF is locked and current contract-repair verification is in progress; the changed implementation has not completed the fixed128 build or six-arm DEV. No TEST or paper work has started. Read the dated evidence below; offline checks and compatible paid-response replay are not core semantic success.
+Current snapshot: Goal active and incomplete. The original fixed20 paired validation has completed all40 profiles with zero accepted core programs. OFF is locked. The declarative frontend, follow-up and recovery paths are integrated; the coherent original fixed128/8-batch build is running. The two code probes remain failed and are preserved; offline checks and ordinary model errors are reported separately. The build and six-arm DEV remain incomplete. No TEST or paper work has started. Read the dated evidence below; offline checks and compatible paid-response replay are not core semantic success.
 <!-- /current_live_status -->
 
 
@@ -21,6 +21,50 @@ ON逻辑请求合计521227 token、4251.19秒；OFF为668174 token、10816.97秒
 `executor_source_native_query_v3_20261107`在原最短SARA来源743ac2e…执行1次OFF真实调用，输入3447、输出8192 token，耗时290.52秒，finish=length；在bindings阶段写出123个不同名称，仍未生成后续字段，未形成IR、执行或TRAIN成绩。[原始结果](rr_method_runtime_20261107/source_probe_executor_source_native_query_v3_20261107.json)完整保留，本次累计543E/17T，无在途请求。
 
 [实际wire前后顺序核对](rr_method_runtime_20261107/probe_schema_order_before_after_v1.json)发现，探针seal使用按键排序的immutable_json，恢复后误把这个映射直接当作生成schema：原设计顶层顺序和绑定name/type/sources/value被重排。主控制器的dispatch_json原本已保存字面顺序；此缺陷不是c6完整40失败的共同原因。探针现从封存源文/库及绑定代码重建主路径schema，再核对封存前的有序SHA256并发送；改变顺序的历史编译缓存不能当作相同请求复用。9项定向回归及[371项完整离线回归](rr_method_runtime_20261107/offline_method_run_v10.json)通过。该修复建立主路径与验证请求的一致性，不证明它是模型重复生成的唯一原因，也不把旧部分输出修补成成功。
+
+
+## 真实完整IR的拒绝原因与下一次修复验证
+
+v4实际OFF响应以stop正常结束，输入3447、输出4753 token、耗时186.53秒。实际输出字段顺序已与封存和主路径一致，但31个绑定中26个关系的单元格包含非原文字段或把sN元数据当成事实见证；还存在重复符号、未声明变量、14处条款if的参数个数错误等。原始程序不做适配补造，没有执行或TRAIN语义通过。原JSON及实际wire记录保留在[source probe结果](rr_method_runtime_20261107/source_probe_executor_source_native_query_v4_20261107.json)。
+
+当前已把wire操作数个数与原类型检查器统一到同一签名表，固定常量操作数遵循原执行要求；反馈逐项报告关系单元格、未声明符号、局部节点和条款两分支，未知类型不会被猜成已知。独立executor探针直接复用M11的公共编译请求入口，使用同样的策略说明和输入预算。此修复通过[375项完整离线回归](rr_method_runtime_20261107/offline_method_run_v11.json)和[53项实际后端语法及mask检查](rr_method_runtime_20261107/native_query_backend_v2.json)。[下一次修复计划](rr_method_runtime_20261107/v4_to_v5_source_only_repair_plan.json)仅使用同一原SARA来源、未修改的失败候选及源文诊断；OFF和所有采样参数保持不变，未将部分IR或语法通过计作成功。
+
+当前累计544E/17T、pending0；费用账本已纳入两次真实修复验证，原438请求、121条meta、130条oracle、1233个旧运行文件及冻结库不变。新版代码及完整配对证据已推送[开发分支快照](https://github.com/H00RU/LegalSkillGuard/blob/2f845d866e6b9b74d06209e4317da9429490ca7e/reports/legalskillguard_method_runtime_20261107.md)，独立抓取1395个清单文件和清单全部一致，main未变；本节新修复尚待后续真实结果同步。
+
+
+## 最新训练指标复核与v5之后的表示层修复
+
+本次只读核对SQLite及实际进程，未新增模型或oracle请求：executor累计545（544结算成功、1请求失败，模型输出错误仍计物理调用）、teacher累计17（16结算成功、1请求失败），pending0；v5控制器PID748154已不存在。旧版128来源参考匹配仍为59/128（46.1%），包含92/128（71.9%）fallback；各库分子分母见下方训练指标表。这是历史TRAIN材料检查，不是当前实现成绩。当前统一版本完整128/六臂DEV尚无结果，原20来源×ON/OFF共40配置的主路径通过0，不能以旧内置Horn或回退的正确答案填补。
+
+[v5真实响应](rr_method_runtime_20261107/source_probe_executor_source_native_query_v5_20261107.json)保留同一原SARA源文和v4未修改失败候选、156项源文诊断。修复后的真实wire已核实OFF、封存schema顺序与公共M11入口一致；实际输入13461、输出8192 token、耗时299.985秒、finish=length。输出再次复制并展开错误关系绑定，未完成JSON，未执行或评分。不能将此次失败描述成语义通过，也没有仅提高输出额度或放宽见证检查。
+
+下一步在当前编译调用路径内把模型面对的嵌套JSON改为声明式代码，并确定性编译到同一个内部SourceIR。纯AST解析不运行Python，不推断事实、缺失规则或法律残余；现有schema、数值/见证溯源、所有分支类型、作用范围、资源唯一性和完成检查继续生效。A/B算法、来源、模型参数、账本及DEV/TEST边界不变。不再向下一轮提示复制完整错误候选；具体诊断仍保留，原始失败输出完整封存。
+
+[离线表示层证据](rr_method_runtime_20261107/source_code_frontend_v1.json)与[141项回归日志](rr_method_runtime_20261107/source_code_frontend_v1.txt)核实：已有付费SARA程序的IR往返完全相等，完整理论哈希不变，A仍只选择s10事实并在4096完成下稳定；表示由4092字节降为3267字节。测试覆盖原21表达式操作、7连接器操作、显式存储图调用及资源线程，保留原v4错误程序的拒绝。首次4项负例测试错误地预期Unsupported；现有模式解析器实际抛InterfaceError，只修正了测试期待，初次失败日志原样保存。全部检查禁网络/子进程，三张账本表的前后哈希一致。
+
+该前端当前为未接入模型请求的工作实现；这些是离线工程证据，不是新学习、独立模型编译、跨库或训练成绩。后续先接通必要的生成/解析入口并核对预算和回归，再做有具体变更依据的真实验证，继续原Goal；不把这一阶段检查标记为完成。
+
+累计本Goal新增121E/3T，共124次物理请求；已报告输入1416554、输出604506 token，请求耗时23194.672秒。局部executor无逐请求API现金账单，GPU分摊与教师实际现金费用仍未知。原438请求、121条meta、130条oracle、1233个旧运行文件及4份冻结库保全核验通过，见[当前账本及费用](rr_method_runtime_20261107/goal_cost_snapshot_20261107.json)。
+
+## 声明式编译入口已接通：真实首条为短代码语法失败
+
+代码`c00000f`已经把独立编译、联合规则/事实后续解析和已付费响应恢复统一到`{code:STRING}`封装。内部仍是原七字段SourceIR，完整schema、公共字面量/关系见证、所有分支类型、作用范围、资源消耗及Omega检查继续执行；不接受旧响应格式别名或旁置原生答案。已接纳K通过无歧义渲染进入后续提示，拒绝的完整候选保留在原始记录而不再复制进修复提示。[447项完整离线回归](rr_method_runtime_20261107/offline_method_run_v12.json)、[9项XGrammar/Qwen token-mask检查](rr_method_runtime_20261107/source_code_wire_backend_v1.json)及[128来源输入容量](rr_method_runtime_20261107/source_code_input_budget_v1.json)通过；最大21597≤24576输入token，不截断。旧c6选择及失败记录原样保留，新控制器消费其已锁定OFF凭据，禁止重开对比；这项配置凭据不声称新方法已经就绪。
+
+独立`executor_source_code_v1_20261107`仍选同一原SARA743来源，不使用教师程序、native标签、旧答案、fallback或内置规则。输入3253、输出74 token，耗时2.497秒，finish=stop；模型只写了一个不合法的query，代码在第1行第184列出现未配对右括号，还混入声明构造器、空字符串/sourceID图输入和未定义答案函数，未形成IR、执行或TRAIN评分。该失败与8192上限无关，不将源文规则补入它来制造恢复。[原始结果](rr_method_runtime_20261107/source_probe_executor_source_code_v1_20261107.json)、[完整失败诊断](rr_method_runtime_20261107/source_code_v1_failure_diagnosis.json)和真实fixture原样保存。
+
+[实际HTTP正文核验](rr_method_runtime_20261107/source_code_wire_dispatch_v1.json)确认thinking OFF、所有原采样参数、新schema及其封存顺序一致；核对使用`wire_request.json`中base64保存的HTTP正文，而非会排序的检查用JSON映射。现有证据将本条归为模型输出语法/API错误，没有执行器运行故障的证据。
+
+针对实际失败的后续工程修复增加code字段的行/列及期望/实际语法诊断；已结算但无法解析的真实响应现在只产生源文诊断，不虚构`program.json`。提示明确先作命名声明、最后query读取guarded结果，使用Python布尔字面量、真实原生标签字符串及正确连接器输入个数。新增真实失败回归及禁止补造操作数的API负例；原始代码不修改、不加入下一次完整候选提示。完整v13回归完成后才以该已付费来源与具体诊断做一次OFF纠正，不新增来源、教师、配置扫描或TEST。
+
+## 当前接续：同一版本固定128来源建库已启动，Goal未完成
+
+`executor_source_code_v2_20261107`使用同一原SARA源文和v1真实语法诊断，实际HTTP正文核对OFF及封存schema一致。输入3409、输出213 token，6.293秒，正常stop；首次能解析成内部IR，但在`observations[0].name`被拒绝，另有事实来源冒充规则来源、无条件scope、查询行冒充规则条款、Boolean查询等具体翻译错误。[完整源文诊断](rr_method_runtime_20261107/source_code_v2_failure_diagnosis.json)与[实际wire](rr_method_runtime_20261107/source_code_wire_dispatch_v2.json)分列保存，不将内部IR可解析算作核心成功，不通过适配补造规则，没有执行或TRAIN评分。两次code探针均未触及8192上限。
+
+现有证据没有新增执行器、封装或原IR语义检查不兼容；这些错误按实际模型输出处理。最新授权不以普通模型错误、fallback或暂未涨分停工，因此停止追加逐样例提示修复扫描，直接接续原定、同一科学版本的完整建库。新run为`method_runtime_code_v1_20261107`，代码`ea34dbc`；它从空库按原128来源顺序形成8批，保留原B1/B8和同材料MB交付。先前建库对应不同实现，原样保留，不能拼接为新版本结果；这是同一Goal中为版本一致性所需的建库，不重置Goal、请求或oracle账本。
+
+本版通过[454项完整禁网络回归](rr_method_runtime_20261107/offline_method_run_v13.json)，新封装9项后端核验通过，更新后[128来源输入容量](rr_method_runtime_20261107/source_code_input_budget_v2.json)最大21692≤24576；所有模型、温度、seed、输出/context及OFF配置不变。每来源最多2次生成、每批教师最多2次汇总、每来源最多4次原预算视图，保留已有相同视图缓存；原生回退、预定义Horn与模型主路径分列，不把格式、正确答案或旧模式冒称新核心学习。
+
+[当前运行及PID身份核验](rr_method_runtime_20261107/method_runtime_code_v1_20261107_build_observation.json)、[来源级进度](rr_method_runtime_20261107/method_runtime_code_v1_20261107_source_status.csv)和[累计费用](rr_method_runtime_20261107/goal_cost_snapshot_20261107.json)持续写入不绑定的状态文件。训练输入、源码、测试、配置和协议均在seal内冻结；运行中不改科学文件，也不并发启动另一建库。完整建库后接续原六臂DEV及A/B/跨库审计，所有条件满足前保持未完成，不启动TEST或论文。
 
 ## 当前阶段结论与证据分工
 

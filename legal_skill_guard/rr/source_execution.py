@@ -11,7 +11,8 @@ import time
 
 from .coverage import Unsupported,certificate,complete,digest,plan_batch
 from .source_program import (accept_observations,compile_source,compiler_prompt,
-    observation_request,program_schema,source_theory)
+    observation_request,source_theory)
+from .source_code import compiler_response_schema,decode_compiler_response
 from .strict_contract import obj
 from .wire_validation import validate_wire
 
@@ -85,7 +86,7 @@ def prepare_followup(compiled,observed=None,*,compilation,tokenize,request_confi
         if translation:
             factual_schema['properties']['observations']['items']['properties']['name']['type']='string'
             task=json.loads(factual_messages[1]['content'])
-            system,user=compiler_prompt(compiled['source'],library,previous_program=compiled['program'],
+            system,user=compiler_prompt(compiled['source'],library,accepted_program=compiled['program'],
                 factual_observation_task=task)
             payload=json.loads(user)
             # Previously accepted K is the supplied program. New source text
@@ -94,16 +95,13 @@ def prepare_followup(compiled,observed=None,*,compilation,tokenize,request_confi
             payload['units']=[u for u in payload['units'] if u['id'] in closure]
             payload['selected_residual_units']=sorted(selected)
             payload['context_closure']=list(key)
-            system+=(' Return an envelope with program holding the complete source IR and '
+            system+=(' Return an envelope with program holding {code:STRING} for the complete declarative program and '
                 'factual_observations holding exactly the requested fact rows. Preserve unchanged '
                 'primitive names/quotes and accepted definitions. Translate the selected rule residuals; '
                 'do not guess truth values for legal subexpressions. Unknown facts remain null.')
-            schema_program=program_schema(compiled['source'],library)
-            definitions=schema_program.pop('$defs')
-            schema=obj({'program':schema_program,
+            schema=obj({'program':compiler_response_schema(),
                 'factual_observations':factual_schema['properties']['observations']})
             if not names:schema['properties']['factual_observations']={'type':'array','maxItems':0,'items':{'type':'null'}}
-            schema['$defs']=definitions
             messages=[{'role':'system','content':system},{'role':'user','content':json.dumps(payload,ensure_ascii=False)}]
             kind='joint_rule_translation_and_facts'
         else:
@@ -140,7 +138,7 @@ def prepare_followup(compiled,observed=None,*,compilation,tokenize,request_confi
 def accept_followup(compiled,prepared,response,observed=None,*,library=None):
     validate_wire(response,prepared['schema']);observed=observed or {}
     if prepared['kind']=='joint_rule_translation_and_facts':
-        updated=compile_source(compiled['source'],response['program'],library=library)
+        updated=compile_source(compiled['source'],decode_compiler_response(response['program']),library=library)
         for name in set(observed)|set(prepared['names']):
             if updated['observations'].get(name)!=compiled['observations'][name]:
                 raise Unsupported('Changed primitive meaning cannot inherit an earlier/requested observation')

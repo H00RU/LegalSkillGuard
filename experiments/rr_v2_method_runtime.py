@@ -11,7 +11,7 @@ from legal_skill_guard.rr.preflight import atomic_json
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('action',choices=['prepare','thinking','build','dev'])
+    parser.add_argument('action',choices=['prepare','build','dev'])
     parser.add_argument('--run-id',required=True)
     args=parser.parse_args();root=Path(__file__).resolve().parents[1]
     stage=root/'artifacts/rr_method_runtime_20261107'/args.run_id;stage.mkdir(parents=True,exist_ok=True)

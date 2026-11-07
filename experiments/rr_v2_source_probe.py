@@ -15,12 +15,13 @@ from legal_skill_guard.rr.coverage import digest
 from legal_skill_guard.rr.method_client import MethodExecutor,MethodTeacher,TEACHER_BINARY,TEACHER_SHA
 from legal_skill_guard.rr.method_ledger import MethodLedger
 from legal_skill_guard.rr.preflight import science_files,scientific_code_binding,score_source
-from legal_skill_guard.rr.source_program import compile_source,compiler_prompt,program_schema
+from legal_skill_guard.rr.source_program import compile_source,compiler_prompt
+from legal_skill_guard.rr.source_code import compiler_response_schema,decode_compiler_response,SourceCodeError
 from legal_skill_guard.rr.source_execution import assess_source,prepare_followup,accept_followup
 
 
 QUESTION='Can an actual TRAIN clause compile into a compact source-scoped DAG, factual observations and independent Omega checking without native-answer delegation?'
-OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v10.json'
+OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v13.json'
 
 
 def load(root,run_id,source_id=None,library_path=None,compiler_role='executor'):
@@ -70,7 +71,7 @@ def compiler_record(root,origin,source,config):
     if not row or row[:3]!=('teacher',source['key'],'completed'):
         raise ValueError('No completed paid compiler response exists for this source')
     response=json.loads(row[3]);program=json.loads((stage/'program.json').read_text())
-    if response['value']!=program or response['source_ids']!=[source['key']]:
+    if decode_compiler_response(response['value'])!=program or response['source_ids']!=[source['key']]:
         raise ValueError('Saved compiler program differs from the immutable paid response')
     return seal,response,program
 
@@ -92,18 +93,26 @@ def executor_candidate(root,origin,source,config):
     if (seal['run_id']!=origin or seal['source']!=source or
             seal['config']['compiler_role']!='executor' or seal['config']['executor']!=config['executor']):
         raise ValueError('Executor repair requires its own candidate, identical public source and executor profile')
+    if seal['schema']!=compiler_response_schema():
+        raise ValueError('Repair origin must use the current code envelope')
     cfg=json.loads((root/'configs/rr_v2_preflight.json').read_text())
     with sqlite3.connect('file:'+str(root/cfg['ledger_path'])+'?mode=ro',uri=True) as db:
         row=db.execute('select role,purpose,source,status,result from calls where id=?',(origin+':compile',)).fetchone()
     if not row or row[:4]!=('executor','method_train_synthesis',source['key'],'completed'):
         raise ValueError('No completed independent executor candidate exists')
     from legal_skill_guard.rr.raw_recovery import _unique_object
-    response=json.loads(row[4]);program=json.loads((stage/'program.json').read_text())
-    if json.loads(response['content'],object_pairs_hook=_unique_object)!=program:
-        raise ValueError('Saved candidate differs from the immutable executor response')
+    response=json.loads(row[4]);path=stage/'program.json';parse_error=None
+    try:program=decode_compiler_response(json.loads(response['content'],object_pairs_hook=_unique_object))
+    except SourceCodeError as exc:
+        program=None;parse_error={'type':type(exc).__name__,'message':str(exc),'diagnostics':exc.diagnostics}
+        if path.exists():raise ValueError('An unparseable paid response cannot have a saved IR')
+    else:
+        if json.loads(path.read_text())!=program:
+            raise ValueError('Saved candidate differs from the immutable executor response')
     return seal,program,{'paid_call_id':origin+':compile','program_hash':digest(program),
         'request_hash':response['request_hash'],'generation_binding':seal['binding'],
-        'teacher_candidate_used':False,'new_model_calls':0}
+        'raw_content_sha256':hashlib.sha256(response['content'].encode()).hexdigest(),
+        'parse_error':parse_error,'teacher_candidate_used':False,'new_model_calls':0}
 
 
 def prepare(root,run_id,compiler_origin=None,repair_origin=None,source_id=None,library_path=None,compiler_role='executor',executor_repair_origin=None):
@@ -116,7 +125,7 @@ def prepare(root,run_id,compiler_origin=None,repair_origin=None,source_id=None,l
         if db.execute("select 1 from calls where status='reserved'").fetchone():
             raise ValueError('Reconcile the existing physical request; do not duplicate it')
     auth=json.loads((root/'docs/rr_v2/method_runtime_authorization_20261107.json').read_text())
-    previous=None;feedback=None;executor_origin=None
+    previous=None;feedback=None;executor_origin=None;last_error=None
     if sum(x is not None for x in (compiler_origin,repair_origin,executor_repair_origin))>1:
         raise ValueError('Choose one exact reuse or repair origin')
     if compiler_role!='teacher' and (compiler_origin or repair_origin):
@@ -125,14 +134,29 @@ def prepare(root,run_id,compiler_origin=None,repair_origin=None,source_id=None,l
         if compiler_role!='executor':raise ValueError('Executor repair origin requires executor compilation')
         from legal_skill_guard.rr.source_validation import validation_feedback
         old_seal,previous,executor_origin=executor_candidate(root,executor_repair_origin,source,config)
+        last_error=executor_origin.get('parse_error')
+        if previous is not None:feedback=validation_feedback(source,previous)
+    if repair_origin:
+        from legal_skill_guard.rr.source_validation import validation_feedback
+        _,_,previous=compiler_record(root,repair_origin,source,config)
         feedback=validation_feedback(source,previous)
-    if repair_origin:_,_,previous=compiler_record(root,repair_origin,source,config)
-    system,user=compiler_prompt(source,config['library'],previous_program=previous,validation_feedback=feedback)
-    schema=program_schema(source,config['library'])
+    if compiler_role=='executor':
+        # Use the actual M11 compiler request, including its policy and bounded
+        # source-only feedback. Probe-specific prompt copies drifted from it.
+        from legal_skill_guard.rr.controls import ARMS
+        from legal_skill_guard.rr.source_inference import _compiler_request
+        readonly=MethodExecutor(None,stage,config['executor'])
+        messages,schema,_=_compiler_request(source,config['library'],ARMS['M11'],previous,last_error,
+            readonly.tokenize,config['executor'],config['executor']['enable_thinking'])
+        system,user=messages[0]['content'],messages[1]['content']
+        feedback=json.loads(user)['validation_feedback']
+    else:
+        system,user=compiler_prompt(source,config['library'],validation_feedback=feedback)
+        schema=compiler_response_schema()
     if executor_origin:
         executor_origin['changed_contract_fields']=[key for key,value in
             (('system',system),('user',user),('schema',schema)) if old_seal[key]!=value]
-        if not executor_origin['changed_contract_fields'] or not feedback['issues']:
+        if not executor_origin['changed_contract_fields'] or not (feedback.get('issues') or feedback.get('previous_error')):
             raise ValueError('A real retry requires specific offline diagnostics and a changed contract')
     origin=None
     if compiler_origin:
@@ -210,7 +234,7 @@ def run(root,run_id):
     # immutable_json canonically sorts mapping keys. Reconstruct the exact
     # production schema order, then check its sealed byte identity before any
     # generation. The canonical inspection copy is not a dispatch schema.
-    schema=program_schema(source,config['library'])
+    schema=compiler_response_schema()
     if schema!=seal['schema'] or hashlib.sha256(json.dumps(schema,ensure_ascii=False).encode()).hexdigest()!=seal['schema_order_sha256']:
         raise ValueError('Ordered compiler schema differs from the sealed production request')
     ledger=MethodLedger(root/cfg['ledger_path'],run_id=run_id,binding=seal['binding'],sources=sources,
@@ -229,13 +253,13 @@ def run(root,run_id):
         elif config['compiler_role']=='teacher':
             response=teacher.summarize(run_id+':compile',source_ids=[source['key']],
                 system_prompt=seal['system'],user_prompt=seal['user'],output_schema=schema)
-            program=response['value']
+            program=decode_compiler_response(response['value'])
         else:
             from legal_skill_guard.rr.raw_recovery import _unique_object
             response=executor.generate(run_id+':compile',source=source['key'],purpose='method_train_synthesis',
                 messages=[{'role':'system','content':seal['system']},{'role':'user','content':seal['user']}],
                 thinking=config['executor']['enable_thinking'],schema=schema)
-            program=json.loads(response['content'],object_pairs_hook=_unique_object)
+            program=decode_compiler_response(json.loads(response['content'],object_pairs_hook=_unique_object))
         immutable_json(stage/'program.json',program)
         result.update(execute_program(root,source,program,config,stage,executor,run_id))
         grade_path=root/'data/packets/rr_v2/grading_only/train.json'

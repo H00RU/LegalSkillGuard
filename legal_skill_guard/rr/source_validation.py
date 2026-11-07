@@ -26,7 +26,14 @@ def validation_feedback(source,program):
     for i,binding in enumerate(program['bindings']):
         cited=binding['sources'];text='\n'.join(units.get(s,'') for s in cited)
         audit=binding_literal_audit(binding['type'],binding['value'],text,names)
-        if not audit['pass']:
+        if not audit['pass'] and binding['type']=='relation':
+            for r,row in enumerate(binding['value']['rows']):
+                for c,cell in enumerate(row):
+                    if not isinstance(cell,str) or cell.casefold() not in text.casefold():
+                        issue(f'bindings[{i}].value.rows[{r}][{c}]',
+                            'exact public witness text; keep source-unit IDs in provenance fields',
+                            {'cell':cell,'sources':cited,'cited_text':text})
+        elif not audit['pass']:
             issue(f'bindings[{i}].value',audit['basis'],{
                 'value':binding['value'],'sources':cited,'cited_text':text})
         kind=binding['type'];value=binding['value']
@@ -34,6 +41,7 @@ def validation_feedback(source,program):
         elif kind=='scalar':
             scalar={bool:'boolean',int:'number',str:'string'}.get(type(value))
             if scalar:types.setdefault(binding['name'],{scalar})
+        else:types.setdefault(binding['name'],{kind})
     for i,observation in enumerate(program['observations']):
         types.setdefault(observation['name'],{'boolean'})
         for field,role in (('entity_source','fact'),('predicate_source','rule')):
@@ -58,14 +66,29 @@ def validation_feedback(source,program):
             except IRTypeError:pass
             remaining.remove(node)
     def check(expression,path,boolean=False):
-        if not expression_reads(expression)<=set(types):return
+        known=expression_reads(expression)<=set(types)
         body={'op':'not','args':[expression]} if boolean else expression
         try:check_expression({'query':body},{},slot_types=types)
         except IRTypeError as exc:
             prefix='program.body.query.args[0]' if boolean else 'program.body.query'
             for row in exc.diagnostics:
-                issue(path+row['path'].removeprefix(prefix),row['expected'],row['actual'])
+                # Arity is knowable even when a future definition has no
+                # inferred type. Do not invent its type to diagnose siblings.
+                if known or row['expected'].startswith('arity '):
+                    issue(path+row['path'].removeprefix(prefix),row['expected'],row['actual'])
+        def unbound(node,at):
+            if isinstance(node,dict):
+                if set(node)=={'var'} and node['var'] not in declared:
+                    issue(at+'.var','declared IR symbol',node['var'])
+                for key,value in node.items():unbound(value,at+'.'+key)
+            elif isinstance(node,list):
+                for i,value in enumerate(node):unbound(value,at+f'[{i}]')
+        unbound(expression,path)
+    for i,node in enumerate(program['nodes']):
+        if node['kind']=='expression':check(node['body'],f'nodes[{i}].body')
     for i,scope in enumerate(program['scopes']):check(scope['condition'],f'scopes[{i}].condition',True)
+    for i,clause in enumerate(program['clauses']):
+        for key in ('value','otherwise'):check(clause[key],f'clauses[{i}].{key}')
     check(program['query'],'query')
     required=set(required_scope_sources(structure));provided={s['source'] for s in program['scopes']}
     for unit in sorted(required-provided):issue('scopes','executable scope for conditional public preface',{'source':unit,'text':units[unit]})

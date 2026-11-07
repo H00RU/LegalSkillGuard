@@ -3,6 +3,11 @@ from __future__ import annotations
 
 from fractions import Fraction
 
+FIXED_ARITIES = {"if": 3, "not": 1, "xor": 2, "eq": 2, "ne": 2, "lt": 2,
+                 "le": 2, "sub": 2, "scale": 2, "divide_constant": 2,
+                 "ceil_divide_constant": 2, "number_at": 2, "pair": 2}
+NONEMPTY_OPERATORS = frozenset({"min", "max"})
+
 
 class IRTypeError(ValueError):
     def __init__(self, diagnostics):
@@ -43,11 +48,8 @@ def check_expression(body, slots, *, slot_types=None):
             issue(path, "object with op and args array", repr(node))
             return {"invalid"}
         op, args = node["op"], node["args"]
-        arities = {"if": 3, "not": 1, "xor": 2, "eq": 2, "ne": 2, "lt": 2,
-                   "le": 2, "sub": 2, "scale": 2, "divide_constant": 2,
-                   "ceil_divide_constant":2,"number_at":2,"pair": 2}
-        if op in arities and len(args) != arities[op] or op in {"min", "max"} and not args:
-            issue(path + ".args", f"arity {arities.get(op, 'at least 1')}", len(args))
+        if op in FIXED_ARITIES and len(args) != FIXED_ARITIES[op] or op in NONEMPTY_OPERATORS and not args:
+            issue(path + ".args", f"arity {FIXED_ARITIES.get(op, 'at least 1')}", len(args))
             return {"invalid"}
         types = [infer(arg, f"{path}.args[{i}]") for i, arg in enumerate(args)]
 

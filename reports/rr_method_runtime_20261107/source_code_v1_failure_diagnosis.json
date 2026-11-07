@@ -1,0 +1,40 @@
+{
+  "IR_available": false,
+  "actual_finish_reason": "stop",
+  "actual_usage": {
+    "completion_tokens": 74,
+    "prompt_tokens": 3253,
+    "prompt_tokens_details": null,
+    "total_tokens": 3327
+  },
+  "captured_utc": "2026-11-07T10:26:55.530710+00:00",
+  "cause_classification": "Model emitted malformed syntax and API calls; the JSON envelope, ordered schema and OFF wire are consistent. No evidence of output limit or runtime execution failure.",
+  "deterministic_semantics_preserving_recovery_available": false,
+  "elapsed_seconds": 2.496717148460448,
+  "exact_failure": {
+    "diagnostics": [
+      {
+        "actual": "unmatched ')'",
+        "column": 184,
+        "expected": "syntactically valid declarative assignments",
+        "line": 1,
+        "path": "code"
+      }
+    ],
+    "message": "Invalid declarative source code: unmatched ')' (<unknown>, line 1)",
+    "type": "SourceCodeError"
+  },
+  "execution_or_TRAIN_grading_performed": false,
+  "full_goal_complete": false,
+  "no_new_model_or_oracle_calls_by_diagnosis": true,
+  "no_raw_candidate_echo": true,
+  "offline_regression": "offline_method_run_v13.json",
+  "raw_content_sha256": "bfdba49d69550443ebe6b46f726511807d18b5ccff49f5ee61ea6e199dc8b243",
+  "run_id": "executor_source_code_v1_20261107",
+  "source": "SARA_v2_Binary:743ac2e5258037a15b0e3549f47db2e50d051ec4449a3493120048fee188a814",
+  "specific_changes": [
+    "SourceCodeError exposes code line/column and expected/actual syntax, with the real raw response in a fixed regression.",
+    "Current paid malformed-response recovery produces only source-only diagnostics, never a fabricated program.",
+    "Compiler instruction explicitly separates named declarations from final query and states Python Booleans, native label strings and graph input arities."
+  ]
+}

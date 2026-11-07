@@ -17,7 +17,7 @@ from .source_bindings import decode_source_bindings
 from .scoped_program import compile_query,expression_reads
 from .source_structure import inspect_source,compact_contexts
 from .strict_contract import (obj,array,ref,interface_definitions,type_enum_schemas,
-                              bounded_expressions,EXPRESSION_DEPTH)
+                              bounded_expressions,EXPRESSION_DEPTH,source_expression_operations)
 from .wire_validation import validate_wire
 from .clause_scope import lower_clauses,required_scope_sources
 
@@ -91,7 +91,7 @@ def program_schema(source,library=None):
                 'columns':obj({c:string for c in sorted(columns)})}))
     definitions['expr']={'anyOf':[{'type':'integer'},{'type':'boolean'},string,
         {'type':'null'},
-        obj({'var':symbol}),obj({'op':{'enum':OPERATORS},'args':array(ref('expr'))})]}
+        obj({'var':symbol}),*source_expression_operations(OPERATORS)]}
     definitions['bool_expr']={'anyOf':[{'type':'boolean'},obj({'var':symbol}),
         obj({'op':{'enum':['and','or']},'args':array(ref('bool_expr'))}),
         obj({'op':{'enum':['not']},'args':{**array(ref('bool_expr')),'minItems':1,'maxItems':1}}),
@@ -124,100 +124,86 @@ def program_schema(source,library=None):
     return strict_output_schema(schema)
 
 
-def compiler_prompt(source,library=None,previous_program=None,validation_feedback=None,factual_observation_task=None):
+def compiler_prompt(source,library=None,accepted_program=None,validation_feedback=None,factual_observation_task=None):
     from .source_format import language_contract
+    from .source_code import render_source_code
     structure=inspect_source(source)
     contexts=compact_contexts(structure)
     units=[{'id':c.id,**structure.roles[c.id],'text':structure.ledger.text[c.start:c.end],
             'context':contexts[c.id]} for c in structure.ledger.clauses]
     system=(
-        'Compile the CURRENT public rule task into a compact, data-only local-definition DAG. '
-        'Do not solve it or emit the native answer. No tools or grading information are available. '
-        'bindings are only exact public literals/typed primitive inputs with sources:[UNIT_IDS] provenance. '
-        'A relation assembled from multiple factual lines must cite all of those units; '
-        'bindings use the plural sources array, never a singular source field. '
-        'Choose each binding type and source evidence before its value; '
-        'only literal primitive inputs belong here, never a second copy of an observation. '
-        'booleans in bindings require a literal true/false in that unit. '
-        'Integers, 0/1 and paragraph numbers are not truth values. '
-        'Every year or other numeric binding must occur in its cited source units. '
-        'Use observations for atomic FACTUAL predicates: entity must be an exact substring of a fact unit, '
-        'predicate an exact substring of a rule unit. '+
-        ('You do not provide their truth values. ' if factual_observation_task is None else
-         'Provide truth ONLY for the separately requested factual_observations, outside program bindings; '
-         'return null for unknown, and verbatim fact evidence for true/false. Never resolve a legal residual as a fact. ')+
-        'Use short, unique internal names of at most64 ASCII letters/digits/underscores, starting with '
-        'a letter or underscore. Keep public quotes and native asset keys intact; they are not internal names. '
-        'Observation and residual variable names MUST begin b_. Names carry no extra meaning: '
-        'dates, years, quantifiers and comparisons must appear in the AST/typed inputs, never only in names. '
-        'Reuse one observation for identical entity/predicate/source quotes; different names cannot add temporal context. '
-        'Decompose legal applicability, arithmetic, thresholds, exceptions and conjunctions into nodes, '
-        'never outsource the final claim, a complete legal rule or a numerical comparison to one observation. '
-        'An observation can remain unknown when facts do not establish it; do not invent missing facts. '
-        'For an unresolved legal/numerical SUBEXPRESSION use rule_residuals, with a Boolean b_ name, '
-        'the rule source unit and an exact quote. It denotes both possible truth values and will NEVER '
-        'be sent to the factual observer for resolution. A residual must be a proper, quoted subexpression '
-        'inside an explicit clause value or source scope condition that reads it. This allows an external '
-        'section reference or missing numeric comparison to remain unresolved without guessing its rule. '
-        'Do not replace an entire untranslated clause or the final claim with one Boolean placeholder. '
-        'nodes are local calculations with name/kind/body ONLY; they never discharge source coverage. '
-        'Use scopes={name,source,condition} for each applicable source context or structural heading. '
-        'The units contain every original nonblank source line exactly once. context lists compact '
-        'dependency edges; inherited context is their transitive closure, never only the direct list. '
-        'A scope owns exactly ONE public rule unit; its condition must be executable Boolean IR, '
-        'never a string quoting the policy. Only a structural, nonconditional title may use literal true. '
-        'A scope with unknown legal applicability may read a quoted Boolean rule_residual. '
-        'Use clauses={name,sources,value,otherwise} for actual translated rule outputs. '
-        'sources owns the actual rule units translated by this clause, not every heading it cites. '
-        'The engine derives inherited scopes from the supplied source context and physically executes '
-        'each clause as if(all inherited scopes, value, otherwise). You cannot omit an inherited guard. '
-        'Choose an explicit disabled value (false,0,empty array,or null as appropriate); no value is guessed. '
-        'All explicit conditional prefaces listed in required_scope_sources must be scopes, not quoted metadata. '
-        'Unused scope declarations and local calculations do not cover source units. '
-        'Translate other supplied rules into clauses/scopes even when not selected by this query; '
-        'leave genuinely untranslated units unowned so they remain unknown-scope residuals. '
-        'Do not mark a whole unparsed rule covered by citing a numeric constant or an unrelated node. '
-        'For expressions use {var:NAME} or {op:OP,args:[...]}; if=[Boolean,then,else]. '
-        'add/sub/min/max/lt/le use exact numbers, scale=[literal multiplier,numeric], '
-        'divide_constant=[numeric,nonzero literal denominator]. and/or/not use Booleans. '
-        'ceil_divide_constant=[numeric,positive literal denominator] is exact upward division '
-        'for a source phrase such as each increment or fraction thereof; apply any statutory bounds explicitly. '
-        'number_at=[numeric vector,nonnegative literal zero-based index] selects an actual numeric '
-        'element, including an amount_values projection. An out-of-range access fails, with no default. '
-        'Read different items from the one shared threaded amount_values node; do not re-consume its bank. '
-        'A denominator 100 for a quoted percent and 2 for quoted one-half is an explicit unit conversion; '
-        'it is not permission to invent those numbers as amounts or factual bindings. '
-        'array creates arrays; object takes pair operations, each pair=[string key,value expression]. '
-        'The root query combines guarded CLAUSE outputs and public inputs into the native result; '
-        'it must not read local helper or scope names directly to bypass their enclosing clauses. '
-        'Use named definitions to avoid duplicating ASTs. Do not return a constant native result. '
-        'Each expression or connector graph has at most16 nested operator levels; '
-        'factor longer computations into named nodes instead of recursively expanding them. '
-        'language_contract supplies the actual typed input shapes, seven connector operators, projections '
-        'and native query-result schema. Read it before constructing bindings or graphs. '
-        'Connector nodes use those seven typed operators or explicit available learned calls. '
-        'When a supplied learned graph matches the actual role and column obligations, invoke its '
-        'pattern hash/variant with complete slots/columns bindings; copying its operators independently '
-        'is not library use. Never add an irrelevant call just to report reuse. '
-        'All consumption of one allowance bank belongs in one threaded graph; never clone it. '
-        'No other functions or hidden execution are available. All branches must type check. '
-        'For SARA use Entailment/Contradiction; ProofWriter uses True/False/Unknown; '
-        'Airline returns the full numeric cost; OpenExempt returns EC/EV with verbatim supplied citations; '
-        'ContractNLI uses Entailment/Contradiction/NotMentioned. Source identifiers are metadata, not operands. '
-        'Do not invent laws, entity witnesses, dates or constants. '
-        'A quoted determination-time policy is not an executable temporal comparison. '
-        'Use actual date/year operations when supported, and keep unsupported subexpressions residual. '
-        'If previous_candidate is supplied, preserve its valid factual primitive names and quotes where '
-        'their meaning is unchanged. Rewrite its incomplete rule/scoping representation into this contract; '
-        'the previous candidate is not a trusted source or a grading answer. '
-        'validation_feedback contains source-only compiler diagnostics, never target answers. '
-        'Correct those specific errors by retranslating the public rules; do not coerce types, '
-        'invent missing rules, or encode a clause identifier as its legal conclusion.')
+        'Compile the CURRENT public rule task into declarative Python-syntax code, returned as {"code":STRING}. '
+        'The code is parsed into a data-only source-linked DAG, never run as Python. Do not solve the task '
+        'or emit a native answer beside the program. No tools or grading information are available. '
+        'Use single-name assignments and a final query = EXPRESSION. No imports, attributes, loops, '
+        'functions, comprehensions, arbitrary calls, mutation or reassignment. Internal names are unique '
+        'ASCII identifiers of at most64 characters. A name has no implicit semantic meaning. '
+        'Write named rule declarations before query; query cannot itself be a clause/observation/scope/residual '
+        'declaration. Keep all parentheses balanced. Use Python True/False/None, not lowercase true/false/null. '
+        'There are no contradiction(), entailment() or other answer functions; native labels are quoted strings '
+        'selected by executable guarded rules. join_on takes TWO declared relations and a params dictionary; '
+        'project_exists takes ONE relation. A quoted sN ID or empty string is never a graph input. '
+        'Do not enumerate every sentence into bindings. Declare only literal inputs and required predicates, '
+        'then write executable rule expressions and guarded clauses; reuse named definitions. '
+        'Primitive inputs: name = TYPE(VALUE, sources=[UNIT_IDS]), with the nine actual typed shapes in '
+        'language_contract. Every numeric value and public string must be grounded in those units. '
+        'A relation contains actual factual witnesses, one cell per column, citing all required factual lines. '
+        'Source IDs are provenance metadata, never relation cells or conclusions. Boolean primitive values '
+        'require literal true/false in the cited text; paragraph numbers, years and 0/1 are not truth values. '
+        'Factual predicates: b_name = observation(entity=QUOTE, entity_source=FACT_ID, '
+        'predicate=QUOTE, predicate_source=RULE_ID). Both quotes must be exact source substrings; '
+        'you do not provide their truth values in code. Reuse the same observation for identical quotes. '
+        'Legal effects, thresholds, arithmetic, dates and comparisons belong in expressions, not observations. '
+        'Missing legal/numeric subexpressions: b_name = residual(source=RULE_ID, quote=EXACT_SUBQUOTE). '
+        'These retain both False/True and are never sent to the factual observer. A residual must be a '
+        'proper subexpression actually read by its containing clause or scope. Never replace an entire '
+        'untranslated rule, final claim or numerical comparison with a fact predicate or guessed Boolean. '
+        'Local calculations: name = EXPRESSION. They do not discharge rule coverage. '
+        'Scope declarations: name = scope(source=ONE_RULE_ID, condition=BOOLEAN_EXPRESSION). '
+        'Only a nonconditional structural title may use literal True. Scope conditions are executable, '
+        'not policy strings. All required_scope_sources must have scopes, including conditional prefaces. '
+        'Rule outputs: name = clause(sources=[OWNED_RULE_IDS], value=EXPRESSION, otherwise=EXPRESSION). '
+        'The engine physically guards each clause with all inherited scopes from the transitive source '
+        'context. State the disabled value explicitly: False, 0, [], or None as appropriate. Do not guess it. '
+        'Own only the rule units actually translated. A constant citation or unused scope does not cover '
+        'a whole rule. Translate other supplied rules even if irrelevant to this query; leave genuinely '
+        'untranslated units unowned so they retain unknown scope. '
+        'Expressions: names, literal integers/strings/True/False/None, and/or/not, ==/!=/</<=, +/-, '
+        'literal_integer * numeric_expression, numeric_expression / nonzero_literal_integer, '
+        '(then_value if Boolean_condition else else_value), arrays [...], and dictionaries {string_key:expression}. '
+        'Helper functions: add, sub, min, max, xor, eq, ne, lt, le, scale, divide_constant, '
+        'ceil_divide_constant, number_at, array, pair, object, concat, all_of, any_of. '
+        'They implement the same typed operations, not arbitrary Python; all branches must type check. '
+        'all_of/any_of support an empty or single-element Boolean conjunction/disjunction. '
+        'ceil_divide_constant(numeric, positive_literal_denominator) implements an increment or fraction thereof '
+        'exactly; apply statutory bounds explicitly. Numeric vectors support vector[nonnegative_literal_index]; '
+        'out-of-range access fails, with no default. A denominator 100 for percent or 2 for one-half is only '
+        'the stated unit conversion, not a new factual amount. '
+        'Connector assignments call the seven operators from language_contract with explicit params dictionaries. '
+        'Projections are identity, amount_value, amount_values and entailment_label. Named results or nested '
+        'calls are allowed. When an available learned graph matches actual slot and column obligations, '
+        'invoke learned(pattern=HASH, variant=INDEX, slots={...}, columns={...}); copying its operators '
+        'independently is not library use. Do not insert irrelevant calls to claim reuse. '
+        'All consumption of one allowance bank must share one thread_allowance result; never clone or '
+        're-consume its bank. Read its different outputs from the one amount_values result. '
+        'Each expression or graph has at most16 nested operators; factor longer ones into named nodes. '
+        'The final query combines guarded CLAUSE outputs and public inputs into the native result in '
+        'language_contract.query_result_schema; do not bypass guards via local helper/scope names. '
+        'Do not return a constant native result. Source identifiers are not operands. '
+        'Do not invent laws, witnesses, dates or constants. A quoted timing policy is not an executable '
+        'date comparison; use supported numeric comparisons or preserve proper unknown subexpressions. '
+        'accepted_program_code, when supplied, is the previously accepted translation; preserve unchanged '
+        'primitive names and quotes to retain factual evidence. validation_feedback is source-only compiler '
+        'diagnosis, never target answers; repair concrete errors without coercion or invented rules. ')
+    if factual_observation_task is not None:
+        system+=('Return the separately requested factual_observations outside the code: provide truth only '
+            'for those requested factual predicates, null for unknown, and verbatim factual evidence for '
+            'True/False. Never resolve a legal residual as a fact. ')
     return system,json.dumps({'dataset':source['dataset'],'source':source['key'],
         'task_metadata':{'answer_type':source['public'].get('answer_type')},
         'language_contract':language_contract(source['dataset'],literal_text=structure.ledger.text),
         'required_scope_sources':required_scope_sources(structure),
-        'previous_candidate':previous_program,
+        'accepted_program_code':render_source_code(accepted_program) if accepted_program is not None else None,
         'validation_feedback':validation_feedback,
         'requested_factual_observations':factual_observation_task,
         'available_learned_patterns':[{k:item[k] for k in ('pattern_hash','pattern')}

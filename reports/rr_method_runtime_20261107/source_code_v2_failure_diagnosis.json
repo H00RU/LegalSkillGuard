@@ -1,0 +1,58 @@
+{
+  "accepted_IR": false,
+  "additional_source_review": [
+    "Both factual predicates cite factual s10 as their rule source.",
+    "Scope declarations use literal True even for conditional/nonstructural rule units.",
+    "The only clause owns query unit s11, which is not a rule.",
+    "The query reads a Boolean constant clause instead of the native SARA result and does not depend on the factual observations."
+  ],
+  "captured_utc": "2026-11-07T10:32:43.746485+00:00",
+  "elapsed_seconds": 6.292774482630193,
+  "finish_reason": "stop",
+  "first_error_type": "ValidationError",
+  "first_field_path": [
+    "observations",
+    0,
+    "name"
+  ],
+  "full_goal_complete": false,
+  "internal_IR_available": true,
+  "model_output_errors_are_not_implementation_exceptions": true,
+  "new_model_calls_by_diagnosis": 0,
+  "next_action": "Proceed with the original coherent fixed128/8-batch acquisition under verified current implementation, per-source two-attempt correction, unchanged model/source/seed and shared teacher/MB material. Preserve ordinary model failures and evaluate original DEV after build; do not certify core A/B or readiness from completion alone.",
+  "no_execution_or_TRAIN_grading": true,
+  "raw_content_sha256": "be5cafc162549e52a8514a6a4b017013f1f28f2db8f376e009e16a25b67eab82",
+  "run_id": "executor_source_code_v2_20261107",
+  "semantic_preserving_adaptation_can_resolve_all_errors": false,
+  "source": "SARA_v2_Binary:743ac2e5258037a15b0e3549f47db2e50d051ec4449a3493120048fee188a814",
+  "source_only_validation_feedback": {
+    "candidate_modified": false,
+    "grading_information_used": false,
+    "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+    "issues": [
+      {
+        "actual": {
+          "role": "fact",
+          "source": "s10"
+        },
+        "expected": "rule",
+        "path": "observations[0].predicate_source"
+      },
+      {
+        "actual": {
+          "role": "fact",
+          "source": "s10"
+        },
+        "expected": "rule",
+        "path": "observations[1].predicate_source"
+      }
+    ],
+    "source_only": true
+  },
+  "usage": {
+    "completion_tokens": 213,
+    "prompt_tokens": 3409,
+    "prompt_tokens_details": null,
+    "total_tokens": 3622
+  }
+}

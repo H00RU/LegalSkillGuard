@@ -45,7 +45,10 @@ def setup(tmp_path,monkeypatch):
         db.execute('insert into calls values (?,?,?,?,?,?,?,?,?)',('old_failed','executor','old','old','old','old','failed',0,'{}'))
     stage=tmp_path/'artifacts/rr_method_runtime_20261107/controller_fixture';stage.mkdir(parents=True)
     config={'executor':{'enable_thinking':False,'model':'offline-fixture'},'teacher':{},'oracle_artifacts':'offline_oracles'}
-    seal={'run_id':'controller_fixture','files':{},'code_hash':'offline_code','config':config,
+    lock={'executor_config':config['executor'],'selected_thinking':False,'repeat_ON_OFF_sweep':False,
+          'current_contract_main_path_passes':0,'does_not_override_original_engineering_block_or_claim_readiness':True}
+    seal={'executor_configuration_lock':lock,'executor_configuration_lock_hash':digest(lock),
+        'run_id':'controller_fixture','files':{},'code_hash':'offline_code','config':config,
         'source_manifest':'manifest.json','source_manifest_hash':digest(manifest),
         'ledger_path':'original.sqlite3','authorization_hash':'offline_current_authorization',
         'sources':{part:[s['key'] for s in rows] for part,rows in sources.items()},
@@ -88,7 +91,7 @@ def setup(tmp_path,monkeypatch):
     monkeypatch.setattr(module,'learn_source_interfaces',lambda *args,**kwargs:{'status':'offline_fixture',
         'oracle_views':[],'learned_pattern':pattern,'candidate_checks':[]})
     monkeypatch.setattr(module,'_fit_horn_examples',lambda *args:([],0))
-    run=MethodRun(tmp_path,'controller_fixture');run.thinking()
+    run=MethodRun(tmp_path,'controller_fixture')
     assert run.selected() is False
     return run,sources,book
 
@@ -102,7 +105,7 @@ def test_fixed128_shared_build_freezes_prefix_and_resumes_without_a_new_physical
     assert last['patterns'][0]['evidence_sources']==[s['key'] for s in sources['train']]
     with sqlite3.connect(book) as db:
         before={t:db.execute('select * from '+t).fetchall() for t in ('calls','meta','oracle_views')}
-        assert db.execute("select count(*) from calls where role='executor'").fetchone()[0]==169
+        assert db.execute("select count(*) from calls where role='executor'").fetchone()[0]==129
         assert db.execute("select count(*) from calls where role='teacher'").fetchone()[0]==8
     assert run.build()==result
     with sqlite3.connect(book) as db:assert before=={t:db.execute('select * from '+t).fetchall() for t in before}
@@ -118,22 +121,25 @@ def test_fixed128_shared_build_freezes_prefix_and_resumes_without_a_new_physical
     with pytest.raises(ValueError,match='future source prefix'):run.verify_build()
 
 
-@pytest.mark.parametrize('semantic_gain',[False,True])
-def test_current_preference_does_not_enable_thinking_for_format_only_success(tmp_path,monkeypatch,semantic_gain):
+def test_locked_OFF_does_not_repeat_the_comparison_or_promote_its_failures_to_readiness(tmp_path,monkeypatch):
     run,_,book=setup(tmp_path,monkeypatch)
-    for path in (run.stage/'thinking/records').glob('*.json'):
-        row=json.loads(path.read_text())
-        row['structural_pass']=row['thinking']
-        row['task_correct']=bool(semantic_gain and row['thinking'])
-        path.write_text(json.dumps(row))
-    (run.stage/'thinking_selection.json').unlink()
     with sqlite3.connect(book) as db:before=db.execute('select * from calls').fetchall()
-    selection=run.thinking()
-    assert selection['selected_thinking'] is semantic_gain
-    assert selection['demonstrated_net_semantic_gain'] is semantic_gain
-    assert selection['engineering_block'] is False
-    assert run.selected() is semantic_gain
+    assert run.selected() is False
+    assert run.seal['executor_configuration_lock']['current_contract_main_path_passes']==0
+    assert not (run.stage/'thinking').exists()
     with sqlite3.connect(book) as db:assert db.execute('select * from calls').fetchall()==before
+    run.seal['executor_configuration_lock']['selected_thinking']=True
+    with pytest.raises(ValueError,match='configuration lock'):run.selected()
+
+
+def test_actual_configuration_lock_uses_preserved_c6_evidence_without_new_generation():
+    from legal_skill_guard.rr.method_run import load_executor_lock
+    root=Path(__file__).resolve().parents[1]
+    config=json.loads((root/'configs/rr_v2_preflight.json').read_text())['executor']
+    lock=load_executor_lock(root,config)
+    assert lock['selected_thinking'] is False and lock['current_contract_main_path_passes']==0
+    config={**config,'temperature':0.123}
+    with pytest.raises(ValueError,match='configuration'):load_executor_lock(root,config)
 
 
 def test_DEV_opens_labels_only_after_all_six_times40_predictions_are_saved(tmp_path,monkeypatch):

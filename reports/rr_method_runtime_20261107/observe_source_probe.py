@@ -59,7 +59,7 @@ def main():
     summary = (f'实时状态（{now}）：c6原固定20配对40/40结束、主路径通过0，OFF锁定；'
                f'当前{args.run_id}，PID{pid}/start_ticks{ticks}，身份存活={alive}，session{state["controller_session"]}，'
                f'累计{counts["executor"]}E/{counts["teacher"]}T、pending{pending}。'
-               f'修复版{state["implementation_commit"]}经{state["current_related_offline_checks_passed"]}项离线和22项后端检查，当前真实结果={result.get("status", "in_progress")}。'
+               f'修复版{state["implementation_commit"]}经{state["current_related_offline_checks_passed"]}项离线和{state["current_backend_checks_passed"]}项后端检查，当前真实结果={result.get("status", "in_progress")}。'
                '原始结果和冻结库保留；新128建库/六臂DEV/TEST尚未开始，Goal active未完成。')
     report = root / 'reports/legalskillguard_method_runtime_20261107.md'
     text = report.read_text(); start, end = '<!-- current_live_status -->', '<!-- /current_live_status -->'

@@ -1,0 +1,113 @@
+{
+  "checked_utc": "2026-11-07T10:19:22.138783+00:00",
+  "checks": [
+    {
+      "all_actual_Qwen_tokens_accepted": true,
+      "byte_accepted": true,
+      "case": "actual_scope_code",
+      "expected": true,
+      "first_rejection": null,
+      "value_sha256": "7ae4ef5d4eaecce4a1c22cc46367a35073d18ceb4d75c7cbcc737047a3567c4b"
+    },
+    {
+      "all_actual_Qwen_tokens_accepted": false,
+      "byte_accepted": false,
+      "case": "legacy_IR_rejected",
+      "expected": false,
+      "first_rejection": {
+        "accepted": false,
+        "index": 1,
+        "mask_allowed": false,
+        "token_id": 65495
+      },
+      "value_sha256": "64cc9fc4d3f1e01eb72b2775de7d9aa0489a5c0dc04324daa97469718d50731a"
+    },
+    {
+      "all_actual_Qwen_tokens_accepted": false,
+      "byte_accepted": false,
+      "case": "side_answer_rejected",
+      "expected": false,
+      "first_rejection": {
+        "accepted": false,
+        "index": 869,
+        "mask_allowed": false,
+        "token_id": 497
+      },
+      "value_sha256": "896326b4d7e75f973c2ebbc40b3bd2f8df0bc82f815221f1f605fcca75d92e8c"
+    },
+    {
+      "all_actual_Qwen_tokens_accepted": false,
+      "byte_accepted": false,
+      "case": "missing_code_rejected",
+      "expected": false,
+      "first_rejection": {
+        "accepted": false,
+        "index": 0,
+        "mask_allowed": false,
+        "token_id": 6257
+      },
+      "value_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "all_actual_Qwen_tokens_accepted": false,
+      "byte_accepted": false,
+      "case": "nonstring_code_rejected",
+      "expected": false,
+      "first_rejection": {
+        "accepted": false,
+        "index": 4,
+        "mask_allowed": false,
+        "token_id": 18
+      },
+      "value_sha256": "7dc1efd15fab8210c2f8552d423158563b175e5428280d956b89c56c3b4bacef"
+    },
+    {
+      "all_actual_Qwen_tokens_accepted": true,
+      "byte_accepted": true,
+      "case": "unicode_and_escaped_string",
+      "expected": true,
+      "first_rejection": null,
+      "value_sha256": "42df273a10b3e84c3be923e748ccba9421734f9968106399f9625d3cffc4661b"
+    },
+    {
+      "all_actual_Qwen_tokens_accepted": true,
+      "byte_accepted": true,
+      "case": "joint_accepted_translation_and_facts",
+      "expected": true,
+      "first_rejection": null,
+      "value_sha256": "ffb36814d2dcce6087f224f5aba5c8aea11367be12c2c2d90316981432822007"
+    },
+    {
+      "all_actual_Qwen_tokens_accepted": false,
+      "byte_accepted": false,
+      "case": "joint_legacy_IR_rejected",
+      "expected": false,
+      "first_rejection": {
+        "accepted": false,
+        "index": 4,
+        "mask_allowed": false,
+        "token_id": 65495
+      },
+      "value_sha256": "d8fbe5067b2a177409830ef659b01e2096b171a5caf3db9867452f6bd8869581"
+    },
+    {
+      "all_actual_Qwen_tokens_accepted": false,
+      "byte_accepted": false,
+      "case": "joint_side_answer_rejected",
+      "expected": false,
+      "first_rejection": {
+        "accepted": false,
+        "index": 1058,
+        "mask_allowed": false,
+        "token_id": 72441
+      },
+      "value_sha256": "1ea6a06402692a818bf641c77039bc2c641243ace58c1d591d858270c78e498c"
+    }
+  ],
+  "interpretation": "Only code/joint wire syntax and token-mask evidence; internal SourceIR and all existing semantic checks still required.",
+  "model_weights_loaded": false,
+  "network_blocked": true,
+  "new_model_calls": 0,
+  "new_oracle_views": 0,
+  "xgrammar_version": "0.1.23"
+}

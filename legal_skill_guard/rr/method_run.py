@@ -1,4 +1,4 @@
-"""One current shared acquisition, fixed paired thinking check and six DEV arms.
+"""One current shared acquisition, locked executor configuration and six DEV arms.
 
 This entry uses the existing physical ledger and current source contracts.
 Historical FormalRun policies/results are never restarted or silently mixed in.
@@ -23,11 +23,27 @@ from .source_inference import predict_source
 from .source_interface_learning import learn_source_interfaces
 from .source_interfaces import fit_source_examples
 from .source_learning import DurableOracle
-from .thinking import select_thinking
 from .strict_contract import obj
 
 
-OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v10.json'
+OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v13.json'
+
+
+def load_executor_lock(root,executor):
+    """Consume the completed comparison as configuration evidence, not readiness."""
+    root=Path(root)
+    path=root/'docs/rr_v2/locked_executor_configuration_20261107.json'
+    lock=json.loads(path.read_text())
+    if (lock['executor_config']!=executor or lock['selected_thinking'] is not False or
+            lock['repeat_ON_OFF_sweep'] is not False or not lock['actual_backend_switch_verified']):
+        raise ValueError('Locked OFF executor configuration differs from the current profile')
+    original=root/'artifacts/rr_method_runtime_20261107'/lock['comparison_run']/'thinking_selection.json'
+    if hashlib.sha256(original.read_bytes()).hexdigest()!=lock['comparison_selection_sha256']:
+        raise ValueError('Original comparison selection changed')
+    selection=json.loads(original.read_text())
+    if selection['records_hash']!=lock['comparison_records_hash']:
+        raise ValueError('Original comparison provenance differs from the lock')
+    return lock
 
 
 def prepare_method_run(root,run_id):
@@ -53,9 +69,11 @@ def prepare_method_run(root,run_id):
         'original_protocol_methods':protocol['methods'],'original_per_prediction_tools':protocol['evaluation'],
         'train_calls_per_source':2,'teacher_attempts_per_batch':2,'oracle_views_per_source':4,
         'sources_per_batch':16,'prediction_calls_including_fallback':3,
-        'thinking_comparison':'one fixed20 paired current two-parse pipeline; no fallback/teacher/extra views',
+        'executor_selection':'locked OFF from completed original20 comparison; do not repeat the sweep',
         'oracle_artifacts':'artifacts/rr_v2_preflight/oracle_guard'}
-    seal={'run_id':run_id,'files':files,'code_hash':scientific_code_binding(files),'config':config,
+    configuration_lock=load_executor_lock(root,cfg['executor'])
+    seal={'executor_configuration_lock':configuration_lock,'executor_configuration_lock_hash':digest(configuration_lock),
+        'run_id':run_id,'files':files,'code_hash':scientific_code_binding(files),'config':config,
         'source_manifest_hash':digest(manifest),'source_manifest':cfg['source_manifest'],
         'data_hash':manifest['data_hash'],'sources':sources,'thinking_sources':manifest['pilot_order'],
         'ledger_path':cfg['ledger_path'],'authorization_hash':digest(authorization),
@@ -112,76 +130,15 @@ class MethodRun:
         dispatch_purpose=purpose
         return generate
 
-    def thinking_profile(self,source,thinking,ledger,executor,binding,profiles):
-        """One original comparison unit, also used by exact paid-wire replay."""
-        source_id=source['key']
-        if source_id not in self.seal['thinking_sources'] or type(thinking) is not bool:
-            raise ValueError('Only an original fixed20 comparison profile is allowed')
-        path=self.stage/'thinking'/'records'/(digest((source_id,thinking))+'.json')
-        if path.exists():record=json.loads(path.read_text())
-        else:
-            prefix=ledger.run_id+':'+digest(source_id)+':'+str(thinking)
-            prediction=predict_source(source,arm='M11',library={'frozen':False,'patterns':[]},
-                generate=self.dispatcher(ledger,executor,source,prefix,'method_thinking_comparison',thinking),
-                tokenize=executor.tokenize,request_config=self.config['executor'],thinking=thinking,
-                partition='train',controlled_shortcut=False,journal=self.stage/'thinking'/'journals'/digest((source_id,thinking)))
-            grade=self.packet('grading','train')[source_id]
-            score=score_source(source,prediction['result'],grade)
-            calls=prediction['calls'];usage_known=all(isinstance(c.get('usage'),dict) for c in calls)
-            record={'source':source_id,'dataset':source['dataset'],'thinking':thinking,'binding':binding,
-                'prediction':prediction,'score':score,'task_correct':score['task_correct'],
-                'structural_pass':any(h.get('structural_pass') for h in prediction['history']),
-                'usage':{'prompt_tokens':sum(c['usage']['prompt_tokens'] for c in calls),
-                         'completion_tokens':sum(c['usage']['completion_tokens'] for c in calls)} if usage_known else None,
-                'elapsed_seconds':sum(c.get('elapsed_seconds') or 0 for c in calls),
-                'reasoning_present':any(c.get('reasoning_content_present') for c in calls),
-                'template_profile_observed':profiles['different_actual_templates'],'actual_backend_effect_verified':False,
-                'source_hash':source['content_hash'],'comparison_unit':'whole bounded two-parse source pipeline'}
-            immutable_json(path,record)
-        if record['binding']!=binding or record['source_hash']!=source['content_hash']:
-            raise ValueError('Thinking comparison record changed')
-        return record
-
-    def thinking(self):
-        phase='thinking';ledger,executor,_,binding=self.clients(phase,False)
-        probe=[{'role':'user','content':'Verify the configured chat-template thinking switch.'}]
-        on=executor.tokenize(probe,thinking=True);off=executor.tokenize(probe,thinking=False)
-        profiles={'on_tokens_hash':digest(on['tokens']),'off_tokens_hash':digest(off['tokens']),
-            'different_actual_templates':on['tokens']!=off['tokens'],'model':self.config['executor']['model']}
-        immutable_json(self.stage/phase/'template_profiles.json',profiles)
-        public={s['key']:s for s in self.packet('public','train')};records=[]
-        for source_id in self.seal['thinking_sources']:
-            source=public[source_id]
-            for thinking in (True,False):
-                record=self.thinking_profile(source,thinking,ledger,executor,binding,profiles)
-                records.append(record)
-                print(json.dumps({'stage':'thinking','complete_profiles':len(records),'source':source_id,
-                    'thinking':thinking,'structure':record['structural_pass'],'correct':record['task_correct']}),flush=True)
-        selection=select_thinking(records,self.seal['thinking_sources'])
-        # The user's current preference supersedes the historical default-ON
-        # Pareto rule. Faster failures or format-only passes are no benefit.
-        original_recommendation=selection['selected_thinking']
-        semantic_gain=selection['stats']['true']['task_correct']>selection['stats']['false']['task_correct']
-        selection.update(selected_thinking=semantic_gain and not selection['engineering_block'],
-            historical_pareto_policy_recommendation=original_recommendation,
-            demonstrated_net_semantic_gain=semantic_gain,
-            selection_rule='current_user_default_OFF_unless_paired_core_semantic_gain; report_measured_tokens_and_time')
-        selection.update(binding=binding,records_hash=digest(records),new_teacher_calls=0,
-            comparison='one paired current source pipeline on the original fixed20; at most two parsing calls/profile; no native fallback',
-            extra_sweep_authorized=False,full_goal_complete=False)
-        immutable_json(self.stage/'thinking_selection.json',selection)
-        return selection
-
     def selected(self):
-        value=json.loads((self.stage/'thinking_selection.json').read_text())
-        config=deepcopy(self.config);config['executor']['enable_thinking']=False
-        expected={'code_hash':self.seal['code_hash'],'config_hash':digest({'config':config,'phase':'thinking'})}
-        records=[json.loads((self.stage/'thinking/records'/(digest((source,mode))+'.json')).read_text())
-                 for source in self.seal['thinking_sources'] for mode in (True,False)]
-        if (value['binding']!=expected or value['records_hash']!=digest(records) or
-                value['engineering_block'] or any(r['binding']!=expected for r in records)):
-            raise ValueError('Current thinking/contract verification is unresolved; no blind extra switch sweep')
-        return value['selected_thinking']
+        lock=self.seal['executor_configuration_lock']
+        if (digest(lock)!=self.seal['executor_configuration_lock_hash'] or
+                lock['executor_config']!=self.config['executor'] or
+                lock['selected_thinking'] is not False or lock['repeat_ON_OFF_sweep'] is not False):
+            raise ValueError('Sealed executor configuration lock changed')
+        # c6's failure remains historical evidence. It does not force a second
+        # ON/OFF sweep after a compiler contract repair or certify the new one.
+        return False
 
     def summarize(self,teacher,ledger,records,library,batch):
         path=self.stage/'build'/'teacher_batches'/f'B{batch}.json'

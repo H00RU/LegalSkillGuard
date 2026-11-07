@@ -19,13 +19,13 @@ def query_expression_schema(dataset, symbol):
     arithmetic operands retain the full expression language; strings inside a
     comparison are not confused with final task labels.
     """
-    from .strict_contract import obj, array, ref
+    from .strict_contract import obj, array, ref, source_expression_operations
     native = native_schema(dataset)
     if 'enum' in native:
         atoms = [native]
     elif dataset == 'RuleArena_Airline':
-        atoms = [native, obj({'op': {'enum': ['add', 'sub', 'scale', 'divide_constant',
-            'ceil_divide_constant', 'number_at', 'min', 'max']}, 'args': array(ref('expr'))})]
+        atoms = [native, *source_expression_operations(['add', 'sub', 'scale', 'divide_constant',
+            'ceil_divide_constant', 'number_at', 'min', 'max'])]
     else:
         atoms = [{'type': 'null'}, obj({'op': {'enum': ['object']}, 'args': array(ref('expr'))})]
     return {'anyOf': atoms + [obj({'var': symbol}), obj({'op': {'enum': ['if']},
@@ -49,16 +49,17 @@ def language_contract(dataset, *, literal_text=None):
                  'params_schema':item['properties']['params']}
                 for item in definitions['connector']['anyOf'] if 'op' in item.get('properties',{})]
     return {
-        'binding_record_order': ['name', 'type', 'sources', 'value'],
+        'primitive_declaration': 'name = TYPE(VALUE, sources=[UNIT_IDS]); VALUE follows the corresponding binding_value_schema. No initial bindings array is required. Declare only inputs actually used by the rule program.',
         'binding_value_schemas':values,
         'binding_semantics':{
             'integer_rational_scalar':'Exact public inputs only; derived quantities and legal conclusions belong in expression nodes. Amount or relation objects are not expression numbers or Booleans.',
             'relation':'Each row is an explicit factual witness with one cell per named column; closed records whether this supplied relation is complete. Use slot_list only for already declared slots.',
             'amount':'value is a nonnegative integer in the stated unit; unit, owner, period and lineage describe the public inputs. stage=element before aggregation; closed_group after a justified complete aggregation. Do not invent metadata or use a legal exemption conclusion as a binding.',
             'allowance_bank':'One shared consumable resource per [rule,owner,period] key; balance and observable ordering must come from public source. resource_key references that same triple. Never create a second bank for the same allowance.'},
-        'connector_syntax':{'leaf':{'slot':'DECLARED_BINDING_OR_NODE_NAME'},
+        'connector_syntax':{'leaf':'DECLARED_BINDING_OR_NODE_NAME',
             'max_nested_operators':EXPRESSION_DEPTH,
-            'operator':'{op:NAME,inputs:[CHILD_GRAPHS],params:PARAMETERS}; params={} for an empty parameter schema',
+            'operator':'OP(INPUTS..., params={PARAMETERS}); parameters are literal dictionaries, slot parameters are declared names as strings. Graph calls may be nested or assigned to a name.',
+            'learned_call':'learned(pattern=HASH, variant=INDEX, slots={ROLE:DECLARED_NAME}, columns={ROLE:PUBLIC_COLUMN}); use only available learned patterns and their complete declared roles.',
             'signatures':signatures},
         'connector_semantics':{
             'bind_rename':'One relation -> relation, renaming the from columns to the corresponding to columns.',
