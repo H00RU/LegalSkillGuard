@@ -8,7 +8,25 @@ from pathlib import Path
 import sqlite3
 import time
 
+from legal_skill_guard.rr.coverage import digest
 from legal_skill_guard.rr.preflight import science_files
+
+
+def committed_source_records(stage, seal):
+    state_file = stage / 'build/state.json'
+    state = json.loads(state_file.read_text()) if state_file.exists() else {}
+    committed = state.get('complete_sources', 0)
+    hashes = state.get('source_hashes', [])
+    assert len(hashes) == committed
+    records = []
+    for position, source in enumerate(seal['sources']['train'][:committed]):
+        path = stage / 'build/sources' / (digest(source) + '.json')
+        record = json.loads(path.read_text())
+        assert record['source'] == source and digest(record) == hashes[position]
+        records.append(record)
+    assert len(records) == committed
+    source_files = len(list((stage / 'build/sources').glob('*.json')))
+    return state, source_files, records
 
 
 def main():
@@ -32,13 +50,14 @@ def main():
             for cid, role, reserved in db.execute("select id,role,reserved_at from calls where status='reserved'")]
         prefix = args.run_id + ':'
         run_calls = db.execute('select role,status,result from calls where substr(id,1,?)=?', (len(prefix), prefix)).fetchall()
+    build_state, source_files, records = committed_source_records(stage, seal)
+    committed = build_state.get('complete_sources', 0)
     rows = []
-    for path in sorted((stage / 'build/sources').glob('*.json')):
-        record = json.loads(path.read_text())
+    for position, record in enumerate(records):
         outcome = record['prediction']['result']
         controlled_fallback = bool(outcome.get('model_source_IR_still_unresolved'))
         native_fallback = outcome['fallback_used']
-        rows.append({'source': record['source'], 'source_position':seal['sources']['train'].index(record['source']), 'dataset': record['dataset'],
+        rows.append({'source': record['source'], 'source_position': position, 'dataset': record['dataset'],
             'program_status': outcome['program_status'], 'certificate_status': outcome['certificate_status'],
             'TRAIN_match_including_predefined_paths': record['score']['task_correct'],
             'fallback_used': native_fallback or controlled_fallback,
@@ -48,15 +67,14 @@ def main():
             'conditional_source_IR_certificate': outcome['A_main_path_executed'],
             'stored_pattern_executed': outcome['B_main_path_executed'],
             'learning_status': record['learning']['status']})
-    state_file = stage / 'build/state.json'
-    build_state = json.loads(state_file.read_text()) if state_file.exists() else {}
-    committed = build_state.get('complete_sources', 0)
     completion_file = stage / 'build/completion.json'
     completion = json.loads(completion_file.read_text()) if completion_file.exists() else None
     now = datetime.now(timezone.utc).isoformat()
     observation = {'captured_utc': now, 'run_id': args.run_id, 'controller': controller,
         'identity_live': identity_live, 'session_id': args.session_id, 'sealed_science_unchanged': True,
-        'counts': counts, 'pending': pending, 'source_records': len(rows), 'committed_sources': committed,
+        'counts': counts, 'pending': pending, 'source_records': source_files, 'committed_sources': committed,
+        'uncommitted_source_records': source_files - committed,
+        'TRAIN_metric_scope': 'state_committed_prefix_with_verified_record_digests',
         'expected_sources': 128, 'expected_batches': 8,
         'completed_batches': build_state.get('completed_batches', 0),
         'datasets_completed': dict(Counter(row['dataset'] for row in rows)),
@@ -85,6 +103,7 @@ def main():
         'committed_sources': committed, 'expected_sources': 128,
         'completed_batches': observation['completed_batches'], 'expected_batches': 8,
         'prefix_denominator': len(rows),
+        'source_status_scope': 'state_committed_prefix_with_verified_record_digests',
         'TRAIN_matches_including_fallback': observation['TRAIN_matches_including_predefined_paths'],
         'TRAIN_matches_without_fallback': observation['TRAIN_matches_without_fallback'],
         'model_source_IR_compiled': observation['source_IR_compiled'],
@@ -93,6 +112,7 @@ def main():
         'fallback_sources': observation['fallback_sources_including_Horn_recovery'],
         'stored_pattern_execution_sources_including_fallback': observation['stored_pattern_execution_sources'],
         'settled_executor_responses': len(finished_executor),
+        'response_count_scope': 'all_settled_physical_responses_in_this_run_including_uncommitted_sources',
         'executor_finish_reasons': dict(Counter(result.get('finish_reason') for result in finished_executor)),
         'this_run_physical_counts': observation['this_run_physical_counts'],
         'cumulative_physical_requests': counts, 'pending_requests': len(pending),
@@ -116,7 +136,7 @@ def main():
         controller_start_ticks=controller['start_ticks'], controller_session=args.session_id,
         controller_identity_live=identity_live, executor_total=counts['executor'], teacher_total=counts['teacher'],
         pending_requests=len(pending), last_update_utc=now, current_complete_sources=committed,
-        current_source_records=len(rows), full_fixed128_build_completed=completion is not None,
+        current_source_records=source_files, full_fixed128_build_completed=completion is not None,
         next_action='Continue this exact sealed fixed128/8-batch build and record ordinary model errors without repair sweeps; preserve source budgets, frozen libraries and ledger. Observe the real PID/session, do not duplicate or change bound files. After build perform original six-arm DEV and mechanism/cross-bank audits; no TEST, paper or premature completion.')
     state['controller_processes'] = [controller] if identity_live and controller['status']=='running' else []
     if completion is not None and controller['status']=='completed':
@@ -124,7 +144,7 @@ def main():
         state['next_action']='Verify all original128 records,8 batches,B1/B8 and same-material MB with the sealed controller, then run original six-arm DEV once under locked OFF. Preserve the completed build; do not launch it again, inspect TEST or mark Goal complete before core/semantic/cross-bank delivery.'
     state_path.write_text(json.dumps(state, ensure_ascii=False, sort_keys=True, indent=2) + '\n')
     activity='运行中' if identity_live and controller['status']=='running' else controller['status']
-    line = (f'实时状态（{now}）：统一版本{state["implementation_commit"][:7]}的原128来源/8批建库{activity}，来源记录{len(rows)}/128、已提交前缀{committed}；'
+    line = (f'实时状态（{now}）：统一版本{state["implementation_commit"][:7]}的原128来源/8批建库{activity}，来源记录{source_files}/128、已提交前缀{committed}；'
         f'实际PID{controller["pid"]}/start_ticks{controller["start_ticks"]}，身份存活={identity_live}，session{args.session_id}。'
         f'累计{counts["executor"]}E/{counts["teacher"]}T、pending{len(pending)}。'
         f'当前模型IR编译{observation["source_IR_compiled"]}、条件完成证书{observation["conditional_source_IR_certificates"]}；'

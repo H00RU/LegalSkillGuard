@@ -1,27 +1,61 @@
 # LegalSkillGuard 主方法与开发验证
 
+<!-- current_remote_publication -->
+Public export checkpoint: 64/128 committed TRAIN sources and 4/8 batches. Independent GitHub fetch verification is reported separately in the development branch publication receipts; historical snapshots retain their own captured prefixes. The current report, code and raw evidence remain an interim build record; full Goal and semantic acceptance are incomplete.
+<!-- /current_remote_publication -->
+
 <!-- current_live_status -->
-Current audited TRAIN prefix: 32/128 sources and 2/8 committed batches. TRAIN matches including fallback: 3/32; fallback sources: 3/32. Accepted model IR: 0; A conditional certificates: 0; actual A follow-up requests: 0; primary model-IR B execution sources: 0. The current library contains 1 patterns and records 58 stored-graph calls; their provenance classes are {'same_bank_stored_use': 46}. Fallback executions do not establish core success or cross-bank transfer. B2 is a batch snapshot with six-arm common material; only B1 and B8 require frozen library/MB files under the original protocol. B1 and B1.MB content/file hashes were verified, and a corrupted temporary copy was rejected without changing the originals. The first25-source diagnostic records47 truncated responses;38 stopped in bindings or nodes, and13 responses repeat exact expression bodies. These are observed generation failures, not recovered programs. Thinking remains OFF and the output limit remains8192. The current518 offline checks and8 installed-backend syntax checks are engineering evidence. Teacher physical origins and exact paid reuse are itemized in the batch receipt. Older69-source and5-source builds remain separate. Goal remains active and incomplete: coherent128/8 build, original six-arm DEV, core mechanism and cross-bank evidence remain outstanding. No TEST or paper work has started.
+Current audited TRAIN prefix: 64/128 sources and 4/8 committed batches. TRAIN matches including fallback: 3/64; fallback sources: 3/64. Accepted model IR: 0; A conditional certificates: 0; actual A follow-up requests: 0; primary model-IR B execution sources: 0. The current library contains 1 patterns and records 58 stored-graph calls; their provenance classes are {'same_bank_stored_use': 46}. Fallback executions do not establish core success or cross-bank transfer. B2 through B4 are batch snapshots with six-arm common material; only B1 and B8 require frozen library/MB files under the original protocol. B1 and B1.MB content/file hashes were verified, and a corrupted temporary copy was rejected without changing the originals. The first25-source diagnostic records47 truncated responses;38 stopped in bindings or nodes, and13 responses repeat exact expression bodies. These are observed generation failures, not recovered programs. Thinking remains OFF and the output limit remains8192. The current518 offline checks and8 installed-backend syntax checks are engineering evidence. Teacher physical origins and exact paid reuse are itemized in the batch receipt. Older69-source and5-source builds remain separate. Goal remains active and incomplete: coherent128/8 build, original six-arm DEV, core mechanism and cross-bank evidence remain outstanding. No TEST or paper work has started.
 <!-- /current_live_status -->
 
 <!-- current_train_prefix -->
 ## 当前统一版本的TRAIN前缀
 
-更新时间：2026-11-07T20:58:00.128549+00:00；仅统计已结算的32个来源。
+更新时间：2026-11-08T02:28:00.624877+00:00；仅统计已结算的64个来源。
 
 | 指标 | 当前结果 |
 |---|---:|
-| 已提交来源 / 原定来源 | 32 / 128 |
-| 已完成批次 / 原定批次 | 2 / 8 |
-| TRAIN匹配（含允许的回退） | 3 / 32（9.38%） |
-| 无回退的TRAIN匹配 | 0 / 32 |
-| 接纳的模型IR | 0 / 32 |
-| A条件完成证书来源 | 0 / 32 |
-| B模型IR路径实际执行来源 | 0 / 32 |
-| 回退来源 | 3 / 32 |
+| 已提交来源 / 原定来源 | 64 / 128 |
+| 已完成批次 / 原定批次 | 4 / 8 |
+| TRAIN匹配（含允许的回退） | 3 / 64（4.69%） |
+| 无回退的TRAIN匹配 | 0 / 64 |
+| 接纳的模型IR | 0 / 64 |
+| A条件完成证书来源 | 0 / 64 |
+| B模型IR路径实际执行来源 | 0 / 64 |
+| 回退来源 | 3 / 64 |
 
 回退答对和回退中的存储图调用单列，不计核心机制成功。IR接纳或条件证书也不单独证明源文语义忠实。[当前指标JSON](rr_method_runtime_20261107/training_metrics_status_20261107.json)、[来源状态CSV](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_source_status.csv)保留分母与路径；下方其他科学版本分别保存，不拼接成绩。
 <!-- /current_train_prefix -->
+
+## 第四批64来源的材料与教师来源
+
+原64来源顺序、record digest、库前缀和六臂共同材料已核对；原B1/B1.MB文件SHA与第三批核验一致。B4仅为原批次快照，仍只要求B1/B8及对应MB冻结文件。第四批教师响应精确复用已结算的`method_runtime_code_v1_20261107:build:teacher:B4:0`，本批新增物理教师0；原请求SHA `578a96a9ecb9b029f0c76695a8ac2190e3c46eeb38dff27920f653b8fac4acc5`、结果SHA `ca5a968226f6e1e3f8ee61d3e5cd3bbce6615eb5c1066310d01a82abeadd0da4`与只读账本一致。独立检查核对JSON值和全部列表顺序，运行时封存代码另以完整请求字典（含literal user_prompt）相等作为复用条件；不把独立JSON检查声称为提示字节重建。原教师用量input15735/output352，其中reasoning221属于output子集。
+
+前64来源128次响应为125次length、3次完整后拒绝，有效模型IR、A实际后续请求/条件证书、模型IR路径B均0；TRAIN3/64均为回退。库1个模式、58次同库回退图调用，查询相关调用46；没有外库实际使用证据。当前分布为OE32/Airline20/SARA4/ProofWriter4/ContractNLI4。这些材料核验不计核心机制成功或训练就绪；同一建库继续原余64来源/4批，之后仍需原六臂DEV和完整Goal验收，TEST及论文未启动。
+
+[第四批完整收据](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_B4_material_and_paid_origin_audit.json)保留全部源记录digest、原教师物理来源、当前原始失败、冻结文件哈希和分列指标。
+
+## 第三批48来源的材料与教师来源
+
+原48来源已正式提交为3/8批。[B3快照](../artifacts/rr_method_runtime_20261107/method_runtime_ast_v1_20261107/build/batches/B3.json)及[独立材料和物理来源核对](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_B3_material_and_paid_origin_audit.json)确认48个原来源及顺序、record digest、库前缀和六臂共同材料一致；原B1、B1.MB的文件SHA与先前B2核验结果完全相同。B3按原协议保留批次快照，不新增冻结库或MB要求。
+
+B3教师响应来自已结算的method_runtime_code_v1_20261107:build:teacher:B3:0，本批新增物理教师调用0，原调用继续留在累计21次教师账本。核查了原请求/响应文件SHA、只读物理账本结果、相同16个本批来源及顺序、教师配置和教学材料JSON；运行中的封存代码以包含literal user_prompt字符串的完整请求字典相等作为复用条件。独立材料JSON核对不冒充提示字符串的逐字重建。教师状态summary_recorded、错误0，只确认当前库已有的一个模式，不计作新增法律规则或核心方法成功；实际费用和原始用量按原物理来源保留。
+
+前48来源为OpenExempt32条、其余四库各4条。96条模型响应中93条length、3条完整后被拒；接纳IR、A条件证书/实际后续选批、B模型IR主路径均为0。TRAIN匹配3/48（6.25%），均为Horn回退；1个entity_equality/join_on模式的58次图调用全部来自同库回退，实际外库复用仍为0。另有4个来源的记录内两次响应内容逐字相同，属于描述性统计；第47来源另有实际HTTP和响应ID核对，不能由此确定服务或模型根因。上述材料核验没有新增模型、oracle或评分调用，也未读取DEV/TEST评分包。原余80来源、5批及六臂DEV继续待完成，Goal未完成。
+
+## 第47来源的相同输出与物理请求核对
+
+第47来源两条8192-token截断输出逐字相同，但两次真实HTTP body SHA和provider响应ID均不同，均cache_hit=false、physical_origin_call_id=null；输入token分别21504、21610，提示差异仅为validation_feedback，原公开源单元相同。[原始请求、响应及账本核对收据](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_source47_identical_response_audit.json)确认这是两次分别结算的物理请求，均计入账本，未发现这对结果被缓存副本冒充的证据。这项观察只证明不同请求重复产生相同不完整输出，不能据此断言服务忽略反馈或确定模型重复的原因；没有追加请求、补齐IR或修改配置。
+
+该收据初稿的文件保存性字段误作哈希自比较，不能作为独立验证；[初稿原件](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_source47_identical_response_before_preservation_check_fix.json)已逐字保留。现改为与诊断前提交0bdcb08中的来源记录SHA及实际state中的record digest双重核对，二者均匹配；请求、响应和重复输出的原始证据未改。科学绑定和当前建库继续保持不变，此诊断不计作A/B核心成功。
+
+## 指标的来源提交边界
+
+控制器先写来源记录，再完成批次教师汇总、共同材料和state提交；旧观察脚本按文件存在统计TRAIN分母，在批次提交间隙可能提前计入待提交来源。现仅调整未绑定报告脚本，按state中已提交的原来源顺序及record digest读取指标和CSV，来源文件总数另列，全部已结算物理响应仍计入费用。[真实记录隔离回归](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_observer_commit_scope_regression.json)执行了旧脚本实际读取循环：16个已有来源文件、state仅提交15条时，旧分母16、新分母15；提交16条后正常计16，篡改已提交digest的负例被拒绝。核查时真实前缀43/43一致，未观察到已有成绩被这处竞态改写；原始记录、评分、科学实现和账本均未改，没有新增模型、oracle或评分调用。本项属于报告统计边界修复，不计作A/B方法成功。
+
+## 失败明细覆盖修复与账本核对
+
+失败明细入口曾停在首5来源，本次首次从真实build/state.json的已提交前缀补齐至40来源、80条响应；逐项核对源记录digest、原响应内容、token用量及OFF字段与只读物理账本一致。当时77条length、3条stop，与指标统计一致；3条匹配仍均为Horn恢复，原始B执行标记与核心模型IR路径单列。[完整失败矩阵](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_complete_prefix_failure_matrix.json)由未绑定报告脚本随后续已提交前缀继续更新，[原首5来源明细](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_first5_failure_matrix_before_incremental_refresh.json)逐字保留。[实际记录回归收据](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_failure_matrix_refresh_regression.json)确认首5来源结果及付费元数据不变，并拒绝内存副本中的响应内容和token用量篡改。此为报告覆盖修复，没有修改科学实现、原始输出、评分或账本，也没有新增模型、oracle或评分调用；未提交来源不计入矩阵分母。
 
 ## 统一版本前20来源的失败阶段与输入边界
 
@@ -42,6 +76,8 @@ Current audited TRAIN prefix: 32/128 sources and 2/8 committed batches. TRAIN ma
 基于原前25来源50条实际响应的[完整前缀核验](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_first25_truncation_prefix_audit.json)，47条length分别停在bindings 21条、nodes 17条、scopes 4条、clauses 2条、rule_residuals 2条、observations 1条；38/47在bindings或nodes阶段尚未完成。另3条完整响应的语义/类型拒绝原因仍分别保留。每条原始内容与已结算账本逐字相等，前缀声明数与实际生产诊断逐条一致；本核验没有模型、oracle或评分调用。
 
 50条响应中13条的完整表达式节点含精确相同的body。第25来源首响应有80个完整表达式节点、6种不同body，其中一个body出现75次；第二响应只生成到bindings，已有120个完整绑定，后续字段和query尚未到达。这里的重复按解析后JSON值逐项记录，不把不同来源的同形绑定认定为语义等价，也不通过删改节点或补闭JSON恢复程序。现有证据显示输出预算被重复生成消耗；增加上限是否能产生正确IR没有得到验证。当前实现、8192输出配置、原候选和正确性要求均保持封存，仍继续原固定建库。
+
+第38来源首响应的48处numbers/number诊断已做[实际操作数契约核对](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_source38_numeric_operand_audit.json)：模型把公开源单元s159中的标量decorative_bowl_value=120传入要求数值向量的位置。实际schema允许变量引用、拒绝向量位置的裸数值；独立重放该完整表达式时，运行时解析到number类型并按原规则拒绝。这一错误来自模型对变量类型的使用，当前个案未显示schema、解析器或执行器的契约不一致。未修改候选、科学代码或正确性检查，没有新增模型/oracle调用，也未将该局部类型核验计作A/B成功。
 
 ## 第二批32来源的快照、共同材料与教师来源
 
