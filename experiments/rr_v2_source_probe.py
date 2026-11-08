@@ -22,7 +22,7 @@ from legal_skill_guard.rr.source_execution import assess_source,prepare_followup
 
 
 QUESTION='Can an actual TRAIN clause compile into a compact source-scoped DAG, factual observations and independent Omega checking without native-answer delegation?'
-OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v21.json'
+OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v22.json'
 
 
 def load(root,run_id,source_id=None,library_path=None,compiler_role='executor'):
@@ -54,6 +54,11 @@ def load(root,run_id,source_id=None,library_path=None,compiler_role='executor'):
         prefix=set(train[:train.index(source['key'])])
         if any(not set(p['evidence_sources'])<=prefix for p in library['patterns']):
             raise ValueError('Probe cannot receive patterns learned from itself or future sources')
+        from legal_skill_guard.rr.compiler_examples import validate_compiler_example
+        for example in library.get('compiler_examples',[]):
+            previous,_,_=validate_compiler_example(example)
+            if previous['key'] not in prefix or previous!=public[previous['key']]:
+                raise ValueError('Probe compiler examples must be exact earlier original TRAIN sources')
     config={'executor':cfg['executor'],'teacher':teacher,'data_hash':manifest['data_hash'],
             'question':QUESTION,'source_selection':'explicit original TRAIN source; no labels loaded' if source_id else 'shortest original SARA rule text; no labels loaded',
             'library':library,'library_file_sha256':library_hash,'compiler_role':compiler_role}

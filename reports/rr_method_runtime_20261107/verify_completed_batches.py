@@ -72,6 +72,7 @@ def main():
             invocation = response['invocation']
             assert not invocation['tool_events_detected']
             origin=response.get('paid_response_origin')
+            current_physical_origin = None
             if origin:
                 cid=origin['call_id'];old_run=cid.split(':build:teacher:',1)[0]
                 directory=stage.parent/old_run/'build/calls'/digest(cid)
@@ -91,6 +92,38 @@ def main():
                     'pattern':r['learning'].get('learned_pattern')} for r in current_records]
                 assert payload=={'common_training_records':common,'library':library.export(),
                     'previous_transport_or_schema_errors':teacher['errors']}
+            else:
+                prefix = args.run_id + f':build:teacher:B{batch}:'
+                with sqlite3.connect('file:' + str(root / seal['ledger_path']) + '?mode=ro', uri=True) as db:
+                    rows = db.execute('select id,status,request_hash,result from calls where role=? and substr(id,1,?)=?',
+                        ('teacher', len(prefix), prefix)).fetchall()
+                    origin_spec = json.loads(db.execute("select value from meta where key='spec'").fetchone()[0])
+                    policy = json.loads(db.execute('select value from meta where key=?',
+                        ('method_runtime_policy:' + args.run_id + ':build',)).fetchone()[0])
+                matches = [row for row in rows if row[1] == 'completed' and json.loads(row[3]) == response]
+                assert len(rows) <= 2 and len(matches) == 1
+                cid, _, request_hash, _ = matches[0]
+                directory = stage / 'build/calls' / digest(cid)
+                request_path, result_path = directory / 'request.json', directory / 'result.json'
+                saved_request = json.loads(request_path.read_text())
+                assert digest({'request': saved_request, 'origin_spec': origin_spec, 'policy': policy}) == request_hash
+                assert json.loads(result_path.read_text()) == response
+                assert saved_request['source_ids'] == sources and saved_request['config'] == seal['config']['teacher']
+                payload = json.loads(saved_request['user_prompt'])
+                current_records = [json.loads((stage / 'build/sources' / (digest(source) + '.json')).read_text()) for source in sources]
+                common = [{'source': r['source'], 'dataset': r['dataset'],
+                    'program_status': r['prediction']['result']['program_status'],
+                    'certificate_status': r['prediction']['result']['certificate_status'],
+                    'learning_status': r['learning']['status'], 'refinement': r['learning'].get('refinement'),
+                    'pattern': r['learning'].get('learned_pattern')} for r in current_records]
+                assert payload == {'common_training_records': common, 'library': library.export(),
+                    'previous_transport_or_schema_errors': teacher['errors']}
+                current_physical_origin = {'call_id': cid, 'status': 'completed', 'request_hash': request_hash,
+                    'request_file_sha256': hashlib.sha256(request_path.read_bytes()).hexdigest(),
+                    'result_file_sha256': hashlib.sha256(result_path.read_bytes()).hexdigest(),
+                    'request_origin_spec_and_policy_match_read_only_ledger': True,
+                    'saved_result_and_batch_response_match_read_only_ledger': True,
+                    'booked_batch_teacher_requests': len(rows), 'adapter_cache_hit': response['cache_hit']}
             teacher_rows.append({'batch': batch, 'model': response['model'],
                 'wrapper_attempt': invocation['attempt'], 'tool_events_detected': False,
                 'usage': invocation['usage'], 'estimated_credits': invocation['estimated_credits'],
@@ -98,12 +131,13 @@ def main():
                 'success_event_log_hash': invocation['event_log_sha256'],
                 'full_success_event_log_in_record': 'event_log' in invocation,
                 'paid_response_origin':origin,
+                'current_run_physical_origin': current_physical_origin,
                 'usage_attribution':'original settled physical request; no new teacher invocation' if origin else 'current run physical invocation'})
         batches.append({'batch': batch, 'prefix_sources': batch * 16,
             'source_records_and_all6arms_common_material_verified': True,
             'no_future_pattern_sources': all(set(item['evidence_sources']) <= set(snapshot['sources']) for item in library.patterns),
             'teacher_status': teacher['status'], 'recorded_schema_transport_errors': len(teacher['errors'])})
-    result = {'checked_utc': datetime.now(timezone.utc).isoformat(), 'run_id': args.run_id, 'audit_version': 2,
+    result = {'checked_utc': datetime.now(timezone.utc).isoformat(), 'run_id': args.run_id, 'audit_version': 3,
         'committed_completed_batches': completed_batches, 'only_committed_batches_verified': True,
         'frozen_prefixes_required_by_protocol': [1, 8], 'frozen_files_verified': frozen_files,
         'completed_batches_verified': batches, 'teacher_records': teacher_rows,

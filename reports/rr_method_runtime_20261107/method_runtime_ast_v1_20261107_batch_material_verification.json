@@ -1,7 +1,7 @@
 {
-  "audit_version": 2,
-  "checked_utc": "2026-11-08T02:28:16.493415+00:00",
-  "committed_completed_batches": 4,
+  "audit_version": 3,
+  "checked_utc": "2026-11-08T05:21:25.394490+00:00",
+  "committed_completed_batches": 5,
   "completed_batches_verified": [
     {
       "batch": 1,
@@ -31,6 +31,14 @@
       "batch": 4,
       "no_future_pattern_sources": true,
       "prefix_sources": 64,
+      "recorded_schema_transport_errors": 0,
+      "source_records_and_all6arms_common_material_verified": true,
+      "teacher_status": "summary_recorded"
+    },
+    {
+      "batch": 5,
+      "no_future_pattern_sources": true,
+      "prefix_sources": 80,
       "recorded_schema_transport_errors": 0,
       "source_records_and_all6arms_common_material_verified": true,
       "teacher_status": "summary_recorded"
@@ -65,6 +73,7 @@
     {
       "actual_cash_invoice_available": false,
       "batch": 1,
+      "current_run_physical_origin": null,
       "estimated_credits": null,
       "full_success_event_log_in_record": false,
       "model": "gpt-5.6-sol",
@@ -89,6 +98,7 @@
     {
       "actual_cash_invoice_available": false,
       "batch": 2,
+      "current_run_physical_origin": null,
       "estimated_credits": null,
       "full_success_event_log_in_record": false,
       "model": "gpt-5.6-sol",
@@ -113,6 +123,7 @@
     {
       "actual_cash_invoice_available": false,
       "batch": 3,
+      "current_run_physical_origin": null,
       "estimated_credits": null,
       "full_success_event_log_in_record": false,
       "model": "gpt-5.6-sol",
@@ -137,6 +148,7 @@
     {
       "actual_cash_invoice_available": false,
       "batch": 4,
+      "current_run_physical_origin": null,
       "estimated_credits": null,
       "full_success_event_log_in_record": false,
       "model": "gpt-5.6-sol",
@@ -156,6 +168,35 @@
         "reasoning_output_tokens": 221
       },
       "usage_attribution": "original settled physical request; no new teacher invocation",
+      "wrapper_attempt": 1
+    },
+    {
+      "actual_cash_invoice_available": false,
+      "batch": 5,
+      "current_run_physical_origin": {
+        "adapter_cache_hit": false,
+        "booked_batch_teacher_requests": 1,
+        "call_id": "method_runtime_ast_v1_20261107:build:teacher:B5:0",
+        "request_file_sha256": "19c39d9e674745cfdd507739936ecce0dc35dde7368353b6a5b8b8ec343c9db4",
+        "request_hash": "15a8b1f148d4f1443cde83c45134e71ad2e4c7cbf9ead1e1a83c9c3c335949a7",
+        "request_origin_spec_and_policy_match_read_only_ledger": true,
+        "result_file_sha256": "5542edaa0d766cadc9e583cfa492d5704c8733de67e582ef61eee2c80a686bf8",
+        "saved_result_and_batch_response_match_read_only_ledger": true,
+        "status": "completed"
+      },
+      "estimated_credits": null,
+      "full_success_event_log_in_record": false,
+      "model": "gpt-5.6-sol",
+      "paid_response_origin": null,
+      "success_event_log_hash": "6993fa7eb940f838b6703cc166c1d58d4a46c87a504ede516646e102bbe6662b",
+      "tool_events_detected": false,
+      "usage": {
+        "cached_input_tokens": 0,
+        "input_tokens": 15757,
+        "output_tokens": 229,
+        "reasoning_output_tokens": 85
+      },
+      "usage_attribution": "current run physical invocation",
       "wrapper_attempt": 1
     }
   ],

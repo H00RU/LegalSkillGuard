@@ -1,0 +1,161 @@
+........................................................................ [ 13%]
+........................................................................ [ 27%]
+...........FF........................................................... [ 41%]
+........................................................................ [ 54%]
+........................................................................ [ 68%]
+........................................................................ [ 82%]
+........................................................................ [ 96%]
+....................                                                     [100%]
+=================================== FAILURES ===================================
+_ test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False] _
+
+tmp_path = PosixPath('/tmp/pytest-of-yndx/pytest-2416/test_fresh_128_build_ignores_o0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f5569fbda50>
+old_teacher_count = 4, always_fail = False
+
+    @pytest.mark.parametrize('old_teacher_count,always_fail',[(4,False),(6,True)])
+    def test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free(tmp_path,monkeypatch,old_teacher_count,always_fail):
+        import legal_skill_guard.rr.formal as mod
+        manifest=fixture_root(tmp_path)
+        cfgpath=tmp_path/'configs/rr_v2_formal.json';cfg=json.loads(cfgpath.read_text());cfg.update(run_enabled=True,full_build_enabled=True)
+        cfgpath.write_text(json.dumps(cfg))
+        path=tmp_path/'reports/legalskillguard_rule_reasoning_protocol_v2.json';protocol=json.loads(path.read_text())
+        protocol['run_enabled']=True;protocol['execution_request']['full_build_enabled']=True;path.write_text(json.dumps(protocol))
+        generation=json.loads((tmp_path/'configs/rr_v2_preflight.json').read_text())
+        b=BudgetLedger(tmp_path/generation['ledger_path'],sources=manifest['allowlist'],code_hash='old',config_hash='cfg')
+        anchor=manifest['pilot_order'][0]
+        with b.transaction() as db:
+            # Historical spend includes four teachers and 36 completed build calls.
+            for i in range(127):
+                bucket='thinking_comparison' if i<40 else 'full_build_including_pilot' if i<76 else 'shared_retries_and_recovery'
+                db.execute('insert into calls values (?,?,?,?,?,?,?,?,?)',(f'oldE{i}','executor','pilot_ingestion',bucket,anchor,str(i),'failed',i,'{}'))
+            for i in range(old_teacher_count):db.execute('insert into calls values (?,?,?,?,?,?,?,?,?)',
+                (f'oldT{i}','teacher','pilot_teacher_summary','teacher',anchor,str(i),'failed',i,'{}'))
+        old=b.export()['calls']
+        artifacts=tmp_path/cfg['artifact_directory'];artifacts.mkdir(parents=True)
+        binding=current_binding(tmp_path)
+        immutable_json(artifacts/'seal.json',{'binding':binding,'formal_config':cfg,'protected_files':science_files(tmp_path),
+            'ledger_origin_binding':{'code_hash':'old','config_hash':'cfg'},'teacher_transport':{'executable':'artificial'}})
+        # Deliberately unusable old material proves the formal controller never reads it.
+        olddir=tmp_path/'artifacts/rr_v2_preflight/method_gap_repair_v2/current_material'
+        (olddir/'pilot_sources').mkdir(parents=True)
+        for sid in manifest['pilot_order']:(olddir/'pilot_sources'/(digest(sid)+'.json')).write_text('{"forbidden":"old pilot"}')
+        (olddir/'teacher_batch1.json').write_text('{"forbidden":"old teacher"}')
+        transport,teacher=Transport(),Teacher(always_fail=always_fail)
+        monkeypatch.setattr(mod,'FormalExecutor',lambda ledger,directory,config:FormalExecutor(ledger,directory,config,opener=transport))
+        monkeypatch.setattr(mod,'FormalTeacher',lambda ledger,directory,config:FormalTeacher(ledger,directory,config,adapter=teacher))
+        monkeypatch.setattr(mod,'learn_source',mock_learning)
+        run=FormalRun(tmp_path,partition='train');authorize_formal_fixture(run.ledger)
+>       result=run.train()
+               ^^^^^^^^^^^
+
+tests/test_rr_formal_build.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+legal_skill_guard/rr/formal.py:345: in train
+    record = ingest_source(source=source, grade=grading[source_id], library=library,
+legal_skill_guard/rr/preflight.py:268: in ingest_source
+    "score": score_source(source, previous, grade, native_oe=not offline_mock),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/preflight.py:221: in score_source
+    score["official_metrics"] = official_openexempt_metrics(family, value, grade["targets"][family])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/scoring.py:62: in official_openexempt_metrics
+    result = evaluate({"family": family, "case_id": "rr_score_only"}, answer, target)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/openexempt.py:188: in evaluate
+    Evaluator = upstream("evaluator").Evaluator
+                ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'evaluator'
+
+    def upstream(name):
+        if not UPSTREAM.is_dir():
+            raise FileNotFoundError("Download the pinned official OpenExempt archive first")
+        location = str(UPSTREAM)
+        if location not in sys.path:
+            sys.path.insert(0, location)
+        module = importlib.import_module(name)
+        if not Path(module.__file__).resolve().is_relative_to(UPSTREAM):
+>           raise ValueError("Unexpected upstream module origin")
+E           ValueError: Unexpected upstream module origin
+
+legal_skill_guard/openexempt.py:59: ValueError
+_ test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True] _
+
+tmp_path = PosixPath('/tmp/pytest-of-yndx/pytest-2416/test_fresh_128_build_ignores_o1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f55154b5790>
+old_teacher_count = 6, always_fail = True
+
+    @pytest.mark.parametrize('old_teacher_count,always_fail',[(4,False),(6,True)])
+    def test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free(tmp_path,monkeypatch,old_teacher_count,always_fail):
+        import legal_skill_guard.rr.formal as mod
+        manifest=fixture_root(tmp_path)
+        cfgpath=tmp_path/'configs/rr_v2_formal.json';cfg=json.loads(cfgpath.read_text());cfg.update(run_enabled=True,full_build_enabled=True)
+        cfgpath.write_text(json.dumps(cfg))
+        path=tmp_path/'reports/legalskillguard_rule_reasoning_protocol_v2.json';protocol=json.loads(path.read_text())
+        protocol['run_enabled']=True;protocol['execution_request']['full_build_enabled']=True;path.write_text(json.dumps(protocol))
+        generation=json.loads((tmp_path/'configs/rr_v2_preflight.json').read_text())
+        b=BudgetLedger(tmp_path/generation['ledger_path'],sources=manifest['allowlist'],code_hash='old',config_hash='cfg')
+        anchor=manifest['pilot_order'][0]
+        with b.transaction() as db:
+            # Historical spend includes four teachers and 36 completed build calls.
+            for i in range(127):
+                bucket='thinking_comparison' if i<40 else 'full_build_including_pilot' if i<76 else 'shared_retries_and_recovery'
+                db.execute('insert into calls values (?,?,?,?,?,?,?,?,?)',(f'oldE{i}','executor','pilot_ingestion',bucket,anchor,str(i),'failed',i,'{}'))
+            for i in range(old_teacher_count):db.execute('insert into calls values (?,?,?,?,?,?,?,?,?)',
+                (f'oldT{i}','teacher','pilot_teacher_summary','teacher',anchor,str(i),'failed',i,'{}'))
+        old=b.export()['calls']
+        artifacts=tmp_path/cfg['artifact_directory'];artifacts.mkdir(parents=True)
+        binding=current_binding(tmp_path)
+        immutable_json(artifacts/'seal.json',{'binding':binding,'formal_config':cfg,'protected_files':science_files(tmp_path),
+            'ledger_origin_binding':{'code_hash':'old','config_hash':'cfg'},'teacher_transport':{'executable':'artificial'}})
+        # Deliberately unusable old material proves the formal controller never reads it.
+        olddir=tmp_path/'artifacts/rr_v2_preflight/method_gap_repair_v2/current_material'
+        (olddir/'pilot_sources').mkdir(parents=True)
+        for sid in manifest['pilot_order']:(olddir/'pilot_sources'/(digest(sid)+'.json')).write_text('{"forbidden":"old pilot"}')
+        (olddir/'teacher_batch1.json').write_text('{"forbidden":"old teacher"}')
+        transport,teacher=Transport(),Teacher(always_fail=always_fail)
+        monkeypatch.setattr(mod,'FormalExecutor',lambda ledger,directory,config:FormalExecutor(ledger,directory,config,opener=transport))
+        monkeypatch.setattr(mod,'FormalTeacher',lambda ledger,directory,config:FormalTeacher(ledger,directory,config,adapter=teacher))
+        monkeypatch.setattr(mod,'learn_source',mock_learning)
+        run=FormalRun(tmp_path,partition='train');authorize_formal_fixture(run.ledger)
+>       result=run.train()
+               ^^^^^^^^^^^
+
+tests/test_rr_formal_build.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+legal_skill_guard/rr/formal.py:345: in train
+    record = ingest_source(source=source, grade=grading[source_id], library=library,
+legal_skill_guard/rr/preflight.py:268: in ingest_source
+    "score": score_source(source, previous, grade, native_oe=not offline_mock),
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/preflight.py:221: in score_source
+    score["official_metrics"] = official_openexempt_metrics(family, value, grade["targets"][family])
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/rr/scoring.py:62: in official_openexempt_metrics
+    result = evaluate({"family": family, "case_id": "rr_score_only"}, answer, target)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+legal_skill_guard/openexempt.py:188: in evaluate
+    Evaluator = upstream("evaluator").Evaluator
+                ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+name = 'evaluator'
+
+    def upstream(name):
+        if not UPSTREAM.is_dir():
+            raise FileNotFoundError("Download the pinned official OpenExempt archive first")
+        location = str(UPSTREAM)
+        if location not in sys.path:
+            sys.path.insert(0, location)
+        module = importlib.import_module(name)
+        if not Path(module.__file__).resolve().is_relative_to(UPSTREAM):
+>           raise ValueError("Unexpected upstream module origin")
+E           ValueError: Unexpected upstream module origin
+
+legal_skill_guard/openexempt.py:59: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+FAILED tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+2 failed, 522 passed in 78.18s (0:01:18)

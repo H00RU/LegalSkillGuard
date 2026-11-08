@@ -237,7 +237,7 @@ def compiler_prompt(source,library=None,accepted_program=None,validation_feedbac
         system+=('Return requested factual_observations separately from the program: truth only for the requested '
             'factual predicates, null for unknown, and verbatim factual evidence for true/false. Never resolve '
             'legal residuals as facts. ')
-    return system,json.dumps({'dataset':source['dataset'],'task_id':source['key'],
+    payload={'dataset':source['dataset'],'task_id':source['key'],
         'task_metadata':{'answer_type':source['public'].get('answer_type')},
         'language_contract':language_contract(source['dataset'],literal_text=structure.ledger.text),
         'required_scope_sources':required_scope_sources(structure),
@@ -246,7 +246,16 @@ def compiler_prompt(source,library=None,accepted_program=None,validation_feedbac
         'requested_factual_observations':factual_observation_task,
         'available_learned_patterns':[{k:item[k] for k in ('pattern_hash','pattern')}
             for item in (library or {}).get('patterns',[])],
-        'units':units},ensure_ascii=False,separators=(',',':'))
+        'units':units}
+    from .compiler_examples import compiler_examples_for_source
+    examples=compiler_examples_for_source(library,source)
+    if examples:
+        system+=(' Compiler training examples below belong to earlier TRAIN sources. '
+            'Their source IDs, names and public values are local to each example. '
+            'Use their IR construction to write a fresh program grounded in the CURRENT units. '
+            'Every current declaration, scope, clause and query still needs its own valid provenance.')
+        payload['compiler_training_examples']=examples
+    return system,json.dumps(payload,ensure_ascii=False,separators=(',',':'))
 
 
 def proper_rule_subexpression(quote,text):

@@ -1,31 +1,82 @@
+<!-- compiler_example_input_repair -->
+最新阶段复核：[约34小时工作报告](progress_20261108_34h.md)。统一旧版本已提交89/128来源、5/8批，当前模型IR/A/B核心成功仍0，4/89匹配均回退。独立编译输入修复2630711的524项离线检查通过；新增2E分别为完整但含21项错误、8192截断，新增1T为max_output_tokens失败，均未产生新核心成功。累计884E/23T、pending0；真实限制、未知费用、原始失败及剩余任务已逐项列出。旧客户端于结算间隙保留，服务及科学清单不变。Goal未完成，不以少数控制或工程检查替代验收。
+<!-- /compiler_example_input_repair -->
+
 # LegalSkillGuard 主方法与开发验证
 
 <!-- current_remote_publication -->
-Public export checkpoint: 64/128 committed TRAIN sources and 4/8 batches. Independent GitHub fetch verification is reported separately in the development branch publication receipts; historical snapshots retain their own captured prefixes. The current report, code and raw evidence remain an interim build record; full Goal and semantic acceptance are incomplete.
+Public export checkpoint: 89/128 committed TRAIN sources and 5/8 batches. Independent GitHub fetch verification is reported separately in the development branch publication receipts; historical snapshots retain their own captured prefixes. The current report, code and raw evidence remain an interim build record; full Goal and semantic acceptance are incomplete.
 <!-- /current_remote_publication -->
 
 <!-- current_live_status -->
-Current audited TRAIN prefix: 64/128 sources and 4/8 committed batches. TRAIN matches including fallback: 3/64; fallback sources: 3/64. Accepted model IR: 0; A conditional certificates: 0; actual A follow-up requests: 0; primary model-IR B execution sources: 0. The current library contains 1 patterns and records 58 stored-graph calls; their provenance classes are {'same_bank_stored_use': 46}. Fallback executions do not establish core success or cross-bank transfer. B2 through B4 are batch snapshots with six-arm common material; only B1 and B8 require frozen library/MB files under the original protocol. B1 and B1.MB content/file hashes were verified, and a corrupted temporary copy was rejected without changing the originals. The first25-source diagnostic records47 truncated responses;38 stopped in bindings or nodes, and13 responses repeat exact expression bodies. These are observed generation failures, not recovered programs. Thinking remains OFF and the output limit remains8192. The current518 offline checks and8 installed-backend syntax checks are engineering evidence. Teacher physical origins and exact paid reuse are itemized in the batch receipt. Older69-source and5-source builds remain separate. Goal remains active and incomplete: coherent128/8 build, original six-arm DEV, core mechanism and cross-bank evidence remain outstanding. No TEST or paper work has started.
+Checkpoint at about34 Goal hours: 89/128 committed TRAIN sources, 5/8 batches, 4/89 TRAIN matches, all fallback. Accepted independent executor IR and current A/B core success remain0. The original8ea build is held between settled requests; no in-flight call was interrupted. Validated repair2630711 adds strictly earlier TRAIN compiler examples equally to all six arms, with524 offline checks. Its two fresh executor attempts failed (1956-token complete output with21 source/symbol issues;8192-token truncation). A fresh teacher control failed with max_output_tokens and no reported usage. Persistent cumulative ledger: 884E/23T; failures remain charged. One stored entity-equality pattern has 82 graph calls, all on same-bank fallback paths,46 query-relevant. This is not independent model-rule learning, primary IR success or cross-bank transfer. Root code is the validated repair2630711; the89-source frozen build uses8ea and is preserved separately in raw manifests and the prior public source snapshot. Schema-compression drafts are offline-only and excluded from the validated code export. Full128/B8/MB, original six-arm DEV and current core/semantic evidence are incomplete. Goal remains active; no TEST or paper.
 <!-- /current_live_status -->
 
 <!-- current_train_prefix -->
 ## 当前统一版本的TRAIN前缀
 
-更新时间：2026-11-08T02:28:00.624877+00:00；仅统计已结算的64个来源。
+更新时间：2026-11-08T06:51:16.599864+00:00；仅统计已结算的89个来源。
 
 | 指标 | 当前结果 |
 |---|---:|
-| 已提交来源 / 原定来源 | 64 / 128 |
-| 已完成批次 / 原定批次 | 4 / 8 |
-| TRAIN匹配（含允许的回退） | 3 / 64（4.69%） |
-| 无回退的TRAIN匹配 | 0 / 64 |
-| 接纳的模型IR | 0 / 64 |
-| A条件完成证书来源 | 0 / 64 |
-| B模型IR路径实际执行来源 | 0 / 64 |
-| 回退来源 | 3 / 64 |
+| 已提交来源 / 原定来源 | 89 / 128 |
+| 已完成批次 / 原定批次 | 5 / 8 |
+| TRAIN匹配（含允许的回退） | 4 / 89（4.49%） |
+| 无回退的TRAIN匹配 | 0 / 89 |
+| 接纳的模型IR | 0 / 89 |
+| A条件完成证书来源 | 0 / 89 |
+| B模型IR路径实际执行来源 | 0 / 89 |
+| 回退来源 | 4 / 89 |
 
 回退答对和回退中的存储图调用单列，不计核心机制成功。IR接纳或条件证书也不单独证明源文语义忠实。[当前指标JSON](rr_method_runtime_20261107/training_metrics_status_20261107.json)、[来源状态CSV](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_source_status.csv)保留分母与路径；下方其他科学版本分别保存，不拼接成绩。
 <!-- /current_train_prefix -->
+
+## 第77来源重复展开的语法分支核查
+
+第77来源两次真实响应均在8192输出token处截断，分别包含52、69个完整节点，随后仍有未闭合节点。只读账本、实际HTTP body及journal中的schema逐项一致。使用现有服务环境的XGrammar0.1.23、原schema和实际Qwen tokenizer，在每条响应首个及最后一个完整节点之后检查下一步语法分支；全程CPU、禁网络，不加载模型权重。[离线收据](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_source77_array_choices_audit.json)和[检查脚本](rr_method_runtime_20261107/audit_source77_array_choices.py)保留原文及wire的hash。
+
+| 原响应 | 已完整节点数 | 检查位置（节点序号从1计） | 结束数组 `]` | 继续声明 `,` | 错误闭合 `}` |
+|---|---:|---|---|---|---|
+| 第一次 | 52 | 第1、52个节点之后 | 两处允许 | 两处允许 | 两处拒绝 |
+| 第二次 | 69 | 第1、69个节点之后 | 两处允许 | 两处允许 | 两处拒绝 |
+
+字节语法与实际tokenizer的独立token掩码检查一致，排除了这些位置在语法上必须继续声明数组的解释。检查使用真实字符前缀，没有原始采样token序列或logits，不据此推广到全部生成位置或排除所有服务端问题。结束nodes数组仍缺少scopes、clauses和query；本检查未重建候选、补造语义、评分或获得核心机制成功，不改变配置、正确性检查与原128来源进程。新增模型、oracle及评分调用均为0。
+
+## SARA完整响应的检查层次（第69、79与80来源）
+
+原第69来源SARA的首响应正常stop，输出7336 token、thinking关闭，完整JSON通过实际发送的schema；原绑定解码器重放精确复现溯源拒绝。两条关系绑定共12个单元，9个与引用原文一致，3个在原文中不存在，预检与共享解码器均拒绝同一错误单元：
+
+| 字段路径 | 实际值 | 引用原文中的问题 |
+|---|---|---|
+| bindings[0].value.rows[1][2] | 2015-2019 | 原文给出January 24, 2015至May 5th, 2019，未给出该缩写单元。 |
+| bindings[1].value.rows[0][1] | applies_to | 原文为applies to，未给出该谓词字符串作为事实见证。 |
+| bindings[1].value.rows[1][1] | year | 该引用单元没有year这一事实值。 |
+
+这3个值的存储类型都是schema允许的字符串，拒绝原因是来源内容，不是JSON类型。实际系统提示已要求公共字符串逐字溯源，原source-only反馈还列出重复b_s32、观察引文/残余引文错误，以及query未读取受保护条款输出，共8项既有契约诊断。该响应未发现schema、提示和解码器在上述检查上的不一致。纠正这些问题需要重新表达法律条件与query，不能用格式归一化、删除错误规则或强制转换制造通过。
+
+按原每来源两次预算，第二请求仅增加validation_feedback，schema与公开输入未变，没有评分信息；其后8192 token截断，完整前缀仍有重复b_s32，仍未形成可执行IR、A后续选择或B类型化输入。首响应未触及输出上限，说明本例包含独立的生成语义错误。主实现、模型参数、原始响应与检查标准均未改变，未增加诊断模型/oracle/评分调用，不新增验收门槛。
+
+[完整重放收据](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_source69_first_complete_response_audit.json)保存原始SHA、真实schema检查、逐单元原文/类型、两层解码器拒绝、8项原反馈及第二请求差异。本例仍属未进入核心执行的失败，不计任何A/B成功。
+
+第79来源第二次响应也完整结束：stop、4546输出token、OFF、247.948秒。实际HTTP schema、journal和当前响应schema一致；原解码器接受其2个relation输入，随后原编译器重放出同一错误`Observation predicate is not an exact source quote`。`observations[0].predicate="paid wages"`和`observations[1].predicate="employing"`均引用s51，其实际公开文本是“(21) service performed by a person committed to a penal institution.”，两处均不包含所声称谓词；字段类型均为合法字符串，错误在原文指向。原source-only诊断另检出整条规则残余和未声明amount/year变量，共10项。此例提供了绑定解码通过、后续原文检查正确拒绝的真实分层证据；重新选法条、补变量或改写法律条件需要额外语义判断，不能作为确定性适配。诊断未修改candidate、读取评分包或新增第三次请求，来源仍invalid_IR、typed_inputs_unavailable、原TRAIN未匹配，A/B核心成功0。[第79来源完整响应与字段核查](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_source79_complete_response_audit.json)记录逐字段公开引文、实际wire/raw hash、原错误重放和10项诊断；原第69来源证据保留。
+
+第80来源第二响应完整结束于7073输出token，原wire schema与解码通过，但23个relation输入的原文检查全部拒绝。例如`bindings[0].value.rows[0][4]`填入`wages_paid_to_employee`，实际s52仅陈述Alice为父亲Bob的工作支付3200美元，没有该谓词字符串；s53中另填入`employment`等未逐字提供的关系标签。原source-only反馈共72项，包含重复s53名称及错误见证单元。原编译错误已重放，未将这些标签改写或补为可执行法律规则。[第80来源完整响应核查](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_source80_complete_response_audit.json)保留字段、原文、原始响应hash及完整诊断。第79、80两条完整响应均未触及8192上限，显示当前失败还包括独立的语义错误；这些证据不改变前述截断输出缺失语义的结论。
+
+## 已有截断输出的恢复可行性（前67来源）
+
+使用真实发送schema中的7个必需字段和已有严格JSON前缀解析器，重查前67来源134次原始响应及只读物理账本。131条length响应全部缺少完整query，0条包含全部必需字段；首个未完成字段分别为bindings64、nodes32、rule_residuals21、scopes9、clauses3、observations2。仅补JSON闭合符号无法恢复这批IR，继续补成程序需要填写缺失语义，因此不实施。
+
+以3条真实完整响应作结构对照：移除单个外层右括号后仍能识别全部必需字段，补回该括号保持原解码值；删除query后不满足完整字段条件。这些对照仍是原先被语义/grounding检查拒绝的模型响应，不计核心通过。原25来源诊断与公开64快照中的字节相同，首次66来源收据也原样保留。全部实际响应未改、未闭合、未重评分；主解析器、正确性检查、OFF和输出上限均未改变，没有新增模型/oracle/评分调用或验收门槛。生成失败发生在IR执行前，不能据此推断A/B已执行后的效果。
+
+[当前完整字段收据](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_first67_required_root_values_audit.json)、[首次66来源收据](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_first66_required_root_values_audit.json)和[可复核脚本](rr_method_runtime_20261107/audit_required_root_values.py)记录逐响应SHA、实际必需字段、完整字段、缺失字段和结构对照。
+
+## 第五批80来源的材料与教师来源
+
+原固定来源已提交80/128、完成5/8批。第五批为原65–80来源（4个Airline、12个SARA）；80个来源的原始顺序、记录hash、库前缀及六臂共同材料均核验通过，B1/B1.MB和既有B4快照hash保持原样。原协议只要求B1/B8冻结库及MB，本批不增加冻结工件要求。[第五批独立收据](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_B5_material_and_teacher_origin_audit.json)和[五批材料核验](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_B5_batch_material_with_physical_origin_check.json)记录完整检查。
+
+第五批新增1次已记账教师调用`method_runtime_ast_v1_20261107:build:teacher:B5:0`，已完成、adapter cache_hit=false，wrapper attempt1、配置retries0；模型gpt-5.6-sol/high，温度未设置。输入15757、输出229 token，推理输出85已包含在229内，记录耗时17.186秒；现金账单和估算credits均未提供，底层HTTP尝试数无法仅凭成功事件hash独立核实。请求、响应原文件与只读账本逐项一致；账本hash按现有MethodLedger的request、origin_spec和policy公式重算通过。报告核验器现补齐新调用分支的直接核对（v3），[原v2收据](rr_method_runtime_20261107/method_runtime_ast_v1_20261107_B5_batch_material_before_physical_origin_check.json)保留，原有材料、冻结文件及教师字段全部一致；科学代码和原始账本未改。
+
+教师仅再次识别库中已有entity_equality/join_on模式；本批16条共同记录均invalid_IR/typed_inputs_unavailable，没有新增已验证模式或待验证提案。80来源对应160条响应中154条截断、6条完整但被拒绝；模型IR、A真实后续解析/证书、B模型IR主路径均0。3/80 TRAIN匹配均为Horn回退，58次存储图调用仍为同库回退、跨库实际使用0。第五批材料通过不构成方法就绪；继续原剩余48来源、B8/B8.MB及六臂DEV，Goal未完成。
 
 ## 第四批64来源的材料与教师来源
 

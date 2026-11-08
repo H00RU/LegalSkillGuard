@@ -1,0 +1,286 @@
+{
+  "actual_prompt_grounding_requirement": "Every numeric value and public string must be grounded in the cited units. A relation has actual factual witness rows.",
+  "actual_recorded_source_only_feedback": {
+    "candidate_modified": false,
+    "grading_information_used": false,
+    "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+    "issues": [
+      {
+        "actual": {
+          "first_path": "observations[0].name",
+          "name": "b_s32"
+        },
+        "expected": "unique symbol name",
+        "path": "rule_residuals[0].name"
+      },
+      {
+        "actual": {
+          "cell": "2015-2019",
+          "sources": [
+            "s52"
+          ]
+        },
+        "expected": "exact public witness text; keep source-unit IDs in provenance fields",
+        "path": "bindings[0].value.rows[1][2]"
+      },
+      {
+        "actual": {
+          "cell": "applies_to",
+          "sources": [
+            "s53"
+          ]
+        },
+        "expected": "exact public witness text; keep source-unit IDs in provenance fields",
+        "path": "bindings[1].value.rows[0][1]"
+      },
+      {
+        "actual": {
+          "cell": "year",
+          "sources": [
+            "s53"
+          ]
+        },
+        "expected": "exact public witness text; keep source-unit IDs in provenance fields",
+        "path": "bindings[1].value.rows[1][1]"
+      },
+      {
+        "actual": "s32",
+        "expected": "exact substring of cited source",
+        "path": "observations[0].entity"
+      },
+      {
+        "actual": "employment",
+        "expected": "exact substring of cited source",
+        "path": "observations[0].predicate"
+      },
+      {
+        "actual": "    (1) agricultural labor unless-",
+        "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+        "path": "rule_residuals[0].quote"
+      },
+      {
+        "actual": [
+          "n_s32"
+        ],
+        "expected": "read at least one guarded clause output",
+        "path": "query"
+      }
+    ],
+    "previous_error": {
+      "message": "Public literal grounding failed: [{'binding': 's52', 'sources': ['s52'], 'pass': False, 'basis': 'public_entity_witnesses_checked_by_shared_decoder'}, {'binding': 's53', 'sources': ['s53'], 'pass': False, 'basis': 'public_entity_witnesses_checked_by_shared_decoder'}]",
+      "type": "Unsupported"
+    },
+    "source_only": true
+  },
+  "actual_sent_wire_schema_valid": true,
+  "binding_checks": [
+    {
+      "binding": "s52",
+      "literal_audit": {
+        "basis": "public_entity_witnesses_checked_by_shared_decoder",
+        "pass": false
+      },
+      "shared_decoder_error": "Entity witness is absent from the cited public input",
+      "sources": [
+        "s52"
+      ],
+      "type": "relation"
+    },
+    {
+      "binding": "s53",
+      "literal_audit": {
+        "basis": "public_entity_witnesses_checked_by_shared_decoder",
+        "pass": false
+      },
+      "shared_decoder_error": "Entity witness is absent from the cited public input",
+      "sources": [
+        "s53"
+      ],
+      "type": "relation"
+    }
+  ],
+  "call_id": "method_runtime_ast_v1_20261107:build:a54d8791aacc257edcd423979adc229e30f96f3831660e37acc8736052422e3a:0",
+  "candidate_modified_or_original_response_replaced": false,
+  "cell_checks": [
+    {
+      "actual": "Alice",
+      "actual_type": "str",
+      "cited_sources": [
+        "s52"
+      ],
+      "expected_content": "quoted factual witness in the cited public unit",
+      "expected_storage_type": "string",
+      "path": "bindings[0].value.rows[0][0]",
+      "shared_decoder_witness_grounded": true,
+      "substring_grounded": true
+    },
+    {
+      "actual": "paid",
+      "actual_type": "str",
+      "cited_sources": [
+        "s52"
+      ],
+      "expected_content": "quoted factual witness in the cited public unit",
+      "expected_storage_type": "string",
+      "path": "bindings[0].value.rows[0][1]",
+      "shared_decoder_witness_grounded": true,
+      "substring_grounded": true
+    },
+    {
+      "actual": "$200",
+      "actual_type": "str",
+      "cited_sources": [
+        "s52"
+      ],
+      "expected_content": "quoted factual witness in the cited public unit",
+      "expected_storage_type": "string",
+      "path": "bindings[0].value.rows[0][2]",
+      "shared_decoder_witness_grounded": true,
+      "substring_grounded": true
+    },
+    {
+      "actual": "Alice",
+      "actual_type": "str",
+      "cited_sources": [
+        "s52"
+      ],
+      "expected_content": "quoted factual witness in the cited public unit",
+      "expected_storage_type": "string",
+      "path": "bindings[0].value.rows[1][0]",
+      "shared_decoder_witness_grounded": true,
+      "substring_grounded": true
+    },
+    {
+      "actual": "committed",
+      "actual_type": "str",
+      "cited_sources": [
+        "s52"
+      ],
+      "expected_content": "quoted factual witness in the cited public unit",
+      "expected_storage_type": "string",
+      "path": "bindings[0].value.rows[1][1]",
+      "shared_decoder_witness_grounded": true,
+      "substring_grounded": true
+    },
+    {
+      "actual": "2015-2019",
+      "actual_type": "str",
+      "cited_public_text": "Alice was paid $200 in 2017 for services performed in a hospital. Alice was committed to a psychiatric hospital from January 24, 2015 to May 5th, 2019.",
+      "cited_sources": [
+        "s52"
+      ],
+      "expected_content": "quoted factual witness in the cited public unit",
+      "expected_storage_type": "string",
+      "path": "bindings[0].value.rows[1][2]",
+      "shared_decoder_witness_grounded": false,
+      "substring_grounded": false
+    },
+    {
+      "actual": "Section 3306(c)(21)",
+      "actual_type": "str",
+      "cited_sources": [
+        "s53"
+      ],
+      "expected_content": "quoted factual witness in the cited public unit",
+      "expected_storage_type": "string",
+      "path": "bindings[1].value.rows[0][0]",
+      "shared_decoder_witness_grounded": true,
+      "substring_grounded": true
+    },
+    {
+      "actual": "applies_to",
+      "actual_type": "str",
+      "cited_public_text": "Section 3306(c)(21) applies to Alice's employment situation in 2017.",
+      "cited_sources": [
+        "s53"
+      ],
+      "expected_content": "quoted factual witness in the cited public unit",
+      "expected_storage_type": "string",
+      "path": "bindings[1].value.rows[0][1]",
+      "shared_decoder_witness_grounded": false,
+      "substring_grounded": false
+    },
+    {
+      "actual": "Alice",
+      "actual_type": "str",
+      "cited_sources": [
+        "s53"
+      ],
+      "expected_content": "quoted factual witness in the cited public unit",
+      "expected_storage_type": "string",
+      "path": "bindings[1].value.rows[0][2]",
+      "shared_decoder_witness_grounded": true,
+      "substring_grounded": true
+    },
+    {
+      "actual": "Section 3306(c)(21)",
+      "actual_type": "str",
+      "cited_sources": [
+        "s53"
+      ],
+      "expected_content": "quoted factual witness in the cited public unit",
+      "expected_storage_type": "string",
+      "path": "bindings[1].value.rows[1][0]",
+      "shared_decoder_witness_grounded": true,
+      "substring_grounded": true
+    },
+    {
+      "actual": "year",
+      "actual_type": "str",
+      "cited_public_text": "Section 3306(c)(21) applies to Alice's employment situation in 2017.",
+      "cited_sources": [
+        "s53"
+      ],
+      "expected_content": "quoted factual witness in the cited public unit",
+      "expected_storage_type": "string",
+      "path": "bindings[1].value.rows[1][1]",
+      "shared_decoder_witness_grounded": false,
+      "substring_grounded": false
+    },
+    {
+      "actual": "2017",
+      "actual_type": "str",
+      "cited_sources": [
+        "s53"
+      ],
+      "expected_content": "quoted factual witness in the cited public unit",
+      "expected_storage_type": "string",
+      "path": "bindings[1].value.rows[1][2]",
+      "shared_decoder_witness_grounded": true,
+      "substring_grounded": true
+    }
+  ],
+  "checked_utc": "2026-11-08T03:18:50.736360+00:00",
+  "conclusion": "Structurally valid JSON; original source grounding rejects fabricated/nonverbatim witness cells. Existing feedback also identifies duplicate observation/residual name, nonverbatim quotes and an unguarded query. No schema/parser/shared-decoder inconsistency established for this response.",
+  "consistent_grounded_cell_count": 9,
+  "elapsed_seconds": 347.46466630510986,
+  "existing_source_contract_errors_not_new_acceptance_gates": true,
+  "finish_reason": "stop",
+  "full_goal_complete": false,
+  "grading_packets_opened": false,
+  "new_model_or_oracle_or_grading_calls": 0,
+  "original_binding_decoder_error_reproduced_exactly": {
+    "message": "Public literal grounding failed: [{'binding': 's52', 'sources': ['s52'], 'pass': False, 'basis': 'public_entity_witnesses_checked_by_shared_decoder'}, {'binding': 's53', 'sources': ['s53'], 'pass': False, 'basis': 'public_entity_witnesses_checked_by_shared_decoder'}]",
+    "type": "Unsupported"
+  },
+  "punctuation_or_serialization_changes_do_not_supply_missing_rule_semantics": true,
+  "raw_content_sha256": "dcf000be4d5f4e87cceb2e82427630d8afc0918e4fdc8991d6a1f4088e3cf34c",
+  "run_id": "method_runtime_ast_v1_20261107",
+  "same_sent_schema_on_second_request": true,
+  "scope": "source69 first complete SARA response only; later attempt remains a separate response",
+  "second_request_changed_payload_fields": [
+    "validation_feedback"
+  ],
+  "semantic_success_claimed": false,
+  "source": "SARA_v2_Binary:982d531617be833561b376c657b68c25ddbbd8dffa5972076a8c8e8d23264bf9",
+  "source_position": 69,
+  "state0_file_sha256": "2f21b9af99bfcd871b8fb107799925c5bc7fefeddfa8b47a7fdc4ca245ab979b",
+  "thinking_requested": false,
+  "ungrounded_cell_count": 3,
+  "usage": {
+    "completion_tokens": 7336,
+    "prompt_tokens": 5775,
+    "prompt_tokens_details": null,
+    "total_tokens": 13111
+  }
+}

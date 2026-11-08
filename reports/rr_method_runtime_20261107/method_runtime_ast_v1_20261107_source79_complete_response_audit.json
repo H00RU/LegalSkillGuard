@@ -1,0 +1,159 @@
+{
+  "actual_system_requires_exact_rule_predicate_quote": true,
+  "actual_wire_matches_saved_dispatch": true,
+  "binding_checks": [
+    {
+      "basis": "public_entity_witnesses_checked_by_shared_decoder",
+      "binding": "s52",
+      "pass": true,
+      "sources": [
+        "s52"
+      ]
+    },
+    {
+      "basis": "public_entity_witnesses_checked_by_shared_decoder",
+      "binding": "s53",
+      "pass": true,
+      "sources": [
+        "s53"
+      ]
+    }
+  ],
+  "binding_slots": [
+    "s52",
+    "s53"
+  ],
+  "call_id": "method_runtime_ast_v1_20261107:build:bc5976b510b4bd59a80043fc925c98018326a5165d736fe18b754adbd49c9a63:1",
+  "candidate_modified": false,
+  "checked_utc": "2026-11-08T05:06:46.793686+00:00",
+  "core_success": false,
+  "correctness_checks_relaxed": false,
+  "decode_matches_saved_program": true,
+  "deterministic_semantics_preserving_adaptation_found": false,
+  "elapsed_seconds": 247.94817386195064,
+  "finish_reason": "stop",
+  "frozen_scientific_files_unchanged": true,
+  "full_goal_complete": false,
+  "grading_packets_opened": false,
+  "new_model_or_oracle_or_grading_calls": 0,
+  "observation_quote_checks": [
+    {
+      "actual": "Alice",
+      "actual_type": "str",
+      "cited_public_text": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.",
+      "cited_unit": "s52",
+      "exact_substring": true,
+      "path": "observations[0].entity"
+    },
+    {
+      "actual": "paid wages",
+      "actual_type": "str",
+      "cited_public_text": "    (21) service performed by a person committed to a penal institution.",
+      "cited_unit": "s51",
+      "exact_substring": false,
+      "path": "observations[0].predicate"
+    },
+    {
+      "actual": "Alice",
+      "actual_type": "str",
+      "cited_public_text": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.",
+      "cited_unit": "s52",
+      "exact_substring": true,
+      "path": "observations[1].entity"
+    },
+    {
+      "actual": "employing",
+      "actual_type": "str",
+      "cited_public_text": "    (21) service performed by a person committed to a penal institution.",
+      "cited_unit": "s51",
+      "exact_substring": false,
+      "path": "observations[1].predicate"
+    }
+  ],
+  "original_compile_error_reproduced": {
+    "message": "Observation predicate is not an exact source quote",
+    "type": "Unsupported"
+  },
+  "primitive_binding_decoder_passed": true,
+  "raw_content_and_usage_match_read_only_physical_ledger": true,
+  "raw_sha256": "3947948d8cfca5956941c95ef0bbfdee57150a2581de7df94ca112c163e1a8b2",
+  "reason_not_adapted": "Both predicates cite an unrelated penal-institution rule; complete output also has whole-rule residuals and undeclared amount/year references. Reassigning provenance, supplying declarations or replacing rules would require semantic choices not present unambiguously in the output.",
+  "scientific_implementation_commit": "8ea35e0678ad28e1bac16b39fbfff00f01506af8",
+  "sent_schema_matches_current_compiler_response_schema": true,
+  "source": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+  "source_TRAIN_match": false,
+  "source_final_program_status": "invalid_IR",
+  "source_learning_status": "typed_inputs_unavailable",
+  "source_only_feedback": {
+    "candidate_modified": false,
+    "grading_information_used": false,
+    "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+    "issues": [
+      {
+        "actual": "paid wages",
+        "expected": "exact substring of cited source",
+        "path": "observations[0].predicate"
+      },
+      {
+        "actual": "employing",
+        "expected": "exact substring of cited source",
+        "path": "observations[1].predicate"
+      },
+      {
+        "actual": "    (1) agricultural labor unless-",
+        "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+        "path": "rule_residuals[0].quote"
+      },
+      {
+        "actual": "            (i) during the calendar year or the preceding calendar year paid remuneration in cash of $20,000 or more to individuals employed in agricultural labor (including labor performed by an alien referred to in subparagraph (B)),",
+        "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+        "path": "rule_residuals[1].quote"
+      },
+      {
+        "actual": "amount",
+        "expected": "declared IR symbol",
+        "path": "nodes[0].body.args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[0].args[1].var"
+      },
+      {
+        "actual": "year",
+        "expected": "declared IR symbol",
+        "path": "nodes[0].body.args[1].args[1].var"
+      },
+      {
+        "actual": "amount",
+        "expected": "declared IR symbol",
+        "path": "nodes[1].body.args[1].var"
+      },
+      {
+        "actual": "amount",
+        "expected": "declared IR symbol",
+        "path": "nodes[2].body.args[1].var"
+      },
+      {
+        "actual": "year",
+        "expected": "declared IR symbol",
+        "path": "clauses[0].value.args[1].args[1].var"
+      },
+      {
+        "actual": "amount",
+        "expected": "declared IR symbol",
+        "path": "clauses[0].value.args[2].args[1].var"
+      }
+    ],
+    "source_only": true
+  },
+  "source_only_feedback_issue_count": 10,
+  "source_only_feedback_was_offline_diagnosis_not_an_extra_request": true,
+  "source_position": 79,
+  "source_record_digest_matches_committed_state": true,
+  "source_record_sha256": "d7d1dee40971b5fc0213ae1f9fe15346dc19c1e6f404deab6f4fbdd6a626c49b",
+  "thinking_requested": false,
+  "usage": {
+    "completion_tokens": 4546,
+    "prompt_tokens": 5961,
+    "prompt_tokens_details": null,
+    "total_tokens": 10507
+  },
+  "wire_body_sha256": "b7298cdc2911ba683e094a6a5069b29e9178d460bb998342fde9f825c029245c",
+  "wire_schema_valid": true
+}

@@ -102,6 +102,8 @@ def predict_source(source,*,arm,library,generate,tokenize,request_config,thinkin
     if arm=='MB' and example_model is None:raise ValueError('MB needs its same-material frozen example model')
     before=digest(library);example_before=digest(example_model);profile=ARMS[arm]
     active=library if profile.interface=='collision_refined' else None
+    if active is None and library.get('compiler_examples'):
+        active={'patterns':[],'compiler_examples':library['compiler_examples']}
     history=[];calls=[];actions=[];observed={};observation_rows=[];program=None;compiled=None
     budget=PredictionBudget();remaining=5.0;prepared=None;last_error=None
     result={'answer':None,'certificate_status':'translation_unresolved','program_status':'not_parsed',

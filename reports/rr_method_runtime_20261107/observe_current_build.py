@@ -40,7 +40,11 @@ def main():
     assert science_files(root) == seal['files'], 'Frozen experiment files changed'
     controller = json.loads((stage / 'controller.json').read_text())
     try:
-        identity_live = int((Path('/proc') / str(controller['pid']) / 'stat').read_text().split(') ', 1)[1].split()[19]) == controller['start_ticks']
+        process_stat = (Path('/proc') / str(controller['pid']) / 'stat').read_text().split(') ', 1)[1].split()
+        identity_live = int(process_stat[19]) == controller['start_ticks']
+        if identity_live and process_stat[0] in {'T', 't'}:
+            controller = {**controller, 'recorded_status': controller['status'],
+                          'status': 'held_between_requests', 'process_state': process_stat[0]}
     except FileNotFoundError:
         identity_live = False
     with sqlite3.connect('file:' + str(root / seal['ledger_path']) + '?mode=ro', uri=True) as db:
@@ -128,17 +132,16 @@ def main():
     state_path = root / 'docs/rr_v2/method_runtime_state_20261107.json'
     state = json.loads(state_path.read_text())
     state.update(current_run_id=args.run_id, current_run_stage='build', active_build_run_id=args.run_id,
-        active_probe_run_id=None,active_probe_session=None,active_probe_processes=[],
         previous_completed_thinking_run_id='method_runtime_c6_20261107',
         latest_completed_probe_run_id=state.get('latest_completed_probe_run_id','executor_compiler_contract_v2_20261107'),
-        phase='fixed128_declarative_build_live' if identity_live else 'fixed128_build_' + controller['status'],
+        phase='fixed128_declarative_build_live' if identity_live and controller['status']=='running' else 'fixed128_build_' + controller['status'],
         implementation_commit=state['implementation_commit'], controller_pid=controller['pid'],
         controller_start_ticks=controller['start_ticks'], controller_session=args.session_id,
         controller_identity_live=identity_live, executor_total=counts['executor'], teacher_total=counts['teacher'],
         pending_requests=len(pending), last_update_utc=now, current_complete_sources=committed,
         current_source_records=source_files, full_fixed128_build_completed=completion is not None,
         next_action='Continue this exact sealed fixed128/8-batch build and record ordinary model errors without repair sweeps; preserve source budgets, frozen libraries and ledger. Observe the real PID/session, do not duplicate or change bound files. After build perform original six-arm DEV and mechanism/cross-bank audits; no TEST, paper or premature completion.')
-    state['controller_processes'] = [controller] if identity_live and controller['status']=='running' else []
+    state['controller_processes'] = [controller] if identity_live else []
     if completion is not None and controller['status']=='completed':
         state['phase']='fixed128_build_completed_pending_DEV_and_core_audit'
         state['next_action']='Verify all original128 records,8 batches,B1/B8 and same-material MB with the sealed controller, then run original six-arm DEV once under locked OFF. Preserve the completed build; do not launch it again, inspect TEST or mark Goal complete before core/semantic/cross-bank delivery.'
