@@ -128,3 +128,33 @@ def test_actual_build_dispatch_accepts_direct_python_and_checks_paid_reuse_first
     assert dispatch(messages,purpose='parse',step=0,schema=None)==wire
     assert lookup==[(source['key'],None,False)]
     assert physical==([] if reuse else [('offline:0',source['key'],'method_train_synthesis')])
+
+
+def test_real_over_budget_repair_keeps_all_source_and_root_error_and_uses_no_extra_call(tmp_path):
+    stage=ROOT/'artifacts/rr_method_runtime_20261107/method_runtime_reference_v6_20261109'
+    seal=json.loads((stage/'seal.json').read_text());sid=seal['sources']['train'][15]
+    record=json.loads((stage/'build/sources'/(digest(sid)+'.json')).read_text())
+    source=next(s for s in json.loads((ROOT/'data/packets/rr_v2/public_train.json').read_text())['sources'] if s['key']==sid)
+    checkpoint=json.loads((stage/'build/B1.frozen.json').read_text())['content']
+    library=SkillLibrary(checkpoint['patterns'],stage='formal_train',compiler_templates=checkpoint['compiler_templates']).export()
+    assert digest(library)==record['library_before_hash']
+    original=record['prediction']['calls'][0];seen=[]
+    def tokenizer(messages,thinking):
+        feedback=json.loads(messages[1]['content'])['source_only_feedback']
+        # Actual pinned-tokenizer witnesses: 24053 initial, 24595 full
+        # diagnostics, 24133 identical source plus the complete root error.
+        return {'count':24053 if feedback is None else 24595 if 'source_validation' in feedback else 24133}
+    def generate(messages,*,purpose,step,schema):
+        payload=json.loads(messages[1]['content']);seen.append(payload)
+        if step:
+            assert payload['CURRENT']==seen[0]['CURRENT']
+            assert 'source_validation' not in payload['source_only_feedback']
+            assert payload['source_only_feedback']['error']==original['analysis']['error']['error']
+        return {'content':original['raw_content'],'finish_reason':'stop','request_hash':original['request_hash'],
+            'usage':original['usage'],'elapsed_seconds':0}
+    out=predict_source(source,arm='M11',library=library,generate=generate,tokenize=tokenizer,
+        request_config=seal['config']['executor'],thinking=False,partition='train',controlled_shortcut=False)
+    assert len(seen)==out['model_calls']==2
+    assert out['result']['answer'] is None and not out['result']['A_main_path_executed']
+    action=next(a for a in out['translation_actions'] if a.get('kind')=='duplicate_error_diagnostics_omitted_from_prompt_only')
+    assert action['full_input_tokens']==24595 and action['dispatched_input_tokens']==24133

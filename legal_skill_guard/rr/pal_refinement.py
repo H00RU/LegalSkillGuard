@@ -6,9 +6,9 @@ It cannot replace the accepted query, rules, scopes or primitive meanings.
 from copy import deepcopy
 import json
 
-from .coverage import Unsupported
+from .coverage import Unsupported,digest
 from .grounding import _numbers,expression_literal_audit
-from .pal_frontend import parse_pal,render_pal,pal_runtime_contract
+from .pal_frontend import parse_pal,pal_runtime_contract
 from .source_program import compile_source
 from .scoped_program import compile_query
 from .source_structure import compact_contexts
@@ -24,13 +24,23 @@ def refinement_request(compiled,selected,closure,names,factual_task,factual_rows
     contexts=compact_contexts(structure)
     rows=[{'id':c.id,**structure.roles[c.id],'text':structure.ledger.text[c.start:c.end],
            'context':contexts[c.id]} for c in structure.ledger.clauses if c.id in units]
-    accepted={k:v for k,v in program.items() if k!='query'}
-    accepted['query_is_immutable']=True
+    # K is already loaded. Sending its complete executable text made actual
+    # Qwen replies repeat all accepted inputs and fee tables until truncation.
+    # The patch needs immutable symbol interfaces, not code to regenerate.
+    catalog={'bindings':[{k:r[k] for k in ('name','type','sources')} for r in program['bindings']],
+        'observations':deepcopy(program['observations']),
+        'local_names':[{'name':r['name'],'kind':r['kind']} for r in program['nodes']],
+        'scopes':[{k:r[k] for k in ('name','source')} for r in program['scopes']],
+        'rules':[{k:r[k] for k in ('name','sources')} for r in program['clauses']],
+        'unselected_legal_unknowns':[deepcopy(r) for r in program['rule_residuals'] if r not in targets]}
     system=('Translate only the selected untranslated source rules or legal subexpressions. '
         'Return program_lines containing a compact Python fragment, plus factual_observations for exactly the listed existing fact tasks. '
         'Each program_lines entry is one physical Python line; preserve indentation and put comments on their actual lines. '
         'The runtime joins these strings with newline characters without repairing their contents. '
         'Use an empty program_lines array when no legal expression can be translated. '
+        'The read_only_catalog lists declarations already loaded by the runtime. Reference their names; '
+        'do not emit them again. Their implementations are deliberately omitted because this is a local patch, '
+        'not a request to regenerate the accepted program or fee tables. '
         'For each selected proper legal residual, assign its existing b_name to the actual Boolean expression. '
         'You may add current public numeric/string literal assignments with exact # sN evidence, observations with explicit '
         'entity/entity_source/predicate/predicate_source, proper residuals, helper expressions and source-decorated @rule/@scope functions. '
@@ -43,11 +53,11 @@ def refinement_request(compiled,selected,closure,names,factual_task,factual_rows
         'Only factual_observations may contain current factual truth, with exact evidence or null when unsupported.')
     payload={'selected_source_units':sorted(selected),'charged_context_units':sorted(units),
         'selected_legal_subexpressions':targets,'CURRENT_units':rows,
-        'accepted_program':render_pal(program),'factual_observation_tasks':factual_task,
+        'read_only_catalog':catalog,'accepted_query_is_immutable':True,'factual_observation_tasks':factual_task,
         'runtime_contract':pal_runtime_contract(compiled['source'],library),
-        'immutable_accepted_declarations':list(accepted)}
+        'response_contains_only_new_selected_definitions_and_requested_fact_rows':True}
     if not names:factual_rows_schema={'type':'array','maxItems':0,'items':{'type':'null'}}
-    schema=obj({'program_lines':{'type':'array','items':{'type':'string'}},'factual_observations':factual_rows_schema})
+    schema=obj({'factual_observations':factual_rows_schema,'program_lines':{'type':'array','items':{'type':'string'}}})
     return [{'role':'system','content':system},{'role':'user','content':json.dumps(payload,ensure_ascii=False,separators=(',',':'))}],schema,sorted(units)
 
 
@@ -108,10 +118,22 @@ def apply_refinement(compiled,prepared,code,*,library=None):
     functions=[r['name'] for field in ('scopes','clauses') for r in compiled['program'][field]]
     fragment=parse_pal(code,require_query=False,external_functions=functions)
     if 'query' in fragment:raise Unsupported('A local legal refinement cannot replace the accepted query')
-    adaptations=_ground_inline_fact_literals(compiled,prepared,fragment)
+    fields=('bindings','observations','rule_residuals','nodes','scopes','clauses')
+    adaptations=[]
+    for field in fields:
+        accepted={r['name']:r for r in compiled['program'][field]}
+        kept=[]
+        for row in fragment[field]:
+            # Type-sensitive canonical identity: repeating an immutable
+            # declaration is idempotent, never a changed value or meaning.
+            if row['name'] in accepted and digest(row)==digest(accepted[row['name']]):
+                adaptations.append({'kind':'identical_read_only_declaration_omitted',
+                    'field':field,'name':row['name'],'declaration_sha256':digest(row)})
+            else:kept.append(row)
+        fragment[field]=kept
+    adaptations.extend(_ground_inline_fact_literals(compiled,prepared,fragment))
     program=deepcopy(compiled['program']);selected=set(prepared['selected'])
     allowed=set(prepared['context_closure']);targets={r['name'] for r in program['rule_residuals'] if r['source'] in selected}
-    fields=('bindings','observations','rule_residuals','nodes','scopes','clauses')
     old_names={r['name'] for field in fields for r in program[field]}
     replacements=set()
     for field in fields:

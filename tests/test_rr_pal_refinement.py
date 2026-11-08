@@ -123,3 +123,43 @@ def test_line_fragment_contract_does_not_accept_old_code_alias_or_invent_rules()
     assert updated['program']==compiled['program']
     assert 'b_domestic_remuneration_test' in updated['rule_residuals']
     assert assess_source(updated,observed)['answer'] is None
+
+
+def test_actual_numeric_A_patch_input_exposes_interfaces_without_copyable_K_bodies():
+    from legal_skill_guard.rr.pal_refinement import refinement_request
+    from legal_skill_guard.rr.source_program import compile_source
+    stage=ROOT/'artifacts/rr_method_runtime_20261107/method_runtime_reference_v6_20261109'
+    sid=json.loads((stage/'seal.json').read_text())['sources']['train'][6]
+    journal=stage/'build/journals'/digest(sid)
+    old=json.loads((journal/'request1.json').read_text())['prepared']
+    previous=json.loads(old['messages'][1]['content'])
+    state=json.loads(json.loads((journal/'state0.json').read_text())['state_json'])
+    source=next(s for s in json.loads((ROOT/'data/packets/rr_v2/public_train.json').read_text())['sources'] if s['key']==sid)
+    library={'patterns':previous['runtime_contract']['available_learned_patterns']}
+    compiled=compile_source(source,state['program'],library=library);before=deepcopy(compiled['program'])
+    messages,schema,charged=refinement_request(compiled,old['selected'],old['context_closure'],old['names'],
+        previous['factual_observation_tasks'],old['schema']['properties']['factual_observations'],library)
+    current=json.loads(messages[1]['content'])
+    assert compiled['program']==before and 'accepted_program' not in current
+    assert current['CURRENT_units']==previous['CURRENT_units'] and charged==old['context_closure']
+    assert current['selected_legal_subexpressions']==previous['selected_legal_subexpressions']
+    assert current['factual_observation_tasks']==previous['factual_observation_tasks']
+    assert len(current['read_only_catalog']['bindings'])==49
+    assert not any('value' in b for b in current['read_only_catalog']['bindings'])
+    assert not any('value' in c for c in current['read_only_catalog']['rules'])
+    assert current['accepted_query_is_immutable'] is True
+    assert len(messages[1]['content'])<len(old['messages'][1]['content'])
+    assert list(schema['properties'])==['factual_observations','program_lines']
+
+
+def test_repeating_identical_accepted_declarations_is_an_exact_noop_not_a_rule_repair():
+    from legal_skill_guard.rr.pal_frontend import render_pal
+    compiled,request,library,_=current();before=deepcopy(compiled['program'])
+    rows=[{'name':name,'value':None,'evidence':''} for name in request['names']]
+    response={'program_lines':render_pal(before,include_query=False).splitlines(),'factual_observations':rows}
+    updated,observed=accept_followup(compiled,request,response,library=library)
+    assert updated['program']==compiled['program']==before
+    assert updated['deterministic_adaptations']
+    assert all(a['kind']=='identical_read_only_declaration_omitted' for a in updated['deterministic_adaptations'])
+    assert assess_source(updated,observed)['answer'] is None
+    assert 'b_domestic_remuneration_test' in updated['rule_residuals']

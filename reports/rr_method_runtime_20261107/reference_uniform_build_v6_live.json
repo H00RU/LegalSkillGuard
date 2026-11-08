@@ -1,0 +1,3768 @@
+{
+  "captured_utc": "2026-11-08T17:08:28.948137+00:00",
+  "run_id": "method_runtime_reference_v6_20261109",
+  "original_fixed_sources": 128,
+  "source_records_saved": 17,
+  "committed_sources": 17,
+  "completed_batches": 1,
+  "ledger_role_status_counts": [
+    [
+      "executor",
+      "completed",
+      948
+    ],
+    [
+      "executor",
+      "failed",
+      1
+    ],
+    [
+      "teacher",
+      "completed",
+      27
+    ],
+    [
+      "teacher",
+      "failed",
+      2
+    ]
+  ],
+  "current_run_new_physical_role_status_counts": [
+    [
+      "executor",
+      "completed",
+      22
+    ],
+    [
+      "teacher",
+      "completed",
+      1
+    ]
+  ],
+  "totals": {
+    "sources": 17,
+    "source_IR_typed_in_any_attempt": 5,
+    "TRAIN_match": 2,
+    "fallback": 0,
+    "A_actual": 2,
+    "B_actual": 2,
+    "template_instance": 0,
+    "learning_status": {
+      "typed_inputs_unavailable": 11,
+      "identified_on_observed_collisions": 2,
+      "no_counterfactual_oracle": 3,
+      "no_observed_collision": 1
+    },
+    "final_program_status": {
+      "invalid_IR": 14,
+      "model_Horn_IR_compiled": 2,
+      "request_preparation_unavailable": 1
+    }
+  },
+  "by_dataset": {
+    "ContractNLI": {
+      "sources": 3,
+      "source_IR_typed_in_any_attempt": 0,
+      "TRAIN_match": 0,
+      "fallback": 0,
+      "A_actual": 0,
+      "B_actual": 0,
+      "template_instance": 0,
+      "learning_status": {
+        "no_counterfactual_oracle": 3
+      },
+      "final_program_status": {
+        "invalid_IR": 3
+      }
+    },
+    "OpenExempt": {
+      "sources": 4,
+      "source_IR_typed_in_any_attempt": 0,
+      "TRAIN_match": 0,
+      "fallback": 0,
+      "A_actual": 0,
+      "B_actual": 0,
+      "template_instance": 0,
+      "learning_status": {
+        "typed_inputs_unavailable": 4
+      },
+      "final_program_status": {
+        "invalid_IR": 3,
+        "request_preparation_unavailable": 1
+      }
+    },
+    "ProofWriter_OWA_depth5": {
+      "sources": 3,
+      "source_IR_typed_in_any_attempt": 2,
+      "TRAIN_match": 2,
+      "fallback": 0,
+      "A_actual": 2,
+      "B_actual": 2,
+      "template_instance": 0,
+      "learning_status": {
+        "identified_on_observed_collisions": 2,
+        "no_observed_collision": 1
+      },
+      "final_program_status": {
+        "invalid_IR": 1,
+        "model_Horn_IR_compiled": 2
+      }
+    },
+    "RuleArena_Airline": {
+      "sources": 4,
+      "source_IR_typed_in_any_attempt": 3,
+      "TRAIN_match": 0,
+      "fallback": 0,
+      "A_actual": 0,
+      "B_actual": 0,
+      "template_instance": 0,
+      "learning_status": {
+        "typed_inputs_unavailable": 4
+      },
+      "final_program_status": {
+        "invalid_IR": 4
+      }
+    },
+    "SARA_v2_Binary": {
+      "sources": 3,
+      "source_IR_typed_in_any_attempt": 0,
+      "TRAIN_match": 0,
+      "fallback": 0,
+      "A_actual": 0,
+      "B_actual": 0,
+      "template_instance": 0,
+      "learning_status": {
+        "typed_inputs_unavailable": 3
+      },
+      "final_program_status": {
+        "invalid_IR": 3
+      }
+    }
+  },
+  "source_rows": [
+    {
+      "source": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+      "dataset": "OpenExempt",
+      "record_sha256": "f514be95c26c09a00368b7ca28a82d64eef375e1763192e8d586d078d8bb1537",
+      "source_IR_typed_in_any_attempt": false,
+      "final_program_status": "invalid_IR",
+      "certificate_status": "translation_unresolved",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "typed_inputs_unavailable",
+      "learned_pattern": null,
+      "compiler_material_count": 1,
+      "logical_requests": 2,
+      "exact_paid_wire_replays": 0,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "0a8747e33567f48788c4601c1372c38dd4ea40c4f2ae047e31c67c145b9f7214",
+          "usage": {
+            "completion_tokens": 1123,
+            "prompt_tokens": 18887,
+            "prompt_tokens_details": null,
+            "total_tokens": 20010
+          },
+          "elapsed_seconds": 38.33679025713354,
+          "physical_origin_call_id": null
+        },
+        {
+          "step": 1,
+          "purpose": "repair",
+          "request_hash": "bef05695d702d9b5c7d95f3e25e962ad5f5d57731a5be14ed7d85b981ed16c68",
+          "usage": {
+            "completion_tokens": 1010,
+            "prompt_tokens": 18955,
+            "prompt_tokens_details": null,
+            "total_tokens": 19965
+          },
+          "elapsed_seconds": 34.98816215246916,
+          "physical_origin_call_id": null
+        }
+      ],
+      "selection_bases": [],
+      "final_error": {
+        "diagnostics": [
+          {
+            "actual": "Constant",
+            "column": 22,
+            "expected": "Expected a literal string, integer, Boolean, null, list or dictionary",
+            "line": 2,
+            "path": "code"
+          }
+        ],
+        "error": "code:2:22: Expected a literal string, integer, Boolean, null, list or dictionary",
+        "error_type": "SourceCodeError"
+      },
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+      "dataset": "RuleArena_Airline",
+      "record_sha256": "5957b31a8aa7b9214519aa9822c4d8a664b427495ce399fc7e3091f452dc00ee",
+      "source_IR_typed_in_any_attempt": false,
+      "final_program_status": "invalid_IR",
+      "certificate_status": "translation_unresolved",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "typed_inputs_unavailable",
+      "learned_pattern": null,
+      "compiler_material_count": 1,
+      "logical_requests": 2,
+      "exact_paid_wire_replays": 2,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "0a4988a2836d8315beaeccc752dbfa16e8fd1ad07f92afd83120d2f3b12bf298",
+          "usage": {
+            "completion_tokens": 764,
+            "prompt_tokens": 9970,
+            "prompt_tokens_details": null,
+            "total_tokens": 10734
+          },
+          "elapsed_seconds": 23.68115550465882,
+          "physical_origin_call_id": "method_runtime_reference_v5_20261108:build:8aa4fa79552b63da56fa8135a51ae6fa6425ec2d21ff209b6576fafe581ddc02:0"
+        },
+        {
+          "step": 1,
+          "purpose": "repair",
+          "request_hash": "a29b4289fea588c70621b4ade60d2045a6a99de28488943cd7605763ed9c59ee",
+          "usage": {
+            "completion_tokens": 8192,
+            "prompt_tokens": 10041,
+            "prompt_tokens_details": null,
+            "total_tokens": 18233
+          },
+          "elapsed_seconds": 244.76598876249045,
+          "physical_origin_call_id": "method_runtime_reference_v5_20261108:build:8aa4fa79552b63da56fa8135a51ae6fa6425ec2d21ff209b6576fafe581ddc02:1"
+        }
+      ],
+      "selection_bases": [
+        "truncated_generation_requires_route_change"
+      ],
+      "final_error": {
+        "diagnostics": [],
+        "error": "Use one complete Python block without surrounding prose",
+        "error_type": "SourceCodeError"
+      },
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+      "dataset": "SARA_v2_Binary",
+      "record_sha256": "3b5ab1d581247bd036ea32e586a8b5d53959c422e3e2144b91b541a2a1a5699e",
+      "source_IR_typed_in_any_attempt": false,
+      "final_program_status": "invalid_IR",
+      "certificate_status": "translation_unresolved",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "typed_inputs_unavailable",
+      "learned_pattern": null,
+      "compiler_material_count": 1,
+      "logical_requests": 2,
+      "exact_paid_wire_replays": 2,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "4b14ad0bbe01c38f4aaba3b41f210c0a843992c1f032352d848e60def1a755f1",
+          "usage": {
+            "completion_tokens": 306,
+            "prompt_tokens": 4927,
+            "prompt_tokens_details": null,
+            "total_tokens": 5233
+          },
+          "elapsed_seconds": 9.180866802111268,
+          "physical_origin_call_id": "method_runtime_reference_v5_20261108:build:d2f0e6f9aa2313cc9a64ca5797a4dad55f20b51107fc77f63b09e58767ac52b0:0"
+        },
+        {
+          "step": 1,
+          "purpose": "repair",
+          "request_hash": "b75fd027dac033d2876278a4769009e90fe6cd907722249b5c7bc2760173253f",
+          "usage": {
+            "completion_tokens": 179,
+            "prompt_tokens": 4952,
+            "prompt_tokens_details": null,
+            "total_tokens": 5131
+          },
+          "elapsed_seconds": 5.675876677967608,
+          "physical_origin_call_id": "method_runtime_reference_v5_20261108:build:d2f0e6f9aa2313cc9a64ca5797a4dad55f20b51107fc77f63b09e58767ac52b0:1"
+        }
+      ],
+      "selection_bases": [],
+      "final_error": {
+        "diagnostics": [],
+        "error": "A rule annotation requires real rule or already-declared fact evidence",
+        "error_type": "SourceCodeError"
+      },
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096",
+      "dataset": "ProofWriter_OWA_depth5",
+      "record_sha256": "16ea9f982a47e215a158bf8e67816053e1cc5cbcdc4d1f11af9f45688776f360",
+      "source_IR_typed_in_any_attempt": false,
+      "final_program_status": "invalid_IR",
+      "certificate_status": "translation_unresolved",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "identified_on_observed_collisions",
+      "learned_pattern": {
+        "basis": "observed_source_collisions",
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          {
+            "inputs": [
+              {
+                "slot": "slot0"
+              },
+              {
+                "slot": "slot1"
+              }
+            ],
+            "op": "join_on",
+            "params": {
+              "keys": [
+                "column0"
+              ]
+            }
+          }
+        ],
+        "universal_semantic_equivalence_claim": false
+      },
+      "compiler_material_count": 1,
+      "logical_requests": 2,
+      "exact_paid_wire_replays": 2,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "6c5af36b6e1cc08f1444757cd4227f1b8629d8610c5ced52209e252b122f2242",
+          "usage": {
+            "completion_tokens": 499,
+            "prompt_tokens": 1703,
+            "prompt_tokens_details": null,
+            "total_tokens": 2202
+          },
+          "elapsed_seconds": 13.691909433342516,
+          "physical_origin_call_id": "method_runtime_reference_v5_20261108:build:6b7b567fbd135fc44465bebff0472ec4e7989336fa6e40ebf3f4d81af98eb505:0"
+        },
+        {
+          "step": 1,
+          "purpose": "repair",
+          "request_hash": "1436c8b6cb6e89ccf98b68fe82fe286fa20f5996776c3f642d81d6483597b694",
+          "usage": {
+            "completion_tokens": 499,
+            "prompt_tokens": 1774,
+            "prompt_tokens_details": null,
+            "total_tokens": 2273
+          },
+          "elapsed_seconds": 13.680426351726055,
+          "physical_origin_call_id": "method_runtime_reference_v5_20261108:build:6b7b567fbd135fc44465bebff0472ec4e7989336fa6e40ebf3f4d81af98eb505:1"
+        }
+      ],
+      "selection_bases": [],
+      "final_error": {
+        "diagnostics": {
+          "actual_statement": null,
+          "line": null,
+          "message": "Invalid Horn term: invalid syntax (<unknown>, line 1)",
+          "native_answer_or_grading_used": false,
+          "public_source_text": null,
+          "source": null,
+          "source_only": true
+        },
+        "error": "Invalid Horn term: invalid syntax (<unknown>, line 1)",
+        "error_type": "LogicTranslationError"
+      },
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+      "dataset": "ContractNLI",
+      "record_sha256": "c26bda589e0bf4a963b5f8a2402d06559ef93f806df360e5312279149ce4d6fa",
+      "source_IR_typed_in_any_attempt": false,
+      "final_program_status": "invalid_IR",
+      "certificate_status": "translation_unresolved",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "no_counterfactual_oracle",
+      "learned_pattern": null,
+      "compiler_material_count": 0,
+      "logical_requests": 2,
+      "exact_paid_wire_replays": 2,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "209a2bd81680de1ba793b750b6babf0d8a802feaf0eaa15e9f2498d82f266371",
+          "usage": {
+            "completion_tokens": 4062,
+            "prompt_tokens": 5898,
+            "prompt_tokens_details": null,
+            "total_tokens": 9960
+          },
+          "elapsed_seconds": 115.89858845993876,
+          "physical_origin_call_id": "method_runtime_reference_v5_20261108:build:0a7d458904f99b01bb76dc35d89dd0786d88b8abb97c50aa5385a967d0e6aed9:0"
+        },
+        {
+          "step": 1,
+          "purpose": "repair",
+          "request_hash": "38855f45a254143dee190be2966078d28c4f913d766a1faba4bda765de9f3fda",
+          "usage": {
+            "completion_tokens": 4100,
+            "prompt_tokens": 5920,
+            "prompt_tokens_details": null,
+            "total_tokens": 10020
+          },
+          "elapsed_seconds": 116.95257459953427,
+          "physical_origin_call_id": "method_runtime_reference_v5_20261108:build:0a7d458904f99b01bb76dc35d89dd0786d88b8abb97c50aa5385a967d0e6aed9:1"
+        }
+      ],
+      "selection_bases": [],
+      "final_error": {
+        "diagnostics": [
+          {
+            "actual": "Compare",
+            "column": 25,
+            "expected": "Use a single ==, !=, < or <= comparison",
+            "line": 269,
+            "path": "code"
+          }
+        ],
+        "error": "code:269:25: Use a single ==, !=, < or <= comparison",
+        "error_type": "SourceCodeError"
+      },
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "OpenExempt:fe5acb6c980638b2750321e28fadcc69d98f49992871bfc44accbc3b147ca597",
+      "dataset": "OpenExempt",
+      "record_sha256": "82875b99d243748e55d9ff858598374dfa73ded04acb3aa5360b0afd777847a5",
+      "source_IR_typed_in_any_attempt": false,
+      "final_program_status": "invalid_IR",
+      "certificate_status": "translation_unresolved",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "typed_inputs_unavailable",
+      "learned_pattern": null,
+      "compiler_material_count": 0,
+      "logical_requests": 2,
+      "exact_paid_wire_replays": 0,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "8bce7192814dec0c02f30575412691daf908a9fba740a6f2a5759fcdba9deec3",
+          "usage": {
+            "completion_tokens": 1960,
+            "prompt_tokens": 24050,
+            "prompt_tokens_details": null,
+            "total_tokens": 26010
+          },
+          "elapsed_seconds": 68.04672783706337,
+          "physical_origin_call_id": null
+        },
+        {
+          "step": 1,
+          "purpose": "repair",
+          "request_hash": "fe9ff0d04b0b3948af48a3786ef5a9e7fa23409c4b5834cd11e59266137af47e",
+          "usage": {
+            "completion_tokens": 1759,
+            "prompt_tokens": 24116,
+            "prompt_tokens_details": null,
+            "total_tokens": 25875
+          },
+          "elapsed_seconds": 61.66912837699056,
+          "physical_origin_call_id": null
+        }
+      ],
+      "selection_bases": [],
+      "final_error": {
+        "diagnostics": null,
+        "error": "No schema union alternative accepts this value",
+        "error_type": "ValidationError",
+        "field_path": [
+          "bindings",
+          14
+        ],
+        "source_validation": {
+          "candidate_modified": false,
+          "grading_information_used": false,
+          "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+          "issues": [
+            {
+              "actual": {
+                "cited_text": "The Debtors may claim property exemptions under Federal and Pennsylvania statutes.",
+                "sources": [
+                  "s157"
+                ],
+                "value": "Federal and Wisconsin"
+              },
+              "expected": "scalar_text_in_cited_public_unit",
+              "path": "bindings[0].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Esra and Fatou Demir (hereinafter the Debtors) filed for bankruptcy on 1.9.2024. A gas range with cast iron grates and double oven compartments appraised at $680.00 is the property of the Demirs. Records show that the Debtors possess a Henry Golden Boy .22 LR lever-action rifle with brass receiver with a value of $600.00.",
+                "sources": [
+                  "s159"
+                ],
+                "value": "Jose Ortiz"
+              },
+              "expected": "scalar_text_in_cited_public_unit",
+              "path": "bindings[1].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Esra and Fatou Demir (hereinafter the Debtors) filed for bankruptcy on 1.9.2024. A gas range with cast iron grates and double oven compartments appraised at $680.00 is the property of the Demirs. Records show that the Debtors possess a Henry Golden Boy .22 LR lever-action rifle with brass receiver with a value of $600.00.",
+                "sources": [
+                  "s159"
+                ],
+                "value": "7th of September 2024"
+              },
+              "expected": "scalar_text_in_cited_public_unit",
+              "path": "bindings[2].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Esra and Fatou Demir (hereinafter the Debtors) filed for bankruptcy on 1.9.2024. A gas range with cast iron grates and double oven compartments appraised at $680.00 is the property of the Demirs. Records show that the Debtors possess a Henry Golden Boy .22 LR lever-action rifle with brass receiver with a value of $600.00.",
+                "sources": [
+                  "s159"
+                ],
+                "value": "wall-mounted floating shelf made of reclaimed barn wood"
+              },
+              "expected": "scalar_text_in_cited_public_unit",
+              "path": "bindings[3].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Esra and Fatou Demir (hereinafter the Debtors) filed for bankruptcy on 1.9.2024. A gas range with cast iron grates and double oven compartments appraised at $680.00 is the property of the Demirs. Records show that the Debtors possess a Henry Golden Boy .22 LR lever-action rifle with brass receiver with a value of $600.00.",
+                "sources": [
+                  "s159"
+                ],
+                "value": 800
+              },
+              "expected": "exact_numeric_literal_in_cited_public_unit",
+              "path": "bindings[4].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Esra and Fatou Demir (hereinafter the Debtors) filed for bankruptcy on 1.9.2024. A gas range with cast iron grates and double oven compartments appraised at $680.00 is the property of the Demirs. Records show that the Debtors possess a Henry Golden Boy .22 LR lever-action rifle with brass receiver with a value of $600.00.",
+                "sources": [
+                  "s159"
+                ],
+                "value": "hooded fleece robe with belt and two front pockets"
+              },
+              "expected": "scalar_text_in_cited_public_unit",
+              "path": "bindings[5].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Esra and Fatou Demir (hereinafter the Debtors) filed for bankruptcy on 1.9.2024. A gas range with cast iron grates and double oven compartments appraised at $680.00 is the property of the Demirs. Records show that the Debtors possess a Henry Golden Boy .22 LR lever-action rifle with brass receiver with a value of $600.00.",
+                "sources": [
+                  "s159"
+                ],
+                "value": 105
+              },
+              "expected": "exact_numeric_literal_in_cited_public_unit",
+              "path": "bindings[6].value"
+            },
+            {
+              "actual": {
+                "cited_text": "The Debtors may claim property exemptions under Federal and Pennsylvania statutes.",
+                "sources": [
+                  "s318"
+                ],
+                "value": "Federal and Wisconsin"
+              },
+              "expected": "scalar_text_in_cited_public_unit",
+              "path": "bindings[7].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Esra and Fatou Demir (hereinafter the Debtors) filed for bankruptcy on 9 January 2024. A gas range with cast iron grates and double oven compartments worth $680.00 and a Henry Golden Boy .22 LR lever-action rifle with brass receiver appraised at $600.00 are both owned by the Debtors.",
+                "sources": [
+                  "s320"
+                ],
+                "value": "Jose Ortiz"
+              },
+              "expected": "scalar_text_in_cited_public_unit",
+              "path": "bindings[8].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Esra and Fatou Demir (hereinafter the Debtors) filed for bankruptcy on 9 January 2024. A gas range with cast iron grates and double oven compartments worth $680.00 and a Henry Golden Boy .22 LR lever-action rifle with brass receiver appraised at $600.00 are both owned by the Debtors.",
+                "sources": [
+                  "s320"
+                ],
+                "value": "9-7-2024"
+              },
+              "expected": "scalar_text_in_cited_public_unit",
+              "path": "bindings[9].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Esra and Fatou Demir (hereinafter the Debtors) filed for bankruptcy on 9 January 2024. A gas range with cast iron grates and double oven compartments worth $680.00 and a Henry Golden Boy .22 LR lever-action rifle with brass receiver appraised at $600.00 are both owned by the Debtors.",
+                "sources": [
+                  "s320"
+                ],
+                "value": "wall-mounted floating shelf made of reclaimed barn wood"
+              },
+              "expected": "scalar_text_in_cited_public_unit",
+              "path": "bindings[10].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Esra and Fatou Demir (hereinafter the Debtors) filed for bankruptcy on 9 January 2024. A gas range with cast iron grates and double oven compartments worth $680.00 and a Henry Golden Boy .22 LR lever-action rifle with brass receiver appraised at $600.00 are both owned by the Debtors.",
+                "sources": [
+                  "s320"
+                ],
+                "value": 800
+              },
+              "expected": "exact_numeric_literal_in_cited_public_unit",
+              "path": "bindings[11].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Esra and Fatou Demir (hereinafter the Debtors) filed for bankruptcy on 9 January 2024. A gas range with cast iron grates and double oven compartments worth $680.00 and a Henry Golden Boy .22 LR lever-action rifle with brass receiver appraised at $600.00 are both owned by the Debtors.",
+                "sources": [
+                  "s320"
+                ],
+                "value": "hooded fleece robe with belt and two front pockets"
+              },
+              "expected": "scalar_text_in_cited_public_unit",
+              "path": "bindings[12].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Esra and Fatou Demir (hereinafter the Debtors) filed for bankruptcy on 9 January 2024. A gas range with cast iron grates and double oven compartments worth $680.00 and a Henry Golden Boy .22 LR lever-action rifle with brass receiver appraised at $600.00 are both owned by the Debtors.",
+                "sources": [
+                  "s320"
+                ],
+                "value": 105
+              },
+              "expected": "exact_numeric_literal_in_cited_public_unit",
+              "path": "bindings[13].value"
+            },
+            {
+              "actual": {
+                "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                "sources": [
+                  "s15"
+                ],
+                "value": true
+              },
+              "expected": "explicit_public_boolean_only_no_inferred_truth",
+              "path": "bindings[14].value"
+            },
+            {
+              "actual": {
+                "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                "sources": [
+                  "s15"
+                ],
+                "value": true
+              },
+              "expected": "explicit_public_boolean_only_no_inferred_truth",
+              "path": "bindings[15].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Consumer goods. Household goods and furnishings, wearing apparel, keepsakes, jewelry and other articles of personal adornment, appliances, books, musical instruments, firearms, sporting goods, animals, or other tangible personal property held primarily for the personal, family or household use of the debtor or a dependent of the debtor, not to exceed $12,000 in aggregate value.",
+                "sources": [
+                  "s144"
+                ],
+                "value": true
+              },
+              "expected": "explicit_public_boolean_only_no_inferred_truth",
+              "path": "bindings[16].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Consumer goods. Household goods and furnishings, wearing apparel, keepsakes, jewelry and other articles of personal adornment, appliances, books, musical instruments, firearms, sporting goods, animals, or other tangible personal property held primarily for the personal, family or household use of the debtor or a dependent of the debtor, not to exceed $12,000 in aggregate value.",
+                "sources": [
+                  "s144"
+                ],
+                "value": true
+              },
+              "expected": "explicit_public_boolean_only_no_inferred_truth",
+              "path": "bindings[17].value"
+            },
+            {
+              "actual": {
+                "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                "sources": [
+                  "s176"
+                ],
+                "value": true
+              },
+              "expected": "explicit_public_boolean_only_no_inferred_truth",
+              "path": "bindings[18].value"
+            },
+            {
+              "actual": {
+                "cited_text": "The debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+                "sources": [
+                  "s176"
+                ],
+                "value": true
+              },
+              "expected": "explicit_public_boolean_only_no_inferred_truth",
+              "path": "bindings[19].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Consumer goods. Household goods and furnishings, wearing apparel, keepsakes, jewelry and other articles of personal adornment, appliances, books, musical instruments, firearms, sporting goods, animals, or other tangible personal property held primarily for the personal, family or household use of the debtor or a dependent of the debtor, not to exceed $12,000 in aggregate value.",
+                "sources": [
+                  "s305"
+                ],
+                "value": true
+              },
+              "expected": "explicit_public_boolean_only_no_inferred_truth",
+              "path": "bindings[20].value"
+            },
+            {
+              "actual": {
+                "cited_text": "Consumer goods. Household goods and furnishings, wearing apparel, keepsakes, jewelry and other articles of personal adornment, appliances, books, musical instruments, firearms, sporting goods, animals, or other tangible personal property held primarily for the personal, family or household use of the debtor or a dependent of the debtor, not to exceed $12,000 in aggregate value.",
+                "sources": [
+                  "s305"
+                ],
+                "value": true
+              },
+              "expected": "explicit_public_boolean_only_no_inferred_truth",
+              "path": "bindings[21].value"
+            }
+          ],
+          "source_only": true
+        }
+      },
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+      "dataset": "RuleArena_Airline",
+      "record_sha256": "0def5eaaf2b74bf217548337e6720df2e82f2e5440bf9b76940465b400dc97cc",
+      "source_IR_typed_in_any_attempt": true,
+      "final_program_status": "invalid_IR",
+      "certificate_status": "translation_unresolved",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "typed_inputs_unavailable",
+      "learned_pattern": null,
+      "compiler_material_count": 0,
+      "logical_requests": 2,
+      "exact_paid_wire_replays": 0,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "cf37f90b59f7f567e1aa1175a5766936d73b63ebf5c1c5fdb9f28b5d869a0448",
+          "usage": {
+            "completion_tokens": 1643,
+            "prompt_tokens": 12849,
+            "prompt_tokens_details": null,
+            "total_tokens": 14492
+          },
+          "elapsed_seconds": 50.91728817112744,
+          "physical_origin_call_id": null
+        },
+        {
+          "step": 1,
+          "purpose": "repair",
+          "request_hash": "da618f7278b0280943064968b745677db715f28bcebaaa38b5173f6da9c39744",
+          "usage": {
+            "completion_tokens": 8192,
+            "prompt_tokens": 15364,
+            "prompt_tokens_details": null,
+            "total_tokens": 23556
+          },
+          "elapsed_seconds": 256.51823703199625,
+          "physical_origin_call_id": null
+        }
+      ],
+      "selection_bases": [
+        "conservative_full_source_after_translation_unresolved",
+        "truncated_generation_requires_route_change"
+      ],
+      "final_error": {
+        "diagnostics": null,
+        "error": "Unterminated string starting at: line 1 column 25159 (char 25158)",
+        "error_type": "JSONDecodeError",
+        "incomplete_prefix": {
+          "candidate_reconstructed": false,
+          "complete_declaration_count": 0,
+          "instruction": "These are errors in complete earlier declarations, not a recovered program. Return a complete fresh source-grounded translation; do not extend or copy the truncated tail.",
+          "issue_count": 0,
+          "issues": [],
+          "prefix_only": true,
+          "source_only": true
+        },
+        "source_validation": {
+          "candidate_modified": false,
+          "grading_information_used": false,
+          "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+          "issues": [],
+          "source_only": true
+        }
+      },
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "SARA_v2_Binary:8175fcb9abeb3ba15e5b58a33f9b479944ee37eab0c0cfa9557393b5193ece97",
+      "dataset": "SARA_v2_Binary",
+      "record_sha256": "2395d787de5b09b5d224a03e03a037489c4120892893e0989efdf79de7a1f802",
+      "source_IR_typed_in_any_attempt": false,
+      "final_program_status": "invalid_IR",
+      "certificate_status": "translation_unresolved",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "typed_inputs_unavailable",
+      "learned_pattern": null,
+      "compiler_material_count": 0,
+      "logical_requests": 2,
+      "exact_paid_wire_replays": 0,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "d72b9ab23d43092f5f2a254db4ecc7d2a7a59a7c277048001ff2b3559548a96d",
+          "usage": {
+            "completion_tokens": 259,
+            "prompt_tokens": 11223,
+            "prompt_tokens_details": null,
+            "total_tokens": 11482
+          },
+          "elapsed_seconds": 9.388706166297197,
+          "physical_origin_call_id": null
+        },
+        {
+          "step": 1,
+          "purpose": "repair",
+          "request_hash": "304507bb5611aa2c28b5cf4c52c76c9fd0031007955a897eb6818926ac31556b",
+          "usage": {
+            "completion_tokens": 2048,
+            "prompt_tokens": 11450,
+            "prompt_tokens_details": null,
+            "total_tokens": 13498
+          },
+          "elapsed_seconds": 61.97711367812008,
+          "physical_origin_call_id": null
+        }
+      ],
+      "selection_bases": [],
+      "final_error": {
+        "diagnostics": [
+          {
+            "actual": "invalid syntax. Perhaps you forgot a comma? (<unknown>, line 9)",
+            "column": 73,
+            "expected": "complete valid Python source",
+            "line": 9,
+            "path": "code"
+          }
+        ],
+        "error": "Incomplete or invalid Python source: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 9)",
+        "error_type": "SourceCodeError",
+        "source_validation": {
+          "candidate_modified": false,
+          "grading_information_used": false,
+          "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+          "issues": [
+            {
+              "actual": {
+                "role": "fact",
+                "source": "s55"
+              },
+              "expected": "rule",
+              "path": "observations[0].predicate_source"
+            },
+            {
+              "actual": {
+                "role": "fact",
+                "source": "s55"
+              },
+              "expected": "rule",
+              "path": "observations[1].predicate_source"
+            },
+            {
+              "actual": {
+                "role": "fact",
+                "source": "s55"
+              },
+              "expected": "rule",
+              "path": "observations[2].predicate_source"
+            },
+            {
+              "actual": {
+                "role": "fact",
+                "source": "s55"
+              },
+              "expected": "rule",
+              "path": "observations[3].predicate_source"
+            },
+            {
+              "actual": "the standard deduction shall be zero",
+              "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+              "path": "rule_residuals[0].quote"
+            }
+          ],
+          "source_only": true
+        }
+      },
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "ProofWriter_OWA_depth5:e95366c5947484c083f10b4fea4f936a17ec6bb58ed903aa3f1d376b7105c2dc",
+      "dataset": "ProofWriter_OWA_depth5",
+      "record_sha256": "ac5975dc69c0815682452e4a2d487f4d321514b28cd14c6a65a3729fceb6d226",
+      "source_IR_typed_in_any_attempt": true,
+      "final_program_status": "model_Horn_IR_compiled",
+      "certificate_status": "completion_stable",
+      "answer": "False",
+      "TRAIN_match": true,
+      "fallback": false,
+      "A_actual": true,
+      "B_actual": true,
+      "independent_executor_compilation": true,
+      "template_instance": false,
+      "pattern_uses": [
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "dog"
+                ]
+              ]
+            }
+          },
+          "iteration": 0,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 2,
+          "source_units": [
+            "s16"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "lion"
+                ]
+              ]
+            }
+          },
+          "iteration": 0,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 3,
+          "source_units": [
+            "s17"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": []
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": []
+            }
+          },
+          "iteration": 0,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 4,
+          "source_units": [
+            "s18"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": []
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "dog"
+                ]
+              ]
+            }
+          },
+          "iteration": 0,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 6,
+          "source_units": [
+            "s20"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "dog"
+                ],
+                [
+                  "tiger"
+                ]
+              ]
+            }
+          },
+          "iteration": 1,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 2,
+          "source_units": [
+            "s16"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "lion"
+                ]
+              ]
+            }
+          },
+          "iteration": 1,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 3,
+          "source_units": [
+            "s17"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": []
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "dog"
+                ]
+              ]
+            }
+          },
+          "iteration": 1,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 4,
+          "source_units": [
+            "s18"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": []
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "dog"
+                ]
+              ]
+            }
+          },
+          "iteration": 1,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 6,
+          "source_units": [
+            "s20"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ],
+                [
+                  "tiger"
+                ]
+              ]
+            }
+          },
+          "iteration": 2,
+          "node": "joined_1",
+          "output_rows": 2,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 2,
+          "source_units": [
+            "s16"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "lion"
+                ]
+              ]
+            }
+          },
+          "iteration": 2,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 3,
+          "source_units": [
+            "s17"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "dog"
+                ],
+                [
+                  "tiger"
+                ]
+              ]
+            }
+          },
+          "iteration": 2,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 4,
+          "source_units": [
+            "s18"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": []
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "dog"
+                ]
+              ]
+            }
+          },
+          "iteration": 2,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 6,
+          "source_units": [
+            "s20"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ],
+                [
+                  "tiger"
+                ]
+              ]
+            }
+          },
+          "iteration": 3,
+          "node": "joined_1",
+          "output_rows": 2,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 2,
+          "source_units": [
+            "s16"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "lion"
+                ]
+              ]
+            }
+          },
+          "iteration": 3,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 3,
+          "source_units": [
+            "s17"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ],
+                [
+                  "tiger"
+                ]
+              ]
+            }
+          },
+          "iteration": 3,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 4,
+          "source_units": [
+            "s18"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": []
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "dog"
+                ]
+              ]
+            }
+          },
+          "iteration": 3,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 6,
+          "source_units": [
+            "s20"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ],
+                [
+                  "tiger"
+                ]
+              ]
+            }
+          },
+          "iteration": 4,
+          "node": "joined_1",
+          "output_rows": 2,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 2,
+          "source_units": [
+            "s16"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "lion"
+                ]
+              ]
+            }
+          },
+          "iteration": 4,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 3,
+          "source_units": [
+            "s17"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ],
+                [
+                  "tiger"
+                ]
+              ]
+            }
+          },
+          "iteration": 4,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 4,
+          "source_units": [
+            "s18"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": []
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "dog"
+                ]
+              ]
+            }
+          },
+          "iteration": 4,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 6,
+          "source_units": [
+            "s20"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ],
+                [
+                  "lion"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ],
+                [
+                  "tiger"
+                ]
+              ]
+            }
+          },
+          "iteration": 5,
+          "node": "joined_1",
+          "output_rows": 2,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 2,
+          "source_units": [
+            "s16"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ],
+                [
+                  "lion"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "lion"
+                ]
+              ]
+            }
+          },
+          "iteration": 5,
+          "node": "joined_1",
+          "output_rows": 2,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 3,
+          "source_units": [
+            "s17"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ],
+                [
+                  "tiger"
+                ]
+              ]
+            }
+          },
+          "iteration": 5,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 4,
+          "source_units": [
+            "s18"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": []
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "dog"
+                ]
+              ]
+            }
+          },
+          "iteration": 5,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 6,
+          "source_units": [
+            "s20"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ],
+                [
+                  "lion"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ],
+                [
+                  "tiger"
+                ]
+              ]
+            }
+          },
+          "iteration": 6,
+          "node": "joined_1",
+          "output_rows": 2,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 2,
+          "source_units": [
+            "s16"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ],
+                [
+                  "lion"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "lion"
+                ]
+              ]
+            }
+          },
+          "iteration": 6,
+          "node": "joined_1",
+          "output_rows": 2,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 3,
+          "source_units": [
+            "s17"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bald eagle"
+                ],
+                [
+                  "dog"
+                ],
+                [
+                  "tiger"
+                ]
+              ]
+            }
+          },
+          "iteration": 6,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 4,
+          "source_units": [
+            "s18"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": []
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "dog"
+                ]
+              ]
+            }
+          },
+          "iteration": 6,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 6,
+          "source_units": [
+            "s20"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        }
+      ],
+      "learning_status": "no_observed_collision",
+      "learned_pattern": null,
+      "compiler_material_count": 0,
+      "logical_requests": 1,
+      "exact_paid_wire_replays": 1,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "c95f3bdea38fe816abd5f668211b47bc39ec53e5a77ae03718048f232e811eb8",
+          "usage": {
+            "completion_tokens": 604,
+            "prompt_tokens": 3959,
+            "prompt_tokens_details": null,
+            "total_tokens": 4563
+          },
+          "elapsed_seconds": 17.175697213970125,
+          "physical_origin_call_id": "reference_atoms_pw9_v3_20261108:parse:0"
+        }
+      ],
+      "selection_bases": [],
+      "final_error": null,
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "ContractNLI:e671a984356facb0c0666809e219fa44fa18d30e4f6252bbb33d8869fc43b1c9",
+      "dataset": "ContractNLI",
+      "record_sha256": "1dd121ea269fb6011df1782f338d0b293fd6ad18fe26389475eddea1edca0f6f",
+      "source_IR_typed_in_any_attempt": false,
+      "final_program_status": "invalid_IR",
+      "certificate_status": "translation_unresolved",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "no_counterfactual_oracle",
+      "learned_pattern": null,
+      "compiler_material_count": 0,
+      "logical_requests": 2,
+      "exact_paid_wire_replays": 0,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "9da3bc7b5196fef78e78bdac571b59c9ea81fc26ff4859b41f7999f497d36dc6",
+          "usage": {
+            "completion_tokens": 78,
+            "prompt_tokens": 3438,
+            "prompt_tokens_details": null,
+            "total_tokens": 3516
+          },
+          "elapsed_seconds": 2.600768460892141,
+          "physical_origin_call_id": null
+        },
+        {
+          "step": 1,
+          "purpose": "repair",
+          "request_hash": "4a9769db6d408df1201055bd9fdc0946529abbb5b02be14b744dd160c2f4f958",
+          "usage": {
+            "completion_tokens": 88,
+            "prompt_tokens": 3500,
+            "prompt_tokens_details": null,
+            "total_tokens": 3588
+          },
+          "elapsed_seconds": 2.881728452630341,
+          "physical_origin_call_id": null
+        }
+      ],
+      "selection_bases": [],
+      "final_error": {
+        "diagnostics": [
+          {
+            "actual": "Compare",
+            "column": 31,
+            "expected": "Use a single ==, !=, < or <= comparison",
+            "line": 3,
+            "path": "code"
+          }
+        ],
+        "error": "code:3:31: Use a single ==, !=, < or <= comparison",
+        "error_type": "SourceCodeError"
+      },
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "OpenExempt:ae1e4bdb9abb4f7bea56b7d39a89776db8e4ed5f2ee7048f51e882a3555c9244",
+      "dataset": "OpenExempt",
+      "record_sha256": "be02e6c4eaa7db2153e4bc84719a2722ecf7fb3fc33726b994882f331d119981",
+      "source_IR_typed_in_any_attempt": false,
+      "final_program_status": "invalid_IR",
+      "certificate_status": "translation_unresolved",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "typed_inputs_unavailable",
+      "learned_pattern": null,
+      "compiler_material_count": 0,
+      "logical_requests": 2,
+      "exact_paid_wire_replays": 0,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "288030c3f481c1c54853a8bd6a957cf56d9e68f68d65986feaae9e7a87ab0c32",
+          "usage": {
+            "completion_tokens": 2730,
+            "prompt_tokens": 24095,
+            "prompt_tokens_details": null,
+            "total_tokens": 26825
+          },
+          "elapsed_seconds": 93.03872978314757,
+          "physical_origin_call_id": null
+        },
+        {
+          "step": 1,
+          "purpose": "repair",
+          "request_hash": "9f9e425cde12633e9068e0a27ae99ed767d0c1c5c69f6601748c63d55fb1f2b8",
+          "usage": {
+            "completion_tokens": 2542,
+            "prompt_tokens": 24161,
+            "prompt_tokens_details": null,
+            "total_tokens": 26703
+          },
+          "elapsed_seconds": 87.09418573882431,
+          "physical_origin_call_id": null
+        }
+      ],
+      "selection_bases": [],
+      "final_error": {
+        "diagnostics": [
+          {
+            "actual": "'(' was never closed (<unknown>, line 88)",
+            "column": 15,
+            "expected": "complete valid Python source",
+            "line": 88,
+            "path": "code"
+          }
+        ],
+        "error": "Incomplete or invalid Python source: '(' was never closed (<unknown>, line 88)",
+        "error_type": "SourceCodeError"
+      },
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "RuleArena_Airline:92d91f15d181b5cdd9aedcaaa188e357186216ad80ed0937918e585c673f5fc3",
+      "dataset": "RuleArena_Airline",
+      "record_sha256": "a72ef734ad974df2bfacea660041d493b3dd17a69056082f8cb24e74f65501e6",
+      "source_IR_typed_in_any_attempt": true,
+      "final_program_status": "invalid_IR",
+      "certificate_status": "translation_unresolved",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "typed_inputs_unavailable",
+      "learned_pattern": null,
+      "compiler_material_count": 0,
+      "logical_requests": 2,
+      "exact_paid_wire_replays": 0,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "9436ae0336dc5ed25a156a63dd344ef6e9e962c48f14aa2570d57e03016c3950",
+          "usage": {
+            "completion_tokens": 1642,
+            "prompt_tokens": 12843,
+            "prompt_tokens_details": null,
+            "total_tokens": 14485
+          },
+          "elapsed_seconds": 50.88076718617231,
+          "physical_origin_call_id": null
+        },
+        {
+          "step": 1,
+          "purpose": "repair",
+          "request_hash": "4f7b1e6fbf4d78cb584be4aa4c9d1222f8ed18c8dcc761fc16de05a57bc8fed4",
+          "usage": {
+            "completion_tokens": 1734,
+            "prompt_tokens": 15363,
+            "prompt_tokens_details": null,
+            "total_tokens": 17097
+          },
+          "elapsed_seconds": 55.186163197271526,
+          "physical_origin_call_id": null
+        }
+      ],
+      "selection_bases": [
+        "conservative_full_source_after_translation_unresolved"
+      ],
+      "final_error": {
+        "diagnostics": null,
+        "error": "A local refinement cannot change accepted declarations: traveler",
+        "error_type": "Unsupported",
+        "source_validation": {
+          "candidate_modified": false,
+          "grading_information_used": false,
+          "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+          "issues": [],
+          "source_only": true
+        }
+      },
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "SARA_v2_Binary:5c29a3a22f755d6a6253919de3327553f029a75827c72238547ebb6701b5ace7",
+      "dataset": "SARA_v2_Binary",
+      "record_sha256": "ac1625e7985756c15fadfb1aa69eb4016064d1ecfc14c7ea89070394d6f6202b",
+      "source_IR_typed_in_any_attempt": false,
+      "final_program_status": "invalid_IR",
+      "certificate_status": "translation_unresolved",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "typed_inputs_unavailable",
+      "learned_pattern": null,
+      "compiler_material_count": 0,
+      "logical_requests": 1,
+      "exact_paid_wire_replays": 0,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "a4687c0b624486fc972a6cbbea56592a8a1a2988a37092c76f0fa5d834f5385c",
+          "usage": {
+            "completion_tokens": 8192,
+            "prompt_tokens": 10718,
+            "prompt_tokens_details": null,
+            "total_tokens": 18910
+          },
+          "elapsed_seconds": 246.11527791433036,
+          "physical_origin_call_id": null
+        }
+      ],
+      "selection_bases": [
+        "truncated_generation_requires_route_change"
+      ],
+      "final_error": {
+        "diagnostics": [
+          {
+            "actual": "unterminated string literal (detected at line 4) (<unknown>, line 4)",
+            "column": 149,
+            "expected": "complete valid Python source",
+            "line": 4,
+            "path": "code"
+          }
+        ],
+        "error": "Incomplete or invalid Python source: unterminated string literal (detected at line 4) (<unknown>, line 4)",
+        "error_type": "SourceCodeError"
+      },
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "ProofWriter_OWA_depth5:d7b97c7987247373053b23e1864494f8ae060e88d4ffe4d3bd6feccff9906d6b",
+      "dataset": "ProofWriter_OWA_depth5",
+      "record_sha256": "7a878841e22f2409dac7e38399ce50dfcfe94173e279fcb9f7ee0ee0caf13c8a",
+      "source_IR_typed_in_any_attempt": true,
+      "final_program_status": "model_Horn_IR_compiled",
+      "certificate_status": "completion_stable",
+      "answer": "False",
+      "TRAIN_match": true,
+      "fallback": false,
+      "A_actual": true,
+      "B_actual": true,
+      "independent_executor_compilation": true,
+      "template_instance": false,
+      "pattern_uses": [
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": []
+            }
+          },
+          "iteration": 0,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 4,
+          "source_units": [
+            "s11"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "charlie"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": []
+            }
+          },
+          "iteration": 0,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": false,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 5,
+          "source_units": [
+            "s12"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "anne"
+                ]
+              ]
+            }
+          },
+          "iteration": 0,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": false,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 8,
+          "source_units": [
+            "s15"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "harry"
+                ]
+              ]
+            }
+          },
+          "iteration": 1,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 4,
+          "source_units": [
+            "s11"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "charlie"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            }
+          },
+          "iteration": 1,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": false,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 5,
+          "source_units": [
+            "s12"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "anne"
+                ]
+              ]
+            }
+          },
+          "iteration": 1,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": false,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 8,
+          "source_units": [
+            "s15"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "harry"
+                ]
+              ]
+            }
+          },
+          "iteration": 2,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 4,
+          "source_units": [
+            "s11"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "charlie"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            }
+          },
+          "iteration": 2,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": false,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 5,
+          "source_units": [
+            "s12"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "anne"
+                ]
+              ]
+            }
+          },
+          "iteration": 2,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": false,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 8,
+          "source_units": [
+            "s15"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ],
+                [
+                  "harry"
+                ]
+              ]
+            }
+          },
+          "iteration": 3,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 4,
+          "source_units": [
+            "s11"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "charlie"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            }
+          },
+          "iteration": 3,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": false,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 5,
+          "source_units": [
+            "s12"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "anne"
+                ]
+              ]
+            }
+          },
+          "iteration": 3,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": false,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 8,
+          "source_units": [
+            "s15"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ],
+                [
+                  "harry"
+                ]
+              ]
+            }
+          },
+          "iteration": 4,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 4,
+          "source_units": [
+            "s11"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "charlie"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            }
+          },
+          "iteration": 4,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": false,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 5,
+          "source_units": [
+            "s12"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "anne"
+                ],
+                [
+                  "bob"
+                ]
+              ]
+            }
+          },
+          "iteration": 4,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": false,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 8,
+          "source_units": [
+            "s15"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ],
+                [
+                  "harry"
+                ]
+              ]
+            }
+          },
+          "iteration": 5,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": true,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 4,
+          "source_units": [
+            "s11"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "charlie"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            }
+          },
+          "iteration": 5,
+          "node": "joined_1",
+          "output_rows": 0,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": false,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 5,
+          "source_units": [
+            "s12"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        },
+        {
+          "column_bindings": {
+            "column0": "?X"
+          },
+          "expanded_graph_hash": "960205b73a62da22aa561e68c0a748261171dd3a6f85b66b77f80f25e55b5612",
+          "input_witnesses": {
+            "atom0": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "bob"
+                ]
+              ]
+            },
+            "atom1": {
+              "columns": [
+                "?X"
+              ],
+              "rows": [
+                [
+                  "anne"
+                ],
+                [
+                  "bob"
+                ]
+              ]
+            }
+          },
+          "iteration": 5,
+          "node": "joined_1",
+          "output_rows": 1,
+          "path": "$",
+          "pattern_hash": "a0e975c32f6e133e71a5253eb16ef7497754b4357441efb967a67c2dac6e62cf",
+          "query_relevant": false,
+          "role_bindings": {
+            "slot0": "atom0",
+            "slot1": "atom1"
+          },
+          "rule_index": 8,
+          "source_units": [
+            "s15"
+          ],
+          "status": "executed_main_program",
+          "supporting_training_sources": [
+            "ProofWriter_OWA_depth5:43ec41194db931b0e509a68dddf476b80e9edb3c5b98cdc6ce889b19314ba096"
+          ],
+          "variant": 0
+        }
+      ],
+      "learning_status": "identified_on_observed_collisions",
+      "learned_pattern": {
+        "basis": "observed_source_collisions",
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          {
+            "inputs": [
+              {
+                "slot": "slot0"
+              },
+              {
+                "slot": "slot1"
+              }
+            ],
+            "op": "join_on",
+            "params": {
+              "keys": [
+                "column0"
+              ]
+            }
+          }
+        ],
+        "universal_semantic_equivalence_claim": false
+      },
+      "compiler_material_count": 0,
+      "logical_requests": 1,
+      "exact_paid_wire_replays": 0,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "d6c623c2861e2290b7cbaa1f92366d271649f4aad08b8fc631305ec566bd4a87",
+          "usage": {
+            "completion_tokens": 332,
+            "prompt_tokens": 3307,
+            "prompt_tokens_details": null,
+            "total_tokens": 3639
+          },
+          "elapsed_seconds": 9.522038173861802,
+          "physical_origin_call_id": null
+        }
+      ],
+      "selection_bases": [],
+      "final_error": null,
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "dataset": "ContractNLI",
+      "record_sha256": "f60d43edc382da1c4f1919cdafdf6f7ee124fa38244ecdb89fe729bbf63d3a56",
+      "source_IR_typed_in_any_attempt": false,
+      "final_program_status": "invalid_IR",
+      "certificate_status": "translation_unresolved",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "no_counterfactual_oracle",
+      "learned_pattern": null,
+      "compiler_material_count": 0,
+      "logical_requests": 2,
+      "exact_paid_wire_replays": 0,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "53a0383ed108e6e697e34373bfeadc3e50552b2e0c9f1182fb85a0d3b6c34a98",
+          "usage": {
+            "completion_tokens": 68,
+            "prompt_tokens": 4646,
+            "prompt_tokens_details": null,
+            "total_tokens": 4714
+          },
+          "elapsed_seconds": 2.5776834646239877,
+          "physical_origin_call_id": null
+        },
+        {
+          "step": 1,
+          "purpose": "repair",
+          "request_hash": "f96b8077353a39fe8cf3ef71982df3a54d32d24be74d7dea3f6cc0c7c12e32fb",
+          "usage": {
+            "completion_tokens": 98,
+            "prompt_tokens": 4708,
+            "prompt_tokens_details": null,
+            "total_tokens": 4806
+          },
+          "elapsed_seconds": 3.3893854152411222,
+          "physical_origin_call_id": null
+        }
+      ],
+      "selection_bases": [],
+      "final_error": {
+        "diagnostics": [
+          {
+            "actual": "Compare",
+            "column": 31,
+            "expected": "Use a single ==, !=, < or <= comparison",
+            "line": 3,
+            "path": "code"
+          }
+        ],
+        "error": "code:3:31: Use a single ==, !=, < or <= comparison",
+        "error_type": "SourceCodeError"
+      },
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "OpenExempt:cdf5d6eb5caa700c844bb8f89116b4ba97d73b5011e69e2919c02c00aeb63ef7",
+      "dataset": "OpenExempt",
+      "record_sha256": "5f3c42d9ca3ae3cc70768ba57642bf2184aba31e729f3906e92f714cfa790cfb",
+      "source_IR_typed_in_any_attempt": false,
+      "final_program_status": "request_preparation_unavailable",
+      "certificate_status": "budget_exhausted",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "typed_inputs_unavailable",
+      "learned_pattern": null,
+      "compiler_material_count": 0,
+      "logical_requests": 1,
+      "exact_paid_wire_replays": 0,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "35eab2bc7d5861ffeb14fb095af324f2eed7021ed6d6c7430cb446ba5dac39c0",
+          "usage": {
+            "completion_tokens": 1622,
+            "prompt_tokens": 24053,
+            "prompt_tokens_details": null,
+            "total_tokens": 25675
+          },
+          "elapsed_seconds": 57.09250183869153,
+          "physical_origin_call_id": null
+        }
+      ],
+      "selection_bases": [
+        "request_not_dispatched"
+      ],
+      "final_error": "Complete request exceeds context; no source truncation",
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    },
+    {
+      "source": "RuleArena_Airline:575fd48cab69790e778702dd8893fb94deed82d16569037977193dd30f6d32b3",
+      "dataset": "RuleArena_Airline",
+      "record_sha256": "0b2f1cf6cb9ade42a244179ed85749411218db4a0a974703cf6e3b6dbd8b15ca",
+      "source_IR_typed_in_any_attempt": true,
+      "final_program_status": "invalid_IR",
+      "certificate_status": "translation_unresolved",
+      "answer": null,
+      "TRAIN_match": false,
+      "fallback": false,
+      "A_actual": false,
+      "B_actual": false,
+      "independent_executor_compilation": null,
+      "template_instance": null,
+      "pattern_uses": [],
+      "learning_status": "typed_inputs_unavailable",
+      "learned_pattern": null,
+      "compiler_material_count": 0,
+      "logical_requests": 2,
+      "exact_paid_wire_replays": 0,
+      "requests": [
+        {
+          "step": 0,
+          "purpose": "parse",
+          "request_hash": "835514109c602001ab0fa09f91bcb8739cbfc3d07393660bb5a1931b6ab5acae",
+          "usage": {
+            "completion_tokens": 833,
+            "prompt_tokens": 12297,
+            "prompt_tokens_details": null,
+            "total_tokens": 13130
+          },
+          "elapsed_seconds": 26.593160949647427,
+          "physical_origin_call_id": null
+        },
+        {
+          "step": 1,
+          "purpose": "repair",
+          "request_hash": "192b391a9d9c35c0f3a30a12b5c385ed1ac2a41350b5739eb7d95656afded5b3",
+          "usage": {
+            "completion_tokens": 8192,
+            "prompt_tokens": 13929,
+            "prompt_tokens_details": null,
+            "total_tokens": 22121
+          },
+          "elapsed_seconds": 253.05149003956467,
+          "physical_origin_call_id": null
+        }
+      ],
+      "selection_bases": [
+        "conservative_full_source_after_translation_unresolved",
+        "truncated_generation_requires_route_change"
+      ],
+      "final_error": {
+        "diagnostics": null,
+        "error": "Unterminated string starting at: line 1 column 25365 (char 25364)",
+        "error_type": "JSONDecodeError",
+        "incomplete_prefix": {
+          "candidate_reconstructed": false,
+          "complete_declaration_count": 0,
+          "instruction": "These are errors in complete earlier declarations, not a recovered program. Return a complete fresh source-grounded translation; do not extend or copy the truncated tail.",
+          "issue_count": 0,
+          "issues": [],
+          "prefix_only": true,
+          "source_only": true
+        },
+        "source_validation": {
+          "candidate_modified": false,
+          "grading_information_used": false,
+          "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+          "issues": [],
+          "source_only": true
+        }
+      },
+      "source_semantic_review_not_implied_by_type_or_TRAIN_match": true
+    }
+  ],
+  "build_completion_saved": false,
+  "six_arm_DEV_complete": false,
+  "new_model_or_oracle_calls_by_this_audit": 0,
+  "DEV_or_TEST_labels_read": false,
+  "component_results_not_pooled_with_uniform_build": true,
+  "full_goal_complete": false
+}

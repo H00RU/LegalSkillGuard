@@ -86,6 +86,19 @@ def predict_source(source,*,arm,library,generate,tokenize,request_config,thinkin
             else:messages,schema=pal_prompt(source,active,feedback=feedback),None
             if prepared:actions.append({k:v for k,v in prepared.items() if k not in {'messages','schema'}})
             count=tokenize(messages,thinking=False)['count']
+            if (count+request_config['max_tokens']>request_config['context_tokens'] and
+                    compiled is None and not logic and not match and isinstance(feedback,dict) and
+                    'error' in feedback and (request_path is None or not request_path.exists())):
+                # Keep every CURRENT source and the actual root error. Full
+                # duplicate diagnostics remain in the immutable previous call.
+                root_error={k:feedback[k] for k in ('error_type','error','field_path') if k in feedback}
+                compact=pal_prompt(source,active,feedback=root_error)
+                compact_count=tokenize(compact,thinking=False)['count']
+                if compact_count+request_config['max_tokens']<=request_config['context_tokens']:
+                    actions.append({'kind':'duplicate_error_diagnostics_omitted_from_prompt_only',
+                        'full_input_tokens':count,'dispatched_input_tokens':compact_count,
+                        'full_current_source_and_root_error_retained':True})
+                    messages,count=compact,compact_count
             if count+request_config['max_tokens']>request_config['context_tokens']:raise Unsupported('Complete request exceeds context; no source truncation')
         except Unsupported as exc:
             result.update(answer=None,certificate_status='budget_exhausted',program_status='request_preparation_unavailable',

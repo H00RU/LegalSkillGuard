@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "request_sha256": "ffd11af69175f7697b3da7339d2f2ae072f23b2cb2d447b94bdb4a5250f09608",
+  "response_sha256": "c37b91b51e8c1692c48ba1b7f567bb487be59191a556bb95e35305ee4e07c787",
+  "model": "gpt-5.6-sol",
+  "purpose": "method_train_compile",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "One pattern is observed in two ProofWriter_OWA_depth5 sources. It is grounded only in observed source collisions; no universal semantic-equivalence claim is made. Records with unavailable typed inputs, no counterfactual oracle, or no observed collision yielded no additional pattern."
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-08T16:45:27.625458+00:00",
+    "finished_at": "2026-11-08T16:45:42.415604+00:00",
+    "elapsed_seconds": 14.79,
+    "returncode": 0,
+    "event_log_sha256": "ed26e7879384c83cbdd364daccef2b18b24824142cb42fc1e244b5b2957c1514",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 48199,
+      "cached_input_tokens": 0,
+      "output_tokens": 189,
+      "reasoning_output_tokens": 52
+    },
+    "estimated_credits": null
+  }
+}
