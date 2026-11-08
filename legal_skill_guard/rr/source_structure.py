@@ -159,6 +159,34 @@ def inspect_source(source):
     return SourceStructure(ledger, roles, tuple(headings), references, unresolved)
 
 
+def explicit_query_target(source):
+    """Locate an explicit SARA section path; no applicability or truth inference.
+
+    This is source-only prompt/diagnostic metadata. A target pointer does not
+    cover a rule, discharge another unit, or narrow any completion domain.
+    Unsupported/ambiguous references remain unresolved.
+    """
+    if source['dataset']!='SARA_v2_Binary':return None
+    matches=re.findall(r'\bsection\s+([0-9]+)((?:\([A-Za-z0-9]+\))*)',source['public']['query'],re.I)
+    if len(matches)!=1:return None
+    number,suffix=matches[0];target=tuple(re.findall(r'\(([A-Za-z0-9]+)\)',suffix))
+    structure=inspect_source(source);current=None;stack=[];selected=[]
+    for clause in structure.ledger.clauses:
+        if structure.roles[clause.id]['role']!='rule':continue
+        text=structure.ledger.text[clause.start:clause.end]
+        heading=re.match(r'^\s*§([0-9]+)\.',text)
+        if heading:current=heading[1];stack=[]
+        else:
+            paragraph=re.match(r'^(\s*)\(([A-Za-z0-9]+)\)',text)
+            if paragraph:
+                depth=len(paragraph[1])
+                while stack and stack[-1][0]>=depth:stack.pop()
+                stack.append((depth,paragraph[2]))
+        if current==number and tuple(token for _,token in stack)==target:selected.append(clause.id)
+    return {'reference':number+suffix,'unit_ids':selected,'basis':'explicit public section path and original indentation',
+            'source_obligations_discharged':False} if selected else None
+
+
 def compact_contexts(structure):
     """Reduce printed context edges while preserving every full closure.
 

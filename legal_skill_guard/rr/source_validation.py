@@ -6,12 +6,12 @@ facts, infer missing legal rules, open a grading packet or change the candidate.
 import json
 from collections import Counter
 
-from .clause_scope import required_scope_sources
+from .clause_scope import required_scope_sources,structural_heading,effective_source_scopes
 from .grounding import binding_literal_audit
 from .ir_types import IRTypeError,check_expression
 from .scoped_program import expression_reads
-from .source_program import proper_rule_subexpression
-from .source_structure import inspect_source
+from .source_program import residual_context_proof,factual_predicate_supported
+from .source_structure import inspect_source,explicit_query_target
 
 
 def incomplete_feedback(content):
@@ -150,9 +150,12 @@ def validation_feedback(source,program):
         for field,key in (('entity','entity_source'),('predicate','predicate_source')):
             if not observation[field] or observation[field] not in units.get(observation[key],''):
                 issue(f'observations[{i}].{field}','exact substring of cited source',observation[field])
+        if not factual_predicate_supported(observation['predicate']):
+            issue(f'observations[{i}].predicate','atomic factual predicate; retain legal references and comparisons in executable rules or proper legal residuals',
+                {'name':observation['name'],'predicate':observation['predicate'],'source':observation['predicate_source']})
     for i,hole in enumerate(program['rule_residuals']):
         types.setdefault(hole['name'],{'boolean'})
-        if not proper_rule_subexpression(hole['quote'],units.get(hole['source'],'')):
+        if hole['source'] not in units or residual_context_proof(structure,program,hole) is None:
             issue(f'rule_residuals[{i}].quote','proper rule subexpression; a removed paragraph prefix does not translate the rule',hole['quote'])
     # Infer only definitions whose dependencies are already known. Diagnosing
     # an invalid candidate does not pretend that an unbound name has a type.
@@ -185,15 +188,52 @@ def validation_feedback(source,program):
         unbound(expression,path)
     for i,node in enumerate(program['nodes']):
         if node['kind']=='expression':check(node['body'],f'nodes[{i}].body')
-    for i,scope in enumerate(program['scopes']):check(scope['condition'],f'scopes[{i}].condition',True)
+    for i,scope in enumerate(program['scopes']):
+        check(scope['condition'],f'scopes[{i}].condition',True)
+        condition=scope['condition'];unit=scope['source']
+        if type(condition) is bool and not (condition is True and structural_heading(units.get(unit,''))):
+            issue(f'scopes[{i}].condition','executable source condition; only a structural title permits literal True',
+                {'source':unit,'value':condition,'source_text':units.get(unit,'')})
     for i,clause in enumerate(program['clauses']):
         for key in ('value','otherwise'):check(clause[key],f'clauses[{i}].{key}')
     check(program['query'],'query')
-    required=set(required_scope_sources(structure));provided={s['source'] for s in program['scopes']}
+    effective,_=effective_source_scopes(structure,program)
+    required=set(required_scope_sources(structure));provided={s['source'] for s in effective}
     for unit in sorted(required-provided):issue('scopes','executable scope for conditional public preface',{'source':unit,'text':units[unit]})
     clause_names={c['name'] for c in program['clauses']}
-    if not expression_reads(program['query'])&clause_names:
-        issue('query','read at least one guarded clause output',sorted(expression_reads(program['query'])))
+    from .clause_scope import query_boundary_reads
+    if not query_boundary_reads(program)&clause_names:
+        issue('query','read at least one guarded clause output',sorted(query_boundary_reads(program)))
+    target=explicit_query_target(source)
+    if target:
+        # Diagnostic only: the completion checker is not given this pointer as
+        # an effect footprint, and it never makes omitted source irrelevant.
+        from .scoped_program import graph_reads
+        scopes={s['source']:s for s in program['scopes']}
+        definitions={n['name']:n for n in program['nodes']}
+        definitions.update({s['name']:{'kind':'expression','body':s['condition']} for s in program['scopes']})
+        clauses={c['name']:c for c in program['clauses']}
+        pending=list(expression_reads(program['query']));seen=set();represented=set()
+        while pending:
+            name=pending.pop()
+            if name in seen:continue
+            seen.add(name)
+            if name in clauses:
+                clause=clauses[name]
+                if not set(clause['sources'])<=set(units):continue
+                context=structure.ledger.closure(set(clause['sources']))
+                represented.update(context)
+                pending.extend(expression_reads(clause['value'])|expression_reads(clause['otherwise']))
+                pending.extend(scopes[s]['name'] for s in context if s in scopes)
+            elif name in definitions:
+                node=definitions[name]
+                if node['kind']=='expression':pending.extend(expression_reads(node['body']))
+                else:
+                    graph=node['body']['graph'];pending.extend(graph_reads(graph))
+                    if 'pattern' in graph:pending.extend(graph['slots'].values())
+        if not represented.intersection(target['unit_ids']):
+            issue('query','root rule dependencies include the explicitly requested public section',
+                {'target':target,'reachable_rule_context':sorted(represented)})
     return {'issues':issues,'source_only':True,'grading_information_used':False,
         'candidate_modified':False,
         'instruction':'Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.'}

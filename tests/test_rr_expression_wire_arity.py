@@ -50,6 +50,7 @@ def test_wire_and_expression_checker_agree_on_supported_operator_shapes():
     cases={'if':[True,1,0],'not':[True],'xor':[True,False],'eq':[1,1],'ne':[1,2],
         'lt':[1,2],'le':[1,2],'sub':[2,1],'scale':[2,1],'divide_constant':[2,1],
         'ceil_divide_constant':[2,1],'number_at':[{'op':'array','args':[1]},0],
+        'number_field':[{'op':'object','args':[{'op':'pair','args':['fee',1]}]},'fee'],
         'min':[1],'max':[1],'and':[],'or':[],'add':[],'array':[],
         'pair':['key',1],'object':[],'concat':[]}
     # Syntax/type witnesses only; no source-derived prediction is certified.

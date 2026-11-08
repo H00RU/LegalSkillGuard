@@ -25,7 +25,7 @@ def query_expression_schema(dataset, symbol):
         atoms = [native]
     elif dataset == 'RuleArena_Airline':
         atoms = [native, *source_expression_operations(['add', 'sub', 'scale', 'divide_constant',
-            'ceil_divide_constant', 'number_at', 'min', 'max'])]
+            'ceil_divide_constant', 'number_at', 'number_field', 'min', 'max'])]
         for expression in atoms:
             if expression.get('properties',{}).get('op',{}).get('enum')==['number_at']:
                 expression['properties']['args']['prefixItems'][0]=ref('numbers_expr')

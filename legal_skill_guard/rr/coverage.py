@@ -129,6 +129,13 @@ def evaluate(node: Any, env: dict[str, Any]) -> Any:
                 or type(args[1]) is not int or not 0 <= index < len(vector)):
             raise Unsupported('Number vector access needs exact values and an in-range literal index')
         return vector[index]
+    if op == 'number_field' and len(values)==2:
+        record,key=values
+        if not isinstance(record,dict) or not isinstance(key,str) or key not in record:
+            raise Unsupported('Numeric record access needs an existing string field; no default')
+        if type(record[key]) not in (int,Fraction):
+            raise Unsupported('Numeric record access cannot coerce a nonnumeric field')
+        return record[key]
     if op == "array":
         return values
     if op == "concat" and all(isinstance(v, list) for v in values):

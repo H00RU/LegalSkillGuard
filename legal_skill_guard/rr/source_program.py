@@ -19,11 +19,15 @@ from .source_structure import inspect_source,compact_contexts
 from .strict_contract import (obj,array,ref,interface_definitions,type_enum_schemas,
                               bounded_expressions,EXPRESSION_DEPTH,source_expression_operations)
 from .wire_validation import validate_wire
-from .clause_scope import lower_clauses,required_scope_sources
+from .clause_scope import lower_clauses,required_scope_sources,open_passive_condition
 
 
 OPERATORS=['if','not','xor','eq','ne','lt','le','sub','scale','divide_constant',
-           'ceil_divide_constant','number_at','min','max','and','or','add','array','pair','object','concat']
+           'ceil_divide_constant','number_at','number_field','min','max','and','or','add','array','pair','object','concat']
+
+
+def factual_predicate_supported(predicate):
+    return not re.search(r'\d|§|\b(?:shall|applies|applicable|entailment|contradiction|entitled|refer|subsection|section|half|more than|over|less than)\b',predicate,re.I)
 
 
 def _operand_definitions(symbol):
@@ -37,9 +41,12 @@ def _operand_definitions(symbol):
         return obj({'op':{'enum':['if']},'args':{'type':'array',
             'prefixItems':[ref('bool_expr'),ref(kind),ref(kind)],'items':False,'minItems':3,'maxItems':3}})
     numeric=source_expression_operations(['add','sub','scale','divide_constant',
-        'ceil_divide_constant','number_at','min','max'])
+        'ceil_divide_constant','number_at','number_field','min','max'])
     for operation in numeric:
         args=operation['properties']['args'];op=operation['properties']['op']['enum'][0]
+        if op=='number_field':
+            args['prefixItems']=[ref('expr'),ref('string_expr')]
+            continue
         if 'prefixItems' in args:
             args['prefixItems'][1 if op=='scale' else 0]=ref('numbers_expr' if op=='number_at' else 'number_expr')
         else:args['items']=ref('number_expr')
@@ -263,6 +270,50 @@ def proper_rule_subexpression(quote,text):
     return bool(quote and quote in text and quote.strip() not in {text.strip(),operative})
 
 
+def residual_context_proof(structure,program,hole):
+    """A full physical list fragment can be part of a translated enclosing rule.
+
+    This is not a guessed footprint from a heading: require an actual ancestor
+    conditional with an open passive predicate, an executable Boolean compound
+    owned by that ancestor, a real data dependency on this residual and another
+    represented input. Whole standalone rules and unused context still fail.
+    """
+    unit=hole['source'];quote=hole['quote'];name=hole['name']
+    units={c.id:structure.ledger.text[c.start:c.end] for c in structure.ledger.clauses}
+    if structure.roles.get(unit,{}).get('role')!='rule':return None
+    if proper_rule_subexpression(quote,units[unit]):return {'basis':'proper_local_subexpression'}
+    if not quote or quote not in units[unit]:return None
+    child=re.sub(r'^\s*(?:\([A-Za-z0-9]+\)\s*)+','',units[unit]).strip()
+    # Explicit nested list grammar, not a general legal relevance heuristic.
+    if not re.match(r'^by\b',child,re.I):return None
+    parents=structure.ledger.closure({unit})-{unit}
+    definitions={n['name']:n['body'] for n in program['nodes'] if n['kind']=='expression'}
+    definitions.update({s['name']:s['condition'] for s in program['scopes']})
+    definitions.update({c['name']:c['value'] for c in program['clauses']})
+    inputs={b['name'] for b in program['bindings']}|{o['name'] for o in program['observations']}|{
+        r['name'] for r in program['rule_residuals']}
+    def reads(expression):
+        seen=set();pending=list(expression_reads(expression))
+        while pending:
+            key=pending.pop()
+            if key in seen:continue
+            seen.add(key)
+            if key in definitions:pending.extend(expression_reads(definitions[key]))
+        return seen
+    for parent in program['clauses']:
+        for ancestor in set(parent['sources'])&parents:
+            text=units[ancestor].strip()
+            if not open_passive_condition(text):continue
+            body=parent['value']
+            if not isinstance(body,dict) or body.get('op') not in {'and','or','if'}:continue
+            dependencies=reads(body)
+            if name in dependencies and (dependencies&inputs)-{name}:
+                return {'basis':'explicit_enclosing_conditional_compound','parent_source':ancestor,
+                    'parent_declaration':parent['name'],'residual_source':unit,
+                    'residual_domain_unchanged':[False,True]}
+    return None
+
+
 def compile_source(source,program,*,library=None):
     validate_wire(program,program_schema(source,library))
     structure=inspect_source(source);ledger=structure.ledger
@@ -282,16 +333,18 @@ def compile_source(source,program,*,library=None):
         if signature in observation_signatures:
             raise Unsupported('Duplicate observation quotes cannot gain time or legal context from variable names')
         observation_signatures.add(signature)
-        if re.search(r'\d|§|\b(?:shall|applies|applicable|entailment|contradiction|entitled|refer|subsection|section|half|more than|over|less than)\b',observation['predicate'],re.I):
+        if not factual_predicate_supported(observation['predicate']):
             raise Unsupported('Compile legal effects and numerical comparisons into rule ASTs')
         specs[name]=observation;by_fact.setdefault(fs,[]).append(name)
-    domains={name:(False,True) for name in specs}
+    domains={name:(False,True) for name in specs};residual_contexts={}
     for hole in program['rule_residuals']:
         name=hole['name'];unit=hole['source'];quote=hole['quote']
         if name in slots or name in specs or name in holes or structure.roles[unit]['role']!='rule':
             raise Unsupported('Rule residuals need unique names and actual rule provenance')
-        if not proper_rule_subexpression(quote,units[unit]):
+        proof=residual_context_proof(structure,program,hole)
+        if proof is None:
             raise Unsupported('A rule residual must quote a proper subexpression, not a whole untranslated clause')
+        residual_contexts[name]=proof
         holes[name]=hole;by_rule.setdefault(unit,[]).append(name);domains[name]=(False,True)
     lowered=lower_clauses(structure,program)
     nodes=lowered['nodes']
@@ -321,19 +374,41 @@ def compile_source(source,program,*,library=None):
         if name in reachable:continue
         reachable.add(name)
         if name in by_name:pending.extend(query.node_reads(by_name[name]))
+    # A record used exclusively as a numeric lookup receiver cannot expose its
+    # field labels in the native output. Labels are then local addresses, like
+    # variable names; all selected values and source literals remain checked.
+    field_receivers=set();other_reads=set()
+    def field_uses(expression,receiver=False):
+        if isinstance(expression,dict) and set(expression)=={'var'}:
+            (field_receivers if receiver else other_reads).add(expression['var'])
+        elif isinstance(expression,dict):
+            for i,arg in enumerate(expression.get('args',[])):
+                field_uses(arg,expression.get('op')=='number_field' and i==0)
+    field_uses(program['query'])
+    for name in reachable:
+        if name not in by_name:continue
+        node=by_name[name]
+        if node['kind']=='expression':field_uses(node['body'])
+        else:other_reads.update(query.node_reads(node))
+    field_only_records=field_receivers-other_reads
     text='\n'.join(units[s] for s in covered|binding_sources)
-    checks=[expression_literal_audit(program['query'],text,source['dataset'])]
+    checks=[expression_literal_audit(program['query'],text,source['dataset'],numeric_field_addresses=True)]
     for node in nodes:
         if node['kind']=='expression':
             checks.append({'node':node['name'],**expression_literal_audit(node['body'],text,
-                source['dataset'],structural_keys=node['name'] not in reachable,allow_system_null=True)})
+                source['dataset'],structural_keys=node['name'] not in reachable or node['name'] in field_only_records,
+                allow_system_null=True,numeric_field_addresses=True)})
     checks+=binding_checks
     if not all(c['pass'] for c in checks):
         raise Unsupported('Public literal grounding failed: '+str([c for c in checks if not c['pass']]))
     return {'source':source,'program':program,'query':query,'structure':structure,
             'slots':slots,'observations':specs,'by_fact':by_fact,'covered':covered,
             'rule_residuals':holes,'by_rule':by_rule,'grounding':checks,'translation_hash':digest(program),
+            'numeric_field_only_record_nodes':sorted(field_only_records),
+            'residual_context_proofs':residual_contexts,
             'scope_bindings':lowered['scope_bindings'],'missing_scope_sources':lowered['missing_scope_sources'],
+            'derived_context_scopes':lowered['derived_context_scopes'],
+            'effective_scopes':lowered['effective_scopes'],
             'unused_scope_sources':lowered['unused_scope_sources']}
 
 
@@ -367,15 +442,19 @@ def observation_request(compiled,names):
     if not set(names)<=set(compiled['observations']):raise Unsupported('Unknown factual primitive')
     ledger=compiled['structure'].ledger
     units={c.id:ledger.text[c.start:c.end] for c in ledger.clauses}
+    query_text=compiled['source']['public'].get('query','')
+    reference_years=sorted(set(int(v) for v in re.findall(r'\b(?:for(?:\s+the)?(?:\s+taxable|\s+calendar)?(?:\s+year)?|in)\s+((?:19|20)[0-9]{2})\b',query_text,re.I)))
     observations=[{**compiled['observations'][name],
         'fact_text':units[compiled['observations'][name]['entity_source']],
-        'predicate_context':units[compiled['observations'][name]['predicate_source']]} for name in names]
+            'predicate_context':units[compiled['observations'][name]['predicate_source']],
+            'public_reference_years':reference_years} for name in names]
     system=('Read the supplied factual text and report ONLY the atomic factual observations. '
         'Do not decide the original legal task or apply legal rules. For each named entity and quoted '
         'factual predicate, return true only if the facts establish it, false only if they establish its '
         'negation, and null if unknown. Do not treat absence as false. Quote the exact supporting fact '
         'substring for true/false; for null use an empty evidence string. Never infer legal eligibility '
-        'or compare statutory numeric thresholds. Do not manufacture missing facts.')
+        'or compare statutory numeric thresholds. Use supplied public reference years only to scope factual temporal statements; '
+        'do not treat an old factual episode as a claim about every year. Do not manufacture missing facts.')
     schema=obj({'observations':array(obj({'name':{'enum':list(names)},
         'value':{'type':['boolean','null']},'evidence':{'type':'string'}}))})
     return [{'role':'system','content':system},{'role':'user','content':json.dumps(observations,ensure_ascii=False)}],schema

@@ -5,6 +5,7 @@ serving tokenizer and dispatches the exact returned messages/schema. A legal
 residual requests rule translation, never an oracle-like factual truth value.
 """
 from dataclasses import asdict
+from copy import deepcopy
 from fractions import Fraction
 import json
 import time
@@ -63,7 +64,7 @@ def assess_source(compiled,observed=None,*,compilation='answer_separating',secon
     return record
 
 
-def prepare_followup(compiled,observed=None,*,compilation,tokenize,request_config,thinking,library=None,seconds=5):
+def prepare_followup(compiled,observed=None,*,compilation,tokenize,request_config,thinking,library=None,seconds=5,pal_fragments=False):
     if compilation not in {'full','answer_separating','generic_CEGAR_fixed_batch'}:
         raise ValueError('Unknown source compilation policy')
     observed=observed or {};theory=source_theory(compiled,observed)
@@ -84,6 +85,18 @@ def prepare_followup(compiled,observed=None,*,compilation,tokenize,request_confi
         factual_messages,factual_schema=observation_request(compiled,names)
         translation=[unit for unit in selected if compiled['structure'].roles[unit]['role']=='rule' or unit in unknown_scope]
         if translation:
+            if pal_fragments:
+                from .pal_refinement import refinement_request
+                messages,schema,actual_closure=refinement_request(compiled,selected,closure,names,
+                    json.loads(factual_messages[1]['content']),factual_schema['properties']['observations'],library)
+                measured=tokenize(messages,thinking=thinking)
+                if type(measured['count']) is not int or measured['count']<0:raise ValueError('Invalid serving token count')
+                value={'kind':'joint_rule_translation_and_facts','program_format':'pal_fragment_v1',
+                    'messages':messages,'schema':schema,'names':names,'selected':sorted(selected),
+                    'context_closure':actual_closure,'input_tokens':measured['count'],
+                    'messages_hash':digest(messages),'schema_hash':digest(schema)}
+                cache[key]=value
+                return value
             factual_schema['properties']['observations']['items']['properties']['name']['type']='string'
             task=json.loads(factual_messages[1]['content'])
             system,user=compiler_prompt(compiled['source'],library,accepted_program=compiled['program'],
@@ -141,12 +154,20 @@ def prepare_followup(compiled,observed=None,*,compilation,tokenize,request_confi
 def accept_followup(compiled,prepared,response,observed=None,*,library=None):
     validate_wire(response,prepared['schema']);observed=observed or {}
     if prepared['kind']=='joint_rule_translation_and_facts':
-        updated=compile_source(compiled['source'],decode_compiler_response(response['program'],compiled['source'],library),library=library)
+        if prepared.get('program_format')=='pal_fragment_v1':
+            from .pal_refinement import apply_refinement
+            updated=apply_refinement(compiled,prepared,response['code'],library=library)
+        else:
+            updated=compile_source(compiled['source'],decode_compiler_response(response['program'],compiled['source'],library),library=library)
         for name in set(observed)|set(prepared['names']):
             if updated['observations'].get(name)!=compiled['observations'][name]:
                 raise Unsupported('Changed primitive meaning cannot inherit an earlier/requested observation')
         rows={'observations':response['factual_observations']}
+        if prepared.get('program_format')=='pal_fragment_v1':
+            from .pal_refinement import normalize_fact_evidence
+            rows['observations'],adaptations=normalize_fact_evidence(updated,rows['observations'])
+            updated['deterministic_adaptations'].extend(adaptations)
     elif prepared['kind']=='factual_observation':updated=compiled;rows=response
     else:raise ValueError('No observation/translation response was requested')
     accepted=accept_observations(updated,prepared['names'],rows)
-    return updated,{**observed,**accepted}
+    return {**updated,'accepted_observation_rows':deepcopy(rows['observations'])},{**observed,**accepted}

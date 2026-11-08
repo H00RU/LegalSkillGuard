@@ -33,7 +33,7 @@ def connector_identity(compiled,node_name,graph):
     program=compiled['program'];slots=compiled['slots'];columns={}
     inputs=[b['name'] for b in program['bindings']]+[o['name'] for o in program['observations']]+\
         [r['name'] for r in program['rule_residuals']]
-    declarations=[n['name'] for n in program['nodes']]+[s['name'] for s in program['scopes']]+\
+    declarations=[n['name'] for n in program['nodes']]+[s['name'] for s in compiled['effective_scopes']]+\
         [c['name'] for c in program['clauses']]
     names={name:'slot'+str(i) for i,name in enumerate(inputs)}
     names.update({name:'node'+str(i) for i,name in enumerate(declarations)})

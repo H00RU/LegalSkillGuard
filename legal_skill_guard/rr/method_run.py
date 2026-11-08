@@ -4,6 +4,7 @@ This entry uses the existing physical ledger and current source contracts.
 Historical FormalRun policies/results are never restarted or silently mixed in.
 """
 from copy import deepcopy
+import base64
 import hashlib
 import json
 from pathlib import Path
@@ -19,14 +20,14 @@ from .method_client import MethodExecutor,MethodTeacher,TEACHER_BINARY,TEACHER_S
 from .method_ledger import MethodLedger
 from .preflight import atomic_json,science_files,scientific_code_binding,score_source
 from .scoring import aggregate
-from .source_inference import predict_source
+from .program_inference import predict_source,FRONTEND
 from .source_interface_learning import learn_source_interfaces
 from .source_interfaces import fit_source_examples
 from .source_learning import DurableOracle
 from .strict_contract import obj
 
 
-OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_method_run_v21.json'
+OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_reference_frontend_v15_20261108.json'
 
 
 def load_executor_lock(root,executor):
@@ -72,6 +73,20 @@ def prepare_method_run(root,run_id):
         'executor_selection':'locked OFF from completed original20 comparison; do not repeat the sweep',
         'oracle_artifacts':'artifacts/rr_v2_preflight/oracle_guard'}
     configuration_lock=load_executor_lock(root,cfg['executor'])
+    registry=root/'docs/rr_v2/paid_compiler_materials_20261108.json'
+    materials=json.loads(registry.read_text())['materials'] if registry.exists() else []
+    from .compiler_templates import validate_template
+    public={s['key']:s for s in json.loads((root/'data/packets/rr_v2/public_train.json').read_text())['sources']}
+    with sqlite3.connect('file:'+str(root/cfg['ledger_path'])+'?mode=ro',uri=True) as db:
+        for entry in materials:
+            raw=(root/entry['path']).read_bytes()
+            if hashlib.sha256(raw).hexdigest()!=entry['sha256']:raise ValueError('Paid compiler material changed')
+            item=json.loads(raw);validate_template(item)
+            if item['source']['key']!=entry['source'] or item['source']!=public[entry['source']]:raise ValueError('Compiler material outside exact original TRAIN')
+            origin=item['origin'];row=db.execute('select role,source,status,request_hash from calls where id=?',(origin['call_id'],)).fetchone()
+            if row!=('teacher',entry['source'],'completed',origin['request_hash']):raise ValueError('No settled physical teacher origin for compiler material')
+    config.update(compiler_frontend=FRONTEND,paid_compiler_materials=materials,
+        compiler_material_policy='learn only after its own original TRAIN source; share with every arm; never reuse source answers')
     seal={'executor_configuration_lock':configuration_lock,'executor_configuration_lock_hash':digest(configuration_lock),
         'run_id':run_id,'files':files,'code_hash':scientific_code_binding(files),'config':config,
         'source_manifest_hash':digest(manifest),'source_manifest':cfg['source_manifest'],
@@ -95,6 +110,15 @@ class MethodRun:
 
     def verify(self):
         if science_files(self.root)!=self.seal['files']:raise ValueError('Frozen scientific method files changed')
+        for entry in self.config.get('paid_compiler_materials',[]):
+            if hashlib.sha256((self.root/entry['path']).read_bytes()).hexdigest()!=entry['sha256']:
+                raise ValueError('Frozen paid compiler material changed')
+
+    def compiler_learning(self,source):
+        templates=[json.loads((self.root/e['path']).read_text()) for e in self.config.get('paid_compiler_materials',[]) if e['source']==source]
+        return {'status':'paid_original_TRAIN_compiler_material_recovered' if templates else 'no_new_compiler_template',
+            'templates':templates,'new_teacher_calls':0,'available_only_after_current_source_prediction':True,
+            'public_foundation_for_all_six_arms':True,'not_independent_executor_full_program_success':True}
 
     def packet(self,kind,partition):
         if partition not in {'train','dev'}:raise BudgetError('No TEST packet in the current runtime')
@@ -125,10 +149,34 @@ class MethodRun:
             self.verify()
             actual='method_primitive_observation' if dispatch_purpose=='method_train_synthesis' and \
                 set(schema.get('properties',{}))=={'observations'} else dispatch_purpose
+            if dispatch_purpose=='method_train_synthesis':
+                reused=self.paid_executor_response(executor,source,messages,schema,thinking)
+                if reused is not None:return reused
             return executor.generate(prefix+':'+str(step),source=source['key'],purpose=actual,
                 messages=messages,thinking=thinking,schema=schema)
         dispatch_purpose=purpose
         return generate
+
+    def paid_executor_response(self,executor,source,messages,schema,thinking):
+        """Reuse only literal identical paid TRAIN wire bytes, never its result/grade."""
+        if not hasattr(executor,'payload'):return None
+        body=json.dumps(executor.payload(messages=messages,thinking=thinking,schema=schema),ensure_ascii=False).encode()
+        with sqlite3.connect('file:'+str(self.root/self.seal['ledger_path'])+'?mode=ro',uri=True) as db:
+            rows=db.execute("select id,request_hash,result from calls where role='executor' and source=? and status='completed' and purpose in ('method_train_synthesis','method_primitive_observation') order by reserved_at",(source['key'],)).fetchall()
+        for call_id,request_hash,raw in rows:
+            result=json.loads(raw)
+            if not result.get('artifact_directory'):continue
+            path=Path(result['artifact_directory']);wire=path/'wire_request.json'
+            if not wire.is_file():continue
+            if base64.b64decode(json.loads(wire.read_text())['body_b64'])!=body:continue
+            if json.loads((path/'result.json').read_text())!=result or result['request_hash']!=request_hash:
+                raise ValueError('Paid executor raw response differs from physical ledger')
+            request=json.loads((path/'request.json').read_text())
+            if request['source']!=source['key'] or request['request_hash']!=request_hash:
+                raise ValueError('Paid executor source/request provenance differs')
+            return {**result,'cache_hit':True,'physical_origin_call_id':call_id,
+                'replayed_exact_paid_wire':True,'new_physical_requests':0}
+        return None
 
     def selected(self):
         lock=self.seal['executor_configuration_lock']
@@ -201,6 +249,7 @@ class MethodRun:
                     else:pending.append({'proposal':proposal,'reason':'not_verified_by_common_training_evidence'})
                 except (ValueError,TypeError,KeyError) as exc:pending.append({'proposal':item,'reason':str(exc)})
         result={'source_ids':source_ids,'library_hash':digest(library.export()),'response':response,
+            'common_compiler_training_material':[{'template_hash':t['template_hash'],'source':t['source']['key']} for t in library.compiler_templates],
             'errors':errors,'accepted_pattern_hashes':accepted,'pending_proposals':pending,
             'status':'summary_recorded' if response else 'two_teacher_attempts_failed'}
         immutable_json(path,result);return result
@@ -223,15 +272,20 @@ class MethodRun:
                     journal=self.stage/'build'/'journals'/digest(source_id))
                 oracle=DurableOracle(ledger,self.root/self.config['oracle_artifacts'],source,grades[source_id])
                 learning=learn_source_interfaces(source,grades[source_id],oracle,program=prediction['program'],
-                    observation_rows=prediction['observation_rows'],library=library.export())
+                    observation_rows=prediction['observation_rows'],library=library.export(),
+                    model_horn_code=prediction.get('model_horn_code'))
                 record={'source':source_id,'dataset':source['dataset'],'binding':binding,
                     'input_hash':source['content_hash'],'library_before_hash':before,'prediction':prediction,
-                    'calls':prediction['calls'],'learning':learning,'score':score_source(source,prediction['result'],grades[source_id]),
+                    'calls':prediction['calls'],'learning':learning,'compiler_learning':self.compiler_learning(source_id),
+                    'score':score_source(source,prediction['result'],grades[source_id]),
                     'model_source_IR_semantic_faithfulness':'requires source review beyond TRAIN label match'}
                 immutable_json(path,record)
             if record['binding']!=binding or record['input_hash']!=source['content_hash'] or record['library_before_hash']!=before:
                 raise ValueError('Current build resume source/library/version mismatch')
             if record['learning'].get('learned_pattern'):library.add(record['learning']['learned_pattern'],source=source_id)
+            for item in record.get('compiler_learning',{}).get('templates',[]):
+                if item['source']['key']!=source_id:raise ValueError('Future compiler material entered the current prefix')
+                library.add_compiler_template(item)
             completed.append(record)
             if len(completed)%16==0:
                 batch=len(completed)//16;summary=self.summarize(teacher,ledger,completed[-16:],library,batch)
@@ -246,7 +300,7 @@ class MethodRun:
                     immutable_json(self.stage/'build'/'arm_shared_material'/(digest(row['source'])+'.json'),
                         {arm:project_material(material,arm) for arm in ARMS})
                 if batch in {1,8}:
-                    SkillLibrary(library.patterns,stage=f'formal_B{batch}').freeze(self.stage/'build'/f'B{batch}.frozen.json')
+                    SkillLibrary(library.patterns,stage=f'formal_B{batch}',compiler_templates=library.compiler_templates).freeze(self.stage/'build'/f'B{batch}.frozen.json')
                     families,_=_fit_horn_examples(public,completed,grades)
                     immutable_json(self.stage/'build'/f'B{batch}.MB.frozen.json',fit_source_examples(completed,horn_families=families))
             if len(completed)>=committed_prefix:
@@ -275,9 +329,12 @@ class MethodRun:
                     row['binding']!=completion['binding'] or row['library_before_hash']!=digest(library.export())):
                 raise ValueError('Shared source prefix or version differs')
             if row['learning'].get('learned_pattern'):library.add(row['learning']['learned_pattern'],source=source)
+            for item in row.get('compiler_learning',{}).get('templates',[]):
+                if item['source']['key']!=source:raise ValueError('Frozen compiler material includes a future source')
+                library.add_compiler_template(item)
             if index+1 in {16,128}:
                 batch=(index+1)//16
-                expected=SkillLibrary(library.patterns,frozen=True,stage=f'formal_B{batch}').export()
+                expected=SkillLibrary(library.patterns,frozen=True,stage=f'formal_B{batch}',compiler_templates=library.compiler_templates).export()
                 if SkillLibrary.restore(self.stage/'build'/f'B{batch}.frozen.json').export()!=expected:
                     raise ValueError('Frozen library includes an incompatible/future source prefix')
         if digest(library.export())!=completion['library_hash']:raise ValueError('Final source/library identity differs')

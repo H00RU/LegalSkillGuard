@@ -45,6 +45,11 @@ def _numbers(text):
     values = set()
     for match in re.finditer(r"(?<![\w.])-?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?(?!\w|\.\d)", text):
         values.add(Fraction(match[0].replace(",", "")))
+    # Fee schedules state positions as 1st/2nd/3rd/5th. These are explicit
+    # numerical literals, not a computed bag count or an inferred allowance.
+    for match in re.finditer(r'\b([0-9]+)(st|nd|rd|th)\b',text,re.I):
+        number=int(match[1]);suffix='th' if 11<=number%100<=13 else {1:'st',2:'nd',3:'rd'}.get(number%10,'th')
+        if match[2].lower()==suffix:values.add(Fraction(number))
     if re.search(r'\bone[- ]half\b',text,re.I):values.add(Fraction(1,2))
     # Do not extract "one" from the already-supported fraction. Horizontal
     # whitespace only prevents separate cited lines forming a new number.
@@ -65,7 +70,7 @@ def _walk(node):
             yield from _walk(child)
 
 
-def expression_literal_audit(node,linked_text,dataset,*,structural_keys=False,allow_system_null=False):
+def expression_literal_audit(node,linked_text,dataset,*,structural_keys=False,allow_system_null=False,numeric_field_addresses=False):
     """Internal record labels may be syntax only after noninterference proof.
 
     Default behavior preserves the original native-output literal audit. The
@@ -79,12 +84,15 @@ def expression_literal_audit(node,linked_text,dataset,*,structural_keys=False,al
         if isinstance(value,dict):
             for i,arg in enumerate(value.get('args',[])):
                 context='index' if value.get('op')=='number_at' and i==1 else \
-                    'denominator' if value.get('op')=='divide_constant' and i==1 else None
+                    'denominator' if value.get('op')=='divide_constant' and i==1 else \
+                    'field_address' if value.get('op')=='number_field' and i==1 else None
                 visit(arg,path+'.args['+str(i)+']',value.get('op')=='pair' and i==0,context)
         elif isinstance(value,list):
             for i,arg in enumerate(value):visit(arg,path+'['+str(i)+']')
         elif type(value) is str and structural_keys and is_key:
             symbols.append({'path':path,'symbol':value})
+        elif type(value) is str and numeric_field_addresses and numeric_syntax=='field_address':
+            symbols.append({'path':path,'symbol':value,'role':'numeric_record_field_address_not_output_text'})
         elif value is None and allow_system_null:checks.append(True)
         elif type(value) is int:
             if numeric_syntax=='index' and value>=0:

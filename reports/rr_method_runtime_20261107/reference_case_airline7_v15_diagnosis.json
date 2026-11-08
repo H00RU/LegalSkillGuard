@@ -1,0 +1,52 @@
+{
+  "captured_utc": "2026-11-08T13:23:50.271236+00:00",
+  "run_id": "reference_case_airline7_v15_20261108",
+  "implementation_commit": "10073977cc5471195ce3a6f5a6eff8b643b21709",
+  "new_physical_executor_requests": 2,
+  "teacher_requests": 0,
+  "completion_tokens": [
+    2236,
+    2236
+  ],
+  "elapsed_seconds": [
+    409.5752628175542,
+    409.47283039148897
+  ],
+  "finish_reasons": [
+    "stop",
+    "stop"
+  ],
+  "raw_content_hashes": [
+    "47d7ae444897f41f5aa94c95470f1ab662bb5e2fe35bcaa4644501134e11798b",
+    "47d7ae444897f41f5aa94c95470f1ab662bb5e2fe35bcaa4644501134e11798b"
+  ],
+  "feedback_changed_request_hash": true,
+  "raw_responses_byte_identical_despite_feedback": true,
+  "source_program_accepted": false,
+  "native_answer_or_certificate": false,
+  "faithful_deterministic_recovery_possible": false,
+  "recovery_reason": "All Python statements, source comments, decorators and bodies are one physical line; recovering newlines/indentation and the malformed query would require inferring missing program structure. Arithmetic/range choices are also inconsistent with explicit public quantities.",
+  "semantic_issues_visible_without_answers": [
+    {
+      "fact_source": "s157",
+      "public_weight": 62,
+      "chosen_model_table": "overweight_50_to_53_fees",
+      "reason": "62 exceeds the explicit upper endpoint53"
+    },
+    {
+      "fact_source": "s157",
+      "public_dimensions": [
+        44,
+        29,
+        20
+      ],
+      "computed_sum_from_public_literals": 93,
+      "chosen_model_column": "over 62 through 65",
+      "reason": "93 exceeds the explicit upper endpoint65"
+    }
+  ],
+  "no_test_or_train_labels_read": true,
+  "backend_evidence": "reference_json_newline_backend_v15.json",
+  "next_decision": "Replace JSON-escaped executor program output with direct Python text as in PAL; retain strict checked lowering and small structured factual/instance requests; no guessed recovery or unchanged rerun.",
+  "full_goal_complete": false
+}

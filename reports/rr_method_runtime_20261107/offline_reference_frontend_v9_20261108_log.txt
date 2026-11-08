@@ -1,0 +1,119 @@
+........................................................................ [ 12%]
+........................................................................ [ 24%]
+........................................................................ [ 36%]
+........................................................................ [ 49%]
+........................................................................ [ 61%]
+...........F...........................................F................ [ 73%]
+........................................................................ [ 85%]
+........................................................................ [ 98%]
+...........                                                              [100%]
+=================================== FAILURES ===================================
+_ test_clause_source_wire_is_necessary_for_the_actual_engine_unique_rule_contract _
+
+    def test_clause_source_wire_is_necessary_for_the_actual_engine_unique_rule_contract():
+        _,source=actual();structure=inspect_source(source)
+        rules=[key for key,v in structure.roles.items() if v['role']=='rule']
+        fact=next(key for key,v in structure.roles.items() if v['role']=='fact')
+        field=program_schema(source)['properties']['clauses']['items']['properties']['sources']
+        assert field['maxItems']==len(rules)
+        for length in range(4):
+            for items in product([*rules[:2],fact],repeat=length):
+                program={'nodes':[],'scopes':[],'clauses':[{'name':'c_check','sources':list(items),
+                    'value':True,'otherwise':False}],'query':{'var':'c_check'}}
+>               try:lower_clauses(structure,program);engine_accepts=True
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_rr_provenance_bounds.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+legal_skill_guard/rr/clause_scope.py:96: in lower_clauses
+    effective_scopes,scope_proofs=effective_source_scopes(structure,program)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+structure = SourceStructure(ledger=SourceLedger(text="§7703. Determination of marital status\n\n(a) General rule\n\n    (1) the de...'s0', 's1', 's2', 's3', 's4', 's6', 's7', 's8'), exact_references={}, unresolved_references={'s6': ['subsection (a)']})
+program = {'nodes': [], 'scopes': [], 'clauses': [{'name': 'c_check', 'sources': [], 'value': True, 'otherwise': False}], 'query': {'var': 'c_check'}}
+
+    def effective_source_scopes(structure,program):
+        """Enforce parsed parent conjunctions on their nested condition clauses.
+    
+        Factor only an actual source-linked Boolean parent AST. The independent
+        conjunct is already supplied by the model; neither headings nor source
+        text supply an unparsed condition. C&(x|y) == C&((C&x)|(C&y)).
+        """
+        scopes=deepcopy(program['scopes']);by_source={s['source']:s for s in scopes};proofs=[]
+        units={c.id:structure.ledger.text[c.start:c.end] for c in structure.ledger.clauses}
+        definitions={n['name']:n['body'] for n in program['nodes'] if n['kind']=='expression'}
+        definitions.update({s['name']:s['condition'] for s in scopes})
+        definitions.update({c['name']:c['value'] for c in program['clauses']})
+>       inputs={b['name'] for b in program['bindings']}|{o['name'] for o in program['observations']}|{r['name'] for r in program['rule_residuals']}
+                                   ^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'bindings'
+
+legal_skill_guard/rr/clause_scope.py:56: KeyError
+_ test_foreign_applicability_scope_is_not_physically_inserted_into_another_statute _
+
+    def test_foreign_applicability_scope_is_not_physically_inserted_into_another_statute():
+        source={'dataset':'SARA_v2_Binary','public':{'rules':
+            '11 U.S.C. § 522\nFederal provision.\nAriz. Rev. Stat. § 33-1125(1)\nArizona provision.',
+            'facts':'Alice owns property.','query':'Does it apply?'}}
+        a=inspect_source(source)
+        program={'nodes':[],'scopes':[{'name':'federal','source':'s0','condition':{'var':'b_federal_applies'}},
+            {'name':'arizona','source':'s2','condition':True}],
+            'clauses':[{'name':'local_rule','sources':['s3'],'value':1,'otherwise':0}],
+            'query':{'var':'local_rule'}}
+>       lowered=lower_clauses(a,program)
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_rr_source_boundaries.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+legal_skill_guard/rr/clause_scope.py:96: in lower_clauses
+    effective_scopes,scope_proofs=effective_source_scopes(structure,program)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+structure = SourceStructure(ledger=SourceLedger(text='11 U.S.C. § 522\nFederal provision.\nAriz. Rev. Stat. § 33-1125(1)\nArizona ...ne}, 's5': {'role': 'query', 'view': None}}, heading_units=('s0', 's2'), exact_references={}, unresolved_references={})
+program = {'nodes': [], 'scopes': [{'name': 'federal', 'source': 's0', 'condition': {'var': 'b_federal_applies'}}, {'name': 'ari...}], 'clauses': [{'name': 'local_rule', 'sources': ['s3'], 'value': 1, 'otherwise': 0}], 'query': {'var': 'local_rule'}}
+
+    def effective_source_scopes(structure,program):
+        """Enforce parsed parent conjunctions on their nested condition clauses.
+    
+        Factor only an actual source-linked Boolean parent AST. The independent
+        conjunct is already supplied by the model; neither headings nor source
+        text supply an unparsed condition. C&(x|y) == C&((C&x)|(C&y)).
+        """
+        scopes=deepcopy(program['scopes']);by_source={s['source']:s for s in scopes};proofs=[]
+        units={c.id:structure.ledger.text[c.start:c.end] for c in structure.ledger.clauses}
+        definitions={n['name']:n['body'] for n in program['nodes'] if n['kind']=='expression'}
+        definitions.update({s['name']:s['condition'] for s in scopes})
+        definitions.update({c['name']:c['value'] for c in program['clauses']})
+>       inputs={b['name'] for b in program['bindings']}|{o['name'] for o in program['observations']}|{r['name'] for r in program['rule_residuals']}
+                                   ^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'bindings'
+
+legal_skill_guard/rr/clause_scope.py:56: KeyError
+=============================== warnings summary ===============================
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-ir-repair-20261108/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:215: RuntimeWarning: Mean of empty slice
+    score_array[sample_index, :] = asset_score_array.mean(axis=0) # Sample-based scores
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-current/.venv/lib/python3.11/site-packages/numpy/_core/_methods.py:134: RuntimeWarning: invalid value encountered in divide
+    ret = um.true_divide(
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-ir-repair-20261108/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:246: RuntimeWarning: Mean of empty slice
+    score_array[sample_index, :] = np.nanmean(asset_score_array, axis=0) # Sample-based scores
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-ir-repair-20261108/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:248: RuntimeWarning: Mean of empty slice
+    precision, recall, f1, mare = np.nanmean(score_array, axis=0)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_rr_provenance_bounds.py::test_clause_source_wire_is_necessary_for_the_actual_engine_unique_rule_contract
+FAILED tests/test_rr_source_boundaries.py::test_foreign_applicability_scope_is_not_physically_inserted_into_another_statute
+2 failed, 585 passed, 8 warnings in 125.47s (0:02:05)

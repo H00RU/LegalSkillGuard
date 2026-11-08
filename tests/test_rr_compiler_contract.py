@@ -123,7 +123,17 @@ def test_actual_first_compact_response_is_complete_but_not_executable_or_semanti
     assert ir['clauses'][0]['value']['args'][0]['op']=='array'
     with pytest.raises(ValidationError):compile_source(source,ir)
     from legal_skill_guard.rr.source_validation import validation_feedback
-    assert validation_feedback(source,ir)==recorded['feedback']
+    feedback=validation_feedback(source,ir)
+    # Keep the paid historical feedback unchanged. The current diagnostic
+    # adds precise operative-scope errors; it must retain every old error.
+    assert {k:v for k,v in feedback.items() if k!='issues'}=={
+        k:v for k,v in recorded['feedback'].items() if k!='issues'}
+    assert all(issue in feedback['issues'] for issue in recorded['feedback']['issues'])
+    added=[i for i in feedback['issues'] if i not in recorded['feedback']['issues']]
+    assert added and all(
+        i['expected'].startswith('executable source condition;') and i['actual']['source_text'] or
+        i['path']=='query' and i['expected']=='root rule dependencies include the explicitly requested public section'
+        and i['actual']['target']['reference']=='7703(a)(2)' for i in added)
     from legal_skill_guard.rr.source_program import compiler_prompt
     system,user=compiler_prompt(source,validation_feedback=recorded['feedback'])
     assert 'Use the actual JSON AST' in system

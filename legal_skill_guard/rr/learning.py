@@ -90,12 +90,24 @@ def learn_interfaces(*, base_view: dict, base_answer, candidates: list[Connector
 
 class SkillLibrary:
     """Immutable snapshots of parameterized patterns, separate from source logs."""
-    def __init__(self, patterns: list[dict] | None = None, *, frozen: bool = False, stage: str = "preflight"):
+    def __init__(self, patterns: list[dict] | None = None, *, frozen: bool = False, stage: str = "preflight",
+                 compiler_templates: list[dict] | None = None):
         self.patterns = deepcopy(patterns or [])
         self.frozen = frozen
         if stage not in {"preflight", "formal_train", "formal_B1", "formal_B8"}:
             raise ValueError("Unknown library stage")
         self.stage = stage
+        self.compiler_templates = deepcopy(compiler_templates or [])
+        from .compiler_templates import validate_template
+        for item in self.compiler_templates:validate_template(item)
+
+    def add_compiler_template(self, template: dict) -> str:
+        from .compiler_templates import validate_template
+        if self.frozen:raise ValueError('Frozen library cannot learn compiler templates')
+        validate_template(template)
+        if not any(item['template_hash']==template['template_hash'] for item in self.compiler_templates):
+            self.compiler_templates.append(deepcopy(template))
+        return template['template_hash']
 
     def add(self, pattern: dict, *, source: str) -> str:
         if self.frozen:
@@ -118,8 +130,10 @@ class SkillLibrary:
         return key
 
     def export(self) -> dict:
-        return {"schema": 1, "stage": self.stage, "frozen": self.frozen,
+        result = {"schema": 1, "stage": self.stage, "frozen": self.frozen,
                 "patterns": deepcopy(self.patterns), "source_answers_stored_as_patterns": False}
+        if self.compiler_templates:result['compiler_templates']=deepcopy(self.compiler_templates)
+        return result
 
     def freeze(self, path: Path) -> dict:
         self.frozen = True
@@ -139,4 +153,5 @@ class SkillLibrary:
         for item in content["patterns"]:
             if item["pattern_hash"] != digest(item["pattern"]):
                 raise ValueError("Parameterized pattern hash differs")
-        return cls(content["patterns"], frozen=True, stage=content["stage"])
+        return cls(content["patterns"], frozen=True, stage=content["stage"],
+                   compiler_templates=content.get('compiler_templates'))

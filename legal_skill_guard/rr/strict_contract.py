@@ -34,6 +34,9 @@ def source_expression_operations(operators):
             args={'type':'array','prefixItems':[ref('bool_expr'),ref('expr'),ref('expr')],
                   'items':False,'minItems':3,'maxItems':3}
             special.append(obj({'op':{'enum':[op]},'args':args}))
+        elif op=='number_field':
+            special.append(obj({'op':{'enum':[op]},'args':{'type':'array',
+                'prefixItems':[ref('expr'),ref('expr')],'items':False,'minItems':2,'maxItems':2}}))
         elif op in {'scale','divide_constant','ceil_divide_constant','number_at'}:
             literal={'type':'integer'}
             if op=='divide_constant':literal={'anyOf':[{'type':'integer','minimum':1},{'type':'integer','maximum':-1}]}

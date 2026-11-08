@@ -85,19 +85,27 @@ def _execute_case(compiled,observed,case,library):
             'error_type':type(exc).__name__,'error':str(exc),'A_certificate_issued':False}
 
 
-def learn_source_interfaces(source,grade,oracle,*,program=None,observation_rows=(),library=None):
+def learn_source_interfaces(source,grade,oracle,*,program=None,observation_rows=(),library=None,model_horn_code=None):
     compiled=None;diagnostic=None
     if program is not None:
         try:compiled=compile_source(source,program,library=library)
         except (ValueError,TypeError,KeyError,ValidationError) as exc:diagnostic=str(exc)
     cases=connector_cases(compiled) if compiled else []
     if not cases and source['dataset']=='ProofWriter_OWA_depth5':
+        model_verified=False
+        if model_horn_code:
+            from .model_horn import parse_model_horn
+            proposal=parse_model_horn(source,model_horn_code)
+            model_verified=not proposal.export()['missing_units']
         trace={};result=learn_source(source,grade,oracle,trace=trace)
         if result.get('learned_pattern') and not result['learned_pattern']['graphs']:
             result['learned_pattern']=None
         return {**result,'candidate_checks':[],'source_program_candidate_count':0,
             'source_program_diagnostic':diagnostic,'candidate_trace':trace,
-            'primitive_source':'predefined_public_Horn_grammar_not_new_rule_learning'}
+            'primitive_source':'actual_model_formulas_checked_equivalent_to_shared_Horn_primitives' if model_verified else 'predefined_public_Horn_grammar_not_new_rule_learning',
+            'actual_model_whole_source_checked':model_verified,
+            'collision_primitive_extraction_is_common_deterministic_grammar':True,
+            'learning_claim':'collision-selected interface/connection pattern, not new natural-language rules'}
     no_oracle=source['dataset']=='ContractNLI'
     base=original_view(source,grade);target=grade['targets'] if source['dataset']=='OpenExempt' else grade['answer']
     bound={};checks={case['case_hash']:[] for case in cases}

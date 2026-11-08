@@ -1,0 +1,56 @@
+........................................................................ [ 12%]
+.........F.............................................................. [ 25%]
+........................................................................ [ 37%]
+........................................................................ [ 50%]
+........................................................................ [ 63%]
+........................................................................ [ 75%]
+........................................................................ [ 88%]
+..................................................................       [100%]
+=================================== FAILURES ===================================
+_ test_actual_first_compact_response_is_complete_but_not_executable_or_semantically_repaired _
+
+    def test_actual_first_compact_response_is_complete_but_not_executable_or_semantically_repaired():
+        recorded=json.loads((ROOT/'tests/fixtures/rr_actual_compact_contract_v1.json').read_text())
+        raw=recorded['raw_content']
+        assert hashlib.sha256(raw.encode()).hexdigest()==recorded['raw_content_sha256']
+        source=next(s for s in json.loads((ROOT/'data/packets/rr_v2/public_train.json').read_text())['sources']
+                    if s['key']==recorded['source'])
+        response=json.loads(raw); validate_wire(response,compiler_response_schema(source))
+        ir=decode_compiler_response(response,source)
+        assert ir['clauses'][0]['value']['args'][0]['op']=='array'
+        with pytest.raises(ValidationError):compile_source(source,ir)
+        from legal_skill_guard.rr.source_validation import validation_feedback
+>       assert validation_feedback(source,ir)==recorded['feedback']
+E       AssertionError: assert {'issues': [{...': False, ...} == {'issues': [{...': False, ...}
+E         
+E         Omitting 4 identical items, use -vv to show
+E         Differing items:
+E         {'issues': [{'path': 'rule_residuals[0].name', 'expected': 'unique symbol name', 'actual': {'name': 'b_NAME', 'first_p...ch refer to this subsection, if-'}}, {'path': 'clauses[0].value.args[0]', 'expected': 'boolean', 'actual': ['array']}]} != {'issues': [{'path': 'rule_residuals[0].name', 'expected': 'unique symbol name', 'actual': {'name': 'b_NAME', 'first_p... of the close of his taxable year'}, {'path': 'clauses[0].value.args[0]', 'expected': 'boolean', 'actual': ['array']}]}
+E         Use -v to get more diff
+
+tests/test_rr_compiler_contract.py:126: AssertionError
+=============================== warnings summary ===============================
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-ir-repair-20261108/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:215: RuntimeWarning: Mean of empty slice
+    score_array[sample_index, :] = asset_score_array.mean(axis=0) # Sample-based scores
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-current/.venv/lib/python3.11/site-packages/numpy/_core/_methods.py:134: RuntimeWarning: invalid value encountered in divide
+    ret = um.true_divide(
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-ir-repair-20261108/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:246: RuntimeWarning: Mean of empty slice
+    score_array[sample_index, :] = np.nanmean(asset_score_array, axis=0) # Sample-based scores
+
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[4-False]
+tests/test_rr_formal_build.py::test_fresh_128_build_ignores_old_pilot_and_first_teacher_then_resumes_free[6-True]
+  /home/yndx/hhy/legal-skill-ir-repair-20261108/data/cache/openexempt/servantez-OpenExempt-ec6fa25/evaluator.py:248: RuntimeWarning: Mean of empty slice
+    precision, recall, f1, mare = np.nanmean(score_array, axis=0)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_rr_compiler_contract.py::test_actual_first_compact_response_is_complete_but_not_executable_or_semantically_repaired
+1 failed, 569 passed, 8 warnings in 124.45s (0:02:04)
