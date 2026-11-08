@@ -27,7 +27,7 @@ from .source_learning import DurableOracle
 from .strict_contract import obj
 
 
-OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_reference_frontend_v21_20261108.json'
+OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_reference_frontend_v22_20261109.json'
 
 
 def load_executor_lock(root,executor):

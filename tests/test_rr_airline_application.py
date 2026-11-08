@@ -106,7 +106,8 @@ def test_only_immutable_library_functions_can_be_called_from_case_fragments():
 def test_current_case_prompt_does_not_ask_to_regenerate_known_rules_and_controls_share_them():
     source,library,match,_=material();messages,schema=instance_request(source,match)
     payload=json.loads(messages[1]['content'])
-    assert 'known_rule_library_code' in payload and len(payload['CURRENT']['untranslated_source_units'])==25
+    # Eight empty Markdown alignment rows are formatting, not missing rules.
+    assert 'known_rule_library_code' in payload and len(payload['CURRENT']['untranslated_source_units'])==17
     assert 'Do not regenerate' in messages[0]['content']
     assert 'witness_parameters' not in payload and len(payload['fixed_item_observations'])==2
     assert set(schema['properties'])=={'current_item_source','program_lines'}

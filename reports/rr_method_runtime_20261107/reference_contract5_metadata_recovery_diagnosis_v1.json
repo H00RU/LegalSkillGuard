@@ -1,0 +1,28 @@
+{
+  "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+  "physical_raw_record_sha256": "3fc9699d82603729399b96e201d8255084205f1cd697de71f717568817370875",
+  "offline_only": true,
+  "new_model_calls": 0,
+  "new_oracle_views": 0,
+  "labels_read": false,
+  "original_actual_error": {
+    "diagnostics": [],
+    "error": "Duplicate provenance IDs are not a source set",
+    "error_type": "SourceCodeError"
+  },
+  "lossless_source_set_adaptation": [
+    {
+      "function": "whereas",
+      "duplicate_source": "s6"
+    }
+  ],
+  "remaining_rejection": {
+    "error_type": "SourceCodeError",
+    "error": "A rule annotation requires real rule or already-declared fact evidence"
+  },
+  "query_AST_type": "Constant",
+  "query_reads_guarded_outputs": false,
+  "raw_record_unchanged": true,
+  "core_success_claimed": false,
+  "conclusion": "Deduplicating a source-set annotation cannot recover missing rule/query semantics: the model copied contract paragraphs into function strings and returned a paragraph literal. The second actual output instead tests a literal substring and still bypasses every guarded rule. Neither is a missing-parenthesis problem; no rule or output label is supplied by this diagnostic."
+}

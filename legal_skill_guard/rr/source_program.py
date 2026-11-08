@@ -19,7 +19,7 @@ from .source_structure import inspect_source,compact_contexts
 from .strict_contract import (obj,array,ref,interface_definitions,type_enum_schemas,
                               bounded_expressions,EXPRESSION_DEPTH,source_expression_operations)
 from .wire_validation import validate_wire
-from .clause_scope import lower_clauses,required_scope_sources,open_passive_condition
+from .clause_scope import lower_clauses,required_scope_sources,open_passive_condition,syntax_only_source_unit
 
 
 OPERATORS=['if','not','xor','eq','ne','lt','le','sub','scale','divide_constant',
@@ -368,6 +368,9 @@ def compile_source(source,program,*,library=None):
         if not any(name in reads_from(owner) for owner in owners):
             raise Unsupported('A rule residual needs an explicit containing rule AST, not a guessed footprint')
     covered=lowered['covered']|{s for s in binding_sources if structure.roles[s]['role']=='fact'}
+    # A translated rule's citation address is public provenance even when the
+    # model omits its redundant identity scope. No operative context is added.
+    covered.update(s for s in structure.ledger.closure(covered) if syntax_only_source_unit(units[s]))
     dependencies=query.completion_dependencies()
     if not dependencies:
         raise Unsupported('Native answer literals are not a source-derived main program')
@@ -429,6 +432,7 @@ def source_theory(compiled,observed=None):
         pending=tuple(n for n in compiled['by_fact'].get(clause.id,[]) if n in domains)+\
             tuple(compiled['by_rule'].get(clause.id,[]))
         represented=clause.id in compiled['covered'] or clause.id in compiled['by_fact'] or \
+            syntax_only_source_unit(ledger.text[clause.start:clause.end]) or \
             structure.roles[clause.id]['role'] in {'instruction','heading','query'}
         if not represented:
             residuals.append(Residual(clause.id,pending,'unverified_llm',True))

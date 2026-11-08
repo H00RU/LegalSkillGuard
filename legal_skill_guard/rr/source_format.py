@@ -1,6 +1,19 @@
 """Public task/language contracts; no grading or unrelated task examples."""
 
 
+def native_output_metadata(source):
+    """Supply the public citation vocabulary required by the packet's contract.
+
+    These are all addresses found in the supplied statutes, never eligibility
+    labels or selected answers. Every arm and its fallback get the same list.
+    """
+    if source['dataset']!='OpenExempt':return {}
+    from .engine import source_text
+    from .source_structure import CITATION
+    return {'public_citation_vocabulary':sorted(set(CITATION.findall(source_text(source)))),
+        'native_citation_encoding':'Use these full public statutory identifiers as citation strings; sN indexes evidence only, never a native citation.'}
+
+
 def native_schema(dataset):
     from .scoring import LABELS
     if dataset in LABELS:

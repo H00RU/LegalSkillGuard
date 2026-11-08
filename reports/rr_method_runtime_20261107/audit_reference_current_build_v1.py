@@ -54,9 +54,12 @@ def main():
             'learning_status':dict(Counter(r['learning_status'] for r in items)),
             'final_program_status':dict(Counter(r['final_program_status'] for r in items))}
     batches = sorted((stage / 'build/batches').glob('B*.json'))
+    state_path = stage / 'build/state.json'
+    committed = json.loads(state_path.read_text())['complete_sources'] if state_path.exists() else 0
     dev_path = stage / 'dev/scores.json'
     value = {'captured_utc':datetime.now(timezone.utc).isoformat(), 'run_id':args.run_id,
-        'original_fixed_sources':128, 'committed_sources':len(rows), 'completed_batches':len(batches),
+        'original_fixed_sources':128, 'source_records_saved':len(rows),
+        'committed_sources':committed, 'completed_batches':len(batches),
         'ledger_role_status_counts':charged, 'current_run_new_physical_role_status_counts':current,
         'totals':totals(rows), 'by_dataset':{name:totals([r for r in rows if r['dataset']==name]) for name in sorted({r['dataset'] for r in rows})},
         'source_rows':rows, 'build_completion_saved':(stage/'build/completion.json').exists(),

@@ -1,4 +1,27 @@
 <!-- current-reference-status -->
+# 主路径可用性修复与当前统一建库
+
+UTC 2026-11-08T16:17:24.194768+00:00，原Goal active，未完成。累计927 executor、28 teacher，pending0；thinking OFF、原数据/模型/采样/seed/max8192不变。旧AST89/128、全部失败与账本原样保留。统一v5已保存5条来源记录及11条已结算executor原始响应（包含第6来源两次），88个原运行文件逐字保全后结束；没有重复任务或清零账本。以下组件成功与统一建库进度分别报告。
+
+真实主路径证据仍为：原第9逻辑来源24单元独立源文检查并执行通过，604token/17.18秒；原第77法律来源以已学法条程序实例化后实际A选择s52，39+100token/3.81秒，学校服务父范围生效、49未知量保留。数值第7来源v20首次可类型编译的部分IR进入A，但10项列表读取索引10且仍有未译语义，后续旧code字符串语法失败，尚无数值主路径语义成功。上述均不代表128建库、DEV或Goal整体通过。
+
+v5新保存的前5来源均未通过核心机制验收。具体区分：第1 OpenExempt8192截断并枚举无关引用；第2 Airline首响应764token/23.68秒完整但规则/元数据错误，第二次8192截断；第3 SARA两次306/179token完整但把错误来源作规则所有权；第4 PW两次499token完整却在原子字段中塞整条规则；第5 ContractNLI两次4062/4100token完整、115.90/116.95秒，却把段落或字面子串检测当查询。重复来源集合可确定性去重，但不能恢复其缺失语义。第4来源的碰撞模式学习基于公共Horn文法，其执行模型IR未验收，因此不算核心学习成功。
+
+本轮一条新教师请求只使用原第1 TRAIN来源、无答案或DEV/TEST标签，271.98秒，33285输入/14329输出（7488 reasoning已含其中）。32个OpenExempt TRAIN来源的整套法条完全相同。教师原响应完整但内联声明构造器失败，还把未解法条拼成未被使用的包装函数；这些不算法条翻译。离线只移除未被任何保留定义/查询读取的包装，原缺失条款重新保留为未知；内联它已生成且由原公开指令给出的个人使用True前提；消去144个纯引用标题恒真scope。12个真实规则输出、4个实际scope、8个观察保留，256种布尔完成执行结果一致，代码22405→5980字符，仍有150个源单元未译。只登记为部分公共编译材料，自身预测后入库，六臂同等可用，不计executor或核心成功。
+
+已针对真实错误做最小接口修复：
+
+- 纯引用地址与空Markdown对齐行不再承担不存在的规则体义务；保留来源/上下文，实质条款、列标题、重量区间和条件前言仍需原检查。引用文字的接纳仅来自实际已译规则的上下文，不能借标题冒充规则覆盖。
+- Python字面列表及列表条件分支相加精确映射到已有typed concat；数字相加与混合类型拒绝不变。
+- OpenExempt提示要求公共引用词表而当前路径未提供，现从原公开法条提取完整法条字符串，全部六臂及fallback一致获得；sN仍只作证据地址。没有读取标签来建立词表。
+- 同一来源EC/EV重复法条采用可逐字还原的文本引用；每条自身ID、role、view、context均保持，不共享事实、scope或答案。新增部分材料用已有学习/冻结恢复路径，不扩展框架。
+
+656项完整隔离回归通过（167.93秒），源码检查前后相同；原128输入容量全部通过，最大24097/24576，追加生成与oracle为0。以当前科学绑定继续统一128/8建库，严格复用字节相同的已付费请求，旧5条记录和所有原始数据保留。不得混合版本宣称统一完成。B1/B8、同材料MB、原六臂40来源/48输出DEV、实际新B学习/使用及跨库审计、最终交付均未完成。普通模型错误/fallback不作为停工或额外零回退门槛；fallback单列，不计核心。无TEST、论文、权重训练或新增付费服务。
+
+[部分材料的完整适配证据](reference_openexempt_partial_recovery_v22.json) · [32来源相同法条核对](reference_openexempt_statute_reuse_input_audit_v1.json) · [ContractNLI语义失败诊断](reference_contract5_metadata_recovery_diagnosis_v1.json) · [v5运行保全](reference_uniform_v5_cutover_preservation_v1.json) · [费用与token](reference_frontend_cost_snapshot_v22.json) · [参考实现与贡献边界](reference_frontend_design_20261108.md)。本地executor API现金增量0；GPU分摊与教师真实发票不可观测，均保留null，所有失败/重试计账。
+<!-- end-current-reference-status -->
+
+<!-- prior-v21-status -->
 # 主路径修复：当前证据与原定统一建库
 
 截至UTC 2026-11-08T15:21:04.985430+00:00，原Goal active，未完成。累计executor916、teacher27、pending0；thinking OFF与原模型/采样保持锁定。旧AST运行在已结算边界结束，89/128条记录及全部1439个原工件哈希不变，旧账本不重置。v1至v4统一版本仅封存准备、未启动，不当作建库进度。
@@ -21,7 +44,7 @@ v15代码字符串两次均完整却压成单行、各409.6秒；v16直接程序
 费用见[累计实际记录](reference_frontend_cost_snapshot_v21.json)：executor新增API现金为0，GPU分摊与教师真实发票不可观测，记null；reasoning是输出token子集。所有失败和重试保留原账本。
 
 证据：[v20实测](reference_frontend_reference_lines_airline7_v20_20261108.json)、[严格后端复现与修复](reference_selector_xgrammar_v20.json)、[真实法律A](reference_instance_sara77_v11_actual_semantics.json)、[全行图复算](reference_paid_join_full_rows_v1.json)、[设计与借鉴边界](reference_frontend_design_20261108.md)。以下为保留的过程记录，旧状态按其日期理解。
-<!-- end-current-reference-status -->
+<!-- end-prior-v21-status -->
 
 # 主路径接口修复的现有证据（原Goal继续）
 

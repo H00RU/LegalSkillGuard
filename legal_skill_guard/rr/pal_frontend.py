@@ -45,6 +45,13 @@ class _Expressions(_Parser):
         self.functions = functions
 
     def expression(self, node):
+        def list_expression(value):
+            return isinstance(value,ast.List) or (isinstance(value,ast.IfExp) and
+                list_expression(value.body) and list_expression(value.orelse)) or (
+                isinstance(value,ast.BinOp) and isinstance(value.op,ast.Add) and
+                list_expression(value.left) and list_expression(value.right))
+        if isinstance(node,ast.BinOp) and isinstance(node.op,ast.Add) and list_expression(node):
+            return {'op':'concat','args':[self.expression(node.left),self.expression(node.right)]}
         if isinstance(node,ast.Call) and not node.keywords and len(node.args)==1:
             if _call_name(node)=='sum' and not isinstance(node.args[0],ast.Starred):
                 return {'op':'sum_numbers','args':[self.expression(node.args[0])]}
@@ -307,6 +314,13 @@ def pal_prompt(source, library=None, *, feedback=None,full_template=False):
             'domains. Do not label operative rules as True scopes or cite unrelated units to claim coverage. '
             'No final answer stability is required for this template: unresolved observations may stay unknown. '
             'Preserve every missing source obligation if a full faithful translation is unavailable.')
+    if source['dataset']=='OpenExempt':
+        system+=(' Standalone citation addresses and empty Markdown alignment rows carry no operative rule. '
+            'The deterministic source reader retains them as context without demanding generated identity scopes. '
+            'Translate the substantive text under those addresses; never use a title to claim its body is covered. '
+            'Native citation strings come from the supplied public citation vocabulary, never sN evidence addresses. '
+            'A same_text_as reference supplies only the exact text of its earlier EC unit; the current unit retains '
+            'its own ID, view and context. It never shares factual values or application scope between EC and EV.')
     examples = []
     for item in (library or {}).get('compiler_templates', []):
         checked=validate_template(item)
@@ -338,5 +352,19 @@ def pal_prompt(source, library=None, *, feedback=None,full_template=False):
         'structural_title_sources':[u['id'] for u in units if u['role']=='rule' and structural_heading(u['text'])],
         'native_output_schema': native_schema(source['dataset'])},
         runtime_contract=pal_runtime_contract(source,library),source_only_feedback=feedback)
+    from .source_format import native_output_metadata
+    payload['CURRENT'].update(native_output_metadata(source))
+    if source['dataset']=='OpenExempt':
+        from .clause_scope import syntax_only_source_unit
+        payload['CURRENT']['syntax_only_source_units']=[u['id'] for u in units if syntax_only_source_unit(u['text'])]
+        # Lossless text interning only: source identity and scope stay separate.
+        earlier={};compact=[]
+        for unit in units:
+            row=dict(unit)
+            if unit['role']=='rule' and unit['view']=='EC':earlier.setdefault(unit['text'],unit['id'])
+            if unit['role']=='rule' and unit['view']=='EV' and unit['text'] in earlier:
+                row.pop('text');row['same_text_as']=earlier[unit['text']]
+            compact.append(row)
+        payload['CURRENT']['units']=compact
     return [{'role': 'system', 'content': system},
             {'role': 'user', 'content': json.dumps(payload, ensure_ascii=False, separators=(',', ':'))}]

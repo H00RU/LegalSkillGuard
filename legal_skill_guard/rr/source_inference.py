@@ -61,13 +61,14 @@ def controlled_prediction(source,arm,library,example_model):
 
 
 def native_fallback(source):
+    from .source_format import native_output_metadata
     dataset=source['dataset'];value=native_schema(dataset)
     schema=obj({'answer':value})
     messages=[{'role':'system','content':
         'Return the native answer to this public task. Preserve uncertainty and all required output entries. '
         'This is the one fixed fallback; it has no semantic-completeness certificate. '
         'Do not return a program, source-coverage claim or invented evidence.'},
-        {'role':'user','content':json.dumps({'dataset':dataset,'public_task':source['public']},ensure_ascii=False)}]
+        {'role':'user','content':json.dumps({'dataset':dataset,'public_task':source['public'],**native_output_metadata(source)},ensure_ascii=False)}]
     return messages,schema
 
 

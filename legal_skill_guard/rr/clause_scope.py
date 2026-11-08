@@ -14,6 +14,12 @@ from .scoped_program import expression_reads,graph_reads
 from .source_structure import CITATION
 
 
+def syntax_only_source_unit(text):
+    """A citation address or an empty Markdown alignment row carries no rule."""
+    line=text.strip()
+    return bool(CITATION.fullmatch(line) or re.fullmatch(r'\|(?:\s*:?-+:?\s*\|)+',line))
+
+
 def structural_heading(text):
     line=text.strip()
     markdown=re.match(r'^#{1,6}\s+(.+)$',line)

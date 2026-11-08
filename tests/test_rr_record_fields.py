@@ -48,10 +48,12 @@ def paid_numeric_program():
     return source,lower_pal(source,paid['value']['code'])[0]
 
 
-def test_actual_numeric_partial_program_keeps_all_23_unknown_sources_and_no_answer():
+def test_actual_numeric_partial_program_keeps_all_operative_unknown_sources_and_no_answer():
     source,program=paid_numeric_program();compiled=compile_source(source,program)
     result=assess_source(compiled)
-    assert result['status']=='translation_unresolved' and result['answer'] is None and len(result['unknown_scope'])==23
+    assert result['status']=='translation_unresolved' and result['answer'] is None
+    assert set(result['unknown_scope'])=={'s22','s23','s39','s40','s54','s55','s61','s62',
+        's126','s127','s130','s131','s139','s140','s148'}
     assert 'oversize_panama_south_america_fees' in compiled['numeric_field_only_record_nodes']
     path=ROOT/'artifacts/rr_method_runtime_20261107/reference_frontend_prior_airline2_partial_v14_20261108/compiler_template.json'
     assert assess_source(validate_template(json.loads(path.read_text())))==result
