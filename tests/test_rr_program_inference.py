@@ -4,6 +4,7 @@ import base64
 import json
 import sqlite3
 from pathlib import Path
+from types import SimpleNamespace
 
 from legal_skill_guard.rr.coverage import digest
 from legal_skill_guard.rr.program_inference import predict_source
@@ -104,3 +105,26 @@ def test_paid_train_reuse_requires_identical_literal_wire_and_untampered_raw_res
     with sqlite3.connect(book) as db:db.execute('update calls set result=?',(json.dumps(altered),))
     with pytest.raises(ValueError,match='differs from physical ledger'):
         run.paid_executor_response(executor,seal['source'],messages,schema,False)
+
+
+@pytest.mark.parametrize('reuse',[False,True])
+def test_actual_build_dispatch_accepts_direct_python_and_checks_paid_reuse_first(tmp_path,reuse):
+    stage=ROOT/'artifacts/rr_method_runtime_20261107/reference_pal_airline2_v12_20261108'
+    seal=json.loads((stage/'seal.json').read_text());source=seal['source']
+    executor=MethodExecutor(None,tmp_path,seal['config']['executor'])
+    messages=pal_prompt(source,seal['config']['library']);physical=[];lookup=[]
+    wire={'content':'unchanged response','finish_reason':'stop'}
+    run=MethodRun.__new__(MethodRun);run.verify=lambda:None
+    def paid(client,current,msgs,schema,thinking):
+        lookup.append((current['key'],schema,thinking))
+        return wire if reuse else None
+    def generate(cid,**kwargs):
+        body=executor.payload(messages=kwargs['messages'],thinking=kwargs['thinking'],schema=kwargs['schema'])
+        assert 'response_format' not in body
+        assert body['chat_template_kwargs']['enable_thinking'] is False
+        physical.append((cid,kwargs['source'],kwargs['purpose']));return wire
+    executor.generate=generate;run.paid_executor_response=paid
+    dispatch=run.dispatcher(SimpleNamespace(),executor,source,'offline','method_train_synthesis',False)
+    assert dispatch(messages,purpose='parse',step=0,schema=None)==wire
+    assert lookup==[(source['key'],None,False)]
+    assert physical==([] if reuse else [('offline:0',source['key'],'method_train_synthesis')])

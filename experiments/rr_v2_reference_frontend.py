@@ -26,7 +26,7 @@ from legal_skill_guard.rr.strict_contract import obj
 from legal_skill_guard.rr.client import WireError
 from legal_skill_guard.inference.codex_cli_client import CodexInvocationError
 
-OFFLINE='reports/rr_method_runtime_20261107/offline_reference_frontend_v15_20261108.json'
+OFFLINE='reports/rr_method_runtime_20261107/offline_reference_frontend_v20_20261108.json'
 QUESTION='Do source-aligned model atoms with source-preserved connective structure resolve the observed Horn head/guard errors while preserving full source semantics under locked OFF?'
 TEACHER_QUESTION='Can the fixed teacher produce a complete, independently source-checked Horn compiler template on earlier original TRAIN through the short program interface?'
 

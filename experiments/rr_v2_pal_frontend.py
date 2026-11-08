@@ -13,7 +13,7 @@ from legal_skill_guard.rr.coverage import digest
 from legal_skill_guard.rr.method_client import MethodExecutor, MethodTeacher
 from legal_skill_guard.rr.method_ledger import MethodLedger
 from legal_skill_guard.rr.method_run import load_executor_lock
-from legal_skill_guard.rr.pal_frontend import pal_prompt,pal_schema,lower_pal,render_pal
+from legal_skill_guard.rr.pal_frontend import pal_prompt,pal_schema,lower_pal,render_pal,decode_pal_text
 from legal_skill_guard.rr.preflight import science_files, scientific_code_binding, score_source
 from legal_skill_guard.rr.source_execution import assess_source, prepare_followup, accept_followup
 from legal_skill_guard.rr.source_inference import _decode
@@ -25,7 +25,7 @@ from legal_skill_guard.inference.codex_cli_client import CodexInvocationError
 from legal_skill_guard.rr.compiler_templates import make_template
 from legal_skill_guard.rr.rule_templates import matching_rule_template,instance_request,instantiate_rule_template
 
-OFFLINE = 'reports/rr_method_runtime_20261107/offline_reference_frontend_v15_20261108.json'
+OFFLINE = 'reports/rr_method_runtime_20261107/offline_reference_frontend_v20_20261108.json'
 QUESTION = 'Does compact source-annotated Python remove legal/numeric generation overhead while preserving existing source, scope, type and completion checks under locked OFF?'
 TEACHER_QUESTION = 'Can a real original TRAIN teacher program provide complete source-faithful reusable compiler material in the compact Python interface, without a native answer, instead of incomplete or paragraph-enumerating executor output?'
 
@@ -55,7 +55,7 @@ def prepare(root, run_id, source_id, library_path, role='executor'):
     match=matching_rule_template(source,config['library']) if role=='executor' else None
     config.update(frontend='learned_identical_rule_template_v1' if match else 'source_annotated_python_v1', question=TEACHER_QUESTION if role=='teacher' else QUESTION,
                   common_frontend_available_to_all_arms=True)
-    messages,schema=instance_request(source,match) if match else (pal_prompt(source,config['library'],full_template=role=='teacher'),pal_schema())
+    messages,schema=instance_request(source,match) if match else (pal_prompt(source,config['library'],full_template=role=='teacher'),pal_schema() if role=='teacher' else None)
     tokens = MethodExecutor(None, stage, config['executor']).tokenize(messages, thinking=False)['count']
     if tokens+config['executor']['max_tokens'] > config['executor']['context_tokens']:
         raise ValueError('Original full public source does not fit; no truncation')
@@ -103,7 +103,7 @@ def run(root, run_id):
             prepared = candidate
         if prepared:messages,schema=prepared['messages'],prepared['schema']
         elif match:messages,schema=instance_request(source,match,feedback=feedback)
-        else:messages,schema=pal_prompt(source,config['library'],feedback=feedback,full_template=role=='teacher'),pal_schema()
+        else:messages,schema=pal_prompt(source,config['library'],feedback=feedback,full_template=role=='teacher'),pal_schema() if role=='teacher' else None
         if client.tokenize(messages,thinking=False)['count']+config['executor']['max_tokens']>config['executor']['context_tokens']:
             raise ValueError('Full current request exceeds context; no truncation or dispatch')
         immutable_json(stage/('request'+str(step)+'.json'), {'messages':messages, 'schema':schema,
@@ -129,7 +129,10 @@ def run(root, run_id):
         item = {k:response[k] for k in ('request_hash','finish_reason','usage','elapsed_seconds','cache_hit')}
         item.update(step=step, raw_content_sha256=hashlib.sha256(response['content'].encode()).hexdigest())
         try:
-            value = _decode(response['content']); validate_wire(value, schema)
+            if schema is None:
+                value={'code':decode_pal_text(response['content'])}
+            else:
+                value = _decode(response['content']); validate_wire(value, schema)
             if prepared:
                 compiled, observed = accept_followup(compiled, prepared, value, observed, library=config['library'])
                 program = compiled['program']

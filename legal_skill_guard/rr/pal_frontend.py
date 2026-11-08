@@ -22,12 +22,34 @@ def pal_schema():
     return obj({'code': {'type': 'string'}})
 
 
+def decode_pal_text(content):
+    """Unwrap one complete optional code fence; never repair program syntax.
+
+    Direct program text follows PAL's generation interface. No inferred newlines,
+    indentation, rules, values or discarded surrounding prose are permitted.
+    """
+    if type(content) is not str or not content.strip():
+        raise SourceCodeError('An explicit complete Python program is required')
+    trimmed=content.strip()
+    if trimmed.startswith('```'):
+        match=re.fullmatch(r'```(?:python)?\r?\n([\s\S]*?)\r?\n```',trimmed)
+        if not match:
+            raise SourceCodeError('Use one complete Python block without surrounding prose')
+        return match[1]
+    return content
+
+
 class _Expressions(_Parser):
     def __init__(self, tree, functions):
         super().__init__(tree)
         self.functions = functions
 
     def expression(self, node):
+        if isinstance(node,ast.Call) and not node.keywords and len(node.args)==1:
+            if _call_name(node)=='sum' and not isinstance(node.args[0],ast.Starred):
+                return {'op':'sum_numbers','args':[self.expression(node.args[0])]}
+            if _call_name(node)=='add' and isinstance(node.args[0],ast.Starred):
+                return {'op':'sum_numbers','args':[self.expression(node.args[0].value)]}
         if isinstance(node,ast.Subscript) and not (isinstance(node.slice,ast.Constant) and type(node.slice.value) is int):
             return {'op':'number_field','args':[self.expression(node.value),self.expression(node.slice)]}
         if isinstance(node, ast.Call) and _call_name(node) in self.functions:
@@ -49,7 +71,9 @@ def parse_pal(code, *, require_query=True, external_functions=()):
         comments = {t.start[0]: t.string for t in tokenize.generate_tokens(io.StringIO(code).readline)
                     if t.type == tokenize.COMMENT}
     except (SyntaxError, tokenize.TokenError, RecursionError) as exc:
-        raise SourceCodeError('Incomplete or invalid Python source: ' + str(exc)) from exc
+        raise SourceCodeError('Incomplete or invalid Python source: ' + str(exc),
+            [{'path':'code','line':getattr(exc,'lineno',None),'column':getattr(exc,'offset',None),
+              'expected':'complete valid Python source','actual':str(exc)}]) from exc
     functions = {n.name for n in tree.body if isinstance(n, ast.FunctionDef)}|set(external_functions)
     parser = _Expressions(tree, functions)
     declared = set()
@@ -239,7 +263,8 @@ def pal_prompt(source, library=None, *, feedback=None,full_template=False):
     units = [{'id': c.id, **structure.roles[c.id], 'text': structure.ledger.text[c.start:c.end],
               'context': contexts[c.id]} for c in structure.ledger.clauses]
     system = (
-        'Translate CURRENT source rules into a compact Python program, returned in the code string. '
+        ('Translate CURRENT source rules into a compact Python program, returned in the code string. ' if full_template else
+         'Return only a complete Python program as direct text with real line breaks and indentation. No JSON wrapper or escaped-code string. ') +
         'Use meaningful variables and ordinary arithmetic, comparisons, Boolean and/or/not, and conditional expressions. '
         'This program is parsed without executing arbitrary Python and passes the existing source, type, scope, '
         'resource and completion checks. No imports, tools, loops, attributes or extra output. '
@@ -265,7 +290,7 @@ def pal_prompt(source, library=None, *, feedback=None,full_template=False):
         'Declare each name once; reference a rule result by its name or a no-argument call. '
         'Finish with query = EXPRESSION using guarded rule outputs and the exact native output shape. '
         'Do not substitute a native answer literal, an unguarded local result or a fallback. '
-        'Python lists/dictionaries and min/max are supported. All branches must type check. '
+        'Python lists/dictionaries, min/max and sum(NUMERIC_LIST) are supported. All branches must type check. '
         'Exact division uses an integer denominator; monetary results must remain exact. '
         'The runtime contract lists actual typed-input constructors, the seven connector operators, their parameter shapes '
         'and output projections. Use explicit learned(pattern=...,variant=...,slots=...,columns=...) calls only when an '

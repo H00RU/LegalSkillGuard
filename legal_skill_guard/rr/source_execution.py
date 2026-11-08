@@ -91,7 +91,7 @@ def prepare_followup(compiled,observed=None,*,compilation,tokenize,request_confi
                     json.loads(factual_messages[1]['content']),factual_schema['properties']['observations'],library)
                 measured=tokenize(messages,thinking=thinking)
                 if type(measured['count']) is not int or measured['count']<0:raise ValueError('Invalid serving token count')
-                value={'kind':'joint_rule_translation_and_facts','program_format':'pal_fragment_v1',
+                value={'kind':'joint_rule_translation_and_facts','program_format':'pal_fragment_lines_v1',
                     'messages':messages,'schema':schema,'names':names,'selected':sorted(selected),
                     'context_closure':actual_closure,'input_tokens':measured['count'],
                     'messages_hash':digest(messages),'schema_hash':digest(schema)}
@@ -154,16 +154,16 @@ def prepare_followup(compiled,observed=None,*,compilation,tokenize,request_confi
 def accept_followup(compiled,prepared,response,observed=None,*,library=None):
     validate_wire(response,prepared['schema']);observed=observed or {}
     if prepared['kind']=='joint_rule_translation_and_facts':
-        if prepared.get('program_format')=='pal_fragment_v1':
+        if prepared.get('program_format')=='pal_fragment_lines_v1':
             from .pal_refinement import apply_refinement
-            updated=apply_refinement(compiled,prepared,response['code'],library=library)
+            updated=apply_refinement(compiled,prepared,'\n'.join(response['program_lines']),library=library)
         else:
             updated=compile_source(compiled['source'],decode_compiler_response(response['program'],compiled['source'],library),library=library)
         for name in set(observed)|set(prepared['names']):
             if updated['observations'].get(name)!=compiled['observations'][name]:
                 raise Unsupported('Changed primitive meaning cannot inherit an earlier/requested observation')
         rows={'observations':response['factual_observations']}
-        if prepared.get('program_format')=='pal_fragment_v1':
+        if prepared.get('program_format')=='pal_fragment_lines_v1':
             from .pal_refinement import normalize_fact_evidence
             rows['observations'],adaptations=normalize_fact_evidence(updated,rows['observations'])
             updated['deterministic_adaptations'].extend(adaptations)

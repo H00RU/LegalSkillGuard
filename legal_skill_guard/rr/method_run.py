@@ -27,7 +27,7 @@ from .source_learning import DurableOracle
 from .strict_contract import obj
 
 
-OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_reference_frontend_v15_20261108.json'
+OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_reference_frontend_v21_20261108.json'
 
 
 def load_executor_lock(root,executor):
@@ -148,7 +148,7 @@ class MethodRun:
         def generate(messages,*,purpose: str,step,schema):
             self.verify()
             actual='method_primitive_observation' if dispatch_purpose=='method_train_synthesis' and \
-                set(schema.get('properties',{}))=={'observations'} else dispatch_purpose
+                set((schema or {}).get('properties',{}))=={'observations'} else dispatch_purpose
             if dispatch_purpose=='method_train_synthesis':
                 reused=self.paid_executor_response(executor,source,messages,schema,thinking)
                 if reused is not None:return reused

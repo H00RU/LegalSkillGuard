@@ -26,13 +26,13 @@ def current():
 
 def test_actual_legal_residual_is_refined_without_regenerating_rules_or_query():
     compiled,request,library,tokenizer=current();before=digest(compiled['program'])
-    assert request['kind']=='joint_rule_translation_and_facts' and request['program_format']=='pal_fragment_v1'
+    assert request['kind']=='joint_rule_translation_and_facts' and request['program_format']=='pal_fragment_lines_v1'
     assert request['selection_basis']=='separation_complete' and 's37' in request['selected']
     assert request['input_tokens']==tokenizer(request['messages'],False)['count']==request['batch_plan']['cost']
     assert 's52' in request['context_closure']
     assert request['names']==['b_private_home_domestic_service']
     updated,observed=accept_followup(compiled,request,{
-        'code':'current_cash = 3200 # s52\nb_domestic_remuneration_test = current_cash >= 1000',
+        'program_lines':['current_cash = 3200 # s52','b_domestic_remuneration_test = current_cash >= 1000'],
         'factual_observations':[{'name':n,'value':True,'evidence':compiled['source']['public']['facts']} for n in request['names']]},library=library)
     for field in ('scopes','clauses','query','observations'):
         assert updated['program'][field]==compiled['program'][field]
@@ -53,7 +53,7 @@ def test_actual_legal_residual_is_refined_without_regenerating_rules_or_query():
 def test_local_refinement_rejects_changed_K_ungrounded_inputs_wrong_types_and_unselected_rules(code):
     compiled,request,library,_=current();before=deepcopy(compiled['program'])
     with pytest.raises((Unsupported,ValueError,TypeError,KeyError)):
-        accept_followup(compiled,request,{'code':code,'factual_observations':[
+        accept_followup(compiled,request,{'program_lines':code.split('\n'),'factual_observations':[
             {'name':n,'value':True,'evidence':compiled['source']['public']['facts']} for n in request['names']]},library=library)
     assert compiled['program']==before
 
@@ -79,7 +79,12 @@ def test_actual_rejected_legal_fragment_recovers_only_existing_constant_and_exac
     base=ROOT/'artifacts/rr_method_runtime_20261107/reference_instance_sara79_v12_20261108'
     raw=json.loads((base/'calls'/digest(base.name+':parse:1')/'result.json').read_text())
     response=json.loads(raw['content']);before=deepcopy(response)
-    updated,observed=accept_followup(compiled,request,response,library=library)
+    # Explicit offline representation change: the historic physical wire used
+    # code. Splitting and joining preserves every byte, not its old wire hash.
+    adapted={'program_lines':response['code'].split('\n'),
+        'factual_observations':deepcopy(response['factual_observations'])}
+    assert '\n'.join(adapted['program_lines'])==response['code']
+    updated,observed=accept_followup(compiled,request,adapted,library=library)
     assert response==before
     assert updated['program']['bindings']==[{'name':'_fact_literal_0','type':'integer','value':3200,'sources':['s52']}]
     assert {p['kind'] for p in updated['deterministic_adaptations']}=={
@@ -93,5 +98,28 @@ def test_actual_rejected_legal_fragment_recovers_only_existing_constant_and_exac
 def test_incorrect_source_prefix_cannot_be_stripped_to_manufacture_fact_evidence():
     compiled,request,library,_=current()
     with pytest.raises(Unsupported,match='verbatim'):
-        accept_followup(compiled,request,{'code':'b_domestic_remuneration_test = (3200 >= 1000)',
+        accept_followup(compiled,request,{'program_lines':['b_domestic_remuneration_test = (3200 >= 1000)'],
             'factual_observations':[{'name':n,'value':True,'evidence':'s0#'+compiled['source']['public']['facts']} for n in request['names']]},library=library)
+
+
+def test_actual_v20_broken_string_remains_broken_after_lossless_line_conversion():
+    from legal_skill_guard.rr.pal_frontend import parse_pal
+    stage=ROOT/'artifacts/rr_method_runtime_20261107/reference_lines_airline7_v20_20261108'
+    raw=json.loads((stage/'calls'/digest(stage.name+':parse:1')/'result.json').read_text())
+    code=json.loads(raw['content'])['code'];lines=code.split('\n')
+    assert '\n'.join(lines)==code
+    with pytest.raises(Unsupported,match='unterminated string'):
+        parse_pal('\n'.join(lines),require_query=False)
+
+
+def test_line_fragment_contract_does_not_accept_old_code_alias_or_invent_rules():
+    from jsonschema.exceptions import ValidationError
+    compiled,request,library,_=current()
+    assert request['schema']['properties']['program_lines']=={'type':'array','items':{'type':'string'}}
+    with pytest.raises(ValidationError):
+        accept_followup(compiled,request,{'code':'','factual_observations':[]},library=library)
+    rows=[{'name':n,'value':True,'evidence':compiled['source']['public']['facts']} for n in request['names']]
+    updated,observed=accept_followup(compiled,request,{'program_lines':[],'factual_observations':rows},library=library)
+    assert updated['program']==compiled['program']
+    assert 'b_domestic_remuneration_test' in updated['rule_residuals']
+    assert assess_source(updated,observed)['answer'] is None

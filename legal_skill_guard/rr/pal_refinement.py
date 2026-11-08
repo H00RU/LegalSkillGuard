@@ -27,7 +27,10 @@ def refinement_request(compiled,selected,closure,names,factual_task,factual_rows
     accepted={k:v for k,v in program.items() if k!='query'}
     accepted['query_is_immutable']=True
     system=('Translate only the selected untranslated source rules or legal subexpressions. '
-        'Return code containing a compact Python fragment, plus factual_observations for exactly the listed existing fact tasks. '
+        'Return program_lines containing a compact Python fragment, plus factual_observations for exactly the listed existing fact tasks. '
+        'Each program_lines entry is one physical Python line; preserve indentation and put comments on their actual lines. '
+        'The runtime joins these strings with newline characters without repairing their contents. '
+        'Use an empty program_lines array when no legal expression can be translated. '
         'For each selected proper legal residual, assign its existing b_name to the actual Boolean expression. '
         'You may add current public numeric/string literal assignments with exact # sN evidence, observations with explicit '
         'entity/entity_source/predicate/predicate_source, proper residuals, helper expressions and source-decorated @rule/@scope functions. '
@@ -44,7 +47,7 @@ def refinement_request(compiled,selected,closure,names,factual_task,factual_rows
         'runtime_contract':pal_runtime_contract(compiled['source'],library),
         'immutable_accepted_declarations':list(accepted)}
     if not names:factual_rows_schema={'type':'array','maxItems':0,'items':{'type':'null'}}
-    schema=obj({'code':{'type':'string'},'factual_observations':factual_rows_schema})
+    schema=obj({'program_lines':{'type':'array','items':{'type':'string'}},'factual_observations':factual_rows_schema})
     return [{'role':'system','content':system},{'role':'user','content':json.dumps(payload,ensure_ascii=False,separators=(',',':'))}],schema,sorted(units)
 
 

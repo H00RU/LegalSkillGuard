@@ -17,7 +17,7 @@ from .coverage import Unsupported,digest
 from .example_synthesis import ordinary_horn_prediction
 from .ledger import BudgetError
 from .model_horn import parse_model_horn,assess_model_horn
-from .pal_frontend import pal_prompt,pal_schema,lower_pal
+from .pal_frontend import pal_prompt,lower_pal,decode_pal_text
 from .rule_templates import matching_rule_template,instance_request,instantiate_rule_template
 from .source_execution import assess_source,prepare_followup,accept_followup
 from .source_inference import _decode,native_fallback,controlled_prediction
@@ -27,7 +27,7 @@ from .source_validation import validation_feedback,incomplete_feedback
 from .wire_validation import validate_wire
 
 
-FRONTEND='source_aligned_atoms_and_PAL_v1'
+FRONTEND='source_aligned_atoms_and_direct_PAL_v2'
 
 
 def predict_source(source,*,arm,library,generate,tokenize,request_config,thinking,
@@ -83,7 +83,7 @@ def predict_source(source,*,arm,library,generate,tokenize,request_config,thinkin
                 messages,schema=prepared['messages'],prepared['schema']
             elif logic:messages,schema=atom_prompt(source,active,feedback=feedback),atom_schema(source)
             elif match:messages,schema=instance_request(source,match,feedback=feedback)
-            else:messages,schema=pal_prompt(source,active,feedback=feedback),pal_schema()
+            else:messages,schema=pal_prompt(source,active,feedback=feedback),None
             if prepared:actions.append({k:v for k,v in prepared.items() if k not in {'messages','schema'}})
             count=tokenize(messages,thinking=False)['count']
             if count+request_config['max_tokens']>request_config['context_tokens']:raise Unsupported('Complete request exceeds context; no source truncation')
@@ -96,7 +96,11 @@ def predict_source(source,*,arm,library,generate,tokenize,request_config,thinkin
         remaining=max(0,remaining-(time.monotonic()-started));purpose='parse' if step==0 else 'repair';budget.reserve(purpose)
         try:
             wire=generate(messages,purpose=purpose,step=step,schema=schema)
-            value=_decode(wire['content']);validate_wire(value,schema);started=time.monotonic()
+            if schema is None:
+                value={'code':decode_pal_text(wire['content'])}
+            else:
+                value=_decode(wire['content']);validate_wire(value,schema)
+            started=time.monotonic()
             if logic:
                 compiled,logic_code=decode_atom_response(source,value)
                 result=assess_model_horn(compiled,active,interface=profile.interface)

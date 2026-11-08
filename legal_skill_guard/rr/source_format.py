@@ -25,10 +25,12 @@ def query_expression_schema(dataset, symbol):
         atoms = [native]
     elif dataset == 'RuleArena_Airline':
         atoms = [native, *source_expression_operations(['add', 'sub', 'scale', 'divide_constant',
-            'ceil_divide_constant', 'number_at', 'number_field', 'min', 'max'])]
+            'ceil_divide_constant', 'number_at', 'number_field', 'sum_numbers', 'min', 'max'])]
         for expression in atoms:
             if expression.get('properties',{}).get('op',{}).get('enum')==['number_at']:
                 expression['properties']['args']['prefixItems'][0]=ref('numbers_expr')
+            if expression.get('properties',{}).get('op',{}).get('enum')==['sum_numbers']:
+                expression['properties']['args']['items']=ref('numbers_expr')
     else:
         atoms = [{'type': 'null'}, obj({'op': {'enum': ['object']}, 'args': array(ref('expr'))})]
     return {'anyOf': atoms + [obj({'var': symbol}), obj({'op': {'enum': ['if']},

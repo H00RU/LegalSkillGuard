@@ -23,7 +23,7 @@ from .clause_scope import lower_clauses,required_scope_sources,open_passive_cond
 
 
 OPERATORS=['if','not','xor','eq','ne','lt','le','sub','scale','divide_constant',
-           'ceil_divide_constant','number_at','number_field','min','max','and','or','add','array','pair','object','concat']
+           'ceil_divide_constant','number_at','number_field','sum_numbers','min','max','and','or','add','array','pair','object','concat']
 
 
 def factual_predicate_supported(predicate):
@@ -41,11 +41,14 @@ def _operand_definitions(symbol):
         return obj({'op':{'enum':['if']},'args':{'type':'array',
             'prefixItems':[ref('bool_expr'),ref(kind),ref(kind)],'items':False,'minItems':3,'maxItems':3}})
     numeric=source_expression_operations(['add','sub','scale','divide_constant',
-        'ceil_divide_constant','number_at','number_field','min','max'])
+        'ceil_divide_constant','number_at','number_field','sum_numbers','min','max'])
     for operation in numeric:
         args=operation['properties']['args'];op=operation['properties']['op']['enum'][0]
         if op=='number_field':
             args['prefixItems']=[ref('expr'),ref('string_expr')]
+            continue
+        if op=='sum_numbers':
+            args['items']=ref('numbers_expr')
             continue
         if 'prefixItems' in args:
             args['prefixItems'][1 if op=='scale' else 0]=ref('numbers_expr' if op=='number_at' else 'number_expr')
@@ -214,8 +217,8 @@ def compiler_prompt(source,library=None,accepted_program=None,validation_feedbac
         'a request to read a source unit. Names and source IDs are not executable facts. '
         'An expression is a JSON integer, string, boolean or null, a variable object with exactly key var, or an '
         'operation object with exactly keys op and args. args is an array of operand expressions. '
-        'Operations are if, not, xor, eq, ne, lt, le, sub, scale, divide_constant, ceil_divide_constant, number_at, '
-        'min, max, and, or, add, array, pair, object, concat. if has exactly three operands: Boolean condition, '
+        'Operations are if, not, xor, eq, ne, lt, le, sub, scale, divide_constant, ceil_divide_constant, number_at, number_field, sum_numbers, '
+        'min, max, and, or, add, array, pair, object, concat. sum_numbers takes one exact numeric list without coercion. if has exactly three operands: Boolean condition, '
         'then value, else value. and/or take separate Boolean expressions in args, never an array expression as '
         'one Boolean operand. Empty and/or are supported. All branches must type check. '
         'scale requires a literal integer multiplier first; divide_constant and ceil_divide_constant require '

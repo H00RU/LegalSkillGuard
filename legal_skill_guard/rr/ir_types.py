@@ -5,7 +5,7 @@ from fractions import Fraction
 
 FIXED_ARITIES = {"if": 3, "not": 1, "xor": 2, "eq": 2, "ne": 2, "lt": 2,
                  "le": 2, "sub": 2, "scale": 2, "divide_constant": 2,
-                 "ceil_divide_constant": 2, "number_at": 2, "number_field": 2, "pair": 2}
+                 "ceil_divide_constant": 2, "number_at": 2, "number_field": 2, "sum_numbers": 1, "pair": 2}
 NONEMPTY_OPERATORS = frozenset({"min", "max"})
 
 
@@ -84,6 +84,9 @@ def check_expression(body, slots, *, slot_types=None):
             return {'number'}
         if op == 'number_field':
             require(0,'object');require(1,'string')
+            return {'number'}
+        if op == 'sum_numbers':
+            require(0,'numbers')
             return {'number'}
         if op == "array":
             return {'numbers'} if types and all(t<={'number'} for t in types) else {"array"}

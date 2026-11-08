@@ -136,6 +136,11 @@ def evaluate(node: Any, env: dict[str, Any]) -> Any:
         if type(record[key]) not in (int,Fraction):
             raise Unsupported('Numeric record access cannot coerce a nonnumeric field')
         return record[key]
+    if op == 'sum_numbers' and len(values)==1:
+        vector=values[0]
+        if not isinstance(vector,list) or any(type(v) not in (int,Fraction) for v in vector):
+            raise Unsupported('Numeric sum requires exact integer/rational values; no coercion or default')
+        return sum(vector)
     if op == "array":
         return values
     if op == "concat" and all(isinstance(v, list) for v in values):
