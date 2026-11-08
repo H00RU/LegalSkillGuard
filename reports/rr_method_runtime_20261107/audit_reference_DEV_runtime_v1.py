@@ -76,7 +76,13 @@ def main():
                 request=json.loads(path.read_text())
                 if 'dispatch_json' not in request:continue
                 dispatch=json.loads(request['dispatch_json']);payload=json.loads(dispatch['messages'][1]['content'])
-                menu=payload.get('available_learned_patterns',payload.get('runtime_contract',{}).get('available_learned_patterns',[]))
+                if isinstance(payload,list):
+                    # The actual factual-observation interface is a list of
+                    # named fact tasks and contains no learned-pattern menu.
+                    assert all(isinstance(o,dict) and {'name','entity','predicate','fact_text'}<=set(o) for o in payload)
+                    menu=[]
+                else:
+                    menu=payload.get('available_learned_patterns',payload.get('runtime_contract',{}).get('available_learned_patterns',[]))
                 exposures.update(p['pattern_hash'] for p in menu)
             assert exposures<=set(patterns)
             if ARMS[arm].interface!='collision_refined':assert not exposures
@@ -94,8 +100,14 @@ def main():
                 assert wire['chat_template_kwargs']['enable_thinking'] is False
                 assert wire['max_tokens']==seal['config']['executor']['max_tokens']
                 origins.add(cid)
-                calls.append({'physical_origin_call_id':cid,'reused':bool(call.get('physical_origin_call_id')),
-                    'finish_reason':response['finish_reason'],'usage':response['usage']})
+                # Native fallback records retain raw/hash but omit the cache
+                # fields. Determine reuse from the settled physical origin,
+                # rather than silently treating missing metadata as a new call.
+                logical_call_id=args.run_id+':dev:'+arm+':'+digest(source)+':'+str(call['step'])
+                calls.append({'physical_origin_call_id':cid,'logical_call_id':logical_call_id,
+                    'reused':cid!=logical_call_id,
+                    'finish_reason':response['finish_reason'],'usage':response['usage'],
+                    'original_physical_elapsed_seconds':response.get('elapsed_seconds')})
             row={'arm':arm,'source':source,'dataset':source.split(':',1)[0],
                 'record_sha256':hashlib.sha256((stage/'dev/predictions'/arm/(digest(source)+'.json')).read_bytes()).hexdigest(),
                 'program_status':result['program_status'],'certificate_status':result['certificate_status'],
