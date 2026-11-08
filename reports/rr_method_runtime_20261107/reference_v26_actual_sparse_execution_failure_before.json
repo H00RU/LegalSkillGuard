@@ -1,0 +1,19 @@
+{
+  "captured_utc": "2026-11-08T21:28:53.760448+00:00",
+  "source": "SARA_v2_Binary:be5c71e70a4f8c272f0386786be696054da21713a709f57db5c0b9300976a4f0",
+  "original_raw_prediction_preserved": true,
+  "only_supported_known_fact": {
+    "b_within_united_states": false
+  },
+  "employee_observation_retained_unknown": [
+    false,
+    true
+  ],
+  "completion_status": "completion_stable",
+  "completion_answer": "Contradiction",
+  "new_model_or_oracle_calls": 0,
+  "DEV_or_TEST_labels_read": false,
+  "execution_error_type": "Unsupported",
+  "execution_error": "Unbound IR variable",
+  "traceback": "Traceback (most recent call last):\n  File \"<stdin>\", line 8, in <module>\n  File \"/home/yndx/hhy/legal-skill-ir-repair-20261108/legal_skill_guard/rr/source_execution.py\", line 61, in assess_source\n    execution=exact_native(compiled['query'].execute(theory.facts)))\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/yndx/hhy/legal-skill-ir-repair-20261108/legal_skill_guard/rr/scoped_program.py\", line 155, in execute\n    answer=evaluate(self.query,env)\n           ^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/yndx/hhy/legal-skill-ir-repair-20261108/legal_skill_guard/rr/coverage.py\", line 121, in evaluate\n    cond = evaluate(args[0], env)\n           ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/yndx/hhy/legal-skill-ir-repair-20261108/legal_skill_guard/rr/coverage.py\", line 114, in evaluate\n    if node[\"var\"] not in env:\n       ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/yndx/hhy/legal-skill-ir-repair-20261108/legal_skill_guard/rr/scoped_program.py\", line 134, in __contains__\n    ensure(key)\n  File \"/home/yndx/hhy/legal-skill-ir-repair-20261108/legal_skill_guard/rr/scoped_program.py\", line 146, in ensure\n    if node['kind']=='expression':env[name]=evaluate(node['body'],env)\n                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/yndx/hhy/legal-skill-ir-repair-20261108/legal_skill_guard/rr/coverage.py\", line 124, in evaluate\n    return evaluate(args[1] if cond else args[2], env)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/yndx/hhy/legal-skill-ir-repair-20261108/legal_skill_guard/rr/coverage.py\", line 125, in evaluate\n    values = [evaluate(a, env) for a in args]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/yndx/hhy/legal-skill-ir-repair-20261108/legal_skill_guard/rr/coverage.py\", line 125, in <listcomp>\n    values = [evaluate(a, env) for a in args]\n              ^^^^^^^^^^^^^^^^\n  File \"/home/yndx/hhy/legal-skill-ir-repair-20261108/legal_skill_guard/rr/coverage.py\", line 115, in evaluate\n    raise Unsupported(\"Unbound IR variable\")\nlegal_skill_guard.rr.coverage.Unsupported: Unbound IR variable\n"
+}

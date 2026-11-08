@@ -1,0 +1,439 @@
+{
+  "run_id": "method_runtime_reference_v9_20261109",
+  "rows": [
+    {
+      "ordinal": 18,
+      "source": "SARA_v2_Binary:097568705cac232354a1b0bc169fad14d5b105d2818fdebc5622f304975c747e",
+      "error": "Duplicate declaration: allowance_of_deductions_scope",
+      "duplicates": [
+        {
+          "name": "allowance_of_deductions_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s0') \ndef allowance_of_deductions_scope(): \n    return True ",
+          "later": "@scope('s1') \ndef allowance_of_deductions_scope(): \n    return allowance_of_deductions_scope "
+        },
+        {
+          "name": "dependent_exemption_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s5') \ndef dependent_exemption_scope(): \n    return allowance_of_deductions_scope ",
+          "later": "@scope('s6') \ndef dependent_exemption_scope(): \n    return dependent_exemption_scope "
+        },
+        {
+          "name": "exemption_amount_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s7') \ndef exemption_amount_scope(): \n    return allowance_of_deductions_scope ",
+          "later": "@scope('s8') \ndef exemption_amount_scope(): \n    return exemption_amount_scope "
+        },
+        {
+          "name": "exemption_amount_general_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s9') \ndef exemption_amount_general_scope(): \n    return exemption_amount_scope ",
+          "later": "@scope('s10') \ndef exemption_amount_general_scope(): \n    return exemption_amount_general_scope "
+        },
+        {
+          "name": "dependent_exemption_disallowed_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s11') \ndef dependent_exemption_disallowed_scope(): \n    return exemption_amount_scope ",
+          "later": "@scope('s12') \ndef dependent_exemption_disallowed_scope(): \n    return dependent_exemption_disallowed_scope "
+        },
+        {
+          "name": "exemption_amount_phaseout_percentage_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s16') \ndef exemption_amount_phaseout_percentage_scope(): \n    return exemption_amount_phaseout_reduction_scope ",
+          "later": "@scope('s17') \ndef exemption_amount_phaseout_percentage_scope(): \n    return exemption_amount_phaseout_percentage_scope "
+        },
+        {
+          "name": "exemption_amount_special_rules_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s18') \ndef exemption_amount_special_rules_scope(): \n    return exemption_amount_scope ",
+          "later": "@scope('s19') \ndef exemption_amount_special_rules_scope(): \n    return exemption_amount_special_rules_scope "
+        },
+        {
+          "name": "exemption_amount_phaseout_percentage_rule",
+          "byte_identical_definition": false,
+          "earlier": "@rule('s16', otherwise=False) \ndef exemption_amount_phaseout_percentage_rule(): \n    return (exemption_amount_phaseout_percentage_scope and b_income_exceeds) ",
+          "later": "@rule('s17', otherwise=False) \ndef exemption_amount_phaseout_percentage_rule(): \n    return (exemption_amount_phaseout_percentage_scope and b_income_exceeds) "
+        },
+        {
+          "name": "exemption_amount_phaseout_percentage_rule",
+          "byte_identical_definition": false,
+          "earlier": "@rule('s16', otherwise=False) \ndef exemption_amount_phaseout_percentage_rule(): \n    return (exemption_amount_phaseout_percentage_scope and b_income_exceeds) ",
+          "later": "@rule('s17', otherwise=False) \ndef exemption_amount_phaseout_percentage_rule(): \n    return (exemption_amount_phaseout_percentage_scope and b_income_exceeds) "
+        }
+      ]
+    },
+    {
+      "ordinal": 75,
+      "source": "SARA_v2_Binary:a3080e73985ccf0c80c81d9decfdf76bd304a2c46e9488c0c5cd33db396e1864",
+      "error": "Duplicate declaration: blind_additional_amount_self",
+      "duplicates": [
+        {
+          "name": "blind_additional_amount_self",
+          "byte_identical_definition": true,
+          "earlier": "@rule('s48', otherwise=False) \ndef blind_additional_amount_self(): \n    return (blind_additional_amounts_amount_self_scope and b_blind_status) ",
+          "later": "@rule('s48', otherwise=False) \ndef blind_additional_amount_self(): \n    return (blind_additional_amounts_amount_self_scope and b_blind_status) "
+        },
+        {
+          "name": "blind_additional_amount_spouse",
+          "byte_identical_definition": true,
+          "earlier": "@rule('s49', otherwise=False) \ndef blind_additional_amount_spouse(): \n    return (blind_additional_amounts_amount_spouse_scope and b_spouse_blind_status and b_additional_exemption) ",
+          "later": "@rule('s49', otherwise=False) \ndef blind_additional_amount_spouse(): \n    return (blind_additional_amounts_amount_spouse_scope and b_spouse_blind_status and b_additional_exemption) "
+        },
+        {
+          "name": "blind_additional_amount_determination",
+          "byte_identical_definition": true,
+          "earlier": "@rule('s50', otherwise=False) \ndef blind_additional_amount_determination(): \n    return (blind_additional_amounts_determination_scope and b_blind_determination) ",
+          "later": "@rule('s50', otherwise=False) \ndef blind_additional_amount_determination(): \n    return (blind_additional_amounts_determination_scope and b_blind_determination) "
+        },
+        {
+          "name": "higher_amount_for_unmarried",
+          "byte_identical_definition": true,
+          "earlier": "@rule('s51', otherwise=False) \ndef higher_amount_for_unmarried(): \n    return (higher_amount_for_unmarried_amount_scope and b_single_individual) ",
+          "later": "@rule('s51', otherwise=False) \ndef higher_amount_for_unmarried(): \n    return (higher_amount_for_unmarried_amount_scope and b_single_individual) "
+        },
+        {
+          "name": "blind_additional_amounts",
+          "byte_identical_definition": true,
+          "earlier": "@rule('s46', otherwise=False) \ndef blind_additional_amounts(): \n    return (blind_additional_amounts_amount_scope and (blind_additional_amount_self or blind_additional_amount_spouse or higher_amount_for_unmarried)) ",
+          "later": "@rule('s46', otherwise=False) \ndef blind_additional_amounts(): \n    return (blind_additional_amounts_amount_scope and (blind_additional_amount_self or blind_additional_amount_spouse or higher_amount_for_unmarried)) "
+        },
+        {
+          "name": "aged_or_blind_additional_amounts",
+          "byte_identical_definition": true,
+          "earlier": "@rule('s41', otherwise=False) \ndef aged_or_blind_additional_amounts(): \n    return (aged_or_blind_additional_amounts_scope and (aged_additional_amounts_amount_self_scope or aged_additional_amounts_amount_spouse_scope or blind_additional_amounts)) ",
+          "later": "@rule('s41', otherwise=False) \ndef aged_or_blind_additional_amounts(): \n    return (aged_or_blind_additional_amounts_scope and (aged_additional_amounts_amount_self_scope or aged_additional_amounts_amount_spouse_scope or blind_additional_amounts)) "
+        },
+        {
+          "name": "aged_additional_amounts",
+          "byte_identical_definition": true,
+          "earlier": "@rule('s42', otherwise=False) \ndef aged_additional_amounts(): \n    return (aged_additional_amounts_amount_scope and (aged_additional_amounts_amount_self_scope or aged_additional_amounts_amount_spouse_scope)) ",
+          "later": "@rule('s42', otherwise=False) \ndef aged_additional_amounts(): \n    return (aged_additional_amounts_amount_scope and (aged_additional_amounts_amount_self_scope or aged_additional_amounts_amount_spouse_scope)) "
+        },
+        {
+          "name": "aged_additional_amounts_amount_self",
+          "byte_identical_definition": true,
+          "earlier": "@rule('s43', otherwise=False) \ndef aged_additional_amounts_amount_self(): \n    return (aged_additional_amounts_amount_self_scope and b_age_65) ",
+          "later": "@rule('s43', otherwise=False) \ndef aged_additional_amounts_amount_self(): \n    return (aged_additional_amounts_amount_self_scope and b_age_65) "
+        },
+        {
+          "name": "aged_additional_amounts_amount_spouse",
+          "byte_identical_definition": true,
+          "earlier": "@rule('s44', otherwise=False) \ndef aged_additional_amounts_amount_spouse(): \n    return (aged_additional_amounts_amount_spouse_scope and b_spouse_age_65) ",
+          "later": "@rule('s44', otherwise=False) \ndef aged_additional_amounts_amount_spouse(): \n    return (aged_additional_amounts_amount_spouse_scope and b_spouse_age_65) "
+        },
+        {
+          "name": "aged_additional_amounts_amount_spouse_exemption",
+          "byte_identical_definition": true,
+          "earlier": "@rule('s45', otherwise=False) \ndef aged_additional_amounts_amount_spouse_exemption(): \n    return (aged_additional_amounts_amount_spouse_scope and b_additional_exemption) ",
+          "later": "@rule('s45', otherwise=False) \ndef aged_additional_amounts_amount_spouse_exemption(): \n    return (aged_additional_amounts_amount_spouse_scope and b_additional_exemption) "
+        }
+      ]
+    },
+    {
+      "ordinal": 82,
+      "source": "SARA_v2_Binary:30b162a50f90915b5f1e3590b0ab64e9959e6d699425bb2afa111cb9b4911bfb",
+      "error": "Duplicate declaration: special_rules_for_taxable_years_substitution_amount_scope",
+      "duplicates": [
+        {
+          "name": "special_rules_for_taxable_years_substitution_amount_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s35')\ndef special_rules_for_taxable_years_substitution_amount_scope():\n    return special_rules_for_taxable_years_substitution_scope",
+          "later": "@scope('s36')\ndef special_rules_for_taxable_years_substitution_amount_scope():\n    return special_rules_for_taxable_years_substitution_scope"
+        },
+        {
+          "name": "itemized_deductions_items_items_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s39')\ndef itemized_deductions_items_items_scope():\n    return itemized_deductions_items_scope",
+          "later": "@scope('s40')\ndef itemized_deductions_items_items_scope():\n    return itemized_deductions_items_scope"
+        },
+        {
+          "name": "additional_amounts_for_aged_conditions_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s44')\ndef additional_amounts_for_aged_conditions_scope():\n    return additional_amounts_for_aged_amount_scope",
+          "later": "@scope('s45')\ndef additional_amounts_for_aged_conditions_scope():\n    return additional_amounts_for_aged_conditions_scope"
+        },
+        {
+          "name": "additional_amounts_for_blind_conditions_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s48')\ndef additional_amounts_for_blind_conditions_scope():\n    return additional_amounts_for_blind_amount_scope",
+          "later": "@scope('s49')\ndef additional_amounts_for_blind_conditions_scope():\n    return additional_amounts_for_blind_conditions_scope"
+        },
+        {
+          "name": "additional_amounts_for_blind_conditions_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s48')\ndef additional_amounts_for_blind_conditions_scope():\n    return additional_amounts_for_blind_amount_scope",
+          "later": "@scope('s50')\ndef additional_amounts_for_blind_conditions_scope():\n    return additional_amounts_for_blind_conditions_scope"
+        },
+        {
+          "name": "higher_amount_for_unmarried_individuals_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s51')\ndef higher_amount_for_unmarried_individuals_scope():\n    return aged_or_blind_additional_amounts_scope",
+          "later": "@scope('s52')\ndef higher_amount_for_unmarried_individuals_scope():\n    return higher_amount_for_unmarried_individuals_scope"
+        }
+      ]
+    },
+    {
+      "ordinal": 85,
+      "source": "SARA_v2_Binary:ff37f276befe4d94c75a66194216350a28d62ca83570c13e77928d9df5a4aff0",
+      "error": "Duplicate declaration: taxable_income_non_itemize_scope",
+      "duplicates": [
+        {
+          "name": "taxable_income_non_itemize_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s3') \ndef taxable_income_non_itemize_scope(): \n    return taxable_income_general_scope ",
+          "later": "@scope('s4') \ndef taxable_income_non_itemize_scope(): \n    return taxable_income_non_itemize_scope "
+        },
+        {
+          "name": "standard_deduction_dependent_limitation_amount_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s23') \ndef standard_deduction_dependent_limitation_amount_scope(): \n    return standard_deduction_dependent_limitation_scope ",
+          "later": "@scope('s24') \ndef standard_deduction_dependent_limitation_amount_scope(): \n    return standard_deduction_dependent_limitation_amount_scope "
+        },
+        {
+          "name": "standard_deduction_dependent_limitation_amount_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s23') \ndef standard_deduction_dependent_limitation_amount_scope(): \n    return standard_deduction_dependent_limitation_scope ",
+          "later": "@scope('s25') \ndef standard_deduction_dependent_limitation_amount_scope(): \n    return standard_deduction_dependent_limitation_amount_scope "
+        },
+        {
+          "name": "standard_deduction_ineligible_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s26') \ndef standard_deduction_ineligible_scope(): \n    return standard_deduction_rules_scope ",
+          "later": "@scope('s27') \ndef standard_deduction_ineligible_scope(): \n    return standard_deduction_ineligible_scope "
+        },
+        {
+          "name": "standard_deduction_ineligible_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s26') \ndef standard_deduction_ineligible_scope(): \n    return standard_deduction_rules_scope ",
+          "later": "@scope('s28') \ndef standard_deduction_ineligible_scope(): \n    return standard_deduction_ineligible_scope "
+        },
+        {
+          "name": "standard_deduction_ineligible_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s26') \ndef standard_deduction_ineligible_scope(): \n    return standard_deduction_rules_scope ",
+          "later": "@scope('s29') \ndef standard_deduction_ineligible_scope(): \n    return standard_deduction_ineligible_scope "
+        },
+        {
+          "name": "standard_deduction_ineligible_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s26') \ndef standard_deduction_ineligible_scope(): \n    return standard_deduction_rules_scope ",
+          "later": "@scope('s30') \ndef standard_deduction_ineligible_scope(): \n    return standard_deduction_ineligible_scope "
+        },
+        {
+          "name": "standard_deduction_ineligible_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s26') \ndef standard_deduction_ineligible_scope(): \n    return standard_deduction_rules_scope ",
+          "later": "@scope('s31') \ndef standard_deduction_ineligible_scope(): \n    return standard_deduction_ineligible_scope "
+        },
+        {
+          "name": "standard_deduction_special_rules_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s32') \ndef standard_deduction_special_rules_scope(): \n    return standard_deduction_rules_scope ",
+          "later": "@scope('s33') \ndef standard_deduction_special_rules_scope(): \n    return standard_deduction_special_rules_scope "
+        },
+        {
+          "name": "standard_deduction_special_rules_substitution_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s34') \ndef standard_deduction_special_rules_substitution_scope(): \n    return standard_deduction_special_rules_scope ",
+          "later": "@scope('s35') \ndef standard_deduction_special_rules_substitution_scope(): \n    return standard_deduction_special_rules_substitution_scope "
+        },
+        {
+          "name": "standard_deduction_special_rules_substitution_scope",
+          "byte_identical_definition": false,
+          "earlier": "@scope('s34') \ndef standard_deduction_special_rules_substitution_scope(): \n    return standard_deduction_special_rules_scope ",
+          "later": "@scope('s36') \ndef standard_deduction_special_rules_substitution_scope(): \n    return standard_deduction_special_rules_substitution_scope "
+        },
+        {
+          "name": "standard_deduction_special_rules_substitution",
+          "byte_identical_definition": false,
+          "earlier": "@rule('s35', otherwise=False) \ndef standard_deduction_special_rules_substitution(): \n    return (standard_deduction_special_rules_substitution_scope and b_standard_deduction_substitution) ",
+          "later": "@rule('s36', otherwise=False) \ndef standard_deduction_special_rules_substitution(): \n    return (standard_deduction_special_rules_substitution_scope and b_standard_deduction_substitution) "
+        },
+        {
+          "name": "aged_additional_amounts_amount",
+          "byte_identical_definition": false,
+          "earlier": "@rule('s43', otherwise=False) \ndef aged_additional_amounts_amount(): \n    return (aged_additional_amounts_definition and b_standard_deduction) ",
+          "later": "@rule('s44', otherwise=False) \ndef aged_additional_amounts_amount(): \n    return (aged_additional_amounts_definition and b_standard_deduction) "
+        },
+        {
+          "name": "aged_additional_amounts_amount",
+          "byte_identical_definition": false,
+          "earlier": "@rule('s43', otherwise=False) \ndef aged_additional_amounts_amount(): \n    return (aged_additional_amounts_definition and b_standard_deduction) ",
+          "later": "@rule('s45', otherwise=False) \ndef aged_additional_amounts_amount(): \n    return (aged_additional_amounts_definition and b_standard_deduction) "
+        },
+        {
+          "name": "blind_additional_amounts_amount",
+          "byte_identical_definition": false,
+          "earlier": "@rule('s47', otherwise=False) \ndef blind_additional_amounts_amount(): \n    return (blind_additional_amounts_definition and b_standard_deduction) ",
+          "later": "@rule('s48', otherwise=False) \ndef blind_additional_amounts_amount(): \n    return (blind_additional_amounts_definition and b_standard_deduction) "
+        },
+        {
+          "name": "blind_additional_amounts_amount",
+          "byte_identical_definition": false,
+          "earlier": "@rule('s47', otherwise=False) \ndef blind_additional_amounts_amount(): \n    return (blind_additional_amounts_definition and b_standard_deduction) ",
+          "later": "@rule('s49', otherwise=False) \ndef blind_additional_amounts_amount(): \n    return (blind_additional_amounts_definition and b_standard_deduction) "
+        },
+        {
+          "name": "blind_additional_amounts_amount",
+          "byte_identical_definition": false,
+          "earlier": "@rule('s47', otherwise=False) \ndef blind_additional_amounts_amount(): \n    return (blind_additional_amounts_definition and b_standard_deduction) ",
+          "later": "@rule('s50', otherwise=False) \ndef blind_additional_amounts_amount(): \n    return (blind_additional_amounts_definition and b_standard_deduction) "
+        },
+        {
+          "name": "standard_deduction_special_rules_substitution",
+          "byte_identical_definition": false,
+          "earlier": "@rule('s35', otherwise=False) \ndef standard_deduction_special_rules_substitution(): \n    return (standard_deduction_special_rules_substitution_scope and b_standard_deduction_substitution) ",
+          "later": "@rule('s36', otherwise=False) \ndef standard_deduction_special_rules_substitution(): \n    return (standard_deduction_special_rules_substitution_scope and b_standard_deduction_substitution) "
+        }
+      ]
+    },
+    {
+      "ordinal": 115,
+      "source": "ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54",
+      "error": "Duplicate declaration: city_state_zip",
+      "duplicates": [
+        {
+          "name": "city_state_zip",
+          "byte_identical_definition": false,
+          "earlier": "@rule(\"s42\", \"s43\", otherwise=\"NotMentioned\")\ndef city_state_zip():\n    return \"Entailment\"",
+          "later": "@rule(\"s43\", \"s44\", otherwise=\"NotMentioned\")\ndef city_state_zip():\n    return \"Entailment\""
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "@rule(\"s44\", \"s45\", otherwise=\"NotMentioned\")\ndef name():\n    return \"Entailment\"",
+          "later": "@rule(\"s45\", \"s46\", otherwise=\"NotMentioned\")\ndef name():\n    return \"Entailment\""
+        },
+        {
+          "name": "title",
+          "byte_identical_definition": false,
+          "earlier": "@rule(\"s46\", \"s47\", otherwise=\"NotMentioned\")\ndef title():\n    return \"Entailment\"",
+          "later": "@rule(\"s47\", \"s48\", otherwise=\"NotMentioned\")\ndef title():\n    return \"Entailment\""
+        },
+        {
+          "name": "signature",
+          "byte_identical_definition": false,
+          "earlier": "@rule(\"s48\", \"s49\", otherwise=\"NotMentioned\")\ndef signature():\n    return \"Entailment\"",
+          "later": "@rule(\"s49\", \"s50\", otherwise=\"NotMentioned\")\ndef signature():\n    return \"Entailment\""
+        },
+        {
+          "name": "signature",
+          "byte_identical_definition": false,
+          "earlier": "@rule(\"s48\", \"s49\", otherwise=\"NotMentioned\")\ndef signature():\n    return \"Entailment\"",
+          "later": "@rule(\"s50\", \"s51\", otherwise=\"NotMentioned\")\ndef signature():\n    return \"Entailment\""
+        },
+        {
+          "name": "query",
+          "byte_identical_definition": false,
+          "earlier": "@rule(\"s52\", \"s53\", otherwise=\"NotMentioned\")\ndef query():\n    return \"Entailment\"",
+          "later": "query = \"Entailment\""
+        }
+      ]
+    },
+    {
+      "ordinal": 119,
+      "source": "ContractNLI:a5b0361fa48fe974089dfd2b7b082510d5160a744041f9ef31c1ea25fd4cfa6f",
+      "error": "Duplicate declaration: name",
+      "duplicates": [
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"This FACILITY TOUR CONFIDENTITY AND NONDISCLOSURE AGREEMENT (this “Agreement”) is entered into as of this date: ____________ between Hydranautics, a California corporation (“Hydranautics”) and __________________ (“Visitor”).\" # s1"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"During the facility tour(s), Visitor will observe Hydranautics’ business operations and facilities which may give Visitor access to some of Hydranautics’ Confidential Information as defined below.\" # s2"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"Accordingly, as a condition of and in consideration of touring Hydranautics’ facilities, Visitor agrees that:\" # s3"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"1. The term “Confidential Information” shall include all Hydranautics’ trade secrets and information that concerns the confidential business or affairs of Hydranautics and Nitto including without limitation, financial information and reports, business plans, design and construction plans, ma"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"2. Visitor agrees and acknowledges that in the course of, or incident to, the tour of Hydranautics’ facilities, Hydranutics may provide to, or Visitor will otherwise become exposed to Hydranautics’ Confidential Information.\" # s5"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"3. Visitor agrees to hold the Confidential Information in the strictest confidence, and will exercise at least the same care with respect thereto as it exercises with respect to its’ own confidential or proprietary information and will not without Hydranautics’ consent use, divulge, copy, re"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"4. Visitor agrees he/she will not remove any document, equipment or other materials from the premises without Hydranautics’ written consent. Visitor will not photograph, videotape, or otherwise make any record of or preserve any Confidential Information to which he/she may be given access du"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"5. Visitor will abide by all safety regulations, stay within designated areas of the facility per the established tour, and will not leave the touring party without an escort by a Hydranautics authorized employee.\" # s8"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"6. This Agreement is governed by and construed in accordance with the laws of the State of California.\" # s9"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"7. This Agreement constitutes the entire Agreement between the parties hereto with respect to the subject matter.\" # s10"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"8. Visitor understands that his or her breach of this Agreement may subject him or her and his or her employees to liability.\" # s11"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"Title: ______________________________________________\" # s12"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"Company Name: _____________________________________\" # s13"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"Visitor Name/Signature _______________________________\" # s14"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"(To sign, type your name above)\" # s15"
+        },
+        {
+          "name": "name",
+          "byte_identical_definition": false,
+          "earlier": "name = \"Facility Tour Confidentiality and Non-Disclosure Agreement\" # s0",
+          "later": "name = \"Receiving Party shall not reverse engineer any objects which embody Disclosing Party's Confidential Information.\" # s16"
+        }
+      ]
+    }
+  ],
+  "new_model_calls": 0,
+  "DEV_or_TEST_labels_read": false
+}

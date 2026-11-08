@@ -143,15 +143,18 @@ class ScopedQuery:
             if name not in by_name:raise Unsupported('Unbound scoped variable '+name)
             if name in active:raise Unsupported('Cyclic local definition')
             active.add(name);node=by_name[name]
-            if node['kind']=='expression':env[name]=evaluate(node['body'],env)
-            else:
-                body=node['body']
-                for parent in graph_reads(body['graph']):ensure(parent)
-                execution=ConnectorQuery(body['graph'],{'project':body['project']}).execute(dict(env))
-                env[name]=evaluate(body['query'],ChainMap({node['result_slot']:execution['answer']},env)) \
-                    if 'query' in body else execution['answer']
-                uses.extend({**u,'node':name,'status':'executed_main_program'} for u in node.get('pattern_uses',[]))
-            active.remove(name);executed.append(name)
+            try:
+                if node['kind']=='expression':env[name]=evaluate(node['body'],env)
+                else:
+                    body=node['body']
+                    for parent in graph_reads(body['graph']):ensure(parent)
+                    execution=ConnectorQuery(body['graph'],{'project':body['project']}).execute(dict(env))
+                    env[name]=evaluate(body['query'],ChainMap({node['result_slot']:execution['answer']},env)) \
+                        if 'query' in body else execution['answer']
+                    uses.extend({**u,'node':name,'status':'executed_main_program'} for u in node.get('pattern_uses',[]))
+            finally:
+                active.remove(name)
+            executed.append(name)
         answer=evaluate(self.query,env)
         return {'answer':answer,'pattern_uses':uses,'executed_nodes':executed,
                 **({'environment':dict(env)} if return_environment else {})}

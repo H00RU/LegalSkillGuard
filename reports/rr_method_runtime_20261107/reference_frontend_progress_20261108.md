@@ -1,3 +1,41 @@
+<!-- live-v10-status -->
+UTC 2026-11-08T22:01:36.477818+00:00：当前原六臂DEV运行中；累计1270E/40T、pending1，本版本物理新增{'executor': 4}。当前代码7a16d66和科学绑定90e32022，原始wire相同时复用已记账响应，当前代码重新解析/执行/学习；原Goal active未完成，DEV保存来源数{'M11': 0, 'M10': 40, 'M01': 4, 'MA': 0, 'MB': 0, 'M00': 40}。源文语义与A/B执行标志分列，下面旧v8数字保留其原时点，不能与v9相加。不启动TEST、权重训练或论文，不恢复旧运行、不改当前冻结科学文件。
+<!-- end-live-v10-status -->
+
+<!-- v10-complete-build-stage -->
+# 当前版本完整建库已核验，原六组 DEV 正在接续
+
+代码 `7a16d66`、科学绑定 `90e32022` 下，原固定 **128 个 TRAIN 来源、8 批、B1/B8 及同材料 MB 冻结库全部完成**。当前代码重新解析、执行和学习了 233 条已付费原始响应，完整请求逐字一致才复用；本次重新建库新增 executor/teacher 均为 0。128 个来源的程序、观察、执行结果、学习及前缀库逐条复算与修复前一致；稀疏布尔修复的实际作用由单列未知域回归证明，没有把缓存旧结果算成新执行。
+
+当前源文语义通过 **23/128**：21 条执行模型独立生成且逐单元核对的逻辑公式，2 条已学同法条模板的当前法律个案实例化与 A 后续执行。其余 105 条为 102 条最终拒绝的模型输出、1 条法律翻译仍有残余、2 条允许的非核心回退。53 条“曾类型通过”及 25 条 TRAIN 标签匹配均不替代上述语义口径。
+
+A 有 32 次真实后续解析，其中 7 个来源实际使用分离批次选择；明确完成源文核对的法律 77/79 两条保留未知域并分别执行学生/学校范围、家庭服务与现金门槛组合。B 保存 2 种实体连接模式，完整训练前缀记录 423 次存储图执行，其中 372 次处于模型 IR 主路径、213 次与查询相关。学习来源与调用时的支持快照均已核对；这些实际使用均在逻辑库内，不能称跨库迁移，也不自动证明涨分。公共编译材料和受控语法回退另列，六组共同材料逐条一致。
+
+生成完整性与语义正确性分开：完整当前 TRAIN 的截断为 **8/233（3.43%）**；同一前 25 来源的旧 AST/新前端为 47/50 与 2/46。接口负担已明显下降，法律、合同和数值模型错误仍保留。原六组 DEV 每组 40 来源/48 个原生输出全部保存后才打开开发标签，最终主路径语义、回退、各组效果与跨库使用仍待该完整验证；当前 **Goal active，尚未给出整体就绪结论**。
+
+[完整128来源状态](reference_uniform_build_v10_live.json) · [当前来源级语义及失败清单](reference_v10_source_completion_inventory.json) · [23条当前语义证据](reference_uniform_v10_current_primary_source_semantics.json) · [完整冻结、恢复与六组公平性](reference_method_runtime_reference_v10_20261109_complete_build_audit.json) · [128来源A/B机制审计](reference_method_runtime_reference_v10_20261109_mechanism_prefix_audit.json) · [当前复算与旧128结果逐项比较](reference_v26_recomputed_TRAIN_full128_vs_v9.json) · [233条响应完整性与原始物理耗时](reference_uniform_request_outcomes_v10_complete128.json) · [无标签DEV进度](reference_v10_DEV_live_runtime.json) · [累计费用/token](reference_frontend_cost_snapshot_v10_live.json)。费用快照包含所有历史失败/重试；本地 API 现金增量为 0，GPU 分摊和教师发票不可观测，保留 null。当前冻结科学文件不改；无 TEST、权重训练或论文。
+<!-- end-v10-complete-build-stage -->
+
+<!-- v26-current-stage -->
+# 当前接续：稀疏布尔执行缺陷已修复，保留全部已付费DEV继续验证
+
+UTC 2026-11-08T21:44:40.419716+00:00：在已存DEV法律程序的离线未知域控制中发现实现缺陷：保留within_US=False、删除无依据的employee=False观察时，完成性证明已给出稳定Contradiction，实际稀疏执行却急求值未知employee并报错。已存预测中未发现该运行时错误；这是暴露未知事实处理边界的工程回归，不冒充新增模型成功。
+
+修复只推迟类型明确的“变量尚未知”异常；and/or仍验证所有可用操作数，非法类型、操作和算术仍拒绝。已知布尔条件足以决定结果时不读取或赋值未知事实，必要未知仍失败。派生未知重复读取时清理求值栈，避免误报循环。41项定点与685项完整隔离回归通过；原128初始消息逐字不变、容量通过，0新增tokenizer或模型调用。
+
+旧v9在pending0边界保存并停止：128/8及四个冻结工件完整，DEV保存M00=40、M10=40、M01=1，113条物理DEV响应含未写来源记录的付费输出均原样保留。累计1266E/40T，账本未重置。新绑定只显式登记该旧运行作为raw来源，并核对完整来源/数据/配置、旧seal SHA、逐字wire及账本/原文件；不导入旧预测或分数，不读DEV/TEST标签，未登记其他DEV、TRAIN或测试不能供给DEV缓存。每臂仍独立解析/执行/评分，逻辑预算照计。新调用仅为继续原定未完成来源，既付费相同请求不重复发送。
+
+M10两条法律A执行的源文核对分列：加拿大地点足以否定美国境内服务，去除无依据的employee=False后查询仍稳定，程序没有给该未知事实默认值。屋顶维修以鸡蛋/葡萄/干草付款支持“非现金”，不确立“农业劳动”；将农业劳动的无依据True还原未知后，完成性不再成立。后者不计核心语义成功，原始预测不改，也不按标签修复答案。此审查未打开DEV评分。
+
+原Goal active未完成；不改变OFF、模型、采样、seed、8192、来源或资源，不恢复机械轮次上限，不加零回退或涨分门槛，不启动TEST、权重训练或论文。
+
+[缺陷修复前真实源控制](reference_v26_actual_sparse_execution_failure_before.json) · [修复后执行及两条法律语义核对](reference_v26_sparse_execution_and_M10_legal_source_review_after.json) · [旧运行与原始响应保全](reference_v9_sparse_execution_boundary_preservation_v26.json) · [113条原始DEV wire续接核验](reference_v26_all113_paid_DEV_wires_offline_continuation.json) · [685项隔离回归](offline_reference_frontend_v26_20261109.json) · [128输入容量](reference_prefix_input_capacity_v26.json)。
+<!-- end-v26-current-stage -->
+
+<!-- live-v9-status -->
+UTC 2026-11-08T21:22:31.015306+00:00：当前原六臂DEV运行中；累计1263E/40T、pending1，本版本物理新增{'executor': 112, 'teacher': 2}。当前代码fa308fd和科学绑定5f06c0a9，原始wire相同时复用已记账响应，当前代码重新解析/执行/学习；原Goal active未完成，DEV保存来源数{'M11': 0, 'M10': 40, 'M01': 0, 'MA': 0, 'MB': 0, 'M00': 40}。源文语义与A/B执行标志分列，下面旧v8数字保留其原时点，不能与v9相加。不启动TEST、权重训练或论文，不恢复旧运行、不改当前冻结科学文件。
+<!-- end-live-v9-status -->
+
 <!-- v9-complete-build-stage -->
 # 当前阶段：原128/8完整建库与冻结通过，原六臂DEV运行中
 
@@ -20,11 +58,11 @@
 B当前保存2种碰撞支持模式，核心路径中有真实存储图使用；实际使用仍集中在ProofWriter，法律、数值、合同库没有B主路径或跨库存储图使用证据。没有把混合训练、提示曝光、独立学出相同结构或回退答对称为跨库复用。跨库验证与各臂效果待原DEV完成后按完整结果报告，不追加涨分、零回退或所有分支实测门槛。
 
 [当前128来源清单](reference_uniform_build_v9_live.json) · [完整建库、冻结和六臂公平性](reference_method_runtime_reference_v9_20261109_complete_build_audit.json) · [当前23条源文语义证据](reference_uniform_v9_current_primary_source_semantics.json) · [两条修复后真实验证](reference_v25_actual_query_context_validation_v9.json) · [233条原始响应溯源](reference_uniform_request_outcomes_v9_complete128.json) · [128来源A/B实际审计](reference_method_runtime_reference_v9_20261109_mechanism_prefix_audit.json) · [累计全部账本费用/token](reference_frontend_cost_snapshot_v9_live.json) · [参考实现及贡献差异](reference_frontend_design_20261108.md)。累计账本含全部历史失败与重试；精确wire复用不重复计费。executor本地API现金增量0，GPU分摊和教师实际发票不可观测，记null；已知教师CLI请求全部记账，provider内部HTTP次数不可独立观察，reasoning为输出子集。成本文件分别报告全部历史账本与当前Goal基线后用量。
-<!-- end-v9-complete-build-stage -->
 
-<!-- live-v9-status -->
-UTC 2026-11-08T20:39:08.815197+00:00：当前原六臂DEV运行中；累计1156E/40T、pending1，本版本物理新增{'executor': 5, 'teacher': 2}。当前代码fa308fd和科学绑定5f06c0a9，原始wire相同时复用已记账响应，当前代码重新解析/执行/学习；原Goal active未完成，DEV保存来源数{'M11': 0, 'M10': 0, 'M01': 0, 'MA': 0, 'MB': 0, 'M00': 0}。源文语义与A/B执行标志分列，下面旧v8数字保留其原时点，不能与v9相加。不启动TEST、权重训练或论文，不恢复旧运行、不改当前冻结科学文件。
-<!-- end-live-v9-status -->
+来源级诊断已补齐：[完整128条状态JSON](reference_v9_source_completion_inventory.json)、[CSV](reference_v9_source_completion_inventory.csv)。航空21条相同首错为给已有法律残余直接赋布尔常量，不能作为既有事实绑定的幂等重复删除；部分无条件政策可用常量表示，不据一次语法拒绝断言该常量必错，但整响应还混有几何/行程/身份常量及不合规事实证据，[共同原因](reference_v9_airline_common_literal_failure_diagnosis.json)不支持靠放宽声明检查恢复整条语义。6条重复声明中5条有冲突；第75条10段定义完全相同，离线去重可解析，却仍引用不存在的s55，保持未解决。[重复定义逐项](reference_v9_duplicate_declarations_readonly.json) · [75离线恢复结果](reference_v9_sara75_exact_duplicate_offline_recovery.json)。上述均新增模型0、未改生产源或原始响应，不新增验收门槛。[无标签DEV运行前缀](reference_v9_DEV_live_runtime.json)只列主路径与回退状态，不估算准确率。
+
+有效输入口径：B审计中的typed_inputs_unavailable指缺少已接纳且与当前查询相关的连接器输入，不能解释成IR类型通过为0。例如法律79有真实整型与事实观察，仍没有可供B学习的关系连接节点。OpenExempt、Airline与SARA共80条在B入口未形成有效连接输入；ContractNLI的no_counterfactual_oracle为原方案既有反事实视图边界，不能当作候选图已经被测试失败。预测编译错误与学习视图边界分别统计；跨库曝光、同结构重学和实际存储图使用分别统计。此说明不改变数据或追加“每库必须成功”的验收门槛。
+<!-- end-v9-complete-build-stage -->
 
 <!-- v25-current-stage -->
 # 当前接续：完整旧建库已保全，最小输入修复通过，开始新绑定验证

@@ -95,6 +95,10 @@ class Unsupported(ValueError):
     pass
 
 
+class UnboundIRVariable(Unsupported):
+    """A value is still unknown; this is not an invalid operator or type."""
+
+
 def evaluate(node: Any, env: dict[str, Any]) -> Any:
     """Small data-only IR. Explicit variables; no eval, import or code generation."""
     from .public_horn import GroundHornQuery
@@ -112,7 +116,7 @@ def evaluate(node: Any, env: dict[str, Any]) -> Any:
         raise Unsupported("IR literals must be bool, integer, enum string or null")
     if set(node) == {"var"}:
         if node["var"] not in env:
-            raise Unsupported("Unbound IR variable")
+            raise UnboundIRVariable("Unbound IR variable")
         return env[node["var"]]
     if set(node) != {"op", "args"} or not isinstance(node["args"], list):
         raise Unsupported("Invalid expression")
@@ -122,6 +126,25 @@ def evaluate(node: Any, env: dict[str, Any]) -> Any:
         if type(cond) is not bool:
             raise Unsupported("Nonboolean guard")
         return evaluate(args[1] if cond else args[2], env)
+    if op in {"and", "or"}:
+        known = []
+        unknown = None
+        for arg in args:
+            try:
+                known.append(evaluate(arg, env))
+            except UnboundIRVariable as exc:
+                unknown = exc
+        # Preserve checks on every available operand. Only missing values are
+        # deferred; invalid operators, arithmetic and non-Booleans still fail.
+        if any(type(value) is not bool for value in known):
+            raise Unsupported("Nonboolean operand")
+        if op == "and" and False in known:
+            return False
+        if op == "or" and True in known:
+            return True
+        if unknown is not None:
+            raise unknown
+        return all(known) if op == "and" else any(known)
     values = [evaluate(a, env) for a in args]
     if op == 'number_at' and len(values) == 2:
         vector,index=values
@@ -153,13 +176,9 @@ def evaluate(node: Any, env: dict[str, Any]) -> Any:
         if len({v[0] for v in values}) != len(values):
             raise Unsupported("Duplicate output field")
         return {k: v for k, v in values}
-    if op in {"and", "or", "xor", "not"}:
+    if op in {"xor", "not"}:
         if any(type(v) is not bool for v in values):
             raise Unsupported("Nonboolean operand")
-        if op == "and":
-            return all(values)
-        if op == "or":
-            return any(values)
         if op == "not" and len(values) == 1:
             return not values[0]
         if op == "xor" and len(values) == 2:

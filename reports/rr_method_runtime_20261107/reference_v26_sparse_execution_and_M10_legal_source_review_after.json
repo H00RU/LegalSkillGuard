@@ -1,0 +1,145 @@
+{
+  "checked_utc": "2026-11-08T21:39:04.493412+00:00",
+  "original_run_id": "method_runtime_reference_v9_20261109",
+  "actual_M10_legal_A_executions_reviewed": 2,
+  "rows": [
+    {
+      "source": "SARA_v2_Binary:be5c71e70a4f8c272f0386786be696054da21713a709f57db5c0b9300976a4f0",
+      "public_query": "Section 3306(c)(A) applies to Alice employing Bob for the year 2017.",
+      "public_facts": "Alice has paid $3200 to Bob for work done from Feb 1st, 2017 to Sep 2nd, 2017, in Toronto, Ontario, Canada.",
+      "actual_observations": [
+        {
+          "evidence": "Alice has paid $3200 to Bob for work done from Feb 1st, 2017 to Sep 2nd, 2017, in Toronto, Ontario, Canada.",
+          "name": "b_employee_service",
+          "value": false
+        },
+        {
+          "evidence": "Alice has paid $3200 to Bob for work done from Feb 1st, 2017 to Sep 2nd, 2017, in Toronto, Ontario, Canada.",
+          "name": "b_within_united_states",
+          "value": false
+        }
+      ],
+      "actual_answer": "Contradiction",
+      "actual_A_action": {
+        "batch_plan": {
+          "context": [
+            "s52"
+          ],
+          "cost": 421,
+          "differences": [
+            [
+              "s52"
+            ]
+          ],
+          "lower_bound": 421,
+          "selected": [
+            "s52"
+          ],
+          "solver_calls": 2,
+          "status": "separation_complete",
+          "theory_hash": "3dd07053519ea9f4a008f3f61b503fad4c3f928f0c1551fdfebb912608c972a4"
+        },
+        "context_closure": [
+          "s52"
+        ],
+        "input_tokens": 421,
+        "joint_separation_complete": true,
+        "kind": "factual_observation",
+        "messages_hash": "39af212b6ce61a2efc47094155d1ba6ca99e865cf274b66d456ce4453b1adabf",
+        "names": [
+          "b_employee_service",
+          "b_within_united_states"
+        ],
+        "remaining_unknown_legal_domains_are_not_fact_queries": true,
+        "schema_hash": "11f8d69d941e246ffcf9ad2f4388bd64a47b6da87384876f442a4d53f6968bcd",
+        "selected": [
+          "s52"
+        ],
+        "selection_basis": "separation_complete",
+        "source_ledger_hash": "de4365c1eeee6f12193b556b9002f40d7bf507f16bdbaccda7a046c3c062bf7f"
+      },
+      "unsupported_observation": "b_employee_service",
+      "offline_unknown_domain_control": {
+        "status": "completion_stable",
+        "answer": "Contradiction",
+        "unresolved_count": 50
+      },
+      "unknown_not_assigned_in_execution": true,
+      "classification": "query_result_supported_despite_unnecessary_unsupported_employee_false",
+      "review": "The source states Toronto, Ontario, Canada. Section3306(c)(A) requires service within the United States. The employee=False observation is unsupported, but restoring that value to its full unknown domain leaves the actual query result provably Contradiction. No employee truth is fabricated.",
+      "original_predictions_or_observations_not_modified": true
+    },
+    {
+      "source": "SARA_v2_Binary:b0601f9917e59791f6da90ebe390ae25a4a3ab66d3836940c235e4c0b2006842",
+      "public_query": "Section 3306(b)(11) applies to the payment that Alice made to Bob for the year 2017.",
+      "public_facts": "Alice has paid $3200 to Bob for repairing her roof from Feb 1st, 2017 to Sep 2nd, 2017. Alice paid Bob with eggs, grapes and hay.",
+      "actual_observations": [
+        {
+          "evidence": "Alice has paid $3200 to Bob for repairing her roof from Feb 1st, 2017 to Sep 2nd, 2017. Alice paid Bob with eggs, grapes and hay.",
+          "name": "b_agricultural_remuneration",
+          "value": true
+        },
+        {
+          "evidence": "Alice has paid $3200 to Bob for repairing her roof from Feb 1st, 2017 to Sep 2nd, 2017. Alice paid Bob with eggs, grapes and hay.",
+          "name": "b_non_cash_agricultural_payment",
+          "value": true
+        }
+      ],
+      "actual_answer": "Entailment",
+      "actual_A_action": {
+        "batch_plan": {
+          "context": [
+            "s52"
+          ],
+          "cost": 412,
+          "differences": [
+            [
+              "s52"
+            ]
+          ],
+          "lower_bound": 412,
+          "selected": [
+            "s52"
+          ],
+          "solver_calls": 2,
+          "status": "separation_complete",
+          "theory_hash": "518230cb8e66ed3bb6a162b6016a403338ea371532e9c7df60a5e088a847726e"
+        },
+        "context_closure": [
+          "s52"
+        ],
+        "input_tokens": 412,
+        "joint_separation_complete": true,
+        "kind": "factual_observation",
+        "messages_hash": "a245857226a35d4feb487260200a1448e1fd8626d372f7746600b6bbcd7d20b8",
+        "names": [
+          "b_agricultural_remuneration",
+          "b_non_cash_agricultural_payment"
+        ],
+        "remaining_unknown_legal_domains_are_not_fact_queries": true,
+        "schema_hash": "ddced21ca0223a15e18903e714d4f9d5ed41c0f6b63338f19ca0f8cd309ab3ef",
+        "selected": [
+          "s52"
+        ],
+        "selection_basis": "separation_complete",
+        "source_ledger_hash": "5bccfad6d72101421e27ceff43d0b46241ed603486802c132a72fbd58eeced3a"
+      },
+      "unsupported_observation": "b_agricultural_remuneration",
+      "offline_unknown_domain_control": {
+        "status": "translation_unresolved",
+        "answer": null,
+        "unresolved_count": 50
+      },
+      "unknown_not_assigned_in_execution": true,
+      "classification": "formal_execution_is_not_source_semantic_success",
+      "review": "The fact states roof repair paid with eggs/grapes/hay. Non-cash payment is supported, agricultural labor is not established. Restoring that unsupported True to unknown removes completion stability. Do not count the actual Entailment certificate as source-semantic success. No DEV grade was consulted.",
+      "original_predictions_or_observations_not_modified": true
+    }
+  ],
+  "actual_sparse_execution_bug_fixed_without_unknown_defaults": true,
+  "new_model_or_oracle_calls": 0,
+  "DEV_or_TEST_labels_read": false,
+  "controls_not_additional_research_sources_or_model_successes": true,
+  "source_semantics_not_inferred_from_execution_or_native_label": true,
+  "full_goal_complete": false
+}

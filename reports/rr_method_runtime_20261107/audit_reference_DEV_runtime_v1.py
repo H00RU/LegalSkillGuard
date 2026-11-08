@@ -15,6 +15,7 @@ from legal_skill_guard.rr.controls import ARMS
 from legal_skill_guard.rr.coverage import digest
 from legal_skill_guard.rr.learning import SkillLibrary
 from legal_skill_guard.rr.preflight import science_files
+from legal_skill_guard.rr.method_run import dev_reuse_origin
 
 
 def main():
@@ -24,6 +25,12 @@ def main():
     stage=ROOT/'artifacts/rr_method_runtime_20261107'/args.run_id
     seal=json.loads((stage/'seal.json').read_text())
     assert science_files(ROOT)==seal['files']
+    origin_runs={args.run_id}
+    declared=seal.get('dev_raw_reuse_from')
+    if declared is not None:
+        assert dev_reuse_origin(ROOT,args.run_id,declared['run_id'],sources=seal['sources'],
+            config=seal['config'],manifest_hash=seal['source_manifest_hash'],data_hash=seal['data_hash'])==declared
+        origin_runs.add(declared['run_id'])
     completion=json.loads((stage/'build/completion.json').read_text())
     assert completion['build_complete'] and completion['sources']==128 and completion['batches']==8
     for name,sha in completion['frozen_files'].items():
@@ -79,7 +86,7 @@ def main():
                     if json.loads(p[6]).get('content')==call['raw_content']]
                 assert len(matched)==1
                 origin=matched[0];cid=origin[0];response=json.loads(origin[6])
-                assert origin[2]=='method_dev' and cid.startswith(args.run_id+':dev:')
+                assert origin[2]=='method_dev' and any(cid.startswith(run+':dev:') for run in origin_runs)
                 if call.get('physical_origin_call_id'):assert call['physical_origin_call_id']==cid
                 assert response['thinking_requested'] is False and not response.get('reasoning_content')
                 directory=Path(response['artifact_directory'])
@@ -130,7 +137,8 @@ def main():
         'logical_calls_total':sum(r['logical_calls'] for r in rows),
         'exact_paid_raw_replays_total':sum(c['reused'] for r in rows for c in r['calls']),
         'thinking_OFF_and_per_prediction_three_call_budget_verified':True,
-        'raw_replay_same_DEV_run_source_and_original_files_verified':True,
+        'raw_replay_declared_DEV_run_source_and_original_files_verified':True,
+        'eligible_original_DEV_runs':sorted(origin_runs),
         'frozen_library_files_unchanged':True,'original_DEV_private_labels_opened_by_this_audit':False,
         'TEST_opened':False,'new_model_or_oracle_calls':0,
         'actual_stored_use_or_label_gain_does_not_prove_causal_transfer':True,

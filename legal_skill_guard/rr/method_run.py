@@ -8,6 +8,7 @@ import base64
 import hashlib
 import json
 from pathlib import Path
+import re
 import sqlite3
 
 from .checkpoint import immutable_json
@@ -27,7 +28,27 @@ from .source_learning import DurableOracle
 from .strict_contract import obj
 
 
-OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_reference_frontend_v25_20261109.json'
+OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_reference_frontend_v26_20261109.json'
+
+
+def dev_reuse_origin(root,run_id,origin_id,*,sources,config,manifest_hash,data_hash):
+    """Bind a stopped, explicitly named prior DEV run; never read its grades."""
+    if not isinstance(origin_id,str) or not re.fullmatch(r'[A-Za-z0-9_-]+',origin_id) or origin_id==run_id:
+        raise ValueError('DEV raw reuse requires a distinct named prior run')
+    stage=Path(root)/'artifacts/rr_method_runtime_20261107'/origin_id
+    raw=(stage/'seal.json').read_bytes();origin=json.loads(raw)
+    if (origin.get('run_id')!=origin_id or origin.get('sources')!=sources or origin.get('config')!=config
+            or origin.get('source_manifest_hash')!=manifest_hash or origin.get('data_hash')!=data_hash
+            or origin.get('test_authorized') is not False):
+        raise ValueError('Prior DEV source scope, configuration or isolation differs')
+    controller=stage/'controller.json'
+    if controller.exists():
+        previous=json.loads(controller.read_text());proc=Path('/proc')/str(previous['pid'])/'stat'
+        if proc.exists():
+            fields=proc.read_text().split(') ',1)[1].split()
+            if int(fields[19])==previous['start_ticks'] and fields[0]!='Z':
+                raise BudgetError('Stop and preserve the prior DEV controller before continuation')
+    return {'run_id':origin_id,'seal_sha256':hashlib.sha256(raw).hexdigest()}
 
 
 def load_executor_lock(root,executor):
@@ -47,7 +68,7 @@ def load_executor_lock(root,executor):
     return lock
 
 
-def prepare_method_run(root,run_id):
+def prepare_method_run(root,run_id,*,reuse_dev_from=None):
     root=Path(root);cfg=json.loads((root/'configs/rr_v2_preflight.json').read_text())
     manifest=json.loads((root/cfg['source_manifest']).read_text())
     authorization=json.loads((root/'docs/rr_v2/method_runtime_authorization_20261107.json').read_text())
@@ -94,6 +115,9 @@ def prepare_method_run(root,run_id):
         'ledger_path':cfg['ledger_path'],'authorization_hash':digest(authorization),
         'offline_receipt_hash':digest(offline),'baseline_counts':baseline,
         'test_authorized':False,'paper_authorized':False,'full_goal_complete':False}
+    if reuse_dev_from is not None:
+        seal['dev_raw_reuse_from']=dev_reuse_origin(root,run_id,reuse_dev_from,sources=sources,
+            config=config,manifest_hash=digest(manifest),data_hash=manifest['data_hash'])
     stage=root/'artifacts/rr_method_runtime_20261107'/run_id
     immutable_json(stage/'seal.json',seal)
     return {'prepared':True,'run_id':run_id,'baseline_counts':baseline,'new_model_calls':0}
@@ -161,17 +185,24 @@ class MethodRun:
     def paid_executor_response(self,executor,source,messages,schema,thinking,*,dispatch_purpose):
         """Reuse identical paid wire bytes, never its execution result or grade.
 
-        TRAIN retains exact historical provenance. DEV shares only raw replies
-        inside this same run and fixed DEV source; every arm executes them anew.
+        TRAIN retains exact historical provenance. DEV uses this run or its
+        explicitly sealed stopped parent, with identical scope/configuration.
+        Only raw wire replies are shared; every arm executes them anew.
         """
         if not hasattr(executor,'payload'):return None
         body=json.dumps(executor.payload(messages=messages,thinking=thinking,schema=schema),ensure_ascii=False).encode()
         if dispatch_purpose=='method_dev':
             if source['key'] not in self.seal['sources']['dev']:
                 raise BudgetError('DEV raw-response reuse requires an original fixed DEV source')
-            prefix=self.run_id+':dev:'
-            eligible="purpose='method_dev' and substr(id,1,?)=?"
-            arguments=(source['key'],len(prefix),prefix)
+            prefixes=[self.run_id+':dev:']
+            prior=self.seal.get('dev_raw_reuse_from')
+            if prior is not None:
+                verified=dev_reuse_origin(self.root,self.run_id,prior['run_id'],sources=self.seal['sources'],
+                    config=self.seal['config'],manifest_hash=self.seal['source_manifest_hash'],data_hash=self.seal['data_hash'])
+                if verified!=prior:raise ValueError('Declared prior DEV seal changed')
+                prefixes.append(prior['run_id']+':dev:')
+            eligible="purpose='method_dev' and ("+' or '.join('substr(id,1,?)=?' for _ in prefixes)+')'
+            arguments=(source['key'],*(value for prefix in prefixes for value in (len(prefix),prefix)))
         elif dispatch_purpose=='method_train_synthesis':
             eligible="purpose in ('method_train_synthesis','method_primitive_observation')"
             arguments=(source['key'],)
