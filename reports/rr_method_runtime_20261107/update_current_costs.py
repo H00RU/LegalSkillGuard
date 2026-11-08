@@ -28,6 +28,22 @@ def main():
     counts = dict(Counter(row[1] for row in rows))
     baseline_counts = dict(Counter(row[1] for row in original['calls']))
     pending = sum(row[5] == 'reserved' for row in rows)
+    cumulative_usage = {}
+    for role in ('executor','teacher'):
+        totals = {'known_input_tokens':0,'known_output_tokens':0,
+                  'reasoning_output_subset_do_not_add':0,'known_elapsed_seconds':0,
+                  'settled_calls_without_reported_usage':0}
+        for _,r,_,_,_,status,_,encoded in rows:
+            if r != role:
+                continue
+            result = json.loads(encoded) if encoded else {}
+            usage = result.get('usage') or result.get('invocation',{}).get('usage') or {}
+            totals['known_input_tokens'] += usage.get('prompt_tokens',usage.get('input_tokens')) or 0
+            totals['known_output_tokens'] += usage.get('completion_tokens',usage.get('output_tokens')) or 0
+            totals['reasoning_output_subset_do_not_add'] += usage.get('reasoning_output_tokens') or 0
+            totals['known_elapsed_seconds'] += result.get('elapsed_seconds') or 0
+            totals['settled_calls_without_reported_usage'] += status != 'reserved' and not usage
+        cumulative_usage[role] = totals
     calls = []
     for cid, role, purpose, source, request_hash, status, reserved, encoded in rows:
         if cid in original_ids:
@@ -77,11 +93,23 @@ def main():
         saved=root/'artifacts/rr_method_runtime_20261107'/run_id/'result.json'
         current_receipt.update(phase='source_probe',expected_sources=1,
             probe_status=json.loads(saved.read_text())['status'] if saved.exists() else 'in_progress')
+    elif state.get('current_run_stage') == 'dev':
+        for key in ('completed_profiles','expected_profiles','comparison_complete'):
+            current_receipt.pop(key)
+        stage = root/'artifacts/rr_method_runtime_20261107'/run_id
+        current_receipt.update(phase='original_six_arm_DEV',
+            counts_include_this_version_build_and_DEV=True,
+            expected_DEV_sources_per_arm=40,expected_DEV_outputs_per_arm=48,
+            saved_DEV_predictions={arm:len(list((stage/'dev/predictions'/arm).glob('*.json')))
+                for arm in ('M00','M10','M01','M11','MA','MB')},
+            DEV_scores_saved=(stage/'dev/scores.json').exists())
     current_name = run_id + '_physical_cost_snapshot.json'
     (folder / current_name).write_text(json.dumps(current_receipt, ensure_ascii=False, sort_keys=True, indent=2) + '\n')
     path = folder / 'goal_cost_snapshot_20261107.json'
     value = json.loads(path.read_text())
     value.update(captured_utc=now, cumulative_counts=counts, pending=pending,
+                 cumulative_reported_usage_all_original_and_new_physical_ledger_calls=cumulative_usage,
+                 settled_token_and_elapsed_fields_below_scope='New calls since preserved438-call method-goal baseline; see cumulative_reported_usage_all_original_and_new_physical_ledger_calls for all ledger calls.',
                  same_goal_baseline=baseline_counts,
                  new_executor_requests=counts['executor'] - baseline_counts['executor'],
                  new_teacher_requests=counts['teacher'] - baseline_counts['teacher'],

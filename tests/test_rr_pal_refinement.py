@@ -163,3 +163,74 @@ def test_repeating_identical_accepted_declarations_is_an_exact_noop_not_a_rule_r
     assert all(a['kind']=='identical_read_only_declaration_omitted' for a in updated['deterministic_adaptations'])
     assert assess_source(updated,observed)['answer'] is None
     assert 'b_domestic_remuneration_test' in updated['rule_residuals']
+
+
+@pytest.mark.parametrize('ordinal',[73,88])
+def test_actual_pure_legal_A_keeps_and_charges_the_original_readonly_question(ordinal):
+    from legal_skill_guard.rr.pal_refinement import refinement_request
+    from legal_skill_guard.rr.source_program import compile_source
+    stage=ROOT/'artifacts/rr_method_runtime_20261107/method_runtime_reference_v8_20261109'
+    sid=json.loads((stage/'seal.json').read_text())['sources']['train'][ordinal-1]
+    journal=stage/'build/journals'/digest(sid)
+    old=json.loads((journal/'request1.json').read_text())['prepared']
+    previous=json.loads(old['messages'][1]['content'])
+    state=json.loads(json.loads((journal/'state0.json').read_text())['state_json'])
+    source=next(s for s in json.loads((ROOT/'data/packets/rr_v2/public_train.json').read_text())['sources'] if s['key']==sid)
+    library={'patterns':previous['runtime_contract']['available_learned_patterns']}
+    compiled=compile_source(source,state['program'],library=library)
+    before=deepcopy(compiled['program'])
+    assert old['names']==[] and previous['factual_observation_tasks']==[]
+    assert not any(r['role']=='query' for r in previous['CURRENT_units'])
+    messages,schema,charged=refinement_request(compiled,old['selected'],old['context_closure'],[],[],
+        old['schema']['properties']['factual_observations'],library)
+    current=json.loads(messages[1]['content'])
+    question=[r for r in current['CURRENT_units'] if r['role']=='query']
+    assert len(question)==1 and question[0]['text']==source['public']['query']
+    assert set(charged)==set(old['context_closure'])|{question[0]['id']}
+    assert schema==old['schema'] and current['accepted_query_is_immutable'] is True
+    a=deepcopy(previous);b=deepcopy(current)
+    for p in (a,b):
+        p.pop('charged_context_units')
+        p['CURRENT_units']=[r for r in p['CURRENT_units'] if r['role']!='query']
+    assert a==b
+    tokenize=lambda value,thinking:{'count':len(json.dumps(value))}
+    planned=prepare_followup(compiled,compilation='answer_separating',tokenize=tokenize,
+        request_config={'context_tokens':1000000,'max_tokens':8192},thinking=False,
+        library=library,pal_fragments=True)
+    assert planned['input_tokens']==tokenize(planned['messages'],False)['count']==planned['batch_plan']['cost']
+    assert question[0]['id'] in planned['context_closure']
+    updated,observed=accept_followup(compiled,planned,{'program_lines':[],'factual_observations':[]},library=library)
+    assert compiled['program']==updated['program']==before and observed=={}
+    assert assess_source(updated,observed)['answer'] is None
+    # Changing only the offline question year must change the actual patch input.
+    import re
+    variant=deepcopy(source)
+    variant['public']['query']=re.sub(r'\b20\d{2}\b','2020',variant['public']['query'])
+    assert variant['public']['query']!=source['public']['query']
+    other=compile_source(variant,state['program'],library=library)
+    changed,other_schema,_=refinement_request(other,old['selected'],old['context_closure'],[],[],
+        old['schema']['properties']['factual_observations'],library)
+    assert changed!=messages and other_schema==schema
+
+
+@pytest.mark.parametrize('ordinal',[7,79])
+def test_actual_factual_A_requests_keep_their_existing_public_year_context_unchanged(ordinal):
+    from legal_skill_guard.rr.pal_refinement import refinement_request
+    from legal_skill_guard.rr.source_program import compile_source
+    stage=ROOT/'artifacts/rr_method_runtime_20261107/method_runtime_reference_v8_20261109'
+    sid=json.loads((stage/'seal.json').read_text())['sources']['train'][ordinal-1]
+    journal=stage/'build/journals'/digest(sid)
+    old=json.loads((journal/'request1.json').read_text())['prepared']
+    previous=json.loads(old['messages'][1]['content'])
+    state=json.loads(json.loads((journal/'state0.json').read_text())['state_json'])
+    source=next(s for s in json.loads((ROOT/'data/packets/rr_v2/public_train.json').read_text())['sources'] if s['key']==sid)
+    library={'patterns':previous['runtime_contract']['available_learned_patterns']}
+    compiled=compile_source(source,state['program'],library=library)
+    assert old['names']
+    messages,schema,charged=refinement_request(compiled,old['selected'],old['context_closure'],old['names'],
+        previous['factual_observation_tasks'],old['schema']['properties']['factual_observations'],library)
+    assert messages[0]==old['messages'][0]
+    assert json.loads(messages[1]['content'])==previous
+    assert schema==old['schema'] and charged==old['context_closure']
+    if ordinal==79:
+        assert previous['factual_observation_tasks'][0]['public_reference_years']==[2017]

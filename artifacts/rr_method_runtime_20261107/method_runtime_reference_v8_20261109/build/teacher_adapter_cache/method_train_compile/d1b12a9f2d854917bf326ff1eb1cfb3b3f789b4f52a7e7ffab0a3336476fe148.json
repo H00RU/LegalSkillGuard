@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "request_sha256": "d1b12a9f2d854917bf326ff1eb1cfb3b3f789b4f52a7e7ffab0a3336476fe148",
+  "response_sha256": "9546622ec9efc27f1df1fc8cf18e5cc2c4a1dcf53fe58c9eceec6a5980390925",
+  "model": "gpt-5.6-sol",
+  "purpose": "method_train_compile",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      },
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[\"column0\"]}}",
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "The two patterns are present in the supplied library and are grounded by listed ProofWriter_OWA_depth5 evidence sources. The ContractNLI training records contribute no additional observed pattern: every record has pattern=null and refinement=null, with invalid_IR, translation_unresolved, and no_counterfactual_oracle statuses."
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-08T20:16:47.563155+00:00",
+    "finished_at": "2026-11-08T20:17:03.358397+00:00",
+    "elapsed_seconds": 15.795,
+    "returncode": 0,
+    "event_log_sha256": "36cd38e92c3eea040af7f690281f895f6cdd826fcd3c0a604c8bfb858d71b52b",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 47497,
+      "cached_input_tokens": 0,
+      "output_tokens": 350,
+      "reasoning_output_tokens": 111
+    },
+    "estimated_credits": null
+  }
+}

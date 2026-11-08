@@ -1,0 +1,127 @@
+{
+  "captured_utc": "2026-11-08T20:33:26.979160+00:00",
+  "run_id": "method_runtime_reference_v9_20261109",
+  "implementation_commit": "fa308fde317353acd242f85152f37a91e9328c89",
+  "question": "Does restoring the original question context fix the demonstrated input loss, and do the two actual regenerated legal fragments pass?",
+  "actual_new_executor_physical_requests": 2,
+  "engineering_input_omission_resolved": true,
+  "new_core_semantic_successes": 0,
+  "rows": [
+    {
+      "source_position": 73,
+      "source": "SARA_v2_Binary:6939fedab07c7376be4079ed2905a46da129282bd71c44a0b5d6d6d305079ee4",
+      "original_initial_dispatch_bytes_unchanged": true,
+      "only_actual_query_context_added": true,
+      "read_only_query_source_unit": {
+        "id": "s53",
+        "role": "query",
+        "view": null,
+        "text": "Alice is an employer under section 3306(a)(1) for the year 2018.",
+        "context": []
+      },
+      "old_input_tokens": 5023,
+      "new_input_tokens": 5071,
+      "selected_legal_units_unchanged": [
+        "s4",
+        "s5",
+        "s6"
+      ],
+      "response_schema_unchanged": true,
+      "physical_call_id": "method_runtime_reference_v9_20261109:build:6a852205b8c35e4fdfef2d533514d62a97c9fff5d9e635c417bbe1079783850f:1",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 5071,
+        "total_tokens": 5247,
+        "completion_tokens": 176,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 5.599492948502302,
+      "thinking_requested": false,
+      "raw_response": "{\"factual_observations\": [], \"program_lines\": [\"# b_general_wage_threshold: $1,500 or more in wages during the calendar year or preceding year\", \"b_general_wage_threshold = (paid_wages >= 1500) and (year == 2018 or year == 2017)\", \"# b_general_day_threshold: 10 days in different weeks with some portion of the day employed\", \"b_general_day_threshold = (days_employed >= 10) and (days_in_different_weeks) and (year == 2018 or year == 2017)\", \"# b_domestic_services: Exclusion for domestic services referred to in paragraph (3)\", \"b_domestic_services = (service_type == 'domestic') and (paragraph == 3)\"]}",
+      "new_program_status": "invalid_IR",
+      "new_certificate_status": "translation_unresolved",
+      "A_actual": false,
+      "TRAIN_match": false,
+      "final_error": {
+        "diagnostics": [
+          {
+            "actual": "'paid_wages'",
+            "expected": "bound variable name",
+            "path": "program.body.query.args[0].args[1].var"
+          },
+          {
+            "actual": [
+              "invalid"
+            ],
+            "expected": "number",
+            "path": "program.body.query.args[0].args[1]"
+          },
+          {
+            "actual": "'year'",
+            "expected": "bound variable name",
+            "path": "program.body.query.args[1].args[0].args[0].var"
+          },
+          {
+            "actual": "'year'",
+            "expected": "bound variable name",
+            "path": "program.body.query.args[1].args[1].args[0].var"
+          }
+        ],
+        "error": "[{'path': 'program.body.query.args[0].args[1].var', 'expected': 'bound variable name', 'actual': \"'paid_wages'\"}, {'path': 'program.body.query.args[0].args[1]', 'expected': 'number', 'actual': ['invalid']}, {'path': 'program.body.query.args[1].args[0].args[0].var', 'expected': 'bound variable name', 'actual': \"'year'\"}, {'path': 'program.body.query.args[1].args[1].args[0].var', 'expected': 'bound variable name', 'actual': \"'year'\"}]",
+        "error_type": "IRTypeError",
+        "source_validation": {
+          "candidate_modified": false,
+          "grading_information_used": false,
+          "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+          "issues": [],
+          "source_only": true
+        }
+      },
+      "source_semantic_success": false,
+      "remaining_cause": "Model generated unbound variables instead of grounded declarations",
+      "current_query_preserved": true
+    },
+    {
+      "source_position": 88,
+      "source": "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "original_initial_dispatch_bytes_unchanged": true,
+      "only_actual_query_context_added": true,
+      "read_only_query_source_unit": {
+        "id": "s53",
+        "role": "query",
+        "view": null,
+        "text": "Under section 3306(a)(2)(A), Alice is an employer for the year 2017.",
+        "context": []
+      },
+      "old_input_tokens": 4919,
+      "new_input_tokens": 4969,
+      "selected_legal_units_unchanged": [
+        "s9"
+      ],
+      "response_schema_unchanged": true,
+      "physical_call_id": "method_runtime_reference_v9_20261109:build:297bf4b39cab958a4933d6bd743d3a1cf687a7286600359985bef1f7ed65bbc4:1",
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 4969,
+        "total_tokens": 5009,
+        "completion_tokens": 40,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 1.8116546915844083,
+      "thinking_requested": false,
+      "raw_response": "{\"factual_observations\": [], \"program_lines\": [\"# b_agricultural_wage_threshold = (sum of wages paid to agricultural laborers >= 20000)\"]}",
+      "new_program_status": "source_IR_compiled",
+      "new_certificate_status": "translation_unresolved",
+      "A_actual": false,
+      "TRAIN_match": false,
+      "final_error": null,
+      "source_semantic_success": false,
+      "remaining_cause": "Model returned only a comment; the selected legal residual remains unresolved",
+      "current_query_preserved": true
+    }
+  ],
+  "decision": "Keep the minimal correct input fix. Do not fill unbound numeric variables or invent the missing formula. Preserve both ordinary model failures and continue the original full build and DEV; no unchanged retry or new source.",
+  "old_raw_outputs_and_ledger_preserved": true,
+  "no_TEST_or_additional_research_source": true,
+  "full_goal_complete": false
+}

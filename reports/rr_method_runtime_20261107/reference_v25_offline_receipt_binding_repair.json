@@ -1,0 +1,15 @@
+{
+  "captured_utc": "2026-11-08T20:22:09.838952+00:00",
+  "failed_prepare_controller": {
+    "action": "prepare",
+    "error": "Current method runtime requires matching offline evidence",
+    "error_type": "ValueError",
+    "status": "stopped"
+  },
+  "failure": "New prepare rejected because method_run.OFFLINE_RECEIPT still pointed to v24, despite the completed v25 regression.",
+  "first_completed_v25_tests_preserved": "offline_reference_frontend_v25_initial_receipt_pointer_mismatch.json",
+  "fix": "Point the current entry to its actual v25 receipt and rerun matching isolated checks. No correctness check bypass, old receipt overwrite or model configuration change.",
+  "new_model_or_oracle_calls": 0,
+  "pre_model_dispatch_failure": true,
+  "prior_v24_receipt_sha256_unchanged": "d65b1753c2d498813a3c60aae5689a003142f76d3299766904098241e1adb011"
+}

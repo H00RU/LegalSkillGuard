@@ -21,6 +21,10 @@ def refinement_request(compiled,selected,closure,names,factual_task,factual_rows
     # New expressions can require current public literals. Charge their complete
     # factual regions in the exact physical payload used by the planner.
     units=set(closure)|{c.id for c in structure.ledger.clauses if structure.roles[c.id]['role']=='fact'}
+    # A pure legal patch still needs the original question's temporal/entity context.
+    # Charge its source unit; it remains read-only and cannot replace the query.
+    if not names and compiled['source']['public'].get('query'):
+        units|={c.id for c in structure.ledger.clauses if structure.roles[c.id]['role']=='query'}
     contexts=compact_contexts(structure)
     rows=[{'id':c.id,**structure.roles[c.id],'text':structure.ledger.text[c.start:c.end],
            'context':contexts[c.id]} for c in structure.ledger.clauses if c.id in units]
