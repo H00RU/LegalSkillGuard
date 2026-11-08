@@ -1,4 +1,37 @@
 <!-- current-reference-status -->
+# 当前阶段：生成完整性显著改善，统一建库和原定DEV接续中
+
+UTC 2026-11-08T17:50:00.116765+00:00，原Goal active，未完成。当前统一运行`method_runtime_reference_v7_20261109`已提交26/128来源、1/8批；当前账本executor972、teacher30、pending1。OFF、原Qwen3-8B/采样/seed/8192、原来源与累计账本保持不变，运行期间科学绑定文件未改。659项隔离回归的实现`60b3ee3f`正在实际运行；原AST89条、v5/v6原始响应/记录及冻结库均保留。
+
+当前26个来源中，3个通过真实A/B主路径和TRAIN语义匹配，均为独立源文公式检查后的逻辑来源；另有部分类型通过但未完成的IR，共7个来源曾可编译。类型通过不等于整体语义通过。原第14、19来源在真实模型公式通过后，以已有四个oracle视图确认`entity_equality`碰撞细化；同一图形增加支持来源，不冒称新不同技能。已保存58条实际存储图执行，当前同库使用，查询相关性、独立重新学出、源文支持和原始调用分别保存，未宣称因果收益或跨库迁移。原第4来源仅使用公共Horn文法取得学习输入，不算新的执行模型规则学习成功。
+
+## 同一前25来源的旧/新路径对照
+
+全部只读已有TRAIN原始响应，无新增模型/参考视图。旧路径47/50次截断（94%），新路径2/46次（4.35%）。新路径28条响应严格逐字复用已付费wire，不将重放时间或token重复收费。下面耗时是各原始物理响应的中位数，不是当前缓存重放耗时；多项接口变化共同作用，不作单因素因果归因。
+
+| 数据库 | 同一来源数 | 截断/响应：旧→新 | 原物理请求中位秒：旧→新 | 新路径可类型编译响应 |
+|---|---:|---:|---:|---:|
+| ContractNLI | 4 | 6/8 → 0/8 | 270.27 → 3.14 | 0 |
+| OpenExempt | 9 | 18/18 → 0/18 | 303.93 → 65.87 | 1 |
+| ProofWriter_OWA_depth5 | 4 | 7/8 → 0/5 | 322.87 → 13.68 | 3 |
+| RuleArena_Airline | 4 | 8/8 → 1/8 | 272.59 → 31.69 | 3 |
+| SARA_v2_Binary | 4 | 8/8 → 1/7 | 303.33 → 22.73 | 0 |
+
+新路径前25来源完整源文检查/执行/语义匹配3/25；4条其他类型通过响应仍未完成，不能将7次类型通过报成7个核心成功。其余来源失败与完整128来源结果未被这张前缀表代替。
+
+## 新A补全的实际结果与下一决策
+
+同一源文、残余目标、事实任务和上下文收费均逐项相同。第7航空来源旧A8192token/256.52秒截断，新A1036token/31.68秒完整；第12旧A1734token/55.19秒、新A1038token/31.71秒均完整。新响应不再重写整个K，但仍把未译法律条件写成True，并混合事实与法条作为非逐字事实证据；原检查拒绝，绝不补注释后接纳这些语义。第17来源新A390token/12.57秒完整，却仍有无来源字面量声明。第16OpenExempt修复请求已由24595缩至24133输入token并实际发出，但将当前仅允许Illinois的前提写成Federal and Illinois，且遗漏8个被读取观察声明；这证明容量问题解决，不是该来源语义通过。
+
+因此不对这些来源原样追加定点请求，也不因普通模型错误停止整个Goal。继续原定不同来源的完整128/8建库。已有工作流只等待当前真实build进程正常结束、核验全部128来源/8批和冻结库后，串接原六臂40来源/48输出DEV；不会新建/重复建库，DEV全部240预测保存前不开DEV标签。模型、资源、来源、seed与科学检查不变；无TEST、论文或权重训练。
+
+工程可用性与模型能力分列：生成截断和A整段K重写已实证改善；当前四库仍存在规则缺失、规则与事实混淆、证据不逐字及来源绑定错误，未被格式适配恢复。非PW当前没有可用的模型连接器输入，不能将零候选说成已经测试了数值/关系接口的成败。最终按完整建库和原DEV报告实际机制覆盖、回退比例/原因、有效技能更新和使用、跨库受益/无效/负迁移；不增加零回退、技能数、全分支实测或涨分门槛。
+
+[当前逐来源完成/失败清单](reference_uniform_build_v7_live.json) · [同源旧AST请求证据](reference_matched25_old_AST_request_outcomes.json) · [同源新路径请求证据](reference_matched25_new_frontend_request_outcomes.json) · [本轮A/容量实际验证](reference_v23_actual_patch_validation_v7.json) · [实际A/B和来源前缀审计](reference_method_runtime_reference_v7_20261109_mechanism_prefix_audit.json) · [累计费用/token](reference_frontend_cost_snapshot_v7_live.json) · [借鉴与贡献边界](reference_frontend_design_20261108.md)。本地executor API增量现金0，GPU分摊及教师真实发票不可观测，记null；已知教师CLI调用全部记账，provider内部HTTP尝试数不可独立观测，reasoning是输出子集，不重复计费。当前不是整体就绪或Goal完成声明。
+<!-- end-current-reference-status -->
+
+
+<!-- prior-v23-pre-v7-status -->
 # 当前阶段：已出现真实A/B主路径，完整建库与DEV仍未完成
 
 UTC 2026-11-08T17:25:23.067224+00:00，原Goal active，未完成。累计executor949、teacher29、pending0，账本未重置；OFF、Qwen3-8B、原采样/seed/8192与原数据不变。v6已保存17/128来源、1/8批，B1和同材料MB已冻结；230个原运行文件逐字保全后在已结算边界结束。当前最小修复已过659项完整隔离回归，原128初始请求逐字不变、容量全部通过，下一绑定v7严格复用兼容付费请求继续同一Goal，不混合版本声称统一完成。
@@ -28,7 +61,7 @@ UTC 2026-11-08T17:25:23.067224+00:00，原Goal active，未完成。累计execut
 下一步继续原固定128来源/8批，逐字付费缓存复用；重点检查新A局部补丁是否完整、类型/执行/语义是否成立，然后完成原六臂DEV与来源级机制/跨库审计。普通模型错误、未决和允许fallback保留，回退单列；不自加零回退、技能数、涨分或全分支实测要求。当前无TEST、论文或权重训练。
 
 [首批真实机制及来源列表](reference_uniform_v6_B1_actual_coverage.json) · [真实A重写故障及新接口离线证据](reference_A_patch_contract_v23_offline.json) · [v6运行保全](reference_uniform_v6_cutover_preservation_v1.json) · [累计费用/token](reference_frontend_cost_snapshot_v23.json) · [公共部分材料的保持语义适配](reference_openexempt_partial_recovery_v22.json) · [借鉴来源和贡献边界](reference_frontend_design_20261108.md)。本地executor API现金增量0；GPU分摊及教师真实发票不可观测，记null。所有历史失败/重试继续计账，教师reasoning是输出子集，不重复计费。
-<!-- end-current-reference-status -->
+<!-- end-prior-v23-pre-v7-status -->
 
 <!-- prior-v22-status -->
 # 主路径可用性修复与当前统一建库

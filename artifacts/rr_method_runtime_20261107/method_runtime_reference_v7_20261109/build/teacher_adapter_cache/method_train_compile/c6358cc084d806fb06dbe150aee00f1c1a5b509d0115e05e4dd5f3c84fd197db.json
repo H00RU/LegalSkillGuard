@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "request_sha256": "c6358cc084d806fb06dbe150aee00f1c1a5b509d0115e05e4dd5f3c84fd197db",
+  "response_sha256": "99d61ec9beca62fb476bfd7eb2aba773c1a4be30edc111757006ed42da98b89b",
+  "model": "gpt-5.6-sol",
+  "purpose": "method_train_compile",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "唯一观察到且入库的模式由两个 ProofWriter_OWA_depth5 来源中的碰撞共同支持；entity_equality 是这些已观察碰撞的最小区分字段。该模式不构成普遍语义等价声明。其余记录未提供已验证模式：部分缺少类型化输入或反事实预言机，部分未观察到碰撞；多数程序为 invalid_IR 且翻译未解决。"
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-08T17:31:25.820058+00:00",
+    "finished_at": "2026-11-08T17:31:39.990686+00:00",
+    "elapsed_seconds": 14.171,
+    "returncode": 0,
+    "event_log_sha256": "e98b372c564e267fc6b5ee3cdf9d93c2c8040987b939ddefca324515ad7b3e31",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 48071,
+      "cached_input_tokens": 0,
+      "output_tokens": 209,
+      "reasoning_output_tokens": 32
+    },
+    "estimated_credits": null
+  }
+}
