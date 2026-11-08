@@ -1,0 +1,207 @@
+{
+  "captured_utc": "2026-11-08T19:44:49.224431+00:00",
+  "run_id": "method_runtime_reference_v8_20261109",
+  "source_position": 77,
+  "source": "SARA_v2_Binary:250fc5e766b40779976e11126e6d495d8606971c0e3287c28a0400fcc2683362",
+  "record_sha256": "dd5c6310d8516ec0bc31953dbd5a4de98d6e63f8b5a9252910b801d72d6f970a",
+  "same_actual_prefix_library_verified": true,
+  "library_before_sha256": "298d16444fbc48c188fabf1fb4e85fe0f5910195bce04a3f29d6914483b52505",
+  "model_template_instantiation": {
+    "all_rule_expressions_and_scope_definitions_reused_unchanged": true,
+    "current_executor_authored_full_statute": false,
+    "current_query_selection": {
+      "combine": "any",
+      "negated": false,
+      "rule_outputs": [
+        "enrolled_student_condition"
+      ]
+    },
+    "current_source": "SARA_v2_Binary:250fc5e766b40779976e11126e6d495d8606971c0e3287c28a0400fcc2683362",
+    "entity_bindings": {
+      "Alice": "Alice",
+      "Bob": "Alice"
+    },
+    "old_factual_values_or_answer_reused": false,
+    "statute_hash": "3e3f2229b33c4e07b17eb5d5e30b787ac290d3184ed52a57f197450ce73586f7",
+    "template_hash": "1985459dcbefc0dce2ad5f26b8945fd81b96cf4e6e56acdd771b0f5cbef88e76",
+    "training_source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac"
+  },
+  "actual_selected_batch": {
+    "batch_plan": {
+      "context": [
+        "s52"
+      ],
+      "cost": 453,
+      "differences": [
+        [
+          "s52"
+        ]
+      ],
+      "lower_bound": 453,
+      "selected": [
+        "s52"
+      ],
+      "solver_calls": 2,
+      "status": "separation_complete",
+      "theory_hash": "b94941b0aa99789619e4456ecccab4392fc94f56656a27b51b86af5d675b5608"
+    },
+    "context_closure": [
+      "s52"
+    ],
+    "input_tokens": 453,
+    "joint_separation_complete": true,
+    "kind": "factual_observation",
+    "messages_hash": "8633d9b53503cb51acf9199a347062415a08eda6e6ace1cbcd7ca94cd22844bc",
+    "names": [
+      "b_enrolled_student",
+      "b_school_service"
+    ],
+    "remaining_unknown_legal_domains_are_not_fact_queries": true,
+    "schema_hash": "bb7c2314188d2a90f16866303fb87c841e747061806aaa01a94c64205f341ad3",
+    "selected": [
+      "s52"
+    ],
+    "selection_basis": "separation_complete",
+    "source_ledger_hash": "06a76244898a3a23c337eff5e296e44def7ddfa6a5deec855506cf45f97548c2"
+  },
+  "observed_fact_rows": [
+    {
+      "evidence": "Alice was enrolled at Johns Hopkins University and attending classes from August 29, 2015 to May 30th, 2019.",
+      "name": "b_enrolled_student",
+      "value": true
+    },
+    {
+      "evidence": "Alice was paid $3200 in 2017 for services performed for Johns Hopkins University.",
+      "name": "b_school_service",
+      "value": true
+    }
+  ],
+  "actual_answer": "Entailment",
+  "TRAIN_match": true,
+  "A_actual": true,
+  "B_actual": false,
+  "unresolved_domains_retained": [
+    "b_admitted_agricultural_alien",
+    "b_after_employment_termination",
+    "b_agricultural_cash_test",
+    "b_agricultural_day_threshold",
+    "b_agricultural_labor",
+    "b_agricultural_remuneration",
+    "b_agricultural_wage_threshold",
+    "b_agricultural_worker_day_test",
+    "b_american_employer",
+    "b_child_under_twenty_one",
+    "b_contiguous_country_agreement",
+    "b_domestic_cash_wage_threshold",
+    "b_domestic_remuneration_test",
+    "b_domestic_services",
+    "b_employee_service",
+    "b_employer_plan_or_system",
+    "b_family_employment",
+    "b_foreign_government_service",
+    "b_general_day_threshold",
+    "b_general_wage_threshold",
+    "b_hospital_patient_service",
+    "b_international_organization_service",
+    "b_late_survivor_payment",
+    "b_non_cash_agricultural_payment",
+    "b_non_cash_trade_payment",
+    "b_other_than_domestic_service",
+    "b_outside_trade_or_business",
+    "b_outside_united_states",
+    "b_parent_employment",
+    "b_penal_institution_service",
+    "b_plan_death",
+    "b_private_home_domestic_service",
+    "b_qualifying_termination_plan",
+    "b_remuneration_for_employment",
+    "b_retirement_for_disability",
+    "b_service_of_any_nature",
+    "b_sickness_or_accident_disability",
+    "b_state_service",
+    "b_student_nurse_service",
+    "b_student_spouse_condition",
+    "b_termination_death",
+    "b_united_states_citizen",
+    "b_united_states_government_service",
+    "b_unlisted_employment_exception",
+    "b_unlisted_plan_account",
+    "b_unlisted_wage_exclusion",
+    "b_wage_base_exceeded",
+    "b_within_united_states",
+    "b_would_have_been_paid"
+  ],
+  "actual_parent_scope_derivations": [
+    {
+      "source": "s44",
+      "parent_declaration": "school_service_exclusion",
+      "scope_name": "_source_context_s44",
+      "condition_from_existing_AST": {
+        "op": "and",
+        "args": [
+          {
+            "var": "educational_service_scope"
+          },
+          {
+            "var": "b_school_service"
+          }
+        ]
+      },
+      "guarded_descendant_declarations": [
+        "enrolled_student_condition",
+        "student_spouse_condition"
+      ],
+      "parent_Boolean_output_preserved_by_conjunction_factorization": true,
+      "new_model_conditions_or_values": false
+    }
+  ],
+  "current_program_reexecution": {
+    "status": "completion_stable",
+    "answer": "Entailment"
+  },
+  "offline_scope_dependency_controls": [
+    {
+      "logical_input_changed": "b_school_service",
+      "value": false,
+      "answer": "Contradiction",
+      "status": "completion_stable",
+      "synthetic_program_control_not_an_observed_fact_or_model_success": true
+    },
+    {
+      "logical_input_changed": "b_enrolled_student",
+      "value": false,
+      "answer": "Contradiction",
+      "status": "completion_stable",
+      "synthetic_program_control_not_an_observed_fact_or_model_success": true
+    }
+  ],
+  "physical_model_origins": [
+    {
+      "request_hash": "17db53b62d0f396234e3fb015f0923f841dc5fc45571b25ca9581f6ee0a758cb",
+      "physical_origin_call_id": "reference_instance_sara77_v11_20261108:parse:0",
+      "usage": {
+        "completion_tokens": 39,
+        "prompt_tokens": 455,
+        "prompt_tokens_details": null,
+        "total_tokens": 494
+      },
+      "elapsed_seconds": 1.0903978804126382
+    },
+    {
+      "request_hash": "99c794eb2d7681e528c12c6d985617ab24f4e28bfbaa974acee415b7ee030221",
+      "physical_origin_call_id": "reference_instance_sara77_v11_20261108:parse:1",
+      "usage": {
+        "completion_tokens": 100,
+        "prompt_tokens": 453,
+        "prompt_tokens_details": null,
+        "total_tokens": 553
+      },
+      "elapsed_seconds": 2.7156623378396034
+    }
+  ],
+  "exact_paid_raw_responses_reparsed_not_old_predictions_or_grades_imported": true,
+  "new_generation_or_oracle_calls_by_this_audit": 0,
+  "DEV_or_TEST_labels_read": false,
+  "evidence_does_not_prove_every_statute_or_branch_or_universal_NL_translation": true,
+  "full_goal_complete": false
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "request_sha256": "85bbace6c5682e46f648b6cb8cf0b8db1460eb7b8a3f4c6d079662e93e030b30",
+  "response_sha256": "5f298ff201d61f98b13e0414dc725eb8f5e5bcd48a513434c1312bb313f97e8a",
+  "model": "gpt-5.6-sol",
+  "purpose": "method_train_compile",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      },
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[\"column0\"]}}",
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "Two source-grounded patterns were observed in ProofWriter_OWA_depth5 records. Both use entity_equality to distinguish observed collisions; neither supports a universal semantic-equivalence claim. Records with no observed collision, unavailable typed inputs, unresolved translation, or invalid IR yield no additional verified pattern."
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-08T20:00:45.030576+00:00",
+    "finished_at": "2026-11-08T20:00:58.399097+00:00",
+    "elapsed_seconds": 13.369,
+    "returncode": 0,
+    "event_log_sha256": "d55ecf487fc103c11cbc29c824090cea89384eecbe9dffbeaae63d1e450191ad",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 49485,
+      "cached_input_tokens": 0,
+      "output_tokens": 312,
+      "reasoning_output_tokens": 77
+    },
+    "estimated_credits": null
+  }
+}

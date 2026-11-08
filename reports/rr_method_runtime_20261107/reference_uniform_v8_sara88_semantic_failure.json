@@ -1,0 +1,94 @@
+{
+  "captured_utc": "2026-11-08T20:12:54.366065+00:00",
+  "run_id": "method_runtime_reference_v8_20261109",
+  "source_position": 88,
+  "source": "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+  "public_query": "Under section 3306(a)(2)(A), Alice is an employer for the year 2017.",
+  "public_facts": "Alice has paid wages of $6771 to Bob, $6954 to Charlie, and $6872 to Dan for agricultural labor done from Feb 1st, 2017 to Sep 2nd, 2017. Bob has paid wages of $4520 to Alice for work done from Apr 1st, 2017 to Sep 2nd, 2018.",
+  "actual_second_raw_response": "{\"factual_observations\": [], \"program_lines\": [\"# b_agricultural_wage_threshold = (sum of wages paid to agricultural laborers during the calendar year or preceding calendar year) >= 20000\", \"b_agricultural_wage_threshold = (6771 + 6954 + 6872 + 4520) >= 20000\"]}",
+  "actual_numeric_nodes": [
+    {
+      "body": {
+        "args": [
+          20000,
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "var": "_fact_literal_0"
+                      },
+                      {
+                        "var": "_fact_literal_1"
+                      }
+                    ],
+                    "op": "add"
+                  },
+                  {
+                    "var": "_fact_literal_2"
+                  }
+                ],
+                "op": "add"
+              },
+              {
+                "var": "_fact_literal_3"
+              }
+            ],
+            "op": "add"
+          }
+        ],
+        "op": "le"
+      },
+      "kind": "expression",
+      "name": "b_agricultural_wage_threshold"
+    }
+  ],
+  "actual_numeric_bindings": [
+    {
+      "name": "_fact_literal_0",
+      "sources": [
+        "s52"
+      ],
+      "type": "integer",
+      "value": 6771
+    },
+    {
+      "name": "_fact_literal_1",
+      "sources": [
+        "s52"
+      ],
+      "type": "integer",
+      "value": 6954
+    },
+    {
+      "name": "_fact_literal_2",
+      "sources": [
+        "s52"
+      ],
+      "type": "integer",
+      "value": 6872
+    },
+    {
+      "name": "_fact_literal_3",
+      "sources": [
+        "s52"
+      ],
+      "type": "integer",
+      "value": 4520
+    }
+  ],
+  "runtime_A_execution_flag": true,
+  "TRAIN_match": true,
+  "source_semantic_review_pass": false,
+  "specific_error": "4520 is paid by Bob to Alice for work, whereas the query concerns agricultural wages paid by Alice. The formula incorrectly adds4520 to the three Alice-to-agricultural-worker amounts. Those three alone sum20597, so this erroneous formula still matches the label on the actual source.",
+  "correct_actual_Alice_agricultural_payment_sum": 20597,
+  "wrong_extra_amount": 4520,
+  "implementation_vs_model_diagnosis": "Model relational-role/scope error. Literal presence and numeric type checks are conditional source-grounding checks and cannot certify payer/payee semantics. No correctness check is weakened; this source is excluded from source-reviewed core semantic success.",
+  "separate_engineering_gap": "The pure-legal followup also omits the dedicated original query, proved separately. Restoring that input does not by itself prove repair of this formula.",
+  "new_model_or_oracle_calls": 0,
+  "DEV_or_TEST_labels_read": false,
+  "existing_raw_records_unchanged": true,
+  "full_goal_complete": false
+}

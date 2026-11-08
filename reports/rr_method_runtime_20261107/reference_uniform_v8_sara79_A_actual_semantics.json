@@ -1,0 +1,218 @@
+{
+  "captured_utc": "2026-11-08T20:05:06.955518+00:00",
+  "run_id": "method_runtime_reference_v8_20261109",
+  "source_position": 79,
+  "source": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+  "record_sha256": "4dd599c88f44b09fc8a03cc5175bb4077559b3bad4f0c955ad3bf6bf22069594",
+  "same_actual_prefix_library_verified": true,
+  "library_before_sha256": "298d16444fbc48c188fabf1fb4e85fe0f5910195bce04a3f29d6914483b52505",
+  "public_query": "Section 3306(c)(2) applies to Alice employing Bob for the year 2017.",
+  "public_facts": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.",
+  "actual_selected_batch": {
+    "batch_plan": {
+      "context": [
+        "s0",
+        "s28",
+        "s29",
+        "s37",
+        "s52"
+      ],
+      "cost": 5063,
+      "differences": [
+        [
+          "s52"
+        ],
+        [
+          "s37"
+        ]
+      ],
+      "lower_bound": 5063,
+      "selected": [
+        "s37",
+        "s52"
+      ],
+      "solver_calls": 3,
+      "status": "separation_complete",
+      "theory_hash": "5215ac0a0ecad2c51e030a5553cae13008998363c10d9ff0d4da287cb58ff0d5"
+    },
+    "context_closure": [
+      "s0",
+      "s28",
+      "s29",
+      "s37",
+      "s52"
+    ],
+    "input_tokens": 5063,
+    "joint_separation_complete": true,
+    "kind": "joint_rule_translation_and_facts",
+    "messages_hash": "2c9b4bfedba73425b33c47b76fbe9080e0346357554eca0175e2c74cc3122e7f",
+    "names": [
+      "b_private_home_domestic_service"
+    ],
+    "program_format": "pal_fragment_lines_v1",
+    "remaining_unknown_legal_domains_are_not_fact_queries": true,
+    "schema_hash": "ca28ee247c370cff24967560df6927777471e9663594e397f9026b70866d3aa2",
+    "selected": [
+      "s37",
+      "s52"
+    ],
+    "selection_basis": "separation_complete",
+    "source_ledger_hash": "28b8f89a5c4eee7b62833ab5d9ef4c61e1669fbde4cb9072d365cc5cbc4bd748"
+  },
+  "observed_fact_rows": [
+    {
+      "evidence": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.",
+      "name": "b_private_home_domestic_service",
+      "value": true
+    }
+  ],
+  "actual_legal_source": {
+    "id": "s37",
+    "text": "    (2) domestic service in a private home, local college club, or local chapter of a college fraternity or sorority unless performed for a person who paid cash remuneration of $1,000 or more to individuals employed in such domestic service in the calendar year or the preceding calendar year;"
+  },
+  "actual_numeric_node": {
+    "body": {
+      "args": [
+        1000,
+        {
+          "var": "_fact_literal_0"
+        }
+      ],
+      "op": "le"
+    },
+    "kind": "expression",
+    "name": "b_domestic_remuneration_test"
+  },
+  "actual_guarded_parent_rule": {
+    "name": "domestic_service_exclusion",
+    "otherwise": false,
+    "sources": [
+      "s37"
+    ],
+    "value": {
+      "args": [
+        {
+          "var": "employment_scope"
+        },
+        {
+          "var": "b_private_home_domestic_service"
+        },
+        {
+          "args": [
+            {
+              "var": "b_domestic_remuneration_test"
+            }
+          ],
+          "op": "not"
+        }
+      ],
+      "op": "and"
+    }
+  },
+  "factual_task_public_reference_years": [
+    2017
+  ],
+  "current_program_reexecution": {
+    "status": "completion_stable",
+    "answer": "Contradiction"
+  },
+  "unresolved_domains_retained": [
+    "b_admitted_agricultural_alien",
+    "b_after_employment_termination",
+    "b_agricultural_cash_test",
+    "b_agricultural_day_threshold",
+    "b_agricultural_labor",
+    "b_agricultural_remuneration",
+    "b_agricultural_wage_threshold",
+    "b_agricultural_worker_day_test",
+    "b_american_employer",
+    "b_child_under_twenty_one",
+    "b_contiguous_country_agreement",
+    "b_domestic_cash_wage_threshold",
+    "b_domestic_services",
+    "b_employee_service",
+    "b_employer_plan_or_system",
+    "b_enrolled_student",
+    "b_family_employment",
+    "b_foreign_government_service",
+    "b_general_day_threshold",
+    "b_general_wage_threshold",
+    "b_hospital_patient_service",
+    "b_international_organization_service",
+    "b_late_survivor_payment",
+    "b_non_cash_agricultural_payment",
+    "b_non_cash_trade_payment",
+    "b_other_than_domestic_service",
+    "b_outside_trade_or_business",
+    "b_outside_united_states",
+    "b_parent_employment",
+    "b_penal_institution_service",
+    "b_plan_death",
+    "b_qualifying_termination_plan",
+    "b_remuneration_for_employment",
+    "b_retirement_for_disability",
+    "b_school_service",
+    "b_service_of_any_nature",
+    "b_sickness_or_accident_disability",
+    "b_state_service",
+    "b_student_nurse_service",
+    "b_student_spouse_condition",
+    "b_termination_death",
+    "b_united_states_citizen",
+    "b_united_states_government_service",
+    "b_unlisted_employment_exception",
+    "b_unlisted_plan_account",
+    "b_unlisted_wage_exclusion",
+    "b_wage_base_exceeded",
+    "b_within_united_states",
+    "b_would_have_been_paid"
+  ],
+  "A_actual": true,
+  "B_actual": false,
+  "TRAIN_match": true,
+  "physical_model_origins": [
+    {
+      "request_hash": "ff961c4c83f98bd07b4e33def7a0d8e82a66c23baf97da9816d8b5e0e8b846ce",
+      "physical_origin_call_id": "reference_instance_sara79_v12_20261108:parse:0",
+      "usage": {
+        "completion_tokens": 41,
+        "prompt_tokens": 464,
+        "prompt_tokens_details": null,
+        "total_tokens": 505
+      },
+      "elapsed_seconds": 1.1443901341408491
+    },
+    {
+      "request_hash": "caf20be40c92db2d8235cc5567a366da5bd37f9a4c5ac0e536b01e6077e6050d",
+      "physical_origin_call_id": null,
+      "usage": {
+        "completion_tokens": 145,
+        "prompt_tokens": 5063,
+        "prompt_tokens_details": null,
+        "total_tokens": 5208
+      },
+      "elapsed_seconds": 4.783819957636297
+    }
+  ],
+  "actual_second_raw_response": "{\"factual_observations\": [{\"name\": \"b_private_home_domestic_service\", \"value\": true, \"evidence\": \"Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.\"}], \"program_lines\": [\"# b_domestic_remuneration_test: paid cash remuneration of $1,000 or more to individuals employed in such domestic service in the calendar year or the preceding calendar year\", \"b_domestic_remuneration_test = (3200 >= 1000)\"]}",
+  "actual_deterministic_adaptations": [
+    {
+      "kind": "existing_integer_literal_to_explicit_public_input",
+      "name": "_fact_literal_0",
+      "source": "s52",
+      "value": 3200
+    }
+  ],
+  "offline_execution_input_dependency_control": {
+    "input": "_fact_literal_0",
+    "actual_value": 3200,
+    "control_value": 900,
+    "actual_answer": "Contradiction",
+    "control_answer": "Entailment",
+    "logical_control_only_not_observed_fact_new_model_success_or_new_research_source": true
+  },
+  "source_review_conclusion": "The original query and factual payment both refer to2017. The statutory domestic-service exclusion has an exception for cash payments of at least1000 in the current or preceding year; the actual3200 payment triggers that exception. The accepted formula negates that remuneration test in the exclusion and retains the employment scope. This is a source-supported actual A success, not a general proof of all statutes.",
+  "new_generation_or_oracle_calls_by_this_audit": 0,
+  "DEV_or_TEST_labels_read": false,
+  "full_goal_complete": false
+}

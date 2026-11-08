@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "request_sha256": "c74dcc41b7ed5c4e5c7796b19c8673ce287c3383f953435bd737285b6a650d69",
+  "response_sha256": "11dc99dfb042da1b64f81d1048b60dd1ed76fc4b2258205b92b4836c2aca5801",
+  "model": "gpt-5.6-sol",
+  "purpose": "method_train_compile",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      },
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[\"column0\"]}}",
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "Only the two source-grounded patterns identified from observed ProofWriter collisions are included. Records with no observed collision yielded no pattern; ContractNLI records had unresolved translation and no counterfactual oracle. Compiler templates were not stored as source-answer patterns. No universal semantic-equivalence claim is made."
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-08T20:10:39.632592+00:00",
+    "finished_at": "2026-11-08T20:10:53.608963+00:00",
+    "elapsed_seconds": 13.976,
+    "returncode": 0,
+    "event_log_sha256": "c075d19bb905a1026678f0195993858906da4fbaeee5340f38a52510a1a6374f",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 50012,
+      "cached_input_tokens": 0,
+      "output_tokens": 311,
+      "reasoning_output_tokens": 76
+    },
+    "estimated_credits": null
+  }
+}
