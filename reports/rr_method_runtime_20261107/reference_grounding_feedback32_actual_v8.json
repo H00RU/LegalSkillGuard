@@ -1,0 +1,237 @@
+{
+  "captured_utc": "2026-11-08T18:21:56.664277+00:00",
+  "implementation_commit": "24822d7d5b8d627a9ec6fffc3140e4e3dfae2bf6",
+  "run_id": "method_runtime_reference_v8_20261109",
+  "source_position": 32,
+  "source": "OpenExempt:8dcb5e3e2dfbee5b24b207738b3f364cef9c911ed74e4903dba470f00329dbaa",
+  "physical_call_id": "method_runtime_reference_v8_20261109:build:97119a26dfde0bebdcf5a7834a4645084fcd2e230bdfa95c6426250ed2cdbab4:1",
+  "actual_input_tokens": 24347,
+  "thinking_OFF": true,
+  "all_CURRENT_examples_runtime_exactly_unchanged": true,
+  "root_error_round_trip_identical": true,
+  "root_failure_rows": 14,
+  "literal_request_body_sha256": "ec40ceca92e8a5bdc8a431a2c4ed7d4e2daa817b9785c564bc6044d49b88920a",
+  "new_generation_or_oracle_calls_by_this_readonly_audit": 0,
+  "DEV_or_TEST_labels_read": false,
+  "full_goal_complete": false,
+  "response_settled": true,
+  "usage": {
+    "completion_tokens": 1887,
+    "prompt_tokens": 24347,
+    "prompt_tokens_details": null,
+    "total_tokens": 26234
+  },
+  "original_physical_elapsed_seconds": 65.82805676572025,
+  "finish_reason": "stop",
+  "raw_content_sha256": "fb4de12db0ea67860ba4ada51271f16c8630a97cbc95d6acfb5946030b2347a7",
+  "final_program_status": "invalid_IR",
+  "A_actual": false,
+  "TRAIN_match": false,
+  "final_error": {
+    "diagnostics": null,
+    "error": "Public literal grounding failed: [{'binding': 'ec_regimes', 'sources': ['s157'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'ec_debtor', 'sources': ['s159'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'ec_filing_date', 'sources': ['s159'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'ec_shelf', 'sources': ['s159'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'ec_shelf_value', 'sources': ['s159'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'ec_robe', 'sources': ['s159'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'ec_robe_value', 'sources': ['s159'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'ev_regimes', 'sources': ['s318'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'ev_debtor', 'sources': ['s320'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'ev_filing_date', 'sources': ['s320'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'ev_shelf', 'sources': ['s320'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'ev_shelf_value', 'sources': ['s320'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}, {'binding': 'ev_robe', 'sources': ['s320'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'ev_robe_value', 'sources': ['s320'], 'pass': False, 'basis': 'exact_numeric_literal_in_cited_public_unit'}]",
+    "error_type": "Unsupported",
+    "source_validation": {
+      "candidate_modified": false,
+      "grading_information_used": false,
+      "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+      "issues": [
+        {
+          "actual": {
+            "cited_text": "The Debtors may claim property exemptions under Federal and Oregon statutes.",
+            "sources": [
+              "s157"
+            ],
+            "value": "Federal and Wisconsin"
+          },
+          "expected": "scalar_text_in_cited_public_unit",
+          "path": "bindings[0].value"
+        },
+        {
+          "actual": {
+            "cited_text": "Tomislav and Luca Nikolic (hereinafter the Debtors) filed for bankruptcy on 29 January 2024. The 5-piece acoustic drum kit with cymbal stands, owned by the Nikolics, holds a monetary value of $655.00. The sculptural wall fountain made of hand-cast bronze with recirculating pump belonging to Tomislav and Luca Nikolic has an appraisal value of $3,745.00.",
+            "sources": [
+              "s159"
+            ],
+            "value": "Jose Ortiz"
+          },
+          "expected": "scalar_text_in_cited_public_unit",
+          "path": "bindings[1].value"
+        },
+        {
+          "actual": {
+            "cited_text": "Tomislav and Luca Nikolic (hereinafter the Debtors) filed for bankruptcy on 29 January 2024. The 5-piece acoustic drum kit with cymbal stands, owned by the Nikolics, holds a monetary value of $655.00. The sculptural wall fountain made of hand-cast bronze with recirculating pump belonging to Tomislav and Luca Nikolic has an appraisal value of $3,745.00.",
+            "sources": [
+              "s159"
+            ],
+            "value": "7th of September 2024"
+          },
+          "expected": "scalar_text_in_cited_public_unit",
+          "path": "bindings[2].value"
+        },
+        {
+          "actual": {
+            "cited_text": "Tomislav and Luca Nikolic (hereinafter the Debtors) filed for bankruptcy on 29 January 2024. The 5-piece acoustic drum kit with cymbal stands, owned by the Nikolics, holds a monetary value of $655.00. The sculptural wall fountain made of hand-cast bronze with recirculating pump belonging to Tomislav and Luca Nikolic has an appraisal value of $3,745.00.",
+            "sources": [
+              "s159"
+            ],
+            "value": "wall-mounted floating shelf made of reclaimed barn wood"
+          },
+          "expected": "scalar_text_in_cited_public_unit",
+          "path": "bindings[3].value"
+        },
+        {
+          "actual": {
+            "cited_text": "Tomislav and Luca Nikolic (hereinafter the Debtors) filed for bankruptcy on 29 January 2024. The 5-piece acoustic drum kit with cymbal stands, owned by the Nikolics, holds a monetary value of $655.00. The sculptural wall fountain made of hand-cast bronze with recirculating pump belonging to Tomislav and Luca Nikolic has an appraisal value of $3,745.00.",
+            "sources": [
+              "s159"
+            ],
+            "value": 800
+          },
+          "expected": "exact_numeric_literal_in_cited_public_unit",
+          "path": "bindings[4].value"
+        },
+        {
+          "actual": {
+            "cited_text": "Tomislav and Luca Nikolic (hereinafter the Debtors) filed for bankruptcy on 29 January 2024. The 5-piece acoustic drum kit with cymbal stands, owned by the Nikolics, holds a monetary value of $655.00. The sculptural wall fountain made of hand-cast bronze with recirculating pump belonging to Tomislav and Luca Nikolic has an appraisal value of $3,745.00.",
+            "sources": [
+              "s159"
+            ],
+            "value": "hooded fleece robe with belt and two front pockets"
+          },
+          "expected": "scalar_text_in_cited_public_unit",
+          "path": "bindings[5].value"
+        },
+        {
+          "actual": {
+            "cited_text": "Tomislav and Luca Nikolic (hereinafter the Debtors) filed for bankruptcy on 29 January 2024. The 5-piece acoustic drum kit with cymbal stands, owned by the Nikolics, holds a monetary value of $655.00. The sculptural wall fountain made of hand-cast bronze with recirculating pump belonging to Tomislav and Luca Nikolic has an appraisal value of $3,745.00.",
+            "sources": [
+              "s159"
+            ],
+            "value": 105
+          },
+          "expected": "exact_numeric_literal_in_cited_public_unit",
+          "path": "bindings[6].value"
+        },
+        {
+          "actual": {
+            "cited_text": "The Debtors may claim property exemptions under Federal and Oregon statutes.",
+            "sources": [
+              "s318"
+            ],
+            "value": "Federal and Wisconsin"
+          },
+          "expected": "scalar_text_in_cited_public_unit",
+          "path": "bindings[7].value"
+        },
+        {
+          "actual": {
+            "cited_text": "Tomislav and Luca Nikolic (hereinafter the Debtors) filed for bankruptcy on 01-29-2024. Records show that the Nikolics possess a 5-piece acoustic drum kit with cymbal stands with a value of $655.00. A valuation of $3,745.00 has been assigned to the sculptural wall fountain made of hand-cast bronze with recirculating pump owned by the Debtors.",
+            "sources": [
+              "s320"
+            ],
+            "value": "Jose Ortiz"
+          },
+          "expected": "scalar_text_in_cited_public_unit",
+          "path": "bindings[8].value"
+        },
+        {
+          "actual": {
+            "cited_text": "Tomislav and Luca Nikolic (hereinafter the Debtors) filed for bankruptcy on 01-29-2024. Records show that the Nikolics possess a 5-piece acoustic drum kit with cymbal stands with a value of $655.00. A valuation of $3,745.00 has been assigned to the sculptural wall fountain made of hand-cast bronze with recirculating pump owned by the Debtors.",
+            "sources": [
+              "s320"
+            ],
+            "value": "9-7-2024"
+          },
+          "expected": "scalar_text_in_cited_public_unit",
+          "path": "bindings[9].value"
+        },
+        {
+          "actual": {
+            "cited_text": "Tomislav and Luca Nikolic (hereinafter the Debtors) filed for bankruptcy on 01-29-2024. Records show that the Nikolics possess a 5-piece acoustic drum kit with cymbal stands with a value of $655.00. A valuation of $3,745.00 has been assigned to the sculptural wall fountain made of hand-cast bronze with recirculating pump owned by the Debtors.",
+            "sources": [
+              "s320"
+            ],
+            "value": "wall-mounted floating shelf made of reclaimed barn wood"
+          },
+          "expected": "scalar_text_in_cited_public_unit",
+          "path": "bindings[10].value"
+        },
+        {
+          "actual": {
+            "cited_text": "Tomislav and Luca Nikolic (hereinafter the Debtors) filed for bankruptcy on 01-29-2024. Records show that the Nikolics possess a 5-piece acoustic drum kit with cymbal stands with a value of $655.00. A valuation of $3,745.00 has been assigned to the sculptural wall fountain made of hand-cast bronze with recirculating pump owned by the Debtors.",
+            "sources": [
+              "s320"
+            ],
+            "value": 800
+          },
+          "expected": "exact_numeric_literal_in_cited_public_unit",
+          "path": "bindings[11].value"
+        },
+        {
+          "actual": {
+            "cited_text": "Tomislav and Luca Nikolic (hereinafter the Debtors) filed for bankruptcy on 01-29-2024. Records show that the Nikolics possess a 5-piece acoustic drum kit with cymbal stands with a value of $655.00. A valuation of $3,745.00 has been assigned to the sculptural wall fountain made of hand-cast bronze with recirculating pump owned by the Debtors.",
+            "sources": [
+              "s320"
+            ],
+            "value": "hooded fleece robe with belt and two front pockets"
+          },
+          "expected": "scalar_text_in_cited_public_unit",
+          "path": "bindings[12].value"
+        },
+        {
+          "actual": {
+            "cited_text": "Tomislav and Luca Nikolic (hereinafter the Debtors) filed for bankruptcy on 01-29-2024. Records show that the Nikolics possess a 5-piece acoustic drum kit with cymbal stands with a value of $655.00. A valuation of $3,745.00 has been assigned to the sculptural wall fountain made of hand-cast bronze with recirculating pump owned by the Debtors.",
+            "sources": [
+              "s320"
+            ],
+            "value": 105
+          },
+          "expected": "exact_numeric_literal_in_cited_public_unit",
+          "path": "bindings[13].value"
+        },
+        {
+          "actual": "wall-mounted floating shelf made of reclaimed barn wood",
+          "expected": "exact substring of cited source",
+          "path": "observations[0].entity"
+        },
+        {
+          "actual": "hooded fleece robe with belt and two front pockets",
+          "expected": "exact substring of cited source",
+          "path": "observations[1].entity"
+        },
+        {
+          "actual": "wall-mounted floating shelf made of reclaimed barn wood",
+          "expected": "exact substring of cited source",
+          "path": "observations[2].entity"
+        },
+        {
+          "actual": "hooded fleece robe with belt and two front pockets",
+          "expected": "exact substring of cited source",
+          "path": "observations[3].entity"
+        },
+        {
+          "actual": "wall-mounted floating shelf made of reclaimed barn wood",
+          "expected": "exact substring of cited source",
+          "path": "observations[4].entity"
+        },
+        {
+          "actual": "hooded fleece robe with belt and two front pockets",
+          "expected": "exact substring of cited source",
+          "path": "observations[5].entity"
+        },
+        {
+          "actual": "wall-mounted floating shelf made of reclaimed barn wood",
+          "expected": "exact substring of cited source",
+          "path": "observations[6].entity"
+        },
+        {
+          "actual": "hooded fleece robe with belt and two front pockets",
+          "expected": "exact substring of cited source",
+          "path": "observations[7].entity"
+        }
+      ],
+      "source_only": true
+    }
+  }
+}

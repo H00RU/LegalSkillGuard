@@ -23,7 +23,7 @@ from .source_execution import assess_source,prepare_followup,accept_followup
 from .source_inference import _decode,native_fallback,controlled_prediction
 from .source_interfaces import check_source_examples
 from .source_program import compile_source
-from .source_validation import validation_feedback,incomplete_feedback
+from .source_validation import validation_feedback,incomplete_feedback,encode_grounding_failure_feedback
 from .wire_validation import validate_wire
 
 
@@ -94,10 +94,18 @@ def predict_source(source,*,arm,library,generate,tokenize,request_config,thinkin
                 root_error={k:feedback[k] for k in ('error_type','error','field_path') if k in feedback}
                 compact=pal_prompt(source,active,feedback=root_error)
                 compact_count=tokenize(compact,thinking=False)['count']
+                encoding=None
+                if compact_count+request_config['max_tokens']>request_config['context_tokens']:
+                    table=encode_grounding_failure_feedback(root_error)
+                    if table is not None:
+                        compact=pal_prompt(source,active,feedback=table)
+                        compact_count=tokenize(compact,thinking=False)['count']
+                        encoding='grounding_failure_table_v1'
                 if compact_count+request_config['max_tokens']<=request_config['context_tokens']:
                     actions.append({'kind':'duplicate_error_diagnostics_omitted_from_prompt_only',
                         'full_input_tokens':count,'dispatched_input_tokens':compact_count,
-                        'full_current_source_and_root_error_retained':True})
+                        'full_current_source_and_root_error_retained':True,
+                        **({'root_error_lossless_encoding':encoding} if encoding else {})})
                     messages,count=compact,compact_count
             if count+request_config['max_tokens']>request_config['context_tokens']:raise Unsupported('Complete request exceeds context; no source truncation')
         except Unsupported as exc:

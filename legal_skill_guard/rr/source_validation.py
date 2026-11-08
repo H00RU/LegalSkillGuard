@@ -3,6 +3,8 @@
 This module reads public source text and candidate syntax. It does not observe
 facts, infer missing legal rules, open a grading packet or change the candidate.
 """
+import ast
+from copy import deepcopy
 import json
 from collections import Counter
 
@@ -12,6 +14,32 @@ from .ir_types import IRTypeError,check_expression
 from .scoped_program import expression_reads
 from .source_program import residual_context_proof,factual_predicate_supported
 from .source_structure import inspect_source,explicit_query_target
+
+
+def encode_grounding_failure_feedback(feedback):
+    """Losslessly table repeated actual grounding errors when a repair overflows.
+
+    The complete original root string can be reconstructed exactly. This only
+    encodes diagnostics; it never changes source text, values or a candidate.
+    """
+    prefix='Public literal grounding failed: '
+    if not isinstance(feedback,dict) or not isinstance(feedback.get('error'),str) or \
+            not feedback['error'].startswith(prefix):return None
+    try:details=ast.literal_eval(feedback['error'][len(prefix):])
+    except (ValueError,SyntaxError,RecursionError):return None
+    if not isinstance(details,list) or not details:return None
+    bases=[];rows=[]
+    for row in details:
+        if (not isinstance(row,dict) or set(row)!={'binding','sources','pass','basis'} or
+            not isinstance(row['binding'],str) or not isinstance(row['basis'],str) or
+            row['pass'] is not False or not isinstance(row['sources'],list) or
+            not all(isinstance(s,str) for s in row['sources'])):return None
+        if row['basis'] not in bases:bases.append(row['basis'])
+        rows.append([row['binding'],deepcopy(row['sources']),False,bases.index(row['basis'])])
+    restored=[{'binding':r[0],'sources':r[1],'pass':r[2],'basis':bases[r[3]]} for r in rows]
+    if prefix+repr(restored)!=feedback['error']:return None
+    return {**deepcopy(feedback),'error':prefix,'grounding_failures':{
+        'columns':['binding','sources','pass','basis_index'],'basis_vocabulary':bases,'rows':rows}}
 
 
 def incomplete_feedback(content):

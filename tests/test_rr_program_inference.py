@@ -7,6 +7,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from legal_skill_guard.rr.coverage import digest
+from legal_skill_guard.rr.ledger import BudgetError
 from legal_skill_guard.rr.program_inference import predict_source
 from legal_skill_guard.rr.method_run import MethodRun
 from legal_skill_guard.rr.learning import SkillLibrary
@@ -92,31 +93,32 @@ def test_paid_train_reuse_requires_identical_literal_wire_and_untampered_raw_res
     executor=MethodExecutor(None,tmp_path,seal['config']['executor'])
     # The saved seal is canonical JSON; physical dispatch reconstructs the
     # ordered runtime schema. Semantically equal objects are not literal bytes.
-    assert run.paid_executor_response(executor,seal['source'],seal['initial_messages'],seal['schema'],False) is None
+    assert run.paid_executor_response(executor,seal['source'],seal['initial_messages'],seal['schema'],False,dispatch_purpose='method_train_synthesis') is None
     schema=pal_schema()
     physical=json.loads(base64.b64decode(json.loads((stage/'calls'/digest(cid)/'wire_request.json').read_text())['body_b64']))
     messages=physical['messages']
-    value=run.paid_executor_response(executor,seal['source'],messages,schema,False)
+    value=run.paid_executor_response(executor,seal['source'],messages,schema,False,dispatch_purpose='method_train_synthesis')
     assert value['content']==raw['content'] and value['physical_origin_call_id']==cid
     assert value['new_physical_requests']==0 and value['finish_reason']=='length'
     changed=deepcopy(messages);changed[-1]['content']+=' changed'
-    assert run.paid_executor_response(executor,seal['source'],changed,schema,False) is None
+    assert run.paid_executor_response(executor,seal['source'],changed,schema,False,dispatch_purpose='method_train_synthesis') is None
     altered={**raw,'content':'invented replacement'}
     with sqlite3.connect(book) as db:db.execute('update calls set result=?',(json.dumps(altered),))
     with pytest.raises(ValueError,match='differs from physical ledger'):
-        run.paid_executor_response(executor,seal['source'],messages,schema,False)
+        run.paid_executor_response(executor,seal['source'],messages,schema,False,dispatch_purpose='method_train_synthesis')
 
 
 @pytest.mark.parametrize('reuse',[False,True])
-def test_actual_build_dispatch_accepts_direct_python_and_checks_paid_reuse_first(tmp_path,reuse):
+@pytest.mark.parametrize('dispatch_purpose',['method_train_synthesis','method_dev'])
+def test_actual_build_dispatch_accepts_direct_python_and_checks_paid_reuse_first(tmp_path,reuse,dispatch_purpose):
     stage=ROOT/'artifacts/rr_method_runtime_20261107/reference_pal_airline2_v12_20261108'
     seal=json.loads((stage/'seal.json').read_text());source=seal['source']
     executor=MethodExecutor(None,tmp_path,seal['config']['executor'])
     messages=pal_prompt(source,seal['config']['library']);physical=[];lookup=[]
     wire={'content':'unchanged response','finish_reason':'stop'}
     run=MethodRun.__new__(MethodRun);run.verify=lambda:None
-    def paid(client,current,msgs,schema,thinking):
-        lookup.append((current['key'],schema,thinking))
+    def paid(client,current,msgs,schema,thinking,*,dispatch_purpose):
+        lookup.append((current['key'],schema,thinking,dispatch_purpose))
         return wire if reuse else None
     def generate(cid,**kwargs):
         body=executor.payload(messages=kwargs['messages'],thinking=kwargs['thinking'],schema=kwargs['schema'])
@@ -124,10 +126,45 @@ def test_actual_build_dispatch_accepts_direct_python_and_checks_paid_reuse_first
         assert body['chat_template_kwargs']['enable_thinking'] is False
         physical.append((cid,kwargs['source'],kwargs['purpose']));return wire
     executor.generate=generate;run.paid_executor_response=paid
-    dispatch=run.dispatcher(SimpleNamespace(),executor,source,'offline','method_train_synthesis',False)
+    dispatch=run.dispatcher(SimpleNamespace(),executor,source,'offline',dispatch_purpose,False)
     assert dispatch(messages,purpose='parse',step=0,schema=None)==wire
-    assert lookup==[(source['key'],None,False)]
-    assert physical==([] if reuse else [('offline:0',source['key'],'method_train_synthesis')])
+    assert lookup==[(source['key'],None,False,dispatch_purpose)]
+    assert physical==([] if reuse else [('offline:0',source['key'],dispatch_purpose)])
+
+
+def test_DEV_raw_reuse_excludes_other_runs_partitions_sources_and_changed_payloads(tmp_path):
+    stage=ROOT/'artifacts/rr_method_runtime_20261107/reference_pal_airline2_v12_20261108'
+    seal=json.loads((stage/'seal.json').read_text());source=seal['source'];oldcid=stage.name+':parse:0'
+    origin=stage/'calls'/digest(oldcid);artifact=tmp_path/'paid';artifact.mkdir()
+    raw=json.loads((origin/'result.json').read_text());raw['artifact_directory']=str(artifact)
+    cid='offline_run:dev:M00:'+digest(source['key'])+':0'
+    request=json.loads((origin/'request.json').read_text());request.update(id=cid,purpose='method_dev')
+    (artifact/'request.json').write_text(json.dumps(request))
+    (artifact/'result.json').write_text(json.dumps(raw))
+    (artifact/'wire_request.json').write_bytes((origin/'wire_request.json').read_bytes())
+    book=tmp_path/'book.sqlite3'
+    with sqlite3.connect(book) as db:
+        db.execute('create table calls(id,role,source,status,purpose,reserved_at,request_hash,result)')
+        db.execute('insert into calls values (?,?,?,?,?,?,?,?)',(cid,'executor',source['key'],'completed',
+            'method_dev',0,raw['request_hash'],json.dumps(raw)))
+    run=MethodRun.__new__(MethodRun);run.root=tmp_path;run.run_id='offline_run'
+    run.seal={'ledger_path':book.name,'sources':{'train':[],'dev':[source['key']]}}
+    executor=MethodExecutor(None,tmp_path,seal['config']['executor'])
+    physical=json.loads(base64.b64decode(json.loads((origin/'wire_request.json').read_text())['body_b64']))
+    messages=physical['messages'];schema=pal_schema()
+    def lookup():return run.paid_executor_response(executor,source,messages,schema,False,dispatch_purpose='method_dev')
+    value=lookup();assert value['physical_origin_call_id']==cid and value['new_physical_requests']==0
+    assert value['content']==raw['content'] and value['finish_reason']=='length'
+    executor.config={**executor.config,'seed':executor.config['seed']+1}
+    assert lookup() is None
+    executor.config=seal['config']['executor']
+    with sqlite3.connect(book) as db:db.execute('update calls set id=?',('offlineXrun:dev:M00:0',))
+    assert lookup() is None  # An underscore must not become a SQL LIKE wildcard.
+    with sqlite3.connect(book) as db:db.execute('update calls set id=?,purpose=?',(cid,'method_train_synthesis'))
+    assert lookup() is None
+    with pytest.raises(BudgetError,match='fixed DEV source'):
+        run.paid_executor_response(executor,{'key':'outside'},messages,schema,False,dispatch_purpose='method_dev')
+    with sqlite3.connect(book) as db:assert db.execute('select count(*) from calls').fetchone()[0]==1
 
 
 def test_real_over_budget_repair_keeps_all_source_and_root_error_and_uses_no_extra_call(tmp_path):

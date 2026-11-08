@@ -1,0 +1,365 @@
+{
+  "captured_utc": "2026-11-08T17:58:33.572197+00:00",
+  "run_id": "method_runtime_reference_v7_20261109",
+  "prefix_sources_examined": 30,
+  "rows": [
+    {
+      "source_position": 6,
+      "source": "OpenExempt:fe5acb6c980638b2750321e28fadcc69d98f49992871bfc44accbc3b147ca597",
+      "step": 0,
+      "original_error": {
+        "diagnostics": [
+          {
+            "actual": "'(' was never closed (<unknown>, line 71)",
+            "column": 15,
+            "expected": "complete valid Python source",
+            "line": 71,
+            "path": "code"
+          }
+        ],
+        "error": "Incomplete or invalid Python source: '(' was never closed (<unknown>, line 71)",
+        "error_type": "SourceCodeError"
+      },
+      "original_raw_sha256": "88054c525ee1f6ff99c35da9b6dc8a5b11582473a212d5ffce79367635ac2af4",
+      "production_or_original_output_modified": false,
+      "appended_EOF_delimiters": ")",
+      "candidate_code": "ec_regimes = 'Federal and Pennsylvania' # s318\nec_debtor = 'Esra and Fatou Demir' # s320\nec_filing_date = '9 January 2024' # s320\nec_gas_range = 'gas range with cast iron grates and double oven compartments' # s320\nec_gas_range_value = 680 # s320\nec_rifle = 'Henry Golden Boy .22 LR lever-action rifle with brass receiver' # s320\nec_rifle_value = 600 # s320\nev_regimes = 'Federal and Pennsylvania' # s318\nev_debtor = 'Esra and Fatou Demir' # s320\nev_filing_date = '9 January 2024' # s320\nev_gas_range = 'gas range with cast iron grates and double oven compartments' # s320\nev_gas_range_value = 680 # s320\nev_rifle = 'Henry Golden Boy .22 LR lever-action rifle with brass receiver' # s320\nev_rifle_value = 600 # s320\nb_ec_gas_range_federal_household = observation(entity='gas range with cast iron grates and double oven compartments', entity_source='s320', predicate='household furnishings', predicate_source='s15')\nb_ec_rifle_federal_apparel = observation(entity='Henry Golden Boy .22 LR lever-action rifle with brass receiver', entity_source='s320', predicate='wearing apparel', predicate_source='s15')\nb_ec_gas_range_pennsylvania_household = observation(entity='gas range with cast iron grates and double oven compartments', entity_source='s320', predicate='household goods and furnishings', predicate_source='s144')\nb_ec_rifle_pennsylvania_apparel = observation(entity='Henry Golden Boy .22 LR lever-action rifle with brass receiver', entity_source='s320', predicate='wearing apparel', predicate_source='s144')\nb_ev_gas_range_federal_household = observation(entity='gas range with cast iron grates and double oven compartments', entity_source='s320', predicate='household furnishings', predicate_source='s176')\nb_ev_rifle_federal_apparel = observation(entity='Henry Golden Boy .22 LR lever-action rifle with brass receiver', entity_source='s320', predicate='wearing apparel', predicate_source='s176')\nb_ev_gas_range_pennsylvania_household = observation(entity='gas range with cast iron grates and double oven compartments', entity_source='s320', predicate='household goods and furnishings', predicate_source='s305')\nb_ev_rifle_pennsylvania_apparel = observation(entity='Henry Golden Boy .22 LR lever-action rifle with brass receiver', entity_source='s320', predicate='wearing apparel', predicate_source='s305')\n@scope('s9') \ndef ec_federal_scope(): \n    return eq(ec_regimes, 'Federal and Pennsylvania') \n@scope('s134') \ndef ec_pennsylvania_scope(): \n    return eq(ec_regimes, 'Federal and Pennsylvania') \n@scope('s170') \ndef ev_federal_scope(): \n    return eq(ev_regimes, 'Federal and Pennsylvania') \n@scope('s295') \ndef ev_pennsylvania_scope(): \n    return eq(ev_regimes, 'Federal and Pennsylvania') \n@rule('s15', otherwise=False) \ndef ec_federal_household_gas_range(): \n    return (ec_federal_scope and True and True and b_ec_gas_range_federal_household) \n@rule('s15', otherwise=False) \ndef ec_federal_apparel_rifle(): \n    return (ec_federal_scope and True and True and b_ec_rifle_federal_apparel) \n@rule('s19', otherwise=False) \ndef ec_federal_wildcard_gas_range(): \n    return (ec_federal_scope and True) \n@rule('s19', otherwise=False) \ndef ec_federal_wildcard_rifle(): \n    return (ec_federal_scope and True) \n@rule('s144', otherwise=False) \ndef ec_pennsylvania_consumer_gas_range(): \n    return (ec_pennsylvania_scope and True and True and b_ec_gas_range_pennsylvania_household) \n@rule('s144', otherwise=False) \ndef ec_pennsylvania_consumer_rifle(): \n    return (ec_pennsylvania_scope and True and True and b_ec_rifle_pennsylvania_apparel) \n@rule('s176', otherwise=0) \ndef ev_federal_household_gas_range(): \n    return (min(ev_gas_range_value, 700) if (ev_federal_scope and True and True and b_ev_gas_range_federal_household) else 0) \n@rule('s176', otherwise=0) \ndef ev_federal_apparel_rifle(): \n    return (min(ev_rifle_value, 700) if (ev_federal_scope and True and True and b_ev_rifle_federal_apparel) else 0) \n@rule('s180', otherwise=0) \ndef ev_federal_wildcard_gas_range(): \n    return (min(ev_gas_range_value, add(1475, 13950)) if (ev_federal_scope and True) else 0) \n@rule('s180', otherwise=0) \ndef ev_federal_wildcard_rifle(): \n    return (min(ev_rifle_value, add(1475, 13950)) if (ev_federal_scope and True) else 0) \n@rule('s305', otherwise=0) \ndef ev_pennsylvania_consumer_gas_range(): \n    return (min(ev_gas_range_value, 12000) if (ev_pennsylvania_scope and True and True and b_ev_gas_range_pennsylvania_household) else 0) \n@rule('s305', otherwise=0) \ndef ev_pennsylvania_consumer_rifle(): \n    return (min(ev_rifle_value, 12000) if (ev_pennsylvania_scope and True and True and b_ev_rifle_pennsylvania_apparel) else 0) \nquery = object(pair('EC', object(pair('gas range with cast iron grates and double oven compartments', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_household_gas_range else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_gas_range else [])), (['42 Pa. Cons. Stat. § 8124(a)'] if ec_pennsylvania_consumer_gas_range else []))), pair('Henry Golden Boy .22 LR lever-action rifle with brass receiver', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_apparel_rifle else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_rifle else [])), (['42 Pa. Cons. Stat. § 8124(a)'] if ec_pennsylvania_consumer_rifle else []))))), pair('EV', object(pair('gas range with cast iron grates and double oven compartments', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_household_gas_range))] if lt(0, ev_federal_household_gas_range) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_gas_range))] if lt(0, ev_federal_wildcard_gas_range) else [])), ([object(pair('citation', '42 Pa. Cons. Stat. § 8124(a)'), pair('claim_value', ev_pennsylvania_consumer_gas_range))] if lt(0, ev_pennsylvania_consumer_gas_range) else []))), pair('Henry Golden Boy .22 LR lever-action rifle with brass receiver', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_apparel_rifle))] if lt(0, ev_federal_apparel_rifle) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_rifle))] if lt(0, ev_federal_wildcard_rifle) else [])), ([object(pair('citation', '42 Pa. Cons. Stat. § 8124(a)'), pair('claim_value', ev_pennsylvania_consumer_rifle))] if lt(0, ev_pennsylvania_consumer_rifle) else []))))))\n",
+      "result": "still_rejected_after_format_only_candidate",
+      "error_type": "Unsupported",
+      "error": "Observation predicate is not an exact source quote"
+    },
+    {
+      "source_position": 8,
+      "source": "SARA_v2_Binary:8175fcb9abeb3ba15e5b58a33f9b479944ee37eab0c0cfa9557393b5193ece97",
+      "step": 1,
+      "original_error": {
+        "diagnostics": [
+          {
+            "actual": "invalid syntax. Perhaps you forgot a comma? (<unknown>, line 9)",
+            "column": 73,
+            "expected": "complete valid Python source",
+            "line": 9,
+            "path": "code"
+          }
+        ],
+        "error": "Incomplete or invalid Python source: invalid syntax. Perhaps you forgot a comma? (<unknown>, line 9)",
+        "error_type": "SourceCodeError",
+        "source_validation": {
+          "candidate_modified": false,
+          "grading_information_used": false,
+          "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+          "issues": [
+            {
+              "actual": {
+                "role": "fact",
+                "source": "s55"
+              },
+              "expected": "rule",
+              "path": "observations[0].predicate_source"
+            },
+            {
+              "actual": {
+                "role": "fact",
+                "source": "s55"
+              },
+              "expected": "rule",
+              "path": "observations[1].predicate_source"
+            },
+            {
+              "actual": {
+                "role": "fact",
+                "source": "s55"
+              },
+              "expected": "rule",
+              "path": "observations[2].predicate_source"
+            },
+            {
+              "actual": {
+                "role": "fact",
+                "source": "s55"
+              },
+              "expected": "rule",
+              "path": "observations[3].predicate_source"
+            },
+            {
+              "actual": "the standard deduction shall be zero",
+              "expected": "proper rule subexpression; a removed paragraph prefix does not translate the rule",
+              "path": "rule_residuals[0].quote"
+            }
+          ],
+          "source_only": true
+        }
+      },
+      "original_raw_sha256": "abd3f4e41923bfe27ae4cbf90f1ee47439587ba32f5c4a9487d1df3e7a13b238",
+      "production_or_original_output_modified": false,
+      "result": "no_forced_delimiter_only_recovery"
+    },
+    {
+      "source_position": 11,
+      "source": "OpenExempt:ae1e4bdb9abb4f7bea56b7d39a89776db8e4ed5f2ee7048f51e882a3555c9244",
+      "step": 0,
+      "original_error": {
+        "diagnostics": [
+          {
+            "actual": "'(' was never closed (<unknown>, line 97)",
+            "column": 15,
+            "expected": "complete valid Python source",
+            "line": 97,
+            "path": "code"
+          }
+        ],
+        "error": "Incomplete or invalid Python source: '(' was never closed (<unknown>, line 97)",
+        "error_type": "SourceCodeError"
+      },
+      "original_raw_sha256": "cdd1cb7308b529bae6c974191e638eff89dd949bce2641bb482e65b92e5d6869",
+      "production_or_original_output_modified": false,
+      "appended_EOF_delimiters": ")",
+      "candidate_code": "ec_regimes = 'Federal and Wisconsin' # s318\nec_debtor = 'Li and Aarav Wang' # s320\nec_filing_date = 'October 6, 2024' # s320\nec_camera = 'digital camera for Debtor\\'s photography business' # s320\nec_camera_value = 555 # s320\nec_massage_table = 'adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)' # s320\nec_massage_table_value = 1025 # s320\nec_husky = 'Siberian husky' # s320\nec_husky_value = 980 # s320\nev_regimes = 'Federal and Wisconsin' # s318\nev_debtor = 'Li and Aarav Wang' # s320\nev_filing_date = 'October 6, 2024' # s320\nev_camera = 'digital camera for Debtor\\'s photography business' # s320\nev_camera_value = 555 # s320\nev_massage_table = 'adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)' # s320\nev_massage_table_value = 1025 # s320\nev_husky = 'Siberian husky' # s320\nev_husky_value = 980 # s320\nb_ec_camera_federal_apparel = observation(entity='digital camera for Debtor\\'s photography business', entity_source='s320', predicate='business equipment', predicate_source='s15')\nb_ec_massage_table_federal_apparel = observation(entity='adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)', entity_source='s320', predicate='professional equipment', predicate_source='s15')\nb_ec_husky_federal_pet = observation(entity='Siberian husky', entity_source='s320', predicate='domestic animal', predicate_source='s15')\nb_ec_camera_wisconsin_apparel = observation(entity='digital camera for Debtor\\'s photography business', entity_source='s320', predicate='business equipment', predicate_source='s144')\nb_ec_massage_table_wisconsin_apparel = observation(entity='adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)', entity_source='s320', predicate='professional equipment', predicate_source='s144')\nb_ec_husky_wisconsin_pet = observation(entity='Siberian husky', entity_source='s320', predicate='domestic animal', predicate_source='s144')\nb_ev_camera_federal_apparel = observation(entity='digital camera for Debtor\\'s photography business', entity_source='s320', predicate='business equipment', predicate_source='s176')\nb_ev_massage_table_federal_apparel = observation(entity='adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)', entity_source='s320', predicate='professional equipment', predicate_source='s176')\nb_ev_husky_federal_pet = observation(entity='Siberian husky', entity_source='s320', predicate='domestic animal', predicate_source='s176')\nb_ev_camera_wisconsin_apparel = observation(entity='digital camera for Debtor\\'s photography business', entity_source='s320', predicate='business equipment', predicate_source='s305')\nb_ev_massage_table_wisconsin_apparel = observation(entity='adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)', entity_source='s320', predicate='professional equipment', predicate_source='s305')\nb_ev_husky_wisconsin_pet = observation(entity='Siberian husky', entity_source='s320', predicate='domestic animal', predicate_source='s305')\n@scope('s9')\ndef ec_federal_scope():\n    return eq(ec_regimes, 'Federal and Wisconsin')\n@scope('s134')\ndef ec_wisconsin_scope():\n    return eq(ec_regimes, 'Federal and Wisconsin')\n@scope('s170')\ndef ev_federal_scope():\n    return eq(ev_regimes, 'Federal and Wisconsin')\n@scope('s295')\ndef ev_wisconsin_scope():\n    return eq(ev_regimes, 'Federal and Wisconsin')\n@rule('s15', otherwise=False)\ndef ec_federal_apparel_camera():\n    return (ec_federal_scope and True and True and b_ec_camera_federal_apparel)\n@rule('s15', otherwise=False)\ndef ec_federal_apparel_massage_table():\n    return (ec_federal_scope and True and True and b_ec_massage_table_federal_apparel)\n@rule('s15', otherwise=False)\ndef ec_federal_apparel_husky():\n    return (ec_federal_scope and True and True and b_ec_husky_federal_pet)\n@rule('s19', otherwise=False)\ndef ec_federal_wildcard_camera():\n    return (ec_federal_scope and True)\n@rule('s19', otherwise=False)\ndef ec_federal_wildcard_massage_table():\n    return (ec_federal_scope and True)\n@rule('s19', otherwise=False)\ndef ec_federal_wildcard_husky():\n    return (ec_federal_scope and True)\n@rule('s144', otherwise=False)\ndef ec_wisconsin_apparel_camera():\n    return (ec_wisconsin_scope and True and True and b_ec_camera_wisconsin_apparel)\n@rule('s144', otherwise=False)\ndef ec_wisconsin_apparel_massage_table():\n    return (ec_wisconsin_scope and True and True and b_ec_massage_table_wisconsin_apparel)\n@rule('s144', otherwise=False)\ndef ec_wisconsin_apparel_husky():\n    return (ec_wisconsin_scope and True and True and b_ec_husky_wisconsin_pet)\n@rule('s176', otherwise=0)\ndef ev_federal_apparel_camera():\n    return (min(ev_camera_value, 700) if (ev_federal_scope and True and True and b_ev_camera_federal_apparel) else 0)\n@rule('s176', otherwise=0)\ndef ev_federal_apparel_massage_table():\n    return (min(ev_massage_table_value, 700) if (ev_federal_scope and True and True and b_ev_massage_table_federal_apparel) else 0)\n@rule('s176', otherwise=0)\ndef ev_federal_apparel_husky():\n    return (min(ev_husky_value, 700) if (ev_federal_scope and True and True and b_ev_husky_federal_pet) else 0)\n@rule('s180', otherwise=0)\ndef ev_federal_wildcard_camera():\n    return (min(ev_camera_value, add(1475, 13950)) if (ev_federal_scope and True) else 0)\n@rule('s180', otherwise=0)\ndef ev_federal_wildcard_massage_table():\n    return (min(ev_massage_table_value, add(1475, 13950)) if (ev_federal_scope and True) else 0)\n@rule('s180', otherwise=0)\ndef ev_federal_wildcard_husky():\n    return (min(ev_husky_value, add(1475, 13950)) if (ev_federal_scope and True) else 0)\n@rule('s305', otherwise=0)\ndef ev_wisconsin_apparel_camera():\n    return (min(ev_camera_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_camera_wisconsin_apparel) else 0)\n@rule('s305', otherwise=0)\ndef ev_wisconsin_apparel_massage_table():\n    return (min(ev_massage_table_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_massage_table_wisconsin_apparel) else 0)\n@rule('s305', otherwise=0)\ndef ev_wisconsin_apparel_husky():\n    return (min(ev_husky_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_husky_wisconsin_pet) else 0)\nquery = object(pair('EC', object(pair('digital camera for Debtor\\'s photography business', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_apparel_camera else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_camera else [])), (['Wis. Stat. § 815.18(3)(d)'] if ec_wisconsin_apparel_camera else []))), pair('adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_apparel_massage_table else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_massage_table else [])), (['Wis. Stat. § 815.18(3)(d)'] if ec_wisconsin_apparel_massage_table else []))), pair('Siberian husky', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_apparel_husky else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_husky else [])), (['Wis. Stat. § 815.18(3)(d)'] if ec_wisconsin_apparel_husky else []))))), pair('EV', object(pair('digital camera for Debtor\\'s photography business', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_apparel_camera))] if lt(0, ev_federal_apparel_camera) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_camera))] if lt(0, ev_federal_wildcard_camera) else [])), ([object(pair('citation', 'Wis. Stat. § 815.18(3)(d)'), pair('claim_value', ev_wisconsin_apparel_camera))] if lt(0, ev_wisconsin_apparel_camera) else []))), pair('adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_apparel_massage_table))] if lt(0, ev_federal_apparel_massage_table) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_massage_table))] if lt(0, ev_federal_wildcard_massage_table) else [])), ([object(pair('citation', 'Wis. Stat. § 815.18(3)(d)'), pair('claim_value', ev_wisconsin_apparel_massage_table))] if lt(0, ev_wisconsin_apparel_massage_table) else []))), pair('Siberian husky', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_apparel_husky))] if lt(0, ev_federal_apparel_husky) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_husky))] if lt(0, ev_federal_wildcard_husky) else [])), ([object(pair('citation', 'Wis. Stat. § 815.18(3)(d)'), pair('claim_value', ev_wisconsin_apparel_husky))] if lt(0, ev_wisconsin_apparel_husky) else []))))))\n",
+      "result": "still_rejected_after_format_only_candidate",
+      "error_type": "Unsupported",
+      "error": "Observation predicate is not an exact source quote"
+    },
+    {
+      "source_position": 11,
+      "source": "OpenExempt:ae1e4bdb9abb4f7bea56b7d39a89776db8e4ed5f2ee7048f51e882a3555c9244",
+      "step": 1,
+      "original_error": {
+        "diagnostics": [
+          {
+            "actual": "'(' was never closed (<unknown>, line 88)",
+            "column": 15,
+            "expected": "complete valid Python source",
+            "line": 88,
+            "path": "code"
+          }
+        ],
+        "error": "Incomplete or invalid Python source: '(' was never closed (<unknown>, line 88)",
+        "error_type": "SourceCodeError"
+      },
+      "original_raw_sha256": "9987baa9a01ae76208a90dc33c9ac12e36a95afd0663ab1b7023d6ddc1acb046",
+      "production_or_original_output_modified": false,
+      "appended_EOF_delimiters": ")",
+      "candidate_code": "ec_regimes = 'Federal and Wisconsin' # s318\nec_debtor = 'Li and Aarav Wang' # s320\nec_filing_date = 'October 6, 2024' # s320\nec_camera = 'digital camera for Debtor\\'s photography business' # s320\nec_camera_value = 555 # s320\nec_massage_table = 'adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)' # s320\nec_massage_table_value = 1025 # s320\nec_husky = 'Siberian husky' # s320\nec_husky_value = 980 # s320\nev_regimes = 'Federal and Wisconsin' # s318\nev_debtor = 'Li and Aarav Wang' # s320\nev_filing_date = 'October 6, 2024' # s320\nev_camera = 'digital camera for Debtor\\'s photography business' # s320\nev_camera_value = 555 # s320\nev_massage_table = 'adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)' # s320\nev_massage_table_value = 1025 # s320\nev_husky = 'Siberian husky' # s320\nev_husky_value = 980 # s320\nb_ec_camera_federal_business = observation(entity='digital camera for Debtor\\'s photography business', entity_source='s320', predicate='business equipment', predicate_source='s15')\nb_ec_massage_table_federal_professional = observation(entity='adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)', entity_source='s320', predicate='professional equipment', predicate_source='s15')\nb_ec_husky_federal_pet = observation(entity='Siberian husky', entity_source='s320', predicate='pet', predicate_source='s15')\nb_ec_camera_wisconsin_business = observation(entity='digital camera for Debtor\\'s photography business', entity_source='s320', predicate='business equipment', predicate_source='s144')\nb_ec_massage_table_wisconsin_professional = observation(entity='adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)', entity_source='s320', predicate='professional equipment', predicate_source='s144')\nb_ec_husky_wisconsin_pet = observation(entity='Siberian husky', entity_source='s320', predicate='pet', predicate_source='s144')\nb_ev_camera_federal_business = observation(entity='digital camera for Debtor\\'s photography business', entity_source='s320', predicate='business equipment', predicate_source='s176')\nb_ev_massage_table_federal_professional = observation(entity='adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)', entity_source='s320', predicate='professional equipment', predicate_source='s176')\nb_ev_husky_federal_pet = observation(entity='Siberian husky', entity_source='s320', predicate='pet', predicate_source='s176')\nb_ev_camera_wisconsin_business = observation(entity='digital camera for Debtor\\'s photography business', entity_source='s320', predicate='business equipment', predicate_source='s305')\nb_ev_massage_table_wisconsin_professional = observation(entity='adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)', entity_source='s320', predicate='professional equipment', predicate_source='s305')\nb_ev_husky_wisconsin_pet = observation(entity='Siberian husky', entity_source='s320', predicate='pet', predicate_source='s305')\n@scope('s9')\ndef ec_federal_scope():\n    return eq(ec_regimes, 'Federal and Wisconsin')\n@scope('s134')\ndef ec_wisconsin_scope():\n    return eq(ec_regimes, 'Federal and Wisconsin')\n@scope('s170')\ndef ev_federal_scope():\n    return eq(ev_regimes, 'Federal and Wisconsin')\n@scope('s295')\ndef ev_wisconsin_scope():\n    return eq(ev_regimes, 'Federal and Wisconsin')\n@rule('s15', otherwise=False)\ndef ec_federal_business_camera():\n    return (ec_federal_scope and True and True and b_ec_camera_federal_business)\n@rule('s15', otherwise=False)\ndef ec_federal_professional_massage_table():\n    return (ec_federal_scope and True and True and b_ec_massage_table_federal_professional)\n@rule('s15', otherwise=False)\ndef ec_federal_pet_husky():\n    return (ec_federal_scope and True and True and b_ec_husky_federal_pet)\n@rule('s19', otherwise=False)\ndef ec_federal_wildcard_camera():\n    return (ec_federal_scope and True)\n@rule('s19', otherwise=False)\ndef ec_federal_wildcard_massage_table():\n    return (ec_federal_scope and True)\n@rule('s19', otherwise=False)\ndef ec_federal_wildcard_husky():\n    return (ec_federal_scope and True)\n@rule('s144', otherwise=False)\ndef ec_wisconsin_business_camera():\n    return (ec_wisconsin_scope and True and True and b_ec_camera_wisconsin_business)\n@rule('s144', otherwise=False)\ndef ec_wisconsin_professional_massage_table():\n    return (ec_wisconsin_scope and True and True and b_ec_massage_table_wisconsin_professional)\n@rule('s144', otherwise=False)\ndef ec_wisconsin_pet_husky():\n    return (ec_wisconsin_scope and True and True and b_ec_husky_wisconsin_pet)\n@rule('s176', otherwise=0)\ndef ev_federal_business_camera():\n    return (min(ev_camera_value, 1475 + 13950) if (ev_federal_scope and True and True and b_ev_camera_federal_business) else 0)\n@rule('s176', otherwise=0)\ndef ev_federal_professional_massage_table():\n    return (min(ev_massage_table_value, 1475 + 13950) if (ev_federal_scope and True and True and b_ev_massage_table_federal_professional) else 0)\n@rule('s176', otherwise=0)\ndef ev_federal_pet_husky():\n    return (min(ev_husky_value, 1475 + 13950) if (ev_federal_scope and True and True and b_ev_husky_federal_pet) else 0)\n@rule('s305', otherwise=0)\ndef ev_wisconsin_business_camera():\n    return (min(ev_camera_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_camera_wisconsin_business) else 0)\n@rule('s305', otherwise=0)\ndef ev_wisconsin_professional_massage_table():\n    return (min(ev_massage_table_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_massage_table_wisconsin_professional) else 0)\n@rule('s305', otherwise=0)\ndef ev_wisconsin_pet_husky():\n    return (min(ev_husky_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_husky_wisconsin_pet) else 0)\nquery = object(pair('EC', object(pair('digital camera for Debtor\\'s photography business', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_business_camera else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_camera else [])), (['Wis. Stat. § 815.18(3)(d)'] if ec_wisconsin_business_camera else []))), pair('adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_professional_massage_table else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_massage_table else [])), (['Wis. Stat. § 815.18(3)(d)'] if ec_wisconsin_professional_massage_table else []))), pair('Siberian husky', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_pet_husky else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_husky else [])), (['Wis. Stat. § 815.18(3)(d)'] if ec_wisconsin_pet_husky else []))))), pair('EV', object(pair('digital camera for Debtor\\'s photography business', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_business_camera))] if lt(0, ev_federal_business_camera) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_camera))] if lt(0, ev_federal_wildcard_camera) else [])), ([object(pair('citation', 'Wis. Stat. § 815.18(3)(d)'), pair('claim_value', ev_wisconsin_business_camera))] if lt(0, ev_wisconsin_business_camera) else []))), pair('adjustable massage table (needed for Debtor\\'s licensed massage therapy practice)', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_professional_massage_table))] if lt(0, ev_federal_professional_massage_table) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_massage_table))] if lt(0, ev_federal_wildcard_massage_table) else [])), ([object(pair('citation', 'Wis. Stat. § 815.18(3)(d)'), pair('claim_value', ev_wisconsin_professional_massage_table))] if lt(0, ev_wisconsin_professional_massage_table) else []))), pair('Siberian husky', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_pet_husky))] if lt(0, ev_federal_pet_husky) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_husky))] if lt(0, ev_federal_wildcard_husky) else [])), ([object(pair('citation', 'Wis. Stat. § 815.18(3)(d)'), pair('claim_value', ev_wisconsin_pet_husky))] if lt(0, ev_wisconsin_pet_husky) else []))))))\n",
+      "result": "still_rejected_after_format_only_candidate",
+      "error_type": "Unsupported",
+      "error": "Observation predicate is not an exact source quote"
+    },
+    {
+      "source_position": 13,
+      "source": "SARA_v2_Binary:5c29a3a22f755d6a6253919de3327553f029a75827c72238547ebb6701b5ace7",
+      "step": 0,
+      "original_error": {
+        "diagnostics": [
+          {
+            "actual": "unterminated string literal (detected at line 4) (<unknown>, line 4)",
+            "column": 149,
+            "expected": "complete valid Python source",
+            "line": 4,
+            "path": "code"
+          }
+        ],
+        "error": "Incomplete or invalid Python source: unterminated string literal (detected at line 4) (<unknown>, line 4)",
+        "error_type": "SourceCodeError"
+      },
+      "original_raw_sha256": "d72d0c6ee4584742ca7ab7e4819216e3da771923ecce2ac83545aa586ad19985",
+      "production_or_original_output_modified": false,
+      "result": "no_forced_delimiter_only_recovery"
+    },
+    {
+      "source_position": 25,
+      "source": "OpenExempt:3ab6950c0756cb713928a5f8a8ec0bc0e6d0b9bcd097773a5c7db86609171acb",
+      "step": 1,
+      "original_error": {
+        "diagnostics": [
+          {
+            "actual": "'(' was never closed (<unknown>, line 44)",
+            "column": 331,
+            "expected": "complete valid Python source",
+            "line": 44,
+            "path": "code"
+          }
+        ],
+        "error": "Incomplete or invalid Python source: '(' was never closed (<unknown>, line 44)",
+        "error_type": "SourceCodeError",
+        "source_validation": {
+          "candidate_modified": false,
+          "grading_information_used": false,
+          "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+          "issues": [
+            {
+              "actual": "health aids",
+              "expected": "exact substring of cited source",
+              "path": "observations[0].predicate"
+            },
+            {
+              "actual": "health aids",
+              "expected": "exact substring of cited source",
+              "path": "observations[2].predicate"
+            },
+            {
+              "actual": "household goods",
+              "expected": "exact substring of cited source",
+              "path": "observations[3].predicate"
+            },
+            {
+              "actual": "health aids",
+              "expected": "exact substring of cited source",
+              "path": "observations[4].predicate"
+            },
+            {
+              "actual": "health aids",
+              "expected": "exact substring of cited source",
+              "path": "observations[6].predicate"
+            },
+            {
+              "actual": "household goods",
+              "expected": "exact substring of cited source",
+              "path": "observations[7].predicate"
+            }
+          ],
+          "source_only": true
+        }
+      },
+      "original_raw_sha256": "d37fe3f2199cad4ca65b59654fa97615dd0cc2503092b4cfc3b1175d6e060049",
+      "production_or_original_output_modified": false,
+      "appended_EOF_delimiters": ")))",
+      "candidate_code": "ec_regimes = 'Federal and Wisconsin' # s318\nec_debtor = 'Andre and Chao Santos' # s320\nec_filing_date = 'Monday, December 2, 2024' # s320\nec_hospital_bed = 'hospital bed with pressure-relief mattress' # s320\nec_hospital_bed_value = 3045 # s320\nec_step_trash_can = 'step trash can with soft-close lid and removable liner' # s320\nec_step_trash_can_value = 34 # s320\nev_regimes = 'Federal and Wisconsin' # s318\nev_debtor = 'Andre and Chao Santos' # s320\nev_filing_date = 'Monday, December 2, 2024' # s320\nev_hospital_bed = 'hospital bed with pressure-relief mattress' # s320\nev_hospital_bed_value = 3045 # s320\nev_step_trash_can = 'step trash can with soft-close lid and removable liner' # s320\nev_step_trash_can_value = 34 # s320\n\n@scope('s134')\ndef ec_wisconsin_scope():\n    return eq(ec_regimes, 'Federal and Wisconsin')\n\n@rule('s144', otherwise=False)\ndef ec_wisconsin_consumer_hospital_bed():\n    return (ec_wisconsin_scope and True and True and b_ec_hospital_bed_wisconsin_consumer)\n\n@rule('s144', otherwise=False)\ndef ec_wisconsin_consumer_step_trash_can():\n    return (ec_wisconsin_scope and True and True and b_ec_step_trash_can_wisconsin_consumer)\n\n@rule('s180', otherwise=0)\ndef ev_federal_wildcard_hospital_bed():\n    return (min(ev_hospital_bed_value, add(1475, 13950)) if (ev_federal_scope and True) else 0)\n\n@rule('s180', otherwise=0)\ndef ev_federal_wildcard_step_trash_can():\n    return (min(ev_step_trash_can_value, add(1475, 13950)) if (ev_federal_scope and True) else 0)\n\n@rule('s305', otherwise=0)\ndef ev_wisconsin_consumer_hospital_bed():\n    return (min(ev_hospital_bed_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_hospital_bed_wisconsin_consumer) else 0)\n\n@rule('s305', otherwise=0)\ndef ev_wisconsin_consumer_step_trash_can():\n    return (min(ev_step_trash_can_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_step_trash_can_wisconsin_consumer) else 0)\n\nquery = object(pair('EC', object(pair('hospital bed with pressure-relief mattress', concat((['Wis. Stat. § 815.18(3)(d)'] if ec_wisconsin_consumer_hospital_bed else [])), pair('step trash can with soft-close lid and removable liner', concat((['Wis. Stat. § 815.18(3)(d)'] if ec_wisconsin_consumer_step_trash_can else []))))), pair('EV', object(pair('hospital bed with pressure-relief mattress', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_hospital_bed))] if lt(0, ev_federal_wildcard_hospital_bed) else []), ([object(pair('citation', 'Wis. Stat. § 815.18(3)(d)'), pair('claim_value', ev_wisconsin_consumer_hospital_bed))] if lt(0, ev_wisconsin_consumer_hospital_bed) else []))), pair('step trash can with soft-close lid and removable liner', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_step_trash_can))] if lt(0, ev_federal_wildcard_step_trash_can) else []), ([object(pair('citation', 'Wis. Stat. § 815.18(3)(d)'), pair('claim_value', ev_wisconsin_consumer_step_trash_can))] if lt(0, ev_wisconsin_consumer_step_trash_can) else [])))))))))\n",
+      "result": "still_rejected_after_format_only_candidate",
+      "error_type": "ValidationError",
+      "error": "No schema union alternative accepts this value"
+    },
+    {
+      "source_position": 26,
+      "source": "OpenExempt:1fcfad02aaa998e03952737396eaec6640b1502f08c5e6d1f78b806b732bf815",
+      "step": 1,
+      "original_error": {
+        "diagnostics": [
+          {
+            "actual": "'(' was never closed (<unknown>, line 65)",
+            "column": 15,
+            "expected": "complete valid Python source",
+            "line": 65,
+            "path": "code"
+          }
+        ],
+        "error": "Incomplete or invalid Python source: '(' was never closed (<unknown>, line 65)",
+        "error_type": "SourceCodeError",
+        "source_validation": {
+          "candidate_modified": false,
+          "grading_information_used": false,
+          "instruction": "Return a complete fresh candidate grounded in the public source. Preserve unknowns; do not coerce numbers to truth, invent missing rules, or substitute paragraph IDs for legal conclusions.",
+          "issues": [
+            {
+              "actual": {
+                "cited_text": "The Debtor may claim property exemptions under Arizona statutes.",
+                "sources": [
+                  "s318"
+                ],
+                "value": "Federal and Wisconsin"
+              },
+              "expected": "scalar_text_in_cited_public_unit",
+              "path": "bindings[0].value"
+            },
+            {
+              "actual": {
+                "cited_text": "The Debtor may claim property exemptions under Arizona statutes.",
+                "sources": [
+                  "s318"
+                ],
+                "value": "Federal and Wisconsin"
+              },
+              "expected": "scalar_text_in_cited_public_unit",
+              "path": "bindings[7].value"
+            },
+            {
+              "actual": "ev_federal_wildcard_earrings",
+              "expected": "declared IR symbol",
+              "path": "query.args[1].args[1].args[0].args[1].args[0].args[1].args[0].args[1].var"
+            },
+            {
+              "actual": "ev_federal_wildcard_earrings",
+              "expected": "declared IR symbol",
+              "path": "query.args[1].args[1].args[0].args[1].args[0].args[1].args[1].args[0].args[1].args[1].var"
+            },
+            {
+              "actual": "ev_federal_wildcard_ac_unit",
+              "expected": "declared IR symbol",
+              "path": "query.args[1].args[1].args[1].args[1].args[0].args[1].args[0].args[1].var"
+            },
+            {
+              "actual": "ev_federal_wildcard_ac_unit",
+              "expected": "declared IR symbol",
+              "path": "query.args[1].args[1].args[1].args[1].args[0].args[1].args[1].args[0].args[1].args[1].var"
+            }
+          ],
+          "source_only": true
+        }
+      },
+      "original_raw_sha256": "ef71478566567889cf188267a2b84a746e2921ba4a8d7c8330f335d310c5c17c",
+      "production_or_original_output_modified": false,
+      "appended_EOF_delimiters": ")",
+      "candidate_code": "ec_regimes = 'Arizona' # s318\nec_debtor = 'Mai Nguyen' # s320\nec_filing_date = '12-03-2024' # s320\nec_earrings = 'pair of sterling silver hoop earrings with cubic zirconia accents' # s320\nec_earrings_value = 98 # s320\nec_ac_unit = 'energy-efficient window air conditioning unit rated for 500 sq ft' # s320\nec_ac_unit_value = 255 # s320\nev_regimes = 'Arizona' # s318\nev_debtor = 'Mai Nguyen' # s320\nev_filing_date = '12-03-2024' # s320\nev_earrings = 'pair of sterling silver hoop earrings with cubic zirconia accents' # s320\nev_earrings_value = 98 # s320\nev_ac_unit = 'energy-efficient window air conditioning unit rated for 500 sq ft' # s320\nev_ac_unit_value = 255 # s320\nb_ec_earrings_federal_apparel = observation(entity='pair of sterling silver hoop earrings with cubic zirconia accents', entity_source='s320', predicate='wearing apparel', predicate_source='s15')\nb_ec_ac_unit_federal_appliance = observation(entity='energy-efficient window air conditioning unit rated for 500 sq ft', entity_source='s320', predicate='appliances', predicate_source='s15')\nb_ec_earrings_wisconsin_apparel = observation(entity='pair of sterling silver hoop earrings with cubic zirconia accents', entity_source='s320', predicate='wearing apparel', predicate_source='s144')\nb_ec_ac_unit_wisconsin_appliance = observation(entity='energy-efficient window air conditioning unit rated for 500 sq ft', entity_source='s320', predicate='appliances', predicate_source='s305')\nb_ev_earrings_federal_apparel = observation(entity='pair of sterling silver hoop earrings with cubic zirconia accents', entity_source='s320', predicate='wearing apparel', predicate_source='s176')\nb_ev_ac_unit_federal_appliance = observation(entity='energy-efficient window air conditioning unit rated for 500 sq ft', entity_source='s320', predicate='appliances', predicate_source='s176')\nb_ev_earrings_wisconsin_apparel = observation(entity='pair of sterling silver hoop earrings with cubic zirconia accents', entity_source='s320', predicate='wearing apparel', predicate_source='s305')\nb_ev_ac_unit_wisconsin_appliance = observation(entity='energy-efficient window air conditioning unit rated for 500 sq ft', entity_source='s320', predicate='appliances', predicate_source='s305')\n@scope('s9') \ndef ec_federal_scope(): \n    return eq(ec_regimes, 'Arizona') \n@scope('s134') \ndef ec_wisconsin_scope(): \n    return eq(ec_regimes, 'Arizona') \n@scope('s170') \ndef ev_federal_scope(): \n    return eq(ev_regimes, 'Arizona') \n@scope('s295') \ndef ev_wisconsin_scope(): \n    return eq(ev_regimes, 'Arizona') \n@rule('s15', otherwise=False) \ndef ec_federal_apparel_earrings(): \n    return (ec_federal_scope and True and True and b_ec_earrings_federal_apparel) \n@rule('s15', otherwise=False) \ndef ec_federal_appliance_ac_unit(): \n    return (ec_federal_scope and True and True and b_ec_ac_unit_federal_appliance) \n@rule('s19', otherwise=False) \ndef ec_federal_wildcard_earrings(): \n    return (ec_federal_scope and True) \n@rule('s19', otherwise=False) \ndef ec_federal_wildcard_ac_unit(): \n    return (ec_federal_scope and True) \n@rule('s144', otherwise=False) \ndef ec_wisconsin_apparel_earrings(): \n    return (ec_wisconsin_scope and True and True and b_ec_earrings_wisconsin_apparel) \n@rule('s144', otherwise=False) \ndef ec_wisconsin_appliance_ac_unit(): \n    return (ec_wisconsin_scope and True and True and b_ec_ac_unit_wisconsin_appliance) \n@rule('s176', otherwise=0) \ndef ev_federal_apparel_earrings(): \n    return (min(ev_earrings_value, 700) if (ev_federal_scope and True and True and b_ev_earrings_federal_apparel) else 0) \n@rule('s176', otherwise=0) \ndef ev_federal_appliance_ac_unit(): \n    return (min(ev_ac_unit_value, add(1475, 13950)) if (ev_federal_scope and True and True and b_ev_ac_unit_federal_appliance) else 0) \n@rule('s305', otherwise=0) \ndef ev_wisconsin_apparel_earrings(): \n    return (min(ev_earrings_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_earrings_wisconsin_apparel) else 0) \n@rule('s305', otherwise=0) \ndef ev_wisconsin_appliance_ac_unit(): \n    return (min(ev_ac_unit_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_ac_unit_wisconsin_appliance) else 0) \nquery = object(pair('EC', object(pair('pair of sterling silver hoop earrings with cubic zirconia accents', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_apparel_earrings else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_earrings else [])), (['Ariz. Rev. Stat. § 33-1125(1)'] if ec_wisconsin_apparel_earrings else []))), pair('energy-efficient window air conditioning unit rated for 500 sq ft', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_appliance_ac_unit else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_ac_unit else [])), (['Ariz. Rev. Stat. § 33-1125(1)'] if ec_wisconsin_appliance_ac_unit else []))))), pair('EV', object(pair('pair of sterling silver hoop earrings with cubic zirconia accents', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_apparel_earrings))] if lt(0, ev_federal_apparel_earrings) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_earrings))] if lt(0, ev_federal_wildcard_earrings) else [])), ([object(pair('citation', 'Ariz. Rev. Stat. § 33-1125(1)'), pair('claim_value', ev_wisconsin_apparel_earrings))] if lt(0, ev_wisconsin_apparel_earrings) else []))), pair('energy-efficient window air conditioning unit rated for 500 sq ft', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_appliance_ac_unit))] if lt(0, ev_federal_appliance_ac_unit) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_ac_unit))] if lt(0, ev_federal_wildcard_ac_unit) else [])), ([object(pair('citation', 'Ariz. Rev. Stat. § 33-1125(1)'), pair('claim_value', ev_wisconsin_appliance_ac_unit))] if lt(0, ev_wisconsin_appliance_ac_unit) else []))))))\n",
+      "result": "still_rejected_after_format_only_candidate",
+      "error_type": "Unsupported",
+      "error": "Duplicate observation quotes cannot gain time or legal context from variable names"
+    },
+    {
+      "source_position": 27,
+      "source": "OpenExempt:c40e05010df621aff75cb6a5875aa6762e25d29544b0703daaf511dc7ecee5f6",
+      "step": 0,
+      "original_error": {
+        "diagnostics": [
+          {
+            "actual": "'(' was never closed (<unknown>, line 71)",
+            "column": 15,
+            "expected": "complete valid Python source",
+            "line": 71,
+            "path": "code"
+          }
+        ],
+        "error": "Incomplete or invalid Python source: '(' was never closed (<unknown>, line 71)",
+        "error_type": "SourceCodeError"
+      },
+      "original_raw_sha256": "0f2cd63c489b6f37dd788291c44a495330a4020e00dc1b629690f5710bdbcd7d",
+      "production_or_original_output_modified": false,
+      "appended_EOF_delimiters": ")",
+      "candidate_code": "ec_regimes = 'Federal and Oregon' # s318\nec_debtor = 'Nguyen and Sunil Tran' # s320\nec_filing_date = '14th of September, 2024' # s320\nec_jacket = 'mid-length utility jacket with drawstring waist and snap buttons' # s320\nec_jacket_value = 129 # s320\nec_scarf = 'woven scarf with fringe edges' # s320\nec_scarf_value = 38 # s320\nev_regimes = 'Federal and Oregon' # s318\nev_debtor = 'Nguyen and Sunil Tran' # s320\nev_filing_date = '14th of September, 2024' # s320\nev_jacket = 'mid-length utility jacket with drawstring waist and snap buttons' # s320\nev_jacket_value = 129 # s320\nev_scarf = 'woven scarf with fringe edges' # s320\nev_scarf_value = 38 # s320\nb_ec_jacket_federal_apparel = observation(entity='mid-length utility jacket with drawstring waist and snap buttons', entity_source='s320', predicate='wearing apparel', predicate_source='s15')\nb_ec_scarf_federal_apparel = observation(entity='woven scarf with fringe edges', entity_source='s320', predicate='wearing apparel', predicate_source='s15')\nb_ec_jacket_wisconsin_apparel = observation(entity='mid-length utility jacket with drawstring waist and snap buttons', entity_source='s320', predicate='wearing apparel', predicate_source='s144')\nb_ec_scarf_wisconsin_apparel = observation(entity='woven scarf with fringe edges', entity_source='s320', predicate='wearing apparel', predicate_source='s144')\nb_ev_jacket_federal_apparel = observation(entity='mid-length utility jacket with drawstring waist and snap buttons', entity_source='s320', predicate='wearing apparel', predicate_source='s176')\nb_ev_scarf_federal_apparel = observation(entity='woven scarf with fringe edges', entity_source='s320', predicate='wearing apparel', predicate_source='s176')\nb_ev_jacket_wisconsin_apparel = observation(entity='mid-length utility jacket with drawstring waist and snap buttons', entity_source='s320', predicate='wearing apparel', predicate_source='s305')\nb_ev_scarf_wisconsin_apparel = observation(entity='woven scarf with fringe edges', entity_source='s320', predicate='wearing apparel', predicate_source='s305')\n@scope('s9') \ndef ec_federal_scope(): \n    return eq(ec_regimes, 'Federal and Oregon') \n@scope('s134') \ndef ec_wisconsin_scope(): \n    return eq(ec_regimes, 'Federal and Oregon') \n@scope('s170') \ndef ev_federal_scope(): \n    return eq(ev_regimes, 'Federal and Oregon') \n@scope('s295') \ndef ev_wisconsin_scope(): \n    return eq(ev_regimes, 'Federal and Oregon') \n@rule('s15', otherwise=False) \ndef ec_federal_apparel_jacket(): \n    return (ec_federal_scope and True and True and b_ec_jacket_federal_apparel) \n@rule('s15', otherwise=False) \ndef ec_federal_apparel_scarf(): \n    return (ec_federal_scope and True and True and b_ec_scarf_federal_apparel) \n@rule('s19', otherwise=False) \ndef ec_federal_wildcard_jacket(): \n    return (ec_federal_scope and True) \n@rule('s19', otherwise=False) \ndef ec_federal_wildcard_scarf(): \n    return (ec_federal_scope and True) \n@rule('s144', otherwise=False) \ndef ec_wisconsin_consumer_jacket(): \n    return (ec_wisconsin_scope and True and True and b_ec_jacket_wisconsin_apparel) \n@rule('s144', otherwise=False) \ndef ec_wisconsin_consumer_scarf(): \n    return (ec_wisconsin_scope and True and True and b_ec_scarf_wisconsin_apparel) \n@rule('s176', otherwise=0) \ndef ev_federal_apparel_jacket(): \n    return (min(ev_jacket_value, 700) if (ev_federal_scope and True and True and b_ev_jacket_federal_apparel) else 0) \n@rule('s176', otherwise=0) \ndef ev_federal_apparel_scarf(): \n    return (min(ev_scarf_value, 700) if (ev_federal_scope and True and True and b_ev_scarf_federal_apparel) else 0) \n@rule('s180', otherwise=0) \ndef ev_federal_wildcard_jacket(): \n    return (min(ev_jacket_value, add(1475, 13950)) if (ev_federal_scope and True) else 0) \n@rule('s180', otherwise=0) \ndef ev_federal_wildcard_scarf(): \n    return (min(ev_scarf_value, add(1475, 13950)) if (ev_federal_scope and True) else 0) \n@rule('s305', otherwise=0) \ndef ev_wisconsin_consumer_jacket(): \n    return (min(ev_jacket_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_jacket_wisconsin_apparel) else 0) \n@rule('s305', otherwise=0) \ndef ev_wisconsin_consumer_scarf(): \n    return (min(ev_scarf_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_scarf_wisconsin_apparel) else 0) \nquery = object(pair('EC', object(pair('mid-length utility jacket with drawstring waist and snap buttons', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_apparel_jacket else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_jacket else [])), (['Wis. Stat. § 815.18(3)(d)'] if ec_wisconsin_consumer_jacket else []))), pair('woven scarf with fringe edges', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_apparel_scarf else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_scarf else [])), (['Wis. Stat. § 815.18(3)(d)'] if ec_wisconsin_consumer_scarf else []))))), pair('EV', object(pair('mid-length utility jacket with drawstring waist and snap buttons', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_apparel_jacket))] if lt(0, ev_federal_apparel_jacket) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_jacket))] if lt(0, ev_federal_wildcard_jacket) else [])), ([object(pair('citation', 'Wis. Stat. § 815.18(3)(d)'), pair('claim_value', ev_wisconsin_consumer_jacket))] if lt(0, ev_wisconsin_consumer_jacket) else []))), pair('woven scarf with fringe edges', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_apparel_scarf))] if lt(0, ev_federal_apparel_scarf) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_scarf))] if lt(0, ev_federal_wildcard_scarf) else [])), ([object(pair('citation', 'Wis. Stat. § 815.18(3)(d)'), pair('claim_value', ev_wisconsin_consumer_scarf))] if lt(0, ev_wisconsin_consumer_scarf) else []))))))\n",
+      "result": "typed_after_EOF_delimiters_only",
+      "assessment_status": "translation_unresolved",
+      "certificate_issued": false,
+      "source_semantic_success_not_inferred": true
+    },
+    {
+      "source_position": 28,
+      "source": "OpenExempt:b5dc2ec928dc8125998af6921cb97d1104fbd9c3d2bca1f9ddabe9e103300fbb",
+      "step": 0,
+      "original_error": {
+        "diagnostics": [
+          {
+            "actual": "'(' was never closed (<unknown>, line 97)",
+            "column": 15,
+            "expected": "complete valid Python source",
+            "line": 97,
+            "path": "code"
+          }
+        ],
+        "error": "Incomplete or invalid Python source: '(' was never closed (<unknown>, line 97)",
+        "error_type": "SourceCodeError"
+      },
+      "original_raw_sha256": "b399ffa958e909fc3aa77f31572c699f0bb1ecaa91e5f739695d06dc70f18535",
+      "production_or_original_output_modified": false,
+      "appended_EOF_delimiters": ")",
+      "candidate_code": "ec_regimes = 'Federal and Wisconsin' # s318\nec_debtor = 'Sara Martinez' # s320\nec_filing_date = 'Monday, December 2, 2024' # s320\nec_webcam = 'home office webcam with 1080p resolution and privacy shutter' # s320\nec_webcam_value = 1200 # s320\nec_earrings = 'fashion earrings in geometric shapes with silver-tone finish' # s320\nec_earrings_value = 85 # s320\nec_drying_rack = 'collapsible drying rack with adjustable wings' # s320\nec_drying_rack_value = 34 # s320\nev_regimes = 'Federal and Wisconsin' # s318\nev_debtor = 'Sara Martinez' # s320\nev_filing_date = 'Monday, December 2, 2024' # s320\nev_webcam = 'home office webcam with 1080p resolution and privacy shutter' # s320\nev_webcam_value = 1200 # s320\nev_earrings = 'fashion earrings in geometric shapes with silver-tone finish' # s320\nev_earrings_value = 85 # s320\nev_drying_rack = 'collapsible drying rack with adjustable wings' # s320\nev_drying_rack_value = 34 # s320\nb_ec_webcam_federal_furnishing = observation(entity='home office webcam with 1080p resolution and privacy shutter', entity_source='s320', predicate='household furnishings', predicate_source='s15')\nb_ec_earrings_federal_apparel = observation(entity='fashion earrings in geometric shapes with silver-tone finish', entity_source='s320', predicate='wearing apparel', predicate_source='s15')\nb_ec_drying_rack_federal_furnishing = observation(entity='collapsible drying rack with adjustable wings', entity_source='s320', predicate='household furnishings', predicate_source='s15')\nb_ec_webcam_wisconsin_furnishing = observation(entity='home office webcam with 1080p resolution and privacy shutter', entity_source='s320', predicate='Household goods and furnishings', predicate_source='s144')\nb_ec_earrings_wisconsin_apparel = observation(entity='fashion earrings in geometric shapes with silver-tone finish', entity_source='s320', predicate='wearing apparel', predicate_source='s144')\nb_ec_drying_rack_wisconsin_furnishing = observation(entity='collapsible drying rack with adjustable wings', entity_source='s320', predicate='Household goods and furnishings', predicate_source='s144')\nb_ev_webcam_federal_furnishing = observation(entity='home office webcam with 1080p resolution and privacy shutter', entity_source='s320', predicate='household furnishings', predicate_source='s176')\nb_ev_earrings_federal_apparel = observation(entity='fashion earrings in geometric shapes with silver-tone finish', entity_source='s320', predicate='wearing apparel', predicate_source='s176')\nb_ev_drying_rack_federal_furnishing = observation(entity='collapsible drying rack with adjustable wings', entity_source='s320', predicate='household furnishings', predicate_source='s176')\nb_ev_webcam_wisconsin_furnishing = observation(entity='home office webcam with 1080p resolution and privacy shutter', entity_source='s320', predicate='Household goods and furnishings', predicate_source='s305')\nb_ev_earrings_wisconsin_apparel = observation(entity='fashion earrings in geometric shapes with silver-tone finish', entity_source='s320', predicate='wearing apparel', predicate_source='s305')\nb_ev_drying_rack_wisconsin_furnishing = observation(entity='collapsible drying rack with adjustable wings', entity_source='s320', predicate='Household goods and furnishings', predicate_source='s305')\n@scope('s9')\ndef ec_federal_scope():\n    return eq(ec_regimes, 'Federal and Wisconsin')\n@scope('s134')\ndef ec_wisconsin_scope():\n    return eq(ec_regimes, 'Federal and Wisconsin')\n@scope('s170')\ndef ev_federal_scope():\n    return eq(ev_regimes, 'Federal and Wisconsin')\n@scope('s295')\ndef ev_wisconsin_scope():\n    return eq(ev_regimes, 'Federal and Wisconsin')\n@rule('s15', otherwise=False)\ndef ec_federal_furnishings_webcam():\n    return (ec_federal_scope and True and True and b_ec_webcam_federal_furnishing)\n@rule('s15', otherwise=False)\ndef ec_federal_apparel_earrings():\n    return (ec_federal_scope and True and True and b_ec_earrings_federal_apparel)\n@rule('s15', otherwise=False)\ndef ec_federal_furnishings_drying_rack():\n    return (ec_federal_scope and True and True and b_ec_drying_rack_federal_furnishing)\n@rule('s19', otherwise=False)\ndef ec_federal_wildcard_webcam():\n    return (ec_federal_scope and True)\n@rule('s19', otherwise=False)\ndef ec_federal_wildcard_earrings():\n    return (ec_federal_scope and True)\n@rule('s19', otherwise=False)\ndef ec_federal_wildcard_drying_rack():\n    return (ec_federal_scope and True)\n@rule('s144', otherwise=False)\ndef ec_wisconsin_consumer_webcam():\n    return (ec_wisconsin_scope and True and True and b_ec_webcam_wisconsin_furnishing)\n@rule('s144', otherwise=False)\ndef ec_wisconsin_consumer_earrings():\n    return (ec_wisconsin_scope and True and True and b_ec_earrings_wisconsin_apparel)\n@rule('s144', otherwise=False)\ndef ec_wisconsin_consumer_drying_rack():\n    return (ec_wisconsin_scope and True and True and b_ec_drying_rack_wisconsin_furnishing)\n@rule('s176', otherwise=0)\ndef ev_federal_furnishings_webcam():\n    return (min(ev_webcam_value, 700) if (ev_federal_scope and True and True and b_ev_webcam_federal_furnishing) else 0)\n@rule('s176', otherwise=0)\ndef ev_federal_apparel_earrings():\n    return (min(ev_earrings_value, 700) if (ev_federal_scope and True and True and b_ev_earrings_federal_apparel) else 0)\n@rule('s176', otherwise=0)\ndef ev_federal_furnishings_drying_rack():\n    return (min(ev_drying_rack_value, 700) if (ev_federal_scope and True and True and b_ev_drying_rack_federal_furnishing) else 0)\n@rule('s180', otherwise=0)\ndef ev_federal_wildcard_webcam():\n    return (min(ev_webcam_value, add(1475, 13950)) if (ev_federal_scope and True) else 0)\n@rule('s180', otherwise=0)\ndef ev_federal_wildcard_earrings():\n    return (min(ev_earrings_value, add(1475, 13950)) if (ev_federal_scope and True) else 0)\n@rule('s180', otherwise=0)\ndef ev_federal_wildcard_drying_rack():\n    return (min(ev_drying_rack_value, add(1475, 13950)) if (ev_federal_scope and True) else 0)\n@rule('s305', otherwise=0)\ndef ev_wisconsin_consumer_webcam():\n    return (min(ev_webcam_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_webcam_wisconsin_furnishing) else 0)\n@rule('s305', otherwise=0)\ndef ev_wisconsin_consumer_earrings():\n    return (min(ev_earrings_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_earrings_wisconsin_apparel) else 0)\n@rule('s305', otherwise=0)\ndef ev_wisconsin_consumer_drying_rack():\n    return (min(ev_drying_rack_value, 12000) if (ev_wisconsin_scope and True and True and b_ev_drying_rack_wisconsin_furnishing) else 0)\nquery = object(pair('EC', object(pair('home office webcam with 1080p resolution and privacy shutter', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_furnishings_webcam else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_webcam else [])), (['Wis. Stat. § 815.18(3)(d)'] if ec_wisconsin_consumer_webcam else []))), pair('fashion earrings in geometric shapes with silver-tone finish', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_apparel_earrings else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_earrings else [])), (['Wis. Stat. § 815.18(3)(d)'] if ec_wisconsin_consumer_earrings else []))), pair('collapsible drying rack with adjustable wings', concat(concat((['11 U.S.C. § 522(d)(3)'] if ec_federal_furnishings_drying_rack else []), (['11 U.S.C. § 522(d)(5)'] if ec_federal_wildcard_drying_rack else [])), (['Wis. Stat. § 815.18(3)(d)'] if ec_wisconsin_consumer_drying_rack else []))))), pair('EV', object(pair('home office webcam with 1080p resolution and privacy shutter', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_furnishings_webcam))] if lt(0, ev_federal_furnishings_webcam) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_webcam))] if lt(0, ev_federal_wildcard_webcam) else [])), ([object(pair('citation', 'Wis. Stat. § 815.18(3)(d)'), pair('claim_value', ev_wisconsin_consumer_webcam))] if lt(0, ev_wisconsin_consumer_webcam) else []))), pair('fashion earrings in geometric shapes with silver-tone finish', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_apparel_earrings))] if lt(0, ev_federal_apparel_earrings) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_earrings))] if lt(0, ev_federal_wildcard_earrings) else [])), ([object(pair('citation', 'Wis. Stat. § 815.18(3)(d)'), pair('claim_value', ev_wisconsin_consumer_earrings))] if lt(0, ev_wisconsin_consumer_earrings) else []))), pair('collapsible drying rack with adjustable wings', concat(concat(([object(pair('citation', '11 U.S.C. § 522(d)(3)'), pair('claim_value', ev_federal_furnishings_drying_rack))] if lt(0, ev_federal_furnishings_drying_rack) else []), ([object(pair('citation', '11 U.S.C. § 522(d)(5)'), pair('claim_value', ev_federal_wildcard_drying_rack))] if lt(0, ev_federal_wildcard_drying_rack) else [])), ([object(pair('citation', 'Wis. Stat. § 815.18(3)(d)'), pair('claim_value', ev_wisconsin_consumer_drying_rack))] if lt(0, ev_wisconsin_consumer_drying_rack) else []))))))\n",
+      "result": "still_rejected_after_format_only_candidate",
+      "error_type": "Unsupported",
+      "error": "Public literal grounding failed: [{'binding': 'ec_regimes', 'sources': ['s318'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}, {'binding': 'ev_regimes', 'sources': ['s318'], 'pass': False, 'basis': 'scalar_text_in_cited_public_unit'}]"
+    }
+  ],
+  "typed_candidates": 1,
+  "production_parser_changed": false,
+  "original_results_unchanged": true,
+  "semantic_checks_relaxed": false,
+  "new_model_or_oracle_calls": 0,
+  "DEV_or_TEST_labels_read": false,
+  "goal_complete": false
+}

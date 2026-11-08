@@ -27,7 +27,7 @@ from .source_learning import DurableOracle
 from .strict_contract import obj
 
 
-OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_reference_frontend_v23_20261109.json'
+OFFLINE_RECEIPT='reports/rr_method_runtime_20261107/offline_reference_frontend_v24_20261109.json'
 
 
 def load_executor_lock(root,executor):
@@ -149,20 +149,35 @@ class MethodRun:
             self.verify()
             actual='method_primitive_observation' if dispatch_purpose=='method_train_synthesis' and \
                 set((schema or {}).get('properties',{}))=={'observations'} else dispatch_purpose
-            if dispatch_purpose=='method_train_synthesis':
-                reused=self.paid_executor_response(executor,source,messages,schema,thinking)
+            if dispatch_purpose in {'method_train_synthesis','method_dev'}:
+                reused=self.paid_executor_response(executor,source,messages,schema,thinking,
+                    dispatch_purpose=dispatch_purpose)
                 if reused is not None:return reused
             return executor.generate(prefix+':'+str(step),source=source['key'],purpose=actual,
                 messages=messages,thinking=thinking,schema=schema)
         dispatch_purpose=purpose
         return generate
 
-    def paid_executor_response(self,executor,source,messages,schema,thinking):
-        """Reuse only literal identical paid TRAIN wire bytes, never its result/grade."""
+    def paid_executor_response(self,executor,source,messages,schema,thinking,*,dispatch_purpose):
+        """Reuse identical paid wire bytes, never its execution result or grade.
+
+        TRAIN retains exact historical provenance. DEV shares only raw replies
+        inside this same run and fixed DEV source; every arm executes them anew.
+        """
         if not hasattr(executor,'payload'):return None
         body=json.dumps(executor.payload(messages=messages,thinking=thinking,schema=schema),ensure_ascii=False).encode()
+        if dispatch_purpose=='method_dev':
+            if source['key'] not in self.seal['sources']['dev']:
+                raise BudgetError('DEV raw-response reuse requires an original fixed DEV source')
+            prefix=self.run_id+':dev:'
+            eligible="purpose='method_dev' and substr(id,1,?)=?"
+            arguments=(source['key'],len(prefix),prefix)
+        elif dispatch_purpose=='method_train_synthesis':
+            eligible="purpose in ('method_train_synthesis','method_primitive_observation')"
+            arguments=(source['key'],)
+        else:raise ValueError('Only common TRAIN or same-run DEV raw-response reuse')
         with sqlite3.connect('file:'+str(self.root/self.seal['ledger_path'])+'?mode=ro',uri=True) as db:
-            rows=db.execute("select id,request_hash,result from calls where role='executor' and source=? and status='completed' and purpose in ('method_train_synthesis','method_primitive_observation') order by reserved_at",(source['key'],)).fetchall()
+            rows=db.execute("select id,request_hash,result from calls where role='executor' and source=? and status='completed' and "+eligible+" order by reserved_at",arguments).fetchall()
         for call_id,request_hash,raw in rows:
             result=json.loads(raw)
             if not result.get('artifact_directory'):continue

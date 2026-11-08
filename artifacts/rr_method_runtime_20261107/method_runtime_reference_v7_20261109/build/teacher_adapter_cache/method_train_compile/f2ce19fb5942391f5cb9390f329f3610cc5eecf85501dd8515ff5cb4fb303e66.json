@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "request_sha256": "f2ce19fb5942391f5cb9390f329f3610cc5eecf85501dd8515ff5cb4fb303e66",
+  "response_sha256": "45e0d5402c8aef575553bc358126a67ab3c39aa5314e2d665974f99f8e509bf3",
+  "model": "gpt-5.6-sol",
+  "purpose": "method_train_compile",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "Only one source-grounded pattern was observed: the ProofWriter_OWA_depth5 record identified entity_equality on observed collisions. The remaining records contained no pattern; their translations, typed inputs, counterfactual oracle, or request preparation were unavailable or unresolved. No universal semantic-equivalence claim is made."
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-08T18:01:29.864496+00:00",
+    "finished_at": "2026-11-08T18:01:45.562581+00:00",
+    "elapsed_seconds": 15.698,
+    "returncode": 0,
+    "event_log_sha256": "007020e52ce5019e03703bed9ef575da7a560148c393f34ea978c5441a15c76a",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 47498,
+      "cached_input_tokens": 0,
+      "output_tokens": 203,
+      "reasoning_output_tokens": 59
+    },
+    "estimated_credits": null
+  }
+}

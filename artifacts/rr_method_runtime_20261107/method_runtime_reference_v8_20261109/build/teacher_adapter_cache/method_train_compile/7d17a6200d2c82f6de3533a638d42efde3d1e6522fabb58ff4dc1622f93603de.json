@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "request_sha256": "7d17a6200d2c82f6de3533a638d42efde3d1e6522fabb58ff4dc1622f93603de",
+  "response_sha256": "6573c7639ff3bd47e95d2090f483fb5e5bd0c7355e336023f5fb6fb7424b817d",
+  "model": "gpt-5.6-sol",
+  "purpose": "method_train_compile",
+  "value": {
+    "patterns": [
+      {
+        "fields": [
+          "entity_equality"
+        ],
+        "graphs": [
+          "{\"op\":\"join_on\",\"inputs\":[{\"slot\":\"slot0\"},{\"slot\":\"slot1\"}],\"params\":{\"keys\":[\"column0\"]}}"
+        ],
+        "basis": "observed_source_collisions",
+        "universal_semantic_equivalence_claim": false
+      }
+    ],
+    "notes": "唯一观察到且有来源碰撞证据支持的模式来自 ProofWriter_OWA_depth5；其余训练记录的 pattern 均为 null，且多为 invalid_IR、translation_unresolved 或输入/反事实信息不足，因此未提取其他模式。library 明确标注 source_answers_stored_as_patterns=false。"
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-08T18:20:39.642849+00:00",
+    "finished_at": "2026-11-08T18:20:55.139110+00:00",
+    "elapsed_seconds": 15.496,
+    "returncode": 0,
+    "event_log_sha256": "3d845f0c7b51a7cd90c16fe868d7fa06c41f98a2cf2513cc8aad6bf7334e6409",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 47496,
+      "cached_input_tokens": 13440,
+      "output_tokens": 220,
+      "reasoning_output_tokens": 68
+    },
+    "estimated_credits": null
+  }
+}
