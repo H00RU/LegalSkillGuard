@@ -1,0 +1,570 @@
+{
+  "captured_utc": "2026-11-09T07:57:43.304217+00:00",
+  "evidence_type": "New offline source-program prototype on previously observed real TRAIN; not blind",
+  "new_model_calls": 0,
+  "induction_mothers": 2,
+  "regression_mothers": 2,
+  "cases": [
+    {
+      "case_id": "TRAIN83:original",
+      "mother": "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+      "variant": "original",
+      "gold_frame": {
+        "payee": "Bob",
+        "payer": "Alice",
+        "payment_is_agricultural_product": null,
+        "payment_medium": null,
+        "work_activity": "domestic service",
+        "work_is_agricultural": false
+      },
+      "gold_h": [
+        0,
+        2
+      ],
+      "M1": {
+        "candidates": [
+          {
+            "spans": {
+              "payer": [
+                0,
+                5
+              ],
+              "payee": [
+                24,
+                27
+              ],
+              "work_activity": [
+                32,
+                48
+              ],
+              "payment_medium": null
+            },
+            "values": {
+              "payer": "Alice",
+              "payee": "Bob",
+              "work_activity": "domestic service",
+              "payment_medium": null,
+              "work_is_agricultural": false,
+              "payment_is_agricultural_product": null
+            },
+            "unit": [
+              0,
+              113
+            ],
+            "h": [
+              0,
+              2
+            ]
+          }
+        ],
+        "prediction": [
+          0,
+          2
+        ],
+        "unresolved": false,
+        "new_model_calls": 0,
+        "source_meaning_proved": false,
+        "classification_source": "TRAIN verified role/phrase labels only",
+        "actual_reader_answer": [
+          2,
+          2
+        ],
+        "disagreements": [
+          0
+        ],
+        "constraints_executed": [
+          {
+            "kind": "classification_reads_bound_role",
+            "role": "work_activity"
+          },
+          {
+            "kind": "classification_reads_bound_role",
+            "role": "payment_medium"
+          }
+        ],
+        "question_plan": {
+          "actions": [],
+          "status": "no_distinguishing_question_needed_or_available",
+          "none_of_the_above": true,
+          "all_unissued_questions_unobserved": true
+        },
+        "questions_executed_from_cache": [],
+        "not_previously_asked_questions_must_be_dispatched": true
+      },
+      "ordinary_wrapper": {
+        "candidates": [
+          {
+            "spans": {
+              "payer": [
+                0,
+                5
+              ],
+              "payee": [
+                24,
+                27
+              ],
+              "work_activity": [
+                32,
+                48
+              ],
+              "payment_medium": null
+            },
+            "values": {
+              "payer": "Alice",
+              "payee": "Bob",
+              "work_activity": "domestic service",
+              "payment_medium": null,
+              "work_is_agricultural": false,
+              "payment_is_agricultural_product": null
+            },
+            "unit": [
+              0,
+              113
+            ],
+            "h": [
+              0,
+              2
+            ]
+          }
+        ],
+        "prediction": [
+          0,
+          2
+        ],
+        "unresolved": false,
+        "new_model_calls": 0,
+        "source_meaning_proved": false,
+        "classification_source": "TRAIN verified role/phrase labels only"
+      },
+      "source_frame_candidate_exact": true,
+      "same_predictions": true,
+      "M1_pair_correct": true,
+      "ordinary_pair_correct": true
+    },
+    {
+      "case_id": "TRAIN83:controlled",
+      "mother": "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+      "variant": "controlled",
+      "gold_frame": {
+        "payee": "Bob",
+        "payer": "Alice",
+        "payment_is_agricultural_product": true,
+        "payment_medium": "hay",
+        "work_activity": "domestic service",
+        "work_is_agricultural": false
+      },
+      "gold_h": [
+        0,
+        1
+      ],
+      "M1": {
+        "candidates": [
+          {
+            "spans": {
+              "payer": [
+                0,
+                5
+              ],
+              "payee": [
+                31,
+                34
+              ],
+              "work_activity": [
+                39,
+                55
+              ],
+              "payment_medium": [
+                24,
+                27
+              ]
+            },
+            "values": {
+              "payer": "Alice",
+              "payee": "Bob",
+              "work_activity": "domestic service",
+              "payment_medium": "hay",
+              "work_is_agricultural": false,
+              "payment_is_agricultural_product": true
+            },
+            "unit": [
+              0,
+              120
+            ],
+            "h": [
+              0,
+              1
+            ]
+          }
+        ],
+        "prediction": [
+          0,
+          1
+        ],
+        "unresolved": false,
+        "new_model_calls": 0,
+        "source_meaning_proved": false,
+        "classification_source": "TRAIN verified role/phrase labels only",
+        "actual_reader_answer": [
+          0,
+          1
+        ],
+        "disagreements": [],
+        "constraints_executed": [
+          {
+            "kind": "classification_reads_bound_role",
+            "role": "work_activity"
+          },
+          {
+            "kind": "classification_reads_bound_role",
+            "role": "payment_medium"
+          }
+        ],
+        "question_plan": {
+          "actions": [],
+          "status": "no_distinguishing_question_needed_or_available",
+          "none_of_the_above": true,
+          "all_unissued_questions_unobserved": true
+        },
+        "questions_executed_from_cache": [],
+        "not_previously_asked_questions_must_be_dispatched": true
+      },
+      "ordinary_wrapper": {
+        "candidates": [
+          {
+            "spans": {
+              "payer": [
+                0,
+                5
+              ],
+              "payee": [
+                31,
+                34
+              ],
+              "work_activity": [
+                39,
+                55
+              ],
+              "payment_medium": [
+                24,
+                27
+              ]
+            },
+            "values": {
+              "payer": "Alice",
+              "payee": "Bob",
+              "work_activity": "domestic service",
+              "payment_medium": "hay",
+              "work_is_agricultural": false,
+              "payment_is_agricultural_product": true
+            },
+            "unit": [
+              0,
+              120
+            ],
+            "h": [
+              0,
+              1
+            ]
+          }
+        ],
+        "prediction": [
+          0,
+          1
+        ],
+        "unresolved": false,
+        "new_model_calls": 0,
+        "source_meaning_proved": false,
+        "classification_source": "TRAIN verified role/phrase labels only"
+      },
+      "source_frame_candidate_exact": true,
+      "same_predictions": true,
+      "M1_pair_correct": true,
+      "ordinary_pair_correct": true
+    },
+    {
+      "case_id": "TRAIN88:original",
+      "mother": "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "variant": "original",
+      "gold_frame": {
+        "payee": "Bob",
+        "payer": "Alice",
+        "payment_is_agricultural_product": null,
+        "payment_medium": null,
+        "work_activity": "agricultural labor",
+        "work_is_agricultural": true
+      },
+      "gold_h": [
+        1,
+        2
+      ],
+      "M1": {
+        "candidates": [
+          {
+            "spans": {
+              "payer": [
+                0,
+                5
+              ],
+              "payee": [
+                33,
+                36
+              ],
+              "work_activity": [
+                77,
+                95
+              ],
+              "payment_medium": null
+            },
+            "values": {
+              "payer": "Alice",
+              "payee": "Bob",
+              "work_activity": "agricultural labor",
+              "payment_medium": null,
+              "work_is_agricultural": true,
+              "payment_is_agricultural_product": null
+            },
+            "unit": [
+              0,
+              137
+            ],
+            "h": [
+              1,
+              2
+            ]
+          }
+        ],
+        "prediction": [
+          1,
+          2
+        ],
+        "unresolved": false,
+        "new_model_calls": 0,
+        "source_meaning_proved": false,
+        "classification_source": "TRAIN verified role/phrase labels only",
+        "actual_reader_answer": [
+          1,
+          2
+        ],
+        "disagreements": [],
+        "constraints_executed": [
+          {
+            "kind": "classification_reads_bound_role",
+            "role": "work_activity"
+          },
+          {
+            "kind": "classification_reads_bound_role",
+            "role": "payment_medium"
+          }
+        ],
+        "question_plan": {
+          "actions": [],
+          "status": "no_distinguishing_question_needed_or_available",
+          "none_of_the_above": true,
+          "all_unissued_questions_unobserved": true
+        },
+        "questions_executed_from_cache": [],
+        "not_previously_asked_questions_must_be_dispatched": true
+      },
+      "ordinary_wrapper": {
+        "candidates": [
+          {
+            "spans": {
+              "payer": [
+                0,
+                5
+              ],
+              "payee": [
+                33,
+                36
+              ],
+              "work_activity": [
+                77,
+                95
+              ],
+              "payment_medium": null
+            },
+            "values": {
+              "payer": "Alice",
+              "payee": "Bob",
+              "work_activity": "agricultural labor",
+              "payment_medium": null,
+              "work_is_agricultural": true,
+              "payment_is_agricultural_product": null
+            },
+            "unit": [
+              0,
+              137
+            ],
+            "h": [
+              1,
+              2
+            ]
+          }
+        ],
+        "prediction": [
+          1,
+          2
+        ],
+        "unresolved": false,
+        "new_model_calls": 0,
+        "source_meaning_proved": false,
+        "classification_source": "TRAIN verified role/phrase labels only"
+      },
+      "source_frame_candidate_exact": true,
+      "same_predictions": true,
+      "M1_pair_correct": true,
+      "ordinary_pair_correct": true
+    },
+    {
+      "case_id": "TRAIN88:controlled",
+      "mother": "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "variant": "controlled",
+      "gold_frame": {
+        "payee": "Bob",
+        "payer": "Alice",
+        "payment_is_agricultural_product": true,
+        "payment_medium": "hay",
+        "work_activity": "agricultural labor",
+        "work_is_agricultural": true
+      },
+      "gold_h": [
+        1,
+        1
+      ],
+      "M1": {
+        "candidates": [
+          {
+            "spans": {
+              "payer": [
+                0,
+                5
+              ],
+              "payee": [
+                40,
+                43
+              ],
+              "work_activity": [
+                84,
+                102
+              ],
+              "payment_medium": [
+                33,
+                36
+              ]
+            },
+            "values": {
+              "payer": "Alice",
+              "payee": "Bob",
+              "work_activity": "agricultural labor",
+              "payment_medium": "hay",
+              "work_is_agricultural": true,
+              "payment_is_agricultural_product": true
+            },
+            "unit": [
+              0,
+              144
+            ],
+            "h": [
+              1,
+              1
+            ]
+          }
+        ],
+        "prediction": [
+          1,
+          1
+        ],
+        "unresolved": false,
+        "new_model_calls": 0,
+        "source_meaning_proved": false,
+        "classification_source": "TRAIN verified role/phrase labels only",
+        "actual_reader_answer": [
+          1,
+          0
+        ],
+        "disagreements": [
+          1
+        ],
+        "constraints_executed": [
+          {
+            "kind": "classification_reads_bound_role",
+            "role": "work_activity"
+          },
+          {
+            "kind": "classification_reads_bound_role",
+            "role": "payment_medium"
+          }
+        ],
+        "question_plan": {
+          "actions": [],
+          "status": "no_distinguishing_question_needed_or_available",
+          "none_of_the_above": true,
+          "all_unissued_questions_unobserved": true
+        },
+        "questions_executed_from_cache": [],
+        "not_previously_asked_questions_must_be_dispatched": true
+      },
+      "ordinary_wrapper": {
+        "candidates": [
+          {
+            "spans": {
+              "payer": [
+                0,
+                5
+              ],
+              "payee": [
+                40,
+                43
+              ],
+              "work_activity": [
+                84,
+                102
+              ],
+              "payment_medium": [
+                33,
+                36
+              ]
+            },
+            "values": {
+              "payer": "Alice",
+              "payee": "Bob",
+              "work_activity": "agricultural labor",
+              "payment_medium": "hay",
+              "work_is_agricultural": true,
+              "payment_is_agricultural_product": true
+            },
+            "unit": [
+              0,
+              144
+            ],
+            "h": [
+              1,
+              1
+            ]
+          }
+        ],
+        "prediction": [
+          1,
+          1
+        ],
+        "unresolved": false,
+        "new_model_calls": 0,
+        "source_meaning_proved": false,
+        "classification_source": "TRAIN verified role/phrase labels only"
+      },
+      "source_frame_candidate_exact": true,
+      "same_predictions": true,
+      "M1_pair_correct": true,
+      "ordinary_pair_correct": true
+    }
+  ],
+  "M1_correct": 4,
+  "ordinary_wrapper_correct": 4,
+  "candidate_exact_coverage": 4,
+  "same_underlying_source_program": true,
+  "runtime_questions_issued": 0,
+  "M1_question_skill_validated": false,
+  "new_binding_implementation_exists": true,
+  "novelty_or_incremental_efficacy_established": false,
+  "goal_complete": false
+}

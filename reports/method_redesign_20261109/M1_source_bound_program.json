@@ -1,0 +1,320 @@
+{
+  "captured_utc": "2026-11-09T07:57:43.304217+00:00",
+  "evidence_type": "New offline source-program prototype on previously observed real TRAIN; not blind",
+  "source_files": {
+    "legal_skill_guard/rr/source_discrimination.py": "3923d8ab8271c9e57c7d957ff44e39fa5f0126c69817c5493998ad2aa6fbba75",
+    "reports/method_redesign_20261109/evaluate_source_bound_program.py": "3bbfac95a60754d7d6ffc37eb73362858495e04af4402c2804992318e22e05ec"
+  },
+  "induction_cases": [
+    "TRAIN71:original",
+    "TRAIN71:controlled",
+    "TRAIN79:original",
+    "TRAIN79:controlled"
+  ],
+  "ordinary_wrapper": {
+    "lexicon": {
+      "work_activity": {
+        "agricultural labor": [
+          1
+        ],
+        "domestic service": [
+          0
+        ]
+      },
+      "payment_medium": {
+        "hay": [
+          1
+        ]
+      }
+    },
+    "precedence": [
+      [
+        "payer",
+        "payee"
+      ],
+      [
+        "payer",
+        "work_activity"
+      ],
+      [
+        "payer",
+        "payment_medium"
+      ],
+      [
+        "payee",
+        "work_activity"
+      ],
+      [
+        "payment_medium",
+        "payee"
+      ],
+      [
+        "payment_medium",
+        "work_activity"
+      ]
+    ],
+    "same_sentence": true,
+    "left_cues": {
+      "payer": null,
+      "payee": "to",
+      "work_activity": "for",
+      "payment_medium": "in"
+    },
+    "training_mothers": [
+      "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+      "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1"
+    ],
+    "training_cases": [
+      "TRAIN71:original",
+      "TRAIN71:controlled",
+      "TRAIN79:original",
+      "TRAIN79:controlled"
+    ],
+    "unknown_on_unseen_phrase": true,
+    "semantic_certificate": false
+  },
+  "M1_source_bound_skill": {
+    "selector": {
+      "lexicon": {
+        "work_activity": {
+          "agricultural labor": [
+            1
+          ],
+          "domestic service": [
+            0
+          ]
+        },
+        "payment_medium": {
+          "hay": [
+            1
+          ]
+        }
+      },
+      "precedence": [
+        [
+          "payer",
+          "payee"
+        ],
+        [
+          "payer",
+          "work_activity"
+        ],
+        [
+          "payer",
+          "payment_medium"
+        ],
+        [
+          "payee",
+          "work_activity"
+        ],
+        [
+          "payment_medium",
+          "payee"
+        ],
+        [
+          "payment_medium",
+          "work_activity"
+        ]
+      ],
+      "same_sentence": true,
+      "left_cues": {
+        "payer": null,
+        "payee": "to",
+        "work_activity": "for",
+        "payment_medium": "in"
+      },
+      "training_mothers": [
+        "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+        "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1"
+      ],
+      "training_cases": [
+        "TRAIN71:original",
+        "TRAIN71:controlled",
+        "TRAIN79:original",
+        "TRAIN79:controlled"
+      ],
+      "unknown_on_unseen_phrase": true,
+      "semantic_certificate": false
+    },
+    "confusions": [
+      {
+        "case_id": "TRAIN71:controlled",
+        "mother": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+        "output_role": "work_activity",
+        "observed": 1,
+        "verified": 0,
+        "binding_constraint": {
+          "kind": "classification_reads_bound_role",
+          "role": "work_activity"
+        },
+        "reader": "direct"
+      },
+      {
+        "case_id": "TRAIN79:original",
+        "mother": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+        "output_role": "payment_medium",
+        "observed": 0,
+        "verified": 2,
+        "binding_constraint": {
+          "kind": "classification_reads_bound_role",
+          "role": "payment_medium"
+        },
+        "reader": "direct"
+      },
+      {
+        "case_id": "TRAIN79:original",
+        "mother": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+        "output_role": "work_activity",
+        "observed": 2,
+        "verified": 0,
+        "binding_constraint": {
+          "kind": "classification_reads_bound_role",
+          "role": "work_activity"
+        },
+        "reader": "reader"
+      },
+      {
+        "case_id": "TRAIN79:controlled",
+        "mother": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+        "output_role": "payment_medium",
+        "observed": 0,
+        "verified": 1,
+        "binding_constraint": {
+          "kind": "classification_reads_bound_role",
+          "role": "payment_medium"
+        },
+        "reader": "reader"
+      }
+    ],
+    "source_role_invariance": [
+      {
+        "cases": [
+          "TRAIN71:controlled",
+          "TRAIN71:original"
+        ],
+        "changed_source_roles": [
+          "work_activity"
+        ],
+        "invariant_source_roles": [
+          "payment_medium"
+        ],
+        "evidence": "Verified real TRAIN controlled span edit"
+      },
+      {
+        "cases": [
+          "TRAIN79:controlled",
+          "TRAIN79:original"
+        ],
+        "changed_source_roles": [
+          "payment_medium"
+        ],
+        "invariant_source_roles": [
+          "work_activity"
+        ],
+        "evidence": "Verified real TRAIN controlled span edit"
+      }
+    ],
+    "answer_constraints": [
+      {
+        "kind": "classification_reads_bound_role",
+        "role": "work_activity"
+      },
+      {
+        "kind": "classification_reads_bound_role",
+        "role": "payment_medium"
+      }
+    ],
+    "question_templates": [
+      "Was {payee} paid by {payer} for \"agricultural labor\" or for \"domestic service\"?",
+      "What material did {payer} transfer to {payee} as payment: hay or an unstated medium?",
+      "What work did {payee} perform for {payer}: domestic service or agricultural labor?"
+    ],
+    "question_actions": [
+      {
+        "role": "work_activity",
+        "question_template": "Was {payee} paid by {payer} for \"agricultural labor\" or for \"domestic service\"?",
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "span": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "span"
+          ],
+          "additionalProperties": false
+        },
+        "answer_map": "Keep candidates whose stated role span equals the returned exact source span; null keeps all",
+        "answer_is_fallible": true,
+        "cache_identity": "Exact dispatched prompt/schema only"
+      },
+      {
+        "role": "payment_medium",
+        "question_template": "What material did {payer} transfer to {payee} as payment: hay or an unstated medium?",
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "span": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "span"
+          ],
+          "additionalProperties": false
+        },
+        "answer_map": "Keep candidates whose stated role span equals the returned exact source span; null keeps all",
+        "answer_is_fallible": true,
+        "cache_identity": "Exact dispatched prompt/schema only"
+      },
+      {
+        "role": "work_activity",
+        "question_template": "What work did {payee} perform for {payer}: domestic service or agricultural labor?",
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "span": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "span"
+          ],
+          "additionalProperties": false
+        },
+        "answer_map": "Keep candidates whose stated role span equals the returned exact source span; null keeps all",
+        "answer_is_fallible": true,
+        "cache_identity": "Exact dispatched prompt/schema only"
+      }
+    ],
+    "uncompiled_questions": [],
+    "unknown_branch": "Keep every compatible binding; unseen role phrases stay unknown",
+    "semantic_certificate": false,
+    "empty": false
+  },
+  "new_model_calls": 0,
+  "original_frozen_pilot_unchanged": true,
+  "semantic_certificate": false
+}
