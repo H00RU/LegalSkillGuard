@@ -39,11 +39,16 @@ def main():
         if isinstance(preserved,dict):
             for rel,h in preserved.items():
                 assert sha(ROOT/'artifacts/rr_method_runtime_20261107'/rel)==h;oldfiles+=1
-    seals=0
+    seals=0;archived=[]
     for p in (ROOT/'artifacts/rr_method_redesign_20261109').rglob('seal.json'):
         s=read(p)
         for rel,h in s.get('files',{}).items():
-            assert sha(ROOT/rel)==h,rel;seals+=1
+            if sha(ROOT/rel)!=h:
+                frozen=p.parent/'source_versions'/h/Path(rel).name
+                assert frozen.exists() and sha(frozen)==h,rel
+                archived.append({'seal':str(p.relative_to(ROOT)),'source':rel,'sha256':h,
+                                 'exact_preserved_source':str(frozen.relative_to(ROOT))})
+            else:seals+=1
     for name in ('cost_snapshot.json','preservation.json','request_ledger_delta.json'):
         p=REPORT/name;dest=REPORT/(p.stem+'.checkpoint01.json')
         if p.exists() and not dest.exists():shutil.copyfile(p,dest)
@@ -71,11 +76,22 @@ def main():
             for k,v in (c['usage_raw'] or {}).items():
                 if isinstance(v,(int,float)):totals[k]=totals.get(k,0)+v
         cost['pilot_'+role+'_usage']=totals
+    scope=[c for c in calls if c['id'].startswith('payment_scope_native_input_')]
+    cost['payment_scope_counts']={role:sum(c['role']==role for c in scope) for role in ('executor','teacher')}
+    cost['payment_scope_calls']=scope
+    for role in ('executor','teacher'):
+        group=[c for c in scope if c['role']==role];usage={}
+        for c in group:
+            for k,v in (c['usage_raw'] or {}).items():
+                if isinstance(v,(int,float)):usage[k]=usage.get(k,0)+v
+        cost['payment_scope_'+role+'_usage']=usage
+        cost['payment_scope_'+role+'_seconds']=sum(c['elapsed_seconds'] or 0 for c in group)
     preservation={'captured_utc':cost['captured_utc'],'prior_call_rows_exactly_preserved':len(prior),
           'prior_meta_values_exactly_preserved':len(oldmeta),'oracle_rows_exactly_preserved':len(oracle),
           'previous_efficacy_files_unchanged':len(base['previous_efficacy_artifacts']),
           'old_stage_files_newly_rehashed':oldfiles,'old_stage_previous_verification_preserved':True,
           'current_generation_bound_files_unchanged':seals,'frozen_learning_and_blind_predictions_unchanged':True,
+          'previous_generation_bound_files_exactly_preserved_in_source_versions':archived,
           'new_calls':len(delta),'new_goal_active':True,'TEST_started':False,'paper_started':False,
           'new_full_build_started':False,'main_targeted_by_changes':False}
     (REPORT/'cost_snapshot.json').write_text(json.dumps(cost,ensure_ascii=False,indent=2)+'\n')

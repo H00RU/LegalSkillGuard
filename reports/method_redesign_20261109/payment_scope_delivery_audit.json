@@ -1,0 +1,243 @@
+{
+  "captured_utc": "2026-11-09T09:44:21.926945+00:00",
+  "new_model_calls_this_step": {
+    "executor": 2,
+    "teacher": 1
+  },
+  "source": "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+  "case_id": "TRAIN88:original",
+  "new_sources": 0,
+  "new_native_labels_read": 0,
+  "prior_response": {
+    "physical_origin": "method_runtime_reference_v9_20261109:build:297bf4b39cab958a4933d6bd743d3a1cf687a7286600359985bef1f7ed65bbc4:1",
+    "content": {
+      "factual_observations": [],
+      "program_lines": [
+        "# b_agricultural_wage_threshold = (sum of wages paid to agricultural laborers >= 20000)"
+      ]
+    },
+    "executable_rule_generated": false
+  },
+  "actual_event_count": 4,
+  "independent_teacher_event_count": 4,
+  "independent_events_exactly_match": true,
+  "all_role_relations_and_completeness_reviewed": true,
+  "teacher_judgment_not_formal_semantic_proof": true,
+  "strict_source_pointer_checks_passed_on_derived_IR": true,
+  "raw_response_remains_unchanged_and_rejected": true,
+  "conversions": [
+    {
+      "basis": "Schema permits unknown; original facts contain no competing literal null span",
+      "from": "literal string null",
+      "path": [
+        "events",
+        0,
+        "payment_medium"
+      ],
+      "to": "JSON null"
+    },
+    {
+      "basis": "Schema permits unknown; original facts contain no competing literal null span",
+      "from": "literal string null",
+      "path": [
+        "events",
+        1,
+        "payment_medium"
+      ],
+      "to": "JSON null"
+    },
+    {
+      "basis": "Schema permits unknown; original facts contain no competing literal null span",
+      "from": "literal string null",
+      "path": [
+        "events",
+        2,
+        "payment_medium"
+      ],
+      "to": "JSON null"
+    },
+    {
+      "basis": "Schema permits unknown; original facts contain no competing literal null span",
+      "from": "literal string null",
+      "path": [
+        "events",
+        3,
+        "payment_medium"
+      ],
+      "to": "JSON null"
+    }
+  ],
+  "source_scope_execution": {
+    "at_least_threshold": true,
+    "evidence_type": "Real model event IR plus learned local source classes and ordinary arithmetic control",
+    "goal_complete": false,
+    "model_rule_program_generated": false,
+    "native_legal_answer": null,
+    "native_remaining_obligations": [
+      "Full event relation/completeness source review",
+      "Applicable payment period and legal wage meaning under original task conventions"
+    ],
+    "new_core_method_success_claimed": false,
+    "original_response_was_not_rewritten": true,
+    "payment_year_assumed_from_service_period": false,
+    "scope": "Stated extracted wage events for the selected payer and agricultural activity",
+    "semantic_certificate": false,
+    "source_review": {
+      "all_executor_rows_supported": true,
+      "payment_year_explicit": false,
+      "period_review": "The stated date ranges are service periods introduced by \"labor done from\" and \"work done from\". They do not state when any payment was made. No payment date or payment year is explicit for any event.",
+      "teacher_completeness_supported": true,
+      "teacher_event_count": 4,
+      "type": "Independent TRAIN teacher relation/completeness judgment, inspected against source"
+    },
+    "sum_lower": "20597",
+    "sum_upper": "20597",
+    "threshold": "20000",
+    "trace": [
+      {
+        "activity_class": 1,
+        "amount": "6771",
+        "event_index": 0,
+        "payee": "Bob",
+        "payer": "Alice",
+        "status": "included"
+      },
+      {
+        "activity_class": 1,
+        "amount": "6954",
+        "event_index": 1,
+        "payee": "Charlie",
+        "payer": "Alice",
+        "status": "included"
+      },
+      {
+        "activity_class": 1,
+        "amount": "6872",
+        "event_index": 2,
+        "payee": "Dan",
+        "payer": "Alice",
+        "status": "included"
+      },
+      {
+        "activity_class": 2,
+        "amount": "4520",
+        "event_index": 3,
+        "payee": "Alice",
+        "payer": "Bob",
+        "status": "excluded"
+      }
+    ]
+  },
+  "ordinary_same_information_control": {
+    "sum_lower": "20597",
+    "sum_upper": "20597",
+    "at_least_threshold": true,
+    "threshold": "20000",
+    "trace": [
+      {
+        "event_index": 0,
+        "payer": "Alice",
+        "payee": "Bob",
+        "amount": "6771",
+        "activity_class": 1,
+        "status": "included"
+      },
+      {
+        "event_index": 1,
+        "payer": "Alice",
+        "payee": "Charlie",
+        "amount": "6954",
+        "activity_class": 1,
+        "status": "included"
+      },
+      {
+        "event_index": 2,
+        "payer": "Alice",
+        "payee": "Dan",
+        "amount": "6872",
+        "activity_class": 1,
+        "status": "included"
+      },
+      {
+        "event_index": 3,
+        "payer": "Bob",
+        "payee": "Alice",
+        "amount": "4520",
+        "activity_class": 2,
+        "status": "excluded"
+      }
+    ],
+    "scope": "Stated extracted wage events for the selected payer and agricultural activity",
+    "payment_year_assumed_from_service_period": false,
+    "native_legal_answer": null,
+    "native_remaining_obligations": [
+      "Full event relation/completeness source review",
+      "Applicable payment period and legal wage meaning under original task conventions"
+    ],
+    "semantic_certificate": false
+  },
+  "ordinary_and_learned_path_results_identical": true,
+  "actual_learned_classification_uses": 3,
+  "uses_are_events_not_independent_sources": true,
+  "training_mothers_for_classification": [
+    {
+      "case_id": "TRAIN71:original",
+      "mother": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "features": {
+        "work_activity": 1,
+        "payment_medium": 1
+      },
+      "targets": [
+        1,
+        1
+      ]
+    },
+    {
+      "case_id": "TRAIN71:controlled",
+      "mother": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "features": {
+        "work_activity": 0,
+        "payment_medium": 1
+      },
+      "targets": [
+        0,
+        1
+      ]
+    },
+    {
+      "case_id": "TRAIN79:original",
+      "mother": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+      "features": {
+        "work_activity": 0,
+        "payment_medium": 2
+      },
+      "targets": [
+        0,
+        2
+      ]
+    },
+    {
+      "case_id": "TRAIN79:controlled",
+      "mother": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+      "features": {
+        "work_activity": 0,
+        "payment_medium": 1
+      },
+      "targets": [
+        0,
+        1
+      ]
+    }
+  ],
+  "payment_year_not_filled_from_service_period": true,
+  "read_only_reference_scope": {
+    "file": "data/cache/rr_v2/SARA_reference/statutes/prolog/section3306.pl",
+    "sha256": "6d283f999cfb578d704aa5586a593dd78b89b834006d4277af81f2008a094455",
+    "observed_temporal_role": "s3306_a_2_is_wages checks start_(Remuneration,Time), distinct from service event dates",
+    "not_used_as_a_complete_oracle_or_to_repair_facts": true
+  },
+  "native_answer_claimed": false,
+  "model_full_rule_IR_claimed": false,
+  "new_unique_M1_or_M2_effect_claimed": false,
+  "goal_complete": false
+}
