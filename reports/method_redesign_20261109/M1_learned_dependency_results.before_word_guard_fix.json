@@ -1,0 +1,1264 @@
+{
+  "captured_utc": "2026-11-09T08:35:45.618853+00:00",
+  "new_model_calls": 0,
+  "evidence_type": "Offline repair/attribution on previously observed real TRAIN; not a new blind experiment",
+  "source_files": {
+    "legal_skill_guard/rr/source_discrimination.py": "70887247c21c0a61a8fd5f9e470438c8a945f8b04266c02a2168bdfccf06aabe",
+    "reports/method_redesign_20261109/evaluate_evidence_paths.py": "edc7058399adb2c31233a49b814334bd3a3705e90529a0dc01ebaf46efbfe016"
+  },
+  "previous_version_preserved_at_implementation": "542b91923d780d02c8bb4fb130c15ccc09e87ff0",
+  "previous_public_evidence": "80e3962760c32b8e6c7179b05ea69969860c26dc",
+  "learned_skill": {
+    "selector": {
+      "lexicon": {
+        "work_activity": {
+          "agricultural labor": [
+            1
+          ],
+          "domestic service": [
+            0
+          ]
+        },
+        "payment_medium": {
+          "hay": [
+            1
+          ]
+        }
+      },
+      "precedence": [
+        [
+          "payer",
+          "payee"
+        ],
+        [
+          "payer",
+          "work_activity"
+        ],
+        [
+          "payer",
+          "payment_medium"
+        ],
+        [
+          "payee",
+          "work_activity"
+        ],
+        [
+          "payment_medium",
+          "payee"
+        ],
+        [
+          "payment_medium",
+          "work_activity"
+        ]
+      ],
+      "same_sentence": true,
+      "left_cues": {
+        "payer": null,
+        "payee": "to",
+        "work_activity": "for",
+        "payment_medium": "in"
+      },
+      "training_mothers": [
+        "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+        "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1"
+      ],
+      "training_cases": [
+        "TRAIN71:original",
+        "TRAIN71:controlled",
+        "TRAIN79:original",
+        "TRAIN79:controlled"
+      ],
+      "unknown_on_unseen_phrase": true,
+      "semantic_certificate": false
+    },
+    "confusions": [
+      {
+        "case_id": "TRAIN71:controlled",
+        "mother": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+        "output_role": "work_activity",
+        "observed": 1,
+        "verified": 0,
+        "binding_constraint": {
+          "kind": "target_reads_learned_source_paths",
+          "target_index": 0,
+          "paths": [
+            {
+              "operator": "read",
+              "role": "work_activity"
+            }
+          ],
+          "identified": true
+        },
+        "reader": "direct"
+      },
+      {
+        "case_id": "TRAIN79:original",
+        "mother": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+        "output_role": "payment_medium",
+        "observed": 0,
+        "verified": 2,
+        "binding_constraint": {
+          "kind": "target_reads_learned_source_paths",
+          "target_index": 1,
+          "paths": [
+            {
+              "operator": "read",
+              "role": "payment_medium"
+            }
+          ],
+          "identified": true
+        },
+        "reader": "direct"
+      },
+      {
+        "case_id": "TRAIN79:original",
+        "mother": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+        "output_role": "work_activity",
+        "observed": 2,
+        "verified": 0,
+        "binding_constraint": {
+          "kind": "target_reads_learned_source_paths",
+          "target_index": 0,
+          "paths": [
+            {
+              "operator": "read",
+              "role": "work_activity"
+            }
+          ],
+          "identified": true
+        },
+        "reader": "reader"
+      },
+      {
+        "case_id": "TRAIN79:controlled",
+        "mother": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+        "output_role": "payment_medium",
+        "observed": 0,
+        "verified": 1,
+        "binding_constraint": {
+          "kind": "target_reads_learned_source_paths",
+          "target_index": 1,
+          "paths": [
+            {
+              "operator": "read",
+              "role": "payment_medium"
+            }
+          ],
+          "identified": true
+        },
+        "reader": "reader"
+      }
+    ],
+    "source_role_invariance": [
+      {
+        "cases": [
+          "TRAIN71:controlled",
+          "TRAIN71:original"
+        ],
+        "changed_source_roles": [
+          "work_activity"
+        ],
+        "invariant_source_roles": [
+          "payment_medium"
+        ],
+        "evidence": "Verified real TRAIN controlled span edit"
+      },
+      {
+        "cases": [
+          "TRAIN79:controlled",
+          "TRAIN79:original"
+        ],
+        "changed_source_roles": [
+          "payment_medium"
+        ],
+        "invariant_source_roles": [
+          "work_activity"
+        ],
+        "evidence": "Verified real TRAIN controlled span edit"
+      }
+    ],
+    "learned_evidence_paths": {
+      "phrase_lexicon": {
+        "agricultural labor": [
+          1
+        ],
+        "hay": [
+          1
+        ],
+        "domestic service": [
+          0
+        ]
+      },
+      "training_rows": [
+        {
+          "case_id": "TRAIN71:original",
+          "mother": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+          "features": {
+            "work_activity": 1,
+            "payment_medium": 1
+          },
+          "targets": [
+            1,
+            1
+          ]
+        },
+        {
+          "case_id": "TRAIN71:controlled",
+          "mother": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+          "features": {
+            "work_activity": 0,
+            "payment_medium": 1
+          },
+          "targets": [
+            0,
+            1
+          ]
+        },
+        {
+          "case_id": "TRAIN79:original",
+          "mother": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+          "features": {
+            "work_activity": 0,
+            "payment_medium": 2
+          },
+          "targets": [
+            0,
+            2
+          ]
+        },
+        {
+          "case_id": "TRAIN79:controlled",
+          "mother": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+          "features": {
+            "work_activity": 0,
+            "payment_medium": 1
+          },
+          "targets": [
+            0,
+            1
+          ]
+        }
+      ],
+      "paired_source_cases": [
+        [
+          "TRAIN71:controlled",
+          "TRAIN71:original"
+        ],
+        [
+          "TRAIN79:controlled",
+          "TRAIN79:original"
+        ]
+      ],
+      "grammar": [
+        {
+          "operator": "read",
+          "role": "work_activity"
+        },
+        {
+          "operator": "negate",
+          "role": "work_activity"
+        },
+        {
+          "operator": "read",
+          "role": "payment_medium"
+        },
+        {
+          "operator": "negate",
+          "role": "payment_medium"
+        },
+        {
+          "operator": "constant",
+          "value": 0
+        },
+        {
+          "operator": "constant",
+          "value": 1
+        },
+        {
+          "operator": "constant",
+          "value": 2
+        }
+      ],
+      "targets": [
+        {
+          "target_index": 0,
+          "candidates": [
+            {
+              "path": {
+                "operator": "read",
+                "role": "work_activity"
+              },
+              "point_mismatch_cases": [],
+              "contrast_mismatch_pairs": [],
+              "consistent": true
+            },
+            {
+              "path": {
+                "operator": "negate",
+                "role": "work_activity"
+              },
+              "point_mismatch_cases": [
+                "TRAIN71:original",
+                "TRAIN71:controlled",
+                "TRAIN79:original",
+                "TRAIN79:controlled"
+              ],
+              "contrast_mismatch_pairs": [],
+              "consistent": false
+            },
+            {
+              "path": {
+                "operator": "read",
+                "role": "payment_medium"
+              },
+              "point_mismatch_cases": [
+                "TRAIN71:controlled",
+                "TRAIN79:original",
+                "TRAIN79:controlled"
+              ],
+              "contrast_mismatch_pairs": [
+                [
+                  "TRAIN71:controlled",
+                  "TRAIN71:original"
+                ],
+                [
+                  "TRAIN79:controlled",
+                  "TRAIN79:original"
+                ]
+              ],
+              "consistent": false
+            },
+            {
+              "path": {
+                "operator": "negate",
+                "role": "payment_medium"
+              },
+              "point_mismatch_cases": [
+                "TRAIN71:original",
+                "TRAIN79:original"
+              ],
+              "contrast_mismatch_pairs": [
+                [
+                  "TRAIN71:controlled",
+                  "TRAIN71:original"
+                ],
+                [
+                  "TRAIN79:controlled",
+                  "TRAIN79:original"
+                ]
+              ],
+              "consistent": false
+            },
+            {
+              "path": {
+                "operator": "constant",
+                "value": 0
+              },
+              "point_mismatch_cases": [
+                "TRAIN71:original"
+              ],
+              "contrast_mismatch_pairs": [
+                [
+                  "TRAIN71:controlled",
+                  "TRAIN71:original"
+                ]
+              ],
+              "consistent": false
+            },
+            {
+              "path": {
+                "operator": "constant",
+                "value": 1
+              },
+              "point_mismatch_cases": [
+                "TRAIN71:controlled",
+                "TRAIN79:original",
+                "TRAIN79:controlled"
+              ],
+              "contrast_mismatch_pairs": [
+                [
+                  "TRAIN71:controlled",
+                  "TRAIN71:original"
+                ]
+              ],
+              "consistent": false
+            },
+            {
+              "path": {
+                "operator": "constant",
+                "value": 2
+              },
+              "point_mismatch_cases": [
+                "TRAIN71:original",
+                "TRAIN71:controlled",
+                "TRAIN79:original",
+                "TRAIN79:controlled"
+              ],
+              "contrast_mismatch_pairs": [
+                [
+                  "TRAIN71:controlled",
+                  "TRAIN71:original"
+                ]
+              ],
+              "consistent": false
+            }
+          ],
+          "consistent_paths": [
+            {
+              "operator": "read",
+              "role": "work_activity"
+            }
+          ],
+          "point_supervision_alone_paths": [
+            {
+              "operator": "read",
+              "role": "work_activity"
+            }
+          ],
+          "contrast_removes_point_consistent_paths": 0,
+          "identified_on_this_grammar": true
+        },
+        {
+          "target_index": 1,
+          "candidates": [
+            {
+              "path": {
+                "operator": "read",
+                "role": "work_activity"
+              },
+              "point_mismatch_cases": [
+                "TRAIN71:controlled",
+                "TRAIN79:original",
+                "TRAIN79:controlled"
+              ],
+              "contrast_mismatch_pairs": [
+                [
+                  "TRAIN71:controlled",
+                  "TRAIN71:original"
+                ],
+                [
+                  "TRAIN79:controlled",
+                  "TRAIN79:original"
+                ]
+              ],
+              "consistent": false
+            },
+            {
+              "path": {
+                "operator": "negate",
+                "role": "work_activity"
+              },
+              "point_mismatch_cases": [
+                "TRAIN71:original",
+                "TRAIN79:original"
+              ],
+              "contrast_mismatch_pairs": [
+                [
+                  "TRAIN71:controlled",
+                  "TRAIN71:original"
+                ],
+                [
+                  "TRAIN79:controlled",
+                  "TRAIN79:original"
+                ]
+              ],
+              "consistent": false
+            },
+            {
+              "path": {
+                "operator": "read",
+                "role": "payment_medium"
+              },
+              "point_mismatch_cases": [],
+              "contrast_mismatch_pairs": [],
+              "consistent": true
+            },
+            {
+              "path": {
+                "operator": "negate",
+                "role": "payment_medium"
+              },
+              "point_mismatch_cases": [
+                "TRAIN71:original",
+                "TRAIN71:controlled",
+                "TRAIN79:controlled"
+              ],
+              "contrast_mismatch_pairs": [],
+              "consistent": false
+            },
+            {
+              "path": {
+                "operator": "constant",
+                "value": 0
+              },
+              "point_mismatch_cases": [
+                "TRAIN71:original",
+                "TRAIN71:controlled",
+                "TRAIN79:original",
+                "TRAIN79:controlled"
+              ],
+              "contrast_mismatch_pairs": [
+                [
+                  "TRAIN79:controlled",
+                  "TRAIN79:original"
+                ]
+              ],
+              "consistent": false
+            },
+            {
+              "path": {
+                "operator": "constant",
+                "value": 1
+              },
+              "point_mismatch_cases": [
+                "TRAIN79:original"
+              ],
+              "contrast_mismatch_pairs": [
+                [
+                  "TRAIN79:controlled",
+                  "TRAIN79:original"
+                ]
+              ],
+              "consistent": false
+            },
+            {
+              "path": {
+                "operator": "constant",
+                "value": 2
+              },
+              "point_mismatch_cases": [
+                "TRAIN71:original",
+                "TRAIN71:controlled",
+                "TRAIN79:controlled"
+              ],
+              "contrast_mismatch_pairs": [
+                [
+                  "TRAIN79:controlled",
+                  "TRAIN79:original"
+                ]
+              ],
+              "consistent": false
+            }
+          ],
+          "consistent_paths": [
+            {
+              "operator": "read",
+              "role": "payment_medium"
+            }
+          ],
+          "point_supervision_alone_paths": [
+            {
+              "operator": "read",
+              "role": "payment_medium"
+            }
+          ],
+          "contrast_removes_point_consistent_paths": 0,
+          "identified_on_this_grammar": true
+        }
+      ],
+      "contrast_enabled": true,
+      "target_role_mapping_hardcoded": false,
+      "semantic_certificate": false,
+      "unknown_branch": "No consistent program or disagreeing consistent outputs returns unknown",
+      "full_point_labels_make_observed_pair_changes_redundant": true
+    },
+    "answer_constraints": [
+      {
+        "kind": "target_reads_learned_source_paths",
+        "target_index": 0,
+        "paths": [
+          {
+            "operator": "read",
+            "role": "work_activity"
+          }
+        ],
+        "identified": true
+      },
+      {
+        "kind": "target_reads_learned_source_paths",
+        "target_index": 1,
+        "paths": [
+          {
+            "operator": "read",
+            "role": "payment_medium"
+          }
+        ],
+        "identified": true
+      }
+    ],
+    "question_templates": [
+      "Was {payee} paid by {payer} for \"agricultural labor\" or for \"domestic service\"?",
+      "What material did {payer} transfer to {payee} as payment: hay or an unstated medium?",
+      "What work did {payee} perform for {payer}: domestic service or agricultural labor?"
+    ],
+    "question_actions": [
+      {
+        "role": "work_activity",
+        "question_template": "Was {payee} paid by {payer} for \"agricultural labor\" or for \"domestic service\"?",
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "span": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "span"
+          ],
+          "additionalProperties": false
+        },
+        "answer_map": "Keep candidates whose stated role span equals the returned exact source span; null keeps all",
+        "answer_is_fallible": true,
+        "cache_identity": "Exact dispatched prompt/schema only"
+      },
+      {
+        "role": "payment_medium",
+        "question_template": "What material did {payer} transfer to {payee} as payment: hay or an unstated medium?",
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "span": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "span"
+          ],
+          "additionalProperties": false
+        },
+        "answer_map": "Keep candidates whose stated role span equals the returned exact source span; null keeps all",
+        "answer_is_fallible": true,
+        "cache_identity": "Exact dispatched prompt/schema only"
+      },
+      {
+        "role": "work_activity",
+        "question_template": "What work did {payee} perform for {payer}: domestic service or agricultural labor?",
+        "output_schema": {
+          "type": "object",
+          "properties": {
+            "span": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "span"
+          ],
+          "additionalProperties": false
+        },
+        "answer_map": "Keep candidates whose stated role span equals the returned exact source span; null keeps all",
+        "answer_is_fallible": true,
+        "cache_identity": "Exact dispatched prompt/schema only"
+      }
+    ],
+    "uncompiled_questions": [],
+    "unknown_branch": "Keep every compatible binding; unseen role phrases stay unknown",
+    "semantic_certificate": false,
+    "empty": false
+  },
+  "ordinary_same_information_paths": {
+    "phrase_lexicon": {
+      "agricultural labor": [
+        1
+      ],
+      "hay": [
+        1
+      ],
+      "domestic service": [
+        0
+      ]
+    },
+    "training_rows": [
+      {
+        "case_id": "TRAIN71:original",
+        "mother": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+        "features": {
+          "work_activity": 1,
+          "payment_medium": 1
+        },
+        "targets": [
+          1,
+          1
+        ]
+      },
+      {
+        "case_id": "TRAIN71:controlled",
+        "mother": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+        "features": {
+          "work_activity": 0,
+          "payment_medium": 1
+        },
+        "targets": [
+          0,
+          1
+        ]
+      },
+      {
+        "case_id": "TRAIN79:original",
+        "mother": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+        "features": {
+          "work_activity": 0,
+          "payment_medium": 2
+        },
+        "targets": [
+          0,
+          2
+        ]
+      },
+      {
+        "case_id": "TRAIN79:controlled",
+        "mother": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+        "features": {
+          "work_activity": 0,
+          "payment_medium": 1
+        },
+        "targets": [
+          0,
+          1
+        ]
+      }
+    ],
+    "paired_source_cases": [
+      [
+        "TRAIN71:controlled",
+        "TRAIN71:original"
+      ],
+      [
+        "TRAIN79:controlled",
+        "TRAIN79:original"
+      ]
+    ],
+    "grammar": [
+      {
+        "operator": "read",
+        "role": "work_activity"
+      },
+      {
+        "operator": "negate",
+        "role": "work_activity"
+      },
+      {
+        "operator": "read",
+        "role": "payment_medium"
+      },
+      {
+        "operator": "negate",
+        "role": "payment_medium"
+      },
+      {
+        "operator": "constant",
+        "value": 0
+      },
+      {
+        "operator": "constant",
+        "value": 1
+      },
+      {
+        "operator": "constant",
+        "value": 2
+      }
+    ],
+    "targets": [
+      {
+        "target_index": 0,
+        "candidates": [
+          {
+            "path": {
+              "operator": "read",
+              "role": "work_activity"
+            },
+            "point_mismatch_cases": [],
+            "contrast_mismatch_pairs": [],
+            "consistent": true
+          },
+          {
+            "path": {
+              "operator": "negate",
+              "role": "work_activity"
+            },
+            "point_mismatch_cases": [
+              "TRAIN71:original",
+              "TRAIN71:controlled",
+              "TRAIN79:original",
+              "TRAIN79:controlled"
+            ],
+            "contrast_mismatch_pairs": [],
+            "consistent": false
+          },
+          {
+            "path": {
+              "operator": "read",
+              "role": "payment_medium"
+            },
+            "point_mismatch_cases": [
+              "TRAIN71:controlled",
+              "TRAIN79:original",
+              "TRAIN79:controlled"
+            ],
+            "contrast_mismatch_pairs": [
+              [
+                "TRAIN71:controlled",
+                "TRAIN71:original"
+              ],
+              [
+                "TRAIN79:controlled",
+                "TRAIN79:original"
+              ]
+            ],
+            "consistent": false
+          },
+          {
+            "path": {
+              "operator": "negate",
+              "role": "payment_medium"
+            },
+            "point_mismatch_cases": [
+              "TRAIN71:original",
+              "TRAIN79:original"
+            ],
+            "contrast_mismatch_pairs": [
+              [
+                "TRAIN71:controlled",
+                "TRAIN71:original"
+              ],
+              [
+                "TRAIN79:controlled",
+                "TRAIN79:original"
+              ]
+            ],
+            "consistent": false
+          },
+          {
+            "path": {
+              "operator": "constant",
+              "value": 0
+            },
+            "point_mismatch_cases": [
+              "TRAIN71:original"
+            ],
+            "contrast_mismatch_pairs": [
+              [
+                "TRAIN71:controlled",
+                "TRAIN71:original"
+              ]
+            ],
+            "consistent": false
+          },
+          {
+            "path": {
+              "operator": "constant",
+              "value": 1
+            },
+            "point_mismatch_cases": [
+              "TRAIN71:controlled",
+              "TRAIN79:original",
+              "TRAIN79:controlled"
+            ],
+            "contrast_mismatch_pairs": [
+              [
+                "TRAIN71:controlled",
+                "TRAIN71:original"
+              ]
+            ],
+            "consistent": false
+          },
+          {
+            "path": {
+              "operator": "constant",
+              "value": 2
+            },
+            "point_mismatch_cases": [
+              "TRAIN71:original",
+              "TRAIN71:controlled",
+              "TRAIN79:original",
+              "TRAIN79:controlled"
+            ],
+            "contrast_mismatch_pairs": [
+              [
+                "TRAIN71:controlled",
+                "TRAIN71:original"
+              ]
+            ],
+            "consistent": false
+          }
+        ],
+        "consistent_paths": [
+          {
+            "operator": "read",
+            "role": "work_activity"
+          }
+        ],
+        "point_supervision_alone_paths": [
+          {
+            "operator": "read",
+            "role": "work_activity"
+          }
+        ],
+        "contrast_removes_point_consistent_paths": 0,
+        "identified_on_this_grammar": true
+      },
+      {
+        "target_index": 1,
+        "candidates": [
+          {
+            "path": {
+              "operator": "read",
+              "role": "work_activity"
+            },
+            "point_mismatch_cases": [
+              "TRAIN71:controlled",
+              "TRAIN79:original",
+              "TRAIN79:controlled"
+            ],
+            "contrast_mismatch_pairs": [
+              [
+                "TRAIN71:controlled",
+                "TRAIN71:original"
+              ],
+              [
+                "TRAIN79:controlled",
+                "TRAIN79:original"
+              ]
+            ],
+            "consistent": false
+          },
+          {
+            "path": {
+              "operator": "negate",
+              "role": "work_activity"
+            },
+            "point_mismatch_cases": [
+              "TRAIN71:original",
+              "TRAIN79:original"
+            ],
+            "contrast_mismatch_pairs": [
+              [
+                "TRAIN71:controlled",
+                "TRAIN71:original"
+              ],
+              [
+                "TRAIN79:controlled",
+                "TRAIN79:original"
+              ]
+            ],
+            "consistent": false
+          },
+          {
+            "path": {
+              "operator": "read",
+              "role": "payment_medium"
+            },
+            "point_mismatch_cases": [],
+            "contrast_mismatch_pairs": [],
+            "consistent": true
+          },
+          {
+            "path": {
+              "operator": "negate",
+              "role": "payment_medium"
+            },
+            "point_mismatch_cases": [
+              "TRAIN71:original",
+              "TRAIN71:controlled",
+              "TRAIN79:controlled"
+            ],
+            "contrast_mismatch_pairs": [],
+            "consistent": false
+          },
+          {
+            "path": {
+              "operator": "constant",
+              "value": 0
+            },
+            "point_mismatch_cases": [
+              "TRAIN71:original",
+              "TRAIN71:controlled",
+              "TRAIN79:original",
+              "TRAIN79:controlled"
+            ],
+            "contrast_mismatch_pairs": [
+              [
+                "TRAIN79:controlled",
+                "TRAIN79:original"
+              ]
+            ],
+            "consistent": false
+          },
+          {
+            "path": {
+              "operator": "constant",
+              "value": 1
+            },
+            "point_mismatch_cases": [
+              "TRAIN79:original"
+            ],
+            "contrast_mismatch_pairs": [
+              [
+                "TRAIN79:controlled",
+                "TRAIN79:original"
+              ]
+            ],
+            "consistent": false
+          },
+          {
+            "path": {
+              "operator": "constant",
+              "value": 2
+            },
+            "point_mismatch_cases": [
+              "TRAIN71:original",
+              "TRAIN71:controlled",
+              "TRAIN79:controlled"
+            ],
+            "contrast_mismatch_pairs": [
+              [
+                "TRAIN79:controlled",
+                "TRAIN79:original"
+              ]
+            ],
+            "consistent": false
+          }
+        ],
+        "consistent_paths": [
+          {
+            "operator": "read",
+            "role": "payment_medium"
+          }
+        ],
+        "point_supervision_alone_paths": [
+          {
+            "operator": "read",
+            "role": "payment_medium"
+          }
+        ],
+        "contrast_removes_point_consistent_paths": 0,
+        "identified_on_this_grammar": true
+      }
+    ],
+    "contrast_enabled": false,
+    "target_role_mapping_hardcoded": false,
+    "semantic_certificate": false,
+    "unknown_branch": "No consistent program or disagreeing consistent outputs returns unknown",
+    "full_point_labels_make_observed_pair_changes_redundant": true
+  },
+  "excluded_case_regressions": [
+    {
+      "case_id": "TRAIN83:original",
+      "mother": "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+      "h": [
+        0,
+        2
+      ],
+      "M1_prediction": [
+        0,
+        2
+      ],
+      "ordinary_path_prediction": [
+        0,
+        2
+      ],
+      "M1_correct": true,
+      "ordinary_correct": true,
+      "question_actions_required": 0,
+      "native_query": "Section 3306(c)(1) applies to Alice employing Bob for the year 2017.",
+      "native_legal_answer_produced": false
+    },
+    {
+      "case_id": "TRAIN83:controlled",
+      "mother": "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+      "h": [
+        0,
+        1
+      ],
+      "M1_prediction": [
+        0,
+        1
+      ],
+      "ordinary_path_prediction": [
+        0,
+        1
+      ],
+      "M1_correct": true,
+      "ordinary_correct": true,
+      "question_actions_required": 0,
+      "native_query": "Section 3306(c)(1) applies to Alice employing Bob for the year 2017.",
+      "native_legal_answer_produced": false
+    },
+    {
+      "case_id": "TRAIN88:original",
+      "mother": "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "h": [
+        1,
+        2
+      ],
+      "M1_prediction": [
+        1,
+        2
+      ],
+      "ordinary_path_prediction": [
+        1,
+        2
+      ],
+      "M1_correct": true,
+      "ordinary_correct": true,
+      "question_actions_required": 0,
+      "native_query": "Under section 3306(a)(2)(A), Alice is an employer for the year 2017.",
+      "native_legal_answer_produced": false
+    },
+    {
+      "case_id": "TRAIN88:controlled",
+      "mother": "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "h": [
+        1,
+        1
+      ],
+      "M1_prediction": [
+        1,
+        1
+      ],
+      "ordinary_path_prediction": [
+        1,
+        1
+      ],
+      "M1_correct": true,
+      "ordinary_correct": true,
+      "question_actions_required": 0,
+      "native_query": "Under section 3306(a)(2)(A), Alice is an employer for the year 2017.",
+      "native_legal_answer_produced": false
+    }
+  ],
+  "leave_one_induction_mother_out": [
+    {
+      "case_id": "TRAIN79:original",
+      "induction_mothers": [
+        "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1"
+      ],
+      "h": [
+        0,
+        2
+      ],
+      "M1_prediction": [
+        2,
+        2
+      ],
+      "ordinary_prediction": [
+        2,
+        2
+      ],
+      "M1_correct": false,
+      "ordinary_correct": false,
+      "version_space_sizes": [
+        1,
+        2
+      ]
+    },
+    {
+      "case_id": "TRAIN79:controlled",
+      "induction_mothers": [
+        "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1"
+      ],
+      "h": [
+        0,
+        1
+      ],
+      "M1_prediction": [
+        2,
+        2
+      ],
+      "ordinary_prediction": [
+        2,
+        2
+      ],
+      "M1_correct": false,
+      "ordinary_correct": false,
+      "version_space_sizes": [
+        1,
+        2
+      ]
+    },
+    {
+      "case_id": "TRAIN71:original",
+      "induction_mothers": [
+        "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba"
+      ],
+      "h": [
+        1,
+        1
+      ],
+      "M1_prediction": [
+        2,
+        1
+      ],
+      "ordinary_prediction": [
+        2,
+        1
+      ],
+      "M1_correct": false,
+      "ordinary_correct": false,
+      "version_space_sizes": [
+        2,
+        1
+      ]
+    },
+    {
+      "case_id": "TRAIN71:controlled",
+      "induction_mothers": [
+        "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba"
+      ],
+      "h": [
+        0,
+        1
+      ],
+      "M1_prediction": [
+        0,
+        1
+      ],
+      "ordinary_prediction": [
+        0,
+        1
+      ],
+      "M1_correct": true,
+      "ordinary_correct": true,
+      "version_space_sizes": [
+        2,
+        1
+      ]
+    }
+  ],
+  "path_version_spaces_equal": true,
+  "additional_paths_eliminated_by_observed_pair_changes": 0,
+  "M1_correct": 4,
+  "ordinary_correct": 4,
+  "loo_M1_correct": 1,
+  "loo_ordinary_correct": 1,
+  "pair_redundancy_proposition": {
+    "assumptions": "Both arms receive all verified point labels for both members of every pair; pair constraints only demand the observed equality/change of these labels.",
+    "claim": "Every point-consistent hypothesis already satisfies every such pair constraint; intersecting them does not change the version space, for any hypothesis class.",
+    "proof": "For each pair i,j, substitute f(x_i)=y_i and f(x_j)=y_j into [f(x_i)=f(x_j)] iff [y_i=y_j].",
+    "does_not_claim": "Counterfactual examples are useless, or all broader discrimination-program designs are equivalent. New examples add point information; executable questions and different generalization/cost policies may still differ."
+  },
+  "decision": "Withhold the independent claim for this path-constraint instance. Do not buy more responses under unchanged fully labeled pair supervision to claim extra information.",
+  "native_end_to_end_validation_complete": false,
+  "two_contributions_established": false,
+  "goal_complete": false
+}

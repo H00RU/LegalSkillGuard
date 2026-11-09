@@ -46,7 +46,9 @@ def learn_selector(examples):
         for role,span in pos.items():
             if span is None:continue
             tokens=re.findall(r'\b[A-Za-z]+\b|[^\w\s]',e['facts'][:span[0]])
-            left_cues[role].append(tokens[-1] if tokens else None)
+            # This operator is a lexical word cue. Punctuation belongs to unit
+            # segmentation, and must not become a required semantic-role token.
+            left_cues[role].append(tokens[-1] if tokens and tokens[-1].isalpha() else None)
         for role, field in CLASS_FIELDS.items():
             phrase = e['frame'][role]
             if phrase is None: continue
@@ -115,8 +117,84 @@ def execute_selector(program, text, focus):
             'new_model_calls':0,'source_meaning_proved':False,'classification_source':'TRAIN verified role/phrase labels only'}
 
 
+def path_value(path,features):
+    if path['operator']=='constant':return path['value']
+    value=features[path['role']]
+    return 1-value if path['operator']=='negate' and value!=2 else value
+
+
+def learn_evidence_paths(examples,*,contrast=True):
+    """Enumerate a finite evidence grammar; never assign an output its own role.
+
+    The target IDs are opaque. Features use one shared TRAIN phrase lexicon;
+    source role names do not determine target-to-path correspondence.
+    All consistent paths survive, including indistinguishable constants.
+    """
+    lexicon={}
+    for e in examples:
+        for role,field in CLASS_FIELDS.items():
+            phrase=e['frame'][role]
+            if phrase is not None:lexicon.setdefault(phrase,set()).add(label(e['frame'][field]))
+    lexicon={phrase:sorted(values) for phrase,values in lexicon.items()}
+    rows=[]
+    for e in examples:
+        features={}
+        for role in CLASS_FIELDS:
+            values=lexicon.get(e['frame'][role],[])
+            features[role]=values[0] if len(values)==1 else 2
+        targets=e.get('targets',[label(e['frame'][f]) for f in CLASS_FIELDS.values()])
+        rows.append({'case_id':e['case_id'],'mother':e['mother'],'features':features,'targets':targets})
+    pairs=[(a,b) for i,a in enumerate(rows) for b in rows[:i] if a['mother']==b['mother']]
+    grammar=[{'operator':operator,'role':role} for role in CLASS_FIELDS for operator in ('read','negate')]
+    grammar += [{'operator':'constant','value':value} for value in range(3)]
+    targets=[]
+    for target in range(2):
+        candidates=[]
+        for path in grammar:
+            mismatch=[r['case_id'] for r in rows if path_value(path,r['features'])!=r['targets'][target]]
+            contrast_mismatch=[]
+            for a,b in pairs:
+                predicted=(path_value(path,a['features']),path_value(path,b['features']))
+                required=(a['targets'][target],b['targets'][target])
+                if (predicted[0]!=predicted[1]) != (required[0]!=required[1]):
+                    contrast_mismatch.append([a['case_id'],b['case_id']])
+            candidates.append({'path':path,'point_mismatch_cases':mismatch,'contrast_mismatch_pairs':contrast_mismatch,
+                               'consistent':not mismatch and (not contrast or not contrast_mismatch)})
+        point_version=[c['path'] for c in candidates if not c['point_mismatch_cases']]
+        version=[c['path'] for c in candidates if c['consistent']]
+        targets.append({'target_index':target,'candidates':candidates,'consistent_paths':version,
+                        'point_supervision_alone_paths':point_version,
+                        'contrast_removes_point_consistent_paths':len(point_version)-len(version),
+                        'identified_on_this_grammar':len(version)==1})
+    return {'phrase_lexicon':lexicon,'training_rows':rows,'paired_source_cases':[
+                [a['case_id'],b['case_id']] for a,b in pairs],
+            'grammar':grammar,'targets':targets,'contrast_enabled':contrast,
+            'target_role_mapping_hardcoded':False,'semantic_certificate':False,
+            'unknown_branch':'No consistent program or disagreeing consistent outputs returns unknown',
+            'full_point_labels_make_observed_pair_changes_redundant':True}
+
+
+def execute_paths(learning,binding_candidates):
+    predictions=[]
+    for candidate in binding_candidates:
+        features={}
+        for role in CLASS_FIELDS:
+            values=learning['phrase_lexicon'].get(candidate['values'][role],[])
+            features[role]=values[0] if len(values)==1 else 2
+        outputs=[]
+        for target in learning['targets']:
+            answers={path_value(p,features) for p in target['consistent_paths']}
+            outputs.append(next(iter(answers)) if len(answers)==1 else 2)
+        predictions.append(outputs)
+    return predictions[0] if predictions and all(p==predictions[0] for p in predictions) else [2,2]
+
+
 def compile_discrimination(examples):
     selector=learn_selector(examples);confusions=[];invariance=[]
+    dependencies=learn_evidence_paths(examples)
+    constraints=[{'kind':'target_reads_learned_source_paths','target_index':t['target_index'],
+                  'paths':t['consistent_paths'],'identified':t['identified_on_this_grammar']}
+                 for t in dependencies['targets']]
     for e in examples:
         truth=[label(e['frame'][f]) for f in CLASS_FIELDS.values()]
         for mode in ('direct','reader'):
@@ -124,7 +202,7 @@ def compile_discrimination(examples):
             for i,role in enumerate(CLASS_FIELDS):
                 if observed[i]!=truth[i]:confusions.append({'case_id':e['case_id'],'mother':e['mother'],
                     'output_role':role,'observed':observed[i],'verified':truth[i],
-                    'binding_constraint':{'kind':'classification_reads_bound_role','role':role}, 'reader':mode})
+                    'binding_constraint':constraints[i], 'reader':mode})
     for e in examples:
         for other in examples:
             if e['mother']!=other['mother'] or e['case_id']>=other['case_id']:continue
@@ -144,7 +222,7 @@ def compile_discrimination(examples):
             'answer_map':'Keep candidates whose stated role span equals the returned exact source span; null keeps all',
             'answer_is_fallible':True,'cache_identity':'Exact dispatched prompt/schema only'})
     return {'selector':selector,'confusions':confusions,'source_role_invariance':invariance,
-            'answer_constraints':[{'kind':'classification_reads_bound_role','role':r} for r in CLASS_FIELDS],
+            'learned_evidence_paths':dependencies,'answer_constraints':constraints,
             'question_templates':questions,'question_actions':actions,'uncompiled_questions':uncompiled,
             'unknown_branch':'Keep every compatible binding; unseen role phrases stay unknown',
             'semantic_certificate':False,'empty':not confusions}
@@ -175,6 +253,9 @@ def constrain_bindings(candidates,role,answer,text):
 
 def apply_constraints(skill, text, focus, observed):
     actual=execute_selector(skill['selector'],text,focus)
+    actual['source_role_predictions']=actual['prediction']
+    actual['prediction']=execute_paths(skill['learned_evidence_paths'],actual['candidates'])
+    actual['unresolved']=not actual['candidates'] or actual['prediction']==[2,2]
     # These are new predictions from a learned source program. The received
     # model answer and any rejected frame remain unchanged in their records.
     return {**actual, 'actual_reader_answer':observed,
