@@ -138,11 +138,15 @@ class MethodRun:
             if hashlib.sha256((self.root/entry['path']).read_bytes()).hexdigest()!=entry['sha256']:
                 raise ValueError('Frozen paid compiler material changed')
 
-    def compiler_learning(self,source):
-        templates=[json.loads((self.root/e['path']).read_text()) for e in self.config.get('paid_compiler_materials',[]) if e['source']==source]
-        return {'status':'paid_original_TRAIN_compiler_material_recovered' if templates else 'no_new_compiler_template',
+    def compiler_learning(self,source,prediction):
+        from .compiler_evolution import promote_verified_horn
+        templates=[json.loads((self.root/e['path']).read_text()) for e in self.config.get('paid_compiler_materials',[]) if e['source']==source['key']]
+        promoted=promote_verified_horn(source,{'prediction':prediction},train_sources=self.seal['sources']['train'],
+            ledger_path=(self.root/self.seal['ledger_path']).resolve())
+        if promoted:templates.append(promoted)
+        return {'status':'verified_model_program_promoted' if promoted else 'paid_original_TRAIN_compiler_material_recovered' if templates else 'no_new_compiler_template',
             'templates':templates,'new_teacher_calls':0,'available_only_after_current_source_prediction':True,
-            'public_foundation_for_all_six_arms':True,'not_independent_executor_full_program_success':True}
+            'public_foundation_for_all_six_arms':True,'not_independent_executor_full_program_success':not bool(promoted)}
 
     def packet(self,kind,partition):
         if partition not in {'train','dev'}:raise BudgetError('No TEST packet in the current runtime')
@@ -322,7 +326,7 @@ class MethodRun:
                     model_horn_code=prediction.get('model_horn_code'))
                 record={'source':source_id,'dataset':source['dataset'],'binding':binding,
                     'input_hash':source['content_hash'],'library_before_hash':before,'prediction':prediction,
-                    'calls':prediction['calls'],'learning':learning,'compiler_learning':self.compiler_learning(source_id),
+                    'calls':prediction['calls'],'learning':learning,'compiler_learning':self.compiler_learning(source,prediction),
                     'score':score_source(source,prediction['result'],grades[source_id]),
                     'model_source_IR_semantic_faithfulness':'requires source review beyond TRAIN label match'}
                 immutable_json(path,record)

@@ -1,0 +1,2857 @@
+{
+  "checked_utc": "2026-11-09T04:28:13.854744+00:00",
+  "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+  "facts_from_public_text": [
+    {
+      "id": 1,
+      "size": [
+        21,
+        13,
+        6
+      ],
+      "weight": 6
+    },
+    {
+      "id": 2,
+      "size": [
+        44,
+        29,
+        20
+      ],
+      "weight": 62
+    },
+    {
+      "id": 3,
+      "size": [
+        45,
+        23,
+        19
+      ],
+      "weight": 53
+    },
+    {
+      "id": 4,
+      "size": [
+        36,
+        18,
+        9
+      ],
+      "weight": 66
+    },
+    {
+      "id": 5,
+      "size": [
+        33,
+        21,
+        10
+      ],
+      "weight": 53
+    },
+    {
+      "id": 6,
+      "size": [
+        46,
+        31,
+        27
+      ],
+      "weight": 57
+    },
+    {
+      "id": 7,
+      "size": [
+        36,
+        15,
+        14
+      ],
+      "weight": 63
+    },
+    {
+      "id": 8,
+      "size": [
+        35,
+        18,
+        10
+      ],
+      "weight": 58
+    },
+    {
+      "id": 9,
+      "size": [
+        51,
+        29,
+        24
+      ],
+      "weight": 52
+    },
+    {
+      "id": 10,
+      "size": [
+        37,
+        17,
+        9
+      ],
+      "weight": 52
+    },
+    {
+      "id": 11,
+      "size": [
+        38,
+        20,
+        13
+      ],
+      "weight": 53
+    }
+  ],
+  "original_native_TRAIN_target": 3695,
+  "models_fixed_before_grade_open": true,
+  "Qwen_native": {
+    "answer": 945,
+    "calculation": "Ticket/base fare: $875 + 1st checked bag fee: $35 + 2nd checked bag fee: $45 + 3rd checked bag fee: $200 + 4th checked bag fee: $200 + 5th checked bag fee: $200 + 6th checked bag fee: $200 + 7th checked bag fee: $200 + 8th checked bag fee: $200 + 9th checked bag fee: $200 + 10th checked bag fee: $200 = $945"
+  },
+  "teacher_native": {
+    "answer": 3835,
+    "calculation": "机票 $875。物品1（21+13+6=40英寸，6磅）符合“carry-on…cannot exceed 22 x 14 x 9 inches”，费用 $0。其余10件托运；Premium Economy 前两件免费（“1st and 2nd checked bags are complimentary”），第3件 $200，第4件及以后每件 $200（新西兰对应 Third Bag / Fourth Bag+ 表）。按“超尺寸和超重同时发生时取较高费用，并加到托运费上”计算：物品2 $0+$200=$200；物品3 $0+$200=$200；物品4 $200+$100=$300；物品5 $200+$30=$230；物品6 $200+$200=$400；物品7 $200+$100=$300；物品8 $200+$100=$300；物品9 $200+$200=$400；物品10 $200+$30=$230；物品11 $200+$200=$400。依据规则，赴/离澳大利亚或新西兰的免费行李限重70磅，收费超额行李限重50磅；超62–65英寸收$30、超65–115英寸收$200，53–70磅超重费$100，50–53磅收$30。行李费合计 $2,960；总计 $875+$2,960=$3,835。"
+  },
+  "listed_order_total": 3835,
+  "minimum_assignment_total": 3695,
+  "listed_assignment": {
+    "complimentary_ids": [
+      2,
+      3
+    ],
+    "total": 3835,
+    "items": [
+      {
+        "id": 2,
+        "complimentary": true,
+        "fee": 200
+      },
+      {
+        "id": 3,
+        "complimentary": true,
+        "fee": 200
+      },
+      {
+        "id": 4,
+        "complimentary": false,
+        "fee": 300
+      },
+      {
+        "id": 5,
+        "complimentary": false,
+        "fee": 230
+      },
+      {
+        "id": 6,
+        "complimentary": false,
+        "fee": 400
+      },
+      {
+        "id": 7,
+        "complimentary": false,
+        "fee": 300
+      },
+      {
+        "id": 8,
+        "complimentary": false,
+        "fee": 300
+      },
+      {
+        "id": 9,
+        "complimentary": false,
+        "fee": 400
+      },
+      {
+        "id": 10,
+        "complimentary": false,
+        "fee": 230
+      },
+      {
+        "id": 11,
+        "complimentary": false,
+        "fee": 400
+      }
+    ]
+  },
+  "optimal_complimentary_assignments": [
+    [
+      4,
+      7
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      7,
+      8
+    ]
+  ],
+  "Qwen_arithmetic_stated_formula_sum": 2555,
+  "teacher_answer_matches_listed_order": true,
+  "teacher_answer_matches_official_target": false,
+  "policy_interpretation_changes_target": true,
+  "all45_legal_assignments": [
+    {
+      "complimentary_ids": [
+        2,
+        3
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 3,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        2,
+        4
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        2,
+        5
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        2,
+        6
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        2,
+        7
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        2,
+        8
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        2,
+        9
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        2,
+        10
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        2,
+        11
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": true,
+          "fee": 200
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        3,
+        4
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 4,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        3,
+        5
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        3,
+        6
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        3,
+        7
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        3,
+        8
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        3,
+        9
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        3,
+        10
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        3,
+        11
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": true,
+          "fee": 200
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        4,
+        5
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 5,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        4,
+        6
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        4,
+        7
+      ],
+      "total": 3695,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        4,
+        8
+      ],
+      "total": 3695,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        4,
+        9
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        4,
+        10
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        4,
+        11
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": true,
+          "fee": 200
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        5,
+        6
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 6,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        5,
+        7
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        5,
+        8
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        5,
+        9
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        5,
+        10
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        5,
+        11
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": true,
+          "fee": 200
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        6,
+        7
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 7,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        6,
+        8
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        6,
+        9
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        6,
+        10
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        6,
+        11
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": true,
+          "fee": 200
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        7,
+        8
+      ],
+      "total": 3695,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 8,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        7,
+        9
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        7,
+        10
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        7,
+        11
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": true,
+          "fee": 200
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        8,
+        9
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 9,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        8,
+        10
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        8,
+        11
+      ],
+      "total": 3765,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": true,
+          "fee": 200
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        9,
+        10
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 10,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 11,
+          "complimentary": false,
+          "fee": 400
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        9,
+        11
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": true,
+          "fee": 200
+        },
+        {
+          "id": 10,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 11,
+          "complimentary": true,
+          "fee": 200
+        }
+      ]
+    },
+    {
+      "complimentary_ids": [
+        10,
+        11
+      ],
+      "total": 3835,
+      "items": [
+        {
+          "id": 2,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 3,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 4,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 5,
+          "complimentary": false,
+          "fee": 230
+        },
+        {
+          "id": 6,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 7,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 8,
+          "complimentary": false,
+          "fee": 300
+        },
+        {
+          "id": 9,
+          "complimentary": false,
+          "fee": 400
+        },
+        {
+          "id": 10,
+          "complimentary": true,
+          "fee": 30
+        },
+        {
+          "id": 11,
+          "complimentary": true,
+          "fee": 200
+        }
+      ]
+    }
+  ],
+  "not_new_oracle_fact_edits": true,
+  "used_as_learned_skill_or_core_success": false,
+  "official_reference_sort_code_sha256": "5d1703f35df56ef2cbcb38f4eeb43c418feef4200c247e7894cd6b4846f80a14",
+  "official_prompt_url": "https://github.com/SkyRiver-2000/RuleArena/blob/main/airline/auto_test.py",
+  "official_reference_url": "https://github.com/SkyRiver-2000/RuleArena/blob/main/airline/compute_answer.py",
+  "note": "The actor-facing task does not explicitly choose listed order or fee-minimizing assignment. The original reference sorts by complementary_gain. Original scores and raw model outputs remain unchanged; no minimum-cost directive was added to actor prompts."
+}

@@ -58,9 +58,10 @@ def horn_sketches(public):
     return result
 
 
-def closure(parsed,execute,*,seconds=5):
+def closure(parsed,execute,*,seconds=5,audit=None):
     facts=set(parsed.facts);deadline=time.monotonic()+seconds
     for iteration in range(32):
+        if audit is not None:audit['closure_facts']=tuple(sorted(facts))
         new=set()
         for index,rule in enumerate(parsed.rules):
             if time.monotonic()>=deadline:return {'status':'budget_exhausted','answer':None}
@@ -109,8 +110,21 @@ def predict_with_library(public,library):
     return execute_parsed_with_library(parsed,library)
 
 
-def execute_parsed_with_library(parsed,library,*,seconds=5):
+def execute_parsed_with_library(parsed,library,*,seconds=5,audit=None):
     """Execute the selected stored graphs on one actual source-completion world."""
+    return _execute_parsed(parsed,library,seconds=seconds,audit=audit)
+
+
+def execute_parsed_with_standard_connectors(parsed,*,seconds=5,audit=None):
+    """Correct natural joins using the variable sharing already in model IR.
+
+    Same matching, connector implementation, scopes and scheduler as the
+    learned-graph path. No library or deliberately erased equality is needed.
+    """
+    return _execute_parsed(parsed,None,seconds=seconds,audit=audit)
+
+
+def _execute_parsed(parsed,library,*,seconds,audit):
     relevant={(parsed.query.predicate,parsed.query.positive),(parsed.query.predicate,not parsed.query.positive)}
     while True:
         expanded=relevant|{(a.predicate,a.positive) for r in parsed.rules
@@ -124,12 +138,16 @@ def execute_parsed_with_library(parsed,library,*,seconds=5):
             nodes=[];left='atom0';columns=set(slots[left].columns)
             for i in range(1,len(rule.body)):
                 right=f'atom{i}';keys=sorted(columns&set(slots[right].columns))
-                graph=_learned_join(library,left,right,keys) if keys else \
-                    {'op':'join_on','inputs':[{'slot':left},{'slot':right}],'params':{'keys':[]}}
+                graph=_learned_join(library,left,right,keys) if keys and library is not None else \
+                    {'op':'join_on','inputs':[{'slot':left},{'slot':right}],'params':{'keys':keys}}
                 name=f'joined_{i}';nodes.append({'name':name,'kind':'connector','body':{'graph':graph,'project':'identity'}})
                 columns|=set(slots[right].columns);left=name
             plans[index]=compile_query(nodes,{'var':left},slots,library=library)
         result=plans[index].execute(slots,return_environment=True)
+        if audit is not None:
+            value=result['answer']
+            audit.setdefault('rule_instances',[]).append({'rule_index':index,'iteration':iteration,
+                'columns':value.columns,'rows':value.rows})
         for use in result['pattern_uses']:
             uses.append({**use,'rule_index':index,'iteration':iteration,
                 'query_relevant':(rule.head.predicate,rule.head.positive) in relevant,
@@ -139,11 +157,12 @@ def execute_parsed_with_library(parsed,library,*,seconds=5):
                 'output_rows':len(result['environment'][use['node']].rows)})
         calls.append({'rule_index':index,'iteration':iteration,'pattern_calls':len(result['pattern_uses'])})
         return result['answer']
-    try:result=closure(parsed,execute,seconds=seconds)
+    try:result=closure(parsed,execute,seconds=seconds,audit=audit)
     except Unsupported as exc:result={'status':'pattern_unavailable','answer':None,'reason':str(exc)}
     except (ValueError,TypeError,KeyError) as exc:
         result={'status':'invalid_graph_or_library','answer':None,'reason':str(exc),'error_type':type(exc).__name__}
     return {**result,'pattern_uses':uses,'rule_calls':calls,'fallback_used':False,
         'predefined_components':['public controlled-grammar parser','factual witness matching','fixed-point scheduler'],
-        'learned_component':'collision-supported entity_equality interface and executed stored graph variants',
+        'learned_component':'collision-supported entity_equality interface and executed stored graph variants' if library is not None else None,
+        'connector_selection':'stored_graph' if library is not None else 'model_IR_shared_variable_natural_join',
         'A_certificate_issued':False}

@@ -1,1 +1,1 @@
-[Current repair report](rr_method_runtime_20261107/reference_frontend_progress_20261108.md) · [Independent upload verification](rr_method_runtime_20261107/reference_frontend_publication_verified.json) · [Historical 34-hour report](progress_20261108_34h.md)
+[Current method-efficacy report](method_efficacy_20261109/report.md) · [Upload verification](method_efficacy_20261109/publication_verified.json) · [Previous build/DEV report](rr_method_runtime_20261107/reference_frontend_progress_20261108.md)

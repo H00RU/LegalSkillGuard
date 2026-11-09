@@ -10,7 +10,7 @@ from fractions import Fraction
 import json
 import time
 
-from .coverage import Unsupported,certificate,complete,digest,plan_batch
+from .coverage import Unsupported,certificate,complete,completion_projection,digest,plan_batch
 from .source_program import (accept_observations,compile_source,compiler_prompt,
     observation_request,source_theory)
 from .compiler_contract import compiler_response_schema,decode_compiler_response
@@ -32,7 +32,7 @@ def exact_native(value):
 
 
 def assess_source(compiled,observed=None,*,compilation='answer_separating',seconds=5):
-    if compilation not in {'full','answer_separating','generic_CEGAR_fixed_batch'}:
+    if compilation not in {'full','answer_separating','generic_CEGAR_fixed_batch','static_dependencies'}:
         raise ValueError('Unknown source compilation policy')
     theory=source_theory(compiled,observed)
     result=complete(theory,deadline=time.monotonic()+max(0,min(seconds,5)))
@@ -65,12 +65,16 @@ def assess_source(compiled,observed=None,*,compilation='answer_separating',secon
 
 
 def prepare_followup(compiled,observed=None,*,compilation,tokenize,request_config,thinking,library=None,seconds=5,pal_fragments=False):
-    if compilation not in {'full','answer_separating','generic_CEGAR_fixed_batch'}:
+    if compilation not in {'full','answer_separating','generic_CEGAR_fixed_batch','static_dependencies'}:
         raise ValueError('Unknown source compilation policy')
     observed=observed or {};theory=source_theory(compiled,observed)
     deadline=time.monotonic()+max(0,min(seconds,5))
-    initial=complete(theory,deadline=deadline)
-    active=set(initial.projection.get('active_slots',theory.domains))
+    if compilation=='static_dependencies':
+        theory.validate()
+        active=set(completion_projection(theory)['active_slots'])
+    else:
+        initial=complete(theory,deadline=deadline)
+        active=set(initial.projection.get('active_slots',theory.domains))
     pending={r.source for r in theory.residuals}
     residual_order=[c.id for c in theory.ledger.clauses if c.id in pending]
     unknown_scope={r.source for r in theory.residuals if r.unknown_scope}
@@ -79,7 +83,7 @@ def prepare_followup(compiled,observed=None,*,compilation,tokenize,request_confi
         closure=theory.ledger.closure(set(selected));key=tuple(sorted(closure))
         if key in cache:return cache[key]
         selected=closure&pending
-        relevant=active if compilation=='answer_separating' else set(theory.domains)
+        relevant=active if compilation in {'answer_separating','static_dependencies'} else set(theory.domains)
         names=sorted(name for unit in selected for name in compiled['by_fact'].get(unit,[])
                      if name in theory.domains and name in relevant)
         factual_messages,factual_schema=observation_request(compiled,names)
@@ -133,6 +137,9 @@ def prepare_followup(compiled,observed=None,*,compilation,tokenize,request_confi
     plan=None
     if compilation=='full':selected=residual_order;basis='full_source_translation'
     elif compilation=='generic_CEGAR_fixed_batch':selected=residual_order[:1];basis='generic_fixed_one_unit'
+    elif compilation=='static_dependencies':
+        selected=[r.source for r in theory.residuals if r.unknown_scope or active.intersection(r.slots)]
+        basis='static_transitive_dependencies_with_unverified_scope_retained'
     else:
         plan=plan_batch(theory,lambda selected:render(selected)['input_tokens'],budget,
             seconds=max(0,deadline-time.monotonic()))

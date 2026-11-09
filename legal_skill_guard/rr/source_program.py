@@ -462,7 +462,7 @@ def observation_request(compiled,names):
         'substring for true/false; for null use an empty evidence string. Never infer legal eligibility '
         'or compare statutory numeric thresholds. Use supplied public reference years only to scope factual temporal statements; '
         'do not treat an old factual episode as a claim about every year. Do not manufacture missing facts.')
-    schema=obj({'observations':array(obj({'name':{'enum':list(names)},
+    schema=obj({'observations':array(obj({'name':{'type':'string','enum':list(names)},
         'value':{'type':['boolean','null']},'evidence':{'type':'string'}}))})
     return [{'role':'system','content':system},{'role':'user','content':json.dumps(observations,ensure_ascii=False)}],schema
 

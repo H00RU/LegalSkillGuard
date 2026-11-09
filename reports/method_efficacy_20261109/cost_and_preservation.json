@@ -1,0 +1,160 @@
+{
+  "captured_utc": "2026-11-09T04:46:07.755875+00:00",
+  "baseline_counts": {
+    "executor": 1334,
+    "teacher": 40
+  },
+  "current_counts": {
+    "executor": 1339,
+    "teacher": 43
+  },
+  "new_ledger_entries": 8,
+  "new_by_role": {
+    "executor": 5,
+    "teacher": 3
+  },
+  "status_counts": {
+    "executor:completed": 5,
+    "teacher:failed": 1,
+    "teacher:completed": 2
+  },
+  "pending": 0,
+  "actual_generations_excluding_local_preflight_rejection": 7,
+  "usage_by_role": {
+    "executor": {
+      "known_input_tokens": 25135,
+      "known_output_tokens": 2658,
+      "reasoning_output_subset_do_not_add": 0,
+      "elapsed_seconds": 78.89265777915716
+    },
+    "teacher": {
+      "known_input_tokens": 40380,
+      "known_output_tokens": 1899,
+      "reasoning_output_subset_do_not_add": 1168,
+      "elapsed_seconds": 60.031653486192226
+    }
+  },
+  "original_stage_files_unchanged": 2859,
+  "oracle_rows_unchanged": 130,
+  "ledger_reset": false,
+  "thinking_OFF_verified_for_all_new_executor_responses": true,
+  "executor_incremental_API_cash_usd": 0,
+  "GPU_allocation_cost_usd": null,
+  "teacher_actual_cash_invoice_usd": null,
+  "provider_internal_HTTP_retry_count_observable": false,
+  "TEST_packet_or_labels_opened": false,
+  "calls": [
+    {
+      "id": "efficacy_static_v1_20261109:executor:train79:0",
+      "role": "executor",
+      "purpose": "method_train_synthesis",
+      "source": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+      "request_hash": "b2e8b3872a19e4d86b57beb57d9bcd0ee4398c007eb840db50951fbf3d04ede2",
+      "status": "completed",
+      "input_tokens": 5063,
+      "output_tokens": 145,
+      "reasoning_output_subset_do_not_add": null,
+      "elapsed_seconds": 4.7718315264210105,
+      "finish_reason": "stop",
+      "local_schema_rejection_before_model": false
+    },
+    {
+      "id": "efficacy_static_v1_20261109:executor:train7:0",
+      "role": "executor",
+      "purpose": "method_train_synthesis",
+      "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+      "request_hash": "4d859673d37faa0c895940df66c2b8631e4eb4180fcc595594ee189d7bc50e50",
+      "status": "completed",
+      "input_tokens": 9443,
+      "output_tokens": 1526,
+      "reasoning_output_subset_do_not_add": null,
+      "elapsed_seconds": 45.6530491784215,
+      "finish_reason": "stop",
+      "local_schema_rejection_before_model": false
+    },
+    {
+      "id": "efficacy_static_v1_20261109:teacher:train7:0",
+      "role": "teacher",
+      "purpose": "method_train_compile",
+      "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+      "request_hash": "f3b75d1fe4558f8db8007c4e404c7b962bb9446a0d958f0b949d4e6d749ecb59",
+      "status": "failed",
+      "input_tokens": null,
+      "output_tokens": null,
+      "reasoning_output_subset_do_not_add": null,
+      "elapsed_seconds": 3.2123178243637085e-05,
+      "finish_reason": null,
+      "local_schema_rejection_before_model": true
+    },
+    {
+      "id": "efficacy_static_v2_schema_20261109:teacher:train7:0",
+      "role": "teacher",
+      "purpose": "method_train_compile",
+      "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+      "request_hash": "0c4cac256be156ac8af8052e72c133153f8682ee0afb5ef0e13fdf8058baa009",
+      "status": "completed",
+      "input_tokens": 22650,
+      "output_tokens": 790,
+      "reasoning_output_subset_do_not_add": 400,
+      "elapsed_seconds": 27.381680129095912,
+      "finish_reason": null,
+      "local_schema_rejection_before_model": false
+    },
+    {
+      "id": "efficacy_native_control_v1_20261109:executor:0",
+      "role": "executor",
+      "purpose": "method_train_synthesis",
+      "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+      "request_hash": "0b80d0d7188853eadab9dff843656a3dd5f1fec0cba976615758782d295a7fb7",
+      "status": "completed",
+      "input_tokens": 4438,
+      "output_tokens": 147,
+      "reasoning_output_subset_do_not_add": null,
+      "elapsed_seconds": 4.714007906615734,
+      "finish_reason": "stop",
+      "local_schema_rejection_before_model": false
+    },
+    {
+      "id": "efficacy_native_control_v1_20261109:teacher:0",
+      "role": "teacher",
+      "purpose": "method_train_compile",
+      "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+      "request_hash": "8701ad4ec09a00683d5fa4260dd527ab4f75b96134b729d9369008a5d0460225",
+      "status": "completed",
+      "input_tokens": 17730,
+      "output_tokens": 1109,
+      "reasoning_output_subset_do_not_add": 768,
+      "elapsed_seconds": 32.64994123391807,
+      "finish_reason": null,
+      "local_schema_rejection_before_model": false
+    },
+    {
+      "id": "efficacy_compiler_updates_v1_20261109:B1:0",
+      "role": "executor",
+      "purpose": "method_transfer_diagnostic",
+      "source": "ProofWriter_OWA_depth5:b5a9ae7450d09a26327b43ff2c4dd3146de4f816a797c2da4c11bfa67746dd7a",
+      "request_hash": "7b98caf1ba89bca98254acfe460a617599e9643f6919e806fe996b2c4b7a00f2",
+      "status": "completed",
+      "input_tokens": 3032,
+      "output_tokens": 420,
+      "reasoning_output_subset_do_not_add": null,
+      "elapsed_seconds": 11.855951739475131,
+      "finish_reason": "stop",
+      "local_schema_rejection_before_model": false
+    },
+    {
+      "id": "efficacy_compiler_updates_v1_20261109:B8:0",
+      "role": "executor",
+      "purpose": "method_transfer_diagnostic",
+      "source": "ProofWriter_OWA_depth5:b5a9ae7450d09a26327b43ff2c4dd3146de4f816a797c2da4c11bfa67746dd7a",
+      "request_hash": "94108c8d7788561efa87fa032588f9c070fd3dcafcc352e35e1d39f55cc6bdab",
+      "status": "completed",
+      "input_tokens": 3159,
+      "output_tokens": 420,
+      "reasoning_output_subset_do_not_add": null,
+      "elapsed_seconds": 11.897817428223789,
+      "finish_reason": "stop",
+      "local_schema_rejection_before_model": false
+    }
+  ]
+}

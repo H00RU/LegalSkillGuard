@@ -21,8 +21,12 @@ def validate_template(item):
     if set(source)&{'answer','targets','grade','score','reference_program','reference_arguments'}:
         raise ValueError('Compiler templates cannot contain grading information')
     origin=item['origin']
-    if origin['role']!='teacher' or not origin['call_id'] or not origin['request_hash']:
-        raise ValueError('Compiler material needs preserved teacher request provenance')
+    role=origin['role']
+    if role not in {'teacher','executor'} or not origin['call_id'] or not origin['request_hash']:
+        raise ValueError('Compiler material needs preserved model request provenance')
+    if role=='executor' and (item['language']!='source_annotated_horn_v1' or
+            origin.get('independent_source_check')!='complete_restricted_Horn_equivalence'):
+        raise ValueError('Executor promotion requires independently checked whole-source Horn semantics')
     if item['language']=='source_annotated_horn_v1':
         parsed=parse_model_horn(source,item['code'])
         if parsed.export()['missing_units']:raise ValueError('An incomplete program cannot teach whole-source compilation')

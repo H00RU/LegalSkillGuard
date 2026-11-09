@@ -52,7 +52,7 @@ def template_atom_values(item):
     parsed=validate_template(item);slots,units=atom_slots(item['source']);rules={r.source:r for r in parsed.rules};values={}
     for sid,row in units.items():
         if row['role']=='rule':
-            # Alpha/order normalization of an already fully accepted teacher
+        # Alpha/order normalization of an already source-verified template
             # rule only. This never supplies a target-source model formula.
             expected=parse_rule(slots[row['keys'][0]]['context'],sid)
             if not _equivalent_rule(rules[sid],expected):raise ValueError('Template rule semantics differ')
@@ -79,7 +79,7 @@ def decode_atom_response(source,value):
     return parse_model_horn(source,code),code
 
 
-def atom_prompt(source,library=None,*,feedback=None):
+def atom_prompt(source,library=None,*,feedback=None,max_examples=1):
     slots,_=atom_slots(source)
     system=('Translate each CURRENT English fragment into exactly ONE first-order atom. Return the JSON fields in the schema. '
         'The compiler already preserves the explicit if/and/then connections from the original text. '
@@ -94,7 +94,11 @@ def atom_prompt(source,library=None,*,feedback=None):
     if any(re.fullmatch(r'(?:All )?.+? (?:people|things) are (?:not )?[a-z]+\.?',v['context'].strip(),re.I) for v in slots.values()):
         system+=' In generic people/things rules (with or without All), every listed adjective and its conclusion use the same universal X.'
     examples=[]
-    for item in (library or {}).get('compiler_templates',[]):
+    templates=(library or {}).get('compiler_templates',[])
+    if max_examples is not None:
+        from .compiler_evolution import select_compiler_templates
+        templates=select_compiler_templates(source,templates,max_examples)
+    for item in templates:
         if item['source']['key']==source['key']:raise ValueError('A compiler template cannot provide the current program')
         if item['source']['dataset']!=source['dataset']:continue
         examples.append({'template_hash':item['template_hash'],'fragments':atom_slots(item['source'])[0],
