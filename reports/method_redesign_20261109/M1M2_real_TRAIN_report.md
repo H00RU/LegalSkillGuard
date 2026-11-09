@@ -1,12 +1,50 @@
 # 当前法律瓶颈：跨条款的参与人绑定与例外效果
 
-**阶段结论：法律关系/例外原型仍有3个原生TRAIN正确答案；本次新增真实源支持摘要和独立紧凑获取，未新增原生成功，也未取得两项独立贡献。** 原始直接判断同为3/4，正确政策缓存也为3/4；不能挑较弱对照宣布整体增量。原Goal active、未完成，不启动完整训练。
+**阶段结论：旧四例仍3/4；本次恢复旧§63程序后，原预定TRAIN85单独验证正确，普通缓存同样正确。一次普通Python执行器控制完整且可执行，但源语义拒收。两项独立贡献尚未成立。** 原始直接判断同为3/4，正确政策缓存也为3/4；不能挑较弱对照宣布整体增量。原Goal active、未完成，不启动完整训练。
 
 最新用户定位已执行：允许复用成熟语义解析、关系连接和非单调推理；不因底层算法已有就否定法律方案。保留旧A/B和旧M1/M2负结果，它们的标签通道并未换法律名称重新启用。本轮处理不同对象：原文中的跨条款关系调用，以及适用条件与法律效果。五库/原128 TRAIN划分不变，法律承担主要验证，Airline/ProofWriter后续承担迁移与边界，不新增五库全胜要求。
 
+## 当前接续：旧程序无歧义恢复、原TRAIN85实际执行与普通Python控制
+
+最新累计**1376E/59T计账、pending0**。本次1E/0T，一次原TRAIN85标签视图；原1434笔模型计账及全部既有meta/oracle逻辑快照完整保留。当前目标/边界仅见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，当前证据/下一项实际工作仅见[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。下文旧时点数值保持历史，不作恢复指令。
+
+### 已有源程序可以恢复，不应为这个字段重买模型响应
+
+原教师§63基本标准扣除函数完整，但`domain`是明确自然语言，原解析器要求Boolean表达式而拒绝。其“收入整数、其他输入Boolean”已经由原签名编码；剩余明确语句“head-of-household不能与joint/surviving-spouse并真”规范为`not(H and(J or S))`。本次只改变这个表示字段，原表达式、九个输入、七项义务、引用、未解决依赖及原始拒收JSON逐字不改；没有添加非负收入或默认false。七项原义务均可达且验证，旧函数同时已经正确把新基数传播为联合申报的24000，不需要重写数值框架。
+
+这次恢复单独保存为新缓存，不将原拒收改写成当时成功。原协议早已列入TRAIN85，且其完整§63与源获取TRAIN8完全相同。其query具体指向63(c)(7)(ii)。执行器从旧教师AST中确实存在、语义唯一的替换子表达式及原源引文形成局部参数视图；存在投影检查确认未用输入域可消去，未知法律分类没有被置假。条件未知仍未知，条款不适用时不拿普通3000充当该条款的结果。保存/加载后实际执行相同。
+
+| 已固定原生目标 | 实际执行 | 后封存评分及对照 |
+|---|---|---|
+| 原TRAIN85：2019年、63(c)(7)(ii)、声称基本扣除3000 | 局部替换金额12000；预测Contradiction；不使用fallback；新增模型请求0 | 预测先封存，再开启一次原TRAIN标签视图，匹配；普通正确源常量缓存同样匹配 |
+
+这是同源后续调用，不称未见法规泛化；本次单独1/1，不把原四例3/4改成4/4或整体就绪。程序及语义来自真实旧教师输出与原源文，年份/查询数值是原生问句字面量；没有借标签补程序。[执行封存](../../artifacts/rr_method_redesign_20261109/legal_scope_replay_v1_20261110/execution_closed_before_grading.json) · [随后评分](../../artifacts/rr_method_redesign_20261109/legal_scope_replay_v1_20261110/TRAIN_grade.json) · [原/恢复域及七项检查](../../artifacts/rr_method_redesign_20261109/legal_scope_replay_v1_20261110/adaptation_and_checks.json)。
+
+预测封存后只读官方§63 Prolog源实现独立核对，其63(c)(7)(ii)确为年份到局部12000的谓词，不计算包含所有限制的最终个人扣除。没有读取官方case/TEST标签，参考代码不进入模型提示或恢复程序。[只读来源和SHA核对](../../artifacts/rr_method_redesign_20261109/legal_scope_replay_v1_20261110/source_implementation_review.json)。
+
+### 普通函数能够完整生成，语义问题不能由类型或答案掩盖
+
+旧PAL式法律路径仍要求项目的scope/rule/residual等声明。因此固定一次普通Python控制：只给原TRAIN8完整§63、已学九输入契约及原函数目标/签名，不给教师表达式、义务、case、query或答案；raw text、不附JSON schema，模型与OFF/采样/8192/32K均不变。普通赋值、分支和return精确转到原符号核，不运行生成Python。事前教师函数往返全域等价及坏代码拒绝检查通过。
+
+Qwen在**9.211秒、2120输入/331输出tokens、stop、thinking OFF**完整返回普通函数。它通过语法、类型及实际执行，却有三种可核实的源误读：200%写成乘200；特殊期把18000用到应由C给出的12000基数；依赖人条款直接赋予`max(500,250+income)`，而非限制原基数。原七条义务5过/2反例，全域教师参考比较sat（不等价），程序**语义拒收入库**。这不是独立角色学习，也没有新增该执行模型的原生成功；提供契约的旧教师成本继续保留。
+
+[完整真实函数和wire](../../artifacts/rr_method_redesign_20261109/legal_plain_python_v1_20261110) · [具体语义接纳决定](../../artifacts/rr_method_redesign_20261109/legal_plain_python_v1_20261110/semantic_admission.json)。本次只回答给定契约下的普通函数能力；不同于旧八分节摘要任务，不能分离估计每个提示改变的因果效果，也不据单例概括所有来源能力。
+
+一个零调用软件探针只修复倍率和B/C金额这两处数值误读，保留错误cap赋值。该诊断程序即可通过全部原七条后置条件，仍在普通期、非联合、非head、dependent且收入10000时给10250，正确基本扣除为3000。完整参考比较继续拒绝。因此`all_supplied_obligations_verified`只能表示已给义务满足，不能升级为完整源语义证书；既有checker本来也没有这样的保证。普通`min(current, counterfactual_non_dependent_base)`已能修复这个孤立错误并与参考全域一致，不将它包装成新学得机制。诊断副本不冒充真实模型修复、不入库、不计新原生样本。[完整检查充分性探针](../../artifacts/rr_method_redesign_20261109/legal_plain_python_v1_20261110/checker_sufficiency_diagnostic.json)。
+
+### 查新与阶段决定
+
+SARA作者的[2021年讲义](https://a3nm.net/work/seminar/slides/20210909-holzenberger.pdf)已明确讨论条件反事实。既有数据包中的官方§2 Prolog会检查非H的替代关系路径，完整正确缓存能表达“仅因H成立”的区别；原固定TRAIN没有直接以该条款为目标的query，本次不把它当新原生机制触发，也未为此生成。这里只排除“保留理由本身是新增能力”的主张，不据直接目标缺失否认全部间接调用。
+
+[Catala的scope/context/state](https://book.catala-lang.org/en/5-3-scopes-toplevel.html)及[例外语义](https://book.catala-lang.org/en/5-4-definitions-exceptions.html)已经能保留计算状态和组合例外。[2024年法条软件工程分析](https://law.mit.edu/pub/aidrivenstatutoryreasoning/release/1)还直接使用同一§63新基数与两倍计算。当前源视图和数值恢复作为公共组件使用；没有相对强对照的独立作用，不晋升两项贡献，不重试追分或启动完整建库。
+
+本轮15项相关回归通过。新增模型1E/0T、无重试；另记一次原TRAIN85 oracle view（130→131），原标签只在预测封存后用于评分。已知增量executor API现金0美元，GPU成本及教师历史发票不可得，总项目实际费用未知。旧教师§63获取15314输入/3766输出tokens、81.914秒保留计账，不能把契约材料当免费来声称本次有独立成本优势。原四例、旧库、原始响应和账本全部保留，Goal仍active且未完成；未启动主训练、完整矩阵、TEST或论文。
+
+[本轮结果/费用/保存核验](legal_scope_and_python_results.json) · [可重复审计](audit_legal_scope_and_python.py) · [15项回归](legal_plain_python_regression.txt)。
+
 ## 最新实质接续：源支持范围已获取，当前表示扩展不晋升
 
-[当前目标](../../docs/CURRENT_GOAL.md)是唯一执行说明，[当前证据与下一项工作](../../docs/METHOD_REDESIGN_CURRENT.md)原位维护；下列协议和旧设计均为相应实验的历史快照，不另设执行队列。当前累计**1375E/59T计账、pending0**，不是下文历史时点的1373E/56T。
+[当前目标](../../docs/CURRENT_GOAL.md)是唯一执行说明，[当前证据与下一项工作](../../docs/METHOD_REDESIGN_CURRENT.md)原位维护；下列协议和旧设计均为相应实验的历史快照，不另设执行队列。该次累计**1375E/59T计账、pending0**；最新累计见本报告顶部。
 
 本次比较的是“谁可能为固定subject/year提供正151扣除见证”的获取表示，不能把可能支持误写为实际资格。实现了一个有限集合/TOP解释器、源分节效果摘要和独立集合成员SMT比较；未知相关输入保留TOP，金额变化/取消资格不能新增claimant。这个接口针对局部法律程序，不把自定义Unknown、全源形式证明或原87必须成功新增为验收门槛。
 
