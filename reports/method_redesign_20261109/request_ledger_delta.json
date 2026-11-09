@@ -1,5 +1,5 @@
 {
-  "captured_utc": "2026-11-09T09:44:22.152509+00:00",
+  "captured_utc": "2026-11-09T10:06:41.893224+00:00",
   "columns": [
     "id",
     "role",
@@ -385,11 +385,33 @@
       "completed",
       1794216894.294218,
       "{\"value\": {\"independent_events\": [{\"payer\": \"Alice\", \"payee\": \"Bob\", \"amount_span\": \"$6771\", \"remuneration_kind\": \"wages\", \"work_activity\": \"agricultural labor\", \"payment_medium\": null, \"service_period\": \"Feb 1st, 2017 to Sep 2nd, 2017\", \"event_evidence\": \"Alice has paid wages of $6771 to Bob, $6954 to Charlie, and $6872 to Dan for agricultural labor done from Feb 1st, 2017 to Sep 2nd, 2017.\"}, {\"payer\": \"Alice\", \"payee\": \"Charlie\", \"amount_span\": \"$6954\", \"remuneration_kind\": \"wages\", \"work_activity\": \"agricultural labor\", \"payment_medium\": null, \"service_period\": \"Feb 1st, 2017 to Sep 2nd, 2017\", \"event_evidence\": \"Alice has paid wages of $6771 to Bob, $6954 to Charlie, and $6872 to Dan for agricultural labor done from Feb 1st, 2017 to Sep 2nd, 2017.\"}, {\"payer\": \"Alice\", \"payee\": \"Dan\", \"amount_span\": \"$6872\", \"remuneration_kind\": \"wages\", \"work_activity\": \"agricultural labor\", \"payment_medium\": null, \"service_period\": \"Feb 1st, 2017 to Sep 2nd, 2017\", \"event_evidence\": \"Alice has paid wages of $6771 to Bob, $6954 to Charlie, and $6872 to Dan for agricultural labor done from Feb 1st, 2017 to Sep 2nd, 2017.\"}, {\"payer\": \"Bob\", \"payee\": \"Alice\", \"amount_span\": \"$4520\", \"remuneration_kind\": \"wages\", \"work_activity\": \"work\", \"payment_medium\": null, \"service_period\": \"Apr 1st, 2017 to Sep 2nd, 2018\", \"event_evidence\": \"Bob has paid wages of $4520 to Alice for work done from Apr 1st, 2017 to Sep 2nd, 2018.\"}], \"executor_event_reviews\": [{\"event_index\": 0, \"all_role_relations_supported\": true, \"review\": \"Supported: Alice is the payer, Bob is the payee, $6771 is Bob's coordinated amount, and the shared scope is \\\"agricultural labor\\\" during \\\"Feb 1st, 2017 to Sep 2nd, 2017\\\". \\\"wages\\\" states the remuneration kind; no physical payment material is stated.\"}, {\"event_index\": 1, \"all_role_relations_supported\": true, \"review\": \"Supported: Alice is the payer, Charlie is the payee, $6954 is Charlie's coordinated amount, and the shared scope is \\\"agricultural labor\\\" during \\\"Feb 1st, 2017 to Sep 2nd, 2017\\\". \\\"wages\\\" states the remuneration kind; no physical payment material is stated.\"}, {\"event_index\": 2, \"all_role_relations_supported\": true, \"review\": \"Supported: Alice is the payer, Dan is the payee, $6872 is Dan's coordinated amount, and the shared scope is \\\"agricultural labor\\\" during \\\"Feb 1st, 2017 to Sep 2nd, 2017\\\". \\\"wages\\\" states the remuneration kind; no physical payment material is stated.\"}, {\"event_index\": 3, \"all_role_relations_supported\": true, \"review\": \"Supported reverse payment: Bob is the payer, Alice is the payee, the amount is \\\"$4520\\\", and the work scope is \\\"work\\\" during \\\"Apr 1st, 2017 to Sep 2nd, 2018\\\". \\\"wages\\\" states the remuneration kind; no physical payment material is stated.\"}], \"executor_event_completeness_supported\": true, \"payment_year_is_explicit_for_every_event\": false, \"period_review\": \"The stated date ranges are service periods introduced by \\\"labor done from\\\" and \\\"work done from\\\". They do not state when any payment was made. No payment date or payment year is explicit for any event.\", \"unresolved\": [\"The payment date and payment year are unstated for all four events.\", \"The physical payment material is unstated for all four events.\"]}, \"model\": \"gpt-5.6-sol\", \"request_sha256\": \"802d44584d4e6359b6e61dfca3103ddf6d0dc4e36bf20779eb3dd982ba1bcb48\", \"response_sha256\": \"a91a9fce799bbe1ca9810f0f369f4051be7053eee465406eee00a8c32b29d3b3\", \"cache_hit\": false, \"invocation\": {\"attempt\": 1, \"started_at\": \"2026-11-09T09:34:54.305631+00:00\", \"finished_at\": \"2026-11-09T09:35:26.665723+00:00\", \"elapsed_seconds\": 32.36, \"returncode\": 0, \"event_log_sha256\": \"8a7cfeba531b306d9b3488a9a9fdd564fd99f48e89e40c252863833ee706f17a\", \"tool_events_detected\": false, \"budget_reservation\": null, \"usage\": {\"input_tokens\": 14741, \"cached_input_tokens\": 0, \"output_tokens\": 967, \"reasoning_output_tokens\": 85}, \"estimated_credits\": null}, \"elapsed_seconds\": 32.36089010164142, \"source_ids\": [\"SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48\"], \"billing_basis\": \"existing_authorized_teacher_adapter\", \"actual_cash_invoice_available\": false}"
+    ],
+    [
+      "M2_discriminating_cash_probe_20261109:direct:TRAIN71:cash",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "a919c6af3bfd7a18e4a32d4d6f66806f658f5eec30061876f4f16eebe7f20254",
+      "completed",
+      1794218660.917481,
+      "{\"content\": \"{\\\"payer\\\": \\\"Alice\\\", \\\"payee\\\": \\\"Bob\\\", \\\"work_activity\\\": \\\"domestic service\\\", \\\"payment_medium\\\": \\\"cash\\\", \\\"work_is_agricultural\\\": false, \\\"payment_is_agricultural_product\\\": false}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-245463b851e94681a5c44fcc6063a2f9\", \"usage\": {\"prompt_tokens\": 151, \"total_tokens\": 201, \"completion_tokens\": 50, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"2fb7bf23120f8663df2482934e5af322f2e1d97bb67e32dd3633b2a2e5bb5c5e\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 13890, 2127, 788, 330, 32388, 497, 330, 93586, 788, 330, 61686, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.3426528228446841, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"a919c6af3bfd7a18e4a32d4d6f66806f658f5eec30061876f4f16eebe7f20254\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/M2_discriminating_cash_probe_20261109/calls/c997b1b902b810ae7f0e1a98d90710b76609961025cdeb614c15ac3f57521825\"}"
+    ],
+    [
+      "M2_discriminating_cash_probe_20261109:review:TRAIN71:cash",
+      "teacher",
+      "method_train_compile",
+      "method_train",
+      "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "12714dc5cacc1aa23b4a0acc6438d6bddb1d55f81582c4481656c939affccc7c",
+      "completed",
+      1794218677.3521724,
+      "{\"value\": {\"frame\": {\"payer\": \"Alice\", \"payee\": \"Bob\", \"work_activity\": \"domestic service\", \"payment_medium\": \"cash\", \"work_is_agricultural\": false, \"payment_is_agricultural_product\": false}, \"one_span_edit_preserves_other_local_roles\": true, \"edit_review\": \"The single edited span replaces \\\"hay\\\" with \\\"cash\\\"; the input explicitly states that text outside the span was preserved.\", \"local_relation_review\": \"Alice paid Bob in cash for domestic service. The payer, payee, and paid activity are unchanged. \\\"domestic service\\\" is non-agricultural work, and \\\"cash\\\" is not an agricultural product.\", \"unresolved\": []}, \"model\": \"gpt-5.6-sol\", \"request_sha256\": \"9a2d151a74e09bedba238b70128a5db03c53a89d4ab63a82c7270a61d441a553\", \"response_sha256\": \"4e26ee2eb37b2dc5ebf8e659b570b145d0c3aee02225b3fefc2abe3e59aa28f3\", \"cache_hit\": false, \"invocation\": {\"attempt\": 1, \"started_at\": \"2026-11-09T10:04:37.360222+00:00\", \"finished_at\": \"2026-11-09T10:04:50.347104+00:00\", \"elapsed_seconds\": 12.987, \"returncode\": 0, \"event_log_sha256\": \"fe69b49a0d872279f1389b131da114b4673e9d128e04e5fd932fa88f10a19143\", \"tool_events_detected\": false, \"budget_reservation\": null, \"usage\": {\"input_tokens\": 14140, \"cached_input_tokens\": 0, \"output_tokens\": 212, \"reasoning_output_tokens\": 69}, \"estimated_credits\": null}, \"elapsed_seconds\": 12.987620265223086, \"source_ids\": [\"SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1\"], \"billing_basis\": \"existing_authorized_teacher_adapter\", \"actual_cash_invoice_available\": false}"
     ]
   ],
   "counts_total": {
-    "executor": 1364,
-    "teacher": 52
+    "executor": 1365,
+    "teacher": 53
   },
   "pending": 0,
   "origin_ledger_reset": false,

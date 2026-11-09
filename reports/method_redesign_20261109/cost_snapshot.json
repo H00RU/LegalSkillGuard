@@ -1,15 +1,15 @@
 {
-  "captured_utc": "2026-11-09T09:44:22.152509+00:00",
+  "captured_utc": "2026-11-09T10:06:41.893224+00:00",
   "baseline_counts": {
     "executor": 1339,
     "teacher": 43
   },
   "counts_total": {
-    "executor": 1364,
-    "teacher": 52
+    "executor": 1365,
+    "teacher": 53
   },
   "pending": 0,
-  "new_charged_calls": 34,
+  "new_charged_calls": 36,
   "ledger_reset": false,
   "executor_incremental_API_cash_usd": 0,
   "teacher_invoice_usd": null,
@@ -661,6 +661,44 @@
       "thinking_requested": null,
       "finish_reason": null,
       "cash_invoice_usd": null
+    },
+    {
+      "id": "M2_discriminating_cash_probe_20261109:direct:TRAIN71:cash",
+      "role": "executor",
+      "purpose": "method_train_synthesis",
+      "source": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "status": "completed",
+      "reserved_at": 1794218660.917481,
+      "request_hash": "a919c6af3bfd7a18e4a32d4d6f66806f658f5eec30061876f4f16eebe7f20254",
+      "elapsed_seconds": 1.3426528228446841,
+      "usage_raw": {
+        "prompt_tokens": 151,
+        "total_tokens": 201,
+        "completion_tokens": 50,
+        "prompt_tokens_details": null
+      },
+      "thinking_requested": false,
+      "finish_reason": "stop",
+      "cash_invoice_usd": 0
+    },
+    {
+      "id": "M2_discriminating_cash_probe_20261109:review:TRAIN71:cash",
+      "role": "teacher",
+      "purpose": "method_train_compile",
+      "source": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "status": "completed",
+      "reserved_at": 1794218677.3521724,
+      "request_hash": "12714dc5cacc1aa23b4a0acc6438d6bddb1d55f81582c4481656c939affccc7c",
+      "elapsed_seconds": 12.987620265223086,
+      "usage_raw": {
+        "input_tokens": 14140,
+        "cached_input_tokens": 0,
+        "output_tokens": 212,
+        "reasoning_output_tokens": 69
+      },
+      "thinking_requested": null,
+      "finish_reason": null,
+      "cash_invoice_usd": null
     }
   ],
   "pilot_counts": {
@@ -756,5 +794,62 @@
     "output_tokens": 967,
     "reasoning_output_tokens": 85
   },
-  "payment_scope_teacher_seconds": 32.36089010164142
+  "payment_scope_teacher_seconds": 32.36089010164142,
+  "M2_discriminating_probe_counts": {
+    "executor": 1,
+    "teacher": 1
+  },
+  "M2_discriminating_probe_calls": [
+    {
+      "id": "M2_discriminating_cash_probe_20261109:direct:TRAIN71:cash",
+      "role": "executor",
+      "purpose": "method_train_synthesis",
+      "source": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "status": "completed",
+      "reserved_at": 1794218660.917481,
+      "request_hash": "a919c6af3bfd7a18e4a32d4d6f66806f658f5eec30061876f4f16eebe7f20254",
+      "elapsed_seconds": 1.3426528228446841,
+      "usage_raw": {
+        "prompt_tokens": 151,
+        "total_tokens": 201,
+        "completion_tokens": 50,
+        "prompt_tokens_details": null
+      },
+      "thinking_requested": false,
+      "finish_reason": "stop",
+      "cash_invoice_usd": 0
+    },
+    {
+      "id": "M2_discriminating_cash_probe_20261109:review:TRAIN71:cash",
+      "role": "teacher",
+      "purpose": "method_train_compile",
+      "source": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "status": "completed",
+      "reserved_at": 1794218677.3521724,
+      "request_hash": "12714dc5cacc1aa23b4a0acc6438d6bddb1d55f81582c4481656c939affccc7c",
+      "elapsed_seconds": 12.987620265223086,
+      "usage_raw": {
+        "input_tokens": 14140,
+        "cached_input_tokens": 0,
+        "output_tokens": 212,
+        "reasoning_output_tokens": 69
+      },
+      "thinking_requested": null,
+      "finish_reason": null,
+      "cash_invoice_usd": null
+    }
+  ],
+  "M2_discriminating_probe_executor_usage": {
+    "prompt_tokens": 151,
+    "total_tokens": 201,
+    "completion_tokens": 50
+  },
+  "M2_discriminating_probe_executor_seconds": 1.3426528228446841,
+  "M2_discriminating_probe_teacher_usage": {
+    "input_tokens": 14140,
+    "cached_input_tokens": 0,
+    "output_tokens": 212,
+    "reasoning_output_tokens": 69
+  },
+  "M2_discriminating_probe_teacher_seconds": 12.987620265223086
 }

@@ -86,6 +86,16 @@ def main():
                 if isinstance(v,(int,float)):usage[k]=usage.get(k,0)+v
         cost['payment_scope_'+role+'_usage']=usage
         cost['payment_scope_'+role+'_seconds']=sum(c['elapsed_seconds'] or 0 for c in group)
+    probe=[c for c in calls if c['id'].startswith('M2_discriminating_cash_probe_20261109:')]
+    cost['M2_discriminating_probe_counts']={role:sum(c['role']==role for c in probe) for role in ('executor','teacher')}
+    cost['M2_discriminating_probe_calls']=probe
+    for role in ('executor','teacher'):
+        group=[c for c in probe if c['role']==role];usage={}
+        for c in group:
+            for k,v in (c['usage_raw'] or {}).items():
+                if isinstance(v,(int,float)):usage[k]=usage.get(k,0)+v
+        cost['M2_discriminating_probe_'+role+'_usage']=usage
+        cost['M2_discriminating_probe_'+role+'_seconds']=sum(c['elapsed_seconds'] or 0 for c in group)
     preservation={'captured_utc':cost['captured_utc'],'prior_call_rows_exactly_preserved':len(prior),
           'prior_meta_values_exactly_preserved':len(oldmeta),'oracle_rows_exactly_preserved':len(oracle),
           'previous_efficacy_files_unchanged':len(base['previous_efficacy_artifacts']),
