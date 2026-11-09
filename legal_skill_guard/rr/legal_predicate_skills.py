@@ -199,3 +199,69 @@ def learned_guards(program, sources):
 def match_guard(library, text, own_section):
     normalized=normalized_guard(text,own_section)
     return [deepcopy(t) for t in library if t['normalized_guard'] in normalized]
+
+
+def evaluate_guard(program, case, rule_id, *, domains=None):
+    """Evaluate an actual source antecedent, retaining negative call evidence.
+
+    This is evaluation of the quoted condition, not contraposition of a Horn
+    implication. The current reusable interface has one relation atom plus
+    source-given distinctness constraints. Unknown input remains unknown.
+
+    domains explicitly restricts the *formal question*. It does not assert
+    that people found in a case exhaust the taxpayers in the native question.
+    The caller must not silently replace an unbounded native question by one
+    of these finite questions. No domain is inferred from missing evidence.
+    """
+    from itertools import product
+
+    rules=[r for r in program['rules'] if r['id']==rule_id]
+    if len(rules)!=1:raise ValueError('A unique learned source rule is required')
+    rule=rules[0];query=case['query'];head=rule['head']
+    if query['predicate']!=head['predicate'] or query['positive']!=head['positive']:
+        raise ValueError('Call question does not name the learned source condition')
+    if len(query['arguments'])!=len(head['arguments']):raise ValueError('Call arity differs')
+    if len(rule['body'])!=1:raise ValueError('Only the actual one-atom legal guard interface is supported')
+    head_variables={x for x in head['arguments'] if var(x)}
+    body_variables={x for x in rule['body'][0]['arguments'] if var(x)}
+    distinct_variables={x for row in rule['different'] for x in row.values() if var(x)}
+    if not (body_variables|distinct_variables)<=head_variables:
+        raise ValueError('Unbound local witness is not a closed call argument')
+    projected=[i for i,x in enumerate(query['arguments']) if x is None]
+    if domains is None and projected:
+        result=run(program,case)
+        return {'condition_value':True if result.get('query_supported',False) else None,
+                'question':deepcopy(query),'scope':'unbounded_projection',
+                'domains':None,'rule':rule_id,'source_guard':rule['guard_quote'],
+                'branches':[], 'proof':result,
+                'negative_evidence_is_not_universalized':True}
+    if domains is not None:
+        if set(domains)!=set(projected):raise ValueError('Declare exactly the projected formal-question roles')
+        for values in domains.values():
+            if not isinstance(values,(list,tuple)) or any(not isinstance(v,str) or not v or var(v) for v in values):
+                raise ValueError('Finite query domains contain only explicit ground terms')
+            if len(values)!=len(set(values)):raise ValueError('A query domain is a finite set, not repeated guesses')
+    rows=[]
+    assignments=product(*(domains[i] for i in projected)) if projected else [()]
+    for values in assignments:
+        arguments=list(query['arguments'])
+        for index,value in zip(projected,values):arguments[index]=value
+        env={};inconsistent=False
+        for term,value in zip(head['arguments'],arguments):
+            if var(term):
+                if term in env and env[term]!=value:inconsistent=True
+                env[term]=value
+            elif term!=value:inconsistent=True
+        def get(term):return env[term] if var(term) else term
+        if inconsistent or any(get(d['left'])==get(d['right']) for d in rule['different']):
+            rows.append({'arguments':arguments,'condition_value':False,'basis':'source role/distinctness constraint'})
+            continue
+        body=deepcopy(rule['body'][0]);body['arguments']=[get(t) for t in body['arguments']]
+        subcase={**case,'query':body};result=run(program,subcase)
+        value=True if result['answer']=='Entailment' else False if result['answer']=='Contradiction' else None
+        rows.append({'arguments':arguments,'condition_value':value,'body_query':body,'proof':result})
+    value=True if any(r['condition_value'] is True for r in rows) else False if all(r['condition_value'] is False for r in rows) else None
+    return {'condition_value':value,'question':deepcopy(query),
+            'scope':'declared_finite_projection' if projected else 'ground_call',
+            'domains':deepcopy(domains),'rule':rule_id,'source_guard':rule['guard_quote'],
+            'branches':rows,'negative_evidence_is_not_universalized':True}
