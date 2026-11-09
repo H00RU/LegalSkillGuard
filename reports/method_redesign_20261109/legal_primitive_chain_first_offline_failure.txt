@@ -1,0 +1,212 @@
+FF...............                                                        [100%]
+=================================== FAILURES ===================================
+_ test_actual_source_interface_supports_either_spouse_without_defaulting_absence_false _
+
+    def test_actual_source_interface_supports_either_spouse_without_defaulting_absence_false():
+>       p,s=control();out=c6_software_checks(p,s)
+                          ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_rr_legal_primitive_chain.py:30: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+experiments/rr_v2_legal_primitive_chain.py:138: in c6_software_checks
+    got=run(program,case)['answer'];expected_value='Entailment' if m and separate and (own or spouse) else None
+        ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = {'predicates': [{'name': 'married', 'roles': ['subject', 'other_taxpayer', 'year'], 'meaning': 'An explicit case marit..._deduction', 'arguments': ['?S', '?Y'], 'positive': True}], 'different': [], ...}], 'priorities': [], 'unresolved': []}
+case = {'facts': [], 'query': {'predicate': 'section_63_c_6_A_applies', 'arguments': ['A', '2017'], 'positive': True}}
+use_priorities = True
+
+    def run(program, case, *, use_priorities=True):
+        """Finite supported models: explicit evidence, source priorities and projection.
+    
+        Positive support requires a finite derivation. Inconsistent body evidence
+        cannot be used to prove a downstream claim. Open, unasked participants are
+        existentially projected; absence of a witness never proves its negation.
+        """
+        import z3
+        predicates={p['name']:p for p in program['predicates']}
+        def canon(a):
+            terms=list(a['arguments'])
+            for i,x in enumerate(terms):
+                if isinstance(x,str) and re.fullmatch(r'\$[0-9][0-9,]*',x):terms[i]=x[1:].replace(',','')
+            if predicates[a['predicate']]['functional'] and terms[-1]=='zero':terms[-1]='0'
+            return a['predicate'],tuple(terms),a['positive']
+        known={canon(x['atom']):{'fact_quote':x['quote']} for x in case['facts']}
+        hard=set(known);ground={}
+        while True:
+            changed=False
+            for r in program['rules']:
+                for env,_ in _join(r,known):
+                    def instantiate(a):return canon({**a,'arguments':[env.get(t,t) for t in a['arguments']]})
+                    h=instantiate(r['head']);b=[instantiate(a) for a in r['body']]
+                    identity=(r['id'],tuple(sorted(env.items())))
+                    ground[identity]={'rule':r['id'],'authority':r['authority'],'bindings':env,'head':h,'body_keys':b}
+                    if h not in known:known[h]={};changed=True
+            if not changed:break
+        atoms=list(known);ix={a:i for i,a in enumerate(atoms)}
+        truth={a:z3.Bool('legal_atom_'+str(i)) for a,i in ix.items()}
+        rank={a:z3.Int('legal_rank_'+str(i)) for a,i in ix.items()}
+        def opposite(a):return a[0],a[1],not a[2]
+        def opposed(a,b):
+            if a[0]!=b[0]:return False
+            if predicates[a[0]]['functional']:
+                return (a[1]==b[1] and a[2]!=b[2]) or (a[1][:-1]==b[1][:-1] and a[1][-1]!=b[1][-1] and a[2]==b[2])
+            return opposite(a)==b
+        rows=list(ground.values());enabled=[];winning=[]
+        for g in rows:
+            body=[]
+            for a in g['body_keys']:
+                body.append(truth[a])
+                if opposite(a) in truth:body.append(z3.Not(truth[opposite(a)]))
+            enabled.append(z3.And(*body))
+        higher={r['id']:set() for r in program['rules']}
+        if use_priorities:
+            for p in program['priorities']:higher[p['higher']].add(p['lower'])
+            for _ in range(len(higher)):
+                for h in higher:higher[h]|=set().union(*(higher[x] for x in list(higher[h]))) if higher[h] else set()
+        for i,g in enumerate(rows):
+            defeaters=[enabled[j] for j,o in enumerate(rows) if g['rule'] in higher[o['rule']] and opposed(g['head'],o['head'])]
+            winning.append(z3.And(enabled[i],z3.Not(z3.Or(*defeaters))))
+        solver=z3.Solver();solver.set(timeout=10000)
+        for a in atoms:
+            support=[]
+            for i,g in enumerate(rows):
+                if g['head']==a:support.append(z3.And(winning[i],*[rank[b]<rank[a] for b in g['body_keys']]))
+            enabled_heads=[winning[i] for i,g in enumerate(rows) if g['head']==a]
+            solver.add(rank[a]>=0,rank[a]<=len(atoms),truth[a]==z3.Or(a in hard,*enabled_heads),
+                       z3.Implies(truth[a],z3.Or(a in hard,*support)))
+        if solver.check()!=z3.sat:return {'answer':None,'state':'no_supported_model_or_solver_unknown','unresolved':program['unresolved']+case['unresolved']}
+        model=solver.model();q=canon(case['query'])
+        def matches(a):return a[0]==q[0] and a[2]==q[2] and all(w is None or w==v for w,v in zip(q[1],a[1]))
+        matching=[a for a in atoms if matches(a)]
+        support=z3.Or(*[z3.And(truth[a],z3.Not(truth.get(opposite(a),z3.BoolVal(False)))) for a in matching])
+        if None in q[1]:refute=z3.BoolVal(False)
+        elif predicates[q[0]]['functional']:
+            refute=z3.Or(*[truth[a] for a in atoms if opposed(q,a)])
+        else:refute=truth.get(opposite(q),z3.BoolVal(False))
+        def always(f):
+            solver.push();solver.add(z3.Not(f));status=solver.check();solver.pop();return status==z3.unsat
+        yes,no=always(support),always(refute)
+        answer='Entailment' if yes and not no else 'Contradiction' if no and not yes else None
+        def plain(a):return [a[0],list(a[1]),a[2]]
+        active=[{**g,'head':plain(g['head']),'body_keys':[plain(a) for a in g['body_keys']]} for i,g in enumerate(rows) if z3.is_true(model.eval(winning[i]))]
+        suppressed=[{'loser':{**g,'head':plain(g['head']),'body_keys':[plain(a) for a in g['body_keys']]}} for i,g in enumerate(rows) if z3.is_true(model.eval(enabled[i])) and not z3.is_true(model.eval(winning[i]))]
+        return {'answer':answer,'state':'supported' if answer=='Entailment' else 'refuted' if answer=='Contradiction' else 'unknown_or_conflict',
+                'query_supported':yes,'query_refuted':no,'known_atoms':[plain(a) for a in atoms if z3.is_true(model.eval(truth[a]))],
+                'rule_witnesses':active,'suppressed':suppressed,
+                'query_witnesses':[plain(a) for a in matching if z3.is_true(model.eval(truth[a])) and not z3.is_true(model.eval(truth.get(opposite(a),z3.BoolVal(False))))],
+>               'unresolved':program['unresolved']+case['unresolved'],'missing_evidence_is_false':False,
+                                                   ^^^^^^^^^^^^^^^^^^
+                'source_fidelity_proved':False,'evidence':'supported model relative to the accepted local translation, not a proof of NL fidelity'}
+E       KeyError: 'unresolved'
+
+legal_skill_guard/rr/legal_predicate_skills.py:180: KeyError
+______ test_missing_conjunction_is_detected_beyond_a_single_positive_case ______
+
+    def test_missing_conjunction_is_detected_beyond_a_single_positive_case():
+        p,s=control()
+        for r in p['rules']:r['body']=[a for a in r['body'] if a['predicate']!='separate_return']
+>       with pytest.raises(ContractError,match='truth-table mismatch'):c6_software_checks(p,s)
+                                                                       ^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_rr_legal_primitive_chain.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+experiments/rr_v2_legal_primitive_chain.py:138: in c6_software_checks
+    got=run(program,case)['answer'];expected_value='Entailment' if m and separate and (own or spouse) else None
+        ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+program = {'predicates': [{'name': 'married', 'roles': ['subject', 'other_taxpayer', 'year'], 'meaning': 'An explicit case marit..._deduction', 'arguments': ['?S', '?Y'], 'positive': True}], 'different': [], ...}], 'priorities': [], 'unresolved': []}
+case = {'facts': [], 'query': {'predicate': 'section_63_c_6_A_applies', 'arguments': ['A', '2017'], 'positive': True}}
+use_priorities = True
+
+    def run(program, case, *, use_priorities=True):
+        """Finite supported models: explicit evidence, source priorities and projection.
+    
+        Positive support requires a finite derivation. Inconsistent body evidence
+        cannot be used to prove a downstream claim. Open, unasked participants are
+        existentially projected; absence of a witness never proves its negation.
+        """
+        import z3
+        predicates={p['name']:p for p in program['predicates']}
+        def canon(a):
+            terms=list(a['arguments'])
+            for i,x in enumerate(terms):
+                if isinstance(x,str) and re.fullmatch(r'\$[0-9][0-9,]*',x):terms[i]=x[1:].replace(',','')
+            if predicates[a['predicate']]['functional'] and terms[-1]=='zero':terms[-1]='0'
+            return a['predicate'],tuple(terms),a['positive']
+        known={canon(x['atom']):{'fact_quote':x['quote']} for x in case['facts']}
+        hard=set(known);ground={}
+        while True:
+            changed=False
+            for r in program['rules']:
+                for env,_ in _join(r,known):
+                    def instantiate(a):return canon({**a,'arguments':[env.get(t,t) for t in a['arguments']]})
+                    h=instantiate(r['head']);b=[instantiate(a) for a in r['body']]
+                    identity=(r['id'],tuple(sorted(env.items())))
+                    ground[identity]={'rule':r['id'],'authority':r['authority'],'bindings':env,'head':h,'body_keys':b}
+                    if h not in known:known[h]={};changed=True
+            if not changed:break
+        atoms=list(known);ix={a:i for i,a in enumerate(atoms)}
+        truth={a:z3.Bool('legal_atom_'+str(i)) for a,i in ix.items()}
+        rank={a:z3.Int('legal_rank_'+str(i)) for a,i in ix.items()}
+        def opposite(a):return a[0],a[1],not a[2]
+        def opposed(a,b):
+            if a[0]!=b[0]:return False
+            if predicates[a[0]]['functional']:
+                return (a[1]==b[1] and a[2]!=b[2]) or (a[1][:-1]==b[1][:-1] and a[1][-1]!=b[1][-1] and a[2]==b[2])
+            return opposite(a)==b
+        rows=list(ground.values());enabled=[];winning=[]
+        for g in rows:
+            body=[]
+            for a in g['body_keys']:
+                body.append(truth[a])
+                if opposite(a) in truth:body.append(z3.Not(truth[opposite(a)]))
+            enabled.append(z3.And(*body))
+        higher={r['id']:set() for r in program['rules']}
+        if use_priorities:
+            for p in program['priorities']:higher[p['higher']].add(p['lower'])
+            for _ in range(len(higher)):
+                for h in higher:higher[h]|=set().union(*(higher[x] for x in list(higher[h]))) if higher[h] else set()
+        for i,g in enumerate(rows):
+            defeaters=[enabled[j] for j,o in enumerate(rows) if g['rule'] in higher[o['rule']] and opposed(g['head'],o['head'])]
+            winning.append(z3.And(enabled[i],z3.Not(z3.Or(*defeaters))))
+        solver=z3.Solver();solver.set(timeout=10000)
+        for a in atoms:
+            support=[]
+            for i,g in enumerate(rows):
+                if g['head']==a:support.append(z3.And(winning[i],*[rank[b]<rank[a] for b in g['body_keys']]))
+            enabled_heads=[winning[i] for i,g in enumerate(rows) if g['head']==a]
+            solver.add(rank[a]>=0,rank[a]<=len(atoms),truth[a]==z3.Or(a in hard,*enabled_heads),
+                       z3.Implies(truth[a],z3.Or(a in hard,*support)))
+        if solver.check()!=z3.sat:return {'answer':None,'state':'no_supported_model_or_solver_unknown','unresolved':program['unresolved']+case['unresolved']}
+        model=solver.model();q=canon(case['query'])
+        def matches(a):return a[0]==q[0] and a[2]==q[2] and all(w is None or w==v for w,v in zip(q[1],a[1]))
+        matching=[a for a in atoms if matches(a)]
+        support=z3.Or(*[z3.And(truth[a],z3.Not(truth.get(opposite(a),z3.BoolVal(False)))) for a in matching])
+        if None in q[1]:refute=z3.BoolVal(False)
+        elif predicates[q[0]]['functional']:
+            refute=z3.Or(*[truth[a] for a in atoms if opposed(q,a)])
+        else:refute=truth.get(opposite(q),z3.BoolVal(False))
+        def always(f):
+            solver.push();solver.add(z3.Not(f));status=solver.check();solver.pop();return status==z3.unsat
+        yes,no=always(support),always(refute)
+        answer='Entailment' if yes and not no else 'Contradiction' if no and not yes else None
+        def plain(a):return [a[0],list(a[1]),a[2]]
+        active=[{**g,'head':plain(g['head']),'body_keys':[plain(a) for a in g['body_keys']]} for i,g in enumerate(rows) if z3.is_true(model.eval(winning[i]))]
+        suppressed=[{'loser':{**g,'head':plain(g['head']),'body_keys':[plain(a) for a in g['body_keys']]}} for i,g in enumerate(rows) if z3.is_true(model.eval(enabled[i])) and not z3.is_true(model.eval(winning[i]))]
+        return {'answer':answer,'state':'supported' if answer=='Entailment' else 'refuted' if answer=='Contradiction' else 'unknown_or_conflict',
+                'query_supported':yes,'query_refuted':no,'known_atoms':[plain(a) for a in atoms if z3.is_true(model.eval(truth[a]))],
+                'rule_witnesses':active,'suppressed':suppressed,
+                'query_witnesses':[plain(a) for a in matching if z3.is_true(model.eval(truth[a])) and not z3.is_true(model.eval(truth.get(opposite(a),z3.BoolVal(False))))],
+>               'unresolved':program['unresolved']+case['unresolved'],'missing_evidence_is_false':False,
+                                                   ^^^^^^^^^^^^^^^^^^
+                'source_fidelity_proved':False,'evidence':'supported model relative to the accepted local translation, not a proof of NL fidelity'}
+E       KeyError: 'unresolved'
+
+legal_skill_guard/rr/legal_predicate_skills.py:180: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_rr_legal_primitive_chain.py::test_actual_source_interface_supports_either_spouse_without_defaulting_absence_false
+FAILED tests/test_rr_legal_primitive_chain.py::test_missing_conjunction_is_detected_beyond_a_single_positive_case
+2 failed, 15 passed in 0.20s

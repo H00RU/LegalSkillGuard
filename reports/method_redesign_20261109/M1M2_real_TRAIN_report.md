@@ -1,12 +1,36 @@
 # 当前法律瓶颈：跨条款的参与人绑定与例外效果
 
-**阶段结论：旧四例仍3/4；本次恢复旧§63程序后，原预定TRAIN85单独验证正确，普通缓存同样正确。一次普通Python执行器控制完整且可执行，但源语义拒收。两项独立贡献尚未成立。** 原始直接判断同为3/4，正确政策缓存也为3/4；不能挑较弱对照宣布整体增量。原Goal active、未完成，不启动完整训练。
+**阶段结论：旧四例仍3/4；原预定TRAIN85独立1/1；最新原计划TRAIN8、76的真实输入/局部程序路径单独2/2，普通正确缓存同样正确。两项独立贡献尚未成立。** 一次普通Python控制完整且可执行但源语义拒收，原始失败保留。原Goal active、未完成，不启动完整训练。
 
 最新用户定位已执行：允许复用成熟语义解析、关系连接和非单调推理；不因底层算法已有就否定法律方案。保留旧A/B和旧M1/M2负结果，它们的标签通道并未换法律名称重新启用。本轮处理不同对象：原文中的跨条款关系调用，以及适用条件与法律效果。五库/原128 TRAIN划分不变，法律承担主要验证，Airline/ProofWriter后续承担迁移与边界，不新增五库全胜要求。
 
-## 当前接续：旧程序无歧义恢复、原TRAIN85实际执行与普通Python控制
+## 当前接续：原TRAIN8非循环前提、旧模块实际组合与原TRAIN76
 
-最新累计**1376E/59T计账、pending0**。本次1E/0T，一次原TRAIN85标签视图；原1434笔模型计账及全部既有meta/oracle逻辑快照完整保留。当前目标/边界仅见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，当前证据/下一项实际工作仅见[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。下文旧时点数值保持历史，不作恢复指令。
+最新累计**1377E/60T计账、pending0**。本次新增1E/1T；18项相关回归通过，所有前次1435笔模型记录、meta及131次oracle逐行保留。执行条件唯一见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，证据/缺口/下一项工作只在[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)原位维护。下文旧方案、协议和数值均是对应实验的历史证据，不是新的调用/轮次限制或执行队列。
+
+本次只补早已固定的TRAIN8、76，未因成功追加来源。教师一次只见原§63/§68源文、共享三原语API和局部模块目标，不见case/query/标签，生成两条婚姻—分别申报—本人或配偶逐项扣除的Horn规则，以及`(year > 2017) and (year < 2026)`的68(f)局部启动函数。三原语及其角色由本次公共接口提供，不称从零学得角色API。原未解决的7703外部关系保留；这次正证明使用case显式婚姻前提，不将整个7703编译算作已完成。
+
+执行模型随后只见原TRAIN8事实、字面年份、同一前提API及原句选项，不见法律条款、法律query或目标适用谓词。实际返回Alice/Bob双向婚姻、双方分别申报、Bob有4324逐项扣除五条事实。独立字面依据检查核对参与人、年份、极性和原句；不补模型漏掉的前提，不从缺失推false。原事实的“allowed an itemized deduction”按共享API作为给定逐项扣除状态；不新增原题未要求的选择行为门槛。
+
+| 原计划原生目标 | 真实主路径与语义检查 | 评分/对照 |
+|---|---|---|
+| TRAIN8：63(c)(6)(A)是否适用于Alice/2017 | 实际join Alice↔Bob、Alice分别申报、Bob逐项扣除，导出适用；目标Boolean未作为前提 | 预测封存后原TRAIN标签为Entailment，正确；普通正确连接控制相同 |
+| 同次实际模块复用，不另计样本 | 源guard逐字匹配旧basic63输入，将上述正证明传入；其他输入未知，旧程序实际证明扣除额0 | 冻结/加载后重现；不是新增原生题或独立贡献 |
+| TRAIN76：68(f)是否适用于2018 | 使用原query字面year执行源生成日期条件；局部例外启动为True，不误写整个68适用或扣除额 | 封存后原TRAIN标签为Entailment，正确；正确日期缓存相同 |
+
+上述两例单独2/2，fallback0/2；不把原四例3/4改为整体通过，不声称已完成DEV、未见政策泛化或两项机制的独立作用。实际保存恢复一致、16个正见证边界软件控制、全整数日期比较和源后置条件检查均保留；软件控制不计原生样本。
+
+首次离线fixture漏了case必需的`unresolved=[]`，测试失败后错误地提前发出教师请求，原失败日志、原seal和绑定源码全部保留。教师提示本身不含该fixture，源程序不因此改判模型失败。修复fixture后，68(f)响应的后置条件仍因现解析器只接受input-condition/result-assertion而拒收。按`C⇒A ≡ True⇒(¬C∨A)`确定性重定向，并验证所有input/result的等价及原条件在原程序中可达；没有改变表达式、签名、域、引文或未解决项，没有教师重发。v1的两个原拒收与v2接纳分开保存。
+
+费用：教师输入16126/输出2279tokens、50.292秒；其中reasoning1552是输出子集。执行器输入422/输出255tokens、6.824秒、stop、thinking OFF，客户端无重试。教师旧§63获取成本继续保留，不能将旧函数或输入契约视作免费。已知增量executor API现金0美元；GPU及教师发票未知，总费用未知。131→133次oracle，只在预测封存后开启原TRAIN标签。原服务PID/启动身份不变，无研究客户端或pending请求。
+
+**决定：必要的非循环输入链已经打通；普通正确缓存仍吸收此次作用，不将这项工程修复晋升贡献。** 原计划TRAIN18还需从软件22反例区分出其真实276932/250000输入链；新的学习机制与必要DEV/迁移证据仍缺，不以补链代替贡献设计，不扩完整建库。
+
+[原源响应及拒收](../../artifacts/rr_method_redesign_20261109/legal_primitive_chain_v1_20261110/source.json) · [原响应恢复](../../artifacts/rr_method_redesign_20261109/legal_primitive_chain_v2_20261110/source_recovery.json) · [实际事实响应](../../artifacts/rr_method_redesign_20261109/legal_primitive_chain_v2_20261110/facts.json) · [封存执行及证明](../../artifacts/rr_method_redesign_20261109/legal_primitive_chain_v2_20261110/execution_closed_before_grading.json) · [随后两例评分](../../artifacts/rr_method_redesign_20261109/legal_primitive_chain_v2_20261110/TRAIN_grades.json) · [完整结果/费用/保存](legal_primitive_chain_results.json) · [只读核验](audit_legal_primitive_chain.py) · [18项回归](legal_primitive_chain_regression.txt)。
+
+## 前次证据：旧程序无歧义恢复、原TRAIN85实际执行与普通Python控制
+
+该次累计**1376E/59T计账、pending0**。该次1E/0T，一次原TRAIN85标签视图；原1434笔模型计账及全部既有meta/oracle逻辑快照完整保留。下文旧时点数值保持历史，不作恢复指令。
 
 ### 已有源程序可以恢复，不应为这个字段重买模型响应
 

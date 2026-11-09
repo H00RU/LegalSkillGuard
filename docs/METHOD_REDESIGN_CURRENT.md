@@ -6,7 +6,7 @@
 
 同一Goal active、未完成。研究问题仍是**法律跨条款调用丢失参与人、年份、适用范围及成立依据，混淆局部法律效果与最终结果**。两项有独立作用的最终贡献尚未成立；现有源程序、角色合同、例外执行和负结果继续复用。
 
-工作树 `/home/yndx/hhy/legal-skill-redesign-20261109`，本地分支 `research/method-redesign-20261109`，公开分支 `research/legalskillguard-rr-v2`。最新**1376E/59T计账、pending0**，无研究客户端，原模型服务身份不变。本次新增1E/0T及一次原TRAIN85标签视图；executor thinking OFF，模型/采样/预算未改。旧失败与计账不删除，main不改。
+工作树 `/home/yndx/hhy/legal-skill-redesign-20261109`，本地分支 `research/method-redesign-20261109`，公开分支 `research/legalskillguard-rr-v2`。最新**1377E/60T计账、pending0**，无研究客户端，原模型服务身份不变。最新原始输入链新增1E/1T及两次原TRAIN标签视图；executor thinking OFF，模型/采样/预算未改。旧失败与计账不删除，main不改。
 
 ## 已完成、可复用与方法判断
 
@@ -20,8 +20,11 @@
 | 原计划TRAIN85 | 原协议早已选定的同源后续；原教师AST中的63(c)(7)(ii)局部参数实际执行为12000，原题预测Contradiction，封存后标签核对正确；0新模型请求 | 单独1/1；普通正确缓存同样正确，不把历史四例改成4/4，也不算新贡献 |
 | 普通Python控制 | 已学§63九输入契约下，Qwen一次完整返回331token/9.21秒；类型/执行通过，5/7源义务通过、2条反例，全域参考比较不等价 | 语义拒收入库。200%误写乘200、B/C替换混用、cap变成直接赋值；不是截断，不测试新角色获取 |
 | 既有检查的边界 | 只在软件探针中修复两个数字误读，仍错误的cap赋值即可通过全部七条；全域参考仍抓住它。普通反事实基数clip可修复该孤立错误 | 七条条件不是完整NL证书；探针未作为模型修复/新样本，clip不算学得创新 |
+| 原计划TRAIN8原始输入链 | 教师只见源法条，生成两条either-spouse连接规则；执行模型只见原事实，真实抽出婚姻、分别申报和Bob逐项扣除5条有依据事实；程序推导Alice/2017适用，封存后核对标签正确 | 不将待推导适用性作为输入Boolean；共享的三原语API由实验提供，不称本次从零学得API |
+| 已有模块实际组合 | TRAIN8的正证明按原源guard绑定旧基本扣除模块；其余输入保持未知，实际推出0；保存恢复预测一致 | 真实复用，不是另一个原生样本；普通正确连接/缓存同样得到结果 |
+| 原计划TRAIN76 | 同一次源编译生成raw year→68(f)局部例外启动条件，原2018问句执行Entailment，封存后标签一致 | 局部条款适用不等于整个68适用；本次两例单独2/2，不重写原四例3/4 |
 
-本次15项相关回归通过，覆盖普通Python赋值/分支/return的精确转换、源视图、未知条件和真实旧domain恢复。生成代码不直接执行。源程序/作用范围/原生标签分别检查，没有降低正确性门槛。
+最新18项相关回归通过；前次普通Python/源视图15项结果保留。首版软件fixture缺少必需`unresolved=[]`，测试失败后错误地提前发送了一次教师请求，原失败及源码保留。修复fixture、将68(f)的后置条件按逻辑恒等式转换并验证等价和原条件可达后，复用同一教师响应，没有教师重发。原表达式、签名、域、源引文均未改变。生成代码不直接执行；源程序、作用范围、事实依据与原生标签分别检查，没有降低正确性门槛。
 
 ## 查新及反证结论
 
@@ -31,12 +34,12 @@ Catala已有scope/context/state及例外机制，2024年软件工程法条分析
 
 ## 真正缺口与下一项实际工作
 
-**下一项先补原计划TRAIN8的非循环输入链，而非给数值修复起新名字。** 现有§63函数将`married filing separately with either spouse itemizing`托给一个外部Boolean。它可作为“最终基本扣除额”函数的显式依赖，但原TRAIN8的目标就是63(c)(6)(A)是否适用，不能直接把这个Boolean当已知答案再声称完成推导。需把原source条件与参与人/配偶/申报/逐项扣除事实接成实际调用；方法和普通缓存共享同一可见输入。先核对已有源程序/事实记录能否复用，必要获取只针对这个明确缺口，不为已知日期复制或min裁剪重买响应。
+**原TRAIN8的循环输入缺口与原TRAIN76局部模块已补齐。下一项核对原计划TRAIN18的完整输入绑定，复用已恢复的151(d)(3)(B)教师程序。** 原事实明确给出2015收入276932、68(b)适用金额250000、未婚；旧诊断用的是275000的整倍数软件反例，不能充作该原生题已执行。先核对既有原始事实记录及“income”到调整后总收入的任务约定，保留显式外部金额，不凭分类重算/覆盖；未婚可排除“已婚且分开申报”，不能把缺失状态统一置false。已有等价绑定/评分直接复用，先封存实际预测，再核对原TRAIN标签。
 
-同时保留科学判断：普通正确缓存仍能复现已成功的程序路径，当前还没有两个可信的独立机制差异。新条件链即使补齐，也只完成必要端到端验证，不自动等于新贡献。§68(f)预定模块未完成、冻结接口指导未存目标的编译及必要DEV/迁移仍缺；SARA DEV静态0/8目标匹配不是准确率，不是新全覆盖门槛。未用DEV事实/标签训练或读TEST。完整建库仍依当前Goal中的证据条件，不启动主训练或矩阵。
+同时保留科学判断：普通正确缓存仍能复现已成功的程序路径，当前没有两个可信的独立机制差异；不把继续补输入链无限当作贡献设计的替代。需在已有真实失败与原生目标中确定缓存之外尚未解决的具体学习/调用需求，才能给两项改进各自提出有区分力的强对照验证。冻结接口指导未存目标的编译及必要DEV/迁移仍缺；SARA DEV静态0/8目标匹配不是准确率，不是新全覆盖门槛。未用DEV事实/标签训练或读TEST。完整建库仍依当前Goal中的证据条件，不启动主训练或矩阵。
 
 ## 证据与费用
 
-[合并报告](../reports/method_redesign_20261109/M1M2_real_TRAIN_report.md) · [本次结果/费用/保存](../reports/method_redesign_20261109/legal_scope_and_python_results.json) · [原TRAIN85执行封存](../artifacts/rr_method_redesign_20261109/legal_scope_replay_v1_20261110/execution_closed_before_grading.json) · [随后TRAIN评分](../artifacts/rr_method_redesign_20261109/legal_scope_replay_v1_20261110/TRAIN_grade.json) · [真实普通Python及语义拒收](../artifacts/rr_method_redesign_20261109/legal_plain_python_v1_20261110) · [15项回归](../reports/method_redesign_20261109/legal_plain_python_regression.txt)。
+[合并报告](../reports/method_redesign_20261109/M1M2_real_TRAIN_report.md) · [最新结果/费用/保存](../reports/method_redesign_20261109/legal_primitive_chain_results.json) · [两例实际执行封存](../artifacts/rr_method_redesign_20261109/legal_primitive_chain_v2_20261110/execution_closed_before_grading.json) · [随后TRAIN评分](../artifacts/rr_method_redesign_20261109/legal_primitive_chain_v2_20261110/TRAIN_grades.json) · [18项回归](../reports/method_redesign_20261109/legal_primitive_chain_regression.txt)。前次[TRAIN85/普通Python结果](../reports/method_redesign_20261109/legal_scope_and_python_results.json)及所有旧原始记录保留。
 
-本次1E输入2120/输出331tokens、请求9.211秒；0T。旧教师§63获取15314/3766tokens、81.914秒的成本仍保留，提供角色契约的费用不视为免费。executor已知增量API现金0美元，GPU及教师实际发票未知，总费用未知。原1434笔模型计账及原meta/oracle在剔除新增1E、两条当前策略meta与一次TRAIN视图后，完整逻辑快照仍为a0448eb4…0d74；模型计账不重置，oracle总数130→131。
+最新1E输入422/输出255tokens、6.824秒；1T输入16126/输出2279tokens、50.292秒（reasoning1552是输出子集）。旧教师§63获取15314/3766tokens、81.914秒的成本仍保留。executor已知增量API现金0美元，GPU及教师实际发票未知，总费用未知。剔除新增两笔模型记录、两条策略meta与两次TRAIN视图后，与前次1435笔模型记录的备份逐行一致，逻辑快照仍为e84a7f9a…e2b1；oracle总数131→133。源程序获取不是免费，未据此声称成本优势。
