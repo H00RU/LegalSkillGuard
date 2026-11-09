@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "request_sha256": "667e2744669c671a09db900b2e5b2a21bf2cde3f90b91f32a2a094509487ecdd",
+  "response_sha256": "239fa3fadfa21a69d7b55aa8e08cb66f45745449c573b753696abb2041386ddb",
+  "model": "gpt-5.6-sol",
+  "purpose": "method_train_compile",
+  "value": {
+    "tests": [
+      {
+        "payments": [
+          {
+            "payment_id": "a",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "S",
+            "amount": 7000
+          },
+          {
+            "payment_id": "b",
+            "payer": "R",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "S",
+            "amount": 7000
+          }
+        ],
+        "expected": 14000,
+        "source_quote": "that part of the remuneration which, after remuneration (other than remuneration referred to in the succeeding paragraphs of this subsection) equal to $7,000 with respect to employment has been paid to an individual by an employer during any calendar year, is paid to such individual by such employer during such calendar year;"
+      },
+      {
+        "payments": [
+          {
+            "payment_id": "a",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "S",
+            "amount": 6771
+          },
+          {
+            "payment_id": "b",
+            "payer": "P",
+            "payee": "R",
+            "payment_year": 2017,
+            "service_id": "S",
+            "amount": 6771
+          }
+        ],
+        "expected": 13542,
+        "source_quote": "that part of the remuneration which, after remuneration (other than remuneration referred to in the succeeding paragraphs of this subsection) equal to $7,000 with respect to employment has been paid to an individual by an employer during any calendar year, is paid to such individual by such employer during such calendar year;"
+      },
+      {
+        "payments": [
+          {
+            "payment_id": "a",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "S",
+            "amount": 7000
+          },
+          {
+            "payment_id": "b",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2018,
+            "service_id": "S",
+            "amount": 7000
+          }
+        ],
+        "expected": 14000,
+        "source_quote": "that part of the remuneration which, after remuneration (other than remuneration referred to in the succeeding paragraphs of this subsection) equal to $7,000 with respect to employment has been paid to an individual by an employer during any calendar year, is paid to such individual by such employer during such calendar year;"
+      },
+      {
+        "payments": [
+          {
+            "payment_id": "a",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "S",
+            "amount": 6771
+          },
+          {
+            "payment_id": "b",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "T",
+            "amount": 6954
+          }
+        ],
+        "expected": 7000,
+        "source_quote": "that part of the remuneration which, after remuneration (other than remuneration referred to in the succeeding paragraphs of this subsection) equal to $7,000 with respect to employment has been paid to an individual by an employer during any calendar year, is paid to such individual by such employer during such calendar year;"
+      }
+    ]
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-09T23:24:18.905974+00:00",
+    "finished_at": "2026-11-09T23:24:38.955942+00:00",
+    "elapsed_seconds": 20.05,
+    "returncode": 0,
+    "event_log_sha256": "8cf2c5030703feb1da2d92a6bd408cefc0bbe2271c22c02ca769bdec92efc04e",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 15156,
+      "cached_input_tokens": 0,
+      "output_tokens": 652,
+      "reasoning_output_tokens": 103
+    },
+    "estimated_credits": null
+  }
+}

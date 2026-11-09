@@ -6,7 +6,7 @@
 
 **同一Goal active、未完成。两项具有独立作用的贡献尚未成立。** 当前集中核查的具体问题是：法律规则的参与人、年度及聚合作用范围被误译后，单个原生答案仍可能正确，从而把错误规则长期存为技能。已有角色/例外路径和新年度金额程序是真实可复用基础，不锁定为最终两项机制。
 
-工作树 `/home/yndx/hhy/legal-skill-redesign-20261109`，本地分支 `research/method-redesign-20261109`，公开分支 `research/legalskillguard-rr-v2`。累计 **1391E/62T、pending0**，1453条calls、214条meta、136条oracle。最近新增7E/0T、原TRAIN88参考事实投影1视图、原生任务评分0。模型/采样不变，executor thinking OFF，教师原high/显式温度未设置。Qwen服务身份仍PID958223/start_ticks486445918，无研究生成客户端，main不改。
+工作树 `/home/yndx/hhy/legal-skill-redesign-20261109`，本地分支 `research/method-redesign-20261109`，公开分支 `research/legalskillguard-rr-v2`。累计 **1391E/65T、pending0**，1456条calls、216条meta、136条oracle。最近新增0E/3T，原生任务评分及oracle新增0。模型/采样不变，executor thinking OFF，教师原high/显式温度未设置。Qwen服务身份仍PID958223/start_ticks486445918，无研究生成客户端，main不改。
 
 ## 已完成、可复用与方法判断
 
@@ -21,10 +21,12 @@
 | 原88输入归一化 | 只打开原固定TRAIN88参考case，白名单投影事实并记oracle；三农业付款注明2017-09-02、反向付款2018-09-02，没有means_ | 日期是额外TRAIN标注，公共文本只给服务期间，不称文本抽取或旧frame恢复；现金/地点缺省是官方任务操作约定，不伪称原文事实 |
 | 新年度上限程序 | 普通Python/PAL首输出有helper迭代TypeError；运行器支持实际lambda/helper、明确query契约后，模型自行改为return groups.values()；8项源检查通过，标注输入局部20597，冻结/加载重放一致 | 实际学得payer/payee/payment_year分组后cap7000。强普通对照成功；其他工资/雇主前置条件未完成，不是新原生3306(a)(2)(A)成功 |
 | 自定义年度计划 | V1矛盾字段/坏引用拒收；V2修结构后SQL复制旧错；V3共享准入、操作和反例，SQL非法窗口聚合、计划选include_all仅6/8 | 无计划额外作用证据，不继续同例接口扫描；付款去重是共享adapter，不算第二学习贡献 |
-| 作用范围可识别性 | 128种有限候选中104种匹配原88局部20597，1种过全部8项源检查；该语法/检查池内最少4项可识别 | 普通精确一致性筛选也恢复同一程序；是单点监督不足的证据，不是新算法、一般最小性定理或新原生样本 |
+| 作用范围可识别性 | 原128/104是语法表示数，去掉payment_id及include_all重复后为52个语义候选类，其中28个匹配原局部20597；8项源检查唯一识别，池内最少4项足够 | 不将重复表示当独立法律解释。普通一致性筛选也恢复同一程序，是单点监督不足的证据，不是新算法/一般最小性定理 |
+| 自主取得源反馈 | 同教师普通源测试生成与固定分歧输入判值，各实际给出4个正确期望，分别从52类唯一识别年度范围；不见旧正确期望/程序或原生标签 | 真实反馈可以取得。固定池由作者先前设计，阈值7000共同给定；不称完全自主输入生成或新算法 |
+| 实际反馈更新与直接程序 | 两路真实反馈各经普通一致性筛选，将旧include_all的6/8改为8/8，新库实际局部20597、冻结恢复一致；同教师直接Python也8/8并恢复20597 | 普通自由测试也识别，普通版本空间选择吸收选题；直接程序11.331秒、固定判值20.051秒、自由测试47.629秒，本次无能力或成本增量。不追加同例请求 |
 | 既有Airline输入边界 | 原TRAIN第一条的局部托运费，逐包裹max后相加为870，先全局汇总再max为800，全加为990；0模型/0标签，账本逐行不变 | 真实输入触发作用范围区别；费用映射为显式作者源参考，不是学得reader、原生评分或新贡献；普通正确缓存仍可表达 |
 
-最近9项普通运行器回归通过。此前部分证据6项、源程序/字段18项、缓存复核8项保留，不用累计检查数代替研究进度。旧整帧拒收过严、源后置条件表示、引文接口及错误测试期望均有独立修复记录，没有借标签补规则或用失败否定掩盖程序缺失。
+最近4项反馈选择/隔离回归及8项直接程序运行器软件fixture通过，原9项普通运行器回归保留。此前部分证据6项、源程序/字段18项、缓存复核8项保留，不用累计检查数代替研究进度。旧整帧拒收过严、源后置条件表示、引文接口及错误测试期望均有独立修复记录，没有借标签补规则或用失败否定掩盖程序缺失。
 
 ## 查新与比较边界
 
@@ -38,7 +40,9 @@ PAL式普通程序、Catala的scope/context/state、数据库聚合provenance、
 
 **缺的是同信息强对照下两项机制的独立作用，不是运行器仍不能生成程序。** 普通Python已实际完成标量合取、关系例外和年度数值作用范围；再给正确接口重复演示执行，不会补齐贡献。已等价/反证的原13、四目标和年度同例不追加同目的请求。
 
-**下一项实际工作：先定位源语义反馈的获取机制，而非再造执行表示。** 原Airline输入的范围对照已完成，表明该问题并非法条玩具，但当前8项年度反馈由作者给定。接下来用已有源程序、失败输出和反例，检验从法条自主取得有辨别力反馈的具体设计；同信息普通源缓存＋普通反例生成/一致性筛选作为强对照。先做离线设计反证，明确反馈来自哪里、获取成本由谁承担，避免将手写正确规则隐藏在检查器中。未找到独立作用前不追加同例接口扫描或扩大建库；不强求跨库同一运算，不将普通GROUP BY/逐项MAX算创新。
+**源反馈获取、实际更新和强成本对照已完成；年度单组件方案不再扩试。** 法条变异/反事实、SpecSyn变体判别及规格驱动测试生成已有成熟方法，当前有限版本空间设计也被普通选择吸收。固定判值比自由测试短，但同教师直接程序更短且同样正确，不能只选前两臂宣传成本。
+
+**下一项实际工作：核查既有法律输入中的跨条款共享额度，先定位真实调用缺口。** 固定原OpenExempt首条（木架800、衣袍105）同时有522(d)(3)单项700/总额14875，以及522(d)(5)任意财产额度和未用住房额转移，已只读核对公共原文。下一步复用原约束/评分与v6对照，检查“总额正确而分配或共享额度错误”是否已有等价处理，以及新的学习机制到底需要补哪一步；不重跑v6、不改旧源码、不把普通优化器当创新。该问题仍属于法律数值作用范围学习，先离线反证，未有具体独立差异不启动新的批量生成。
 
 两项最终机制的设计、实现、有限真实独立作用及必要DEV/迁移仍缺。该缺口可继续离线推进，并非外部资源阻断；Goal保持active。完整建库按CURRENT_GOAL已有证据条件判断，不启动主训练、完整矩阵、TEST或论文。
 
@@ -46,6 +50,8 @@ PAL式普通程序、Catala的scope/context/state、数据库聚合provenance、
 
 [合并报告](../reports/method_redesign_20261109/M1M2_real_TRAIN_report.md) · [本轮结果/逐请求费用](../reports/method_redesign_20261109/legal_annual_scope_results.json) · [标注投影审计](../reports/method_redesign_20261109/audit_TRAIN88_reference_facts.py) · [执行/可识别性审计](../reports/method_redesign_20261109/audit_legal_annual_scope.py) · [冻结库/局部执行/128候选](../artifacts/rr_method_redesign_20261109/legal_annual_scope_execution_v1_20261110) · [9项回归](../reports/method_redesign_20261109/legal_ordinary_python_regression.txt) · [既有Airline离线语义对照](../artifacts/rr_method_redesign_20261109/existing_airline_scope_v1_20261110/local_scope_comparison.json)。
 
-最近7E/0T共8000输入/656输出tokens、18.624秒，全部stop、thinking OFF、无reasoning/截断，客户端重试0。历史1446calls、208meta、135oracle与备份逐行一致；新增7calls、6meta、1个额外TRAIN事实标注视图，当前1453/214/136，另存SQLite备份。executor增量API现金0；GPU分摊、教师历史发票及项目总费用未知，不将未知记零。新原生评分0、母来源新增0，所有失败、原响应及各版绑定代码保留。
+最近0E/3T共44659输入/3001输出tokens、79.011秒，其中reasoning1583为输出子集；教师原high/温度未显式设置、attempt各1、无工具事件。执行器保持OFF，本轮未调用。历史1453calls、214meta、136oracle与备份逐行一致；新增3calls、2meta、0oracle，当前1456/216/136，SQLite另存快照。教师实际发票、GPU分摊及项目总费用未知，不将未知记零。无新母来源或原生评分，所有响应、绑定版本、实际反馈更新和普通程序对照均保留。
+
+[真实反馈、更新、三臂成本与账本](../reports/method_redesign_20261109/legal_feedback_acquisition_results.json) · [反馈更新审计](../reports/method_redesign_20261109/audit_legal_feedback_acquisition.py) · [两路反馈及直接程序冻结库](../artifacts/rr_method_redesign_20261109/legal_feedback_update_v1_20261110) · [4项回归](../reports/method_redesign_20261109/legal_feedback_acquisition_regression.txt)。
 
 此前[原13真实执行](../reports/method_redesign_20261109/legal_temporal13_results.json)、[独立普通缓存](../reports/method_redesign_20261109/legal_independent_cache_results.json)、[四目标](../reports/method_redesign_20261109/legal_percentage_reuse_results.json)与旧A/B、M1/M2负结果继续可追溯。

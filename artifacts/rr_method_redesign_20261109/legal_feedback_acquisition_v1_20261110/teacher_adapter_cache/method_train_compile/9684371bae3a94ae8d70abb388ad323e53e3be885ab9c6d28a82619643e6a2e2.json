@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "request_sha256": "9684371bae3a94ae8d70abb388ad323e53e3be885ab9c6d28a82619643e6a2e2",
+  "response_sha256": "74c491befea6d8ce8ecc5c2c594dd6e0747b7b510673c4f24ce49750d085c6d3",
+  "model": "gpt-5.6-sol",
+  "purpose": "method_train_compile",
+  "value": {
+    "tests": [
+      {
+        "payments": [
+          {
+            "payment_id": "a",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "S",
+            "amount": 3000
+          },
+          {
+            "payment_id": "b",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "T",
+            "amount": 4000
+          },
+          {
+            "payment_id": "c",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "U",
+            "amount": 1
+          }
+        ],
+        "expected": 7000,
+        "source_quote": "(1) that part of the remuneration which, after remuneration (other than remuneration referred to in the succeeding paragraphs of this subsection) equal to $7,000 with respect to employment has been paid to an individual by an employer during any calendar year, is paid to such individual by such employer during such calendar year;"
+      },
+      {
+        "payments": [
+          {
+            "payment_id": "a",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "S",
+            "amount": 4000
+          },
+          {
+            "payment_id": "b",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "T",
+            "amount": 4000
+          },
+          {
+            "payment_id": "c",
+            "payer": "R",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "S",
+            "amount": 4000
+          },
+          {
+            "payment_id": "d",
+            "payer": "R",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "T",
+            "amount": 4000
+          }
+        ],
+        "expected": 14000,
+        "source_quote": "(1) that part of the remuneration which, after remuneration (other than remuneration referred to in the succeeding paragraphs of this subsection) equal to $7,000 with respect to employment has been paid to an individual by an employer during any calendar year, is paid to such individual by such employer during such calendar year;"
+      },
+      {
+        "payments": [
+          {
+            "payment_id": "a",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "S",
+            "amount": 4000
+          },
+          {
+            "payment_id": "b",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "T",
+            "amount": 4000
+          },
+          {
+            "payment_id": "c",
+            "payer": "P",
+            "payee": "R",
+            "payment_year": 2017,
+            "service_id": "S",
+            "amount": 4000
+          },
+          {
+            "payment_id": "d",
+            "payer": "P",
+            "payee": "R",
+            "payment_year": 2017,
+            "service_id": "T",
+            "amount": 4000
+          }
+        ],
+        "expected": 14000,
+        "source_quote": "(1) that part of the remuneration which, after remuneration (other than remuneration referred to in the succeeding paragraphs of this subsection) equal to $7,000 with respect to employment has been paid to an individual by an employer during any calendar year, is paid to such individual by such employer during such calendar year;"
+      },
+      {
+        "payments": [
+          {
+            "payment_id": "a",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "S",
+            "amount": 4000
+          },
+          {
+            "payment_id": "b",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2017,
+            "service_id": "T",
+            "amount": 4000
+          },
+          {
+            "payment_id": "c",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2018,
+            "service_id": "S",
+            "amount": 4000
+          },
+          {
+            "payment_id": "d",
+            "payer": "P",
+            "payee": "Q",
+            "payment_year": 2018,
+            "service_id": "T",
+            "amount": 4000
+          }
+        ],
+        "expected": 14000,
+        "source_quote": "(1) that part of the remuneration which, after remuneration (other than remuneration referred to in the succeeding paragraphs of this subsection) equal to $7,000 with respect to employment has been paid to an individual by an employer during any calendar year, is paid to such individual by such employer during such calendar year;"
+      }
+    ]
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-09T23:23:11.021560+00:00",
+    "finished_at": "2026-11-09T23:23:58.649643+00:00",
+    "elapsed_seconds": 47.628,
+    "returncode": 0,
+    "event_log_sha256": "e3c1f60689be955dcf81a6ceb2d9f98c29e64df8ad0fa046b8256d4e49f54ec0",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 14590,
+      "cached_input_tokens": 0,
+      "output_tokens": 2154,
+      "reasoning_output_tokens": 1384
+    },
+    "estimated_credits": null
+  }
+}
