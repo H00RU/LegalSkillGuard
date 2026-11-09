@@ -1,18 +1,45 @@
-# LegalSkillGuard — consolidated M1/M2 evidence review
+# 当前有效执行说明
 
-[Current combined report](../reports/method_redesign_20261109/M1M2_real_TRAIN_report.md) · [Independent upload verification](../reports/method_redesign_20261109/method_review_publication_verified.json)
+同一原Goal继续，状态active、未完成。本文件归并原目标及用户历次有效补充，是目标、验收条件和执行边界的唯一维护入口；新的用户指令优先。当前证据、运行状态、缺口和下一项工作只在[METHOD_REDESIGN_CURRENT.md](METHOD_REDESIGN_CURRENT.md)维护。旧文档中的Goal状态、预算上限、PID、停止/启动指令不再是执行依据。
 
-Goal ACTIVE and incomplete. Neither independent method contribution is established. Latest actual implementation: semantic closure of the original class-reader operations yields15 functions and50625 joint combinations. Joint and same-closure factor learners, full forecasts and exact save/reload are implemented. Thirteen relevant regressions pass, including numerical reproduction of legacy predictions under the primitive restriction. On the four already observed TRAIN exclusions this repaired representation has joint NLL2.534, local MAP3/4 and source-frame-supported correctness1/4, versus grammar-free backoff1.992,4/4 and2/4. The known83 trajectory becomes expressible, but88-controlled is newly misdecoded. This is post-hoc diagnosis, not fresh blind efficacy or native legal success. The variant is NOT promoted and triggers0 real calls. [Implementation](../legal_skill_guard/rr/composed_reader_channels.py) · [Results](../reports/method_redesign_20261109/composed_channel_results.json) · [Frozen offline artifacts](../artifacts/rr_method_redesign_20261109/composed_reader_offline_v1_20261109). The current M1 pair/tree/source-path and M2 four-label joint-channel instances are withdrawn from expansion, with all implementations and raw outcomes retained. Contextual program repair and a two-layer citation/class graph were checked against primary papers and official code; no new algorithm with a demonstrated same-information control gap is ready to implement. This does not refute every future semantic-disambiguation method. No new names, wrappers, model calls or full build substitute for the required two contributions. The Goal remains unchanged and incomplete; a justified redesign is still missing. The latest zero-call audit corrects a gate interpretation: positive likelihood for every h does not imply equal frozen-channel distributions. All9 M2 h-conditioned distributions are distinct, as are those from the untrained grammar prior. This is not learned method success, jointly identified unknown parameters, certain recovery or calibrated confidence. Statistical predictions remain evaluable without a zero-risk source-proof requirement. M2 and ordinary matrices still have4/4 local MAP and2/4 with complete accepted source frames. No perfect-anchor calls, new thresholds or experiments follow this correction. [Complete audit](../reports/method_redesign_20261109/inference_scope_audit.json) and [replay](../reports/method_redesign_20261109/audit_inference_scope.py) preserve all old frozen artifacts. Real TRAIN generation, learning, freezing, local execution and library updates exist; engineering outputs and reports do not establish method novelty or value.
+## 目标与研究定位
 
-M1's current pair constraints are absorbed by ordinary same-information learning. M2's original blind mean joint NLL is2.458 with1/4 unique joint modes after retaining probability ties. A post-hoc grammar-free exact(h,context) memory with ordinary independent-matrix backoff uses only the original induction rows, original features and fixed0.05 residual, achieving mean NLL1.992 and1/4 unique joint modes. Both yield1/4 unique joint modes and4/4 inverse local labels. The original M2 single-argmax2/4 includes a numerical tie separated by8.33e-16; the new audit uses a common1e-12 tie tolerance and preserves the original score file. This is not a new blind experiment, not dominance on every metric, and not full source semantics or native legal answers. Existing frozen forecasts, grades and raw failures are unchanged.
+围绕**一个重要且具体的研究问题**，自主设计、实现并验证**两项有实质差异和独立作用的贡献**，保持规则约束推理与技能学习主线。允许优先解决法律领域问题，不要求每个底层算法全新；判断依据为具体问题、实质机制差异及同信息强对照下的实际作用。
 
-Current absorbed instances will not be expanded into a full build or evaluation matrix. The old §63 record targets basic deduction only and excludes additional deduction; its original executable-domain syntax rejection is reproduced without inventing semantics. No new research direction or paid request is justified by that record.
+不锁定旧A/B或旧M1/M2，允许必要重设计/替换。保留其代码、失败、负结果及可复用组件，不因改名或换法律术语把旧结论重新算成功，也不因使用成熟算法自动否定法律方案。
 
-Cumulative ledger1367 executor/54 teacher, pending0; this review adds0 calls. All1421 call rows equal the original1382 plus the published39 new-Goal records. Original184 metadata and130 oracle rows remain intact. Executor thinking OFF, configuration unchanged, no experiment client running. No new source/seed/label, full training, TEST or paper.
+五库、原数据与划分保留。法律数据可承担主要验证；Airline和ProofWriter承担迁移与边界检验，不要求每项机制五库全胜。
 
-- [Backoff definition and replay](../reports/method_redesign_20261109/audit_reader_backoff_control.py) · [Per-case results](../reports/method_redesign_20261109/reader_backoff_control_results.json)
-- [Preservation and original rejection](../reports/method_redesign_20261109/reader_backoff_integrity.json)
-- [All20 source statuses](../reports/method_redesign_20261109/fixed_pool_source_status.json) · [Costs](../reports/method_redesign_20261109/cost_snapshot.json)
-- [Numeric facts](../reports/method_redesign_20261109/numeric_binding_report.md) · [Source paths](../reports/method_redesign_20261109/evidence_path_followup.md) · [Actual library update](../reports/method_redesign_20261109/observed_library_update_report.md)
+## 完成标准
 
-Only the manifest paths change from the previous verified public head. All inherited raw scientific artifacts remain available. This update appends to research/legalskillguard-rr-v2; main5368150 is preserved. No private local ancestry, credentials, environments/weights, SQLite metadata or TEST packets are uploaded. Evidence publication does not complete the Goal.
+1. 两项贡献各有明确问题、具体实现和经核实的相关工作差异，并解释为何需要该机制；独立作用可以来自能力、语义正确性，或同等正确性下的实际成本作用，不预设必须涨分。
+2. 两项机制分别有真实主路径执行及对应语义检查，能追溯到原始模型输出、实际规则/技能更新和使用；完成支撑主张所需的代表性端到端、保存/冻结/恢复及开发验证。等价已有证据直接复用。
+3. 与同输入、同训练信息及可比资源的强对照比较，保留有竞争力的直接模型、正确政策缓存、相关检索/普通学习器及必要消融；不削弱对照，不挑成功例或较弱对照。格式通过、内置规则、模板数量和软件检查不能单独证明贡献。
+4. 允许方案规定的fallback，逐来源分列主路径覆盖、fallback比例及原因。fallback答对、旧流程或默认输出不计核心机制成功；不要求零fallback、所有分支实测、所有样本成功或任意显著性/涨分门槛。
+5. 报告如实说明实际学得什么、机制覆盖、成功与未解决来源、失败原因和实际费用；保留版本、原始结果、累计请求账本与数据隔离。只有原Goal全部验收满足才标记complete；报告/诊断、工程打通或少数成功不等于完成。
+
+## 授权与执行方式
+
+- 自主完成当前范围内必要的查新、离线反证、最小实现/修复和有限真实验证，不逐项或逐轮询问。每项验证对应明确问题、已有离线依据及后续决策；有等价证据或明确反证不重跑。
+- 不新建/重启Goal，不重置进度、账本或预算。旧executor96/100、teacher2次、6000/20机械预检上限及“一轮/第二轮首错停止”均已被后续授权替代，不恢复、不按轮次重新索权。
+- 沿用既有模型、资源和费用授权，持续累计所有物理请求，失败/重试/可观测底层重试均计入。未改变科学输入/实现时使用精确缓存，禁止无变化重复请求；服务内部不可观测重试如实标明。确需超出既有资源/费用授权，或必须改变研究主线时，一次性说明缺口与理由。
+- 执行模型锁定Qwen3-8B、thinking OFF；沿用已存配置（temperature0.6、top_p0.95、top_k20、seed45、max_tokens8192、context32768、客户端重试0）。教师沿用原Codex gpt-5.6-sol/high，显式temperature未设置。不得自行换模型/采样或反复扫thinking。
+- 复用语义一致且减少复杂度的组件，允许为当前阻断替换不合适接口/结构；兼容旧格式不是验收项。不做全仓重构、通用框架或为未来需求加别名/兜底。保留五库适配、必要对照、真实恢复、正确性检查、隔离与账本。
+- 对实际改动做必要回归。修复后真实重试须对应明确变化和离线证据；修复通过后继续既定未完成来源不要求每请求再次改代码。普通模型错误、回退或暂未涨分不自动停工，也不无止境换方向、调参数或补实验。
+- 生成/修复不得补造缺失语义、借答案改规则或降低检查制造通过。确定性适配仅限无歧义、保持语义的转换；错误输出与拒绝记录保留。新确定性调用路径应单独说明，不把它重述为原模型本来正确。
+
+## 数据、发布与当前禁止事项
+
+仅在既定数据、来源和划分内工作；必要小试应先固定所用已有来源/信息边界。TRAIN可用于获取与受控核实；DEV不回灌为训练；不读取TEST标签，不以测试答案修复。
+
+**当前不授权新的完整训练/完整建库、完整评测矩阵、正式TEST或论文写作。** 设计与原型未显示额外能力或同等正确性成本作用时，不扩大实验。早期设计卡/报告检查点不等于完成，不要求为凑两个创新无限试验。
+
+代码及证据提交当前开发分支，必要时同步GitHub研究分支，不直接修改main。保护运行任务和冻结manifest：先查真实进程身份与持久化账本，不重复启动；运行中不改绑定文件，变更前保存原版。
+
+## 文档职责与历史
+
+- 本文件：只维护当前目标、完成标准、授权和边界，不追加逐轮日志。
+- [METHOD_REDESIGN_CURRENT.md](METHOD_REDESIGN_CURRENT.md)：只维护最新证据、真正缺口和下一项实际工作；更新原位内容，不叠加旧状态。
+- `reports/`、原始artifacts、账本及Git历史：保存研究证据和历史决定。其他旧方案、设计卡、协议和交接中的执行说明均为历史参考，不覆盖这两份文件或最新用户指令。
+
+合并前的长说明已按字节备份并由Git提交ad02326保留；研究结果和资源授权未删除或重置。

@@ -1,0 +1,312 @@
+{
+  "captured_utc": "2026-11-09T15:33:44.162639+00:00",
+  "ordinal": 87,
+  "public_input_sha256": "6d4b50fa70dc0babb5fa0b7b5352683335aa4fb4075d0f977b10cfaf09f49383",
+  "actual_query": {
+    "arguments": [
+      null,
+      "Bob",
+      "2017"
+    ],
+    "positive": true,
+    "predicate": "section_63_c_5_applies"
+  },
+  "actual_explicit_negative": [
+    {
+      "atom": {
+        "arguments": [
+          "Alice",
+          "Bob",
+          "2017"
+        ],
+        "positive": false,
+        "predicate": "deduction_under_section_151_allowable"
+      },
+      "quote": "Alice is not entitled to a deduction for Bob under section 151."
+    }
+  ],
+  "actual_dependency_slice": [
+    {
+      "id": "transferred63c5",
+      "authority": "26 U.S.C. §63(c)(5)",
+      "head": {
+        "arguments": [
+          "?other_taxpayer",
+          "?subject",
+          "?year"
+        ],
+        "positive": true,
+        "predicate": "section_63_c_5_applies"
+      },
+      "body": [
+        {
+          "arguments": [
+            "?other_taxpayer",
+            "?subject",
+            "?year"
+          ],
+          "positive": true,
+          "predicate": "deduction_under_section_151_allowable"
+        }
+      ],
+      "quote": "In the case of an individual with respect to whom a deduction under section 151 is allowable to another taxpayer for a taxable year beginning in the calendar year in which the individual's taxable year begins, the basic standard deduction applicable to such individual for such individual's taxable year shall not exceed the greater of-\n\n        (A) $500, or\n\n        (B) the sum of $250 and such individual's earned income."
+    },
+    {
+      "id": "r151_c_deduction_allowable",
+      "authority": "26 U.S.C. § 151(c)",
+      "head": {
+        "arguments": [
+          "?claimant",
+          "?subject",
+          "?year"
+        ],
+        "positive": true,
+        "predicate": "deduction_under_section_151_allowable"
+      },
+      "body": [
+        {
+          "arguments": [
+            "?claimant",
+            "?subject",
+            "?year"
+          ],
+          "positive": true,
+          "predicate": "section_151_c_applies"
+        }
+      ],
+      "quote": "An exemption of the exemption amount for each individual who is a dependent (as defined in section 152) of the taxpayer for the taxable year."
+    },
+    {
+      "id": "r151_c_applicability",
+      "authority": "26 U.S.C. § 151(c)",
+      "head": {
+        "arguments": [
+          "?claimant",
+          "?subject",
+          "?year"
+        ],
+        "positive": true,
+        "predicate": "section_151_c_applies"
+      },
+      "body": [
+        {
+          "arguments": [
+            "?claimant",
+            "?subject",
+            "?year"
+          ],
+          "positive": true,
+          "predicate": "dependent"
+        }
+      ],
+      "quote": "An exemption of the exemption amount for each individual who is a dependent (as defined in section 152) of the taxpayer for the taxable year."
+    },
+    {
+      "id": "r152_a_dependent",
+      "authority": "26 U.S.C. § 152(a)",
+      "head": {
+        "arguments": [
+          "?claimant",
+          "?subject",
+          "?year"
+        ],
+        "positive": true,
+        "predicate": "dependent"
+      },
+      "body": [
+        {
+          "arguments": [
+            "?claimant",
+            "?subject",
+            "?year"
+          ],
+          "positive": true,
+          "predicate": "section_152_a_applies"
+        }
+      ],
+      "quote": "For purposes of this subtitle, the term \"dependent\" means-\n\n    (1) a qualifying child, or\n\n    (2) a qualifying relative."
+    },
+    {
+      "id": "r152_b_1_no_dependents",
+      "authority": "26 U.S.C. § 152(b)(1)",
+      "head": {
+        "arguments": [
+          "?subject",
+          "?possible_dependent",
+          "?year"
+        ],
+        "positive": false,
+        "predicate": "dependent"
+      },
+      "body": [
+        {
+          "arguments": [
+            "?claimant",
+            "?subject",
+            "?year"
+          ],
+          "positive": true,
+          "predicate": "section_152_b_1_applies"
+        },
+        {
+          "arguments": [
+            "?possible_dependent",
+            "?year"
+          ],
+          "positive": true,
+          "predicate": "case_subject_year"
+        }
+      ],
+      "quote": "If an individual is a dependent of a taxpayer for any taxable year of such taxpayer beginning in a calendar year, such individual shall be treated as having no dependents for any taxable year of such individual beginning in such calendar year."
+    },
+    {
+      "id": "r152_b_1_applicability",
+      "authority": "26 U.S.C. § 152(b)(1)",
+      "head": {
+        "arguments": [
+          "?claimant",
+          "?subject",
+          "?year"
+        ],
+        "positive": true,
+        "predicate": "section_152_b_1_applies"
+      },
+      "body": [
+        {
+          "arguments": [
+            "?claimant",
+            "?subject",
+            "?year"
+          ],
+          "positive": true,
+          "predicate": "dependent"
+        }
+      ],
+      "quote": "If an individual is a dependent of a taxpayer for any taxable year of such taxpayer beginning in a calendar year, such individual shall be treated as having no dependents for any taxable year of such individual beginning in such calendar year."
+    },
+    {
+      "id": "r152_a_qualifying_child_applicability",
+      "authority": "26 U.S.C. § 152(a)",
+      "head": {
+        "arguments": [
+          "?claimant",
+          "?subject",
+          "?year"
+        ],
+        "positive": true,
+        "predicate": "section_152_a_applies"
+      },
+      "body": [
+        {
+          "arguments": [
+            "?claimant",
+            "?subject",
+            "?year"
+          ],
+          "positive": true,
+          "predicate": "qualifying_child"
+        }
+      ],
+      "quote": "For purposes of this subtitle, the term \"dependent\" means-\n\n    (1) a qualifying child, or\n\n    (2) a qualifying relative."
+    },
+    {
+      "id": "r152_a_qualifying_relative_applicability",
+      "authority": "26 U.S.C. § 152(a)",
+      "head": {
+        "arguments": [
+          "?claimant",
+          "?subject",
+          "?year"
+        ],
+        "positive": true,
+        "predicate": "section_152_a_applies"
+      },
+      "body": [
+        {
+          "arguments": [
+            "?claimant",
+            "?subject",
+            "?year"
+          ],
+          "positive": true,
+          "predicate": "qualifying_relative"
+        }
+      ],
+      "quote": "For purposes of this subtitle, the term \"dependent\" means-\n\n    (1) a qualifying child, or\n\n    (2) a qualifying relative."
+    }
+  ],
+  "missing_source_dependencies": [
+    {
+      "authority": "151(a)",
+      "role": "Exemptions provided by151 become deductions",
+      "source": {
+        "quote": "(a) Allowance of deductions\n\nIn the case of an individual, the exemptions provided by this section shall be allowed as deductions in computing taxable income.",
+        "start": 55,
+        "end": 215
+      },
+      "compiled_rule": false
+    },
+    {
+      "authority": "151(b)",
+      "role": "A separate spouse-exemption/deduction constructor not represented by151(c)",
+      "source": {
+        "quote": "(b) Taxpayer and spouse\n\nAn exemption of the exemption amount for the taxpayer; and an additional exemption of the exemption amount for the spouse of the taxpayer if a joint return is not made by the taxpayer and his spouse, and if the spouse, for the calendar year in which the taxable year of the taxpayer begins, has no gross income and is not the dependent of another taxpayer.",
+        "start": 215,
+        "end": 598
+      },
+      "compiled_rule": false
+    }
+  ],
+  "named_person_domain": [
+    "Alice",
+    "Bob"
+  ],
+  "domain_completeness_established_by_current_interface": false,
+  "source_program_has_unresolved_sections": [
+    "case_subject_year facts must be supplied solely from the persons and years actually named in a case or query.",
+    "taxable_year_begins_in_151_d_5_period facts remain unresolved because comparison of a taxable-year beginning date with December 31, 2017 and January 1, 2026 is not expressed by this relation program.",
+    "The tests producing qualifying_child facts under section 152(c) remain unresolved because section 152(c) is outside the requested local module.",
+    "The tests producing qualifying_relative facts under section 152(d) remain unresolved because section 152(d) is outside the requested local module.",
+    "Sections 151(a), 151(b), 151(d)(3), and 152(b)(2) are outside the requested local module and remain unresolved."
+  ],
+  "solver_gap": "Negative existential projection is disabled unconditionally, even if an appropriate complete scope could later be established. This is an implementation limitation, not a model prediction error.",
+  "source_gap": "The local151(c)-only deduction constructor is not a complete implementation of the whole151 dependency referenced by63(c)(5). Missing translated source must not be treated as false.",
+  "abstraction_countermodels": [
+    {
+      "exists": false,
+      "status": "sat",
+      "Alice_allowed": false,
+      "other_allowed": false
+    },
+    {
+      "exists": true,
+      "status": "sat",
+      "Alice_allowed": false,
+      "other_allowed": true
+    }
+  ],
+  "countermodels_are_new_data_or_supervision": false,
+  "interpretation_limit": "This establishes only that one explicit negative does not logically fix an unrepresented claimant in the current abstraction. It does not prove the native SARA case ambiguous, add a perfect-anchor requirement, or justify mapping all unknowns to Contradiction.",
+  "minimum_next_fix": "Establish task-native closure/scope from the actual benchmark execution contract and finish the required source dependency or justify its irrelevance; then implement negative projection within that declared scope. Do not add a blanket unknown-to-false adapter.",
+  "related_functional_output_risk": "The local program leaves151(d)(3) and the151(d)(5) period test unresolved. A general amount cannot be called full-policy stable merely because the local rule set has one result. Native72 has an independently active source zero exception, but no whole-policy completion claim is made.",
+  "official_task_sources": [
+    {
+      "url": "https://nlp.jhu.edu/law/sara_v2/",
+      "supports": "Binary applicability output format, not an automatic completeness certificate for a partial learned IR."
+    },
+    {
+      "url": "https://hazyresearch.stanford.edu/legalbench/tasks/sara_entailment.html",
+      "supports": "Native task is binary entailment classification, not an added three-class benchmark."
+    }
+  ],
+  "current_predictions_or_grades_modified": false,
+  "counts_total": {
+    "executor": 1373,
+    "teacher": 56
+  },
+  "new_model_calls": 0,
+  "new_oracle_views": 0,
+  "new_sources": 0,
+  "TEST_opened": false,
+  "goal_complete": false
+}
