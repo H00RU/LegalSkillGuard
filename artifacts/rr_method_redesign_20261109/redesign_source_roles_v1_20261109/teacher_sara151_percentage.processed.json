@@ -1,0 +1,152 @@
+{
+  "original_sha256": "b42ae403925751f0bb9948ad5555abe77a0c42fbb3e8cf5cfa56b13b617065c7",
+  "original_validation": {
+    "error": "Unsupported expression node: Name(id='true', ctx=Load())",
+    "error_type": "ContractError",
+    "status": "rejected"
+  },
+  "transformations": [
+    {
+      "path": "$.obligations[2].condition",
+      "before": "true",
+      "after": "True",
+      "reason": "Observed JSON-style Boolean literal in a pure Boolean expression; no declared variable has that name"
+    }
+  ],
+  "module": {
+    "domain": "adjusted_gross_income > section68_applicable_amount",
+    "domain_quote": "In the case of any taxpayer whose adjusted gross income for the taxable year exceeds the applicable amount in effect under section 68(b)",
+    "expression": "min(100, 2 * ceildiv(adjusted_gross_income - section68_applicable_amount, 1250 if married_filing_separately else 2500))",
+    "inputs": [
+      {
+        "meaning": "The taxpayer's adjusted gross income for the taxable year, measured in whole dollars.",
+        "name": "adjusted_gross_income",
+        "origin": "case",
+        "quote": "the taxpayer's adjusted gross income for the taxable year",
+        "type": "integer"
+      },
+      {
+        "meaning": "The applicable dollar amount in effect under section 68(b) for the taxpayer and taxable year, supplied from that external section.",
+        "name": "section68_applicable_amount",
+        "origin": "external_rule",
+        "quote": "the applicable amount in effect under section 68(b)",
+        "type": "integer"
+      },
+      {
+        "meaning": "Whether the taxpayer is a married individual filing a separate return.",
+        "name": "married_filing_separately",
+        "origin": "case",
+        "quote": "a married individual filing a separate return",
+        "type": "boolean"
+      }
+    ],
+    "obligations": [
+      {
+        "assertion": "result == min(100, 2 * ceildiv(adjusted_gross_income - section68_applicable_amount, 2500))",
+        "condition": "not married_filing_separately",
+        "name": "ordinary_increment",
+        "quote": "the term \"applicable percentage\" means 2 percentage points for each $2,500 (or fraction thereof)"
+      },
+      {
+        "assertion": "result == min(100, 2 * ceildiv(adjusted_gross_income - section68_applicable_amount, 1250))",
+        "condition": "married_filing_separately",
+        "name": "separate_return_increment",
+        "quote": "In the case of a married individual filing a separate return, the preceding sentence shall be applied by substituting \"$1,250\" for \"$2,500\"."
+      },
+      {
+        "assertion": "result <= 100",
+        "condition": "True",
+        "name": "percentage_cap",
+        "quote": "In no event shall the applicable percentage exceed 100 percent."
+      }
+    ],
+    "output_type": "integer",
+    "rule_quote": "the term \"applicable percentage\" means 2 percentage points for each $2,500 (or fraction thereof) by which the taxpayer's adjusted gross income for the taxable year exceeds the applicable amount in effect under section 68(b). In the case of a married individual filing a separate return, the preceding sentence shall be applied by substituting \"$1,250\" for \"$2,500\". In no event shall the applicable percentage exceed 100 percent.",
+    "unresolved": [
+      "Section 68(b) is referenced but not supplied, so the applicable amount for the relevant taxpayer and taxable year must be provided externally."
+    ]
+  },
+  "validation": {
+    "obligations": [
+      {
+        "name": "ordinary_increment",
+        "condition_reachable": "sat",
+        "status": "verified"
+      },
+      {
+        "name": "separate_return_increment",
+        "condition_reachable": "sat",
+        "status": "verified"
+      },
+      {
+        "name": "percentage_cap",
+        "condition_reachable": "sat",
+        "status": "verified"
+      }
+    ],
+    "all_supplied_obligations_verified": true,
+    "unresolved": [
+      "Section 68(b) is referenced but not supplied, so the applicable amount for the relevant taxpayer and taxable year must be provided externally."
+    ],
+    "source_coverage_or_NL_faithfulness_proved": false,
+    "signature_was_model_generated": true
+  },
+  "quote_positions": {
+    "input:adjusted_gross_income": [
+      [
+        1775,
+        1832
+      ]
+    ],
+    "input:section68_applicable_amount": [
+      [
+        1470,
+        1521
+      ],
+      [
+        1841,
+        1892
+      ]
+    ],
+    "input:married_filing_separately": [
+      [
+        1909,
+        1954
+      ]
+    ],
+    "domain": [
+      [
+        1385,
+        1521
+      ]
+    ],
+    "program": [
+      [
+        1669,
+        2098
+      ]
+    ],
+    "obligation:ordinary_increment": [
+      [
+        1669,
+        1765
+      ]
+    ],
+    "obligation:separate_return_increment": [
+      [
+        1894,
+        2034
+      ]
+    ],
+    "obligation:percentage_cap": [
+      [
+        2035,
+        2098
+      ]
+    ]
+  },
+  "no_missing_semantic_content_supplied": true,
+  "original_artifact_overwritten": false,
+  "new_model_calls": 0,
+  "source_semantic_review": "Still required separately"
+}

@@ -1,0 +1,75 @@
+{
+  "code_snapshot": "6c2f2a5dce7e9e78c6aae6ccc000a3eb769f99c2",
+  "latest_report_snapshot": "ced5c965e85103d80242b28852b29a1637696e5c",
+  "counting": "Sources with at least one observed error, nonexclusive; not the true semantic error prevalence",
+  "source_status": {
+    "TRAIN": {
+      "OpenExempt": {
+        "invalid_IR": 32
+      },
+      "RuleArena_Airline": {
+        "invalid_IR": 24
+      },
+      "SARA_v2_Binary": {
+        "invalid_IR": 21,
+        "source_IR_compiled": 3
+      },
+      "ProofWriter_OWA_depth5": {
+        "invalid_IR": 1,
+        "model_Horn_IR_compiled": 21,
+        "controlled_public_grammar": 2
+      },
+      "ContractNLI": {
+        "invalid_IR": 24
+      }
+    },
+    "DEV": {
+      "ContractNLI": {
+        "native_fallback": 8
+      },
+      "OpenExempt": {
+        "native_fallback": 8
+      },
+      "ProofWriter_OWA_depth5": {
+        "model_Horn_IR_compiled": 7,
+        "controlled_public_grammar": 1
+      },
+      "RuleArena_Airline": {
+        "native_fallback": 8
+      },
+      "SARA_v2_Binary": {
+        "source_IR_compiled": 2,
+        "native_fallback": 6
+      }
+    }
+  },
+  "error_sources": {
+    "ContractNLI": {
+      "unsupported_comparison": 19,
+      "other": 7,
+      "duplicate_name": 3,
+      "invalid_python": 1
+    },
+    "RuleArena_Airline": {
+      "missing_source_annotation": 21,
+      "other": 2,
+      "invalid_python": 1
+    },
+    "OpenExempt": {
+      "literal_grounding": 18,
+      "verbatim_quote": 6,
+      "invalid_python": 14,
+      "other": 8,
+      "missing_source_annotation": 2
+    },
+    "SARA_v2_Binary": {
+      "other": 13,
+      "invalid_python": 8,
+      "verbatim_quote": 1,
+      "duplicate_name": 7
+    },
+    "ProofWriter_OWA_depth5": {
+      "other": 4
+    }
+  }
+}

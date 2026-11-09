@@ -1,0 +1,152 @@
+{
+  "new_model_calls": 0,
+  "all_values_from_existing_real_TRAIN": true,
+  "induction_error_explanations": [
+    {
+      "case_id": "TRAIN71:controlled",
+      "h": [
+        0,
+        1
+      ],
+      "y": [
+        1,
+        1,
+        0,
+        1
+      ],
+      "minimum_edits": 1,
+      "equally_simplest_explanations": [
+        [
+          "other",
+          "self",
+          "self",
+          "self"
+        ],
+        [
+          "negate_self",
+          "self",
+          "self",
+          "self"
+        ]
+      ],
+      "count": 2,
+      "unique_operator_identified": false
+    },
+    {
+      "case_id": "TRAIN79:original",
+      "h": [
+        0,
+        2
+      ],
+      "y": [
+        0,
+        0,
+        2,
+        2
+      ],
+      "minimum_edits": 2,
+      "equally_simplest_explanations": [
+        [
+          "self",
+          "other",
+          "other",
+          "self"
+        ],
+        [
+          "self",
+          "other",
+          "negate_other",
+          "self"
+        ],
+        [
+          "self",
+          "other",
+          "erase",
+          "self"
+        ],
+        [
+          "self",
+          "unknown_as_false",
+          "other",
+          "self"
+        ],
+        [
+          "self",
+          "unknown_as_false",
+          "negate_other",
+          "self"
+        ],
+        [
+          "self",
+          "unknown_as_false",
+          "erase",
+          "self"
+        ]
+      ],
+      "count": 6,
+      "unique_operator_identified": false
+    },
+    {
+      "case_id": "TRAIN79:controlled",
+      "h": [
+        0,
+        1
+      ],
+      "y": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "minimum_edits": 1,
+      "equally_simplest_explanations": [
+        [
+          "self",
+          "self",
+          "self",
+          "other"
+        ],
+        [
+          "self",
+          "self",
+          "self",
+          "negate_self"
+        ]
+      ],
+      "count": 2,
+      "unique_operator_identified": false
+    }
+  ],
+  "excluded_diagnostic": {
+    "case_id": "TRAIN88:controlled",
+    "h": [
+      1,
+      1
+    ],
+    "observed": [
+      1,
+      1,
+      1,
+      0
+    ],
+    "frozen_training_R_error_alternative_predictions": {
+      "R.medium_reads_work": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "R.medium_negates_medium": [
+        1,
+        1,
+        1,
+        0
+      ]
+    },
+    "used_to_refit": false
+  },
+  "M1_gap": "Frozen program uses R.work to emit medium constants. It never executes the teacher-proposed material question or constrains source-role bindings; identical ordinary tree absorbs it.",
+  "M2_gap": "Training role-copy and polarity alternatives can predict the same real error. More repetitions of the same h/y do not identify the operator. Need an actually distinguishing observation, not a renamed template or a forced anchor.",
+  "decision": "No unchanged requests or wider build justified by this pilot. Preserve the two designs; require a concrete source-grounded question/learning difference before another finite validation.",
+  "goal_complete": false
+}

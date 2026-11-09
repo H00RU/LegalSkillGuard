@@ -1,1 +1,1 @@
-[Active redesign checkpoint](method_redesign_20261109/checkpoint_01.md) · [Design cards](method_redesign_20261109/design_cards.md) · [Upload verification](method_redesign_20261109/publication_verified.json)
+[Real TRAIN M1/M2 report](method_redesign_20261109/M1M2_real_TRAIN_report.md) · [Upload verification](method_redesign_20261109/M1M2_publication_verified.json)

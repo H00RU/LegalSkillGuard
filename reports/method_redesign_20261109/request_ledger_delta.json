@@ -1,54 +1,364 @@
 {
+  "captured_utc": "2026-11-09T07:27:29.308220+00:00",
+  "columns": [
+    "id",
+    "role",
+    "purpose",
+    "bucket",
+    "source",
+    "request_hash",
+    "status",
+    "reserved_at",
+    "result"
+  ],
   "calls": [
-    {
-      "id": "redesign_rule_modules_v1_20261109:executor:airline_size:0",
-      "role": "executor",
-      "purpose": "method_train_synthesis",
-      "bucket": "method_train",
-      "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
-      "request_hash": "96d45877c922c516f4e7ae2bc69e9082a4675f762f1238fa91d90ae9780346a8",
-      "status": "completed",
-      "reserved_at": 1794202404.7836807,
-      "result": "{\"content\": \"{\\\"expression\\\": \\\"length + width + height\\\", \\\"rule_quotes\\\": [\\\"We calculate the size limits of your bag by adding the total outside dimensions of each bag, length + width + height.\\\"], \\\"scope_notes\\\": \\\"The expression calculates the total size of a bag by summing its length, width, and height in inches, as specified in the rule.\\\", \\\"unresolved_requirements\\\": [\\\"The rule does not specify whether the dimensions are measured in inches or another unit, but the input signature indicates inches.\\\"]}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-5a7dbea196e24546aa20a6fb6dde0d1a\", \"usage\": {\"prompt_tokens\": 4266, \"total_tokens\": 4374, \"completion_tokens\": 108, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"68ebd9c51244833318302776d314e143e47f58a304f1716be0a9ba8ed9d9bfe4\", \"serving_template_suffix_tokens\": [11, 2374, 323, 2608, 525, 279, 2326, 4889, 15336, 315, 264, 8968, 304, 14924, 9207, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 3.602306223474443, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"96d45877c922c516f4e7ae2bc69e9082a4675f762f1238fa91d90ae9780346a8\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/redesign_rule_modules_v1_20261109/calls/8283c7be0dcb0c136c2b75adb879e4dedb64042ae21d2ccb49543cd9c7f220cb\"}"
-    },
-    {
-      "id": "redesign_rule_modules_v1_20261109:executor:sara_percentage:0",
-      "role": "executor",
-      "purpose": "method_train_synthesis",
-      "bucket": "method_train",
-      "source": "SARA_v2_Binary:097568705cac232354a1b0bc169fad14d5b105d2818fdebc5622f304975c747e",
-      "request_hash": "360e648d776c260ef1b4b4765c2349136356baeccf724ac787c8389992802a3d",
-      "status": "completed",
-      "reserved_at": 1794202408.4421015,
-      "result": "{\"content\": \"{\\\"expression\\\": \\\"((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)\\\", \\\"rule_quotes\\\": [\\\"\\u00a7151(d)(3)(B)\\\"], \\\"scope_notes\\\": \\\"The expression assumes that the applicable percentage is calculated as 2 percentage points for each $2,500 (or fraction thereof) by which the income exceeds the threshold. For married individuals filing a separate return, the denominator is $1,250 instead of $2,500. The applicable percentage cannot exceed 100 percent, but this constraint is not enforced in the expression as it is not part of the requested function's domain.\\\", \\\"unresolved_requirements\\\": [\\\"The expression does not enforce the 100 percent cap on the applicable percentage as specified in \\u00a7151(d)(3)(B).\\\"]}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-c6974f6f31d3414fa93984cf7e7df6a1\", \"usage\": {\"prompt_tokens\": 797, \"total_tokens\": 1018, \"completion_tokens\": 221, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"f07823327180d38f560de5982820a98ed7050cb08c6bab236400ab66bdf5e486\", \"serving_template_suffix_tokens\": [3453, 67598, 5302, 3425, 419, 38173, 374, 264, 12224, 3842, 25480, 264, 8651, 470, 9207, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 5.993172151967883, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"360e648d776c260ef1b4b4765c2349136356baeccf724ac787c8389992802a3d\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/redesign_rule_modules_v1_20261109/calls/c8478222003569e53efb6f6ed7a0eb992315b5738c240cf8a99610cf9fa866c0\"}"
-    },
-    {
-      "id": "redesign_rule_modules_v1_20261109:teacher:airline_size:0",
-      "role": "teacher",
-      "purpose": "method_train_compile",
-      "bucket": "method_train",
-      "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
-      "request_hash": "539df6123605af82dde21b724eb4f3beb5941ab5bd1ba22c06411236110ed808",
-      "status": "completed",
-      "reserved_at": 1794202449.9990358,
-      "result": "{\"value\": {\"expression\": \"length + width + height\", \"rule_quotes\": [\"We calculate the size limits of your bag by adding the total outside dimensions of each bag, length + width + height.\"], \"scope_notes\": \"Calculates the bag's total outside linear dimensions in inches before applying any size limit or baggage fee.\", \"unresolved_requirements\": []}, \"model\": \"gpt-5.6-sol\", \"request_sha256\": \"92e0046ba213a7dc3cb78dd366cc893d88969c1e6cb750c67870266dff0b6fdb\", \"response_sha256\": \"1a8cf31ecadfbf34a9121d0680374de0970c160afbbc03c89b410f42174a8bd6\", \"cache_hit\": false, \"invocation\": {\"attempt\": 1, \"started_at\": \"2026-11-09T05:34:10.009251+00:00\", \"finished_at\": \"2026-11-09T05:34:27.394362+00:00\", \"elapsed_seconds\": 17.385, \"returncode\": 0, \"event_log_sha256\": \"c116d4d334d90f61ab99af668aefd8e6dd30ba23b26cb6f5b19e1d38586058ef\", \"tool_events_detected\": false, \"budget_reservation\": null, \"usage\": {\"input_tokens\": 17761, \"cached_input_tokens\": 0, \"output_tokens\": 76, \"reasoning_output_tokens\": 0}, \"estimated_credits\": null}, \"elapsed_seconds\": 17.385830499231815, \"source_ids\": [\"RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8\"], \"billing_basis\": \"existing_authorized_teacher_adapter\", \"actual_cash_invoice_available\": false}"
-    },
-    {
-      "id": "redesign_rule_modules_v1_20261109:teacher:sara_percentage:0",
-      "role": "teacher",
-      "purpose": "method_train_compile",
-      "bucket": "method_train",
-      "source": "SARA_v2_Binary:097568705cac232354a1b0bc169fad14d5b105d2818fdebc5622f304975c747e",
-      "request_hash": "ae1818a84757eb2b983068fa8d7f30fb9d77efd1394bd0db0b1eff268cf6da37",
-      "status": "completed",
-      "reserved_at": 1794202467.4147177,
-      "result": "{\"value\": {\"expression\": \"min(100, 2 * ceildiv(income - threshold, 1250 if married_separate else 2500))\", \"rule_quotes\": [\"For purposes of subparagraph (A), the term \\\"applicable percentage\\\" means 2 percentage points for each $2,500 (or fraction thereof) by which the taxpayer's adjusted gross income for the taxable year exceeds the applicable amount in effect under section 68(b). In the case of a married individual filing a separate return, the preceding sentence shall be applied by substituting \\\"$1,250\\\" for \\\"$2,500\\\". In no event shall the applicable percentage exceed 100 percent.\"], \"scope_notes\": \"Computes only the applicable percentage in integer percentage points on the stated domain income > threshold; it does not compute the exemption amount, deduction, taxable income, or final tax.\", \"unresolved_requirements\": []}, \"model\": \"gpt-5.6-sol\", \"request_sha256\": \"d48e6d52d1672ec126a81922a322afe287acdb7c7f2a6a20e29fe54e483b5bfd\", \"response_sha256\": \"57902c059c317d696248a287af926d0040fc521f324e7ce101ba395ce6053625\", \"cache_hit\": false, \"invocation\": {\"attempt\": 1, \"started_at\": \"2026-11-09T05:34:27.420681+00:00\", \"finished_at\": \"2026-11-09T05:34:41.394687+00:00\", \"elapsed_seconds\": 13.974, \"returncode\": 0, \"event_log_sha256\": \"d552898b05f9e6ecd0fbdebae7e76fe0a195e86e89a8df53d5947e895aea26fc\", \"tool_events_detected\": false, \"budget_reservation\": null, \"usage\": {\"input_tokens\": 14578, \"cached_input_tokens\": 0, \"output_tokens\": 291, \"reasoning_output_tokens\": 101}, \"estimated_credits\": null}, \"elapsed_seconds\": 13.974532248452306, \"source_ids\": [\"SARA_v2_Binary:097568705cac232354a1b0bc169fad14d5b105d2818fdebc5622f304975c747e\"], \"billing_basis\": \"existing_authorized_teacher_adapter\", \"actual_cash_invoice_available\": false}"
-    }
+    [
+      "redesign_rule_modules_v1_20261109:executor:airline_size:0",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+      "96d45877c922c516f4e7ae2bc69e9082a4675f762f1238fa91d90ae9780346a8",
+      "completed",
+      1794202404.7836807,
+      "{\"content\": \"{\\\"expression\\\": \\\"length + width + height\\\", \\\"rule_quotes\\\": [\\\"We calculate the size limits of your bag by adding the total outside dimensions of each bag, length + width + height.\\\"], \\\"scope_notes\\\": \\\"The expression calculates the total size of a bag by summing its length, width, and height in inches, as specified in the rule.\\\", \\\"unresolved_requirements\\\": [\\\"The rule does not specify whether the dimensions are measured in inches or another unit, but the input signature indicates inches.\\\"]}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-5a7dbea196e24546aa20a6fb6dde0d1a\", \"usage\": {\"prompt_tokens\": 4266, \"total_tokens\": 4374, \"completion_tokens\": 108, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"68ebd9c51244833318302776d314e143e47f58a304f1716be0a9ba8ed9d9bfe4\", \"serving_template_suffix_tokens\": [11, 2374, 323, 2608, 525, 279, 2326, 4889, 15336, 315, 264, 8968, 304, 14924, 9207, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 3.602306223474443, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"96d45877c922c516f4e7ae2bc69e9082a4675f762f1238fa91d90ae9780346a8\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/redesign_rule_modules_v1_20261109/calls/8283c7be0dcb0c136c2b75adb879e4dedb64042ae21d2ccb49543cd9c7f220cb\"}"
+    ],
+    [
+      "redesign_rule_modules_v1_20261109:executor:sara_percentage:0",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:097568705cac232354a1b0bc169fad14d5b105d2818fdebc5622f304975c747e",
+      "360e648d776c260ef1b4b4765c2349136356baeccf724ac787c8389992802a3d",
+      "completed",
+      1794202408.4421015,
+      "{\"content\": \"{\\\"expression\\\": \\\"((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)\\\", \\\"rule_quotes\\\": [\\\"\\u00a7151(d)(3)(B)\\\"], \\\"scope_notes\\\": \\\"The expression assumes that the applicable percentage is calculated as 2 percentage points for each $2,500 (or fraction thereof) by which the income exceeds the threshold. For married individuals filing a separate return, the denominator is $1,250 instead of $2,500. The applicable percentage cannot exceed 100 percent, but this constraint is not enforced in the expression as it is not part of the requested function's domain.\\\", \\\"unresolved_requirements\\\": [\\\"The expression does not enforce the 100 percent cap on the applicable percentage as specified in \\u00a7151(d)(3)(B).\\\"]}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-c6974f6f31d3414fa93984cf7e7df6a1\", \"usage\": {\"prompt_tokens\": 797, \"total_tokens\": 1018, \"completion_tokens\": 221, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"f07823327180d38f560de5982820a98ed7050cb08c6bab236400ab66bdf5e486\", \"serving_template_suffix_tokens\": [3453, 67598, 5302, 3425, 419, 38173, 374, 264, 12224, 3842, 25480, 264, 8651, 470, 9207, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 5.993172151967883, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"360e648d776c260ef1b4b4765c2349136356baeccf724ac787c8389992802a3d\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/redesign_rule_modules_v1_20261109/calls/c8478222003569e53efb6f6ed7a0eb992315b5738c240cf8a99610cf9fa866c0\"}"
+    ],
+    [
+      "redesign_rule_modules_v1_20261109:teacher:airline_size:0",
+      "teacher",
+      "method_train_compile",
+      "method_train",
+      "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+      "539df6123605af82dde21b724eb4f3beb5941ab5bd1ba22c06411236110ed808",
+      "completed",
+      1794202449.9990358,
+      "{\"value\": {\"expression\": \"length + width + height\", \"rule_quotes\": [\"We calculate the size limits of your bag by adding the total outside dimensions of each bag, length + width + height.\"], \"scope_notes\": \"Calculates the bag's total outside linear dimensions in inches before applying any size limit or baggage fee.\", \"unresolved_requirements\": []}, \"model\": \"gpt-5.6-sol\", \"request_sha256\": \"92e0046ba213a7dc3cb78dd366cc893d88969c1e6cb750c67870266dff0b6fdb\", \"response_sha256\": \"1a8cf31ecadfbf34a9121d0680374de0970c160afbbc03c89b410f42174a8bd6\", \"cache_hit\": false, \"invocation\": {\"attempt\": 1, \"started_at\": \"2026-11-09T05:34:10.009251+00:00\", \"finished_at\": \"2026-11-09T05:34:27.394362+00:00\", \"elapsed_seconds\": 17.385, \"returncode\": 0, \"event_log_sha256\": \"c116d4d334d90f61ab99af668aefd8e6dd30ba23b26cb6f5b19e1d38586058ef\", \"tool_events_detected\": false, \"budget_reservation\": null, \"usage\": {\"input_tokens\": 17761, \"cached_input_tokens\": 0, \"output_tokens\": 76, \"reasoning_output_tokens\": 0}, \"estimated_credits\": null}, \"elapsed_seconds\": 17.385830499231815, \"source_ids\": [\"RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8\"], \"billing_basis\": \"existing_authorized_teacher_adapter\", \"actual_cash_invoice_available\": false}"
+    ],
+    [
+      "redesign_rule_modules_v1_20261109:teacher:sara_percentage:0",
+      "teacher",
+      "method_train_compile",
+      "method_train",
+      "SARA_v2_Binary:097568705cac232354a1b0bc169fad14d5b105d2818fdebc5622f304975c747e",
+      "ae1818a84757eb2b983068fa8d7f30fb9d77efd1394bd0db0b1eff268cf6da37",
+      "completed",
+      1794202467.4147177,
+      "{\"value\": {\"expression\": \"min(100, 2 * ceildiv(income - threshold, 1250 if married_separate else 2500))\", \"rule_quotes\": [\"For purposes of subparagraph (A), the term \\\"applicable percentage\\\" means 2 percentage points for each $2,500 (or fraction thereof) by which the taxpayer's adjusted gross income for the taxable year exceeds the applicable amount in effect under section 68(b). In the case of a married individual filing a separate return, the preceding sentence shall be applied by substituting \\\"$1,250\\\" for \\\"$2,500\\\". In no event shall the applicable percentage exceed 100 percent.\"], \"scope_notes\": \"Computes only the applicable percentage in integer percentage points on the stated domain income > threshold; it does not compute the exemption amount, deduction, taxable income, or final tax.\", \"unresolved_requirements\": []}, \"model\": \"gpt-5.6-sol\", \"request_sha256\": \"d48e6d52d1672ec126a81922a322afe287acdb7c7f2a6a20e29fe54e483b5bfd\", \"response_sha256\": \"57902c059c317d696248a287af926d0040fc521f324e7ce101ba395ce6053625\", \"cache_hit\": false, \"invocation\": {\"attempt\": 1, \"started_at\": \"2026-11-09T05:34:27.420681+00:00\", \"finished_at\": \"2026-11-09T05:34:41.394687+00:00\", \"elapsed_seconds\": 13.974, \"returncode\": 0, \"event_log_sha256\": \"d552898b05f9e6ecd0fbdebae7e76fe0a195e86e89a8df53d5947e895aea26fc\", \"tool_events_detected\": false, \"budget_reservation\": null, \"usage\": {\"input_tokens\": 14578, \"cached_input_tokens\": 0, \"output_tokens\": 291, \"reasoning_output_tokens\": 101}, \"estimated_credits\": null}, \"elapsed_seconds\": 13.974532248452306, \"source_ids\": [\"SARA_v2_Binary:097568705cac232354a1b0bc169fad14d5b105d2818fdebc5622f304975c747e\"], \"billing_basis\": \"existing_authorized_teacher_adapter\", \"actual_cash_invoice_available\": false}"
+    ],
+    [
+      "redesign_source_roles_v1_20261109:executor:sara151_percentage:0",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:097568705cac232354a1b0bc169fad14d5b105d2818fdebc5622f304975c747e",
+      "8ed710e803ab3629cb737fc955b19dcfc15387e4ca0693a43c73e0f4d891669b",
+      "completed",
+      1794205126.7565017,
+      "{\"content\": \"{\\\"inputs\\\": [{\\\"name\\\": \\\"adjusted_gross_income\\\", \\\"type\\\": \\\"integer\\\", \\\"meaning\\\": \\\"The taxpayer's adjusted gross income for the taxable year\\\", \\\"origin\\\": \\\"external_rule\\\", \\\"quote\\\": \\\"In the case of any taxpayer whose adjusted gross income for the taxable year exceeds the applicable amount in effect under section 68(b), the exemption amount shall be reduced by the applicable percentage.\\\"}, {\\\"name\\\": \\\"applicable_amount\\\", \\\"type\\\": \\\"integer\\\", \\\"meaning\\\": \\\"The applicable amount in effect under section 68(b)\\\", \\\"origin\\\": \\\"external_rule\\\", \\\"quote\\\": \\\"In the case of any taxpayer whose adjusted gross income for the taxable year exceeds the applicable amount in effect under section 68(b), the exemption amount shall be reduced by the applicable percentage.\\\"}, {\\\"name\\\": \\\"married_filing_separate\\\", \\\"type\\\": \\\"boolean\\\", \\\"meaning\\\": \\\"Whether the taxpayer is married and filing a separate return\\\", \\\"origin\\\": \\\"external_rule\\\", \\\"quote\\\": \\\"In the case of a married individual filing a separate return, the preceding sentence shall be applied by substituting \\\\\\\"$1,250\\\\\\\" for \\\\\\\"$2,500\\\\\\\".\\\"}], \\\"output_type\\\": \\\"integer\\\", \\\"domain\\\": \\\"The applicable percentage under section151(d)(3)(B) for the cases where section151(d)(3)(A) applies\\\", \\\"domain_quote\\\": \\\"In the case of any taxpayer whose adjusted gross income for the taxable year exceeds the applicable amount in effect under section 68(b), the exemption amount shall be reduced by the applicable percentage.\\\", \\\"expression\\\": \\\"if married_filing_separate then ((adjusted_gross_income - applicable_amount) // 1250 + 1) * 2 else ((adjusted_gross_income - applicable_amount) // 2500 + 1) * 2\\\", \\\"rule_quote\\\": \\\"For purposes of subparagraph (A), the term \\\\\\\"applicable percentage\\\\\\\" means 2 percentage points for each $2,500 (or fraction thereof) by which the taxpayer's adjusted gross income for the taxable year exceeds the applicable amount in effect under section 68(b). In the case of a married individual filing a separate return, the preceding sentence shall be applied by substituting \\\\\\\"$1,250\\\\\\\" for \\\\\\\"$2,500\\\\\\\". In no event shall the applicable percentage exceed 100 percent.\\\", \\\"obligations\\\": [{\\\"name\\\": \\\"exemption_amount_phaseout\\\", \\\"condition\\\": \\\"adjusted_gross_income > applicable_amount\\\", \\\"assertion\\\": \\\"exemption_amount_phaseout is the applicable percentage under section151(d)(3)(B) for the cases where section151(d)(3)(A) applies.\\\", \\\"quote\\\": \\\"In the case of any taxpayer whose adjusted gross income for the taxable year exceeds the applicable amount in effect under section 68(b), the exemption amount shall be reduced by the applicable percentage.\\\"}], \\\"unresolved\\\": [\\\"applicable_amount\\\"]}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-211b87bfa81a4f8696a83501cfe79f8e\", \"usage\": {\"prompt_tokens\": 840, \"total_tokens\": 1464, \"completion_tokens\": 624, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"bb0f4f05b032960ee6ae2578c63ea157997438e9cec7b1bb9c7e2e478120d4d3\", \"serving_template_suffix_tokens\": [2376, 32, 8, 16790, 13, 3155, 537, 12564, 279, 44698, 3311, 476, 3742, 1189, 92, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 16.73085165116936, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"8ed710e803ab3629cb737fc955b19dcfc15387e4ca0693a43c73e0f4d891669b\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/redesign_source_roles_v1_20261109/calls/9300765840a0be0754b5a6296dd19727380cfe6978ffaeed48c1b80242b45078\"}"
+    ],
+    [
+      "redesign_source_roles_v1_20261109:teacher:sara151_percentage:0",
+      "teacher",
+      "method_train_compile",
+      "method_train",
+      "SARA_v2_Binary:097568705cac232354a1b0bc169fad14d5b105d2818fdebc5622f304975c747e",
+      "d09c3ca69ab235cbdaae146abf40aa1de5deab32e551096743b4bae49e5c20bf",
+      "completed",
+      1794205314.9170713,
+      "{\"value\": {\"inputs\": [{\"name\": \"adjusted_gross_income\", \"type\": \"integer\", \"meaning\": \"The taxpayer's adjusted gross income for the taxable year, measured in whole dollars.\", \"origin\": \"case\", \"quote\": \"the taxpayer's adjusted gross income for the taxable year\"}, {\"name\": \"section68_applicable_amount\", \"type\": \"integer\", \"meaning\": \"The applicable dollar amount in effect under section 68(b) for the taxpayer and taxable year, supplied from that external section.\", \"origin\": \"external_rule\", \"quote\": \"the applicable amount in effect under section 68(b)\"}, {\"name\": \"married_filing_separately\", \"type\": \"boolean\", \"meaning\": \"Whether the taxpayer is a married individual filing a separate return.\", \"origin\": \"case\", \"quote\": \"a married individual filing a separate return\"}], \"output_type\": \"integer\", \"domain\": \"adjusted_gross_income > section68_applicable_amount\", \"domain_quote\": \"In the case of any taxpayer whose adjusted gross income for the taxable year exceeds the applicable amount in effect under section 68(b)\", \"expression\": \"min(100, 2 * ceildiv(adjusted_gross_income - section68_applicable_amount, 1250 if married_filing_separately else 2500))\", \"rule_quote\": \"the term \\\"applicable percentage\\\" means 2 percentage points for each $2,500 (or fraction thereof) by which the taxpayer's adjusted gross income for the taxable year exceeds the applicable amount in effect under section 68(b). In the case of a married individual filing a separate return, the preceding sentence shall be applied by substituting \\\"$1,250\\\" for \\\"$2,500\\\". In no event shall the applicable percentage exceed 100 percent.\", \"obligations\": [{\"name\": \"ordinary_increment\", \"condition\": \"not married_filing_separately\", \"assertion\": \"result == min(100, 2 * ceildiv(adjusted_gross_income - section68_applicable_amount, 2500))\", \"quote\": \"the term \\\"applicable percentage\\\" means 2 percentage points for each $2,500 (or fraction thereof)\"}, {\"name\": \"separate_return_increment\", \"condition\": \"married_filing_separately\", \"assertion\": \"result == min(100, 2 * ceildiv(adjusted_gross_income - section68_applicable_amount, 1250))\", \"quote\": \"In the case of a married individual filing a separate return, the preceding sentence shall be applied by substituting \\\"$1,250\\\" for \\\"$2,500\\\".\"}, {\"name\": \"percentage_cap\", \"condition\": \"true\", \"assertion\": \"result <= 100\", \"quote\": \"In no event shall the applicable percentage exceed 100 percent.\"}], \"unresolved\": [\"Section 68(b) is referenced but not supplied, so the applicable amount for the relevant taxpayer and taxable year must be provided externally.\"]}, \"model\": \"gpt-5.6-sol\", \"request_sha256\": \"66795e3c7a8b6a32ae0f1a89b05d7fcfd2a208a5fe05524953cc9c55bbb3e351\", \"response_sha256\": \"fd359347ef26201995615e0a549c6b967ffe2dccc1f70d7abe9ed71124d57860\", \"cache_hit\": false, \"invocation\": {\"attempt\": 1, \"started_at\": \"2026-11-09T06:21:54.928756+00:00\", \"finished_at\": \"2026-11-09T06:22:38.197348+00:00\", \"elapsed_seconds\": 43.269, \"returncode\": 0, \"event_log_sha256\": \"3d9279377da30e6d93004975b0f232153a23e0ad7725a6bc59637fc32f085d83\", \"tool_events_detected\": false, \"budget_reservation\": null, \"usage\": {\"input_tokens\": 14743, \"cached_input_tokens\": 0, \"output_tokens\": 1610, \"reasoning_output_tokens\": 1034}, \"estimated_credits\": null}, \"elapsed_seconds\": 43.26934991776943, \"source_ids\": [\"SARA_v2_Binary:097568705cac232354a1b0bc169fad14d5b105d2818fdebc5622f304975c747e\"], \"billing_basis\": \"existing_authorized_teacher_adapter\", \"actual_cash_invoice_available\": false}"
+    ],
+    [
+      "redesign_source_roles_v1_20261109:teacher:sara63_basic_deduction:0",
+      "teacher",
+      "method_train_compile",
+      "method_train",
+      "SARA_v2_Binary:8175fcb9abeb3ba15e5b58a33f9b479944ee37eab0c0cfa9557393b5193ece97",
+      "42171219138c684f92c40d7872ee05e001ce1674b75e2d82827511b5111e0287",
+      "completed",
+      1794205618.8917198,
+      "{\"value\": {\"inputs\": [{\"name\": \"is_joint_return\", \"type\": \"boolean\", \"meaning\": \"Whether the taxpayer files a joint return for the taxable year.\", \"origin\": \"external_rule\", \"quote\": \"a joint return\"}, {\"name\": \"is_surviving_spouse\", \"type\": \"boolean\", \"meaning\": \"Whether the taxpayer is a surviving spouse under section 2(a).\", \"origin\": \"external_rule\", \"quote\": \"a surviving spouse (as defined in section 2(a))\"}, {\"name\": \"is_head_of_household\", \"type\": \"boolean\", \"meaning\": \"Whether the taxpayer is a head of household under section 2(b).\", \"origin\": \"external_rule\", \"quote\": \"a head of household (as defined in section 2(b))\"}, {\"name\": \"is_2018_through_2025_taxable_year\", \"type\": \"boolean\", \"meaning\": \"Whether the taxable year begins after December 31, 2017, and before January 1, 2026.\", \"origin\": \"case\", \"quote\": \"a taxable year beginning after December 31, 2017, and before January 1, 2026\"}, {\"name\": \"is_c5_dependent\", \"type\": \"boolean\", \"meaning\": \"Whether section 63(c)(5) applies because a section 151 deduction for the individual is allowable to another taxpayer for the relevant year.\", \"origin\": \"external_rule\", \"quote\": \"an individual with respect to whom a deduction under section 151 is allowable to another taxpayer for a taxable year beginning in the calendar year in which the individual's taxable year begins\"}, {\"name\": \"earned_income\", \"type\": \"integer\", \"meaning\": \"The individual's legally determined earned income in whole dollars, used to calculate the section 63(c)(5)(B) ceiling.\", \"origin\": \"external_rule\", \"quote\": \"the sum of $250 and such individual's earned income\"}, {\"name\": \"is_married_filing_separately_with_either_spouse_itemizing\", \"type\": \"boolean\", \"meaning\": \"Whether the taxpayer is a married individual filing separately and either spouse itemizes deductions.\", \"origin\": \"external_rule\", \"quote\": \"a married individual filing a separate return where either spouse itemizes deductions\"}, {\"name\": \"is_nonresident_alien_individual\", \"type\": \"boolean\", \"meaning\": \"Whether the taxpayer is legally classified as a nonresident alien individual.\", \"origin\": \"external_rule\", \"quote\": \"a nonresident alien individual\"}, {\"name\": \"is_estate_trust_common_trust_fund_or_partnership\", \"type\": \"boolean\", \"meaning\": \"Whether the taxpayer is an estate or trust, common trust fund, or partnership.\", \"origin\": \"external_rule\", \"quote\": \"an estate or trust, common trust fund, or partnership\"}], \"output_type\": \"integer\", \"domain\": \"earned_income is an integer number of dollars; all Boolean inputs are true or false; is_head_of_household cannot be true when either is_joint_return or is_surviving_spouse is true.\", \"domain_quote\": \"(C) $3,000 in any other case.\", \"expression\": \"0 if is_married_filing_separately_with_either_spouse_itemizing or is_nonresident_alien_individual or is_estate_trust_common_trust_fund_or_partnership else min(2 * (12000 if is_2018_through_2025_taxable_year else 3000) if is_joint_return or is_surviving_spouse else (18000 if is_2018_through_2025_taxable_year else 4400) if is_head_of_household else (12000 if is_2018_through_2025_taxable_year else 3000), max(500, 250 + earned_income)) if is_c5_dependent else 2 * (12000 if is_2018_through_2025_taxable_year else 3000) if is_joint_return or is_surviving_spouse else (18000 if is_2018_through_2025_taxable_year else 4400) if is_head_of_household else (12000 if is_2018_through_2025_taxable_year else 3000)\", \"rule_quote\": \"the basic standard deduction applicable to such individual for such individual's taxable year shall not exceed the greater of-\\n\\n        (A) $500, or\\n\\n        (B) the sum of $250 and such individual's earned income.\", \"obligations\": [{\"name\": \"c6_zero\", \"condition\": \"is_married_filing_separately_with_either_spouse_itemizing or is_nonresident_alien_individual or is_estate_trust_common_trust_fund_or_partnership\", \"assertion\": \"result == 0\", \"quote\": \"the standard deduction shall be zero.\"}, {\"name\": \"dependent_ceiling\", \"condition\": \"is_c5_dependent\", \"assertion\": \"result <= max(500, 250 + earned_income)\", \"quote\": \"the basic standard deduction applicable to such individual for such individual's taxable year shall not exceed the greater of-\\n\\n        (A) $500, or\\n\\n        (B) the sum of $250 and such individual's earned income.\"}, {\"name\": \"special_period_head_of_household\", \"condition\": \"is_2018_through_2025_taxable_year and is_head_of_household and not is_c5_dependent and not is_married_filing_separately_with_either_spouse_itemizing and not is_nonresident_alien_individual and not is_estate_trust_common_trust_fund_or_partnership\", \"assertion\": \"result == 18000\", \"quote\": \"by substituting \\\"$18,000\\\" for \\\"$4,400\\\" in subparagraph (B)\"}, {\"name\": \"special_period_other_case\", \"condition\": \"is_2018_through_2025_taxable_year and not is_joint_return and not is_surviving_spouse and not is_head_of_household and not is_c5_dependent and not is_married_filing_separately_with_either_spouse_itemizing and not is_nonresident_alien_individual and not is_estate_trust_common_trust_fund_or_partnership\", \"assertion\": \"result == 12000\", \"quote\": \"by substituting \\\"$12,000\\\" for \\\"$3,000\\\" in subparagraph (C)\"}, {\"name\": \"ordinary_joint_or_surviving_spouse\", \"condition\": \"not is_2018_through_2025_taxable_year and (is_joint_return or is_surviving_spouse) and not is_c5_dependent and not is_married_filing_separately_with_either_spouse_itemizing and not is_nonresident_alien_individual and not is_estate_trust_common_trust_fund_or_partnership\", \"assertion\": \"result == 6000\", \"quote\": \"200 percent of the dollar amount in effect under subparagraph (C) for the taxable year\"}, {\"name\": \"ordinary_head_of_household\", \"condition\": \"not is_2018_through_2025_taxable_year and is_head_of_household and not is_c5_dependent and not is_married_filing_separately_with_either_spouse_itemizing and not is_nonresident_alien_individual and not is_estate_trust_common_trust_fund_or_partnership\", \"assertion\": \"result == 4400\", \"quote\": \"$4,400 in the case of a head of household\"}, {\"name\": \"ordinary_other_case\", \"condition\": \"not is_2018_through_2025_taxable_year and not is_joint_return and not is_surviving_spouse and not is_head_of_household and not is_c5_dependent and not is_married_filing_separately_with_either_spouse_itemizing and not is_nonresident_alien_individual and not is_estate_trust_common_trust_fund_or_partnership\", \"assertion\": \"result == 3000\", \"quote\": \"$3,000 in any other case.\"}], \"unresolved\": [\"The supplied policy does not provide the section 2(a) definition of surviving spouse.\", \"The supplied policy does not provide the section 2(b) definition of head of household.\", \"The supplied policy does not provide section 151's rules for determining whether a deduction for the individual is allowable to another taxpayer.\", \"The supplied policy does not define earned income.\", \"The supplied policy states that marital status is determined under section 7703, but section 7703 is not supplied.\", \"The supplied policy does not provide the rules for classifying a person as a nonresident alien individual.\"]}, \"model\": \"gpt-5.6-sol\", \"request_sha256\": \"4e3ccd364898037738ab3bfd213798c62c7ab435bec37a77cf2636a8ffc3aa80\", \"response_sha256\": \"00fa2081e6a020db433ac046127598f7d472cb6ce23863bb4df095c6c8ef9911\", \"cache_hit\": false, \"invocation\": {\"attempt\": 1, \"started_at\": \"2026-11-09T06:26:58.919803+00:00\", \"finished_at\": \"2026-11-09T06:28:20.833258+00:00\", \"elapsed_seconds\": 81.913, \"returncode\": 0, \"event_log_sha256\": \"58776bece1d32486638165d77c0878db22d1a5fb6194ce710560ed29d6861238\", \"tool_events_detected\": false, \"budget_reservation\": null, \"usage\": {\"input_tokens\": 15314, \"cached_input_tokens\": 0, \"output_tokens\": 3766, \"reasoning_output_tokens\": 2070}, \"estimated_credits\": null}, \"elapsed_seconds\": 81.91431637387723, \"source_ids\": [\"SARA_v2_Binary:8175fcb9abeb3ba15e5b58a33f9b479944ee37eab0c0cfa9557393b5193ece97\"], \"billing_basis\": \"existing_authorized_teacher_adapter\", \"actual_cash_invoice_available\": false}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:direct:TRAIN71:original",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "51b1e620df62108836a8e89b425be715043c6672e0719073ec3f47a45c85f9a7",
+      "completed",
+      1794207647.4312408,
+      "{\"content\": \"{\\\"payer\\\": \\\"Alice\\\", \\\"payee\\\": \\\"Bob\\\", \\\"work_activity\\\": \\\"agricultural labor\\\", \\\"payment_medium\\\": \\\"hay\\\", \\\"work_is_agricultural\\\": true, \\\"payment_is_agricultural_product\\\": true}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-562f70d7b3a341bbba80e046fe72ac12\", \"usage\": {\"prompt_tokens\": 151, \"total_tokens\": 202, \"completion_tokens\": 51, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"efcc0154f455c9d08d825d7341ab70da6469aa1404e6a8bf4f4747902c30ccc1\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.3871507467702031, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"51b1e620df62108836a8e89b425be715043c6672e0719073ec3f47a45c85f9a7\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/7e3f2b5df02e1befa555df0f3b531bb2b253497bb04c322346b2ef1787c045be\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:reader:TRAIN71:original",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "74194c47c268b18c8a179f8a59b11d38dd1dffca4d731b289da60f29e3dc83a8",
+      "completed",
+      1794207696.783179,
+      "{\"content\": \"{\\\"agricultural_remuneration\\\": true, \\\"payment_in_agricultural_products\\\": true, \\\"evidence_work\\\": \\\"paid $2325 in hay to Bob for agricultural labor.\\\", \\\"evidence_medium\\\": \\\"paid $2325 in hay to Bob for agricultural labor.\\\"}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-ed54ec0b3d7440019580cb17209ed6a2\", \"usage\": {\"prompt_tokens\": 131, \"total_tokens\": 198, \"completion_tokens\": 67, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"49313f48ecb287274341e1fe9b3198bd2ed0f4168f56760b40ac638292bf310e\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.804452701471746, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"74194c47c268b18c8a179f8a59b11d38dd1dffca4d731b289da60f29e3dc83a8\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/9f97757dda4a46216cb4745f048a00580f05cae675027ad6ec100f65f792d45b\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:direct:TRAIN71:controlled",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "b16ca2e794aa207636cdadb11b2bf2f67063af1257eea90bebb103ebcac66437",
+      "completed",
+      1794207721.559903,
+      "{\"content\": \"{\\\"payer\\\": \\\"Alice\\\", \\\"payee\\\": \\\"Bob\\\", \\\"work_activity\\\": \\\"domestic service\\\", \\\"payment_medium\\\": \\\"hay\\\", \\\"work_is_agricultural\\\": true, \\\"payment_is_agricultural_product\\\": true}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-705822cbb11e42bcab3c4a6d355d0a05\", \"usage\": {\"prompt_tokens\": 151, \"total_tokens\": 203, \"completion_tokens\": 52, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"b294a8a70e5020aef62840286cf0d07b5195cda718aa9a9203bc8a37da157589\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.392305986955762, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"b16ca2e794aa207636cdadb11b2bf2f67063af1257eea90bebb103ebcac66437\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/754132a6be0486055c216a245476d2f04506506beacfeba2f5013701fd4c3853\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:reader:TRAIN71:controlled",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "ad7e66e38defeb93eae08bfb20eb83d8eee75c867c80ed917ce49eac6166a9e5",
+      "completed",
+      1794207723.0662155,
+      "{\"content\": \"{\\\"agricultural_remuneration\\\": false, \\\"payment_in_agricultural_products\\\": true, \\\"evidence_work\\\": \\\"Alice has paid $2325 in hay to Bob for domestic service.\\\", \\\"evidence_medium\\\": \\\"hay\\\"}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-e8a729a861dc45478bccc3decf5b608b\", \"usage\": {\"prompt_tokens\": 131, \"total_tokens\": 187, \"completion_tokens\": 56, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"9035d31b1d4d40b5d0344ba23d4f0ce4983a265a0bb311af2c2fd50262e336af\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.5038514835759997, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"ad7e66e38defeb93eae08bfb20eb83d8eee75c867c80ed917ce49eac6166a9e5\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/10b9f8d9e6eaa3f84f9422a3d0c8ce34ccaf6fe6e1e022ee6bda03d8bc8eebab\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:direct:TRAIN79:original",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+      "93e21f73a3a8acf0f92631797a2a5fd144937c4ec356d4ef35644e79e1545f4f",
+      "completed",
+      1794207724.677299,
+      "{\"content\": \"{\\\"payer\\\": \\\"Alice\\\", \\\"payee\\\": \\\"Bob\\\", \\\"work_activity\\\": \\\"domestic service\\\", \\\"payment_medium\\\": \\\"wages\\\", \\\"work_is_agricultural\\\": false, \\\"payment_is_agricultural_product\\\": false}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-970fa752d7004bee90615f772b3de250\", \"usage\": {\"prompt_tokens\": 175, \"total_tokens\": 230, \"completion_tokens\": 55, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"60cd513c95431d8cf32c3a909745d494371c226aedaaf425bb124cda3155c711\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.489279949106276, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"93e21f73a3a8acf0f92631797a2a5fd144937c4ec356d4ef35644e79e1545f4f\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/43e088f0bd5b3c4b0493153a3773c85c8845c8060a06c10e1400d493038c35b5\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:reader:TRAIN79:original",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+      "41604c19f7920c80758aaffa97caaa03c82bb8686170be29438b53acb442f5d5",
+      "completed",
+      1794207726.2741902,
+      "{\"content\": \"{\\\"agricultural_remuneration\\\": null, \\\"payment_in_agricultural_products\\\": null, \\\"evidence_work\\\": null, \\\"evidence_medium\\\": null}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-59fdc0b0187a47baa2609fc0905431f3\", \"usage\": {\"prompt_tokens\": 155, \"total_tokens\": 194, \"completion_tokens\": 39, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"e6f011862a168d6fc9c35387265b923c3b109b67472e6d435b22e91508cee047\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.0548519361764193, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"41604c19f7920c80758aaffa97caaa03c82bb8686170be29438b53acb442f5d5\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/1e6aa397ac56934c18fea66b1cc119ec9e98882fbf73bd9ae3821687ca3cadea\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:direct:TRAIN79:controlled",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+      "4700c4254622c9152ce5245bbf53a98fb07a4254ef44ba83a594ce4c7ea838c9",
+      "completed",
+      1794207727.4346511,
+      "{\"content\": \"{\\\"payer\\\": \\\"Alice\\\", \\\"payee\\\": \\\"Bob\\\", \\\"work_activity\\\": \\\"domestic service\\\", \\\"payment_medium\\\": \\\"hay\\\", \\\"work_is_agricultural\\\": false, \\\"payment_is_agricultural_product\\\": true}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-084d5af1f03a4f12a9cb2d3b202fe0b6\", \"usage\": {\"prompt_tokens\": 177, \"total_tokens\": 228, \"completion_tokens\": 51, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"5ff884f3f52735c6a5e87e773129cc16299c32a413ba57e9879c931a12c61665\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.368657162413001, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"4700c4254622c9152ce5245bbf53a98fb07a4254ef44ba83a594ce4c7ea838c9\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/e0882548ce3d8ab9e62c4727edb6ef7dfcd2a8a7f8e6c0ad4fef5b21d5313836\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:reader:TRAIN79:controlled",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+      "bc793a724ddd3dc3457fccfa61498cb4f1de9a521a528fe2d32b74c657d8890f",
+      "completed",
+      1794207728.9088435,
+      "{\"content\": \"{\\\"agricultural_remuneration\\\": false, \\\"payment_in_agricultural_products\\\": false, \\\"evidence_work\\\": \\\"wages of $3200 in hay\\\", \\\"evidence_medium\\\": \\\"domestic service done in her home\\\"}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-f8c7b488017f45d5a60014f88d11c434\", \"usage\": {\"prompt_tokens\": 157, \"total_tokens\": 213, \"completion_tokens\": 56, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"514bd5b02dac7395bd0924b57e7bf7d5790b5a39e06e8ade512b98f5f882f795\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.4993353076279163, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"bc793a724ddd3dc3457fccfa61498cb4f1de9a521a528fe2d32b74c657d8890f\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/fdd6438603f9b8bc552ce6bcb1d8a6cee824bdef46d6664fb90194e9ec6a8c45\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:teacher:71",
+      "teacher",
+      "method_train_compile",
+      "method_train",
+      "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "6c6b4ca608091aaa8be07458f5e11522bc1752acd21b319abd69891fdc993394",
+      "completed",
+      1794207943.8851867,
+      "{\"value\": {\"cases\": [{\"case_id\": \"TRAIN71:original\", \"frame\": {\"payer\": \"Alice\", \"payee\": \"Bob\", \"work_activity\": \"agricultural labor\", \"payment_medium\": \"hay\", \"work_is_agricultural\": true, \"payment_is_agricultural_product\": true}, \"local_relation_review\": \"The direct and reader outputs agree with the source: the work is explicitly \\\"agricultural labor\\\" and the payment material is explicitly \\\"hay\\\".\", \"edit_valid_for_local_roles\": true, \"edit_review\": \"No edit was applied in this original case.\"}, {\"case_id\": \"TRAIN71:controlled\", \"frame\": {\"payer\": \"Alice\", \"payee\": \"Bob\", \"work_activity\": \"domestic service\", \"payment_medium\": \"hay\", \"work_is_agricultural\": false, \"payment_is_agricultural_product\": true}, \"local_relation_review\": \"The source explicitly states \\\"domestic service\\\" and \\\"hay\\\". The controlled direct output incorrectly marks the work as agricultural; the reader output correctly distinguishes the non-agricultural work from the agricultural-product payment material.\", \"edit_valid_for_local_roles\": true, \"edit_review\": \"The one-span edit validly replaces \\\"agricultural labor\\\" with \\\"domestic service\\\" while preserving the payer, payee, and payment material.\"}], \"discrimination_questions\": [\"Was {payee} paid by {payer} for \\\"agricultural labor\\\" or for \\\"domestic service\\\"?\"], \"unresolved\": []}, \"model\": \"gpt-5.6-sol\", \"request_sha256\": \"197edb2ecc2f90db0e99a959ac5e7fad3bc4aeecff45ebf90e80e887a18dabbd\", \"response_sha256\": \"6f2fcd9c9f3440c90488e32ab3d47be9b66451720bf039df1df836dac902a646\", \"cache_hit\": false, \"invocation\": {\"attempt\": 1, \"started_at\": \"2026-11-09T07:05:43.895282+00:00\", \"finished_at\": \"2026-11-09T07:06:09.383377+00:00\", \"elapsed_seconds\": 25.488, \"returncode\": 0, \"event_log_sha256\": \"9be1df5f0e62760da339910c6f54515a7688c90efc42e5df98460c4a38c8da3d\", \"tool_events_detected\": false, \"budget_reservation\": null, \"usage\": {\"input_tokens\": 14833, \"cached_input_tokens\": 0, \"output_tokens\": 602, \"reasoning_output_tokens\": 309}, \"estimated_credits\": null}, \"elapsed_seconds\": 25.488800743594766, \"source_ids\": [\"SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1\"], \"billing_basis\": \"existing_authorized_teacher_adapter\", \"actual_cash_invoice_available\": false}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:teacher:79",
+      "teacher",
+      "method_train_compile",
+      "method_train",
+      "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+      "14071688c3b379d50bd016536fe5accec07c7628aa5b664ccf2d1ad893bb574f",
+      "completed",
+      1794208168.2942636,
+      "{\"value\": {\"cases\": [{\"case_id\": \"TRAIN79:original\", \"frame\": {\"payer\": \"Alice\", \"payee\": \"Bob\", \"work_activity\": \"domestic service\", \"payment_medium\": null, \"work_is_agricultural\": false, \"payment_is_agricultural_product\": null}, \"local_relation_review\": \"The payer, payee, and work activity are explicit. Domestic service in a home is non-agricultural work. \\\"wages\\\" names remuneration, not its material, and \\\"$3200\\\" alone does not establish cash; therefore the payment medium and whether it is an agricultural product are unstated. The direct output incorrectly treats \\\"wages\\\" as a payment medium and classifies its material; the reader output omits explicit work evidence.\", \"edit_valid_for_local_roles\": true, \"edit_review\": \"No edit is present; the unchanged source is locally evaluable.\"}, {\"case_id\": \"TRAIN79:controlled\", \"frame\": {\"payer\": \"Alice\", \"payee\": \"Bob\", \"work_activity\": \"domestic service\", \"payment_medium\": \"hay\", \"work_is_agricultural\": false, \"payment_is_agricultural_product\": true}, \"local_relation_review\": \"The payer, payee, work activity, and payment medium are explicit. \\\"domestic service\\\" is non-agricultural work, while \\\"hay\\\" is an agricultural product used as payment. The direct output correctly identifies these local relations. The reader output reverses the work and medium evidence and incorrectly classifies payment in hay as non-agricultural.\", \"edit_valid_for_local_roles\": true, \"edit_review\": \"The controlled replacement preserves the surrounding source and adds \\\"in hay\\\" within the payment phrase. It validly changes only the locally relevant payment-medium information, although the resulting phrasing is slightly awkward.\"}], \"discrimination_questions\": [\"What work did {payee} perform for {payer}: domestic service or agricultural labor?\", \"What material did {payer} transfer to {payee} as payment: hay or an unstated medium?\"], \"unresolved\": []}, \"model\": \"gpt-5.6-sol\", \"request_sha256\": \"34df6ad1477d054a0c9365d96ae982c8b039b3aea6ca6c3cc2d36e065476736b\", \"response_sha256\": \"b3d5ae225f58dadbd76b9cc13c0bac063a48e39a0b6646df7fa3205ed2f94c53\", \"cache_hit\": false, \"invocation\": {\"attempt\": 1, \"started_at\": \"2026-11-09T07:09:28.304981+00:00\", \"finished_at\": \"2026-11-09T07:09:59.528165+00:00\", \"elapsed_seconds\": 31.223, \"returncode\": 0, \"event_log_sha256\": \"289c01ae01dd4406cb5330d51061ae060051b811f23deac3b7aabf5b49d7e556\", \"tool_events_detected\": false, \"budget_reservation\": null, \"usage\": {\"input_tokens\": 14854, \"cached_input_tokens\": 0, \"output_tokens\": 920, \"reasoning_output_tokens\": 513}, \"estimated_credits\": null}, \"elapsed_seconds\": 31.22385591827333, \"source_ids\": [\"SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba\"], \"billing_basis\": \"existing_authorized_teacher_adapter\", \"actual_cash_invoice_available\": false}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:direct:TRAIN83:original",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+      "9c5732fa8b657b9bf91db3bf4be4d2d64c25d2ee2270246b2c0e3a0aa86c67cc",
+      "completed",
+      1794208715.9003866,
+      "{\"content\": \"{\\\"payer\\\": \\\"Alice\\\", \\\"payee\\\": \\\"Bob\\\", \\\"work_activity\\\": \\\"domestic service\\\", \\\"payment_medium\\\": \\\"money\\\", \\\"work_is_agricultural\\\": false, \\\"payment_is_agricultural_product\\\": false}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-2259576d2fb9402aa1c18ade823ebb17\", \"usage\": {\"prompt_tokens\": 175, \"total_tokens\": 228, \"completion_tokens\": 53, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"8f28c6901019fe1d45d1a68e078dcab967b11ca5873842655aaf8067dac7dabc\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.4263770915567875, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"9c5732fa8b657b9bf91db3bf4be4d2d64c25d2ee2270246b2c0e3a0aa86c67cc\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/a23ee68b0a519a9ae46da0bc7d4806644dba5080f7268654fdfdb21e3dbca5d2\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:reader:TRAIN83:original",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+      "ceb32ef0c6973c1d2d40b9eb585f693c933d21d4b88be41c3942d8add3286367",
+      "completed",
+      1794208826.0814316,
+      "{\"content\": \"{\\\"agricultural_remuneration\\\": null, \\\"payment_in_agricultural_products\\\": null, \\\"evidence_work\\\": null, \\\"evidence_medium\\\": null}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-896d520e5acf44b3b366e68db2c776ff\", \"usage\": {\"prompt_tokens\": 155, \"total_tokens\": 194, \"completion_tokens\": 39, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"154a9ad83716e15a8140c0f60d6345ece0f6f2be106416bbb40176cf803216ca\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.0599212432280183, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"ceb32ef0c6973c1d2d40b9eb585f693c933d21d4b88be41c3942d8add3286367\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/0127b75f503948b42ba67d26c0d162c05601927bb9be983590cd1d934e9f1872\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:retrieval:TRAIN83:original",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+      "cf95fd352338e499a52db3855250193965877cf537cccc8e35208721bcae7833",
+      "completed",
+      1794208827.1987417,
+      "{\"content\": \"{\\\"agricultural_remuneration\\\": true, \\\"payment_in_agricultural_products\\\": true, \\\"evidence_work\\\": \\\"Alice has paid $3200 to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017, in Caracas, Venezuela.\\\", \\\"evidence_medium\\\": \\\"Alice has paid $3200 to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017, in Caracas, Venezuela.\\\"}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-9f948ae9c20a41068cde510f2ef85aab\", \"usage\": {\"prompt_tokens\": 1294, \"total_tokens\": 1414, \"completion_tokens\": 120, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"967831f75b1be2bf5635fc2cc07598f6005c0141848db5540da01711d0d59d49\", \"serving_template_suffix_tokens\": [323, 43347, 536, 9606, 8160, 304, 17669, 438, 2477, 41985, 2216, 43447, 1189, 92, 13989, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 3.396017985418439, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"cf95fd352338e499a52db3855250193965877cf537cccc8e35208721bcae7833\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/18b7ecf1d223fc1a37bf2366de3e4bda1f9c2b0b3774115f470c4b2bb83b9dc8\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:direct:TRAIN83:controlled",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+      "f5a513be29feeeb248a29ab9f0fbd68759d2d6d0ca644a0732ceb028cf82f244",
+      "completed",
+      1794208830.6253443,
+      "{\"content\": \"{\\\"payer\\\": \\\"Alice\\\", \\\"payee\\\": \\\"Bob\\\", \\\"work_activity\\\": \\\"domestic service\\\", \\\"payment_medium\\\": \\\"hay\\\", \\\"work_is_agricultural\\\": true, \\\"payment_is_agricultural_product\\\": true}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-57894673e9e84fe0b025185ac9a70897\", \"usage\": {\"prompt_tokens\": 177, \"total_tokens\": 227, \"completion_tokens\": 50, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"4fc7ba9726fb0486e5bf87a79ec9fe17eaa962d00bee292c3d0f161b15204090\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.3414152953773737, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"f5a513be29feeeb248a29ab9f0fbd68759d2d6d0ca644a0732ceb028cf82f244\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/cc61e2952ee338010de34d3bcdcefe3b207e98f462ae611b99e4976a9558b80b\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:reader:TRAIN83:controlled",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+      "5b381bdfc9038a64fc33173ccc5bec4840bb3a3e2b910e9cac0191793b81cabd",
+      "completed",
+      1794208831.9913418,
+      "{\"content\": \"{\\\"agricultural_remuneration\\\": false, \\\"payment_in_agricultural_products\\\": true, \\\"evidence_work\\\": \\\"Alice has paid $3200 in hay to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017, in Caracas, Venezuela.\\\", \\\"evidence_medium\\\": \\\"Alice has paid $3200 in hay to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017, in Caracas, Venezuela.\\\"}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-26de91493b4149f0bf822762118120c4\", \"usage\": {\"prompt_tokens\": 157, \"total_tokens\": 286, \"completion_tokens\": 129, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"a75ab9c8aa7aef4368172d012a065474777c56ea1ad219d8d0f7605dc6e1e995\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 3.433576817624271, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"5b381bdfc9038a64fc33173ccc5bec4840bb3a3e2b910e9cac0191793b81cabd\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/f29e38fd0faef6406e248f6c42d1aeca458990957cc073cfad1a46cf76681f49\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:retrieval:TRAIN83:controlled",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+      "5820ac49be368e44f4a989b4034fd04c1b9feb53fea5a251e5e289b7574b2588",
+      "completed",
+      1794208835.456559,
+      "{\"content\": \"{\\\"agricultural_remuneration\\\": true, \\\"payment_in_agricultural_products\\\": true, \\\"evidence_work\\\": \\\"domestic service done from Feb 1st, 2017 to Sep 2nd, 2017\\\", \\\"evidence_medium\\\": \\\"paid $3200 in hay\\\"}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-4039101b8b2c4976827a104e2f00e4ab\", \"usage\": {\"prompt_tokens\": 1296, \"total_tokens\": 1365, \"completion_tokens\": 69, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"e22003a855f183781803177a716874119ca6be3ab4f24b49a264683d403bc717\", \"serving_template_suffix_tokens\": [323, 43347, 536, 9606, 8160, 304, 17669, 438, 2477, 41985, 2216, 43447, 1189, 92, 13989, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 2.0354771921411157, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"5820ac49be368e44f4a989b4034fd04c1b9feb53fea5a251e5e289b7574b2588\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/e0eeae0953981fc28cdd473b71a906eee0e8dc8323e97064d76ed6be0b0eef3e\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:direct:TRAIN88:original",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "550ce12fd3b8eae1e14bc588036246eb1131c30f445ed2a105c3cc3f00f38a54",
+      "completed",
+      1794208837.5172253,
+      "{\"content\": \"{\\\"payer\\\": \\\"Alice\\\", \\\"payee\\\": \\\"Bob\\\", \\\"work_activity\\\": \\\"wages\\\", \\\"payment_medium\\\": \\\"cash\\\", \\\"work_is_agricultural\\\": true, \\\"payment_is_agricultural_product\\\": null}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-76d07fa84d6a4f799e3ebbca84d7f054\", \"usage\": {\"prompt_tokens\": 220, \"total_tokens\": 273, \"completion_tokens\": 53, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"3204d0c12f9c6da26eb15aee2c6b508db7a6d1a8f8a1bb066aa560f98751183c\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.4300672700628638, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"550ce12fd3b8eae1e14bc588036246eb1131c30f445ed2a105c3cc3f00f38a54\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/ece0fbe1db20da8a9ff8b300e08974f4d77c6c09e501eebaa4fc602e68d33b78\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:reader:TRAIN88:original",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "5a68c620b87370ace5d4c8f647ca66bc843eec3841c634941874b8422f300b4f",
+      "completed",
+      1794208838.9752238,
+      "{\"content\": \"{\\\"agricultural_remuneration\\\": true, \\\"payment_in_agricultural_products\\\": null, \\\"evidence_work\\\": \\\"Alice has paid wages of $6771 to Bob, $6954 to Charlie, and $6872 to Dan for agricultural labor done from Feb 1st, 2017 to Sep 2nd, 2017.\\\", \\\"evidence_medium\\\": null}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-b721c78d944f4908b7bbe74ca6ef66e4\", \"usage\": {\"prompt_tokens\": 200, \"total_tokens\": 294, \"completion_tokens\": 94, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"ce20635f9a12fb3f5cf4ea451b332549bc9f62ebd88c01e72b6339150a23e7d8\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 2.518481783568859, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"5a68c620b87370ace5d4c8f647ca66bc843eec3841c634941874b8422f300b4f\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/b49b0b11b008a94c7b8a7bfe6fe1289dfeca62351f9498e850e2f2097356c857\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:retrieval:TRAIN88:original",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "b3d720364b06670aef17ca5dc24ac2f819a925a06d5efb963036c0dc42ceec51",
+      "completed",
+      1794208841.524088,
+      "{\"content\": \"{\\\"agricultural_remuneration\\\": true, \\\"payment_in_agricultural_products\\\": true, \\\"evidence_work\\\": \\\"Alice has paid wages of $6771 to Bob for agricultural labor done from Feb 1st, 2017 to Sep 2nd, 2017.\\\", \\\"evidence_medium\\\": \\\"Alice has paid wages of $6771 to Bob for agricultural labor done from Feb 1st, 2017 to Sep 2nd, 2017.\\\"}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-fec24f2c5bd24657b571e7447abbcd7d\", \"usage\": {\"prompt_tokens\": 1339, \"total_tokens\": 1451, \"completion_tokens\": 112, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"f6fcc9881af47529eb0e9bfe90828aa7a3f61fa200eb6afa6e183e83a5193fd2\", \"serving_template_suffix_tokens\": [323, 43347, 536, 9606, 8160, 304, 17669, 438, 2477, 41985, 2216, 43447, 1189, 92, 13989, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 3.1904995730146766, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"b3d720364b06670aef17ca5dc24ac2f819a925a06d5efb963036c0dc42ceec51\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/0b2c8fe58cb759c1e8a06b36e4c47fdab5ecfa5f72c3c8ee1e9c9907f9154082\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:direct:TRAIN88:controlled",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "59fc4dd5d5852a4aac91b08e884eee190c34cb51b1317c3519977c0ee878e216",
+      "completed",
+      1794208844.7441516,
+      "{\"content\": \"{\\\"payer\\\": \\\"Alice\\\", \\\"payee\\\": \\\"Bob\\\", \\\"work_activity\\\": \\\"agricultural labor\\\", \\\"payment_medium\\\": \\\"hay\\\", \\\"work_is_agricultural\\\": true, \\\"payment_is_agricultural_product\\\": true}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-a454156632514409bc7bbd0a4b0726b0\", \"usage\": {\"prompt_tokens\": 222, \"total_tokens\": 275, \"completion_tokens\": 53, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"41e31310f44f8c810cbba2e06554e8068d82d811622942f539624496de325955\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.4280705200508237, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"59fc4dd5d5852a4aac91b08e884eee190c34cb51b1317c3519977c0ee878e216\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/d8ac5823ec97f6bc835bdbb2f6b8ca3960d85153ceb63c8af8c9f298ed69bf53\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:reader:TRAIN88:controlled",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "b38476212bb5c7f4c870ffed46c931e3f6458a2ed9b288582dd8bdd9f39bed9d",
+      "completed",
+      1794208846.19853,
+      "{\"content\": \"{\\\"agricultural_remuneration\\\": true, \\\"payment_in_agricultural_products\\\": false, \\\"evidence_work\\\": \\\"Alice has paid wages of $6771 in hay to Bob\\\", \\\"evidence_medium\\\": \\\"wages of $6771 in hay\\\"}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-5d73b4276e42445aa4cf7fe1eef9994b\", \"usage\": {\"prompt_tokens\": 202, \"total_tokens\": 267, \"completion_tokens\": 65, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"cc0a3274ae51a5202cb1ea0d87683b3f92cde94cd8a458e97b8ece96fc79a321\", \"serving_template_suffix_tokens\": [17414, 788, 5212, 93586, 788, 330, 61686, 497, 330, 13890, 2127, 788, 330, 32388, 30975, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 1.7458034306764603, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"b38476212bb5c7f4c870ffed46c931e3f6458a2ed9b288582dd8bdd9f39bed9d\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/57a5655d37cdbf45f59ae1efde99d9b4952c05962635590b0d974f12f3f0835e\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:retrieval:TRAIN88:controlled",
+      "executor",
+      "method_train_synthesis",
+      "method_train",
+      "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "9879566eb49a8eeb4cec674302d578e603c15f31e76c1a0acc397c7257560bd5",
+      "completed",
+      1794208847.9725268,
+      "{\"content\": \"{\\\"agricultural_remuneration\\\": true, \\\"payment_in_agricultural_products\\\": true, \\\"evidence_work\\\": \\\"Alice has paid wages of $6771 in hay to Bob for agricultural labor done from Feb 1st, 2017 to Sep 2nd, 2017.\\\", \\\"evidence_medium\\\": \\\"wages of $6771 in hay\\\"}\", \"reasoning_content\": null, \"finish_reason\": \"stop\", \"raw_id\": \"chatcmpl-3630bf1918174491a583aa8ca341b297\", \"usage\": {\"prompt_tokens\": 1341, \"total_tokens\": 1426, \"completion_tokens\": 85, \"prompt_tokens_details\": null}, \"thinking_requested\": false, \"serving_template_tokens_sha256\": \"2995e5812be894f41b009fba78cc5e059f2e55cf2de35b0b9674d2970984298b\", \"serving_template_suffix_tokens\": [323, 43347, 536, 9606, 8160, 304, 17669, 438, 2477, 41985, 2216, 43447, 1189, 92, 13989, 151645, 198, 151644, 77091, 198, 151667, 271, 151668, 271], \"elapsed_seconds\": 2.463180221617222, \"incremental_api_cash_usd\": 0, \"gpu_cost_usd\": null, \"billing_basis\": \"existing_local_service_no_per_request_API_invoice\", \"request_hash\": \"9879566eb49a8eeb4cec674302d578e603c15f31e76c1a0acc397c7257560bd5\", \"artifact_directory\": \"/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/rr_method_redesign_20261109/semantic_disambiguation_acquisition_v1_20261109/calls/45dcc481a51b626811b0ce7da5ea471b849eec55481fbbb653d93050ac5f87b7\"}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:teacher:83",
+      "teacher",
+      "method_train_compile",
+      "method_train",
+      "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+      "65427ca45e4d4e98d4eb4ce97104edd992a1d4b3f933cced7371b4afbdcd186b",
+      "completed",
+      1794208988.7293572,
+      "{\"value\": {\"cases\": [{\"case_id\": \"TRAIN83:original\", \"frame\": {\"payer\": \"Alice\", \"payee\": \"Bob\", \"work_activity\": \"domestic service\", \"payment_medium\": null, \"work_is_agricultural\": false, \"payment_is_agricultural_product\": null}, \"local_relation_review\": \"\\u201cAlice has paid ... to Bob\\u201d identifies Alice as payer and Bob as payee. \\u201cdomestic service\\u201d states the work activity. The dollar amount does not state a payment medium, so the medium and its agricultural-product status are unknown.\", \"edit_valid_for_local_roles\": true, \"edit_review\": \"No edit is present; this is the unchanged baseline, so there is no local-role corruption to evaluate.\"}, {\"case_id\": \"TRAIN83:controlled\", \"frame\": {\"payer\": \"Alice\", \"payee\": \"Bob\", \"work_activity\": \"domestic service\", \"payment_medium\": \"hay\", \"work_is_agricultural\": false, \"payment_is_agricultural_product\": true}, \"local_relation_review\": \"\\u201cAlice has paid ... in hay to Bob\\u201d identifies Alice as payer, Bob as payee, and \\u201chay\\u201d as the payment medium. \\u201cdomestic service\\u201d remains the stated work activity and is not agricultural work merely because the payment is an agricultural product.\", \"edit_valid_for_local_roles\": true, \"edit_review\": \"The one-span edit adds \\u201cin hay\\u201d to specify the payment material while preserving the payer, payee, and work activity. It is valid for local relation evaluation.\"}], \"discrimination_questions\": [\"Did {payer} transfer hay to {payee} as the payment itself, or does \\u201cin hay\\u201d describe something else?\", \"Was the work performed for {payer} domestic service or agricultural labor?\"], \"unresolved\": [\"The original source does not state whether payment was made in cash, property, or another medium.\"]}, \"model\": \"gpt-5.6-sol\", \"request_sha256\": \"e2ecfd6b66f6fbf0f53ddf377fc2901da2fb1c9a899efcec3b50c3afb784757e\", \"response_sha256\": \"73bc25f0d5b79191bc10bb061906ab66b32516f245953a0bcf742db1b6428fae\", \"cache_hit\": false, \"invocation\": {\"attempt\": 1, \"started_at\": \"2026-11-09T07:23:08.742714+00:00\", \"finished_at\": \"2026-11-09T07:23:32.915639+00:00\", \"elapsed_seconds\": 24.173, \"returncode\": 0, \"event_log_sha256\": \"a60f5aa39d4e3f124799e24f2745b37695a843ad5fdd9aa9c53c6356eb525d79\", \"tool_events_detected\": false, \"budget_reservation\": null, \"usage\": {\"input_tokens\": 14577, \"cached_input_tokens\": 0, \"output_tokens\": 738, \"reasoning_output_tokens\": 366}, \"estimated_credits\": null}, \"elapsed_seconds\": 24.17359188850969, \"source_ids\": [\"SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f\"], \"billing_basis\": \"existing_authorized_teacher_adapter\", \"actual_cash_invoice_available\": false}"
+    ],
+    [
+      "semantic_disambiguation_acquisition_v1_20261109:teacher:88",
+      "teacher",
+      "method_train_compile",
+      "method_train",
+      "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "61ac5e4ccc3b3f8938e6d332f36d1e1d9272fa282e10b0afe32aee4cedcc57e5",
+      "completed",
+      1794209012.9309525,
+      "{\"value\": {\"cases\": [{\"case_id\": \"TRAIN88:original\", \"frame\": {\"payer\": \"Alice\", \"payee\": \"Bob\", \"work_activity\": \"agricultural labor\", \"payment_medium\": null, \"work_is_agricultural\": true, \"payment_is_agricultural_product\": null}, \"local_relation_review\": \"The focused clause explicitly states that Alice paid Bob for \\\"agricultural labor\\\". The dollar amount does not identify a payment material. The later sentence reverses the roles for a separate work relation and does not alter this clause.\", \"edit_valid_for_local_roles\": true, \"edit_review\": \"No edit is present; the original local relation is internally clear.\"}, {\"case_id\": \"TRAIN88:controlled\", \"frame\": {\"payer\": \"Alice\", \"payee\": \"Bob\", \"work_activity\": \"agricultural labor\", \"payment_medium\": \"hay\", \"work_is_agricultural\": true, \"payment_is_agricultural_product\": true}, \"local_relation_review\": \"The focused clause explicitly states that Alice paid Bob \\\"in hay\\\" for \\\"agricultural labor\\\". The later sentence reverses the roles for a separate work relation and does not alter this clause.\", \"edit_valid_for_local_roles\": true, \"edit_review\": \"The one-span edit preserves the payer, payee, and work activity while explicitly adding \\\"hay\\\" as the payment medium. With the surrounding text preserved, it is valid for local relation evaluation.\"}], \"discrimination_questions\": [\"What material, if any, did {payer} transfer to {payee} as payment?\", \"Was {payee}'s paid work agricultural labor or a different activity?\"], \"unresolved\": []}, \"model\": \"gpt-5.6-sol\", \"request_sha256\": \"75ea39f6416eff9e378c0c1885b64a20cbbfef2564aed1e38d5dfe69803a7572\", \"response_sha256\": \"1389443492ee7e244995d236dfae428f91c2c2a4a88d977f92d50a9108f128a8\", \"cache_hit\": false, \"invocation\": {\"attempt\": 1, \"started_at\": \"2026-11-09T07:23:32.936832+00:00\", \"finished_at\": \"2026-11-09T07:23:55.820833+00:00\", \"elapsed_seconds\": 22.884, \"returncode\": 0, \"event_log_sha256\": \"4bd0f06a04b34aa9f0dc5c427411a6deaa42a36e4373bccb3bf9edfc07e47776\", \"tool_events_detected\": false, \"budget_reservation\": null, \"usage\": {\"input_tokens\": 14659, \"cached_input_tokens\": 0, \"output_tokens\": 676, \"reasoning_output_tokens\": 347}, \"estimated_credits\": null}, \"elapsed_seconds\": 22.884632372297347, \"source_ids\": [\"SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48\"], \"billing_basis\": \"existing_authorized_teacher_adapter\", \"actual_cash_invoice_available\": false}"
+    ]
   ],
   "counts_total": {
-    "executor": 1341,
-    "teacher": 45
+    "executor": 1362,
+    "teacher": 51
   },
   "pending": 0,
-  "original_ledger_reset": false
+  "origin_ledger_reset": false,
+  "private_meta_exported": false
 }

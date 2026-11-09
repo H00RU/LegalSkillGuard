@@ -1,0 +1,76 @@
+{
+  "source": "SARA_v2_Binary:097568705cac232354a1b0bc169fad14d5b105d2818fdebc5622f304975c747e",
+  "physical_call_preserved": true,
+  "fields": [
+    {
+      "path": "$.domain",
+      "expected": "Boolean pure expression",
+      "actual_python_type": "str",
+      "actual_value": "The applicable percentage under section151(d)(3)(B) for the cases where section151(d)(3)(A) applies",
+      "status": "rejected",
+      "error": "invalid syntax (<unknown>, line 1)"
+    },
+    {
+      "path": "$.expression",
+      "expected": "Integer pure expression",
+      "actual_python_type": "str",
+      "actual_value": "if married_filing_separate then ((adjusted_gross_income - applicable_amount) // 1250 + 1) * 2 else ((adjusted_gross_income - applicable_amount) // 2500 + 1) * 2",
+      "status": "rejected",
+      "error": "invalid syntax (<unknown>, line 1)"
+    },
+    {
+      "path": "$.obligations[0].condition",
+      "expected": "Boolean pure expression",
+      "actual_python_type": "str",
+      "actual_value": "adjusted_gross_income > applicable_amount",
+      "status": "parsed",
+      "error": null
+    },
+    {
+      "path": "$.obligations[0].assertion",
+      "expected": "Boolean pure expression mentioning result",
+      "actual_python_type": "str",
+      "actual_value": "exemption_amount_phaseout is the applicable percentage under section151(d)(3)(B) for the cases where section151(d)(3)(A) applies.",
+      "status": "rejected",
+      "error": "invalid syntax (<unknown>, line 1)"
+    }
+  ],
+  "role_quotes": [
+    {
+      "path": "$.inputs[0].quote",
+      "verbatim_match": true,
+      "declared_origin": "external_rule",
+      "meaning": "The taxpayer's adjusted gross income for the taxable year"
+    },
+    {
+      "path": "$.inputs[1].quote",
+      "verbatim_match": true,
+      "declared_origin": "external_rule",
+      "meaning": "The applicable amount in effect under section 68(b)"
+    },
+    {
+      "path": "$.inputs[2].quote",
+      "verbatim_match": true,
+      "declared_origin": "external_rule",
+      "meaning": "Whether the taxpayer is married and filing a separate return"
+    }
+  ],
+  "global_rule_quote_verbatim": true,
+  "unambiguous_conditional_syntax_rendering_for_diagnosis_only": "(((adjusted_gross_income - applicable_amount) // 1250 + 1) * 2) if (married_filing_separate) else (((adjusted_gross_income - applicable_amount) // 2500 + 1) * 2)",
+  "diagnostic_binding": {
+    "adjusted_gross_income": 275000,
+    "applicable_amount": 250000,
+    "married_filing_separate": false
+  },
+  "diagnostic_candidate_value": 22,
+  "source_definition_expected_value_at_exact_multiple": 20,
+  "semantic_failures": [
+    "domain and postcondition are natural-language placeholders",
+    "all input roles marked external_rule, including factual income and filing status",
+    "floor+1 over-rounds exact multiples",
+    "100 percent cap omitted"
+  ],
+  "original_module_not_adapted_or_admitted": true,
+  "model_or_oracle_calls_added_by_diagnosis": 0,
+  "decision": "Do not dispatch further targets through this interface before same-contract teacher control and an offline-validated native-code alternative"
+}
