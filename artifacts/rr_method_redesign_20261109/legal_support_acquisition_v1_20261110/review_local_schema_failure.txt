@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/yndx/hhy/legal-skill-redesign-20261109/experiments/rr_v2_legal_support_acquisition.py", line 107, in <module>
+    else:generate(s,a.action)
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/home/yndx/hhy/legal-skill-redesign-20261109/experiments/rr_v2_legal_support_acquisition.py", line 87, in generate
+    w=t.summarize(RUN+':review',source_ids=s['source_ids'],system_prompt=system,user_prompt=json.dumps({'common_material':s['material'],'compositional_profile':profile,'independent_flat_expression':pal},ensure_ascii=False),output_schema=REVIEW_SCHEMA);value=w['value']
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yndx/hhy/legal-skill-redesign-20261109/legal_skill_guard/rr/client.py", line 191, in summarize
+    response = self.adapter.generate_json(**kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yndx/hhy/legal-skill-redesign-20261109/legal_skill_guard/inference/codex_cli_client.py", line 354, in generate_json
+    raise CodexInvocationError(
+legal_skill_guard.inference.codex_cli_client.CodexInvocationError: Codex output schema violates strict Structured Outputs rules: ['$.properties.comparison:untyped_schema']

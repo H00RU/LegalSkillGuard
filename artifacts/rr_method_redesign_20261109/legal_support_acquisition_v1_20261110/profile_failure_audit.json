@@ -1,0 +1,87 @@
+{
+  "issues": [
+    {
+      "path": "sections.151a.support_expression",
+      "expected": "set expression over declared names",
+      "actual_error": "Undeclared support name know_exemptions151"
+    },
+    {
+      "path": "sections.151a.support_expression",
+      "classification": "literal_TOP_union_makes_this_contribution_universal",
+      "not_a_parse_error": true
+    },
+    {
+      "path": "sections.151b.support_expression",
+      "classification": "literal_TOP_union_makes_this_contribution_universal",
+      "not_a_parse_error": true
+    },
+    {
+      "path": "sections.151c.support_expression",
+      "classification": "literal_TOP_union_makes_this_contribution_universal",
+      "not_a_parse_error": true
+    },
+    {
+      "path": "sections.151d.quotes[0]",
+      "expected": "verbatim substring of the corresponding source block",
+      "actual": "Except as otherwise provided in this subsection, the term 'exemption amount' means $2,000."
+    },
+    {
+      "path": "sections.151d.quotes[1]",
+      "expected": "verbatim substring of the corresponding source block",
+      "actual": "In the case of a taxable year beginning after December 31, 2017, and before January 1, 2026, the term 'exemption amount' means zero."
+    },
+    {
+      "path": "sections.151d.support_expression",
+      "classification": "literal_TOP_union_makes_this_contribution_universal",
+      "not_a_parse_error": true
+    },
+    {
+      "path": "sections.151d.effect",
+      "classification": "source_amount_or_removing_effect_asserted_as_positive_support",
+      "source_review_pending": true
+    },
+    {
+      "path": "sections.152a.quotes[0]",
+      "expected": "verbatim substring of the corresponding source block",
+      "actual": "For purposes of this subtitle, the term 'dependent' means (1) a qualifying child, or (2) a qualifying relative."
+    },
+    {
+      "path": "sections.152a.support_expression",
+      "classification": "literal_TOP_union_makes_this_contribution_universal",
+      "not_a_parse_error": true
+    },
+    {
+      "path": "sections.152b.support_expression",
+      "classification": "literal_TOP_union_makes_this_contribution_universal",
+      "not_a_parse_error": true
+    },
+    {
+      "path": "sections.152b.effect",
+      "classification": "source_amount_or_removing_effect_asserted_as_positive_support",
+      "source_review_pending": true
+    },
+    {
+      "path": "sections.152c.quotes[0]",
+      "expected": "verbatim substring of the corresponding source block",
+      "actual": "The term 'qualifying child' means, with respect to any taxpayer for any taxable year, an individual who bears a relationship to the taxpayer described in paragraph (2), who has the same principal place of abode as the taxpayer for more than one-half of such taxable year, who meets the age requirements of paragraph (3), and who has not filed a joint return (other than only for a claim of refund) with the individual's spouse for the taxable year beginning in the calendar year in which the taxable year of the taxpayer begins."
+    },
+    {
+      "path": "sections.152c.support_expression",
+      "classification": "literal_TOP_union_makes_this_contribution_universal",
+      "not_a_parse_error": true
+    },
+    {
+      "path": "sections.152d.quotes[0]",
+      "expected": "verbatim substring of the corresponding source block",
+      "actual": "The term 'qualifying relative' means, with respect to any taxpayer for any taxable year, an individual who bears a relationship to the taxpayer described in paragraph (2), who has no income for the calendar year in which such taxable year begins, and who is not a qualifying child of such taxpayer or of any other taxpayer for any taxable year beginning in the calendar year in which such taxable year begins."
+    },
+    {
+      "path": "sections.152d.support_expression",
+      "classification": "literal_TOP_union_makes_this_contribution_universal",
+      "not_a_parse_error": true
+    }
+  ],
+  "raw_response_preserved": true,
+  "deterministic_semantics_preserving_recovery_sufficient": false,
+  "reason": "An isolated spelling fix cannot repair wrong output relation, nonverbatim quotes, and missing deduction bridge; removing TOP or adding source semantics would change the model output."
+}

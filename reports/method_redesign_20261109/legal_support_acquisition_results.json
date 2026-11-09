@@ -1,0 +1,180 @@
+{
+  "captured_utc": "2026-11-09T17:19:58.175938+00:00",
+  "run_id": "legal_support_teacher_v1_20261110",
+  "counts_total": {
+    "executor": 1375,
+    "teacher": 59
+  },
+  "pending": 0,
+  "new_charged_attempts": {
+    "executor": 2,
+    "teacher": 3
+  },
+  "new_physical_dispatches": {
+    "executor": 2,
+    "teacher": 2
+  },
+  "local_teacher_schema_preflight_failure_retained_as_charged_attempt": 1,
+  "calls": [
+    {
+      "id": "legal_support_acquisition_v1_20261110:profile",
+      "role": "executor",
+      "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+      "status": "completed",
+      "input_tokens": 6032,
+      "output_tokens": 1682,
+      "reasoning_output_tokens_subset": null,
+      "elapsed_seconds": 120.17037189658731,
+      "physical_dispatch_occurred": true,
+      "finish_reason": "stop",
+      "thinking_requested": false,
+      "client_retries": 0,
+      "ledger_attempt_charged": true
+    },
+    {
+      "id": "legal_support_acquisition_v1_20261110:pal",
+      "role": "executor",
+      "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+      "status": "completed",
+      "input_tokens": 6017,
+      "output_tokens": 238,
+      "reasoning_output_tokens_subset": null,
+      "elapsed_seconds": 11.107984285801649,
+      "physical_dispatch_occurred": true,
+      "finish_reason": "stop",
+      "thinking_requested": false,
+      "client_retries": 0,
+      "ledger_attempt_charged": true
+    },
+    {
+      "id": "legal_support_acquisition_v1_20261110:review",
+      "role": "teacher",
+      "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+      "status": "failed",
+      "input_tokens": null,
+      "output_tokens": null,
+      "reasoning_output_tokens_subset": null,
+      "elapsed_seconds": 4.000216722488403e-05,
+      "physical_dispatch_occurred": false,
+      "finish_reason": null,
+      "thinking_requested": null,
+      "client_retries": 0,
+      "ledger_attempt_charged": true
+    },
+    {
+      "id": "legal_support_teacher_v1_20261110:profile",
+      "role": "teacher",
+      "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+      "status": "completed",
+      "input_tokens": 16683,
+      "output_tokens": 2229,
+      "reasoning_output_tokens_subset": 1478,
+      "elapsed_seconds": 49.87161388993263,
+      "physical_dispatch_occurred": true,
+      "finish_reason": null,
+      "thinking_requested": null,
+      "client_retries": 0,
+      "ledger_attempt_charged": true
+    },
+    {
+      "id": "legal_support_teacher_v1_20261110:pal",
+      "role": "teacher",
+      "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+      "status": "completed",
+      "input_tokens": 15951,
+      "output_tokens": 2284,
+      "reasoning_output_tokens_subset": 2070,
+      "elapsed_seconds": 53.562488339841366,
+      "physical_dispatch_occurred": true,
+      "finish_reason": null,
+      "thinking_requested": null,
+      "client_retries": 0,
+      "ledger_attempt_charged": true
+    }
+  ],
+  "cost_sums": {
+    "executor": {
+      "input_tokens": 12049,
+      "output_tokens": 1920,
+      "elapsed_seconds": 131.27835618238896
+    },
+    "teacher": {
+      "input_tokens": 32634,
+      "output_tokens": 4513,
+      "elapsed_seconds": 103.434102229774
+    }
+  },
+  "all_pre_acquisition_logical_rows_preserved_sha256": "62339e3ea0357313d9ac923220bce86c43efde49fe60f7964cb1c5e08df89154",
+  "new_oracle_views": 0,
+  "no_ledger_reset": true,
+  "current_acquisition_clients": [],
+  "original_model_service": {
+    "pid": 958223,
+    "start_ticks": 486445918,
+    "unchanged": true
+  },
+  "common_TRAIN_material_sha256": "64478a41c672f95fe7f3d85bc32ec733c97eaa8699824d5ff2eb6f5ce60f4799",
+  "independent_acquisitions_same_exogenous_material": true,
+  "case_facts_queries_or_answers_in_acquisition": false,
+  "profile_validation": {
+    "NL_source_soundness_proved": false,
+    "status": "structurally_valid"
+  },
+  "pal_validation": {
+    "error": "PAL quote absent from source",
+    "error_type": "ValueError",
+    "status": "rejected"
+  },
+  "initial_executor_profile_rejected": {
+    "error": "Undeclared support name know_exemptions151",
+    "error_type": "ValueError",
+    "status": "rejected"
+  },
+  "initial_executor_pal_original_short_circuit_validation_was_incorrect": true,
+  "initial_executor_pal_after_fix": "rejected: undeclared support name knowndeduction151",
+  "original_failed_outputs_or_ledger_rows_overwritten": false,
+  "exact_abstract_range_function_comparison": {
+    "status": "unsat",
+    "equivalent_for_all_abstract_input_sets": true,
+    "source_soundness_established": false,
+    "component_only_diagnostic_not_acceptance_of_rejected_artifact": true
+  },
+  "optional_shared_teacher_review_dispatched": false,
+  "reason_review_not_dispatched": "Original protocol requires both full artifacts valid; flat artifact has a nonverbatim quote. No retry purchased to manufacture acceptance.",
+  "pal_source_quote_failures": [
+    {
+      "index": 2,
+      "actual": "An exemption of the exemption amount for each individual who is a dependent (as defined in section 152) of the taxpayer for the taxable year.— depending on how exact?",
+      "expected": "verbatim supplied source substring"
+    }
+  ],
+  "rejected_pal_expression_or_quotes_repaired": false,
+  "source_semantics_check": {
+    "kind": "researcher_read_only_source_obligation_check_not_formal_NL_proof",
+    "151a": "Every exemption claimant is forwarded to deduction151.",
+    "151b": "Any direct151b claimant is focus or a spouse peer; ignored conditions can only shrink entitlement.",
+    "151c_152a": "The dependency path preserves the claimant/subject/year projection and includes explicit positive interface seeds.",
+    "152c": "Relationship and shared-abode are necessary; their conservative supersets may be intersected. Unknown relevant peers remain TOP.",
+    "152d": "Enumerated family/in-law or household candidates cover the necessary relationship alternatives; other conditions only restrict them.",
+    "151d_152b": "Amounts and disqualifications introduce no new positive claimant.",
+    "assumptions": [
+      "supplied simplified TRAIN statutes only",
+      "declared input families are sound upper bounds",
+      "unread relevant anchors are TOP",
+      "no population closure from mentioned names"
+    ],
+    "does_not_prove_anchor_extractor_completeness": true
+  },
+  "candidate_promoted": false,
+  "decision": "Source-compiler feasibility established; independent compact executable component is exactly equivalent. Whole flat artifact rejected for provenance, so do not claim full acquisition parity or a summary win. No more same-purpose calls.",
+  "manual_reference_anchor_frame_is_not_a_native_neural_success": true,
+  "native_four_case_predictions_unchanged": true,
+  "known_executor_incremental_API_cash_usd": 0,
+  "GPU_cash_cost_usd": null,
+  "teacher_invoice_cash_cost_usd": null,
+  "total_cash_cost_usd": null,
+  "provider_internal_teacher_retries": "not observable",
+  "new_full_build_started": false,
+  "TEST_started": false,
+  "goal_complete": false
+}
