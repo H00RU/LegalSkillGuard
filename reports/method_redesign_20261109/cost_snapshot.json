@@ -1,0 +1,87 @@
+{
+  "baseline_counts": {
+    "executor": 1339,
+    "teacher": 43
+  },
+  "counts_total": {
+    "executor": 1341,
+    "teacher": 45
+  },
+  "pending": 0,
+  "new_charged_calls": 4,
+  "executor_incremental_API_cash_usd": 0,
+  "teacher_invoice_usd": null,
+  "GPU_allocation_usd": null,
+  "ledger_reset": false,
+  "calls": [
+    {
+      "role": "executor",
+      "target": "airline_size",
+      "input_tokens": 4266,
+      "output_tokens": 108,
+      "usage_raw": {
+        "completion_tokens": 108,
+        "prompt_tokens": 4266,
+        "prompt_tokens_details": null,
+        "total_tokens": 4374
+      },
+      "elapsed_seconds": 3.602306223474443,
+      "finish_reason": "stop",
+      "validation": "typed_executable_module",
+      "model": "Qwen/Qwen3-8B",
+      "thinking_requested": false
+    },
+    {
+      "role": "executor",
+      "target": "sara_percentage",
+      "input_tokens": 797,
+      "output_tokens": 221,
+      "usage_raw": {
+        "completion_tokens": 221,
+        "prompt_tokens": 797,
+        "prompt_tokens_details": null,
+        "total_tokens": 1018
+      },
+      "elapsed_seconds": 5.993172151967883,
+      "finish_reason": "stop",
+      "validation": "rejected",
+      "model": "Qwen/Qwen3-8B",
+      "thinking_requested": false
+    },
+    {
+      "role": "teacher",
+      "target": "airline_size",
+      "input_tokens": 17761,
+      "output_tokens": 76,
+      "usage_raw": {
+        "cached_input_tokens": 0,
+        "input_tokens": 17761,
+        "output_tokens": 76,
+        "reasoning_output_tokens": 0
+      },
+      "elapsed_seconds": 17.385830499231815,
+      "finish_reason": null,
+      "validation": "typed_executable_module",
+      "model": "gpt-5.6-sol",
+      "thinking_requested": null
+    },
+    {
+      "role": "teacher",
+      "target": "sara_percentage",
+      "input_tokens": 14578,
+      "output_tokens": 291,
+      "usage_raw": {
+        "cached_input_tokens": 0,
+        "input_tokens": 14578,
+        "output_tokens": 291,
+        "reasoning_output_tokens": 101
+      },
+      "elapsed_seconds": 13.974532248452306,
+      "finish_reason": null,
+      "validation": "typed_executable_module",
+      "model": "gpt-5.6-sol",
+      "thinking_requested": null
+    }
+  ],
+  "current_goal_complete": false
+}

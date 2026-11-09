@@ -1,1 +1,1 @@
-[Current method-efficacy report](method_efficacy_20261109/report.md) · [Upload verification](method_efficacy_20261109/publication_verified.json) · [Previous build/DEV report](rr_method_runtime_20261107/reference_frontend_progress_20261108.md)
+[Active redesign checkpoint](method_redesign_20261109/checkpoint_01.md) · [Design cards](method_redesign_20261109/design_cards.md) · [Upload verification](method_redesign_20261109/publication_verified.json)

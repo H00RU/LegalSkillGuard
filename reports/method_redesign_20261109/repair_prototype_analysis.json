@@ -1,0 +1,624 @@
+{
+  "status": "verified_postcomposition_found",
+  "selected": {
+    "operator": "min",
+    "source_literal": 100,
+    "expression": "min(100, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+    "comparison": {
+      "status": "unsat",
+      "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 100 a!3) 100 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+      "equivalent_over_supplied_domain": true,
+      "natural_language_faithfulness_proved": false
+    }
+  },
+  "source_literal_spans": [
+    [
+      2086,
+      2089
+    ]
+  ],
+  "alternatives_verified": 1,
+  "attempts": [
+    {
+      "operator": "identity",
+      "source_literal": null,
+      "expression": "((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!3 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!4 (= (ite married_separate\n                   (ite (<= income threshold) 0 a!1)\n                   (ite (<= income threshold) 0 a!2))\n              (ite (<= a!3 (- 50)) 100 (* (- 2) a!3)))))\n  (and (not (<= income threshold)) (<= 0 threshold) a!4)))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 63750,
+          "married_separate": true,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 1,
+      "expression": "min(1, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 1 a!3) 1 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125000,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 1,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 2,
+      "expression": "min(2, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 2 a!3) 2 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125000,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 2,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 3,
+      "expression": "min(3, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 3 a!3) 3 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 122501,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 3,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 5,
+      "expression": "min(5, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 5 a!3) 5 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125000,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 5,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 31,
+      "expression": "min(31, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 31 a!3) 31 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125000,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 31,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 68,
+      "expression": "min(68, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 68 a!3) 68 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125000,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 68,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 100,
+      "expression": "min(100, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "unsat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 100 a!3) 100 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": true,
+        "natural_language_faithfulness_proved": false
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 151,
+      "expression": "min(151, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 151 a!3) 151 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 190000,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 151,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 152,
+      "expression": "min(152, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 152 a!3) 152 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 192500,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 152,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 1250,
+      "expression": "min(1250, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 1250 a!3) 1250 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125001,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 2000,
+      "expression": "min(2000, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 2000 a!3) 2000 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125001,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 2017,
+      "expression": "min(2017, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 2017 a!3) 2017 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125001,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 2018,
+      "expression": "min(2018, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 2018 a!3) 2018 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125001,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 2025,
+      "expression": "min(2025, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 2025 a!3) 2025 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125001,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 2026,
+      "expression": "min(2026, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 2026 a!3) 2026 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 127500,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "min",
+      "source_literal": 2500,
+      "expression": "min(2500, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (<= 2500 a!3) 2500 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125001,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 1,
+      "expression": "max(1, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 1 a!3) 1 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125001,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 2,
+      "expression": "max(2, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 2 a!3) 2 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125001,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 3,
+      "expression": "max(3, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 3 a!3) 3 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 127500,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 5,
+      "expression": "max(5, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 5 a!3) 5 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125001,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 31,
+      "expression": "max(31, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 31 a!3) 31 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 127500,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 68,
+      "expression": "max(68, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 68 a!3) 68 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 125001,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 100,
+      "expression": "max(100, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 100 a!3) 100 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 127500,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 151,
+      "expression": "max(151, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 151 a!3) 151 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 187501,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 152,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 152,
+      "expression": "max(152, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 152 a!3) 152 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 192500,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 154,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 1250,
+      "expression": "max(1250, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 1250 a!3) 1250 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 1562501,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 1252,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 2000,
+      "expression": "max(2000, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 2000 a!3) 2000 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 2500001,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 2002,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 2017,
+      "expression": "max(2017, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 2017 a!3) 2017 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 2520001,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 2018,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 2018,
+      "expression": "max(2018, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 2018 a!3) 2018 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 2525000,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 2020,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 2025,
+      "expression": "max(2025, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 2025 a!3) 2025 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 2532500,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 2026,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 2026,
+      "expression": "max(2026, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 2026 a!3) 2026 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 2535000,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 2028,
+        "right_value": 100
+      }
+    },
+    {
+      "operator": "max",
+      "source_literal": 2500,
+      "expression": "max(2500, (((income - threshold + 2499) // 2500 * 2 if income > threshold else 0) if not married_separate else ((income - threshold + 1249) // 1250 * 2 if income > threshold else 0)))",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!4 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!3 (ite married_separate\n                (ite (<= income threshold) 0 a!1)\n                (ite (<= income threshold) 0 a!2))))\n  (and (not (<= income threshold))\n       (<= 0 threshold)\n       (= (ite (>= 2500 a!3) 2500 a!3) (ite (<= a!4 (- 50)) 100 (* (- 2) a!4))))))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 3127500,
+          "married_separate": false,
+          "threshold": 0
+        },
+        "left_value": 2502,
+        "right_value": 100
+      }
+    }
+  ],
+  "proof_scope": "Equivalence to supplied reference on supplied domain",
+  "source_truth_or_cross_source_applicability_proved": false,
+  "reference_is_already_correct_strong_control": true,
+  "learned_new_primitive_operator": false,
+  "source": "SARA_v2_Binary:097568705cac232354a1b0bc169fad14d5b105d2818fdebc5622f304975c747e",
+  "candidate_from_actual_paid_response": true,
+  "reference_from_actual_paid_response": true,
+  "native_labels_used": false,
+  "original_student_rejection_or_unresolved_fields_not_rewritten": true,
+  "patch_not_admitted_to_live_library": true,
+  "measured_method_efficacy": false,
+  "current_missing_component": "Learn source-role/scope applicability and show real subsequent reuse against correct reference-program caching and ordinary targeted repair",
+  "goal_complete": false,
+  "new_model_or_oracle_calls": 0
+}

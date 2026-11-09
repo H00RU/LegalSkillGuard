@@ -1,0 +1,77 @@
+{
+  "captured_utc": "2026-11-09T05:40:48.702755+00:00",
+  "question": "Does the compact representation carry genuine source semantics, and can one-case correctness hide a reusable-rule defect?",
+  "rows": [
+    {
+      "target": "airline_size",
+      "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+      "comparison": {
+        "status": "unsat",
+        "agreement_guard": "(and (not (<= length 0)) (not (<= width 0)) (not (<= height 0)))",
+        "equivalent_over_supplied_domain": true,
+        "natural_language_faithfulness_proved": false
+      },
+      "student_admission_status_unchanged": "typed_executable_module",
+      "teacher_admission_status_unchanged": "typed_executable_module",
+      "source_truth_not_proved_by_program_agreement": true,
+      "new_method_core_effect": false,
+      "independent_rule_review": "Both expressions implement the explicit three-dimension sum. The supplied inch units are consistent with the policy, but source quotes alone are not a fidelity proof."
+    },
+    {
+      "target": "sara_percentage",
+      "source": "SARA_v2_Binary:097568705cac232354a1b0bc169fad14d5b105d2818fdebc5622f304975c747e",
+      "comparison": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!3 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!4 (= (ite married_separate\n                   (ite (<= income threshold) 0 a!1)\n                   (ite (<= income threshold) 0 a!2))\n              (ite (<= a!3 (- 50)) 100 (* (- 2) a!3)))))\n  (and (not (<= income threshold)) (<= 0 threshold) a!4)))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 63750,
+          "married_separate": true,
+          "threshold": 0
+        },
+        "left_value": 102,
+        "right_value": 100
+      },
+      "student_admission_status_unchanged": "rejected",
+      "teacher_admission_status_unchanged": "typed_executable_module",
+      "source_truth_not_proved_by_program_agreement": true,
+      "new_method_core_effect": false,
+      "public_TRAIN18_binding_for_diagnostic_only": {
+        "income": 276932,
+        "threshold": 250000,
+        "married_separate": false
+      },
+      "student_actual_case_value": 22,
+      "teacher_actual_case_value": 22,
+      "counterexample_exceeds_source_cap": true,
+      "source_compatible_counterexample_with_original_threshold_and_status": {
+        "status": "sat",
+        "agreement_guard": "(let ((a!1 (* 2 (div (+ 1249 income (* (- 1) threshold)) 1250)))\n      (a!2 (* 2 (div (+ 2499 income (* (- 1) threshold)) 2500)))\n      (a!3 (div (+ (* (- 1) income) threshold) (ite married_separate 1250 2500))))\n(let ((a!4 (= (ite married_separate\n                   (ite (<= income threshold) 0 a!1)\n                   (ite (<= income threshold) 0 a!2))\n              (ite (<= a!3 (- 50)) 100 (* (- 2) a!3)))))\n  (and (not (<= income threshold))\n       (= 250000 threshold)\n       (not married_separate)\n       a!4)))",
+        "equivalent_over_supplied_domain": false,
+        "natural_language_faithfulness_proved": false,
+        "witness": {
+          "income": 377500,
+          "married_separate": false,
+          "threshold": 250000
+        },
+        "left_value": 102,
+        "right_value": 100
+      },
+      "independent_rule_review": "The teacher has upward rounding, married-separate1250 versus2500 denominator, and100 cap. The student has correct positive-domain rounding and denominator switch but omits the cap and openly lists it unresolved. Its citation is not a verbatim policy span; original rejection remains in force.",
+      "counterexample_is_solver_diagnostic_not_new_source_or_oracle_view": true
+    }
+  ],
+  "four_actual_generations": 4,
+  "total_ledger": {
+    "executor": 1341,
+    "teacher": 45
+  },
+  "pending": 0,
+  "source_fidelity_review_scope": "Only the requested size/percentage definitions, not complete original tasks or all statutory clauses",
+  "role_signatures_supplied_not_learned": true,
+  "sources_or_seeds_added": false,
+  "calls_or_oracle_views_added_by_analysis": 0,
+  "evidence_level": "real_generation_capacity_control_plus_offline_counterexample; not method efficacy",
+  "goal_complete": false
+}
