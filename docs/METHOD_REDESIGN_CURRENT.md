@@ -6,7 +6,7 @@
 
 同一Goal active、未完成。研究问题仍是**法律跨条款调用丢失参与人、年份、适用范围及成立依据，混淆局部法律效果与最终结果**。两项有独立作用的最终贡献尚未成立；现有源程序、角色合同、例外执行和负结果继续复用。
 
-工作树 `/home/yndx/hhy/legal-skill-redesign-20261109`，本地分支 `research/method-redesign-20261109`，公开分支 `research/legalskillguard-rr-v2`。最新**1377E/62T计账、pending0**；本轮新增0E/2T、oracle仍134。原模型/采样不变，executor thinking OFF，教师仍原high/温度未显式设置。旧失败、原始代码、复核及账本保留，main不改。
+工作树 `/home/yndx/hhy/legal-skill-redesign-20261109`，本地分支 `research/method-redesign-20261109`，公开分支 `research/legalskillguard-rr-v2`。最新**1379E/62T计账、pending0**；最近这次事实边界小试新增2E/0T、oracle仍134。原模型/采样不变，executor thinking OFF，教师仍原high/温度未显式设置。旧失败、原始代码、复核及账本保留，main不改。
 
 ## 已完成、可复用与方法判断
 
@@ -25,6 +25,7 @@
 | 原计划TRAIN76 | 同一次源编译生成raw year→68(f)局部例外启动条件，原2018问句执行Entailment，封存后标签一致 | 局部条款适用不等于整个68适用；本次两例单独2/2，不重写原四例3/4 |
 | 原计划TRAIN18及原协议四目标 | 已恢复151百分比程序实际使用原276932/250000/未婚绑定，输出22，预测封存后标签正确；四个预定目标18/8/85/76现4/4，无fallback | 使用已有真实教师程序，绑定为共享确定性适配；不是新增Qwen源程序成功，不是整体训练就绪 |
 | 独立普通缓存获取 | 普通Python源缓存只见同一API与源法条，不见候选规则体/原case/query/标签；自主选择公共求解器，一次获取＋一次自身源复核，实际四例仍3/4，与候选逐例相同 | 现在有独立规则获取对照，不再只有相同程序副本。共享API后的连接/例外执行尚无独立作用证据；不等于API从零获取被否定 |
+| 普通事实检索真实小试 | 原13返回No applicable fact，原81逐字检出152(c)(1)dependent原句；原Qwen/OFF、两请求均stop，合计0.890秒 | 普通事实/规则分离已处理本次边界，不新增专用gate、不把离线假错当模型失败 |
 
 最新18项相关回归通过；前次普通Python/源视图15项结果保留。首版软件fixture缺少必需`unresolved=[]`，测试失败后错误地提前发送了一次教师请求，原失败及源码保留。修复fixture、将68(f)的后置条件按逻辑恒等式转换并验证等价和原条件可达后，复用同一教师响应，没有教师重发。原表达式、签名、域、源引文均未改变。生成代码不直接执行；源程序、作用范围、事实依据与原生标签分别检查，没有降低正确性门槛。
 
@@ -42,14 +43,17 @@ Catala已有scope/context/state及例外机制，2024年软件工程法条分析
 
 **原协议四个目标的局部执行已补齐，不再为它们补购等价抽取或生成。** TRAIN18的276932/250000/未婚绑定其实已在首个控制中保存，区别于后来的275000整倍数反例；这次复用并核对官方源实现的SARA收入输入约定，不把一般收入和调整后收入在现实税法中等同。显式68(b)金额保留，未婚排除“已婚且分开申报”，不把缺失状态置false。原预测先封存、再评分，新增模型0。
 
-**独立规则获取对照已补，不再扩大当前角色/优先执行实例。下一项具体核查“给定API”与“合法证据边界”的差别。** 已学`qualifying_child`输入在原81的原文中直接给定，可以消费；原TRAIN13的目标却是152(c)(1)下的qualifying_child，原文只有亲属关系、同住期间、婚姻及152(c)(2)关系声明，没有qualifying_child断言。把阅读器推断的目标标签直接当API事实，会外包待验证的核心推导。该题还可区分152(c)(2)的2015—2020关系期间与真正同住的2015-09-01—2019-02-03期间。这里只读取原公共输入，未生成或评分13，不把它称实际模型错误。
+**独立规则获取对照已补，不再扩大当前角色/优先执行实例。下一项具体核查“给定API”与“合法证据边界”的差别。** 已学`qualifying_child`输入在原81的原文中直接给定，可以消费；原TRAIN13的目标却是152(c)(1)下的qualifying_child，原文只有亲属关系、同住期间、婚姻及152(c)(2)关系声明，没有qualifying_child断言。把阅读器推断的目标标签直接当API事实，会外包待验证的核心推导。该题还可区分152(c)(2)的2015—2020关系期间与真正同住的2015-09-01—2019-02-03期间。该假设最初只依据公共输入提出；现已做下述事实搜索小试，仍未生成/评分原生13题答案，不把构造记录称实际模型错误。
 
-先核对[SymBa](https://aclanthology.org/2025.naacl-long.124/)官方实现的事实/规则获取边界，比较普通按需回溯与源证据约束的接口细化，再决定有无值得实现的差异；单纯“缺信息就调用LLM”和符号回溯已有该工作覆盖。原13作为现有数据中的具体反证问题，不开启新训练或矩阵；没有实质差异不为新格式购买响应。源真值、API切分和带极性/作用范围的证明仍是候选研究对象，不能先命名就认定贡献。已有[SpecSyn](https://arxiv.org/abs/2604.21570)覆盖规范强度的程序变异检验，也不重跑已知min裁剪或七条义务的旧反例。
+[SymBa](https://aclanthology.org/2025.naacl-long.124/)论文及官方代码已核对，并实际运行固定版本的原校验器（clingo5.6.2）。校验器拒绝角色不合一，但接受语法/目标正确而描述依据不足的构造记录；这仅是软件覆盖边界。六项离线断言通过后，普通FactSearch用原8/18的正、负示范及共享API释义，分别在13/81实际返回“无直接事实”/正确原句，没有发生拟议的资格升级错误。这不是完整SymBa复现、API从零学习或原生题评分，未购规则搜索、翻译和等价重跑。**因此不实现该专用gate，不把普通回溯/负例提示命名为新贡献。**
 
+**下一项实际工作：针对尚未实现的152(c)(1)，先完成原TRAIN13的源条件—事实可得性对齐。** 逐项区分152(c)(2)关系成立期间、同住期间、年龄及共同申报状态，不把婚姻替代共同申报、不把关系期间替代同住期间。复用原源法条/原始输入，按SARA已有的参数识别、结构及实例化分解作强普通参照，先找可具体作用且尚未被吸收的接口/作用范围缺口；没有差异不购买新格式或重复事实检索。该工作只是当前法律问题中的有限离线定位，不是换目标或再开完整建库。
+
+**原任务语义边界已澄清。** [SARA官方任务](https://nlp.jhu.edu/law/sara_v2/)使用二值truth，源程序中有失败否定；本项目局部signed-Horn的Unknown不能证明原生任务本身无解，也不是新增的全局OWA验收要求。相关程序/事实尚不完整时，也不能用CWA名义把缺失结果直接变False。原87预测、评分和未决不改，不把解决87设为新硬门槛。只读官方源63/152/3306的核对未读参考case/标签；3306明确按Remuneration的start筛支付年，不能用service期间补支付年。故88原20597条件合计仍不能升级为新的原生成功；源代码注释的quarter也未引入已简化的公共题面。
 冻结接口指导未存目标的编译及必要DEV/迁移仍缺。原DEV静态0/8只说明当前库无现成目标，不是准确率或新全覆盖门槛。本轮只读取原DEV的2(b)(1)(A)公共事实以核对调用机会：该例仅负担住房成本40%，不能拿可能未触发的151扣除分支当真实复用；未运行/评分、未开DEV标签、未回灌TRAIN。避免围着这个不触发分支的小例购买调用，也不据此否定所有迁移机会。未读TEST。完整建库仍依当前Goal中的证据条件，不启动主训练或矩阵。
 
 ## 证据与费用
 
-[合并报告](../reports/method_redesign_20261109/M1M2_real_TRAIN_report.md) · [独立获取/评分/费用/保存](../reports/method_redesign_20261109/legal_independent_cache_results.json) · [复核后原执行封存](../artifacts/rr_method_redesign_20261109/legal_independent_cache_review_v1_20261110/execution_closed_before_grading.json) · [源证明支持的期望修正](../artifacts/rr_method_redesign_20261109/legal_independent_cache_review_v1_20261110/source_check_interpretation_correction.json) · [8项回归](../reports/method_redesign_20261109/legal_cache_review_regression.txt)。原[四目标结果](../reports/method_redesign_20261109/legal_percentage_reuse_results.json)及所有旧原始记录保留。
+[合并科学报告](../reports/method_redesign_20261109/M1M2_real_TRAIN_report.md) · [事实边界原始结果、费用与账本核验](../reports/method_redesign_20261109/legal_fact_boundary_results.json) · [原校验器离线复现及两次真实请求](../artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110) · [原任务语义核对](../reports/method_redesign_20261109/legal_task_semantics_audit.json)。旧[独立获取结果](../reports/method_redesign_20261109/legal_independent_cache_results.json)、[原四目标结果](../reports/method_redesign_20261109/legal_percentage_reuse_results.json)及全部旧原始记录保留。
 
-本轮0E/2T，教师共37437输入/11634输出tokens，223.210秒；reasoning5914为输出子集。既有API/事实获取费用继续计账。教师发票、GPU分摊及总费用未知，executor增量API现金0。剔除新增两次请求与两条策略meta后，原1437模型记录、201条meta及134次oracle与上轮备份逐行一致；本轮无新标签/oracle视图，无原样重发。
+最近小试2E/0T，1120输入/28输出tokens、0.890秒，无重试、无新oracle；executor增量API现金0，GPU分摊与项目总费用未知。原1439笔calls、203条meta及134条oracle与上轮SQLite备份逐行一致，仅增两次请求及一条实验策略meta，已另存新备份。此前独立缓存2T的37437输入/11634输出tokens、223.210秒及原API获取费用仍累计，教师发票未知。无研究客户端、pending0，原服务不重启；Goal active、未完成。

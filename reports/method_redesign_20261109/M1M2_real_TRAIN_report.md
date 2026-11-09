@@ -4,7 +4,29 @@
 
 最新用户定位已执行：允许复用成熟语义解析、关系连接和非单调推理；不因底层算法已有就否定法律方案。保留旧A/B和旧M1/M2负结果，它们的标签通道并未换法律名称重新启用。本轮处理不同对象：原文中的跨条款关系调用，以及适用条件与法律效果。五库/原128 TRAIN划分不变，法律承担主要验证，Airline/ProofWriter后续承担迁移与边界，不新增五库全胜要求。
 
-## 当前接续：独立普通程序缓存的真实获取与源复核
+
+## 最新有限验证：普通事实检索已处理原13/81边界
+
+本报告保存研究证据。所有旧段落中的“下一步”、调用/修复限制和阶段停止决定仅是历史记录；当前执行条件与下一项工作只维护在[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)和[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)，不由本报告另设。
+
+累计**1379E/62T、pending0**，本次2E/0T、0新oracle。不是停在文献总结：已用原Qwen3-8B、thinking OFF运行两次普通事实检索，原TRAIN13返回`No applicable fact`，原81逐字返回“Bob counts as Alice's dependent under section 152(c)(1) for 2015.”。两次均stop，无reasoning输出、重试或截断。合计1120输入/28输出token、0.890秒。格式示范仅取原TRAIN8/18，含负例；给普通对照API释义，明确单个152(c)(2)关系不等于复合资格，不能将该释义算新的学习。
+
+这组结果没有观察到拟议的“把待推导资格塞成事实”错误，故不新增专用门控、不追加同目的生成。它只验证事实搜索边界，不是原生13题答案、完整SymBa复现或新方法成功。
+
+[SymBa论文](https://aclanthology.org/2025.naacl-long.124/)及[官方原校验器](https://github.com/lbox-kr/symba/blob/df0e291152093e1d8a56a545b9310bd502f8dcd0/hiereason/symba/validate_statements.py)已核对。固定原代码与clingo5.6.2实测：角色不合一会拒绝；人为构造的“谓词匹配但NL描述不足”记录会通过。这是离线覆盖检查，不能冒充真实模型错误。普通负例提示已经处理本次真实边界，也不能据构造反例宣称胜过SymBa。只读取外部源码文件，未下载其数据/测试提示或整仓进行全面复现。
+
+### 原任务语义与未决的解释
+
+[SARA官方定义](https://nlp.jhu.edu/law/sara_v2/)使用二值truth；官方法条程序有失败否定。我们局部signed-Horn模块的Unknown是当前程序覆盖边界，不证明原生题本身无解，也不向原Goal增加全局开放世界要求。反过来，缺规则/缺事实或模型失败也不能直接改为False。原87未决及3/4历史成绩保留，不以强行闭世界补答计核心通过。
+
+只读官方源文件63/152/3306后，原88的支付年仍未补齐：3306明确查询`start_(Remuneration,Time)`，没有把服务期间当支付日期的源约定。原20597是条件合计，不是新取得原生3306(a)(2)(A)成功。官方源注释提及quarter，而实际源程序及本项目公共简化题面用year，不把注释追加成新条件。没有读取参考case、原生13标签、DEV/TEST标签或改原输出。
+
+六项离线断言通过后才发送真实请求。原1439笔calls、203条meta及134条oracle与上次备份逐行相等；当前增加两条calls、一条实验策略meta。新SQLite备份已保存，账本不重置。executor增量API现金0，GPU分摊及总项目费用未知；教师本次0，旧费用全部保留。两项贡献仍未成立，不扩大当前假设的批量实验、不标记Goal完成。
+
+[可重复审计/费用/逐例结果](legal_fact_boundary_results.json) · [审计入口](audit_legal_fact_boundary.py) · [原始两次响应及wire](../../artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110) · [原任务源语义核对](legal_task_semantics_audit.json) · [源语义复现](audit_legal_task_semantics.py)。
+
+
+## 前次证据：独立普通程序缓存的真实获取与源复核
 
 最新累计**1377E/62T、pending0**；本轮0E/2T，oracle仍134。原1437笔模型计账、201条meta、134次oracle逐行保留。原目标/边界只维护在[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，当前证据/下一步只维护在[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。以下协议是实验快照，不恢复旧调用或修复轮次限制。
 
@@ -31,9 +53,9 @@
 
 实际新产物是独立获取的规则程序与修复、源语义边界检查、四例真实执行和费用账本。运行器/AST应用器8项回归通过。两次教师共37437输入/11634输出tokens、223.210秒；reasoning5914为输出子集。配置重试0，两次不同请求各执行一次，先前费用继续累计。executor增量API现金0；教师实际发票、GPU分摊和总项目金额未知。
 
-**研究决定：共享API后的具名连接与显式例外，在本组不能独占为两项独立贡献。** 普通代码＋源复核已经在新规则体中复现这些行为；这不是用相同程序的副本作否决。API学习仍需单独检验，不能扩大结论为“所有法律源学习无价值”。下一项针对原TRAIN13的真实边界：该目标本身是qualifying_child，事实只有亲属、同住和婚姻等叙述及152(c)(2)关系声明，没有qualifying_child断言；若阅读器直接填入该API标签，就没有执行待验证的核心法律推导。当前只读公共输入，未运行/评分13，不能算已观察的模型错误。
+**研究决定：共享API后的具名连接与显式例外，在本组不能独占为两项独立贡献。** 普通代码＋源复核已经在新规则体中复现这些行为；这不是用相同程序的副本作否决。API学习仍需单独检验，不能扩大结论为“所有法律源学习无价值”。该轮提出的原TRAIN13事实边界假设已在本报告顶部用真实普通FactSearch检验，未观察到拟议错误；未进行原生13题预测或标签评分。
 
-按需获取本身已有[SymBa](https://aclanthology.org/2025.naacl-long.124/)覆盖，下一步先核对其官方事实/规则获取边界及强对照，具体检验源证据约束的接口细化是否有区别，不把普通符号回溯换法律名字。未有差异前不扩完整建库或购买同目的响应。
+按需获取本身已有SymBa覆盖；后续原校验器复现和两次事实搜索结果见顶部，不把普通符号回溯换法律名字。
 
 [独立源请求与原代码](../../artifacts/rr_method_redesign_20261109/legal_independent_cache_v1_20261110/source.json) · [首次失败路径](legal_independent_cache_first_failure.json) · [源复核及模型补丁](../../artifacts/rr_method_redesign_20261109/legal_independent_cache_review_v1_20261110/review.json) · [实际复核代码](../../artifacts/rr_method_redesign_20261109/legal_independent_cache_review_v1_20261110/reviewed_cache.py) · [预测封存](../../artifacts/rr_method_redesign_20261109/legal_independent_cache_review_v1_20261110/execution_closed_before_grading.json) · [源证明支持的期望修正](../../artifacts/rr_method_redesign_20261109/legal_independent_cache_review_v1_20261110/source_check_interpretation_correction.json) · [结果/评分/费用/账本](legal_independent_cache_results.json) · [可重复审计](audit_legal_independent_cache.py) · [8项回归](legal_cache_review_regression.txt)。
 
