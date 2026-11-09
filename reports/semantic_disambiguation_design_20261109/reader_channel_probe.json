@@ -1,0 +1,71 @@
+{
+  "model_calls": 0,
+  "source_of_all_labels": "author-constructed finite fixtures",
+  "learned_operator": [
+    "work_reads_payment"
+  ],
+  "operator_scores": {
+    "identity": [
+      2,
+      0
+    ],
+    "work_reads_payment": [
+      0,
+      1
+    ],
+    "payment_reads_work": [
+      2,
+      1
+    ],
+    "swap_roles": [
+      2,
+      2
+    ]
+  },
+  "heldout_symbolic_value_prediction": [
+    "paying with hay",
+    "paying with hay"
+  ],
+  "without_trusted_anchor": {
+    "pairs": [
+      [
+        [
+          0,
+          1
+        ],
+        "work_reads_payment"
+      ],
+      [
+        [
+          1,
+          1
+        ],
+        "identity"
+      ],
+      [
+        [
+          1,
+          1
+        ],
+        "work_reads_payment"
+      ]
+    ],
+    "answer": null
+  },
+  "with_fixture_author_trusted_anchor": {
+    "pairs": [
+      [
+        [
+          0,
+          1
+        ],
+        "work_reads_payment"
+      ]
+    ],
+    "answer": 0
+  },
+  "missing_channel_detected_as_unexplained": true,
+  "new_source_semantic_accuracy_measured": false,
+  "novelty_established": false,
+  "necessary_next_evidence": "learn operators and discriminating anchors from real TRAIN-only traces, then evaluate on excluded original sources against equal-information error models"
+}

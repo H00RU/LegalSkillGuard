@@ -1,0 +1,108 @@
+{
+  "network_calls": 0,
+  "model_calls": 0,
+  "historical_code_commit": "6c2f2a5dce7e9e78c6aae6ccc000a3eb769f99c2",
+  "historical_blind_spot": {
+    "OE_source": "OpenExempt:1bb6328a07dda2ef71c58892c5c62e7cd99422123d9480d08c8e79130eb681ff",
+    "OE_fact_text": "Sami Hassan (hereinafter the Debtor) filed for bankruptcy on April 25th, 2024. Sami owns a personal-sized blender with travel cup and lid worth $115.00. A valuation of $95.00 has been assigned to the child booster seat with detachable tray and harness owned by the Debtor. Hassan currently owns a countertop ice maker with 26-pound daily capacity valued at $130.00, as well as a nylon windbreaker with mesh lining and elastic cuffs worth $23.00.",
+    "injected_wrong_binding": {
+      "name": "blender_value",
+      "type": "integer",
+      "value": 95,
+      "sources": [
+        "s320"
+      ]
+    },
+    "old_decoder_accepted": true,
+    "injection_is_not_a_historical_model_error": true,
+    "SARA_historical_observation_rows": [
+      {
+        "evidence": "Alice has paid $3200 to Bob for repairing her roof from Feb 1st, 2017 to Sep 2nd, 2017. Alice paid Bob with eggs, grapes and hay.",
+        "name": "b_agricultural_remuneration",
+        "value": true
+      },
+      {
+        "evidence": "Alice has paid $3200 to Bob for repairing her roof from Feb 1st, 2017 to Sep 2nd, 2017. Alice paid Bob with eggs, grapes and hay.",
+        "name": "b_non_cash_agricultural_payment",
+        "value": true
+      }
+    ],
+    "SARA_historical_answer": "Entailment",
+    "SARA_historical_certificate_status": "completion_stable",
+    "DEV_used_only_as_historical_failure_evidence": true
+  },
+  "algorithm_fixture": {
+    "scope": "constructed finite fixtures, not dataset or model outcomes",
+    "support_candidates_before_independent_variation": [
+      [
+        "work_is_agricultural"
+      ],
+      [
+        "payment_is_agricultural"
+      ]
+    ],
+    "support_candidates_after_independent_variation": [
+      [
+        "work_is_agricultural"
+      ]
+    ],
+    "known_role_pointer_baseline_also_solves_this_fixture": true,
+    "selected_question_names": [
+      "q1",
+      "q4",
+      "q5"
+    ],
+    "group_distance": 3,
+    "naive_majority_fixture_answer": "answer_B",
+    "group_aware_fixture_result": {
+      "survivors": [
+        0
+      ],
+      "conflict_groups": {
+        "0": [
+          "same_role_confusion"
+        ],
+        "1": [
+          "independent_fixture_relation_B",
+          "independent_fixture_relation_C"
+        ]
+      },
+      "answer": "answer_A",
+      "status": "resolved_conditionally"
+    },
+    "all_one_fault_group_fixture_cases_checked": 26,
+    "only_repeated_evidence_result": {
+      "survivors": [
+        0,
+        1
+      ],
+      "conflict_groups": {
+        "0": [
+          "same_role_confusion"
+        ],
+        "1": []
+      },
+      "answer": null,
+      "status": "unresolved"
+    },
+    "no_separating_set_without_distinct_evidence": true,
+    "outside_fault_assumption_can_answer_wrong": {
+      "survivors": [
+        1
+      ],
+      "conflict_groups": {
+        "0": [
+          "independent_fixture_relation_B",
+          "same_role_confusion"
+        ],
+        "1": [
+          "independent_fixture_relation_C"
+        ]
+      },
+      "answer": "answer_B",
+      "status": "resolved_conditionally"
+    },
+    "standard_group_noise_baseline_is_same_decoder": true
+  },
+  "establishes_novelty_or_real_model_improvement": false
+}

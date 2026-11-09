@@ -1,8 +1,19 @@
 # 研究报告与当前接续入口
 
-## 当前方案：LSG-RR-v2（2026-11-05）
+## 当前补充：语义消歧设计与最小真实验证（2026-11-09）
 
-**当前goal完成方法实现、离线检查、thinking实测及固定20来源流程小试后停止，不启动主训练、六臂正式评测或冻结测试。** executor≤100、teacher≤2，含失败和一轮受影响项修复，全部扣原预算并限于既有资源授权。本版替代LSG-RR-v1和旧草案的冲突设计与指令，新对话无需了解版本历史。
+- [设计、查新与证据目录](semantic_disambiguation_design_20261109/README.md)
+- [先读：服务器进展衔接与避免重复清单](semantic_disambiguation_design_20261109/server_alignment.md)
+- [完整两方法设计、强对照与实施边界](semantic_disambiguation_design_20261109/research_design_review.md)
+- [服务器研究分支当前goal](https://github.com/H00RU/LegalSkillGuard/blob/research/legalskillguard-rr-v2/docs/CURRENT_GOAL.md) · [已发布最小原型检查点](https://github.com/H00RU/LegalSkillGuard/blob/research/legalskillguard-rr-v2/reports/method_redesign_20261109/checkpoint_01.md)
+
+继续服务器已有goal和真实工作版本，先复用已经上传的模块生成、修复原型与对照，仅补缺失的最小真实TRAIN验证。此补充不重开goal、不重置账本、不启动新的完整建库或正式TEST，也不声称两项创新已过关。
+
+**下方2026-11-05材料仅作历史记录；其中旧100/2额度、修复轮次限制和首次启动指令不恢复为当前授权。** 当前授权与更晚研究进展以用户补充、服务器当前goal及累计账本为准。
+
+## 历史方案：LSG-RR-v2（2026-11-05，非当前goal）
+
+**2026-11-05当时的goal完成方法实现、离线检查、thinking实测及固定20来源流程小试后停止，不启动主训练、六臂正式评测或冻结测试。** executor≤100、teacher≤2，含失败和一轮受影响项修复，全部扣原预算并限于既有资源授权。本版替代LSG-RR-v1和旧草案的冲突设计与指令，新对话无需了解版本历史。
 
 - [完整研究方案](legalskillguard_rule_reasoning_plan_v2_20261105.md)：两项方法、明确问题、相关工作差异、实现范围与有限后续验证协议。
 - [机器可读配置](legalskillguard_rule_reasoning_protocol_v2.json)：正式run_enabled=false；独立preflight入口允许受来源、用途和100/2上限约束的真实调用。
