@@ -1,149 +1,536 @@
 {
   "TEST_started": false,
+  "actual_bad_frame_regression_assertions": 5,
   "branch": "research/legalskillguard-rr-v2",
-  "captured_utc": "2026-11-09T21:11:06.937824+00:00",
+  "captured_utc": "2026-11-09T21:43:18.981134+00:00",
+  "complete_model_fact_frames_valid": 0,
   "counts_total": {
-    "executor": 1379,
+    "executor": 1384,
     "teacher": 62
   },
-  "dedicated_gate_not_implemented_without_observed_need": true,
-  "existing_TRAIN_diagnostic_ordinals": [
-    13,
-    81
-  ],
+  "direct_same_information_correct": 1,
+  "executor_elapsed_seconds": 24.576878589577973,
+  "executor_output_tokens": 904,
+  "executor_prompt_tokens": 4207,
+  "fallback_result_not_core_method_success": true,
   "files": [
     {
       "byte_identical": true,
-      "bytes": 5222,
-      "local_sha256": "b16f38badd2bfe874fff57dcdd6e31d23a9f3bcf70f3472adf93295385ee12fe",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/calls/46f94211883f700eab8f23c494ca83a99ea392d8edf18c7b60f99c1c60511613/request.json",
-      "sha256": "b16f38badd2bfe874fff57dcdd6e31d23a9f3bcf70f3472adf93295385ee12fe"
+      "bytes": 494,
+      "local_sha256": "362b40cfe1304aa1d6be6d4508b52b99706ccc4da4d7580205575fc6a13ebae4",
+      "path": "artifacts/rr_method_redesign_20261109/legal_partial_temporal13_v1_20261110/TRAIN_grade.json",
+      "sha256": "362b40cfe1304aa1d6be6d4508b52b99706ccc4da4d7580205575fc6a13ebae4"
     },
     {
       "byte_identical": true,
-      "bytes": 952,
-      "local_sha256": "10ee4caeadc7caefa4e09617d4ec0420b1d2faed195294f73d4dc04ec7be3a07",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/calls/46f94211883f700eab8f23c494ca83a99ea392d8edf18c7b60f99c1c60511613/result.json",
-      "sha256": "10ee4caeadc7caefa4e09617d4ec0420b1d2faed195294f73d4dc04ec7be3a07"
+      "bytes": 12627,
+      "local_sha256": "35ef75f9f2fad06f88f3b1e7d6895d23ffded676805a4b45cd095b486ead7e92",
+      "path": "artifacts/rr_method_redesign_20261109/legal_partial_temporal13_v1_20261110/execution_closed_before_grading.json",
+      "sha256": "35ef75f9f2fad06f88f3b1e7d6895d23ffded676805a4b45cd095b486ead7e92"
     },
     {
       "byte_identical": true,
-      "bytes": 3272,
-      "local_sha256": "ac8fdc19500b3b12c4c1f3c7ff5cca6030f9bd56858096819021fc4c25954f07",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/calls/46f94211883f700eab8f23c494ca83a99ea392d8edf18c7b60f99c1c60511613/wire_request.json",
-      "sha256": "ac8fdc19500b3b12c4c1f3c7ff5cca6030f9bd56858096819021fc4c25954f07"
+      "bytes": 9366,
+      "local_sha256": "24eef177c4dd0b3e05f230179a3160c8caba985c3ff649daef1dccc2e51e2036",
+      "path": "artifacts/rr_method_redesign_20261109/legal_partial_temporal13_v1_20261110/frozen/experiments/rr_v2_legal_partial_temporal13.py",
+      "sha256": "24eef177c4dd0b3e05f230179a3160c8caba985c3ff649daef1dccc2e51e2036"
     },
     {
       "byte_identical": true,
-      "bytes": 870,
-      "local_sha256": "7e3919e4dc80d9183a7f175b5da092b7077ab31a18b3eb99ff1824aa9e5f3f4e",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/calls/46f94211883f700eab8f23c494ca83a99ea392d8edf18c7b60f99c1c60511613/wire_response.json",
-      "sha256": "7e3919e4dc80d9183a7f175b5da092b7077ab31a18b3eb99ff1824aa9e5f3f4e"
+      "bytes": 23073,
+      "local_sha256": "f700e78d921ac3c77e332df42b94814da8cd2f8702688709e31a5f565747b218",
+      "path": "artifacts/rr_method_redesign_20261109/legal_partial_temporal13_v1_20261110/frozen/experiments/rr_v2_legal_temporal13.py",
+      "sha256": "f700e78d921ac3c77e332df42b94814da8cd2f8702688709e31a5f565747b218"
     },
     {
       "byte_identical": true,
-      "bytes": 4913,
-      "local_sha256": "8609758d77f3cb9ea193c05e6934f2ed4210093fc7cb51122b9b97a6d7884cff",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/calls/d1657bca3f8a90760aa166bca965b98be723aa3d7b5dcfb0bfc2ce32a911708e/request.json",
-      "sha256": "8609758d77f3cb9ea193c05e6934f2ed4210093fc7cb51122b9b97a6d7884cff"
+      "bytes": 3330,
+      "local_sha256": "91cb49fd59f4073a7c7a547100038a8c23a10939ae2d5e02dfee26204097c871",
+      "path": "artifacts/rr_method_redesign_20261109/legal_partial_temporal13_v1_20261110/frozen/legal_skill_guard/rr/partial_scalar_evidence.py",
+      "sha256": "91cb49fd59f4073a7c7a547100038a8c23a10939ae2d5e02dfee26204097c871"
     },
     {
       "byte_identical": true,
-      "bytes": 1000,
-      "local_sha256": "86df5296a43dc35cf9623ceaf68dd9ae245ab798cdc5c91806b07920d5e5fba3",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/calls/d1657bca3f8a90760aa166bca965b98be723aa3d7b5dcfb0bfc2ce32a911708e/result.json",
-      "sha256": "86df5296a43dc35cf9623ceaf68dd9ae245ab798cdc5c91806b07920d5e5fba3"
+      "bytes": 8678,
+      "local_sha256": "b6db330e5f0ed3dafd6f08b37e7c015f1e223d5856dc1267cae7acef13fbe12a",
+      "path": "artifacts/rr_method_redesign_20261109/legal_partial_temporal13_v1_20261110/frozen/legal_skill_guard/rr/semantic_contracts.py",
+      "sha256": "b6db330e5f0ed3dafd6f08b37e7c015f1e223d5856dc1267cae7acef13fbe12a"
     },
     {
       "byte_identical": true,
-      "bytes": 3108,
-      "local_sha256": "2a69c903945f24ceda41cab6503a8c4b00d492e47274fdddadf8da37cb353040",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/calls/d1657bca3f8a90760aa166bca965b98be723aa3d7b5dcfb0bfc2ce32a911708e/wire_request.json",
-      "sha256": "2a69c903945f24ceda41cab6503a8c4b00d492e47274fdddadf8da37cb353040"
+      "bytes": 2294,
+      "local_sha256": "65bc77784e74b15f00323eae8737dfb7f808dbf34416afd1d6af64f7bbf5a94b",
+      "path": "artifacts/rr_method_redesign_20261109/legal_partial_temporal13_v1_20261110/frozen/tests/test_rr_partial_scalar_evidence.py",
+      "sha256": "65bc77784e74b15f00323eae8737dfb7f808dbf34416afd1d6af64f7bbf5a94b"
     },
     {
       "byte_identical": true,
-      "bytes": 933,
-      "local_sha256": "ab680d0df5b788a608ae2fbe493835d362b7684181766d421970949c9810d3a7",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/calls/d1657bca3f8a90760aa166bca965b98be723aa3d7b5dcfb0bfc2ce32a911708e/wire_response.json",
-      "sha256": "ab680d0df5b788a608ae2fbe493835d362b7684181766d421970949c9810d3a7"
+      "bytes": 540,
+      "local_sha256": "6fafa4b67499c80815725d9c39d6f7a260764ec3191b6fcdc5f1086da8b5b2f3",
+      "path": "artifacts/rr_method_redesign_20261109/legal_partial_temporal13_v1_20261110/frozen_library.json",
+      "sha256": "6fafa4b67499c80815725d9c39d6f7a260764ec3191b6fcdc5f1086da8b5b2f3"
     },
     {
       "byte_identical": true,
-      "bytes": 1123,
-      "local_sha256": "658a25b2d82f2a654ce31b1b17ee3c256a2cf3b696fe837ad7b22965d0da1587",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/fact_search_13.json",
-      "sha256": "658a25b2d82f2a654ce31b1b17ee3c256a2cf3b696fe837ad7b22965d0da1587"
+      "bytes": 9405,
+      "local_sha256": "a8500a5c1e31919cb287cc34402dd9b43ca665d25cc0ee9e818dd3507ecb4d57",
+      "path": "artifacts/rr_method_redesign_20261109/legal_partial_temporal13_v1_20261110/request_ledger_delta.json",
+      "sha256": "a8500a5c1e31919cb287cc34402dd9b43ca665d25cc0ee9e818dd3507ecb4d57"
     },
     {
       "byte_identical": true,
-      "bytes": 1295,
-      "local_sha256": "436645036e51b252f771a12edba249527d69a879e72a268cb149d6992d4faeb0",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/fact_search_81.json",
-      "sha256": "436645036e51b252f771a12edba249527d69a879e72a268cb149d6992d4faeb0"
+      "bytes": 893,
+      "local_sha256": "40790a53c9e29b53708265e1c9c6e0116a929c1c5aca62af4a8898cc789c0286",
+      "path": "artifacts/rr_method_redesign_20261109/legal_partial_temporal13_v1_20261110/seal.json",
+      "sha256": "40790a53c9e29b53708265e1c9c6e0116a929c1c5aca62af4a8898cc789c0286"
     },
     {
       "byte_identical": true,
-      "bytes": 9331,
-      "local_sha256": "fd9008609a6ac6045cb742aaa90304b33c124ce594cc97a5b08b018125eceb57",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/frozen/experiments/rr_v2_legal_fact_boundary.py",
-      "sha256": "fd9008609a6ac6045cb742aaa90304b33c124ce594cc97a5b08b018125eceb57"
+      "bytes": 881,
+      "local_sha256": "ff21c5fab55b5708de1d666e1a5321da243b2388258a1c6e9902008346b95fb0",
+      "path": "artifacts/rr_method_redesign_20261109/legal_partial_temporal13_v1_20261110/source_condition_alignment.json",
+      "sha256": "ff21c5fab55b5708de1d666e1a5321da243b2388258a1c6e9902008346b95fb0"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 7672,
+      "local_sha256": "63e4725b5ac0ac269cdc5d648787e878a1687c5ff8d6b177eadd522bfc46ddef",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_unguided_v1_20261110/calls/3dd609f70a88188134ce2aea1890caadd6466d7bd8d428347a703cca7ed4b999/request.json",
+      "sha256": "63e4725b5ac0ac269cdc5d648787e878a1687c5ff8d6b177eadd522bfc46ddef"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1717,
+      "local_sha256": "740059e2e5e375f0dc0e8a76af7b9b95eed990f60aa29f3a05b33fb40cab551b",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_unguided_v1_20261110/calls/3dd609f70a88188134ce2aea1890caadd6466d7bd8d428347a703cca7ed4b999/result.json",
+      "sha256": "740059e2e5e375f0dc0e8a76af7b9b95eed990f60aa29f3a05b33fb40cab551b"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4804,
+      "local_sha256": "cdb0b9da8b9e39aedc4c493e5178671cf7323e3844a800901aa59204d52c2dbd",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_unguided_v1_20261110/calls/3dd609f70a88188134ce2aea1890caadd6466d7bd8d428347a703cca7ed4b999/wire_request.json",
+      "sha256": "cdb0b9da8b9e39aedc4c493e5178671cf7323e3844a800901aa59204d52c2dbd"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1871,
+      "local_sha256": "0de78a111aa3a8ff3c3e71bb1ce4671e1c0c39d9eef3dee3ac3a093bb67ee731",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_unguided_v1_20261110/calls/3dd609f70a88188134ce2aea1890caadd6466d7bd8d428347a703cca7ed4b999/wire_response.json",
+      "sha256": "0de78a111aa3a8ff3c3e71bb1ce4671e1c0c39d9eef3dee3ac3a093bb67ee731"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2476,
+      "local_sha256": "12825a08a185f831f2c7a01ab0265a99f22a395bc35ee186e5348aabf439a934",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_unguided_v1_20261110/facts.json",
+      "sha256": "12825a08a185f831f2c7a01ab0265a99f22a395bc35ee186e5348aabf439a934"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 23073,
+      "local_sha256": "f700e78d921ac3c77e332df42b94814da8cd2f8702688709e31a5f565747b218",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_unguided_v1_20261110/frozen/experiments/rr_v2_legal_temporal13.py",
+      "sha256": "f700e78d921ac3c77e332df42b94814da8cd2f8702688709e31a5f565747b218"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4344,
+      "local_sha256": "b7b009070b8aa4a16323aa5321d21002531fc263f7037e4c0b76196bd243c873",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_unguided_v1_20261110/frozen/experiments/rr_v2_legal_unguided_fact13.py",
+      "sha256": "b7b009070b8aa4a16323aa5321d21002531fc263f7037e4c0b76196bd243c873"
     },
     {
       "byte_identical": true,
       "bytes": 12193,
       "local_sha256": "358b9a501f22c8ab05eae50415dc168526ec3fffc3081c22d77a33590a313971",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/frozen/legal_skill_guard/rr/client.py",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_unguided_v1_20261110/frozen/legal_skill_guard/rr/client.py",
       "sha256": "358b9a501f22c8ab05eae50415dc168526ec3fffc3081c22d77a33590a313971"
     },
     {
       "byte_identical": true,
       "bytes": 967,
       "local_sha256": "0c5bb7a3611c1a57dbcd4a41d618a8664db128e49f0e187a68e958e44cff4cc9",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/frozen/legal_skill_guard/rr/method_client.py",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_unguided_v1_20261110/frozen/legal_skill_guard/rr/method_client.py",
       "sha256": "0c5bb7a3611c1a57dbcd4a41d618a8664db128e49f0e187a68e958e44cff4cc9"
     },
     {
       "byte_identical": true,
       "bytes": 6173,
       "local_sha256": "5afa66616f3dc3ad401d53744710336d16c4a278956b97934e3d487d6c4a83e4",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/frozen/legal_skill_guard/rr/method_ledger.py",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_unguided_v1_20261110/frozen/legal_skill_guard/rr/method_ledger.py",
       "sha256": "5afa66616f3dc3ad401d53744710336d16c4a278956b97934e3d487d6c4a83e4"
     },
     {
       "byte_identical": true,
-      "bytes": 458,
-      "local_sha256": "fbb92195f895f61c2709364279a6af249087af557e3840210041da7ac77548c6",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/frozen_manifest.json",
-      "sha256": "fbb92195f895f61c2709364279a6af249087af557e3840210041da7ac77548c6"
+      "bytes": 28659,
+      "local_sha256": "c217d005f6bd985fec457c3442a94fd3f52c35893ce5361db59271af3402c4bd",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_unguided_v1_20261110/seal.json",
+      "sha256": "c217d005f6bd985fec457c3442a94fd3f52c35893ce5361db59271af3402c4bd"
     },
     {
       "byte_identical": true,
-      "bytes": 434,
-      "local_sha256": "941adde38bf63e54022f03279542c4058830aa783dc775f74a1480cba026d30e",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/offline.json",
-      "sha256": "941adde38bf63e54022f03279542c4058830aa783dc775f74a1480cba026d30e"
+      "bytes": 5807,
+      "local_sha256": "fa76cfd4c0e38c35e7c64471209a28888651a59083b4cee86f8198df7b3099fc",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/calls/b75517cbebd2df4d494708d8539daa737cf51997b0dee451f1fbb6897825d019/request.json",
+      "sha256": "fa76cfd4c0e38c35e7c64471209a28888651a59083b4cee86f8198df7b3099fc"
     },
     {
       "byte_identical": true,
-      "bytes": 2728,
-      "local_sha256": "aa952709bfdb7eb1b65f92e88ee3ba1c16cf90897cffcd2c2be23187ca90ace6",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/request_ledger_delta.json",
-      "sha256": "aa952709bfdb7eb1b65f92e88ee3ba1c16cf90897cffcd2c2be23187ca90ace6"
+      "bytes": 1537,
+      "local_sha256": "23f6d3d45df664064333bceccae67cc1d1612a161c0d243a32b895fce780855e",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/calls/b75517cbebd2df4d494708d8539daa737cf51997b0dee451f1fbb6897825d019/result.json",
+      "sha256": "23f6d3d45df664064333bceccae67cc1d1612a161c0d243a32b895fce780855e"
     },
     {
       "byte_identical": true,
-      "bytes": 31756,
-      "local_sha256": "a337c929b3a40c8c7c3afc65b981b8f7690743a18ceba7e6546fbb28a53cacd9",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/seal.json",
-      "sha256": "a337c929b3a40c8c7c3afc65b981b8f7690743a18ceba7e6546fbb28a53cacd9"
+      "bytes": 5648,
+      "local_sha256": "810b3a27118775d614d6231285961f902cecdaf249f8331bbe5c5d1a3ddf0419",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/calls/b75517cbebd2df4d494708d8539daa737cf51997b0dee451f1fbb6897825d019/wire_request.json",
+      "sha256": "810b3a27118775d614d6231285961f902cecdaf249f8331bbe5c5d1a3ddf0419"
     },
     {
       "byte_identical": true,
-      "bytes": 2864,
-      "local_sha256": "a231bb5177101c799a29f77856bd6e80b9cc86cc011fee1a4de1cb5fabdfdfeb",
-      "path": "artifacts/rr_method_redesign_20261109/legal_fact_boundary_v1_20261110/source_semantics_audit.json",
-      "sha256": "a231bb5177101c799a29f77856bd6e80b9cc86cc011fee1a4de1cb5fabdfdfeb"
+      "bytes": 1660,
+      "local_sha256": "bb72658ee93f9c32ad8ad033dac98561c8de6c3edcbd0de9622761856bcc3815",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/calls/b75517cbebd2df4d494708d8539daa737cf51997b0dee451f1fbb6897825d019/wire_response.json",
+      "sha256": "bb72658ee93f9c32ad8ad033dac98561c8de6c3edcbd0de9622761856bcc3815"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 7147,
+      "local_sha256": "38290a005915e14698aa2451a6e5373a61dc413a08bb0f37b372233aadc87115",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/calls/f48385dbb1f91926da142c22c3b266dea5f845264013f9b52cd4f62c51f4e2af/request.json",
+      "sha256": "38290a005915e14698aa2451a6e5373a61dc413a08bb0f37b372233aadc87115"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1431,
+      "local_sha256": "6a738a6be181ed41f480aa8d1e8e2ed4210d442039aeeb7beb92534d7549f243",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/calls/f48385dbb1f91926da142c22c3b266dea5f845264013f9b52cd4f62c51f4e2af/result.json",
+      "sha256": "6a738a6be181ed41f480aa8d1e8e2ed4210d442039aeeb7beb92534d7549f243"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4836,
+      "local_sha256": "619b10579f95ed9341ee2c8379795a683f6c22b4b163b9a769304dad6b027334",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/calls/f48385dbb1f91926da142c22c3b266dea5f845264013f9b52cd4f62c51f4e2af/wire_request.json",
+      "sha256": "619b10579f95ed9341ee2c8379795a683f6c22b4b163b9a769304dad6b027334"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1497,
+      "local_sha256": "30cc15d65d9e38d6938f1a02e770d7c07c04962a473fc2be8fc25202cb599d70",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/calls/f48385dbb1f91926da142c22c3b266dea5f845264013f9b52cd4f62c51f4e2af/wire_response.json",
+      "sha256": "30cc15d65d9e38d6938f1a02e770d7c07c04962a473fc2be8fc25202cb599d70"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2200,
+      "local_sha256": "8ce9930bc2d85be3d9278e0689f9b53b5c28f677aba5a11735b3b57ee43f1f83",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/facts.json",
+      "sha256": "8ce9930bc2d85be3d9278e0689f9b53b5c28f677aba5a11735b3b57ee43f1f83"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 17570,
+      "local_sha256": "7c57c0bb8a71af3dae54a313d5b1e342a7b45771daed74378ad393908ae1f962",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/frozen/experiments/rr_v2_legal_temporal13.py",
+      "sha256": "7c57c0bb8a71af3dae54a313d5b1e342a7b45771daed74378ad393908ae1f962"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 12193,
+      "local_sha256": "358b9a501f22c8ab05eae50415dc168526ec3fffc3081c22d77a33590a313971",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/frozen/legal_skill_guard/rr/client.py",
+      "sha256": "358b9a501f22c8ab05eae50415dc168526ec3fffc3081c22d77a33590a313971"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 967,
+      "local_sha256": "0c5bb7a3611c1a57dbcd4a41d618a8664db128e49f0e187a68e958e44cff4cc9",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/frozen/legal_skill_guard/rr/method_client.py",
+      "sha256": "0c5bb7a3611c1a57dbcd4a41d618a8664db128e49f0e187a68e958e44cff4cc9"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 6173,
+      "local_sha256": "5afa66616f3dc3ad401d53744710336d16c4a278956b97934e3d487d6c4a83e4",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/frozen/legal_skill_guard/rr/method_ledger.py",
+      "sha256": "5afa66616f3dc3ad401d53744710336d16c4a278956b97934e3d487d6c4a83e4"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4646,
+      "local_sha256": "c0625215d35374d8a7c0baa5a20f036ee31dc0cca2e970f3ce5eae8a3d14ac7c",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/frozen/legal_skill_guard/rr/python_scalar_module.py",
+      "sha256": "c0625215d35374d8a7c0baa5a20f036ee31dc0cca2e970f3ce5eae8a3d14ac7c"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 8678,
+      "local_sha256": "b6db330e5f0ed3dafd6f08b37e7c015f1e223d5856dc1267cae7acef13fbe12a",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/frozen/legal_skill_guard/rr/semantic_contracts.py",
+      "sha256": "b6db330e5f0ed3dafd6f08b37e7c015f1e223d5856dc1267cae7acef13fbe12a"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2173,
+      "local_sha256": "a8a0263f6df2e6428667f2294483ebf4e41b757c50c430e74be11243ef99270e",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/frozen/reports/method_redesign_20261109/legal_temporal13_protocol.md",
+      "sha256": "a8a0263f6df2e6428667f2294483ebf4e41b757c50c430e74be11243ef99270e"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 762,
+      "local_sha256": "c83e21d539dbcc756f4444c41c82301287febd84766c82a5da47c27e86d1ac06",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/frozen_manifest.json",
+      "sha256": "c83e21d539dbcc756f4444c41c82301287febd84766c82a5da47c27e86d1ac06"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 984,
+      "local_sha256": "bf4795abbc0c5447334bfa1f3991c0d01cfb0c6e532d79892cabc26873e833cb",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/rejection_diagnostics.json",
+      "sha256": "bf4795abbc0c5447334bfa1f3991c0d01cfb0c6e532d79892cabc26873e833cb"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 31961,
+      "local_sha256": "44e63b346993b9945b2f948c5ba5ba70bbb2a202df1b26048514a8e121a51b58",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/seal.json",
+      "sha256": "44e63b346993b9945b2f948c5ba5ba70bbb2a202df1b26048514a8e121a51b58"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2896,
+      "local_sha256": "79b3d23237ee89dffb3a28e1359f840479c148de1e43238b5823a5740bb36476",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v1_20261110/source.json",
+      "sha256": "79b3d23237ee89dffb3a28e1359f840479c148de1e43238b5823a5740bb36476"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 10149,
+      "local_sha256": "182530e8d587b9cb2dc99d25f4d53a2efe241e18e7b2b1996378bc1bda28d7c3",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/calls/298cff0138f74b3cf819e0ec308f8e145e739e932cc3f780bf6325322a0671b6/request.json",
+      "sha256": "182530e8d587b9cb2dc99d25f4d53a2efe241e18e7b2b1996378bc1bda28d7c3"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1551,
+      "local_sha256": "3b0ae795e3cde57da1275528c906fcda04f7227110949c31430e5101a57f2a8c",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/calls/298cff0138f74b3cf819e0ec308f8e145e739e932cc3f780bf6325322a0671b6/result.json",
+      "sha256": "3b0ae795e3cde57da1275528c906fcda04f7227110949c31430e5101a57f2a8c"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 8320,
+      "local_sha256": "6419d218e5c2708986308179ca2980d1c8c5d829c0134f1a14821741a5f2699e",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/calls/298cff0138f74b3cf819e0ec308f8e145e739e932cc3f780bf6325322a0671b6/wire_request.json",
+      "sha256": "6419d218e5c2708986308179ca2980d1c8c5d829c0134f1a14821741a5f2699e"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1659,
+      "local_sha256": "ef04ed74c366c1dc23d4086c9706594ce5721b308477d8596eec01f22f006511",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/calls/298cff0138f74b3cf819e0ec308f8e145e739e932cc3f780bf6325322a0671b6/wire_response.json",
+      "sha256": "ef04ed74c366c1dc23d4086c9706594ce5721b308477d8596eec01f22f006511"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2214,
+      "local_sha256": "3af8cead123d858f320ed5203b287f5846b25edee664c5c0f1f333996f7d4e34",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/facts.json",
+      "sha256": "3af8cead123d858f320ed5203b287f5846b25edee664c5c0f1f333996f7d4e34"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 21047,
+      "local_sha256": "4e34a8772ba6d62e175f565ce28d4cf2670236c1f1f2f9c83cca39fe9c1af9e6",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/frozen/experiments/rr_v2_legal_temporal13.py",
+      "sha256": "4e34a8772ba6d62e175f565ce28d4cf2670236c1f1f2f9c83cca39fe9c1af9e6"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 12193,
+      "local_sha256": "358b9a501f22c8ab05eae50415dc168526ec3fffc3081c22d77a33590a313971",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/frozen/legal_skill_guard/rr/client.py",
+      "sha256": "358b9a501f22c8ab05eae50415dc168526ec3fffc3081c22d77a33590a313971"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 967,
+      "local_sha256": "0c5bb7a3611c1a57dbcd4a41d618a8664db128e49f0e187a68e958e44cff4cc9",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/frozen/legal_skill_guard/rr/method_client.py",
+      "sha256": "0c5bb7a3611c1a57dbcd4a41d618a8664db128e49f0e187a68e958e44cff4cc9"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 6173,
+      "local_sha256": "5afa66616f3dc3ad401d53744710336d16c4a278956b97934e3d487d6c4a83e4",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/frozen/legal_skill_guard/rr/method_ledger.py",
+      "sha256": "5afa66616f3dc3ad401d53744710336d16c4a278956b97934e3d487d6c4a83e4"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4646,
+      "local_sha256": "c0625215d35374d8a7c0baa5a20f036ee31dc0cca2e970f3ce5eae8a3d14ac7c",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/frozen/legal_skill_guard/rr/python_scalar_module.py",
+      "sha256": "c0625215d35374d8a7c0baa5a20f036ee31dc0cca2e970f3ce5eae8a3d14ac7c"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 8678,
+      "local_sha256": "b6db330e5f0ed3dafd6f08b37e7c015f1e223d5856dc1267cae7acef13fbe12a",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/frozen/legal_skill_guard/rr/semantic_contracts.py",
+      "sha256": "b6db330e5f0ed3dafd6f08b37e7c015f1e223d5856dc1267cae7acef13fbe12a"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2746,
+      "local_sha256": "099fedbfb0e0c749a01ec83a1048f7a2acb65c8531dddc4d42392fce963735a9",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/frozen/reports/method_redesign_20261109/legal_temporal13_protocol.md",
+      "sha256": "099fedbfb0e0c749a01ec83a1048f7a2acb65c8531dddc4d42392fce963735a9"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 861,
+      "local_sha256": "31c4e372cccfbc3810c8bdc6bfd87f2b459130bcd90a6e376e0e47db7f86bbb0",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/frozen_manifest.json",
+      "sha256": "31c4e372cccfbc3810c8bdc6bfd87f2b459130bcd90a6e376e0e47db7f86bbb0"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 404,
+      "local_sha256": "b6d94178633d0791a0ea6d1adbc6a3d1a18d549eb605fca7b4ec3f8683179eb7",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/rejection_diagnostics.json",
+      "sha256": "b6d94178633d0791a0ea6d1adbc6a3d1a18d549eb605fca7b4ec3f8683179eb7"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 34177,
+      "local_sha256": "743e36a33e6b688432cc775893d485350242c4e7d9fadf4a6af69ab69b3b38b1",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/seal.json",
+      "sha256": "743e36a33e6b688432cc775893d485350242c4e7d9fadf4a6af69ab69b3b38b1"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3044,
+      "local_sha256": "8421006e72e3bcd69604c290c168c66f7bf0c2e818b2efd65432ee276863d750",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v2_20261110/source.json",
+      "sha256": "8421006e72e3bcd69604c290c168c66f7bf0c2e818b2efd65432ee276863d750"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 12386,
+      "local_sha256": "cb17ae44d5e0ed979acd215149909fbd2e24a3ba81846947b5506c98eb5c9322",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/calls/2038caa82531dd8559c7ff0b5c4e12c77abc337b9dae78823883784939a245e0/request.json",
+      "sha256": "cb17ae44d5e0ed979acd215149909fbd2e24a3ba81846947b5506c98eb5c9322"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1313,
+      "local_sha256": "5a55626c327c145ff19df0b9167ba691ee84e961c8f250415aee378c4f8c8fb3",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/calls/2038caa82531dd8559c7ff0b5c4e12c77abc337b9dae78823883784939a245e0/result.json",
+      "sha256": "5a55626c327c145ff19df0b9167ba691ee84e961c8f250415aee378c4f8c8fb3"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 8000,
+      "local_sha256": "7dd8c880387858707076c2c46c0c413d66b634b675d22d577d58b4eef2bde9b3",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/calls/2038caa82531dd8559c7ff0b5c4e12c77abc337b9dae78823883784939a245e0/wire_request.json",
+      "sha256": "7dd8c880387858707076c2c46c0c413d66b634b675d22d577d58b4eef2bde9b3"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1341,
+      "local_sha256": "b1cefd93b246087e5153ffd2f7dc6150cfd783ebc4755e9f082afa87db82db8a",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/calls/2038caa82531dd8559c7ff0b5c4e12c77abc337b9dae78823883784939a245e0/wire_response.json",
+      "sha256": "b1cefd93b246087e5153ffd2f7dc6150cfd783ebc4755e9f082afa87db82db8a"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1807,
+      "local_sha256": "abc4bdf64535dcc9bef5b1e26b5f647ae72e12593f0a25d72471792b1f7dbd53",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/direct.json",
+      "sha256": "abc4bdf64535dcc9bef5b1e26b5f647ae72e12593f0a25d72471792b1f7dbd53"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1645,
+      "local_sha256": "6edaac9c60bfc163f657a5b6c6f4165a2ff4aa0d9d063c665a3df37c9d1b4e4f",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/execution_closed_before_grading.json",
+      "sha256": "6edaac9c60bfc163f657a5b6c6f4165a2ff4aa0d9d063c665a3df37c9d1b4e4f"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 23073,
+      "local_sha256": "f700e78d921ac3c77e332df42b94814da8cd2f8702688709e31a5f565747b218",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/frozen/experiments/rr_v2_legal_temporal13.py",
+      "sha256": "f700e78d921ac3c77e332df42b94814da8cd2f8702688709e31a5f565747b218"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 12193,
+      "local_sha256": "358b9a501f22c8ab05eae50415dc168526ec3fffc3081c22d77a33590a313971",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/frozen/legal_skill_guard/rr/client.py",
+      "sha256": "358b9a501f22c8ab05eae50415dc168526ec3fffc3081c22d77a33590a313971"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 967,
+      "local_sha256": "0c5bb7a3611c1a57dbcd4a41d618a8664db128e49f0e187a68e958e44cff4cc9",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/frozen/legal_skill_guard/rr/method_client.py",
+      "sha256": "0c5bb7a3611c1a57dbcd4a41d618a8664db128e49f0e187a68e958e44cff4cc9"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 6173,
+      "local_sha256": "5afa66616f3dc3ad401d53744710336d16c4a278956b97934e3d487d6c4a83e4",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/frozen/legal_skill_guard/rr/method_ledger.py",
+      "sha256": "5afa66616f3dc3ad401d53744710336d16c4a278956b97934e3d487d6c4a83e4"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4646,
+      "local_sha256": "c0625215d35374d8a7c0baa5a20f036ee31dc0cca2e970f3ce5eae8a3d14ac7c",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/frozen/legal_skill_guard/rr/python_scalar_module.py",
+      "sha256": "c0625215d35374d8a7c0baa5a20f036ee31dc0cca2e970f3ce5eae8a3d14ac7c"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 8678,
+      "local_sha256": "b6db330e5f0ed3dafd6f08b37e7c015f1e223d5856dc1267cae7acef13fbe12a",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/frozen/legal_skill_guard/rr/semantic_contracts.py",
+      "sha256": "b6db330e5f0ed3dafd6f08b37e7c015f1e223d5856dc1267cae7acef13fbe12a"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 886,
+      "local_sha256": "fceb71876ee2c26ec6b085fc819a26fd24709a5362b32fc980b6ed0d604a2cfb",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/frozen_library.json",
+      "sha256": "fceb71876ee2c26ec6b085fc819a26fd24709a5362b32fc980b6ed0d604a2cfb"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 637,
+      "local_sha256": "17aa92566b3f5db9d62d4c2c84bc65ec49c9d056b7daae546a95ac818c0fd074",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/literal_grounded_facts.json",
+      "sha256": "17aa92566b3f5db9d62d4c2c84bc65ec49c9d056b7daae546a95ac818c0fd074"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 34177,
+      "local_sha256": "62afdd7f92d44bad5be727ea04e4863cc7c38dc09f609fc251be39ef268bdc4d",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/seal.json",
+      "sha256": "62afdd7f92d44bad5be727ea04e4863cc7c38dc09f609fc251be39ef268bdc4d"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3044,
+      "local_sha256": "8421006e72e3bcd69604c290c168c66f7bf0c2e818b2efd65432ee276863d750",
+      "path": "artifacts/rr_method_redesign_20261109/legal_temporal13_v3_20261110/source.json",
+      "sha256": "8421006e72e3bcd69604c290c168c66f7bf0c2e818b2efd65432ee276863d750"
     },
     {
       "byte_identical": true,
@@ -154,95 +541,133 @@
     },
     {
       "byte_identical": true,
-      "bytes": 12669,
-      "local_sha256": "f2d349e84f5ac408e5281d4d1ae5cc215423b19189f09ca4bb9942ea0d4a032b",
+      "bytes": 15516,
+      "local_sha256": "15712833e3035812051a390e89be7883f972cf13e1f005193209b9a3705554a7",
       "path": "docs/METHOD_REDESIGN_CURRENT.md",
-      "sha256": "f2d349e84f5ac408e5281d4d1ae5cc215423b19189f09ca4bb9942ea0d4a032b"
+      "sha256": "15712833e3035812051a390e89be7883f972cf13e1f005193209b9a3705554a7"
     },
     {
       "bytes": 447,
       "path": "docs/rr_v2/method_runtime_state_20261107.json",
-      "sha256": "2ee902d85f0d2ad95e207d9dfac84d4ab92f0858f6cd229a5e2a615e10534597"
+      "sha256": "061635385a51d7ae6c14b2c15a6270352f36b8d9e457326d21c5a3a6543611ff"
     },
     {
       "byte_identical": true,
-      "bytes": 9331,
-      "local_sha256": "fd9008609a6ac6045cb742aaa90304b33c124ce594cc97a5b08b018125eceb57",
-      "path": "experiments/rr_v2_legal_fact_boundary.py",
-      "sha256": "fd9008609a6ac6045cb742aaa90304b33c124ce594cc97a5b08b018125eceb57"
+      "bytes": 9366,
+      "local_sha256": "24eef177c4dd0b3e05f230179a3160c8caba985c3ff649daef1dccc2e51e2036",
+      "path": "experiments/rr_v2_legal_partial_temporal13.py",
+      "sha256": "24eef177c4dd0b3e05f230179a3160c8caba985c3ff649daef1dccc2e51e2036"
     },
     {
       "byte_identical": true,
-      "bytes": 74949,
-      "local_sha256": "1a7d081fd1a8bfd14802a875bdd4643fc2bd533d5e59098d27685c0913a3a18a",
+      "bytes": 23073,
+      "local_sha256": "f700e78d921ac3c77e332df42b94814da8cd2f8702688709e31a5f565747b218",
+      "path": "experiments/rr_v2_legal_temporal13.py",
+      "sha256": "f700e78d921ac3c77e332df42b94814da8cd2f8702688709e31a5f565747b218"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4344,
+      "local_sha256": "b7b009070b8aa4a16323aa5321d21002531fc263f7037e4c0b76196bd243c873",
+      "path": "experiments/rr_v2_legal_unguided_fact13.py",
+      "sha256": "b7b009070b8aa4a16323aa5321d21002531fc263f7037e4c0b76196bd243c873"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3330,
+      "local_sha256": "91cb49fd59f4073a7c7a547100038a8c23a10939ae2d5e02dfee26204097c871",
+      "path": "legal_skill_guard/rr/partial_scalar_evidence.py",
+      "sha256": "91cb49fd59f4073a7c7a547100038a8c23a10939ae2d5e02dfee26204097c871"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 80286,
+      "local_sha256": "22a1c42a2c60c349a111f14a8e37e241906abd67cc6dcaaa9a29cf105550afc5",
       "path": "reports/method_redesign_20261109/M1M2_real_TRAIN_report.md",
-      "sha256": "1a7d081fd1a8bfd14802a875bdd4643fc2bd533d5e59098d27685c0913a3a18a"
+      "sha256": "22a1c42a2c60c349a111f14a8e37e241906abd67cc6dcaaa9a29cf105550afc5"
     },
     {
       "byte_identical": true,
-      "bytes": 7632,
-      "local_sha256": "6e00069989d5704d3e409ca26cca9a23df37e1bf49e9d095be9f48d623e0e69b",
-      "path": "reports/method_redesign_20261109/audit_legal_fact_boundary.py",
-      "sha256": "6e00069989d5704d3e409ca26cca9a23df37e1bf49e9d095be9f48d623e0e69b"
+      "bytes": 9699,
+      "local_sha256": "26d7b88f840a2174494aa3c6f07eceed76523f4a9725f227bcf9c71652c7a54c",
+      "path": "reports/method_redesign_20261109/audit_legal_temporal13.py",
+      "sha256": "26d7b88f840a2174494aa3c6f07eceed76523f4a9725f227bcf9c71652c7a54c"
     },
     {
       "byte_identical": true,
-      "bytes": 2635,
-      "local_sha256": "966315b511cd26c3301bf091fea054e3251960f4cff6a94d24289cf9ebed0029",
-      "path": "reports/method_redesign_20261109/audit_legal_task_semantics.py",
-      "sha256": "966315b511cd26c3301bf091fea054e3251960f4cff6a94d24289cf9ebed0029"
+      "bytes": 98,
+      "local_sha256": "0b7ede8c8682c95da8ee490cf24dab3160596fde2b4a9c8da2658980b3dec7fc",
+      "path": "reports/method_redesign_20261109/legal_partial_evidence_regression.txt",
+      "sha256": "0b7ede8c8682c95da8ee490cf24dab3160596fde2b4a9c8da2658980b3dec7fc"
     },
     {
       "byte_identical": true,
-      "bytes": 1816,
-      "local_sha256": "afc7e4e6130b364bdbe2cace65f8c6ac75d23c4a5d08541b6e53dd280c7f33a6",
-      "path": "reports/method_redesign_20261109/legal_fact_boundary_protocol.md",
-      "sha256": "afc7e4e6130b364bdbe2cace65f8c6ac75d23c4a5d08541b6e53dd280c7f33a6"
+      "bytes": 3346,
+      "local_sha256": "6a5d63f024717b4f8f2a813fe813c31fb82082445852318f76a7b7657dd2ec13",
+      "path": "reports/method_redesign_20261109/legal_temporal13_protocol.md",
+      "sha256": "6a5d63f024717b4f8f2a813fe813c31fb82082445852318f76a7b7657dd2ec13"
     },
     {
       "byte_identical": true,
-      "bytes": 5927,
-      "local_sha256": "0fec1bbc04ff9d0592a4cd2add9b4ffe515a7e2a7e36331bad4dabf7bda040a8",
-      "path": "reports/method_redesign_20261109/legal_fact_boundary_results.json",
-      "sha256": "0fec1bbc04ff9d0592a4cd2add9b4ffe515a7e2a7e36331bad4dabf7bda040a8"
+      "bytes": 7483,
+      "local_sha256": "c279e4e4ffd84c5687fd05c76dfa5ebe85e2ab8a8ba50d37a6f05723bcedab06",
+      "path": "reports/method_redesign_20261109/legal_temporal13_results.json",
+      "sha256": "c279e4e4ffd84c5687fd05c76dfa5ebe85e2ab8a8ba50d37a6f05723bcedab06"
     },
     {
       "byte_identical": true,
-      "bytes": 1422,
-      "local_sha256": "e3f2abf38819eb0c5171d57d8d1b24e03825ec15b569c89e7ff993b7f2e0af6c",
-      "path": "reports/method_redesign_20261109/legal_task_semantics_audit.json",
-      "sha256": "e3f2abf38819eb0c5171d57d8d1b24e03825ec15b569c89e7ff993b7f2e0af6c"
+      "bytes": 1051,
+      "local_sha256": "dbc8e552439ef70674e0df44f069d77d6de84452271bdb8f5f6808ad6761c5b9",
+      "path": "reports/method_redesign_20261109/legal_unguided_fact13_protocol.md",
+      "sha256": "dbc8e552439ef70674e0df44f069d77d6de84452271bdb8f5f6808ad6761c5b9"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2294,
+      "local_sha256": "65bc77784e74b15f00323eae8737dfb7f808dbf34416afd1d6af64f7bbf5a94b",
+      "path": "tests/test_rr_partial_scalar_evidence.py",
+      "sha256": "65bc77784e74b15f00323eae8737dfb7f808dbf34416afd1d6af64f7bbf5a94b"
     }
   ],
+  "given_scalar_API_not_claimed_learned": true,
   "goal_complete": false,
   "goal_status": "active",
-  "implementation_commit": "d747ec81f164a4e3bbd96e7694ffe5247f2ad21f",
+  "implementation_commit": "4221d9c0a3d08c4806db2f317d09104741fb8dbc",
   "inherited_artifacts_retained": true,
   "main_before": "5368150eceece401ee475370cc6b8170ca6584bf",
   "main_unchanged": true,
-  "native_predictions_or_scores_added": 0,
-  "native_task_semantics_not_globally_replaced_by_OWA": true,
-  "new_TRAIN_oracle_views": 0,
+  "matched_guided_to_unguided_messages_equal": true,
+  "model_frame_attempts_same_source": 3,
+  "native_source_TRAIN_ordinal": 13,
+  "native_source_count": 1,
+  "native_source_programme_correct": 1,
+  "new_TRAIN_oracle_views": 1,
   "new_charged_attempts": {
-    "executor": 2,
+    "executor": 5,
     "teacher": 0
   },
-  "new_offline_assertions_passed": 6,
   "new_physical_dispatches": {
-    "executor": 2,
+    "executor": 5,
     "teacher": 0
   },
-  "official_SymBa_validator_actually_executed": true,
-  "ordinary_CWA_not_applied_to_incomplete_generation": true,
-  "ordinary_fact_search_handles_tested_boundary": true,
+  "new_regressions_passed": 6,
+  "ordinary_partial_binding_cache_also_correct": true,
+  "original_bad_field_values_preserved": true,
   "original_dataset_sources_added": 0,
   "paper_started": false,
+  "partial_evidence_component_shared_not_new_contribution": true,
+  "partial_evidence_proof_uses_unchanged_valid_model_fields": true,
+  "partial_execution_fallback_answers": 0,
   "pending": 0,
   "private_local_ancestry_uploaded": false,
-  "public_parent": "0e5282e69efcad1bb30aa4ec80051b09cdd20617",
+  "public_parent": "69b75e8284a58ede668c0b4611924382db736a1c",
   "public_variants": {
-    "docs/rr_v2/method_runtime_state_20261107.json": "Machine status and pointers only; no additional execution instructions"
+    "docs/rr_v2/method_runtime_state_20261107.json": "Machine pointers only, no additional execution instructions"
   },
-  "synthetic_validator_counterexample_not_real_model_failure": true,
+  "same_source_views_not_independent_examples": true,
+  "separate_deterministic_reader_fallback_results": 1,
+  "source_and_unknown_input_offline_assertions": 8,
+  "source_only_actual_executor_programmes_verified": 1,
+  "source_programme_gets_no_case_query_labels": true,
   "two_contributions_established": false
 }
