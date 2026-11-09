@@ -419,7 +419,15 @@
       "cross_bank_learned_skill_use_verified": false,
       "current_stage": "Real local D/R/retrieval and teacher review preserved; M1/M2 learning/prediction exists, independent effect unestablished",
       "evidence": "M1M2_real_TRAIN_report.md",
-      "full_question_compiler_execution_verified": false
+      "full_question_compiler_execution_verified": false,
+      "offline_composition_diagnostic": {
+        "evidence": "composed_channel_results.json",
+        "training_only": true,
+        "new_model_calls": 0,
+        "promoted_to_live_library": false,
+        "native_task_evaluated": false,
+        "observed_exclusion_diagnostics": []
+      }
     },
     {
       "ordinal": 79,
@@ -445,7 +453,15 @@
       "cross_bank_learned_skill_use_verified": false,
       "current_stage": "Real local D/R/retrieval and teacher review preserved; M1/M2 learning/prediction exists, independent effect unestablished",
       "evidence": "M1M2_real_TRAIN_report.md",
-      "full_question_compiler_execution_verified": false
+      "full_question_compiler_execution_verified": false,
+      "offline_composition_diagnostic": {
+        "evidence": "composed_channel_results.json",
+        "training_only": true,
+        "new_model_calls": 0,
+        "promoted_to_live_library": false,
+        "native_task_evaluated": false,
+        "observed_exclusion_diagnostics": []
+      }
     },
     {
       "ordinal": 83,
@@ -471,7 +487,26 @@
       "cross_bank_learned_skill_use_verified": false,
       "current_stage": "Real local D/R/retrieval and teacher review preserved; M1/M2 learning/prediction exists, independent effect unestablished",
       "evidence": "M1M2_real_TRAIN_report.md",
-      "full_question_compiler_execution_verified": false
+      "full_question_compiler_execution_verified": false,
+      "offline_composition_diagnostic": {
+        "evidence": "composed_channel_results.json",
+        "training_only": false,
+        "new_model_calls": 0,
+        "promoted_to_live_library": false,
+        "native_task_evaluated": false,
+        "observed_exclusion_diagnostics": [
+          {
+            "case_id": "TRAIN83:original",
+            "local_MAP_correct": true,
+            "MAP_and_original_complete_source_frame_correct": false
+          },
+          {
+            "case_id": "TRAIN83:controlled",
+            "local_MAP_correct": true,
+            "MAP_and_original_complete_source_frame_correct": true
+          }
+        ]
+      }
     },
     {
       "ordinal": 88,
@@ -497,10 +532,30 @@
       "cross_bank_learned_skill_use_verified": false,
       "current_stage": "Real local D/R/retrieval and teacher review preserved; M1/M2 learning/prediction exists, independent effect unestablished",
       "evidence": "M1M2_real_TRAIN_report.md",
-      "full_question_compiler_execution_verified": false
+      "full_question_compiler_execution_verified": false,
+      "offline_composition_diagnostic": {
+        "evidence": "composed_channel_results.json",
+        "training_only": false,
+        "new_model_calls": 0,
+        "promoted_to_live_library": false,
+        "native_task_evaluated": false,
+        "observed_exclusion_diagnostics": [
+          {
+            "case_id": "TRAIN88:original",
+            "local_MAP_correct": true,
+            "MAP_and_original_complete_source_frame_correct": false
+          },
+          {
+            "case_id": "TRAIN88:controlled",
+            "local_MAP_correct": false,
+            "MAP_and_original_complete_source_frame_correct": false
+          }
+        ]
+      }
     }
   ],
   "new_sources": 0,
   "new_full_build_started": false,
-  "goal_complete": false
+  "goal_complete": false,
+  "latest_offline_followup": "Composition closure implemented and rejected for promotion; previous source stages and raw outcomes retained"
 }
