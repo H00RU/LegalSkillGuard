@@ -1,0 +1,477 @@
+{
+  "protocol": "LSG-LegalSkill-20261111-pilot20-v1",
+  "status": "selection_locked_before_new_model_outputs; exposure_audit_pending",
+  "base_manifest": "candidate_source_manifest.json",
+  "base_manifest_declared_sha256": "e90c138aaab2a069d2435e3e46f2ea81b3c81235569ce36c0aff9eeede3447f3",
+  "base_manifest_file_sha256": "fa9c9303411d511a7eeb762c202a46127bfae174415a19756548ccd86e744453",
+  "seed": "LSG-LegalSkill-Pilot20-20261111-v1",
+  "selection": "include exactly the eight audited TRAIN controlled parents; fill each quota by ascending SHA256(seed|dataset|source_key); globally order by the same hash",
+  "outcome_selection": false,
+  "input_scope": "TRAIN source identity metadata plus audited TRAIN controlled-parent identities only; no DEV/TEST labels or new model outcomes",
+  "reuse_policy": "all pilot systems use these same twenty parents, same order, same public information and allowed TRAIN feedback; no DEV/TEST execution in this pilot",
+  "formal_stage_policy": "pilot parents remain part of the base128 TRAIN; formal systems restart from the same empty library/public tools, not pilot-learned skills",
+  "exposure_policy": "record existing TRAIN exposure and pending server history; this pilot is not claimed to be blind evaluation",
+  "dataset_parent_counts": {
+    "MAUD": 6,
+    "ContractNLI": 5,
+    "OpenExempt": 3,
+    "SARA_v2_Binary": 3,
+    "RuleArena_Airline": 3
+  },
+  "totals": {
+    "TRAIN_parent_sources": 20,
+    "native_views": 50,
+    "controlled_views": 32,
+    "total_views_if_all_controlled_included": 82,
+    "controlled_parent_sources": 8,
+    "new_independent_sources": 0,
+    "DEV_parent_sources": 0,
+    "TEST_parent_sources": 0
+  },
+  "source_sequence": [
+    {
+      "content_hash": "46b7579d3b3fcdbbd361458c9625aa76821873da46d35b24fdc390079a25c405",
+      "group": "1192ee4bf52d1632fc066660e6808313e42096e8479f13e68ad81c5eb0261b12",
+      "key": "OpenExempt:de89e35f7b94fb912ba36805ea74042cf096ac6b8e69bc72bbfc6ca7b89eeed8",
+      "native_split": "unsplit",
+      "dataset": "OpenExempt",
+      "parent_split": "TRAIN",
+      "selection_reason": "stable_hash_fill",
+      "selection_rank_sha256": "072161a961ef59c3e46592d7c70b7f81c4a4147450323012cb6616f6e7e73899",
+      "native_view_count": 2,
+      "controlled_view_count": 0,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 1
+    },
+    {
+      "content_hash": "f50dd68ab55c00e0d82f5bb0f8f45aea82544dca25fae77b549a12e3407810c4",
+      "group": "3aa3ec5ea6aae3e327f2009888951ed1d84971bae1808e0e333c767922bc6e7d",
+      "key": "OpenExempt:c7a0453036cdc8fea75ab2c1953cf1ef851258056f0aa2384912c345325ced38",
+      "native_split": "unsplit",
+      "dataset": "OpenExempt",
+      "parent_split": "TRAIN",
+      "selection_reason": "stable_hash_fill",
+      "selection_rank_sha256": "093fa59ab93320d27ac936c3e9593ac2caab8428a8870a3bf76b03a8b1c3125d",
+      "native_view_count": 2,
+      "controlled_view_count": 0,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 2
+    },
+    {
+      "content_hash": "65bdc54ba37978fbab1895399d115b92f9a35a04c9791c23d5f462f7dae7adb1",
+      "group": "2dcc3d0dcfeb0d2059af68c029b82ed02ac56548649d7ea24da24f0bfb3956f2",
+      "key": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+      "native_split": "unsplit",
+      "dataset": "RuleArena_Airline",
+      "parent_split": "TRAIN",
+      "selection_reason": "stable_hash_fill",
+      "selection_rank_sha256": "0a0142525c8f962e00c60a4aa76c582fc628a060d5b600b1dc115735c35a0e99",
+      "native_view_count": 1,
+      "controlled_view_count": 0,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 3
+    },
+    {
+      "content_hash": "66959eb74c052084d0655a760ca7fc08c1612f4dad1e139fcc586170782cbafe",
+      "group": "99634c121f01fbcd5cbb38af72f1def48f2921f9033fa3abe10f038c36018fd7",
+      "key": "RuleArena_Airline:0c00a88cdde7ed4f859d9e34869aceab7da4242d3b7aea07d8797388f27fc564",
+      "native_split": "unsplit",
+      "dataset": "RuleArena_Airline",
+      "parent_split": "TRAIN",
+      "selection_reason": "stable_hash_fill",
+      "selection_rank_sha256": "0b77c82c59bf68480dbdf008aa8690ec5326efa267e054ba57864c9b8b025002",
+      "native_view_count": 1,
+      "controlled_view_count": 0,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 4
+    },
+    {
+      "content_hash": "7f39a528b657d00a164c5f8a9bda593a1248c38ff3b44f85b30e009d57eb515e",
+      "group": "dfee5e845b85023e2855069f18ede8ac4d9e2b4c9746aee11c5608fcde9243c2",
+      "key": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+      "native_split": "unsplit",
+      "dataset": "OpenExempt",
+      "parent_split": "TRAIN",
+      "selection_reason": "stable_hash_fill",
+      "selection_rank_sha256": "1176a605e89d43cc72cfc6a8a3b8e09bd801862fec172f890fc396cf238ecdc4",
+      "native_view_count": 2,
+      "controlled_view_count": 0,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 5
+    },
+    {
+      "content_hash": "04d0fa023af42ff83c2b2ff872c301c9c9bf0d159edd0bbaaf5cb6fe0ec79c5c",
+      "group": "3ffc3690e4a5c6f148dcbb03f33354c3796405fdcd6adf5d94d42fa09a0e7060",
+      "key": "SARA_v2_Binary:e16240027250747ff69ead62bad04238598466042e1bf9bdc668c789366034c3",
+      "native_split": "train",
+      "dataset": "SARA_v2_Binary",
+      "parent_split": "TRAIN",
+      "selection_reason": "stable_hash_fill",
+      "selection_rank_sha256": "1d26f2b2f052cd399a4b6c405209702d8ddc57b122044b91acd2bf3891196955",
+      "native_view_count": 1,
+      "controlled_view_count": 0,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "original_case_id": "s151_d_2_neg",
+      "pilot_order": 6
+    },
+    {
+      "group": "092b27c5a8d5fc101e0955a981753fc5b80af8c5137c8dc3a688cf2404a242af",
+      "key": "ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3",
+      "native_split": "train",
+      "legacy_nda11_content_hash": "084eca2531bb95e57d8e6d04735cfb1bc5555ae635cf2e5aee5829b3cd666406",
+      "original_document_id": "280",
+      "content_hash": "4eaf82bf92a714ee73d2569d3697f11b870c484d7854bb6c2fd00cc030e3e1c2",
+      "dataset": "ContractNLI",
+      "parent_split": "TRAIN",
+      "selection_reason": "stable_hash_fill",
+      "selection_rank_sha256": "1dc07baf79e9d5d98215e81aa16b52f490823196a38c45d448b55839a45032e4",
+      "native_view_count": 4,
+      "controlled_view_count": 0,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 7
+    },
+    {
+      "content_hash": "2b5cbdc7f1669c4326d65423c1eaf058dae893bb08f469f0dafb67b67e510d19",
+      "group": "c6e3dcabbccfb88a1cf49a70ecb8c2f55dec42129eddc0d633759fa977cc40fb",
+      "key": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "native_split": "train",
+      "dataset": "SARA_v2_Binary",
+      "parent_split": "TRAIN",
+      "selection_reason": "stable_hash_fill",
+      "selection_rank_sha256": "1fc2ac7401e83f0f201d716261c10b6985020c75c016678725dc31cb273c4be6",
+      "native_view_count": 1,
+      "controlled_view_count": 0,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "original_case_id": "s3306_b_neg",
+      "pilot_order": 8
+    },
+    {
+      "group": "5098488ccb3d780994c1e9d5c38d4e991f01dabbccb9fe6a98fe178e838f9faa",
+      "key": "ContractNLI:467e2e05d5ade8611f13fe6ffdeea100bd3ca6c2aaa3c0ad34699c307d05b2c5",
+      "native_split": "train",
+      "legacy_nda11_content_hash": "bf40d1a65b5cfab6760ec38bc97831fa476c1b3ba11a30b72bf07901d80f34b0",
+      "original_document_id": "589",
+      "content_hash": "f61d66a72e16ab865c5d8aee30a7edea691f89a1bbe5101f033e3bcf798991d1",
+      "dataset": "ContractNLI",
+      "parent_split": "TRAIN",
+      "selection_reason": "stable_hash_fill",
+      "selection_rank_sha256": "245f0453e65552e2840bfca02652370955799fd6e34ab1e5b424f13318b50129",
+      "native_view_count": 4,
+      "controlled_view_count": 0,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 9
+    },
+    {
+      "group": "a8d79d0c34bcaaeca25c492e0afc24a6c188ac10226a8ad16baff564960c9e70",
+      "key": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "native_split": "train",
+      "legacy_nda11_content_hash": "1f4f8ea8c2fef204e8a9baea8710029ddd502dc18c043c7e993c6c2307047862",
+      "original_document_id": "581",
+      "content_hash": "96f65d8685c52d72c654566752f16bbf96e12440a9925a196249f3ed06893286",
+      "dataset": "ContractNLI",
+      "parent_split": "TRAIN",
+      "selection_reason": "stable_hash_fill",
+      "selection_rank_sha256": "35012da12ad994eca5cc7a6b6b28f54f1fdd27dea1959af40026543f5d27c5e7",
+      "native_view_count": 4,
+      "controlled_view_count": 0,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 10
+    },
+    {
+      "group": "1ccfdc81605187107be333faec349e87fe05ecffe8d90e2ee11ad34ff71a33ea",
+      "key": "ContractNLI:ef7bf53e9fb90ce5e3cf46d57d5845406bc1772e0742e599086cdb1b92d79806",
+      "native_split": "train",
+      "legacy_nda11_content_hash": "24103c62e9cd2164c3041b723ba7a0bd229de2b07fd7daf44c5852a127acf2f6",
+      "original_document_id": "414",
+      "content_hash": "02e6277f06c7d6935fd38457c4a5bd9c09416dd59d48d7990bc8b381ced77915",
+      "dataset": "ContractNLI",
+      "parent_split": "TRAIN",
+      "selection_reason": "stable_hash_fill",
+      "selection_rank_sha256": "4ceec9b2127584874fbd591c07ba433c479a99907baff865ad9860d672ff247a",
+      "native_view_count": 4,
+      "controlled_view_count": 0,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 11
+    },
+    {
+      "group": "f7e1ad288f3de734ed6ca17e1a5c1a5aa2c46e56209d59764dcda1fcd069a481",
+      "key": "ContractNLI:8fb38aee9252512c6e77c4fa76440766310d1a4090d0149bff12ebf69ec972e7",
+      "native_split": "train",
+      "legacy_nda11_content_hash": "407ee24716d89e45ead2a84b45c646dcaa94e52e73cb43d4787682dd409f7c7e",
+      "original_document_id": "111",
+      "content_hash": "9250abd3a56dc80858263c686998ec68312cdc3a4fb050a847395ce7e33ec5bd",
+      "dataset": "ContractNLI",
+      "parent_split": "TRAIN",
+      "selection_reason": "stable_hash_fill",
+      "selection_rank_sha256": "4f004a7e7dae1d9da5fdbdc24da777d20e87a7a2d859c98cd724a171bc01974d",
+      "native_view_count": 4,
+      "controlled_view_count": 0,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 12
+    },
+    {
+      "content_hash": "e0f7f1009b74b00f46901421a286d932ef6b51b6783ccae55b8e1dac1d984535",
+      "group": "8736a20950d5b39632cb66ebcd3249ac2757f2927aecf39a00bab9f92269e7c9",
+      "key": "RuleArena_Airline:7882b36c63f61382ec57af63c39b4ded108e19e1c73256e2b80ccec05279a096",
+      "native_split": "unsplit",
+      "dataset": "RuleArena_Airline",
+      "parent_split": "TRAIN",
+      "selection_reason": "mandatory_audited_controlled_parent",
+      "selection_rank_sha256": "5018e8e1d2937f6ff5c761a04cfbcbf8adf3b7160603817222cb1a6c9c0282f3",
+      "native_view_count": 1,
+      "controlled_view_count": 4,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 13
+    },
+    {
+      "key": "MAUD:ef95fbbcd122d34b47d6b4812692fbc8723b8a11273b5f02e6f3683b1a6315f6",
+      "original_contract_id": "contract_151",
+      "full_contract_hash": "b5b96fbc531d29efa4cc1459ef2bade5cd37c9ef4c4b8739436cfec9f00dea8a",
+      "native_task_views": [
+        {
+          "question": "Knowledge Definition-Answer",
+          "context_sha256": "745fd7402b52405ee38179a50bc94b781fb516620c08eec62d8800db4f407536",
+          "context_characters": 458,
+          "data_type": "main"
+        },
+        {
+          "question": "Ordinary Course Covenant includes carve-out for Pandemic responses-Answer (Y/N)",
+          "context_sha256": "bd126880ed853c2abe5dd38f29497999e8f5e54dff43c3d644d720044c746a7a",
+          "context_characters": 696,
+          "data_type": "main"
+        },
+        {
+          "question": "Negative Interim Covenant includes carveout for pandemic responses-Answer (Y/N)",
+          "context_sha256": "1f8ab732d0d6a709319810b16e43583506dea56aefaf2a47c6a9611b2f4781ed",
+          "context_characters": 447,
+          "data_type": "main"
+        }
+      ],
+      "task_input_hash": "99d2936ec306289e3368d036c2aeaa8f5cf6113c68d6061c3fccf6964e985f54",
+      "source_unit": "whole_parent_agreement",
+      "source_cluster_members": [
+        "contract_151"
+      ],
+      "official_split_policy": "self_grouped_all_main_rows_by_parent_agreement",
+      "dataset": "MAUD",
+      "parent_split": "TRAIN",
+      "selection_reason": "mandatory_audited_controlled_parent",
+      "selection_rank_sha256": "530601d3de9c496d182bd0ca6f0310cd63f0f71bd77d89ab9cec5f7b9d936b07",
+      "native_view_count": 3,
+      "controlled_view_count": 4,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 14
+    },
+    {
+      "key": "MAUD:2ae909b923008fa9f293069a959276b3f7c3c61e355e75092dd1ea6d14eb4db8",
+      "original_contract_id": "contract_145",
+      "full_contract_hash": "39aa845fc27830773c0d6bfd416b7bf806f05db63bbeb54db5c1cf616480e72e",
+      "native_task_views": [
+        {
+          "question": "Knowledge Definition-Answer",
+          "context_sha256": "6194af6ac39ad0bb8b9a4fe7dcc1114af4e770bb8d9c56e25f0687d124c49c35",
+          "context_characters": 135,
+          "data_type": "main"
+        },
+        {
+          "question": "Ordinary Course Covenant includes carve-out for Pandemic responses-Answer (Y/N)",
+          "context_sha256": "e30c146dc02d7d995a455b3d3c586943af99e394969466219b76a80bb623d28e",
+          "context_characters": 911,
+          "data_type": "main"
+        },
+        {
+          "question": "Negative Interim Covenant includes carveout for pandemic responses-Answer (Y/N)",
+          "context_sha256": "0309ef615e7d7f899bd9d6d0dbf6b861c728637cdb7fad29bca5a305b0f0e8c9",
+          "context_characters": 555,
+          "data_type": "main"
+        }
+      ],
+      "task_input_hash": "c3a869a951192412459a65363207c67d82454b472bae5103b06940845a8ae4bc",
+      "source_unit": "whole_parent_agreement",
+      "source_cluster_members": [
+        "contract_145"
+      ],
+      "official_split_policy": "self_grouped_all_main_rows_by_parent_agreement",
+      "dataset": "MAUD",
+      "parent_split": "TRAIN",
+      "selection_reason": "mandatory_audited_controlled_parent",
+      "selection_rank_sha256": "55d141c7b4691d603e40d48a16d608e8cbe0bce6c4bb7dadcdbc7897738a38cf",
+      "native_view_count": 3,
+      "controlled_view_count": 4,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 15
+    },
+    {
+      "content_hash": "6c5b58d768b579d247cb8b1806e3eb21e840d6d83b6ac4f082673940024ea414",
+      "group": "c53f17dbf492c6c4d2059fc4a0f2aa915901df9f20e9cebc104cbc97675b1c93",
+      "key": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+      "native_split": "train",
+      "dataset": "SARA_v2_Binary",
+      "parent_split": "TRAIN",
+      "selection_reason": "mandatory_audited_controlled_parent",
+      "selection_rank_sha256": "712700de4a4afb2ab468c64683c30407cd3d39c7e5362cc6cc5805a36e0f83ea",
+      "native_view_count": 1,
+      "controlled_view_count": 4,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "original_case_id": "s151_c_pos",
+      "pilot_order": 16
+    },
+    {
+      "key": "MAUD:447ae333300498aa622383a77766c17bb1c59941a44e99499def4bc3929a5655",
+      "original_contract_id": "contract_143",
+      "full_contract_hash": "e907d945cbab8efb5b2dc615acaffb2462d23de01820e12e19a509df8a294f99",
+      "native_task_views": [
+        {
+          "question": "Knowledge Definition-Answer",
+          "context_sha256": "2f933a19c6bfb0823326a3cf3034af1acc64e1d6f51e8da94d9cee1e02a58d56",
+          "context_characters": 361,
+          "data_type": "main"
+        },
+        {
+          "question": "Ordinary Course Covenant includes carve-out for Pandemic responses-Answer (Y/N)",
+          "context_sha256": "5baabb3c583f1b3ff0b55f2849c776653192f300b41487aa2ed2f30029a3c95d",
+          "context_characters": 1416,
+          "data_type": "main"
+        },
+        {
+          "question": "Negative Interim Covenant includes carveout for pandemic responses-Answer (Y/N)",
+          "context_sha256": "e547c2e6bdf9c2d7de98682029c37f2fbaef3884957e7a4184ebbb40fbcd9a03",
+          "context_characters": 735,
+          "data_type": "main"
+        }
+      ],
+      "task_input_hash": "a58f63245968342d26822458151609d18cdb01e5db7a8e89cb78dccae0bb3d80",
+      "source_unit": "whole_parent_agreement",
+      "source_cluster_members": [
+        "contract_143"
+      ],
+      "official_split_policy": "self_grouped_all_main_rows_by_parent_agreement",
+      "dataset": "MAUD",
+      "parent_split": "TRAIN",
+      "selection_reason": "mandatory_audited_controlled_parent",
+      "selection_rank_sha256": "a37a9dccd79ca4fba8c3fe67817441c78cabefc4f0455ad5569f931ffa9af828",
+      "native_view_count": 3,
+      "controlled_view_count": 4,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 17
+    },
+    {
+      "key": "MAUD:e4081ab8e70c2fd45cc4c7351787a8ad3f34389a2a6011667c1391144effc9d1",
+      "original_contract_id": "contract_16",
+      "full_contract_hash": "62ed452534a1823964b73b979f12094ac12f65b9d2b02b45e10b6d1178f27f6a",
+      "native_task_views": [
+        {
+          "question": "Knowledge Definition-Answer",
+          "context_sha256": "8e58bdc3558630fea8a93cfa8807eb4282868cfc0b34fed81a2a0b517b4d5699",
+          "context_characters": 116,
+          "data_type": "main"
+        },
+        {
+          "question": "Ordinary Course Covenant includes carve-out for Pandemic responses-Answer (Y/N)",
+          "context_sha256": "3d6fe7924740692be114ac27401dd5e77583284c4b3b1cbfcf2a8282a213c82d",
+          "context_characters": 1221,
+          "data_type": "main"
+        },
+        {
+          "question": "Negative Interim Covenant includes carveout for pandemic responses-Answer (Y/N)",
+          "context_sha256": "59b94d5d2a16dd55f40714bf243639f8f010f5b7ff1e61ae198c0a0e1365ee89",
+          "context_characters": 1122,
+          "data_type": "main"
+        }
+      ],
+      "task_input_hash": "ba63cb4ecec539e6ca0be230f5c9171f8cd08da27473d03ef94e095aef59253b",
+      "source_unit": "whole_parent_agreement",
+      "source_cluster_members": [
+        "contract_16"
+      ],
+      "official_split_policy": "self_grouped_all_main_rows_by_parent_agreement",
+      "dataset": "MAUD",
+      "parent_split": "TRAIN",
+      "selection_reason": "mandatory_audited_controlled_parent",
+      "selection_rank_sha256": "bed92702187d99f40c5cf067eaa2998fa2553f39d6cce3aeb9ddb1772cd33fa1",
+      "native_view_count": 3,
+      "controlled_view_count": 4,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 18
+    },
+    {
+      "key": "MAUD:b3fc96b474fbcaaee5d6517e9d57f695c22f248227b373a37ad45a6e42df48ce",
+      "original_contract_id": "contract_124",
+      "full_contract_hash": "b4883f306af334722d3f42240eeb8f02e9b37b965b06d73c9296a6f3d5e3b809",
+      "native_task_views": [
+        {
+          "question": "Knowledge Definition-Answer",
+          "context_sha256": "e888c8645cc258bf73e7653a1dfd41a59275eaff1c418bde57180bc7a9723f8f",
+          "context_characters": 426,
+          "data_type": "main"
+        },
+        {
+          "question": "Ordinary Course Covenant includes carve-out for Pandemic responses-Answer (Y/N)",
+          "context_sha256": "e5b7164b5c4092793e7c8a10f774403c1aca96dbda84f59ca144a3bb89a8641d",
+          "context_characters": 493,
+          "data_type": "main"
+        },
+        {
+          "question": "Negative Interim Covenant includes carveout for pandemic responses-Answer (Y/N)",
+          "context_sha256": "1db0631b3197f261c38c0fdceb3ea72a9702b943494a77569c21bb84111a9881",
+          "context_characters": 496,
+          "data_type": "main"
+        }
+      ],
+      "task_input_hash": "441e8f5a52920f36ff2e95c5d8566928e8de19ea9844ef0801689cefe7596c78",
+      "source_unit": "whole_parent_agreement",
+      "source_cluster_members": [
+        "contract_124"
+      ],
+      "official_split_policy": "self_grouped_all_main_rows_by_parent_agreement",
+      "dataset": "MAUD",
+      "parent_split": "TRAIN",
+      "selection_reason": "mandatory_audited_controlled_parent",
+      "selection_rank_sha256": "f102c82c091df447658335dc1bce02ba9d6469177a0d7eaf354ba6749a7c4c53",
+      "native_view_count": 3,
+      "controlled_view_count": 4,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 19
+    },
+    {
+      "key": "MAUD:b1a2f5ad2f7c2498d50bd8016915d4c70dbe34246948fe5fa492d9f7289064cf",
+      "original_contract_id": "contract_17",
+      "full_contract_hash": "c8e70adfc087dc088e01a652de3539448aa023cb6d3b8a8684dea6349b573e67",
+      "native_task_views": [
+        {
+          "question": "Knowledge Definition-Answer",
+          "context_sha256": "faac8b1fb02d8169e1cdf278d112a31a082c325040bb25dbc3382d82b4b4ec5b",
+          "context_characters": 139,
+          "data_type": "main"
+        },
+        {
+          "question": "Ordinary Course Covenant includes carve-out for Pandemic responses-Answer (Y/N)",
+          "context_sha256": "7052d7633151bee1f2d790b6f939bdcbae5ba45229c3ec797756f33b4bc206de",
+          "context_characters": 684,
+          "data_type": "main"
+        },
+        {
+          "question": "Negative Interim Covenant includes carveout for pandemic responses-Answer (Y/N)",
+          "context_sha256": "5df1a6451f29cc2f1e1aa04c1960bd6b8dce77a61a531b4c73e1f6e11a77325f",
+          "context_characters": 608,
+          "data_type": "main"
+        }
+      ],
+      "task_input_hash": "29383696c78dd68886bd14ed09a91822bee6fea8f5ffea05face2b39b9f60d8b",
+      "source_unit": "whole_parent_agreement",
+      "source_cluster_members": [
+        "contract_17"
+      ],
+      "official_split_policy": "self_grouped_all_main_rows_by_parent_agreement",
+      "dataset": "MAUD",
+      "parent_split": "TRAIN",
+      "selection_reason": "mandatory_audited_controlled_parent",
+      "selection_rank_sha256": "f3f94d98b8985f22208cddd209c477eb77fd1197aadde302734470b084717e9a",
+      "native_view_count": 3,
+      "controlled_view_count": 4,
+      "exposure_status": "pending_runtime_history_audit; existing_TRAIN_not_blind_test",
+      "pilot_order": 20
+    }
+  ],
+  "sha256": "79e0b80a80c19437c437cda86eb0f2c6c5fc9088e689d85b22a1bc8d8d45c657"
+}

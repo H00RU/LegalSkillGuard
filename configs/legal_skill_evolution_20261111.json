@@ -1,0 +1,288 @@
+{
+  "protocol_id": "LSG-LegalSkill-20261111",
+  "status": "active_new_user_goal_full_skill_learning_and_frozen_TEST_no_paper",
+  "entry_point": "PLAN.md",
+  "supersedes": [
+    "old_A_B_candidate_methods",
+    "LoRA_semantic_acquisition_and_composition_main_route"
+  ],
+  "current_action_authorization": {
+    "resume_server": true,
+    "model_calls": true,
+    "weight_updates": false,
+    "run_model_on_test": "only_after_fixed_B8_freeze_and_exposure_audit",
+    "mechanical_public_data_audit": true,
+    "teacher_test_access": false
+  },
+  "models": {
+    "executor": {
+      "requested": "Qwen3-8B",
+      "weights_frozen": true,
+      "thinking": false
+    },
+    "teacher": {
+      "requested": "gpt-5.6-sol",
+      "reasoning_effort": "high",
+      "client": "existing_authorized_Codex_CLI",
+      "parameter_training": false,
+      "temperature": "record_if_exposed_otherwise_unobserved"
+    },
+    "verify_runtime_model_and_config_hashes": true,
+    "teacher_test_access": false,
+    "test_library_updates": false
+  },
+  "learning_objects": [
+    "source_read_binding_skills",
+    "reasoning_procedures",
+    "contextual_joint_revision_patterns"
+  ],
+  "methods": {
+    "Lift": {
+      "definition": "METHOD_ACQUISITION.md",
+      "max_coupled_premises": 3,
+      "full_document_IR_required": false
+    },
+    "CoRev": {
+      "definition": "METHOD_EVOLUTION.md",
+      "max_joint_revisions": 3,
+      "complete_mixed_version_tables": true,
+      "unmeasured_assignments": "unknown",
+      "transfer_evidence": [
+        "joint_needed",
+        "single_sufficient",
+        "harmful_or_unresolved"
+      ]
+    },
+    "fixed_common_skill_granularity": true,
+    "split_one_source_record_into_two_skills_to_claim_CoRev": false,
+    "same_event_does_not_establish_two_independent_contributions": true
+  },
+  "data": {
+    "manifest": "candidate_source_manifest.json",
+    "manifest_canonical_sha256": "e90c138aaab2a069d2435e3e46f2ea81b3c81235569ce36c0aff9eeede3447f3",
+    "exposure_status": "requires_server_history_reconciliation_before_final_freeze",
+    "quotas": {
+      "OpenExempt": {
+        "train": 32,
+        "dev": 8,
+        "test": 32
+      },
+      "SARA_v2_Binary": {
+        "train": 24,
+        "dev": 8,
+        "test": 32
+      },
+      "ContractNLI": {
+        "train": 24,
+        "dev": 8,
+        "test": 32
+      },
+      "RuleArena_Airline": {
+        "train": 24,
+        "dev": 8,
+        "test": 32
+      },
+      "MAUD": {
+        "train": 24,
+        "dev": 8,
+        "test": 32
+      }
+    },
+    "native_views": {
+      "train": 280,
+      "dev": 88,
+      "test": 352
+    },
+    "source_total": {
+      "train": 128,
+      "dev": 40,
+      "test": 160
+    },
+    "controlled_layer": {
+      "evidence": "CONTROLLED_LAYER_EVIDENCE.json",
+      "train_parent_sources": 8,
+      "derived_views": 32,
+      "additional_independent_sources": 0,
+      "confirmatory_legal_annotation_signoff_required": true,
+      "official_gold": false
+    },
+    "train_source_batches": 8,
+    "sources_per_batch": 16,
+    "automatic_expansion_to_256_or_test64": false,
+    "maud_grouping": "mother_contract_and_duplicate_fulltext_cluster",
+    "old_test_becomes_blind_by_renaming": false
+  },
+  "pilot": {
+    "manifest": "pilot_source_manifest.json",
+    "parent_source_counts": {
+      "OpenExempt": 3,
+      "SARA_v2_Binary": 3,
+      "ContractNLI": 5,
+      "RuleArena_Airline": 3,
+      "MAUD": 6
+    },
+    "total": 20,
+    "manifest_canonical_sha256": "79e0b80a80c19437c437cda86eb0f2c6c5fc9088e689d85b22a1bc8d8d45c657",
+    "learning_passes": 1,
+    "batches": 4,
+    "sources_per_batch": 5,
+    "native_views": 50,
+    "controlled_views": 32,
+    "repair_revalidation": "one_consolidated_affected_source_queue_after_offline_fixes; no_new_learning_epoch_or_unchanged_retries",
+    "selection": "controlled_layer_train_parents_then_stable_hash_order_before_new_model_outputs",
+    "new_test_or_dev_feedback": false,
+    "required_strong_controls": [
+      "FreeEvolution",
+      "AllPorts+CoRev",
+      "Lift+GenericJoint"
+    ],
+    "required_outputs": [
+      "production_code",
+      "actual_model_requests",
+      "skill_diffs",
+      "mixed_version_tables",
+      "next_source_reuse",
+      "fair_control_results",
+      "cost_ledger",
+      "readiness_decision"
+    ],
+    "expand_sources_to_get_positive_result": false,
+    "full_128_training_in_first_goal": true,
+    "positive_statistical_significance_required": false,
+    "formal_run_initialization": "same_empty_skill_library_and_public_tools_for_all_arms_no_pilot_skill_import"
+  },
+  "formal_systems": [
+    {
+      "id": "NoSkill",
+      "learning": false
+    },
+    {
+      "id": "FreeEvolution",
+      "lift": false,
+      "corev": false,
+      "free_joint_edits_allowed": true,
+      "provisional_evidence_retained": true
+    },
+    {
+      "id": "LiftOnly",
+      "lift": true,
+      "corev": false
+    },
+    {
+      "id": "CoRevOnly",
+      "lift": false,
+      "corev": true
+    },
+    {
+      "id": "Full",
+      "lift": true,
+      "corev": true
+    },
+    {
+      "id": "Lift+GenericJoint",
+      "lift": true,
+      "corev": false,
+      "generic_dependency_scheduling_and_multi_edit_pattern_memory": true
+    },
+    {
+      "id": "AllPorts+CoRev",
+      "all_relevant_premises_parameterized": true,
+      "one_call_joint_read_allowed": true,
+      "corev": true
+    }
+  ],
+  "fairness": {
+    "common_public_inputs": true,
+    "common_source_hints_and_native_feedback": true,
+    "common_read_API": true,
+    "generic_controls_may_learn_dependencies_and_joint_edits": true,
+    "cost_matched_candidate_generation": true,
+    "fixed_candidate_table_diagnostics_separate": true
+  },
+  "bounded_work": {
+    "per_arm_per_batch_shared_candidate_blocks": 3,
+    "candidate_block_max_size": 3,
+    "allports_internal_premise_count": "all_relevant_ports_not_truncated_to_lift_limit",
+    "batch_initial_library_frozen_for_all_source_first_attempts": true,
+    "replay_parent_sources_per_block_max": 8,
+    "replay_cohort_definition": "trigger_union_history_total_at_most_eight; transfer_tests_count_in_same_shared_block_queue",
+    "logical_candidate_source_executions_per_arm_batch_max": 192,
+    "lift_and_corev_share_block_allowance": true,
+    "physical_requests_tokens_time_cost_logged_separately": true,
+    "fixed_global_call_cap_added_by_this_plan": null,
+    "paid_authorization": "existing_authorization_only",
+    "failed_calls_and_retries_counted": true,
+    "automatic_new_seeds_methods_sources": false
+  },
+  "update_acceptance": {
+    "feedback_partition": "already_seen_TRAIN_only",
+    "trigger": "strict_improvement_in_mean_of_same_parent_source_native_grades",
+    "history": "no_parent_source_grade_decrease_on_fixed_replay_history",
+    "selection_lexicographic": [
+      "acceptance_pass",
+      "trigger_grade_gain",
+      "fewer_edits",
+      "fewer_added_read_tokens"
+    ],
+    "failure_or_unresolved_denominator": "retained",
+    "teacher_proposed_semantics_are_oracle": false
+  },
+  "evaluation": {
+    "grading": "native_grade_per_view_then_mean_within_parent_source; report_each_dataset",
+    "dev_feedback_to_teacher": false,
+    "learning_curve_arms": [
+      "FreeEvolution",
+      "LiftOnly",
+      "CoRevOnly",
+      "Full"
+    ],
+    "learning_curve_batches": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "strong_control_dev_batches": [
+      0,
+      8
+    ],
+    "formal_frozen_snapshot": "B8_not_best_DEV",
+    "cross_dataset_transfer": "frozen_snapshot_skill_origin_usage_and_fixed_foreign_skill_masks_no_retraining",
+    "uncertainty_unit": "parent_source_cluster",
+    "confidence_interval": "paired_source_bootstrap_95_percent",
+    "primary_comparison_family": "four_contrasts_on_equal_weight_five_dataset_macro_mean",
+    "multiplicity": "also_report_Bonferroni_98.75_percent_intervals_for_four_primary_contrasts",
+    "resampling": "paired_parent_source_clusters_stratified_by_dataset",
+    "planned_contrasts": [
+      "Full_vs_LiftOnly",
+      "Full_vs_CoRevOnly",
+      "Full_vs_Lift+GenericJoint",
+      "Full_vs_AllPorts+CoRev"
+    ],
+    "seed_uncertainty_claimed_from_source_bootstrap": false,
+    "fallback": "same_frozen_direct_answer_path; count_end_to_end_but_not_core_method_success",
+    "positive_gain_mandatory_for_goal_completion": true
+  },
+  "stage_order": [
+    "implementation_and_fixed_real_validation",
+    "128_source_8_batch_skill_learning_and_DEV",
+    "freeze_and_5_dataset_TEST"
+  ],
+  "phase1_completion": "self_review_then_continue_authorized_fixed_stages_when_mechanisms_and_engineering_ready; not Goal completion",
+  "phase2_entry": "engineering_path_plus_Lift_binding_transfer_and_CoRev_learned_pattern_actually_used_on_another_parent_source; observed_model_runs_on_native_or_verified_controlled_facts_allowed; hand_injected_wrong_skills_and_exact_fixtures_do_not_satisfy; no_small_pilot_significance_requirement",
+  "server_state_now": "active_goal; no old training queue may be restored",
+  "source_protocol_commit": "ec54a33a04cd7dacbd6705ac5ea09b9ef271ddbc",
+  "source_protocol_sha256": "82c96d3857abcc686d0ece4dc85fc59de675ab194e42f9848c8f9ce04ce102d6",
+  "controlled_layer_use": "verified_TRAIN_development_diagnostic; not confirmatory human-signed legal gold",
+  "latest_user_overrides": {
+    "stage_one_only_stop": false,
+    "paper_writing": false,
+    "goal_completion": "full fixed experiment complete AND meaningful benefit over strong controls AND independent support for both methods",
+    "negative_fixed_experiment": "report specific causes, keep incomplete, do not expand sources/seeds/methods or tune TEST"
+  }
+}

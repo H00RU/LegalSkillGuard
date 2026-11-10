@@ -1,0 +1,301 @@
+{
+  "date": "2026-11-11",
+  "recommendation": [
+    "OpenExempt",
+    "SARA_v2_Binary",
+    "ContractNLI",
+    "RuleArena_Airline",
+    "MAUD"
+  ],
+  "fixed_quotas": {
+    "OpenExempt": {
+      "dev": 8,
+      "test": 32,
+      "train": 32
+    },
+    "SARA_v2_Binary": {
+      "dev": 8,
+      "test": 32,
+      "train": 24
+    },
+    "ContractNLI": {
+      "dev": 8,
+      "test": 32,
+      "train": 24
+    },
+    "RuleArena_Airline": {
+      "dev": 8,
+      "test": 32,
+      "train": 24
+    },
+    "MAUD": {
+      "train": 24,
+      "dev": 8,
+      "test": 32
+    }
+  },
+  "learning_contract": {
+    "student": "Qwen3-8B frozen",
+    "thinking": false,
+    "teacher": "TRAIN_feedback_only",
+    "learned_object": "external_skill_library",
+    "parameter_updates": false,
+    "model_calls_this_audit": 0,
+    "server_changes": false
+  },
+  "MAUD": {
+    "official_url": "https://github.com/The-Atticus-Project/maud",
+    "official_dataset_url": "https://www.atticusprojectai.org/maud/",
+    "commit": "4640316078dcd370debb877f350c39a28b181ffe",
+    "license": "CC BY 4.0 per official dataset page and paper",
+    "archive_bytes": 32893590,
+    "archive_sha256": "75af5a33d038e9254864f043da38072490ffe11e8488d58d0a2dd39c8f554519",
+    "official_file_counts": {
+      "train": {
+        "rows": 25827,
+        "types": {
+          "main": 13256,
+          "rare_answers": 2924,
+          "abridged": 9647
+        },
+        "main_contracts": 152
+      },
+      "dev": {
+        "rows": 6753,
+        "types": {
+          "main": 3471,
+          "rare_answers": 756,
+          "abridged": 2526
+        },
+        "main_contracts": 152
+      },
+      "test": {
+        "rows": 6651,
+        "types": {
+          "main": 3896,
+          "abridged": 2755
+        },
+        "main_contracts": 152
+      }
+    },
+    "all_official_pairwise_split_parent_intersection": 152,
+    "selected_only": "data_type=main; no rare_answers; no abridged",
+    "original_parent_contract_ids": 152,
+    "conservative_source_clusters": 151,
+    "duplicate_fulltext_clusters": [
+      [
+        "contract_148",
+        "contract_149"
+      ]
+    ],
+    "distinct_fulltext_hashes": 151,
+    "distinct_contexts_per_selected_question": 152,
+    "selected_questions": [
+      "Knowledge Definition-Answer",
+      "Ordinary Course Covenant includes carve-out for Pandemic responses-Answer (Y/N)",
+      "Negative Interim Covenant includes carveout for pandemic responses-Answer (Y/N)"
+    ],
+    "TRAIN_answer_support_only": {
+      "Knowledge Definition-Answer": {
+        "Constructive knowledge": 15,
+        "Actual knowledge": 9
+      },
+      "Ordinary Course Covenant includes carve-out for Pandemic responses-Answer (Y/N)": {
+        "No": 7,
+        "Yes": 17
+      },
+      "Negative Interim Covenant includes carveout for pandemic responses-Answer (Y/N)": {
+        "No": 16,
+        "Yes": 8
+      }
+    },
+    "max_single_view_chars": 2607,
+    "max_three_view_combined_chars": 4880,
+    "exact_fulltext_overlap_with_ContractNLI": 0,
+    "format_audit_inspected_sources_assigned_train": [
+      "contract_13",
+      "contract_141",
+      "contract_41"
+    ]
+  },
+  "prior_dataset_evidence": {
+    "SARA_v2_Binary": {
+      "native_rows_after_one_per_group_per_split": 105,
+      "unique_groups": 96,
+      "eligible_pools": {
+        "train": 56,
+        "dev": 0,
+        "test": 40,
+        "unsplit": 0
+      },
+      "old_train_retained": 24,
+      "old_dev_retained": 8,
+      "old_test_retained": 32,
+      "new_train": 8,
+      "new_dev": 8,
+      "prior_model_exposure": "server ledger audit required; no claim of never-seen test",
+      "adapter": {
+        "raw_rows": 276,
+        "selected_native_groups": 105,
+        "public_inputs_exclude_gold": true,
+        "grouping": "transitive case stem and normalized fact text",
+        "reference_prolog_in_public_input": false
+      }
+    },
+    "ContractNLI": {
+      "native_rows_after_one_per_group_per_split": 603,
+      "unique_groups": 602,
+      "eligible_pools": {
+        "train": 419,
+        "dev": 61,
+        "test": 122,
+        "unsplit": 0
+      },
+      "old_train_retained": 24,
+      "old_dev_retained": 8,
+      "old_test_retained": 32,
+      "new_train": 8,
+      "new_dev": 8,
+      "prior_model_exposure": "server ledger audit required; no claim of never-seen test",
+      "adapter": {
+        "raw_rows": 607,
+        "selected_native_groups": 603,
+        "public_inputs_exclude_gold": true,
+        "hypothesis_fixed_before_model_calls": "nda-11",
+        "automatic_gold_variants": false,
+        "formal_completeness_claim": false,
+        "grouping": "transitive nonempty URL and normalized complete contract"
+      },
+      "raw_documents": {
+        "train": 423,
+        "dev": 61,
+        "test": 123
+      },
+      "task_expansion": "All 17 native hypotheses per selected contract; original source keys retained; new full-task content_hash and legacy_nda11_content_hash both recorded."
+    },
+    "ProofWriter_OWA_depth5": {
+      "native_rows_after_one_per_group_per_split": 4752,
+      "unique_groups": 4752,
+      "eligible_pools": {
+        "train": 3322,
+        "dev": 482,
+        "test": 948,
+        "unsplit": 0
+      },
+      "old_train_retained": 24,
+      "old_dev_retained": 8,
+      "old_test_retained": 32,
+      "new_train": 8,
+      "new_dev": 8,
+      "prior_model_exposure": "server ledger audit required; no claim of never-seen test",
+      "adapter": {
+        "raw_rows": 4752,
+        "selected_native_groups": 4752,
+        "public_inputs_exclude_gold": true,
+        "release": "V2020.12.3",
+        "assumption": "OWA",
+        "folder": "depth-5",
+        "one_query_per_theory": true,
+        "query_selection_uses_label": false,
+        "reference_proofs_or_programs_in_public_input": false,
+        "grouping": "normalized complete facts and rules, independent of query"
+      },
+      "raw_theories": {
+        "train": 3322,
+        "dev": 482,
+        "test": 948
+      },
+      "archive_license_files": []
+    },
+    "RuleArena_Airline": {
+      "native_rows_after_one_per_group_per_split": 300,
+      "unique_groups": 300,
+      "eligible_pools": {
+        "train": 0,
+        "dev": 0,
+        "test": 0,
+        "unsplit": 300
+      },
+      "old_train_retained": 24,
+      "old_dev_retained": 8,
+      "old_test_retained": 32,
+      "new_train": 8,
+      "new_dev": 8,
+      "prior_model_exposure": "server ledger audit required; no claim of never-seen test",
+      "adapter": {
+        "raw_rows": 300,
+        "selected_native_groups": 300,
+        "public_inputs_exclude_gold": true,
+        "grouping": "original public problem arguments across complexity files",
+        "shared_allowance_fabricated": false
+      }
+    },
+    "NormBench": {
+      "train": 128,
+      "dev": 16,
+      "test": 32,
+      "all_nested_in_original_split": true,
+      "train_native_interaction_witness_sources_retained": 29,
+      "train_multi_role_sources": 47,
+      "unused_old_train_status": "retained as pilot/reserve; not relabeled as heldout",
+      "old_checkpoint": "if trained on 256, disclose as NormBench pilot; formal mix restarts same base",
+      "families": {
+        "train": 52,
+        "dev": 16,
+        "test": 26
+      }
+    },
+    "proofwriter_archive": {
+      "bytes": 214185889,
+      "sha256": "bbc5694901e8306d0bd659aa1ad53ccfd02c201864f4b320ffa3777827d1fc26"
+    },
+    "contractnli_archive": {
+      "bytes": 65362913,
+      "sha256": "e03fc77bbf8b53e2976a250e81d8a294bc3d5e5fb014521e477dee9340d6287b"
+    },
+    "rulearena_archive": {
+      "bytes": 643550,
+      "sha256": "91b56d83d58aeadda98646488c6ab346c2ff16cf5a2ce07e8c198df3dde5be14"
+    }
+  },
+  "native_source_contrast": {
+    "ContractNLI": "strong across distinct NDA contracts; native hypotheses and evidence",
+    "MAUD": "strong across distinct merger agreements; actual/constructive knowledge and clause-specific pandemic exceptions",
+    "SARA": {
+      "old_train_sources": 24,
+      "distinct_statute_texts": 8,
+      "claim": "heterogeneous statutory context, not yet a matched same-template single-premise contrast corpus"
+    },
+    "OpenExempt": {
+      "old_train_sources": 32,
+      "statute_only_bundle_hashes": 1,
+      "claim": "new factual cases/application paths under same supplied statute bundle"
+    },
+    "RuleArena_Airline": {
+      "old_train_sources": 24,
+      "policy_hashes": 1,
+      "claim": "new scenarios under fixed policy"
+    },
+    "three_dataset_matched_source_contrast_verified": false
+  },
+  "candidate_manifest_canonical_sha256": "e90c138aaab2a069d2435e3e46f2ea81b3c81235569ce36c0aff9eeede3447f3",
+  "checked_only": [
+    "official release schema and counts",
+    "exact source-level disjointness",
+    "legacy source identities preserved",
+    "deterministic eight-batch learning sequence"
+  ],
+  "pending": [
+    "latest server exposure ledger audit, without running or restoring a server job",
+    "official source access and labels remain in evaluator; no invented test answers",
+    "mechanism efficacy and learned-skill transfer not measured by data audit"
+  ],
+  "controlled_layer": {
+    "evidence_file": "CONTROLLED_LAYER_EVIDENCE.json",
+    "same_TRAIN_parent_sources": 8,
+    "derived_training_diagnostic_views": 32,
+    "additional_independent_sources": 0,
+    "native_test_gold_changed": false,
+    "heldout_controlled_test_prepared": false
+  }
+}

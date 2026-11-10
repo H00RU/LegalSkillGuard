@@ -1,0 +1,457 @@
+{
+  "mode": "controlled_diagnostic_layer_not_native_dataset_labels",
+  "model_calls": 0,
+  "weight_updates": false,
+  "MAUD": {
+    "parent_sources": 6,
+    "derived_views": 24,
+    "source_annotations": [
+      {
+        "parent_contract": "contract_16",
+        "source_member": "data/MAUD_train.csv",
+        "source_row_id": "66",
+        "source_question": "Knowledge Definition-Answer",
+        "source_data_type": "main",
+        "source_text_sha256": "1dc236d340bb4d3b29df09413d9a2805765525f6f8cef637b871cd9ea32327b3",
+        "source_text": "“Knowledge of the Company” means the actual knowledge of any of the individuals set forth on Schedule 1.1. (Page 12)",
+        "native_label": "Actual knowledge",
+        "controlled_scope": "Schedule 1.1 individuals; actual knowledge of any listed individual",
+        "reference_mode": "actual_only",
+        "truth_table": [
+          {
+            "actual_known": false,
+            "required_inquiry_would_reveal": false,
+            "reference_definition_satisfied": false
+          },
+          {
+            "actual_known": false,
+            "required_inquiry_would_reveal": true,
+            "reference_definition_satisfied": false
+          },
+          {
+            "actual_known": true,
+            "required_inquiry_would_reveal": false,
+            "reference_definition_satisfied": true
+          },
+          {
+            "actual_known": true,
+            "required_inquiry_would_reveal": true,
+            "reference_definition_satisfied": true
+          }
+        ],
+        "fulltext_audit": {
+          "member": "data/contracts/contract_16.txt",
+          "raw_sha256": "78e54db373b1c4e890228b37809ec7d9f927f88d05dcb74ec63776c9e8df6df9",
+          "normalization": "UTF-8 decode then regex whitespace-to-single-space",
+          "normalized_char_start_0based": 26535,
+          "normalized_char_end_exclusive": 26642,
+          "complete_definition_context": "“Knowledge of the Company” means the actual knowledge of any of the individuals set forth on Schedule 1.1.",
+          "controlled_input_uses_complete_definition": true,
+          "scope_guard": "non-IP facts; all named persons satisfy source-specified role and membership; not a query about compliance with an inquiry obligation"
+        },
+        "status": "source_definition_and_fulltext_context_read; truth_table_checked; independent_annotation_signoff_before_confirmatory_use"
+      },
+      {
+        "parent_contract": "contract_17",
+        "source_member": "data/MAUD_dev.csv",
+        "source_row_id": "66",
+        "source_question": "Knowledge Definition-Answer",
+        "source_data_type": "main",
+        "source_text_sha256": "1551694750df18d9b96c6ec8957d830268d407abecde3c17f48ff78b970bcf44",
+        "source_text": "“knowledge” of CIT means the actual knowledge of any of the officers of CIT listed on Section 9.6 of the CIT Disclosure Schedule  (Page 72)",
+        "native_label": "Actual knowledge",
+        "controlled_scope": "CIT officers listed on Section 9.6; query restricted to CIT",
+        "reference_mode": "actual_only",
+        "truth_table": [
+          {
+            "actual_known": false,
+            "required_inquiry_would_reveal": false,
+            "reference_definition_satisfied": false
+          },
+          {
+            "actual_known": false,
+            "required_inquiry_would_reveal": true,
+            "reference_definition_satisfied": false
+          },
+          {
+            "actual_known": true,
+            "required_inquiry_would_reveal": false,
+            "reference_definition_satisfied": true
+          },
+          {
+            "actual_known": true,
+            "required_inquiry_would_reveal": true,
+            "reference_definition_satisfied": true
+          }
+        ],
+        "fulltext_audit": {
+          "member": "data/contracts/contract_17.txt",
+          "raw_sha256": "91c9c7ddedb67d0f92949903d0b171dc71b2f1716f97f0c80ef2ae303fd497aa",
+          "normalization": "UTF-8 decode then regex whitespace-to-single-space",
+          "normalized_char_start_0based": 338500,
+          "normalized_char_end_exclusive": 338820,
+          "complete_definition_context": "As used in this Agreement, the “knowledge” of CIT means the actual knowledge of any of the officers of CIT listed on Section 9.6 of the CIT Disclosure Schedule, and the “knowledge” of BancShares means the actual knowledge of any of the officers of BancShares listed on Section 9.6 of the BancShares Disclosure Schedule.",
+          "controlled_input_uses_complete_definition": true,
+          "scope_guard": "non-IP facts; all named persons satisfy source-specified role and membership; not a query about compliance with an inquiry obligation"
+        },
+        "status": "source_definition_and_fulltext_context_read; truth_table_checked; independent_annotation_signoff_before_confirmatory_use"
+      },
+      {
+        "parent_contract": "contract_143",
+        "source_member": "data/MAUD_train.csv",
+        "source_row_id": "66",
+        "source_question": "Knowledge Definition-Answer",
+        "source_data_type": "main",
+        "source_text_sha256": "c5666aaaf0d3198beddfcd4bcd4c53a8fc16be3405ce00e496ff6aaf55784c64",
+        "source_text": "“Knowledge” means the actual knowledge of, (a) in the case of the Company, the individuals listed in Schedule 1.1 of the Company Disclosure Letter, (b) in the case of Holdings, the individuals listed in Schedule 1.1 of the Company Disclosure Letter and (c) in the case of Parent, the individuals listed in Schedule 1.1 of the Parent Disclosure Letter. (Page 99)",
+        "native_label": "Actual knowledge",
+        "controlled_scope": "Query restricted to Company; individuals in Company Schedule 1.1",
+        "reference_mode": "actual_only",
+        "truth_table": [
+          {
+            "actual_known": false,
+            "required_inquiry_would_reveal": false,
+            "reference_definition_satisfied": false
+          },
+          {
+            "actual_known": false,
+            "required_inquiry_would_reveal": true,
+            "reference_definition_satisfied": false
+          },
+          {
+            "actual_known": true,
+            "required_inquiry_would_reveal": false,
+            "reference_definition_satisfied": true
+          },
+          {
+            "actual_known": true,
+            "required_inquiry_would_reveal": true,
+            "reference_definition_satisfied": true
+          }
+        ],
+        "fulltext_audit": {
+          "member": "data/contracts/contract_143.txt",
+          "raw_sha256": "61e4e618aba2c715b76e8d3fb383bf60c34d604e5a230521788f8988985a0d4b",
+          "normalization": "UTF-8 decode then regex whitespace-to-single-space",
+          "normalized_char_start_0based": 331874,
+          "normalized_char_end_exclusive": 332226,
+          "complete_definition_context": "“Knowledge” means the actual knowledge of, (a) in the case of the Company, the individuals listed in Schedule 1.1 of the Company Disclosure Letter, (b) in the case of Holdings, the individuals listed in Schedule 1.1 of the Company Disclosure Letter and (c) in the case of Parent, the individuals listed in Schedule 1.1 of the Parent Disclosure Letter.",
+          "controlled_input_uses_complete_definition": true,
+          "scope_guard": "non-IP facts; all named persons satisfy source-specified role and membership; not a query about compliance with an inquiry obligation"
+        },
+        "status": "source_definition_and_fulltext_context_read; truth_table_checked; independent_annotation_signoff_before_confirmatory_use"
+      },
+      {
+        "parent_contract": "contract_145",
+        "source_member": "data/MAUD_train.csv",
+        "source_row_id": "66",
+        "source_question": "Knowledge Definition-Answer",
+        "source_data_type": "main",
+        "source_text_sha256": "1d42fad123bebc8b6f021d39655659c77a68937a19eb05d124fa02a8bea1e3b0",
+        "source_text": "“Knowledge” shall mean with respect to any party hereto shall mean the actual knowledge of such party’s executive officers.  (Page 115)",
+        "native_label": "Actual knowledge",
+        "controlled_scope": "Executive officers of the queried party",
+        "reference_mode": "actual_only",
+        "truth_table": [
+          {
+            "actual_known": false,
+            "required_inquiry_would_reveal": false,
+            "reference_definition_satisfied": false
+          },
+          {
+            "actual_known": false,
+            "required_inquiry_would_reveal": true,
+            "reference_definition_satisfied": false
+          },
+          {
+            "actual_known": true,
+            "required_inquiry_would_reveal": false,
+            "reference_definition_satisfied": true
+          },
+          {
+            "actual_known": true,
+            "required_inquiry_would_reveal": true,
+            "reference_definition_satisfied": true
+          }
+        ],
+        "fulltext_audit": {
+          "member": "data/contracts/contract_145.txt",
+          "raw_sha256": "9bc25993a6222e08eb22b0297d022efd6bda9c2ccf12edec69dd39b790b01145",
+          "normalization": "UTF-8 decode then regex whitespace-to-single-space",
+          "normalized_char_start_0based": 397277,
+          "normalized_char_end_exclusive": 397409,
+          "complete_definition_context": "(xxxvi) “Knowledge” shall mean with respect to any party hereto shall mean the actual knowledge of such party’s executive officers.",
+          "controlled_input_uses_complete_definition": true,
+          "scope_guard": "non-IP facts; all named persons satisfy source-specified role and membership; not a query about compliance with an inquiry obligation"
+        },
+        "status": "source_definition_and_fulltext_context_read; truth_table_checked; independent_annotation_signoff_before_confirmatory_use"
+      },
+      {
+        "parent_contract": "contract_151",
+        "source_member": "data/MAUD_train.csv",
+        "source_row_id": "66",
+        "source_question": "Knowledge Definition-Answer",
+        "source_data_type": "main",
+        "source_text_sha256": "64149c5a5ef3fa2033738a898994ff934483bf0afc4f71e3d74b51bd9fe66fb4",
+        "source_text": "“Knowledge” of a Person, with respect to any matter in question, means, with respect to the Company, the actual knowledge of any of the individuals set forth in Section 1.1(ooo) of the Company Disclosure Letter and such knowledge as any such individuals would have obtained, in each case, after reasonable inquiry of their respective direct reports who, in each case, would reasonably be expected to have actual knowledge of the matter in question. (Page 14)",
+        "native_label": "Constructive knowledge",
+        "controlled_scope": "Non-IP matter only; listed Company individuals; inquiry only to their direct reports reasonably expected to know; no IP clearance-search imputation",
+        "reference_mode": "actual_or_required_inquiry",
+        "truth_table": [
+          {
+            "actual_known": false,
+            "required_inquiry_would_reveal": false,
+            "reference_definition_satisfied": false
+          },
+          {
+            "actual_known": false,
+            "required_inquiry_would_reveal": true,
+            "reference_definition_satisfied": true
+          },
+          {
+            "actual_known": true,
+            "required_inquiry_would_reveal": false,
+            "reference_definition_satisfied": true
+          },
+          {
+            "actual_known": true,
+            "required_inquiry_would_reveal": true,
+            "reference_definition_satisfied": true
+          }
+        ],
+        "fulltext_audit": {
+          "member": "data/contracts/contract_151.txt",
+          "raw_sha256": "af8628335061f5515b99079acc4c92e0ae254a94b9d9097e6b03b7b31c3d1f86",
+          "normalization": "UTF-8 decode then regex whitespace-to-single-space",
+          "normalized_char_start_0based": 39451,
+          "normalized_char_end_exclusive": 40458,
+          "complete_definition_context": "(ooo) “Knowledge” of a Person, with respect to any matter in question, means, with respect to the Company, the actual knowledge of any of the individuals set forth in Section 1.1(ooo) of the Company Disclosure Letter and such knowledge as any such individuals would have obtained, in each case, after reasonable inquiry of their respective direct reports who, in each case, would reasonably be expected to have actual knowledge of the matter in question. With respect to matters involving the Company Intellectual Property, Knowledge does not require the Company, or any of its directors, officers or 10 employees, to have conducted or have obtained any freedom to operate opinions or any Patent, Mark or other Intellectual Property clearance searches. If not conducted or obtained, no knowledge of any Patents, Marks or other Intellectual Property of any third Person that would have been revealed by such opinions or searches will be imputed to the Company or any of its directors, officers or employees.",
+          "controlled_input_uses_complete_definition": true,
+          "scope_guard": "non-IP facts; all named persons satisfy source-specified role and membership; not a query about compliance with an inquiry obligation"
+        },
+        "status": "source_definition_and_fulltext_context_read; truth_table_checked; independent_annotation_signoff_before_confirmatory_use"
+      },
+      {
+        "parent_contract": "contract_124",
+        "source_member": "data/MAUD_train.csv",
+        "source_row_id": "66",
+        "source_question": "Knowledge Definition-Answer",
+        "source_data_type": "main",
+        "source_text_sha256": "beca1e342e3c6a1817aa57a15a26f0adf88c12ff8546e60a8df52a119dbcbb93",
+        "source_text": "“Knowledge” as used with respect to a Person (including references to such Person being aware of a particular matter) means those facts that are known or should reasonably have been known after due inquiry of the records and employees of such Person by the chairman, president, chief financial officer, chief credit officer, or any senior or executive vice president of such Person without any further investigation. (Page 29)",
+        "native_label": "Constructive knowledge",
+        "controlled_scope": "Enumerated officers; due inquiry of records and employees; no further investigation",
+        "reference_mode": "actual_or_required_inquiry",
+        "truth_table": [
+          {
+            "actual_known": false,
+            "required_inquiry_would_reveal": false,
+            "reference_definition_satisfied": false
+          },
+          {
+            "actual_known": false,
+            "required_inquiry_would_reveal": true,
+            "reference_definition_satisfied": true
+          },
+          {
+            "actual_known": true,
+            "required_inquiry_would_reveal": false,
+            "reference_definition_satisfied": true
+          },
+          {
+            "actual_known": true,
+            "required_inquiry_would_reveal": true,
+            "reference_definition_satisfied": true
+          }
+        ],
+        "fulltext_audit": {
+          "member": "data/contracts/contract_124.txt",
+          "raw_sha256": "e6cef2e4c4d761427c69348bdbead7ad9815db3b31715fff5a150be778717053",
+          "normalization": "UTF-8 decode then regex whitespace-to-single-space",
+          "normalized_char_start_0based": 226600,
+          "normalized_char_end_exclusive": 227017,
+          "complete_definition_context": "“Knowledge” as used with respect to a Person (including references to such Person being aware of a particular matter) means those facts that are known or should reasonably have been known after due inquiry of the records and employees of such Person by the chairman, president, chief financial officer, chief credit officer, or any senior or executive vice president of such Person without any further investigation.",
+          "controlled_input_uses_complete_definition": true,
+          "scope_guard": "non-IP facts; all named persons satisfy source-specified role and membership; not a query about compliance with an inquiry obligation"
+        },
+        "status": "source_definition_and_fulltext_context_read; truth_table_checked; independent_annotation_signoff_before_confirmatory_use"
+      }
+    ],
+    "not_automatic_from_native_label": [
+      "contract_44 has explicit written-notice inclusion despite Actual label",
+      "contract_13 and contract_111 have IP-inquiry carve-outs",
+      "actual knowledge after inquiry alone is not treated as proof of an unrestricted A-or-I rule"
+    ]
+  },
+  "RuleArena": {
+    "parent_sources": 1,
+    "parent_key": "RuleArena_Airline:7882b36c63f61382ec57af63c39b4ded108e19e1c73256e2b80ccec05279a096",
+    "parent_description": "TRAIN Elizabeth Main Cabin Dallas to Sydney; derived query controls a single non-complimentary checked bag",
+    "derived_views": 4,
+    "fixed_parameters": {
+      "routine": "Australia",
+      "customer_class": "Main Cabin",
+      "complementary": false
+    },
+    "default_component_roundtrip_checks": [
+      {
+        "dimension_sum": 61,
+        "weight": 50,
+        "official_oversize": 0,
+        "official_overweight": 0,
+        "default_model_equal": true
+      },
+      {
+        "dimension_sum": 61,
+        "weight": 60,
+        "official_oversize": 0,
+        "official_overweight": 100,
+        "default_model_equal": true
+      },
+      {
+        "dimension_sum": 62,
+        "weight": 50,
+        "official_oversize": 0,
+        "official_overweight": 0,
+        "default_model_equal": true
+      },
+      {
+        "dimension_sum": 62,
+        "weight": 60,
+        "official_oversize": 0,
+        "official_overweight": 100,
+        "default_model_equal": true
+      },
+      {
+        "dimension_sum": 63,
+        "weight": 50,
+        "official_oversize": 30,
+        "official_overweight": 0,
+        "default_model_equal": true
+      },
+      {
+        "dimension_sum": 63,
+        "weight": 60,
+        "official_oversize": 30,
+        "official_overweight": 100,
+        "default_model_equal": true
+      },
+      {
+        "dimension_sum": 64,
+        "weight": 50,
+        "official_oversize": 30,
+        "official_overweight": 0,
+        "default_model_equal": true
+      },
+      {
+        "dimension_sum": 64,
+        "weight": 60,
+        "official_oversize": 30,
+        "official_overweight": 100,
+        "default_model_equal": true
+      },
+      {
+        "dimension_sum": 65,
+        "weight": 50,
+        "official_oversize": 30,
+        "official_overweight": 0,
+        "default_model_equal": true
+      },
+      {
+        "dimension_sum": 65,
+        "weight": 60,
+        "official_oversize": 30,
+        "official_overweight": 100,
+        "default_model_equal": true
+      },
+      {
+        "dimension_sum": 66,
+        "weight": 50,
+        "official_oversize": 200,
+        "official_overweight": 0,
+        "default_model_equal": true
+      },
+      {
+        "dimension_sum": 66,
+        "weight": 60,
+        "official_oversize": 200,
+        "official_overweight": 100,
+        "default_model_equal": true
+      }
+    ],
+    "four_views": [
+      {
+        "controlled_moderate_oversize_fee": 30,
+        "dimension_sum": 64,
+        "weight": 50,
+        "oversize": 30,
+        "overweight": 0,
+        "violation_surcharge": 30
+      },
+      {
+        "controlled_moderate_oversize_fee": 30,
+        "dimension_sum": 64,
+        "weight": 60,
+        "oversize": 30,
+        "overweight": 100,
+        "violation_surcharge": 100
+      },
+      {
+        "controlled_moderate_oversize_fee": 120,
+        "dimension_sum": 64,
+        "weight": 50,
+        "oversize": 120,
+        "overweight": 0,
+        "violation_surcharge": 120
+      },
+      {
+        "controlled_moderate_oversize_fee": 120,
+        "dimension_sum": 64,
+        "weight": 60,
+        "oversize": 120,
+        "overweight": 100,
+        "violation_surcharge": 120
+      }
+    ],
+    "scope": "violation surcharge only; base baggage and ticket charges excluded from derived query",
+    "controlled_policy_change": "only fee for 62<dimension_sum<=65 changed from30 to120; not claimed real airline policy"
+  },
+  "SARA": {
+    "parent_sources": 1,
+    "parent_original_case": "s151_c_pos",
+    "derived_views": 4,
+    "source_predicate": "s151_d_5(Ea,Taxy)",
+    "source_lines_1based": [
+      188,
+      193
+    ],
+    "scope": "does the special zero-exemption rule apply by year, not whether another rule could also produce zero",
+    "reference_logic": "between(2018,2025,Taxy), Ea is0",
+    "four_views": [
+      {
+        "tax_year": 2017,
+        "s151_d5_zero_rule_applicable": false
+      },
+      {
+        "tax_year": 2018,
+        "s151_d5_zero_rule_applicable": true
+      },
+      {
+        "tax_year": 2025,
+        "s151_d5_zero_rule_applicable": true
+      },
+      {
+        "tax_year": 2026,
+        "s151_d5_zero_rule_applicable": false
+      }
+    ],
+    "verification": "exact source text and deterministic range semantics checked; no full SWI-Prolog case run claimed"
+  },
+  "totals": {
+    "same_TRAIN_parent_sources": 8,
+    "derived_training_diagnostic_views": 32,
+    "additional_independent_sources": 0,
+    "native_test_gold_changed": false,
+    "heldout_controlled_test_prepared": false
+  }
+}
