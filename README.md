@@ -1,5 +1,5 @@
-# Latest research evidence
+# LegalSkillGuard: current research handoff
 
-[Current Goal](docs/CURRENT_GOAL.md) · [Current evidence and next work](docs/METHOD_REDESIGN_CURRENT.md) · [Offline factored learning and real-output controls](reports/method_redesign_20261109/factored_source_productions_report.md) · [Independent publication receipt](reports/method_redesign_20261109/method_review_publication_verified.json)
+[Current Goal](docs/CURRENT_GOAL.md) · [Current evidence](docs/METHOD_REDESIGN_CURRENT.md) · [MIX256 actual execution report](reports/legal_five_dataset_run_20261110/README.md) · [Verified publication](reports/legal_five_dataset_run_20261110/publication_verified.json)
 
-No first contribution is established. Goal remains active and incomplete. Archived protocols are evidence, not action queues.
+The common native initialization on256 TRAIN sources is complete. Three-epoch method comparisons and seven-system DEV80 remain incomplete. TEST160 is sealed. Historical failed mechanisms and raw responses are preserved. The two current documents are the execution authority.

@@ -1,0 +1,793 @@
+[
+  {
+    "name": "whole_ambiguous_local_unique",
+    "grammar": [
+      {
+        "clauses": [
+          {
+            "name": "exemption",
+            "roles": [
+              "eligible",
+              "exception",
+              "resident"
+            ],
+            "body": [
+              "and",
+              [
+                "var",
+                "eligible"
+              ],
+              [
+                "not",
+                [
+                  "var",
+                  "exception"
+                ]
+              ]
+            ]
+          },
+          {
+            "name": "filing",
+            "roles": [
+              "eligible",
+              "exception",
+              "resident"
+            ],
+            "body": [
+              "and",
+              [
+                "var",
+                "eligible"
+              ],
+              [
+                "var",
+                "resident"
+              ]
+            ]
+          }
+        ],
+        "reader_map": []
+      },
+      {
+        "clauses": [
+          {
+            "name": "exemption",
+            "roles": [
+              "eligible",
+              "exception",
+              "resident"
+            ],
+            "body": [
+              "and",
+              [
+                "var",
+                "eligible"
+              ],
+              [
+                "not",
+                [
+                  "var",
+                  "exception"
+                ]
+              ]
+            ]
+          },
+          {
+            "name": "filing",
+            "roles": [
+              "eligible",
+              "exception",
+              "resident"
+            ],
+            "body": [
+              "or",
+              [
+                "var",
+                "eligible"
+              ],
+              [
+                "var",
+                "resident"
+              ]
+            ]
+          }
+        ],
+        "reader_map": []
+      }
+    ],
+    "unknown_signatures": [],
+    "observations": [],
+    "closed_fragments": [
+      "exemption",
+      "filing"
+    ],
+    "role_anchors": [],
+    "revision": 1
+  },
+  {
+    "name": "sample_equal_domain_different",
+    "grammar": [
+      {
+        "clauses": [
+          {
+            "name": "rule",
+            "roles": [
+              "p",
+              "q"
+            ],
+            "body": [
+              "and",
+              [
+                "var",
+                "p"
+              ],
+              [
+                "var",
+                "q"
+              ]
+            ]
+          }
+        ],
+        "reader_map": []
+      },
+      {
+        "clauses": [
+          {
+            "name": "rule",
+            "roles": [
+              "p",
+              "q"
+            ],
+            "body": [
+              "or",
+              [
+                "var",
+                "p"
+              ],
+              [
+                "var",
+                "q"
+              ]
+            ]
+          }
+        ],
+        "reader_map": []
+      }
+    ],
+    "unknown_signatures": [],
+    "observations": [
+      {
+        "fragment": "rule",
+        "values": [
+          false,
+          false
+        ],
+        "label": false,
+        "through_reader": false
+      },
+      {
+        "fragment": "rule",
+        "values": [
+          true,
+          true
+        ],
+        "label": true,
+        "through_reader": false
+      }
+    ],
+    "closed_fragments": [
+      "rule"
+    ],
+    "role_anchors": [],
+    "revision": 1
+  },
+  {
+    "name": "same_type_role_compensation",
+    "grammar": [
+      {
+        "clauses": [
+          {
+            "name": "rule",
+            "roles": [
+              "TAXP",
+              "SPOUSE"
+            ],
+            "body": [
+              "var",
+              "TAXP"
+            ]
+          }
+        ],
+        "reader_map": [
+          0,
+          1
+        ]
+      },
+      {
+        "clauses": [
+          {
+            "name": "rule",
+            "roles": [
+              "TAXP",
+              "SPOUSE"
+            ],
+            "body": [
+              "var",
+              "SPOUSE"
+            ]
+          }
+        ],
+        "reader_map": [
+          1,
+          0
+        ]
+      }
+    ],
+    "unknown_signatures": [],
+    "observations": [
+      {
+        "fragment": "rule",
+        "values": [
+          false,
+          false
+        ],
+        "label": false,
+        "through_reader": true
+      },
+      {
+        "fragment": "rule",
+        "values": [
+          false,
+          true
+        ],
+        "label": false,
+        "through_reader": true
+      },
+      {
+        "fragment": "rule",
+        "values": [
+          true,
+          false
+        ],
+        "label": true,
+        "through_reader": true
+      },
+      {
+        "fragment": "rule",
+        "values": [
+          true,
+          true
+        ],
+        "label": true,
+        "through_reader": true
+      }
+    ],
+    "closed_fragments": [
+      "rule"
+    ],
+    "role_anchors": [],
+    "revision": 1
+  },
+  {
+    "name": "same_type_role_with_anchor",
+    "grammar": [
+      {
+        "clauses": [
+          {
+            "name": "rule",
+            "roles": [
+              "TAXP",
+              "SPOUSE"
+            ],
+            "body": [
+              "var",
+              "TAXP"
+            ]
+          }
+        ],
+        "reader_map": [
+          0,
+          1
+        ]
+      },
+      {
+        "clauses": [
+          {
+            "name": "rule",
+            "roles": [
+              "TAXP",
+              "SPOUSE"
+            ],
+            "body": [
+              "var",
+              "SPOUSE"
+            ]
+          }
+        ],
+        "reader_map": [
+          1,
+          0
+        ]
+      }
+    ],
+    "unknown_signatures": [],
+    "observations": [
+      {
+        "fragment": "rule",
+        "values": [
+          false,
+          false
+        ],
+        "label": false,
+        "through_reader": true
+      },
+      {
+        "fragment": "rule",
+        "values": [
+          false,
+          true
+        ],
+        "label": false,
+        "through_reader": true
+      },
+      {
+        "fragment": "rule",
+        "values": [
+          true,
+          false
+        ],
+        "label": true,
+        "through_reader": true
+      },
+      {
+        "fragment": "rule",
+        "values": [
+          true,
+          true
+        ],
+        "label": true,
+        "through_reader": true
+      }
+    ],
+    "closed_fragments": [
+      "rule"
+    ],
+    "role_anchors": [
+      [
+        0,
+        0
+      ]
+    ],
+    "revision": 1
+  },
+  {
+    "name": "unknown_call_affects_output",
+    "grammar": [
+      {
+        "clauses": [
+          {
+            "name": "rule",
+            "roles": [
+              "p"
+            ],
+            "body": [
+              "and",
+              [
+                "var",
+                "p"
+              ],
+              [
+                "unknown",
+                "u",
+                [
+                  [
+                    "var",
+                    "p"
+                  ]
+                ]
+              ]
+            ]
+          }
+        ],
+        "reader_map": []
+      }
+    ],
+    "unknown_signatures": [
+      [
+        "u",
+        1
+      ]
+    ],
+    "observations": [],
+    "closed_fragments": [
+      "rule"
+    ],
+    "role_anchors": [],
+    "revision": 1
+  },
+  {
+    "name": "unknown_call_proven_irrelevant",
+    "grammar": [
+      {
+        "clauses": [
+          {
+            "name": "rule",
+            "roles": [
+              "p"
+            ],
+            "body": [
+              "or",
+              [
+                "var",
+                "p"
+              ],
+              [
+                "and",
+                [
+                  "const",
+                  false
+                ],
+                [
+                  "unknown",
+                  "u",
+                  [
+                    [
+                      "var",
+                      "p"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          }
+        ],
+        "reader_map": []
+      }
+    ],
+    "unknown_signatures": [
+      [
+        "u",
+        1
+      ]
+    ],
+    "observations": [],
+    "closed_fragments": [
+      "rule"
+    ],
+    "role_anchors": [],
+    "revision": 1
+  },
+  {
+    "name": "known_call_scope",
+    "grammar": [
+      {
+        "clauses": [
+          {
+            "name": "helper",
+            "roles": [
+              "x",
+              "y"
+            ],
+            "body": [
+              "and",
+              [
+                "var",
+                "x"
+              ],
+              [
+                "not",
+                [
+                  "var",
+                  "y"
+                ]
+              ]
+            ]
+          },
+          {
+            "name": "rule",
+            "roles": [
+              "eligible",
+              "exception"
+            ],
+            "body": [
+              "call",
+              "helper",
+              [
+                [
+                  "var",
+                  "eligible"
+                ],
+                [
+                  "var",
+                  "exception"
+                ]
+              ]
+            ]
+          }
+        ],
+        "reader_map": []
+      }
+    ],
+    "unknown_signatures": [],
+    "observations": [],
+    "closed_fragments": [
+      "rule",
+      "helper"
+    ],
+    "role_anchors": [],
+    "revision": 1
+  },
+  {
+    "name": "syntactic_difference_same_function",
+    "grammar": [
+      {
+        "clauses": [
+          {
+            "name": "rule",
+            "roles": [
+              "p",
+              "q"
+            ],
+            "body": [
+              "and",
+              [
+                "var",
+                "p"
+              ],
+              [
+                "var",
+                "q"
+              ]
+            ]
+          }
+        ],
+        "reader_map": []
+      },
+      {
+        "clauses": [
+          {
+            "name": "rule",
+            "roles": [
+              "p",
+              "q"
+            ],
+            "body": [
+              "and",
+              [
+                "var",
+                "q"
+              ],
+              [
+                "var",
+                "p"
+              ]
+            ]
+          }
+        ],
+        "reader_map": []
+      },
+      {
+        "clauses": [
+          {
+            "name": "rule",
+            "roles": [
+              "p",
+              "q"
+            ],
+            "body": [
+              "not",
+              [
+                "or",
+                [
+                  "not",
+                  [
+                    "var",
+                    "p"
+                  ]
+                ],
+                [
+                  "not",
+                  [
+                    "var",
+                    "q"
+                  ]
+                ]
+              ]
+            ]
+          }
+        ],
+        "reader_map": []
+      }
+    ],
+    "unknown_signatures": [],
+    "observations": [],
+    "closed_fragments": [
+      "rule"
+    ],
+    "role_anchors": [],
+    "revision": 1
+  },
+  {
+    "name": "transfer_new_source",
+    "grammar": [
+      {
+        "clauses": [
+          {
+            "name": "tax_fragment",
+            "roles": [
+              "eligible",
+              "exception",
+              "resident"
+            ],
+            "body": [
+              "not",
+              [
+                "or",
+                [
+                  "not",
+                  [
+                    "var",
+                    "eligible"
+                  ]
+                ],
+                [
+                  "var",
+                  "exception"
+                ]
+              ]
+            ]
+          }
+        ],
+        "reader_map": []
+      }
+    ],
+    "unknown_signatures": [],
+    "observations": [],
+    "closed_fragments": [
+      "tax_fragment"
+    ],
+    "role_anchors": [],
+    "revision": 1
+  },
+  {
+    "name": "transfer_wrong_named_role",
+    "grammar": [
+      {
+        "clauses": [
+          {
+            "name": "tax_fragment",
+            "roles": [
+              "eligible",
+              "exception",
+              "resident"
+            ],
+            "body": [
+              "and",
+              [
+                "var",
+                "resident"
+              ],
+              [
+                "not",
+                [
+                  "var",
+                  "exception"
+                ]
+              ]
+            ]
+          }
+        ],
+        "reader_map": []
+      }
+    ],
+    "unknown_signatures": [],
+    "observations": [],
+    "closed_fragments": [
+      "tax_fragment"
+    ],
+    "role_anchors": [],
+    "revision": 1
+  },
+  {
+    "name": "unclosed_source_boundary",
+    "grammar": [
+      {
+        "clauses": [
+          {
+            "name": "exemption",
+            "roles": [
+              "eligible",
+              "exception",
+              "resident"
+            ],
+            "body": [
+              "and",
+              [
+                "var",
+                "eligible"
+              ],
+              [
+                "not",
+                [
+                  "var",
+                  "exception"
+                ]
+              ]
+            ]
+          },
+          {
+            "name": "filing",
+            "roles": [
+              "eligible",
+              "exception",
+              "resident"
+            ],
+            "body": [
+              "and",
+              [
+                "var",
+                "eligible"
+              ],
+              [
+                "var",
+                "resident"
+              ]
+            ]
+          }
+        ],
+        "reader_map": []
+      },
+      {
+        "clauses": [
+          {
+            "name": "exemption",
+            "roles": [
+              "eligible",
+              "exception",
+              "resident"
+            ],
+            "body": [
+              "and",
+              [
+                "var",
+                "eligible"
+              ],
+              [
+                "not",
+                [
+                  "var",
+                  "exception"
+                ]
+              ]
+            ]
+          },
+          {
+            "name": "filing",
+            "roles": [
+              "eligible",
+              "exception",
+              "resident"
+            ],
+            "body": [
+              "or",
+              [
+                "var",
+                "eligible"
+              ],
+              [
+                "var",
+                "resident"
+              ]
+            ]
+          }
+        ],
+        "reader_map": []
+      }
+    ],
+    "unknown_signatures": [],
+    "observations": [],
+    "closed_fragments": [],
+    "role_anchors": [],
+    "revision": 1
+  }
+]

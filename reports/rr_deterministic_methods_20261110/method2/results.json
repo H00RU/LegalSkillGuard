@@ -1,0 +1,629 @@
+{
+  "status": "METHOD2_EQUALS_PROJECTION_PLUS_CANONICAL_COMPRESSION",
+  "scope": "Deterministic finite DSL only; no native accuracy or LLM calls",
+  "strong_baseline": "Independent finite CSP relation projection + canonical Shannon semantic compression; NOT Stitch",
+  "scenarios": [
+    {
+      "source": "whole_ambiguous_local_unique",
+      "grammar_programs": 2,
+      "complete_candidate_worlds": 2,
+      "fragments": [
+        "exemption",
+        "filing"
+      ],
+      "method2": [
+        "exemption"
+      ],
+      "strong_projection": [
+        "exemption"
+      ],
+      "pick_first": [
+        "exemption",
+        "filing"
+      ],
+      "wait_whole_semantic_unique": [],
+      "pick_first_uncertified": [
+        "filing"
+      ],
+      "pick_first_wrong_for_some_allowed_world": [
+        "filing"
+      ],
+      "method2_witnesses": {
+        "filing": {
+          "hypothesis": 1,
+          "input": [
+            false,
+            false,
+            true
+          ],
+          "reference": false,
+          "actual": true
+        }
+      },
+      "method2_seconds": 0.00041130001773126423,
+      "strong_seconds": 0.0003404000017326325
+    },
+    {
+      "source": "sample_equal_domain_different",
+      "grammar_programs": 2,
+      "complete_candidate_worlds": 2,
+      "fragments": [
+        "rule"
+      ],
+      "method2": [],
+      "strong_projection": [],
+      "pick_first": [
+        "rule"
+      ],
+      "wait_whole_semantic_unique": [],
+      "pick_first_uncertified": [
+        "rule"
+      ],
+      "pick_first_wrong_for_some_allowed_world": [
+        "rule"
+      ],
+      "method2_witnesses": {
+        "rule": {
+          "hypothesis": 1,
+          "input": [
+            false,
+            true
+          ],
+          "reference": false,
+          "actual": true
+        }
+      },
+      "method2_seconds": 4.090002039447427e-05,
+      "strong_seconds": 4.220000118948519e-05
+    },
+    {
+      "source": "same_type_role_compensation",
+      "grammar_programs": 2,
+      "complete_candidate_worlds": 2,
+      "fragments": [
+        "rule"
+      ],
+      "method2": [],
+      "strong_projection": [],
+      "pick_first": [
+        "rule"
+      ],
+      "wait_whole_semantic_unique": [],
+      "pick_first_uncertified": [
+        "rule"
+      ],
+      "pick_first_wrong_for_some_allowed_world": [
+        "rule"
+      ],
+      "method2_witnesses": {
+        "rule": {
+          "hypothesis": 1,
+          "input": [
+            false,
+            true
+          ],
+          "reference": false,
+          "actual": true
+        }
+      },
+      "method2_seconds": 5.5599986808374524e-05,
+      "strong_seconds": 4.770001396536827e-05
+    },
+    {
+      "source": "same_type_role_with_anchor",
+      "grammar_programs": 2,
+      "complete_candidate_worlds": 1,
+      "fragments": [
+        "rule"
+      ],
+      "method2": [
+        "rule"
+      ],
+      "strong_projection": [
+        "rule"
+      ],
+      "pick_first": [
+        "rule"
+      ],
+      "wait_whole_semantic_unique": [
+        "rule"
+      ],
+      "pick_first_uncertified": [],
+      "pick_first_wrong_for_some_allowed_world": [],
+      "method2_witnesses": {},
+      "method2_seconds": 0.0001188000023830682,
+      "strong_seconds": 0.00013050000416114926
+    },
+    {
+      "source": "unknown_call_affects_output",
+      "grammar_programs": 1,
+      "complete_candidate_worlds": 4,
+      "fragments": [
+        "rule"
+      ],
+      "method2": [],
+      "strong_projection": [],
+      "pick_first": [
+        "rule"
+      ],
+      "wait_whole_semantic_unique": [],
+      "pick_first_uncertified": [
+        "rule"
+      ],
+      "pick_first_wrong_for_some_allowed_world": [
+        "rule"
+      ],
+      "method2_witnesses": {
+        "rule": {
+          "hypothesis": 1,
+          "input": [
+            true
+          ],
+          "reference": false,
+          "actual": true
+        }
+      },
+      "method2_seconds": 4.099999205209315e-05,
+      "strong_seconds": 5.77000027988106e-05
+    },
+    {
+      "source": "unknown_call_proven_irrelevant",
+      "grammar_programs": 1,
+      "complete_candidate_worlds": 4,
+      "fragments": [
+        "rule"
+      ],
+      "method2": [
+        "rule"
+      ],
+      "strong_projection": [
+        "rule"
+      ],
+      "pick_first": [
+        "rule"
+      ],
+      "wait_whole_semantic_unique": [
+        "rule"
+      ],
+      "pick_first_uncertified": [],
+      "pick_first_wrong_for_some_allowed_world": [],
+      "method2_witnesses": {},
+      "method2_seconds": 0.00012859998969361186,
+      "strong_seconds": 0.00013989998842589557
+    },
+    {
+      "source": "known_call_scope",
+      "grammar_programs": 1,
+      "complete_candidate_worlds": 1,
+      "fragments": [
+        "helper",
+        "rule"
+      ],
+      "method2": [
+        "helper",
+        "rule"
+      ],
+      "strong_projection": [
+        "helper",
+        "rule"
+      ],
+      "pick_first": [
+        "helper",
+        "rule"
+      ],
+      "wait_whole_semantic_unique": [
+        "helper",
+        "rule"
+      ],
+      "pick_first_uncertified": [],
+      "pick_first_wrong_for_some_allowed_world": [],
+      "method2_witnesses": {},
+      "method2_seconds": 0.00017069999012164772,
+      "strong_seconds": 0.00015129998791962862
+    },
+    {
+      "source": "syntactic_difference_same_function",
+      "grammar_programs": 3,
+      "complete_candidate_worlds": 3,
+      "fragments": [
+        "rule"
+      ],
+      "method2": [
+        "rule"
+      ],
+      "strong_projection": [
+        "rule"
+      ],
+      "pick_first": [
+        "rule"
+      ],
+      "wait_whole_semantic_unique": [
+        "rule"
+      ],
+      "pick_first_uncertified": [],
+      "pick_first_wrong_for_some_allowed_world": [],
+      "method2_witnesses": {},
+      "method2_seconds": 0.00014680001186206937,
+      "strong_seconds": 0.00011379999341443181
+    },
+    {
+      "source": "transfer_new_source",
+      "grammar_programs": 1,
+      "complete_candidate_worlds": 1,
+      "fragments": [
+        "tax_fragment"
+      ],
+      "method2": [
+        "tax_fragment"
+      ],
+      "strong_projection": [
+        "tax_fragment"
+      ],
+      "pick_first": [
+        "tax_fragment"
+      ],
+      "wait_whole_semantic_unique": [
+        "tax_fragment"
+      ],
+      "pick_first_uncertified": [],
+      "pick_first_wrong_for_some_allowed_world": [],
+      "method2_witnesses": {},
+      "method2_seconds": 7.010000990703702e-05,
+      "strong_seconds": 6.170000415295362e-05
+    },
+    {
+      "source": "transfer_wrong_named_role",
+      "grammar_programs": 1,
+      "complete_candidate_worlds": 1,
+      "fragments": [
+        "tax_fragment"
+      ],
+      "method2": [
+        "tax_fragment"
+      ],
+      "strong_projection": [
+        "tax_fragment"
+      ],
+      "pick_first": [
+        "tax_fragment"
+      ],
+      "wait_whole_semantic_unique": [
+        "tax_fragment"
+      ],
+      "pick_first_uncertified": [],
+      "pick_first_wrong_for_some_allowed_world": [],
+      "method2_witnesses": {},
+      "method2_seconds": 6.389999180100858e-05,
+      "strong_seconds": 5.690002581104636e-05
+    },
+    {
+      "source": "unclosed_source_boundary",
+      "grammar_programs": 2,
+      "complete_candidate_worlds": 2,
+      "fragments": [],
+      "method2": [],
+      "strong_projection": [],
+      "pick_first": [],
+      "wait_whole_semantic_unique": [],
+      "pick_first_uncertified": [],
+      "pick_first_wrong_for_some_allowed_world": [],
+      "method2_witnesses": {},
+      "method2_seconds": 6.500020390376449e-06,
+      "strong_seconds": 4.499976057559252e-06
+    }
+  ],
+  "semantic_library": {
+    "be63e13043e9ea41884a238b5177d67588f5dc27eecd158f3d75e75fb77434e9": {
+      "roles": [
+        "eligible",
+        "exception",
+        "resident"
+      ],
+      "truth": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "canonical_body": [
+        "ite",
+        [
+          "var",
+          "eligible"
+        ],
+        [
+          "ite",
+          [
+            "var",
+            "exception"
+          ],
+          [
+            "const",
+            false
+          ],
+          [
+            "const",
+            true
+          ]
+        ],
+        [
+          "const",
+          false
+        ]
+      ],
+      "members": [
+        [
+          "transfer_new_source",
+          "tax_fragment"
+        ],
+        [
+          "whole_ambiguous_local_unique",
+          "exemption"
+        ]
+      ]
+    },
+    "aef10603b74c8eb7c4c6370199ca0fe2c99268a1819e4708cc751915da8bf6fe": {
+      "roles": [
+        "TAXP",
+        "SPOUSE"
+      ],
+      "truth": [
+        false,
+        false,
+        true,
+        true
+      ],
+      "canonical_body": [
+        "ite",
+        [
+          "var",
+          "TAXP"
+        ],
+        [
+          "const",
+          true
+        ],
+        [
+          "const",
+          false
+        ]
+      ],
+      "members": [
+        [
+          "same_type_role_with_anchor",
+          "rule"
+        ]
+      ]
+    },
+    "b1043eb72699e910eab8471b9ccadcee3885900bbd87a6c4c83235be9bb6c25f": {
+      "roles": [
+        "p"
+      ],
+      "truth": [
+        false,
+        true
+      ],
+      "canonical_body": [
+        "ite",
+        [
+          "var",
+          "p"
+        ],
+        [
+          "const",
+          true
+        ],
+        [
+          "const",
+          false
+        ]
+      ],
+      "members": [
+        [
+          "unknown_call_proven_irrelevant",
+          "rule"
+        ]
+      ]
+    },
+    "a72bd735c69370766280c867432dbad6bb8a28f2941f726e96ad0fe04c5eb107": {
+      "roles": [
+        "x",
+        "y"
+      ],
+      "truth": [
+        false,
+        false,
+        true,
+        false
+      ],
+      "canonical_body": [
+        "ite",
+        [
+          "var",
+          "x"
+        ],
+        [
+          "ite",
+          [
+            "var",
+            "y"
+          ],
+          [
+            "const",
+            false
+          ],
+          [
+            "const",
+            true
+          ]
+        ],
+        [
+          "const",
+          false
+        ]
+      ],
+      "members": [
+        [
+          "known_call_scope",
+          "helper"
+        ]
+      ]
+    },
+    "a912df734644ad8785c14269a20ab245fcb21b61dd650124d61289e105b8205b": {
+      "roles": [
+        "eligible",
+        "exception"
+      ],
+      "truth": [
+        false,
+        false,
+        true,
+        false
+      ],
+      "canonical_body": [
+        "ite",
+        [
+          "var",
+          "eligible"
+        ],
+        [
+          "ite",
+          [
+            "var",
+            "exception"
+          ],
+          [
+            "const",
+            false
+          ],
+          [
+            "const",
+            true
+          ]
+        ],
+        [
+          "const",
+          false
+        ]
+      ],
+      "members": [
+        [
+          "known_call_scope",
+          "rule"
+        ]
+      ]
+    },
+    "0e055fb003708110201e00aeee7d067ef90d2db37be719b87ccf0ffe15c8850e": {
+      "roles": [
+        "p",
+        "q"
+      ],
+      "truth": [
+        false,
+        false,
+        false,
+        true
+      ],
+      "canonical_body": [
+        "ite",
+        [
+          "var",
+          "p"
+        ],
+        [
+          "ite",
+          [
+            "var",
+            "q"
+          ],
+          [
+            "const",
+            true
+          ],
+          [
+            "const",
+            false
+          ]
+        ],
+        [
+          "const",
+          false
+        ]
+      ],
+      "members": [
+        [
+          "syntactic_difference_same_function",
+          "rule"
+        ]
+      ]
+    },
+    "5a445708f977b5a620de35226d327ea311f2b1ba144a39ba35d6a08466b9631b": {
+      "roles": [
+        "eligible",
+        "exception",
+        "resident"
+      ],
+      "truth": [
+        false,
+        true,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "canonical_body": [
+        "ite",
+        [
+          "var",
+          "exception"
+        ],
+        [
+          "const",
+          false
+        ],
+        [
+          "ite",
+          [
+            "var",
+            "resident"
+          ],
+          [
+            "const",
+            true
+          ],
+          [
+            "const",
+            false
+          ]
+        ]
+      ],
+      "members": [
+        [
+          "transfer_wrong_named_role",
+          "tax_fragment"
+        ]
+      ]
+    }
+  },
+  "exhaustive": {
+    "all_nonempty_two_input_semantic_version_spaces": 65535,
+    "full_codepath_checks": 809,
+    "complete_boolean_functions": 16,
+    "failures": 0
+  },
+  "lifecycle": {
+    "old_certificate_invalidated_by_grammar_expansion": true,
+    "expanded_grammar_blocks_old_fragment": true,
+    "new_observation_recovers_fragment": true,
+    "equivalent_new_source_transfer_accepted": true,
+    "wrong_role_new_source_transfer_rejected": true
+  },
+  "total_seconds": 0.29977029998553917,
+  "general_equivalence": "For identical nonempty V, interfaces, domains, fragment pool, and compression operator, representative universal agreement iff projected semantic set is singleton. Therefore libraries are identical on every instance, not just these tests."
+}

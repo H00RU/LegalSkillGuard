@@ -1,0 +1,351 @@
+{
+  "status": "completed",
+  "result": {
+    "source": "ProofWriter_OWA_depth5:7bd9b3fd8e595566612828f313b2af3004bef6fee45ed2838cb8ae6c536c39e7",
+    "call_id": "LSG-MIX256-native-schema-v3:ProofWriter_OWA_depth5",
+    "thinking": false,
+    "request_hash": "8e6428de9d061092eab886c75c37b1f6e356d2616eb2ad2346d0054ce5617830",
+    "transport_retries": 0,
+    "actual_HTTP_dispatches": 1,
+    "model_alias": "common",
+    "http_status": 200,
+    "raw_response": "{\"id\":\"chatcmpl-LSG-MIX256-native-schema-v3:ProofWriter_OWA_depth5\",\"object\":\"chat.completion\",\"created\":1794319394,\"model\":\"common\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"program\\\": {\\\"facts\\\": [[\\\"green\\\", [\\\"cow\\\"], true], [\\\"round\\\", [\\\"cow\\\"], true], [\\\"chases\\\", [\\\"dog\\\", \\\"cow\\\"], true], [\\\"chases\\\", [\\\"dog\\\", \\\"tiger\\\"], true], [\\\"eats\\\", [\\\"dog\\\", \\\"tiger\\\"], true], [\\\"eats\\\", [\\\"squirrel\\\", \\\"dog\\\"], true], [\\\"eats\\\", [\\\"squirrel\\\", \\\"tiger\\\"], true], [\\\"blue\\\", [\\\"squirrel\\\"], true], [\\\"round\\\", [\\\"squirrel\\\"], true], [\\\"visits\\\", [\\\"squirrel\\\", \\\"cow\\\"], true], [\\\"chases\\\", [\\\"tiger\\\", \\\"cow\\\"], true], [\\\"visits\\\", [\\\"tiger\\\", \\\"squirrel\\\"], true]], \\\"rules\\\": [{\\\"body\\\": [[\\\"chases\\\", [\\\"?x\\\", \\\"cow\\\"], true], [\\\"visits\\\", [\\\"cow\\\", \\\"tiger\\\"], true]], \\\"head\\\": [\\\"green\\\", [\\\"cow\\\"], true]}, {\\\"body\\\": [[\\\"chases\\\", [\\\"?x\\\", \\\"squirrel\\\"], true], [\\\"visits\\\", [\\\"squirrel\\\", \\\"cow\\\"], true]], \\\"head\\\": [\\\"eats\\\", [\\\"?x\\\", \\\"squirrel\\\"], true]}, {\\\"body\\\": [[\\\"eats\\\", [\\\"?x\\\", \\\"squirrel\\\"], true]], \\\"head\\\": [\\\"visits\\\", [\\\"squirrel\\\", \\\"tiger\\\"], true]}, {\\\"body\\\": [[\\\"eats\\\", [\\\"?x\\\", \\\"tiger\\\"], true]], \\\"head\\\": [\\\"chases\\\", [\\\"tiger\\\", \\\"squirrel\\\"], true]}, {\\\"body\\\": [[\\\"blue\\\", [\\\"?x\\\"], true], [\\\"visits\\\", [\\\"?x\\\", \\\"tiger\\\"], true]], \\\"head\\\": [\\\"kind\\\", [\\\"tiger\\\"], true]}, {\\\"body\\\": [[\\\"kind\\\", [\\\"?x\\\"], true]], \\\"head\\\": [\\\"chases\\\", [\\\"?x\\\", \\\"dog\\\"], true]}, {\\\"body\\\": [[\\\"visits\\\", [\\\"?x\\\", \\\"dog\\\"], true]], \\\"head\\\": [\\\"visits\\\", [\\\"?x\\\", \\\"cow\\\"], true]}, {\\\"body\\\": [[\\\"visits\\\", [\\\"?x\\\", \\\"squirrel\\\"], true], [\\\"eats\\\", [\\\"?x\\\", \\\"dog\\\"], true]], \\\"head\\\": [\\\"visits\\\", [\\\"dog\\\", \\\"squirrel\\\"], true]}, {\\\"body\\\": [[\\\"visits\\\", [\\\"?x\\\", \\\"tiger\\\"], true], [\\\"eats\\\", [\\\"tiger\\\", \\\"cow\\\"], true]], \\\"head\\\": [\\\"visits\\\", [\\\"?x\\\", \\\"cow\\\"], true]}], \\\"query\\\": [\\\"chases\\\", [\\\"cow\\\", \\\"dog\\\"], true]}, \\\"answer\\\": \\\"Unknown\\\"}\",\"refusal\":null,\"annotations\":null,\"audio\":null,\"function_call\":null,\"tool_calls\":[],\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":\"stop\",\"stop_reason\":null,\"token_ids\":null}],\"service_tier\":null,\"system_fingerprint\":null,\"usage\":{\"prompt_tokens\":495,\"total_tokens\":1011,\"completion_tokens\":516,\"prompt_tokens_details\":null},\"prompt_logprobs\":null,\"prompt_token_ids\":null,\"kv_transfer_params\":null}",
+    "text": "{\"program\": {\"facts\": [[\"green\", [\"cow\"], true], [\"round\", [\"cow\"], true], [\"chases\", [\"dog\", \"cow\"], true], [\"chases\", [\"dog\", \"tiger\"], true], [\"eats\", [\"dog\", \"tiger\"], true], [\"eats\", [\"squirrel\", \"dog\"], true], [\"eats\", [\"squirrel\", \"tiger\"], true], [\"blue\", [\"squirrel\"], true], [\"round\", [\"squirrel\"], true], [\"visits\", [\"squirrel\", \"cow\"], true], [\"chases\", [\"tiger\", \"cow\"], true], [\"visits\", [\"tiger\", \"squirrel\"], true]], \"rules\": [{\"body\": [[\"chases\", [\"?x\", \"cow\"], true], [\"visits\", [\"cow\", \"tiger\"], true]], \"head\": [\"green\", [\"cow\"], true]}, {\"body\": [[\"chases\", [\"?x\", \"squirrel\"], true], [\"visits\", [\"squirrel\", \"cow\"], true]], \"head\": [\"eats\", [\"?x\", \"squirrel\"], true]}, {\"body\": [[\"eats\", [\"?x\", \"squirrel\"], true]], \"head\": [\"visits\", [\"squirrel\", \"tiger\"], true]}, {\"body\": [[\"eats\", [\"?x\", \"tiger\"], true]], \"head\": [\"chases\", [\"tiger\", \"squirrel\"], true]}, {\"body\": [[\"blue\", [\"?x\"], true], [\"visits\", [\"?x\", \"tiger\"], true]], \"head\": [\"kind\", [\"tiger\"], true]}, {\"body\": [[\"kind\", [\"?x\"], true]], \"head\": [\"chases\", [\"?x\", \"dog\"], true]}, {\"body\": [[\"visits\", [\"?x\", \"dog\"], true]], \"head\": [\"visits\", [\"?x\", \"cow\"], true]}, {\"body\": [[\"visits\", [\"?x\", \"squirrel\"], true], [\"eats\", [\"?x\", \"dog\"], true]], \"head\": [\"visits\", [\"dog\", \"squirrel\"], true]}, {\"body\": [[\"visits\", [\"?x\", \"tiger\"], true], [\"eats\", [\"tiger\", \"cow\"], true]], \"head\": [\"visits\", [\"?x\", \"cow\"], true]}], \"query\": [\"chases\", [\"cow\", \"dog\"], true]}, \"answer\": \"Unknown\"}",
+    "finish": "stop",
+    "reasoning_content": null,
+    "usage": {
+      "prompt_tokens": 495,
+      "total_tokens": 1011,
+      "completion_tokens": 516,
+      "prompt_tokens_details": null
+    },
+    "wire_id": "chatcmpl-LSG-MIX256-native-schema-v3:ProofWriter_OWA_depth5",
+    "parsed": {
+      "program": {
+        "facts": [
+          [
+            "green",
+            [
+              "cow"
+            ],
+            true
+          ],
+          [
+            "round",
+            [
+              "cow"
+            ],
+            true
+          ],
+          [
+            "chases",
+            [
+              "dog",
+              "cow"
+            ],
+            true
+          ],
+          [
+            "chases",
+            [
+              "dog",
+              "tiger"
+            ],
+            true
+          ],
+          [
+            "eats",
+            [
+              "dog",
+              "tiger"
+            ],
+            true
+          ],
+          [
+            "eats",
+            [
+              "squirrel",
+              "dog"
+            ],
+            true
+          ],
+          [
+            "eats",
+            [
+              "squirrel",
+              "tiger"
+            ],
+            true
+          ],
+          [
+            "blue",
+            [
+              "squirrel"
+            ],
+            true
+          ],
+          [
+            "round",
+            [
+              "squirrel"
+            ],
+            true
+          ],
+          [
+            "visits",
+            [
+              "squirrel",
+              "cow"
+            ],
+            true
+          ],
+          [
+            "chases",
+            [
+              "tiger",
+              "cow"
+            ],
+            true
+          ],
+          [
+            "visits",
+            [
+              "tiger",
+              "squirrel"
+            ],
+            true
+          ]
+        ],
+        "rules": [
+          {
+            "body": [
+              [
+                "chases",
+                [
+                  "?x",
+                  "cow"
+                ],
+                true
+              ],
+              [
+                "visits",
+                [
+                  "cow",
+                  "tiger"
+                ],
+                true
+              ]
+            ],
+            "head": [
+              "green",
+              [
+                "cow"
+              ],
+              true
+            ]
+          },
+          {
+            "body": [
+              [
+                "chases",
+                [
+                  "?x",
+                  "squirrel"
+                ],
+                true
+              ],
+              [
+                "visits",
+                [
+                  "squirrel",
+                  "cow"
+                ],
+                true
+              ]
+            ],
+            "head": [
+              "eats",
+              [
+                "?x",
+                "squirrel"
+              ],
+              true
+            ]
+          },
+          {
+            "body": [
+              [
+                "eats",
+                [
+                  "?x",
+                  "squirrel"
+                ],
+                true
+              ]
+            ],
+            "head": [
+              "visits",
+              [
+                "squirrel",
+                "tiger"
+              ],
+              true
+            ]
+          },
+          {
+            "body": [
+              [
+                "eats",
+                [
+                  "?x",
+                  "tiger"
+                ],
+                true
+              ]
+            ],
+            "head": [
+              "chases",
+              [
+                "tiger",
+                "squirrel"
+              ],
+              true
+            ]
+          },
+          {
+            "body": [
+              [
+                "blue",
+                [
+                  "?x"
+                ],
+                true
+              ],
+              [
+                "visits",
+                [
+                  "?x",
+                  "tiger"
+                ],
+                true
+              ]
+            ],
+            "head": [
+              "kind",
+              [
+                "tiger"
+              ],
+              true
+            ]
+          },
+          {
+            "body": [
+              [
+                "kind",
+                [
+                  "?x"
+                ],
+                true
+              ]
+            ],
+            "head": [
+              "chases",
+              [
+                "?x",
+                "dog"
+              ],
+              true
+            ]
+          },
+          {
+            "body": [
+              [
+                "visits",
+                [
+                  "?x",
+                  "dog"
+                ],
+                true
+              ]
+            ],
+            "head": [
+              "visits",
+              [
+                "?x",
+                "cow"
+              ],
+              true
+            ]
+          },
+          {
+            "body": [
+              [
+                "visits",
+                [
+                  "?x",
+                  "squirrel"
+                ],
+                true
+              ],
+              [
+                "eats",
+                [
+                  "?x",
+                  "dog"
+                ],
+                true
+              ]
+            ],
+            "head": [
+              "visits",
+              [
+                "dog",
+                "squirrel"
+              ],
+              true
+            ]
+          },
+          {
+            "body": [
+              [
+                "visits",
+                [
+                  "?x",
+                  "tiger"
+                ],
+                true
+              ],
+              [
+                "eats",
+                [
+                  "tiger",
+                  "cow"
+                ],
+                true
+              ]
+            ],
+            "head": [
+              "visits",
+              [
+                "?x",
+                "cow"
+              ],
+              true
+            ]
+          }
+        ],
+        "query": [
+          "chases",
+          [
+            "cow",
+            "dog"
+          ],
+          true
+        ]
+      },
+      "answer": "Unknown"
+    },
+    "parse_error": null,
+    "elapsed_seconds": 15.575103051029146
+  }
+}

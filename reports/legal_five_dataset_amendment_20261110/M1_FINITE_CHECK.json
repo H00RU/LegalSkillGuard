@@ -1,0 +1,229 @@
+{
+  "purpose": "algebraic nonredundancy, not learned accuracy or proof of novelty",
+  "gradient_convention": "positive increases acquisition logit(a=1); log-likelihood ascent / negative-loss descent, margin=0 for pairwise preference",
+  "toy_semantics": "binary compensation; not a claim that legal permission is negated prohibition",
+  "main": {
+    "prior_a1": 0.8,
+    "prior_c1": 0.9,
+    "joint": [
+      {
+        "a": 0,
+        "c": 0,
+        "p": 0.02,
+        "answer": 0
+      },
+      {
+        "a": 0,
+        "c": 1,
+        "p": 0.18,
+        "answer": 1
+      },
+      {
+        "a": 1,
+        "c": 0,
+        "p": 0.08,
+        "answer": 1
+      },
+      {
+        "a": 1,
+        "c": 1,
+        "p": 0.72,
+        "answer": 0
+      }
+    ],
+    "observed_answer": 1,
+    "correct_answer_mass": 0.26,
+    "posterior_a1": 0.3076923076923077,
+    "logit_ascent_directions": {
+      "exact_MML": -0.49230769230769234,
+      "class_mass_MML": -0.49230769230769234,
+      "answer_support_KL_projection": -0.49230769230769234,
+      "hard_EM": -0.8,
+      "uniform_consistent_program_weighting": -0.3,
+      "MML_plus_prior_KL_at_initialization": -0.49230769230769234,
+      "single_context_c0_local_preference": 0.2,
+      "single_context_c1_local_preference": -0.8,
+      "robust_common_contexts_0_1": 0.0,
+      "robust_after_native_context_evidence_c0": 0.2
+    },
+    "finite_difference_MML": -0.49230769239017036,
+    "common_context_rule": {
+      "contrasts": [
+        1,
+        -1
+      ],
+      "lower": -1,
+      "upper": 1,
+      "prefer_a1": false,
+      "prefer_a0": false
+    },
+    "after_independent_context_evidence": {
+      "contrasts": [
+        1
+      ],
+      "lower": 1,
+      "upper": 1,
+      "prefer_a1": true,
+      "prefer_a0": false
+    }
+  },
+  "grid": [
+    {
+      "prior_a1": 0.2,
+      "prior_c1": 0.1,
+      "logit_ascent_directions": {
+        "exact_MML": 0.49230769230769234,
+        "class_mass_MML": 0.49230769230769234,
+        "answer_support_KL_projection": 0.49230769230769234,
+        "hard_EM": 0.8,
+        "uniform_consistent_program_weighting": 0.3,
+        "MML_plus_prior_KL_at_initialization": 0.49230769230769234,
+        "single_context_c0_local_preference": 0.8,
+        "single_context_c1_local_preference": -0.2,
+        "robust_common_contexts_0_1": 0.0,
+        "robust_after_native_context_evidence_c0": 0.8
+      }
+    },
+    {
+      "prior_a1": 0.2,
+      "prior_c1": 0.5,
+      "logit_ascent_directions": {
+        "exact_MML": 0.0,
+        "class_mass_MML": 0.0,
+        "answer_support_KL_projection": 0.0,
+        "hard_EM": -0.2,
+        "uniform_consistent_program_weighting": 0.3,
+        "MML_plus_prior_KL_at_initialization": 0.0,
+        "single_context_c0_local_preference": 0.8,
+        "single_context_c1_local_preference": -0.2,
+        "robust_common_contexts_0_1": 0.0,
+        "robust_after_native_context_evidence_c0": 0.8
+      }
+    },
+    {
+      "prior_a1": 0.2,
+      "prior_c1": 0.9,
+      "logit_ascent_directions": {
+        "exact_MML": -0.17297297297297298,
+        "class_mass_MML": -0.17297297297297298,
+        "answer_support_KL_projection": -0.17297297297297298,
+        "hard_EM": -0.2,
+        "uniform_consistent_program_weighting": 0.3,
+        "MML_plus_prior_KL_at_initialization": -0.17297297297297298,
+        "single_context_c0_local_preference": 0.8,
+        "single_context_c1_local_preference": -0.2,
+        "robust_common_contexts_0_1": 0.0,
+        "robust_after_native_context_evidence_c0": 0.8
+      }
+    },
+    {
+      "prior_a1": 0.5,
+      "prior_c1": 0.1,
+      "logit_ascent_directions": {
+        "exact_MML": 0.4,
+        "class_mass_MML": 0.4,
+        "answer_support_KL_projection": 0.4,
+        "hard_EM": 0.5,
+        "uniform_consistent_program_weighting": 0.0,
+        "MML_plus_prior_KL_at_initialization": 0.4,
+        "single_context_c0_local_preference": 0.5,
+        "single_context_c1_local_preference": -0.5,
+        "robust_common_contexts_0_1": 0.0,
+        "robust_after_native_context_evidence_c0": 0.5
+      }
+    },
+    {
+      "prior_a1": 0.5,
+      "prior_c1": 0.5,
+      "logit_ascent_directions": {
+        "exact_MML": 0.0,
+        "class_mass_MML": 0.0,
+        "answer_support_KL_projection": 0.0,
+        "hard_EM": -0.5,
+        "uniform_consistent_program_weighting": 0.0,
+        "MML_plus_prior_KL_at_initialization": 0.0,
+        "single_context_c0_local_preference": 0.5,
+        "single_context_c1_local_preference": -0.5,
+        "robust_common_contexts_0_1": 0.0,
+        "robust_after_native_context_evidence_c0": 0.5
+      }
+    },
+    {
+      "prior_a1": 0.5,
+      "prior_c1": 0.9,
+      "logit_ascent_directions": {
+        "exact_MML": -0.4,
+        "class_mass_MML": -0.4,
+        "answer_support_KL_projection": -0.4,
+        "hard_EM": -0.5,
+        "uniform_consistent_program_weighting": 0.0,
+        "MML_plus_prior_KL_at_initialization": -0.4,
+        "single_context_c0_local_preference": 0.5,
+        "single_context_c1_local_preference": -0.5,
+        "robust_common_contexts_0_1": 0.0,
+        "robust_after_native_context_evidence_c0": 0.5
+      }
+    },
+    {
+      "prior_a1": 0.8,
+      "prior_c1": 0.1,
+      "logit_ascent_directions": {
+        "exact_MML": 0.17297297297297298,
+        "class_mass_MML": 0.17297297297297298,
+        "answer_support_KL_projection": 0.17297297297297298,
+        "hard_EM": 0.2,
+        "uniform_consistent_program_weighting": -0.3,
+        "MML_plus_prior_KL_at_initialization": 0.17297297297297298,
+        "single_context_c0_local_preference": 0.2,
+        "single_context_c1_local_preference": -0.8,
+        "robust_common_contexts_0_1": 0.0,
+        "robust_after_native_context_evidence_c0": 0.2
+      }
+    },
+    {
+      "prior_a1": 0.8,
+      "prior_c1": 0.5,
+      "logit_ascent_directions": {
+        "exact_MML": 0.0,
+        "class_mass_MML": 0.0,
+        "answer_support_KL_projection": 0.0,
+        "hard_EM": 0.2,
+        "uniform_consistent_program_weighting": -0.3,
+        "MML_plus_prior_KL_at_initialization": 0.0,
+        "single_context_c0_local_preference": 0.2,
+        "single_context_c1_local_preference": -0.8,
+        "robust_common_contexts_0_1": 0.0,
+        "robust_after_native_context_evidence_c0": 0.2
+      }
+    },
+    {
+      "prior_a1": 0.8,
+      "prior_c1": 0.9,
+      "logit_ascent_directions": {
+        "exact_MML": -0.49230769230769234,
+        "class_mass_MML": -0.49230769230769234,
+        "answer_support_KL_projection": -0.49230769230769234,
+        "hard_EM": -0.8,
+        "uniform_consistent_program_weighting": -0.3,
+        "MML_plus_prior_KL_at_initialization": -0.49230769230769234,
+        "single_context_c0_local_preference": 0.2,
+        "single_context_c1_local_preference": -0.8,
+        "robust_common_contexts_0_1": 0.0,
+        "robust_after_native_context_evidence_c0": 0.2
+      }
+    }
+  ],
+  "independent_unobserved_factor_exact_MML_gradient": 0.0,
+  "scope_warning": "A singleton sampled context misses the opposing preference. At least two observed alternatives are needed here; any unenumerated context remains outside the guarantee.",
+  "external_calls": 0,
+  "training_runs": 0,
+  "mean_vs_robust": {
+    "local_contrasts": [
+      1,
+      1,
+      -1
+    ],
+    "mean_prefers_a": true,
+    "robust_prefers_a": false
+  }
+}

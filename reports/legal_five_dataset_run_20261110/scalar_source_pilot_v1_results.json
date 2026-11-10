@@ -1,0 +1,50 @@
+{
+  "config": {
+    "run_id": "LSG-MIX256-scalar-source-pilot-v1",
+    "selection": "first fixed manifest TRAIN source in each scalar task, no outcome selection",
+    "checkpoint_sha256": "e0c531073a7878cf82bb6c1f719bada8176a26a7aad4899cf387b44e1a48b693",
+    "code": {
+      "experiments/lsl_mix_scalar_prototype.py": "f36f35580602d377fc742cef00a5ca63ff82ef0021559995a6ec0891e807f6cc",
+      "legal_skill_guard/lsl/scalar_proposals.py": "dde4c6c9dfbf638bed2ae53a8555c31d1e547b8c48981e6c26cb1c0f9eee1c56",
+      "legal_skill_guard/lsl/safe_program.py": "c91d6244e496b7d08b4b4b82e4b0b06fdb7f724ab8e7a761d22e381ac0a715ef",
+      "legal_skill_guard/lsl/local_credit.py": "ddc3bdaccf23d8312b87c45cbecd96b0abb49e0bad2add6d0da9877508dd52f3",
+      "legal_skill_guard/lsl/physical.py": "e719d2f8180c194cac8d05a276c9244e8170b57a6f261524184ac5b3a3af7fc9"
+    },
+    "manifest_sha256": "96f3efe4bc29c8725a66df168365af0fd5c078db2750852e60cbdf3b0f6005d9",
+    "thinking": false,
+    "question": "Can native source text generate executable local policy statements and aligned alternatives without a custom semantic JSON IR?"
+  },
+  "results": [
+    {
+      "dataset": "SARA_v2_Binary",
+      "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+      "source_hash": "5e814c71aa532be8c20b011a3f41fbb3621928dd95d9914d5dc592c6c60f09fe",
+      "proposal_generated_by_model": true,
+      "gold_used_for_output_repair": false,
+      "fallback": false,
+      "program_valid": false,
+      "execution": {
+        "valid": false,
+        "error": "candidate_runtime_error",
+        "detail": "Traceback (most recent call last):\n  File \"/home/yndx/hhy/legal-skill-redesign-20261109/legal_skill_guard/lsl/safe_program.py\", line 202, in <module>\n    if __name__=='__main__' and '--worker' in sys.argv:_worker()\n                                                       ^^^^^^^^^\n  File \"/home/yndx/hhy/legal-skill-redesign-20261109/legal_skill_guard/lsl/safe_program.py\", line 57, in _worker\n    value=env['solve'](payload.get('public',{})) if solve.args.args else env['solve']()\n                                                                         ^^^^^^^^^^^^^^\n  File \"<source-candidate>\", line 9, in solve\nNameError: name 'S3' is not defined\n"
+      },
+      "native_expected": "Entailment",
+      "native_correct": false,
+      "local_tables": [],
+      "M1_stable_blocks": 0,
+      "M1_conflicting_blocks": 0,
+      "M2_square": null,
+      "source_rule_semantics_independently_proved": false,
+      "note": "Native TRAIN labels direct execution loss, not proof of complete rule semantics; source pointer and valid Python are not core learning success."
+    },
+    {
+      "dataset": "RuleArena_Airline",
+      "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+      "program_valid": false,
+      "error": "Unterminated string starting at: line 1 column 13 (char 12)",
+      "finish": "length"
+    }
+  ],
+  "actual_training_gradient_from_local_tables_yet": false,
+  "goal_complete": false
+}

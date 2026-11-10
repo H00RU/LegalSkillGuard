@@ -1,0 +1,52 @@
+[
+  {
+    "dataset": "SARA_v2_Binary",
+    "source": "SARA_v2_Binary:4f6faba3e2fcab8a4d7c1bd1eaef993ac426353fc1e0138b223a1ff9e85214dc",
+    "json_parse_ok": true,
+    "finish": "eos",
+    "output_tokens": 8,
+    "prediction": "Contradiction",
+    "native_expected": "Contradiction",
+    "native_correct": true
+  },
+  {
+    "dataset": "NormBench",
+    "source": "zh:最高人民法院关于审理涉及公证活动相关民事案件的若干规定|五",
+    "json_parse_ok": true,
+    "finish": "eos",
+    "output_tokens": 253,
+    "predicted_norm_kinds": [
+      "责任承担"
+    ],
+    "schema_issue": "Missing explicit enum in common initialization inference prompt; do not silently relabel Chinese legal categories"
+  },
+  {
+    "dataset": "ContractNLI",
+    "source": "ContractNLI:69736ed4d38dc7c81861108a43cde589f4ca5683b0460157e198603fefea1f08",
+    "json_parse_ok": true,
+    "finish": "eos",
+    "output_tokens": 307,
+    "hypotheses_predicted": 17,
+    "hypotheses_expected": 17,
+    "label_correct": 11,
+    "denominator": 17
+  },
+  {
+    "dataset": "RuleArena_Airline",
+    "source": "RuleArena_Airline:68dc5c0d804a994d8ca767682203d40bf763a98cffdac5469d030b62620b0146",
+    "json_parse_ok": true,
+    "finish": "eos",
+    "output_tokens": 9,
+    "prediction": 1663,
+    "native_expected": 3453,
+    "native_correct": false
+  },
+  {
+    "dataset": "ProofWriter_OWA_depth5",
+    "source": "ProofWriter_OWA_depth5:7bd9b3fd8e595566612828f313b2af3004bef6fee45ed2838cb8ae6c536c39e7",
+    "json_parse_ok": false,
+    "finish": "eos",
+    "output_tokens": 655,
+    "schema_issue": "Actual response uses atom objects, different variable convention, misplaced answer and missing outer brace; no semantic completion applied"
+  }
+]

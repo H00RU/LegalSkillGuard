@@ -1,1 +1,1 @@
-[Latest offline learning evidence](method_redesign_20261109/factored_source_productions_report.md) · [Current evidence](../docs/METHOD_REDESIGN_CURRENT.md)
+[Current MIX256 empirical work](legal_five_dataset_run_20261110/README.md) · [Current evidence](../docs/METHOD_REDESIGN_CURRENT.md)

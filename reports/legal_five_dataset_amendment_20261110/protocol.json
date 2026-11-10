@@ -1,0 +1,243 @@
+{
+  "protocol_id": "LSG-MIX256-20261110",
+  "authority": "PLAN.md",
+  "continues_current_goal": true,
+  "supersedes_sections": {
+    "packet": "legal_semantic_learning_20261110",
+    "sections": [
+      "NormBench-only data scope",
+      "M1 core objective",
+      "comparison matrix",
+      "current goal acceptance"
+    ]
+  },
+  "preserve": [
+    "current branch and unsaved changes",
+    "running job snapshots",
+    "historical reports and ledger",
+    "shared content and role representation",
+    "M2 centered interaction",
+    "valid caches and checks"
+  ],
+  "phase": {
+    "implementation_and_checks": true,
+    "full_mixed_train256": true,
+    "seven_system_dev80": true,
+    "test160": false,
+    "paper_writing": false
+  },
+  "data": {
+    "manifest": "mixed256_candidate_manifest.json",
+    "status": "actual_candidate_ids_generated_server_latest_exposure_reconciliation_pending",
+    "quota": {
+      "NormBench": {
+        "train": 128,
+        "dev": 16,
+        "test": 32
+      },
+      "SARA_v2_Binary": {
+        "train": 32,
+        "dev": 16,
+        "test": 32
+      },
+      "ContractNLI": {
+        "train": 32,
+        "dev": 16,
+        "test": 32
+      },
+      "ProofWriter_OWA_depth5": {
+        "train": 32,
+        "dev": 16,
+        "test": 32
+      },
+      "RuleArena_Airline": {
+        "train": 32,
+        "dev": 16,
+        "test": 32
+      }
+    },
+    "total": {
+      "train": 256,
+      "dev": 80,
+      "test": 160
+    },
+    "unit": "native_source_group_not_derived_view",
+    "contractnli_hypotheses": "all_17",
+    "proofwriter_query_per_theory": 1,
+    "query_selection_uses_label": false,
+    "source_normalization": "mean_queries_then_mean_sources",
+    "default_sampling": "one_fixed_shuffled_pass_over_manifest_per_epoch",
+    "norm_train_selection": "source_family_round_robin_plus_disclosed_train_structure_coverage",
+    "historical_norm256_checkpoint_as_mixed128_initialization": false,
+    "test_gold_to_actor": false,
+    "historically_tuned_test_is_fresh_blind": false
+  },
+  "model": {
+    "backbone": "existing_Qwen3-8B",
+    "thinking": false,
+    "lora_rank": 16,
+    "seed": 45,
+    "mixed_epochs": 3,
+    "composer_hidden": 256,
+    "ancestor_context_depth": 3,
+    "beam": 8,
+    "common_native_initialization": "one_pass_on_available_native_supervision_inside_the_same_train256_no_dev_or_test",
+    "initialization_exposure_reported_separately": true,
+    "teacher": "retain_current_authorized_configuration_record_effective_settings",
+    "runtime": "fit_existing_resources_then_snapshot_optimizer_batch_precision_context_before_training"
+  },
+  "M1": {
+    "name": "cross_composition_consistent_local_semantic_credit",
+    "details": "M1_METHOD.md",
+    "generates_new_source_nodes": true,
+    "shared_content_multirole_representation": "common_to_all_comparators",
+    "alternatives_per_local_block": 2,
+    "blocks_per_source_max": 4,
+    "block_selection": "source_order_fixed_before_outcomes",
+    "contexts_per_block_max": 8,
+    "contexts": "common_type_valid_completions_preserving_other_content_and_facts",
+    "singleton_context": "allowed_if_independently_fixed_or_exhaustive_otherwise_not_robust_evidence",
+    "comparison": "d_c(a,b)=L(c[b],O)-L(c[a],O)",
+    "preference_weight": "max(0,min_c(d_c)-delta)",
+    "delta": 0,
+    "pair_margin": 0,
+    "weak_loss": "stopgrad(weight)*softplus(logpi(b)-logpi(a))",
+    "weak_loss_weight": 1.0,
+    "prior_weight": 0.1,
+    "prior": "common_native_initialization_snapshot_same_for_all_arms",
+    "unidentified_local_semantics": "no_weak_pseudo_label_native_task_learning_continues",
+    "native_task_weight": 1.0,
+    "native_structure_weight": 1.0,
+    "native_evidence_weight": 1.0,
+    "weak_MML_in_M1_arm": false,
+    "gradients_through_context_selection": false,
+    "contractnli": "native_task_evidence_updates_semantic_credit_only_if_independent_local_criterion_exists_else_mask",
+    "finite_checked_contexts_not_global_semantic_guarantee": true
+  },
+  "M2": {
+    "name": "directed_centered_error_interaction",
+    "details": "M2_AND_MIGRATION.md",
+    "target": "Center(-native_loss_table_2x2)",
+    "binary_identity": "I=Y11-Y10-Y01+Y00; J=(1-2*y_gold)*I",
+    "squares_per_source_max": 16,
+    "abstract_boolean_witnesses_per_square_max": 64,
+    "unchanged_across_square": [
+      "local_semantic_content",
+      "facts",
+      "query"
+    ],
+    "native_gold_criterion_required": true,
+    "contractnli_structure_and_directed_interaction_gold_mask": 0,
+    "absent_gold_fields": "mask_not_zero_label",
+    "normbench_witnesses": "abstract_condition_activation_not_real_cases"
+  },
+  "native_loss_for_execution_tables": {
+    "NormBench": "normalized_branch_activation_Hamming",
+    "SARA_v2_Binary": "binary_label_error_0_1",
+    "ContractNLI": "native_NLI_readout_loss_and_evidence_loss_not_a_fabricated_contract_oracle",
+    "ProofWriter_OWA_depth5": "three_valued_label_error_0_1",
+    "RuleArena_Airline": "integer_exact_match_error_0_1"
+  },
+  "systems": [
+    {
+      "id": "Base",
+      "acquisition": "native_plus_MML",
+      "composition": "ordinary"
+    },
+    {
+      "id": "M1",
+      "acquisition": "native_plus_robust_local_credit",
+      "composition": "ordinary"
+    },
+    {
+      "id": "M2",
+      "acquisition": "native_plus_MML",
+      "composition": "directed_interaction"
+    },
+    {
+      "id": "Joint",
+      "acquisition": "native_plus_robust_local_credit",
+      "composition": "directed_interaction"
+    },
+    {
+      "id": "HardEM",
+      "acquisition": "native_plus_same_candidate_hard_EM",
+      "composition": "ordinary"
+    },
+    {
+      "id": "ExecutionFilter",
+      "acquisition": "native_plus_execution_vector_filter_MML",
+      "composition": "ordinary"
+    },
+    {
+      "id": "PairContrast",
+      "acquisition": "native_plus_MML",
+      "composition": "same_capacity_same_information_SQLoom_style"
+    }
+  ],
+  "fairness": {
+    "same_base_native_initialization_manifest_gold_masks": true,
+    "same_candidate_and_execution_information": true,
+    "same_prior_regularizer": true,
+    "same_source_updates_disclose_tokens_and_compute": true,
+    "old_fixed_forest_as_only_baseline": false,
+    "candidate_cache_may_be_reused": "only_identical_source_view_model_code_oracle_and_config_hashes",
+    "component_sharing": "reuse_only_where_no_training_dependency_changes"
+  },
+  "acceptance": {
+    "train_sources": 256,
+    "datasets_with_real_parameter_updates": 5,
+    "dev_sources_per_dataset_per_system": 16,
+    "systems": 7,
+    "required": [
+      "code_commit",
+      "locked_manifest_and_config",
+      "actual_training_checkpoints",
+      "native_per_source_predictions",
+      "epoch_curves",
+      "M1_coverage_conflicts_and_semantic_errors",
+      "M2_square_coverage_and_interaction",
+      "native_metrics_by_dataset",
+      "ledger_and_reproduction_commands",
+      "fixed_matrix_method_conclusions"
+    ],
+    "report_only_or_smoke_only_is_complete": false,
+    "positive_gain_required_to_honestly_report_work_complete": false,
+    "negative_result_is_proof_of_innovation": false,
+    "extra_seeds_sources_models_or_new_methods": false,
+    "test_unlock": "next_phase_after_server_evidence_review_and_frozen_config_with_phase_authorization"
+  },
+  "resources": {
+    "new_arbitrary_request_cap": null,
+    "retain_continuous_physical_request_and_compute_ledger": true,
+    "additional_paid_resources_automatically_authorized": false,
+    "no_reset_of_historical_cost": true,
+    "routine_reversible_work_autonomous": true
+  },
+  "later_phases": [
+    "server_review_fixed_dev_evidence",
+    "freeze_and_evaluate_32_per_dataset",
+    "bounded_replication_if_needed",
+    "paper_argument_and_writing"
+  ],
+  "claim_evidence": {
+    "M1_nonNormBench_datasets_with_core_semantic_evidence_min": 2,
+    "M1_at_least_one_native_legal_or_policy_dataset": true,
+    "ordinary_task_gradients_are_core_M1_evidence": false,
+    "fixed_matrix_completion_is_distinct_from_positive_claim": true
+  },
+  "governance": {
+    "stage_review_owner": "server_Codex",
+    "return_to_desktop_chat_required": false,
+    "review_evidence": [
+      "code",
+      "raw_records",
+      "source_level_predictions",
+      "frozen_data_and_config",
+      "continuous_ledger"
+    ],
+    "next_goal_coordination": "same_server_chat",
+    "current_goal_test_boundary_unchanged": true,
+    "review_deliverable": "explicit_method_conclusions_and_next_phase_handoff_not_only_status_summary"
+  }
+}

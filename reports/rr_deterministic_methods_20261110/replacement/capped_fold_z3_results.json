@@ -1,0 +1,628 @@
+{
+  "status": "deterministic local exact comparisons; no model calls",
+  "z3_version": "4.15.4",
+  "pairs": 12,
+  "all_exact_results_match": true,
+  "shared_preprocessing": "same clipped PWA, input domain and exact per-record maxima H",
+  "timing_scope": "one run of encoding plus solving; import/shared preprocessing excluded; not robust performance estimate",
+  "total_seconds": {
+    "direct": 0.002170599967939779,
+    "weighted_cell_z3": 0.17451359998085536,
+    "same_reduction_1d_z3": 0.04242179999710061,
+    "bounded_unroll_z3": 6.811459399963496
+  },
+  "results": [
+    {
+      "name": "shared_piecewise_k1_A100",
+      "A": 100,
+      "B": 101,
+      "H_P": 1,
+      "H_Q": 1,
+      "direct": {
+        "equivalent": false,
+        "minimum_count": 101,
+        "witness": {
+          "record": 0,
+          "repeat": 101
+        },
+        "F": 100,
+        "G": 101,
+        "common_maximum": 1,
+        "reason": "unequal caps; repeat maximal common generator",
+        "scan_cells": 1,
+        "seconds": 2.1199986804276705e-05
+      },
+      "weighted_cell_z3": {
+        "status": "different",
+        "minimum_count": 101,
+        "lower": "101",
+        "upper": "101",
+        "variables": 1,
+        "constraints": 4,
+        "cells": 1,
+        "witness_runs": [
+          [
+            0,
+            101
+          ]
+        ],
+        "seconds": 0.013330299989320338
+      },
+      "same_reduction_1d_z3": {
+        "status": "different",
+        "minimum_count": 101,
+        "lower": "101",
+        "upper": "101",
+        "variables": 1,
+        "seconds": 0.004382699989946559
+      },
+      "bounded_unroll_z3": {
+        "status": "no difference within bound",
+        "calls": 8,
+        "bound": 8,
+        "seconds": 0.041370299994014204
+      }
+    },
+    {
+      "name": "shared_piecewise_k1_A1000000",
+      "A": 1000000,
+      "B": 1000001,
+      "H_P": 1,
+      "H_Q": 1,
+      "direct": {
+        "equivalent": false,
+        "minimum_count": 1000001,
+        "witness": {
+          "record": 0,
+          "repeat": 1000001
+        },
+        "F": 1000000,
+        "G": 1000001,
+        "common_maximum": 1,
+        "reason": "unequal caps; repeat maximal common generator",
+        "scan_cells": 1,
+        "seconds": 2.5699991965666413e-05
+      },
+      "weighted_cell_z3": {
+        "status": "different",
+        "minimum_count": 1000001,
+        "lower": "1000001",
+        "upper": "1000001",
+        "variables": 1,
+        "constraints": 4,
+        "cells": 1,
+        "witness_runs": [
+          [
+            0,
+            1000001
+          ]
+        ],
+        "seconds": 0.0043428999779280275
+      },
+      "same_reduction_1d_z3": {
+        "status": "different",
+        "minimum_count": 1000001,
+        "lower": "1000001",
+        "upper": "1000001",
+        "variables": 1,
+        "seconds": 0.004235299973515794
+      },
+      "bounded_unroll_z3": {
+        "status": "no difference within bound",
+        "calls": 8,
+        "bound": 8,
+        "seconds": 0.04114069999195635
+      }
+    },
+    {
+      "name": "shared_piecewise_k4_A100",
+      "A": 100,
+      "B": 101,
+      "H_P": 9,
+      "H_Q": 9,
+      "direct": {
+        "equivalent": false,
+        "minimum_count": 12,
+        "witness": {
+          "record": 3,
+          "repeat": 12
+        },
+        "F": 100,
+        "G": 101,
+        "common_maximum": 9,
+        "reason": "unequal caps; repeat maximal common generator",
+        "scan_cells": 4,
+        "seconds": 4.52000240329653e-05
+      },
+      "weighted_cell_z3": {
+        "status": "different",
+        "minimum_count": 12,
+        "lower": "12",
+        "upper": "12",
+        "variables": 4,
+        "constraints": 7,
+        "cells": 4,
+        "witness_runs": [
+          [
+            2,
+            1
+          ],
+          [
+            3,
+            11
+          ]
+        ],
+        "seconds": 0.00950889999512583
+      },
+      "same_reduction_1d_z3": {
+        "status": "different",
+        "minimum_count": 12,
+        "lower": "12",
+        "upper": "12",
+        "variables": 1,
+        "seconds": 0.005423000024165958
+      },
+      "bounded_unroll_z3": {
+        "status": "no difference within bound",
+        "calls": 8,
+        "bound": 8,
+        "seconds": 0.11955740000121295
+      }
+    },
+    {
+      "name": "shared_piecewise_k4_A1000000",
+      "A": 1000000,
+      "B": 1000001,
+      "H_P": 9,
+      "H_Q": 9,
+      "direct": {
+        "equivalent": false,
+        "minimum_count": 111112,
+        "witness": {
+          "record": 3,
+          "repeat": 111112
+        },
+        "F": 1000000,
+        "G": 1000001,
+        "common_maximum": 9,
+        "reason": "unequal caps; repeat maximal common generator",
+        "scan_cells": 4,
+        "seconds": 4.539999645203352e-05
+      },
+      "weighted_cell_z3": {
+        "status": "different",
+        "minimum_count": 111112,
+        "lower": "111112",
+        "upper": "111112",
+        "variables": 4,
+        "constraints": 7,
+        "cells": 4,
+        "witness_runs": [
+          [
+            1,
+            6
+          ],
+          [
+            3,
+            111106
+          ]
+        ],
+        "seconds": 0.007589399989228696
+      },
+      "same_reduction_1d_z3": {
+        "status": "different",
+        "minimum_count": 111112,
+        "lower": "111112",
+        "upper": "111112",
+        "variables": 1,
+        "seconds": 0.004503100004512817
+      },
+      "bounded_unroll_z3": {
+        "status": "no difference within bound",
+        "calls": 8,
+        "bound": 8,
+        "seconds": 0.11695419999887235
+      }
+    },
+    {
+      "name": "shared_piecewise_k16_A100",
+      "A": 100,
+      "B": 101,
+      "H_P": 13,
+      "H_Q": 13,
+      "direct": {
+        "equivalent": false,
+        "minimum_count": 8,
+        "witness": {
+          "record": 11,
+          "repeat": 8
+        },
+        "F": 100,
+        "G": 101,
+        "common_maximum": 13,
+        "reason": "unequal caps; repeat maximal common generator",
+        "scan_cells": 16,
+        "seconds": 0.00010760000441223383
+      },
+      "weighted_cell_z3": {
+        "status": "different",
+        "minimum_count": 8,
+        "lower": "8",
+        "upper": "8",
+        "variables": 16,
+        "constraints": 19,
+        "cells": 16,
+        "witness_runs": [
+          [
+            9,
+            2
+          ],
+          [
+            11,
+            6
+          ]
+        ],
+        "seconds": 0.015271199983544648
+      },
+      "same_reduction_1d_z3": {
+        "status": "different",
+        "minimum_count": 8,
+        "lower": "8",
+        "upper": "8",
+        "variables": 1,
+        "seconds": 0.005017899995436892
+      },
+      "bounded_unroll_z3": {
+        "status": "unknown",
+        "reason": "timeout",
+        "calls": 8,
+        "bound": 8,
+        "seconds": 3.389289699989604
+      }
+    },
+    {
+      "name": "shared_piecewise_k16_A1000000",
+      "A": 1000000,
+      "B": 1000001,
+      "H_P": 13,
+      "H_Q": 13,
+      "direct": {
+        "equivalent": false,
+        "minimum_count": 76924,
+        "witness": {
+          "record": 11,
+          "repeat": 76924
+        },
+        "F": 1000000,
+        "G": 1000001,
+        "common_maximum": 13,
+        "reason": "unequal caps; repeat maximal common generator",
+        "scan_cells": 16,
+        "seconds": 0.00010729997302405536
+      },
+      "weighted_cell_z3": {
+        "status": "different",
+        "minimum_count": 76924,
+        "lower": "76924",
+        "upper": "76924",
+        "variables": 16,
+        "constraints": 19,
+        "cells": 16,
+        "witness_runs": [
+          [
+            1,
+            2
+          ],
+          [
+            11,
+            76922
+          ]
+        ],
+        "seconds": 0.017036700010066852
+      },
+      "same_reduction_1d_z3": {
+        "status": "different",
+        "minimum_count": 76924,
+        "lower": "76924",
+        "upper": "76924",
+        "variables": 1,
+        "seconds": 0.005199300008825958
+      },
+      "bounded_unroll_z3": {
+        "status": "no difference within bound",
+        "calls": 8,
+        "bound": 8,
+        "seconds": 0.3558008999971207
+      }
+    },
+    {
+      "name": "shared_piecewise_k64_A100",
+      "A": 100,
+      "B": 101,
+      "H_P": 13,
+      "H_Q": 13,
+      "direct": {
+        "equivalent": false,
+        "minimum_count": 8,
+        "witness": {
+          "record": 11,
+          "repeat": 8
+        },
+        "F": 100,
+        "G": 101,
+        "common_maximum": 13,
+        "reason": "unequal caps; repeat maximal common generator",
+        "scan_cells": 64,
+        "seconds": 0.0003426999901421368
+      },
+      "weighted_cell_z3": {
+        "status": "different",
+        "minimum_count": 8,
+        "lower": "8",
+        "upper": "8",
+        "variables": 64,
+        "constraints": 67,
+        "cells": 64,
+        "witness_runs": [
+          [
+            24,
+            6
+          ],
+          [
+            50,
+            1
+          ],
+          [
+            57,
+            1
+          ]
+        ],
+        "seconds": 0.04257260001031682
+      },
+      "same_reduction_1d_z3": {
+        "status": "different",
+        "minimum_count": 8,
+        "lower": "8",
+        "upper": "8",
+        "variables": 1,
+        "seconds": 0.004264499992132187
+      },
+      "bounded_unroll_z3": {
+        "status": "different",
+        "minimum_count": 8,
+        "calls": 8,
+        "bound": 8,
+        "seconds": 1.3778183000104036
+      }
+    },
+    {
+      "name": "shared_piecewise_k64_A1000000",
+      "A": 1000000,
+      "B": 1000001,
+      "H_P": 13,
+      "H_Q": 13,
+      "direct": {
+        "equivalent": false,
+        "minimum_count": 76924,
+        "witness": {
+          "record": 11,
+          "repeat": 76924
+        },
+        "F": 1000000,
+        "G": 1000001,
+        "common_maximum": 13,
+        "reason": "unequal caps; repeat maximal common generator",
+        "scan_cells": 64,
+        "seconds": 0.001348999998299405
+      },
+      "weighted_cell_z3": {
+        "status": "different",
+        "minimum_count": 76924,
+        "lower": "76924",
+        "upper": "76924",
+        "variables": 64,
+        "constraints": 67,
+        "cells": 64,
+        "witness_runs": [
+          [
+            4,
+            1
+          ],
+          [
+            24,
+            76923
+          ]
+        ],
+        "seconds": 0.04808740000589751
+      },
+      "same_reduction_1d_z3": {
+        "status": "different",
+        "minimum_count": 76924,
+        "lower": "76924",
+        "upper": "76924",
+        "variables": 1,
+        "seconds": 0.005307799990987405
+      },
+      "bounded_unroll_z3": {
+        "status": "no difference within bound",
+        "calls": 8,
+        "bound": 8,
+        "seconds": 1.2862487999955192
+      }
+    },
+    {
+      "name": "same_cap_different_saturated_inners",
+      "A": 9,
+      "B": 9,
+      "H_P": 9,
+      "H_Q": 9,
+      "direct": {
+        "equivalent": true,
+        "minimum_count": null,
+        "reason": "same cap and equal clipped generators",
+        "scan_cells": 2,
+        "seconds": 2.4200009647756815e-05
+      },
+      "weighted_cell_z3": {
+        "status": "equivalent",
+        "minimum_count": null,
+        "variables": 3,
+        "constraints": 7,
+        "cells": 2,
+        "seconds": 0.0016438000020571053
+      },
+      "same_reduction_1d_z3": {
+        "status": "equivalent",
+        "minimum_count": null,
+        "variables": 0,
+        "seconds": 8.69997893460095e-06
+      },
+      "bounded_unroll_z3": {
+        "status": "no difference within bound",
+        "calls": 8,
+        "bound": 8,
+        "seconds": 0.04558299999916926
+      }
+    },
+    {
+      "name": "single_record_difference",
+      "A": 4,
+      "B": 8,
+      "H_P": 4,
+      "H_Q": 5,
+      "direct": {
+        "equivalent": false,
+        "minimum_count": 1,
+        "witness": {
+          "record": 5,
+          "repeat": 1
+        },
+        "F": 4,
+        "G": 5,
+        "reason": "one-record difference",
+        "scan_cells": 2,
+        "seconds": 6.2700011767447e-05
+      },
+      "weighted_cell_z3": {
+        "status": "different",
+        "minimum_count": 1,
+        "lower": "1",
+        "upper": "1",
+        "variables": 5,
+        "constraints": 10,
+        "cells": 3,
+        "witness_runs": [
+          [
+            6,
+            1
+          ]
+        ],
+        "seconds": 0.00900660001207143
+      },
+      "same_reduction_1d_z3": {
+        "status": "different",
+        "minimum_count": 1,
+        "variables": 0,
+        "seconds": 9.400013368576765e-06
+      },
+      "bounded_unroll_z3": {
+        "status": "different",
+        "minimum_count": 1,
+        "calls": 1,
+        "bound": 8,
+        "seconds": 0.004388899978948757
+      }
+    },
+    {
+      "name": "zero_cap_common_zero",
+      "A": 0,
+      "B": 8,
+      "H_P": 0,
+      "H_Q": 0,
+      "direct": {
+        "equivalent": true,
+        "minimum_count": null,
+        "reason": "common clipped generator is identically zero",
+        "scan_cells": 1,
+        "seconds": 1.7999991541728377e-05
+      },
+      "weighted_cell_z3": {
+        "status": "equivalent",
+        "minimum_count": null,
+        "variables": 0,
+        "constraints": 3,
+        "cells": 1,
+        "seconds": 0.0005161000008229166
+      },
+      "same_reduction_1d_z3": {
+        "status": "equivalent",
+        "minimum_count": null,
+        "variables": 0,
+        "seconds": 5.80001506023109e-06
+      },
+      "bounded_unroll_z3": {
+        "status": "no difference within bound",
+        "calls": 8,
+        "bound": 8,
+        "seconds": 0.026404400006867945
+      }
+    },
+    {
+      "name": "negative_slope_nonnegative_values",
+      "A": 9,
+      "B": 12,
+      "H_P": 8,
+      "H_Q": 8,
+      "direct": {
+        "equivalent": false,
+        "minimum_count": 2,
+        "witness": {
+          "record": 0,
+          "repeat": 2
+        },
+        "F": 9,
+        "G": 12,
+        "common_maximum": 8,
+        "reason": "unequal caps; repeat maximal common generator",
+        "scan_cells": 1,
+        "seconds": 2.1599989850074053e-05
+      },
+      "weighted_cell_z3": {
+        "status": "different",
+        "minimum_count": 2,
+        "lower": "2",
+        "upper": "2",
+        "variables": 2,
+        "constraints": 6,
+        "cells": 1,
+        "witness_runs": [
+          [
+            3,
+            1
+          ],
+          [
+            0,
+            1
+          ]
+        ],
+        "seconds": 0.005607700004475191
+      },
+      "same_reduction_1d_z3": {
+        "status": "different",
+        "minimum_count": 2,
+        "lower": "2",
+        "upper": "2",
+        "variables": 1,
+        "seconds": 0.004064300010213628
+      },
+      "bounded_unroll_z3": {
+        "status": "different",
+        "minimum_count": 2,
+        "calls": 2,
+        "bound": 8,
+        "seconds": 0.00690279999980703
+      }
+    }
+  ],
+  "important_boundary": "The normalized 1D baseline uses the same algebraic reduction as the direct method. It measures remaining optimizer overhead, not an independent competing idea. SQLSolver and VeriEQL were not executed."
+}

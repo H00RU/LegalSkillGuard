@@ -1,0 +1,51 @@
+{
+  "status": "completed",
+  "result": {
+    "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+    "call_id": "LSG-MIX256-scalar-source-pilot-v1:SARA_v2_Binary",
+    "thinking": false,
+    "request_hash": "b49b13dbf977743a67a4772ae61b16391fb0fd14d91f637220f789849d3b5aa4",
+    "transport_retries": 0,
+    "actual_HTTP_dispatches": 1,
+    "model_alias": "common",
+    "http_status": 200,
+    "raw_response": "{\"id\":\"chatcmpl-LSG-MIX256-scalar-source-pilot-v1:SARA_v2_Binary\",\"object\":\"chat.completion\",\"created\":1794319668,\"model\":\"common\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"{\\\"program\\\": \\\"def solve():\\\\n    # Assign current case facts\\\\n    alice_employed_bob = True\\\\n    bob_disabled_retired = True\\\\n    alice_paid_bob_2019 = True\\\\n    payment_amount = 12980\\\\n    payment_year = 2019\\\\n    # Assign source rules\\\\n    employer_def = [S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28, S29, S30, S31, S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\\\\n    wages_def = [S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28]\\\\n    employment_def = [S30, S31, S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\\\\n    # Assign thresholds\\\\n    employer_threshold = [S5, S6, S10, S11, S13, S23, S24, S25, S26, S27, S28, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\\\\n    wages_threshold = [S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28]\\\\n    employment_threshold = [S30, S31, S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\\\\n    # Assign exceptions\\\\n    employer_exceptions = [S15, S24, S25, S26, S27, S28]\\\\n    wages_exceptions = [S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28]\\\\n    employment_exceptions = [S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\\\\n    # Assign intermediate quantities\\\\n    alice_employer = alice_employed_bob and bob_disabled_retired and alice_paid_bob_2019\\\\n    alice_wages = alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019\\\\n    alice_employment = alice_employed_bob and bob_disabled_retired and alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019\\\\n    # Assign final composition\\\\n    return alice_employer and alice_wages and alice_employment\\\\n    \\\", \\\"blocks\\\": [{\\\"name\\\": \\\"alice_employer\\\", \\\"source_id\\\": 1, \\\"alternative\\\": \\\"alice_employer = alice_employed_bob and bob_disabled_retired and alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019\\\"}, {\\\"name\\\": \\\"alice_wages\\\", \\\"source_id\\\": 1, \\\"alternative\\\": \\\"alice_wages = alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019 and alice_employer\\\"}, {\\\"name\\\": \\\"alice_employment\\\", \\\"source_id\\\": 1, \\\"alternative\\\": \\\"alice_employment = alice_employed_bob and bob_disabled_retired and alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019 and alice_wages\\\"}, {\\\"name\\\": \\\"return\\\", \\\"source_id\\\": 1, \\\"alternative\\\": \\\"return alice_employer and alice_wages and alice_employment and alice_employment\\\"}]}\",\"refusal\":null,\"annotations\":null,\"audio\":null,\"function_call\":null,\"tool_calls\":[],\"reasoning_content\":null},\"logprobs\":null,\"finish_reason\":\"stop\",\"stop_reason\":null,\"token_ids\":null}],\"service_tier\":null,\"system_fingerprint\":null,\"usage\":{\"prompt_tokens\":2229,\"total_tokens\":3467,\"completion_tokens\":1238,\"prompt_tokens_details\":null},\"prompt_logprobs\":null,\"prompt_token_ids\":null,\"kv_transfer_params\":null}",
+    "text": "{\"program\": \"def solve():\\n    # Assign current case facts\\n    alice_employed_bob = True\\n    bob_disabled_retired = True\\n    alice_paid_bob_2019 = True\\n    payment_amount = 12980\\n    payment_year = 2019\\n    # Assign source rules\\n    employer_def = [S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28, S29, S30, S31, S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\\n    wages_def = [S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28]\\n    employment_def = [S30, S31, S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\\n    # Assign thresholds\\n    employer_threshold = [S5, S6, S10, S11, S13, S23, S24, S25, S26, S27, S28, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\\n    wages_threshold = [S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28]\\n    employment_threshold = [S30, S31, S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\\n    # Assign exceptions\\n    employer_exceptions = [S15, S24, S25, S26, S27, S28]\\n    wages_exceptions = [S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28]\\n    employment_exceptions = [S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\\n    # Assign intermediate quantities\\n    alice_employer = alice_employed_bob and bob_disabled_retired and alice_paid_bob_2019\\n    alice_wages = alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019\\n    alice_employment = alice_employed_bob and bob_disabled_retired and alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019\\n    # Assign final composition\\n    return alice_employer and alice_wages and alice_employment\\n    \", \"blocks\": [{\"name\": \"alice_employer\", \"source_id\": 1, \"alternative\": \"alice_employer = alice_employed_bob and bob_disabled_retired and alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019\"}, {\"name\": \"alice_wages\", \"source_id\": 1, \"alternative\": \"alice_wages = alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019 and alice_employer\"}, {\"name\": \"alice_employment\", \"source_id\": 1, \"alternative\": \"alice_employment = alice_employed_bob and bob_disabled_retired and alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019 and alice_wages\"}, {\"name\": \"return\", \"source_id\": 1, \"alternative\": \"return alice_employer and alice_wages and alice_employment and alice_employment\"}]}",
+    "finish": "stop",
+    "reasoning_content": null,
+    "usage": {
+      "prompt_tokens": 2229,
+      "total_tokens": 3467,
+      "completion_tokens": 1238,
+      "prompt_tokens_details": null
+    },
+    "wire_id": "chatcmpl-LSG-MIX256-scalar-source-pilot-v1:SARA_v2_Binary",
+    "parsed": {
+      "program": "def solve():\n    # Assign current case facts\n    alice_employed_bob = True\n    bob_disabled_retired = True\n    alice_paid_bob_2019 = True\n    payment_amount = 12980\n    payment_year = 2019\n    # Assign source rules\n    employer_def = [S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28, S29, S30, S31, S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\n    wages_def = [S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28]\n    employment_def = [S30, S31, S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\n    # Assign thresholds\n    employer_threshold = [S5, S6, S10, S11, S13, S23, S24, S25, S26, S27, S28, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\n    wages_threshold = [S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28]\n    employment_threshold = [S30, S31, S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\n    # Assign exceptions\n    employer_exceptions = [S15, S24, S25, S26, S27, S28]\n    wages_exceptions = [S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28]\n    employment_exceptions = [S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52]\n    # Assign intermediate quantities\n    alice_employer = alice_employed_bob and bob_disabled_retired and alice_paid_bob_2019\n    alice_wages = alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019\n    alice_employment = alice_employed_bob and bob_disabled_retired and alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019\n    # Assign final composition\n    return alice_employer and alice_wages and alice_employment\n    ",
+      "blocks": [
+        {
+          "name": "alice_employer",
+          "source_id": 1,
+          "alternative": "alice_employer = alice_employed_bob and bob_disabled_retired and alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019"
+        },
+        {
+          "name": "alice_wages",
+          "source_id": 1,
+          "alternative": "alice_wages = alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019 and alice_employer"
+        },
+        {
+          "name": "alice_employment",
+          "source_id": 1,
+          "alternative": "alice_employment = alice_employed_bob and bob_disabled_retired and alice_paid_bob_2019 and payment_amount >= 12980 and payment_year == 2019 and alice_wages"
+        },
+        {
+          "name": "return",
+          "source_id": 1,
+          "alternative": "return alice_employer and alice_wages and alice_employment and alice_employment"
+        }
+      ]
+    },
+    "parse_error": null,
+    "elapsed_seconds": 40.369265352375805
+  }
+}

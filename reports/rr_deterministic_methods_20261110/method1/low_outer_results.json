@@ -1,0 +1,857 @@
+{
+  "name": "low_outer",
+  "public_spec": {
+    "features": [
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        1
+      ],
+      [
+        1
+      ]
+    ],
+    "cap": "7",
+    "optional_outer_value": "5",
+    "exclusions": true,
+    "total_bound": null
+  },
+  "model_count": 12,
+  "behavioral_classes_on_pool": 10,
+  "query_pool_size": 1871,
+  "additional_hidden_stress_inputs": 512,
+  "common_precomputation": {
+    "candidate_evaluations": 22452,
+    "seconds": 0.12392569999792613,
+    "used_by": [
+      "max_disagreement",
+      "optimal_tree"
+    ],
+    "not_used_by": [
+      "direct",
+      "same_probe_constraints"
+    ]
+  },
+  "exact_minimax": {
+    "behavioral_classes": 10,
+    "worst_queries": 2,
+    "expected_queries_uniform_class": "3/2",
+    "dp_states": 48,
+    "partition_tests_considered": 1824,
+    "distinct_query_partitions": 48
+  },
+  "exact_minimax_seconds": 0.02381680000689812,
+  "summaries": {
+    "direct": {
+      "correct": 12,
+      "total": 12,
+      "query_min": 1,
+      "query_mean": 2.75,
+      "query_max": 4,
+      "seconds_total": 0.003997199994046241,
+      "candidate_evaluations": 0,
+      "table_cells_scored": 0
+    },
+    "same_probe_constraints": {
+      "correct": 12,
+      "total": 12,
+      "query_min": 1,
+      "query_mean": 2.75,
+      "query_max": 4,
+      "seconds_total": 0.004081200051587075,
+      "candidate_evaluations": 221,
+      "table_cells_scored": 0
+    },
+    "max_disagreement": {
+      "correct": 12,
+      "total": 12,
+      "query_min": 1,
+      "query_mean": 1.6666666666666667,
+      "query_max": 2,
+      "seconds_total": 0.10479179996764287,
+      "candidate_evaluations": 0,
+      "table_cells_scored": 254456
+    },
+    "optimal_tree": {
+      "correct": 12,
+      "total": 12,
+      "query_min": 1,
+      "query_mean": 1.5833333333333333,
+      "query_max": 2,
+      "seconds_total": 0.0016755999822635204,
+      "candidate_evaluations": 0,
+      "table_cells_scored": 0
+    }
+  },
+  "runs": [
+    {
+      "model_id": 0,
+      "hidden": {
+        "scope": "keys:",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.0004113999893888831,
+          "candidate_evaluations": 0,
+          "local_decisions": 5,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": []
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 5,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 6,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.00035810002009384334,
+          "candidate_evaluations": 17,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.008229099999880418,
+          "table_cells_scored": 18710,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 9.889999637380242e-05,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 1,
+      "hidden": {
+        "scope": "keys:",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.00012740000966005027,
+          "candidate_evaluations": 0,
+          "local_decisions": 1,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": true,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope: all partitions are behaviorally equivalent"
+            ],
+            "certificates": [
+              "For E_i<=T_i and B<=C, min(B,sum_g min(C,T_g-E_g)) = min(B,sum_i(T_i-E_i)); partition is unobservable."
+            ],
+            "local_decisions": 1,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 1,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.00021050000214017928,
+          "candidate_evaluations": 12,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.009493299992755055,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00015150001854635775,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 2,
+      "hidden": {
+        "scope": "keys:",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.0003920000162906945,
+          "candidate_evaluations": 0,
+          "local_decisions": 6,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": []
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 6,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 11,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.0004098000063095242,
+          "candidate_evaluations": 24,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.01007630000822246,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.0002243999915663153,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 3,
+      "hidden": {
+        "scope": "keys:",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.0005209000082686543,
+          "candidate_evaluations": 0,
+          "local_decisions": 6,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "after",
+            "outer": true,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": []
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 6,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 11,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.0004146000137552619,
+          "candidate_evaluations": 24,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00956820001010783,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00015969999367371202,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 4,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.00046759998076595366,
+          "candidate_evaluations": 0,
+          "local_decisions": 5,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                0
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 5,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 6,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.00033179999445565045,
+          "candidate_evaluations": 17,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.005330499989213422,
+          "table_cells_scored": 18710,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 9.23000043258071e-05,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 5,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.00013410000246949494,
+          "candidate_evaluations": 0,
+          "local_decisions": 1,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": true,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope: all partitions are behaviorally equivalent"
+            ],
+            "certificates": [
+              "For E_i<=T_i and B<=C, min(B,sum_g min(C,T_g-E_g)) = min(B,sum_i(T_i-E_i)); partition is unobservable."
+            ],
+            "local_decisions": 1,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 1,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.00013920001219958067,
+          "candidate_evaluations": 12,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.011153299972647801,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00015969999367371202,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 6,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.000450699997600168,
+          "candidate_evaluations": 0,
+          "local_decisions": 6,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                0
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 6,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 11,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.00044450000859797,
+          "candidate_evaluations": 24,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.009334499976830557,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 9.129999671131372e-05,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 7,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.0003701999958138913,
+          "candidate_evaluations": 0,
+          "local_decisions": 6,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "after",
+            "outer": true,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                0
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 6,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 11,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.00041519998922012746,
+          "candidate_evaluations": 24,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.009554999996908009,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00014479999663308263,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 8,
+      "hidden": {
+        "scope": "record",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00038240000139921904,
+          "candidate_evaluations": 0,
+          "local_decisions": 3,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "record_id"
+            },
+            "unresolved": [],
+            "certificates": [
+              "Identical feature tuples split: only record-ID grouping in the declared language can do this."
+            ],
+            "local_decisions": 3,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 4,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00033320000511594117,
+          "candidate_evaluations": 15,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.005930200015427545,
+          "table_cells_scored": 18710,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.000162799988174811,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 9,
+      "hidden": {
+        "scope": "record",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.00013010000111535192,
+          "candidate_evaluations": 0,
+          "local_decisions": 1,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": true,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope: all partitions are behaviorally equivalent"
+            ],
+            "certificates": [
+              "For E_i<=T_i and B<=C, min(B,sum_g min(C,T_g-E_g)) = min(B,sum_i(T_i-E_i)); partition is unobservable."
+            ],
+            "local_decisions": 1,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 1,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.0001545000122860074,
+          "candidate_evaluations": 12,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.009372200001962483,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00013949998538009822,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 10,
+      "hidden": {
+        "scope": "record",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.0002744999947026372,
+          "candidate_evaluations": 0,
+          "local_decisions": 4,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "record_id"
+            },
+            "unresolved": [],
+            "certificates": [
+              "Identical feature tuples split: only record-ID grouping in the declared language can do this."
+            ],
+            "local_decisions": 4,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 7,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.0005025999853387475,
+          "candidate_evaluations": 20,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.006769900006474927,
+          "table_cells_scored": 18710,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.00010040000779554248,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 11,
+      "hidden": {
+        "scope": "record",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.0003358999965712428,
+          "candidate_evaluations": 0,
+          "local_decisions": 4,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "order": "after",
+            "outer": true,
+            "reusable_key_expression": {
+              "kind": "record_id"
+            },
+            "unresolved": [],
+            "certificates": [
+              "Identical feature tuples split: only record-ID grouping in the declared language can do this."
+            ],
+            "local_decisions": 4,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 7,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.00036720000207424164,
+          "candidate_evaluations": 20,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.009979299997212365,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.0001503000094089657,
+          "precomputation_shared": true
+        }
+      }
+    }
+  ],
+  "suite_seconds": 0.752019300009124,
+  "all_dsl_evaluations_by_category": {
+    "candidate_precomputation": 22452,
+    "reference_stress_scoring": 6144,
+    "learner_acquisition_truth": 105,
+    "learned_and_surviving_program_verification": 50100,
+    "isolation_audit_candidate_simulation": 495,
+    "same_probe_candidate_filtering": 221
+  }
+}

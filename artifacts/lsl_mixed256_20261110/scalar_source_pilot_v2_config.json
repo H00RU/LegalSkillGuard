@@ -1,0 +1,21 @@
+{
+  "run_id": "LSG-MIX256-scalar-source-pilot-v2",
+  "selection": "first fixed manifest TRAIN source in each scalar task, no outcome selection",
+  "checkpoint_sha256": "e0c531073a7878cf82bb6c1f719bada8176a26a7aad4899cf387b44e1a48b693",
+  "code": {
+    "experiments/lsl_mix_scalar_prototype.py": "e731d6b9621998f8ab4fddc25302a514d2b985f82f857a979509aac243f9ce32",
+    "legal_skill_guard/lsl/scalar_proposals.py": "582a8a601adca181dfcaf08b52d514697a9268be569a5e820117278743a38975",
+    "legal_skill_guard/lsl/safe_program.py": "67f316a3d51eca59cf1f844e5fc73fb29d8be189bcf65fd346add88d5d251f6a",
+    "legal_skill_guard/lsl/local_credit.py": "ddc3bdaccf23d8312b87c45cbecd96b0abb49e0bad2add6d0da9877508dd52f3",
+    "legal_skill_guard/lsl/physical.py": "e719d2f8180c194cac8d05a276c9244e8170b57a6f261524184ac5b3a3af7fc9"
+  },
+  "manifest_sha256": "96f3efe4bc29c8725a66df168365af0fd5c078db2750852e60cbdf3b0f6005d9",
+  "thinking": false,
+  "question": "After real combined-output failures, can unindexed source and program-only PAL-style generation produce a complete executable native program?",
+  "changes": [
+    "Source identifiers/alternative fields removed from program generation",
+    "Only current-case relevant branches requested",
+    "Undefined-name rejection reproduced on actual v1 response before real retry"
+  ],
+  "prior_failed_attempts_preserved": "scalar_source_pilot_v1_results.json"
+}

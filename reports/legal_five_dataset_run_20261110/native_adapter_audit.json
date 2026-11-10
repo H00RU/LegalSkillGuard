@@ -1,0 +1,78 @@
+{
+  "datasets": {
+    "ContractNLI": {
+      "open_sources_verified": 48,
+      "legacy_selected_public_hashes_verified": true,
+      "native_test_file_opened": false,
+      "all_17_hypotheses_and_native_evidence": true
+    },
+    "SARA_v2_Binary": {
+      "open_sources_verified": 48,
+      "legacy_selected_public_hashes_verified": true,
+      "TEST_metadata_only": true,
+      "native_adapter": {
+        "raw_rows": 176,
+        "selected_native_groups": 69,
+        "public_inputs_exclude_gold": true,
+        "native_test_file_opened": false,
+        "grouping": "same stem/fact connected-component rule; selected groups are TRAIN-only in fixed metadata"
+      }
+    },
+    "ProofWriter_OWA_depth5": {
+      "open_sources_verified": 48,
+      "legacy_selected_public_hashes_verified": true,
+      "TEST_metadata_only": true,
+      "native_adapter": {
+        "raw_rows": 3804,
+        "selected_native_groups": 3804,
+        "public_inputs_exclude_gold": true,
+        "native_test_file_opened": false,
+        "one_query_without_labels": true
+      }
+    },
+    "RuleArena_Airline": {
+      "open_sources_verified": 48,
+      "legacy_selected_public_hashes_verified": true,
+      "TEST_metadata_only": true,
+      "native_adapter": {
+        "raw_rows": 300,
+        "selected_native_groups": 300,
+        "public_inputs_exclude_gold": true,
+        "grouping": "original public problem arguments across complexity files",
+        "shared_allowance_fabricated": false
+      }
+    }
+  },
+  "raw_hashes": {
+    "sara_v2.tar.gz": "f433146a8a83d351b7797ff12a9a5afdb3986ad790af9cfbc1c2b6d3f2dca85b",
+    "contract-nli.zip": "e03fc77bbf8b53e2976a250e81d8a294bc3d5e5fb014521e477dee9340d6287b",
+    "proofwriter-dataset-V2020.12.3.zip": "bbc5694901e8306d0bd659aa1ad53ccfd02c201864f4b320ffa3777827d1fc26"
+  },
+  "open_counts": {
+    "NormBench": {
+      "train": 128,
+      "dev": 16
+    },
+    "SARA_v2_Binary": {
+      "train": 32,
+      "dev": 16
+    },
+    "ContractNLI": {
+      "train": 32,
+      "dev": 16
+    },
+    "ProofWriter_OWA_depth5": {
+      "train": 32,
+      "dev": 16
+    },
+    "RuleArena_Airline": {
+      "train": 32,
+      "dev": 16
+    }
+  },
+  "ContractNLI17_runtime_shape": "document, queries{id:hypothesis}, sentence_spans, answer_type=contract_nli_all_17",
+  "ContractNLI17_desktop_wire_hash_claimed_reproduced": false,
+  "ContractNLI17_identity_check": "legacy document hash plus all17 official hypotheses and native sentence spans; explicit new runtime input hashes saved",
+  "TEST_body_or_gold_returned": false,
+  "native_Horn_reference_labels_checked": true
+}

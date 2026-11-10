@@ -1,0 +1,87 @@
+{
+  "config": {
+    "run_id": "LSG-MIX256-native-schema-v3",
+    "common_checkpoint_sha256": "e0c531073a7878cf82bb6c1f719bada8176a26a7aad4899cf387b44e1a48b693",
+    "changes": [
+      "Explicit English norm-kind/Chinese tag enums",
+      "Exact native Horn tuple and variable examples",
+      "One-to-one ASCII native role serialization fixes reproduced Unicode enum bug",
+      "Public fact/rule list upper bounds prevent the observed repeated-rule loop; missing content stays an error"
+    ],
+    "offline_evidence": {
+      "native_TRAIN_targets_schema_valid": 256,
+      "native_grammars_xgrammar_compiled": 5,
+      "native_target_tokens_and_EOS_accepted_for_repaired_formats": true
+    },
+    "code": {
+      "experiments/lsl_mix_schema_validation.py": "09811ca76d13e74d1571dee6fcbd5af30565991ba4bbc39d31d4633a82bdddaf",
+      "legal_skill_guard/lsl/native_training.py": "d0da0f68dfc85ba15777b5b92e7d36bfd538faa178b94c6afb3983b3c0d7cea8",
+      "legal_skill_guard/lsl/native_schema.py": "3634b6831a05786d1b6c05d4db0c343c05c1427ddecbf5b0f0fe755af5296133",
+      "legal_skill_guard/lsl/physical.py": "e719d2f8180c194cac8d05a276c9244e8170b57a6f261524184ac5b3a3af7fc9",
+      "legal_skill_guard/lsl/role_codec.py": "add6983456acd6cfc104d0064197779cdc6175cce63cc39c209fe8e6c3699929"
+    },
+    "manifest_sha256": "96f3efe4bc29c8725a66df168365af0fd5c078db2750852e60cbdf3b0f6005d9"
+  },
+  "results": [
+    {
+      "dataset": "NormBench",
+      "source": "zh:最高人民法院关于审理涉及公证活动相关民事案件的若干规定|五",
+      "finish": "stop",
+      "fallback": false,
+      "schema_valid": true,
+      "native_execution_valid": true,
+      "native_structure": {
+        "item_id": "zh:最高人民法院关于审理涉及公证活动相关民事案件的若干规定|五",
+        "family_id": "最高人民法院关于审理涉及公证活动相关民事案件的若干规定",
+        "valid": true,
+        "error": null,
+        "node_span": {
+          "tp": 4,
+          "pred": 16,
+          "gold": 18,
+          "f1": 0.23529411764705882
+        },
+        "typed_content": {
+          "tp": 0,
+          "pred": 8,
+          "gold": 10,
+          "f1": 0.0
+        },
+        "parent_edges": {
+          "tp": 0,
+          "pred": 12,
+          "gold": 15,
+          "f1": 0.0
+        },
+        "membership_edges": {
+          "tp": 0,
+          "pred": 12,
+          "gold": 15,
+          "f1": 0.0
+        },
+        "canonical_whole_graph_exact": false,
+        "branch_behavior_equivalent": null,
+        "inventory_exact_for_behavior_check": false,
+        "role_set_tp": 0,
+        "role_set_gold": 8,
+        "role_set_recall": 0.0,
+        "unit_f1": 0.0,
+        "gold_native_inferred_or_unresolved_leaves": 1,
+        "fallback_used": false
+      }
+    },
+    {
+      "dataset": "ProofWriter_OWA_depth5",
+      "source": "ProofWriter_OWA_depth5:7bd9b3fd8e595566612828f313b2af3004bef6fee45ed2838cb8ae6c536c39e7",
+      "finish": "stop",
+      "fallback": false,
+      "schema_valid": true,
+      "native_execution_valid": true,
+      "executed_answer": "Unknown",
+      "native_expected": "Unknown",
+      "executed_native_correct": true,
+      "neural_readout_answer": "Unknown"
+    }
+  ],
+  "goal_complete": false
+}
