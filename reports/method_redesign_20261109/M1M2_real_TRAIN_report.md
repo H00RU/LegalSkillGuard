@@ -1,67 +1,45 @@
-# 当前结论：普通路径可用，两项独立方法仍未成立
+# 当前结论：已完成新配对的真实独立获取比较，第一贡献尚未成立
 
-最新工作是**0新增模型调用**的固定TRAIN响应清点与强普通控制。它补上原20来源之外的已有事实输出入口，揭示原21的规则引文冒充事实证据和原50的例外排除误读；分别可由已有引文合同/精确去重、官方结构化位置/原规则排除控制处理，未建立新学习机制。两项贡献仍未成立，Goal active、未完成。目标/验收/授权唯一见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，最新证据与下一项工作维护于[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。
+本次直接实现并运行了获批合同诊断，新增**2T/0E**；不是覆盖审计或设计卡交付。候选与普通程序缓存分别独立取得源规则、实际执行并冷重放，原生TRAIN均7/8，错误不同，尚未证明第一项完整贡献。Goal active、未完成，第二项未选定。唯一执行说明见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，当前证据/决定维护于[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。
 
-上一真实验证新增1E/0T，原TRAIN3事实读取后缓存执行为E；原TRAIN83以旧事实/新目标路径执行为C，均匹配原TRAIN标签并有冻结重放。这些普通路径的证据继续保留，不能直接变成两项贡献。
+## 学习对象、实现及更新
 
-## 正确缓存已具有什么
+候选学得4个合同中的接收人范围、权限/义务/禁止、触发、条件及源内连接，接口由作者给定。更新算法验证原文锚点和源内连接，原子存储或替换该源图，比较查询轨迹并报告变更对象和受影响查询；本次真实进行了4个初始源图更新，冻结导出和冷恢复一致。
 
-复用旧实际教师原响应，不重新生成法规：完整TRAIN3缓存包含A的终止后付款、死亡或残疾退休条件，并有覆盖其他条款的原程序。对A的三个条件枚举27项软件部分赋值，旧程序与对应布尔条件一致。只给原生注释支持的after/retirement两个正前提时，也能决定A；其他事件/计划保持未知。它不是27个法律样本、自动事实读取或新方法。
+这仍是逐合同知识缓存。没有诱导出跨合同编译器，没有执行基于TRAIN反馈的真实纠错更新；条件保留为文本，不能声称已经执行事件条件。跨动作例外边被模型写出，但当前同动作查询匹配未使用它；不把字段存在当机制验证。软件更新检查只核验实现。
 
-目标专用短教师程序与完整程序分开：短程序在旧全源接口下仍保留未翻译单元TOP，不忽略它们制造证书；这也不是给当前Goal追加每个模块都必须解析全部源码的门槛。旧教师两个生成都见过原案例/问题，不能称纯源、零提示或本轮新学习。
+[算法](../../legal_skill_guard/rr/contract_scope_learning.py) · [真实运行入口](../../experiments/rr_v2_contract_scope_acquisition.py) · [冻结协议](contract_scope_acquisition_protocol.md) · [监督接纳与母合同隔离](../../experiments/rr_v2_contract_pair_intake.py)。
 
-[实际旧缓存、27项软件控制及原生参考前提](train3_cached_condition_results.json) · [冻结原程序与执行](../../artifacts/rr_method_redesign_20261109/train3_cached_condition_control_v1_20261110/frozen_control.json)。
+## 真实强对照
 
-## 两条原来源的真实路径
+两臂收到相同4份完整原文、8个原生问题及公共查询含义；独立生成，不共享答案、旧程序或规则。两模型均不见新标签或标注证据；作者先读取获批TRAIN监督用于开发，因此是TRAIN诊断而非盲验证。普通缓存可自由使用普通程序逻辑，不被迫采用候选图或翻译无关全源。评分及重放从执行保存文件读取，未用答案改模型输出。
 
-| 原TRAIN | 模型/源程序的实际来源 | 当前执行 | 边界 |
-|---|---|---|---|
-| 3 | 新Qwen/OFF从原公共facts读三个既有谓词；规则来自旧完整教师程序 | after=true、retirement=true、death=null，旧缓存A查询输出E；原标签E；fallback0/1；冷重放一致 | 给定谓词API，不是执行器新生成全源IR；旧教师见过原案/问题 |
-| 83 | 原direct:TRAIN83:original的payer=Alice/payee=Bob、work_is_agricultural=false；复用同部3306旧教师程序，代码只重新绑定原公开query的目标 | c(1)直接拥有s32的agricultural_labor_exclusion输出C；原标签C；fallback0/1；冷重放一致 | 新普通调用路径；旧路由错选记录不改，不将已有事实值或错误源代码改成答案 |
+| 项目 | 候选源规则图 | 独立普通程序缓存 |
+|---|---:|---:|
+| 原生TRAIN正确 | 7/8 | 7/8 |
+| 真实执行；fallback | 8/8；0/8 | 8/8；0/8 |
+| 母合同 | 4 | 4 |
+| 获取请求；修复请求 | 1T；0 | 1T；0 |
+| 输入 / 输出tokens | 23546 / 4699 | 23353 / 5088 |
+| reasoning输出子集 | 2944 | 3841 |
+| 获取耗时 | 101.812秒 | 105.972秒 |
+| 冷重放 | 8/8一致 | 8/8一致 |
 
-原TRAIN3的新事实模型没有看到原问题、标签、标注日期或参考证明，只收到原公共案情和实际缓存谓词/原文条件；生成91tokens，完整stop。给定的谓词与源代码不能再算成新学得接口。原0/89全源执行器IR失败分母及旧错误保持不变。
+候选错10/nda-5：只把代理人/专业顾问归入第三方范围，遗漏原生员工许可。普通缓存依据相邻“all such employees”得到该题E，但错115/nda-20：它把一般书面授权保留例外外推到返还/销毁后，原生标签为NotMentioned。两项均为获取/语义解释问题，没有解析器或执行器失败；不更改原生标签，不加入agents等于employees的全局规则。
 
-### 值正确和引文范围分开
+111的“返还义务+留档许可”分别被真实取得，且两查询同为E；5的保密、Purpose及合同约束也保留在条件中。这是有限源获取证据，不能据7个正确标签或引文匹配宣称源范围语义完整。所有NotMentioned均来自实际执行的源检查路径，未把失败或null改作默认N。
 
-模型把死亡留未知，未用缺失事实作否定；退休在公共案情直接出现。after=true与原生意图/既有参考证明一致，但模型引用的是“Bob被诊断残疾并退休”一句，没有单独覆盖付款时序。公共完整案情确已给模型，其中有“因终止合同而付款”的因果叙述；精确付款日只存在于另存原生标注，未输入或替换模型值。
+[评分、请求、成本、重放和账本](contract_scope_acquisition_results.json) · [两种原始响应/实际执行](../../artifacts/rr_method_redesign_20261109/contract_scope_acquisition_v1_20261110/) · [源义审核及决定](../../artifacts/rr_method_redesign_20261109/contract_scope_acquisition_v1_20261110/source_semantic_review_and_decision.json)。
 
-因此记录为原生任务一致、存在引用范围缺口，**不称quote-only语义证书或任意自然语言蕴含保证**。也不事后新增“每条引文必须自含全证明/案情必须给精确付款日”的验收来抹去原任务结果。当前两项方法未成立，不用这一次答对替代其语义验收。
+## 研究决定与边界
 
-[原始事实值及执行前保存](../../artifacts/rr_method_redesign_20261109/train3_cached_fact_reader_v1_20261110/execution_before_cached_grading.json) · [实际发送内容、配置与冻结文件](../../artifacts/rr_method_redesign_20261109/train3_cached_fact_reader_v1_20261110/seal.json) · [原生语义/引文范围审核与恢复](../../artifacts/rr_method_redesign_20261109/train3_cached_fact_reader_audit_v1_20261110/native_review_and_replay.json)。
+**不晋升第一贡献，不围绕这8题反复修补，不打开DEV。** 这不是仅因普通程序可表达同一逻辑而否定候选：真实独立获取尚无正确性优势，本批总输入加输出28245对28441 tokens、单次耗时101.8对106.0秒，也不足以建立一项可信的获取成本贡献。没有额外设涨分或显著性门槛。下一步需要的是跨合同可复用的获取/更新算法，不能以更多逐合同缓存成功代替它；先建立第一项，再研究独立第二项。算法仍未具体成立时，应集中报告科学设计缺口，不以旧例审计维持进度。
 
-### TRAIN83的具体错选与修正
+12配对已获批并保留原提案原件。8 TRAIN属于4个母合同；4 DEV属于另外2个母合同，尚未选取标签、运行或用于修补。它们是独立诊断扩展，不改原128来源/旧分数/TEST，也不计12个独立来源。没有主训练、完整矩阵、正式TEST或论文。旧A/B、M1/M2及此前所有否定证据保留。
 
-旧请求已经给出明确c(1)→s32地址，菜单同时列出s32的农业劳动排除和下层现金/工作日资格。模型却选了下层agricultural_employing_person_qualification。它是模型错选，旧调用器没有强制目标归属。当前普通选择器按原明确citation找唯一直接拥有目标单元的原声明；父条件仍由既有编译器继承。未按标签、名称相似或人工新规则猜答案；不同法条、含糊归属、其他问题形状均拒绝，不增加泛化兜底。
+累计**1399E/70T、pending0**，1469calls/229meta/145oracle。新增2个已完成教师物理请求、1条运行policy和8个获批原生TRAIN标签视图；原1467/228/137逐行保留。原before/after SQLite另存，账本不重置。Qwen/OFF与教师gpt-5.6-sol/high/temperature未显式设置/重试0不变。教师发票、GPU分摊和总项目现金未知；不把未知费用写成0，reasoning计数不重复加到输出。供应商内部重试不可观测。main未改。
 
-两个输出在原83家政案例上可以同答，不能据标签正确判语义等价。一个明确标作**软件完成**的条件组合让根排除为E、下层资格为C，证明它们不能互换；未把这个反例视为新法律样本。新实际路径复用原direct事实false、不改旧教师规则，通过当前原83预测与原缓存标签比较及冷重放；首次读取该原生标签视图记入账本。单一服务事件的已声明同义布尔适配和Alice/Bob角色核对由作者审核，不声称学习了任意多事件角色映射。
-
-[源目标选择代码](../../experiments/rr_v2_cached_statute_target.py) · [原发送菜单与错误响应](../../artifacts/rr_method_redesign_20261109/cached_statute_target_control_v1_20261110/actual_old_route_input.json) · [执行先于评分、旧事实/程序、软件反例](../../artifacts/rr_method_redesign_20261109/cached_statute_target_control_v1_20261110/execution_before_original_cached_grade.json) · [结果和原生评分](cached_statute_target_results.json)。
-
-## 固定TRAIN响应清点和新增普通控制
-
-读取原固定128个TRAIN来源键对应的1215条已完成执行器响应，另1条失败仍计费。响应有53种JSON顶层形状；35条含命名事实值，共255行、30个账本主来源。加上局部角色、事件、批量case和金额span等，共74条事实型候选响应、37个主来源。重复请求、混合source/fact响应、同一母来源变体及批量响应分别保留，不能换算成独立native样本、接受IR或新增训练数据。
-
-该清点没有把程序中的观察声明当成实际读取值，也不以外层code/IR桶排除其中所有可能可用的嵌入信息。472条非JSON记录含合法的原始Python文本，不把这个数当新截断/失败统计；原89条记录与分母不改。旧20来源审计也不外推到全部128。
-
-原OpenExempt TRAIN21是新展开的实际例子：八个false值分别引用联邦/州法服装条文，而非案情，已有精确事实引文检查就会拒收。它们不经修补变成true。按完整语义输入（entity、predicate、fact_text、predicate_context、reference_years）做普通精确去重，可把八个输出槽合成四组；没有擅自把不同法域的同词含义合并。**输出槽减半不是物理调用/耗时减半，也不是核心学习。**
-
-原Airline TRAIN50把首行明确排除Peru的地理条件返回true。只读取已核验官方gen_questions.py的城市映射常量，可知原Orlando→Lima为U.S.→Peru；配合原请求中该谓词的明确排除，就得到必要条件false，无需费用答案或新教师标签。此控制只驳斥这一行，未把未触犯排除的其他行都判正确；原模型输出、旧IR/得分不改，不宣称完整费用计算恢复。
-
-[清点与最终控制结果](recorded_fact_inventory_with_controls_results.json) · [逐物理响应形状清单](../../artifacts/rr_method_redesign_20261109/recorded_fact_inventory_v1_20261110/frozen_inventory.json) · [原21请求、八个原错值和精确去重](../../artifacts/rr_method_redesign_20261109/recorded_fact_inventory_v1_20261110/original_OE21_provenance_and_exact_dedup.json) · [普通源位置/排除控制](../../artifacts/rr_method_redesign_20261109/recorded_fact_inventory_v1_20261110/ordinary_native_location_exclusion_control.json)。官方代码固定在[RuleArena原提交](https://github.com/SkyRiver-2000/RuleArena/blob/59f60f6b4eb93a9b6d187ec781349d4f15618903/airline/gen_questions.py)，只抽取城市常量，未执行题目生成或读取生成数据。
-
-这为后续机制提供了更完整的已有入口，**没有证明其余字段已解决或所有研究方向都不可能**。当前“源谓词分解/共享或噪声校正”仍须面对fact-only、精确语义输入去重及结构化事实后执行源条件这些强控制，不因存在一个神经读错就拟合新模型。也不新增所有255行逐条全对的Goal验收。
-
-本次模型/标签视图/来源/配对新增均0，账本1467calls/228meta/137oracle逐行与快照一致，累计1399E/68T、pending0；API现金增量0。无DEV/TEST、完整建库/矩阵、主训练或论文，main未改。下述1E费用是上一真实验证，不能重复计费。
-
-## 方法判断、调用与费用
-
-正确缓存计算、静态依赖、精确目标选择和既有直接事实读取已足以完成这两条普通路径；不能把它们拆成两个创新，也不能将源程序仍未自动学得的新机制描述成已经完成。当前没有依据为这两个成功来源重复购买相同修复；剩余研究必须有未被强普通控制吸收的具体学习/更新作用，必要DEV/迁移也仍缺。没有启动主训练、完整建库/矩阵、DEV/TEST或论文。
-
-上一真实验证的新执行器501输入/91输出tokens、2.489秒，wire明确OFF、reasoning_content=null、temperature0.6/top_p0.95/top_k20/seed45/max_tokens8192及客户端重试0不变；非缓存，新增API现金0。教师新增0，旧缓存获取费用不抹去；GPU分摊、教师实际发票和项目总费用未知。
-
-原1466calls/226meta/136oracle逐行保留，新增1 calls、2 policy meta和1个原TRAIN83缓存标签视图；无新增反事实、数据来源或原生配对。累计 **1399E/68T、pending0**，1467/228/137，账本另存前后快照。本轮新模型原生预测/缓存评分1（TRAIN3）；原模型事实在新调用路径重执行/评分1（TRAIN83），不是两个新模型生成、更不是两项贡献。main未改。
-
-[真实读取/费用/完整账本核查](train3_cached_fact_reader_results.json) · [请求与原标签视图差量](../../artifacts/rr_method_redesign_20261109/train3_cached_fact_reader_audit_v1_20261110/request_and_view_ledger_delta.json)。
+此前原TRAIN3/83真实普通路径、固定128响应清点及最近邻核查仍可复用：[TRAIN3读取](train3_cached_fact_reader_results.json)、[83目标修正](cached_statute_target_results.json)、[原响应清点与普通控制](recorded_fact_inventory_with_controls_results.json)、[近邻及批量真实归属](related_work_scope_review_results.json)。这些历史结果不计本轮新请求，也不变成两项贡献。
 
 ---
 
