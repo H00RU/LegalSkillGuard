@@ -164,8 +164,8 @@ def run(program, case, *, use_priorities=True):
     support=z3.Or(*[z3.And(truth[a],z3.Not(truth.get(opposite(a),z3.BoolVal(False)))) for a in matching])
     if None in q[1]:refute=z3.BoolVal(False)
     elif predicates[q[0]]['functional']:
-        refute=z3.Or(*[truth[a] for a in atoms if opposed(q,a)])
-    else:refute=truth.get(opposite(q),z3.BoolVal(False))
+        refute=z3.Or(*[z3.And(truth[a],z3.Not(truth.get(opposite(a),z3.BoolVal(False)))) for a in atoms if opposed(q,a)])
+    else:refute=z3.And(truth.get(opposite(q),z3.BoolVal(False)),z3.Not(truth.get(q,z3.BoolVal(False))))
     def always(f):
         solver.push();solver.add(z3.Not(f));status=solver.check();solver.pop();return status==z3.unsat
     yes,no=always(support),always(refute)

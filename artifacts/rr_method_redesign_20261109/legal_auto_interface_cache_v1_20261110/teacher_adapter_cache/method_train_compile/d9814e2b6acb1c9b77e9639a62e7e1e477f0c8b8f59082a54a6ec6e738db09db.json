@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "request_sha256": "d9814e2b6acb1c9b77e9639a62e7e1e477f0c8b8f59082a54a6ec6e738db09db",
+  "response_sha256": "01b82a65669aaa522e7e6efa6027b3fac7db8687c9bcaddad4c212a39509cc28",
+  "model": "gpt-5.6-sol",
+  "purpose": "method_train_compile",
+  "value": {
+    "interface": [
+      {
+        "name": "case_subject_year",
+        "roles": [
+          "person",
+          "taxable_year"
+        ],
+        "functional": false,
+        "meaning": "Neutral roster of the persons and taxable years actually named in the case or query; it supplies no substantive legal fact."
+      },
+      {
+        "name": "qualifying_child",
+        "roles": [
+          "child",
+          "claimant",
+          "claimant_taxable_year"
+        ],
+        "functional": false,
+        "meaning": "The child is a qualifying child of the claimant for the claimant's taxable year; the omitted section 152(c) tests are outside this module."
+      },
+      {
+        "name": "qualifying_relative",
+        "roles": [
+          "relative",
+          "claimant",
+          "claimant_taxable_year"
+        ],
+        "functional": false,
+        "meaning": "The relative is a qualifying relative of the claimant for the claimant's taxable year; the omitted section 152(d) tests are outside this module."
+      },
+      {
+        "name": "section_152a_applies",
+        "roles": [
+          "subject",
+          "claimant",
+          "claimant_taxable_year"
+        ],
+        "functional": false,
+        "meaning": "The section 152(a) dependent definition applies because the subject is the claimant's qualifying child or qualifying relative for the taxable year."
+      },
+      {
+        "name": "dependent",
+        "roles": [
+          "subject",
+          "claimant",
+          "claimant_taxable_year"
+        ],
+        "functional": false,
+        "meaning": "The subject is a dependent of the claimant for the claimant's taxable year."
+      },
+      {
+        "name": "taxable_year_begins_in_calendar_year",
+        "roles": [
+          "person",
+          "taxable_year",
+          "calendar_year"
+        ],
+        "functional": false,
+        "meaning": "The person's specified taxable year begins in the specified calendar year."
+      },
+      {
+        "name": "section_152b1_applies",
+        "roles": [
+          "ineligible_individual",
+          "claimant",
+          "claimant_taxable_year",
+          "ineligible_individual_taxable_year",
+          "calendar_year"
+        ],
+        "functional": false,
+        "meaning": "Section 152(b)(1) applies to an individual who is another claimant's dependent, for the individual's taxable year beginning in the same calendar year."
+      },
+      {
+        "name": "section_151c_applies",
+        "roles": [
+          "subject",
+          "claimant",
+          "claimant_taxable_year"
+        ],
+        "functional": false,
+        "meaning": "Section 151(c) applies because the subject is the claimant's dependent for the taxable year."
+      },
+      {
+        "name": "deduction_under_151_allowable_to",
+        "roles": [
+          "subject",
+          "claimant",
+          "claimant_taxable_year"
+        ],
+        "functional": false,
+        "meaning": "A deduction under section 151 with respect to the subject is allowable to the claimant for the claimant's taxable year."
+      },
+      {
+        "name": "different",
+        "roles": [
+          "left_person",
+          "right_person"
+        ],
+        "functional": false,
+        "meaning": "The two expressly supplied persons are different; inequality is never inferred."
+      },
+      {
+        "name": "section_151d1_applies",
+        "roles": [
+          "subject",
+          "subject_taxable_year"
+        ],
+        "functional": false,
+        "meaning": "The general section 151(d)(1) exemption-amount rule applies defeasibly to the subject and taxable year."
+      },
+      {
+        "name": "section_151d2_applies",
+        "roles": [
+          "subject",
+          "subject_taxable_year",
+          "other_taxpayer",
+          "other_taxpayer_taxable_year",
+          "calendar_year"
+        ],
+        "functional": false,
+        "meaning": "Section 151(d)(2) applies because a section 151 deduction for the subject is allowable to a different taxpayer for a taxable year beginning in the calendar year in which the subject's taxable year begins."
+      },
+      {
+        "name": "taxable_year_begins_in_2018_through_2025",
+        "roles": [
+          "taxable_year"
+        ],
+        "functional": false,
+        "meaning": "The taxable year begins after December 31, 2017, and before January 1, 2026; this factual period classification must be supplied explicitly."
+      },
+      {
+        "name": "section_151d5_applies",
+        "roles": [
+          "subject",
+          "subject_taxable_year"
+        ],
+        "functional": false,
+        "meaning": "Section 151(d)(5) applies because the subject's taxable year begins after December 31, 2017, and before January 1, 2026."
+      },
+      {
+        "name": "exemption_amount",
+        "roles": [
+          "subject",
+          "subject_taxable_year",
+          "amount"
+        ],
+        "functional": true,
+        "meaning": "The final exemption amount applicable to the subject for the subject's taxable year; subject and taxable year form the key and amount is the output."
+      }
+    ],
+    "code": "def law_cache(facts, query):\n    unresolved = [\n        \"The internal tests for qualifying-child and qualifying-relative status in section 152(c) and 152(d) are outside this local module; qualifying_child and qualifying_relative must therefore be supplied as signed facts.\",\n        \"Taxable-year-to-calendar-year alignment is factual and must be supplied through taxable_year_begins_in_calendar_year.\",\n        \"Whether a taxable year begins after December 31, 2017, and before January 1, 2026 is not computed arithmetically; taxable_year_begins_in_2018_through_2025 must be supplied as a factual relation.\",\n        \"Different-person status is never inferred; every required different pair must be supplied explicitly.\",\n        \"Sections 151(a), 151(b), 151(d)(3), 152(b)(2), 152(c), 152(d), and all other omitted subrules remain outside this requested local module.\",\n        \"Section 151(d)(1)'s exception for provisions other than the translated section 151(d)(2) and section 151(d)(5) rules remains unresolved.\"\n    ]\n    quote_152a = \"For purposes of this subtitle, the term \\\"dependent\\\" means-\\n\\n    (1) a qualifying child, or\\n\\n    (2) a qualifying relative.\"\n    quote_152b1 = \"If an individual is a dependent of a taxpayer for any taxable year of such taxpayer beginning in a calendar year, such individual shall be treated as having no dependents for any taxable year of such individual beginning in such calendar year.\"\n    quote_151c = \"An exemption of the exemption amount for each individual who is a dependent (as defined in section 152) of the taxpayer for the taxable year.\"\n    quote_151d1 = \"Except as otherwise provided in this subsection, the term \\\"exemption amount\\\" means $2,000.\"\n    quote_151d2 = \"In the case of an individual with respect to whom a deduction under this section is allowable to another taxpayer for a taxable year beginning in the calendar year in which the individual's taxable year begins, the exemption amount applicable to such individual for such individual's taxable year shall be zero.\"\n    quote_151d5 = \"In the case of a taxable year beginning after December 31, 2017, and before January 1, 2026, the term \\\"exemption amount\\\" means zero.\"\n    rules = [\n        {\n            \"id\": \"r152a_child_applicability\",\n            \"head\": {\"predicate\": \"section_152a_applies\", \"arguments\": [\"?subject\", \"?claimant\", \"?year\"], \"positive\": True},\n            \"body\": [\n                {\"predicate\": \"qualifying_child\", \"arguments\": [\"?subject\", \"?claimant\", \"?year\"], \"positive\": True}\n            ],\n            \"guard_quote\": \"a qualifying child\",\n            \"quote\": quote_152a\n        },\n        {\n            \"id\": \"r152a_child_dependent\",\n            \"head\": {\"predicate\": \"dependent\", \"arguments\": [\"?subject\", \"?claimant\", \"?year\"], \"positive\": True},\n            \"body\": [\n                {\"predicate\": \"qualifying_child\", \"arguments\": [\"?subject\", \"?claimant\", \"?year\"], \"positive\": True}\n            ],\n            \"guard_quote\": \"a qualifying child\",\n            \"quote\": quote_152a\n        },\n        {\n            \"id\": \"r152a_relative_applicability\",\n            \"head\": {\"predicate\": \"section_152a_applies\", \"arguments\": [\"?subject\", \"?claimant\", \"?year\"], \"positive\": True},\n            \"body\": [\n                {\"predicate\": \"qualifying_relative\", \"arguments\": [\"?subject\", \"?claimant\", \"?year\"], \"positive\": True}\n            ],\n            \"guard_quote\": \"a qualifying relative\",\n            \"quote\": quote_152a\n        },\n        {\n            \"id\": \"r152a_relative_dependent\",\n            \"head\": {\"predicate\": \"dependent\", \"arguments\": [\"?subject\", \"?claimant\", \"?year\"], \"positive\": True},\n            \"body\": [\n                {\"predicate\": \"qualifying_relative\", \"arguments\": [\"?subject\", \"?claimant\", \"?year\"], \"positive\": True}\n            ],\n            \"guard_quote\": \"a qualifying relative\",\n            \"quote\": quote_152a\n        },\n        {\n            \"id\": \"r152b1_applicability\",\n            \"head\": {\"predicate\": \"section_152b1_applies\", \"arguments\": [\"?individual\", \"?claimant\", \"?claimant_year\", \"?individual_year\", \"?calendar_year\"], \"positive\": True},\n            \"body\": [\n                {\"predicate\": \"dependent\", \"arguments\": [\"?individual\", \"?claimant\", \"?claimant_year\"], \"positive\": True},\n                {\"predicate\": \"taxable_year_begins_in_calendar_year\", \"arguments\": [\"?claimant\", \"?claimant_year\", \"?calendar_year\"], \"positive\": True},\n                {\"predicate\": \"taxable_year_begins_in_calendar_year\", \"arguments\": [\"?individual\", \"?individual_year\", \"?calendar_year\"], \"positive\": True}\n            ],\n            \"guard_quote\": \"If an individual is a dependent of a taxpayer for any taxable year of such taxpayer beginning in a calendar year\",\n            \"quote\": quote_152b1\n        },\n        {\n            \"id\": \"r152b1_no_dependents\",\n            \"head\": {\"predicate\": \"dependent\", \"arguments\": [\"?candidate_dependent\", \"?individual\", \"?individual_year\"], \"positive\": False},\n            \"body\": [\n                {\"predicate\": \"dependent\", \"arguments\": [\"?individual\", \"?claimant\", \"?claimant_year\"], \"positive\": True},\n                {\"predicate\": \"taxable_year_begins_in_calendar_year\", \"arguments\": [\"?claimant\", \"?claimant_year\", \"?calendar_year\"], \"positive\": True},\n                {\"predicate\": \"taxable_year_begins_in_calendar_year\", \"arguments\": [\"?individual\", \"?individual_year\", \"?calendar_year\"], \"positive\": True},\n                {\"predicate\": \"case_subject_year\", \"arguments\": [\"?candidate_dependent\", \"?individual_year\"], \"positive\": True}\n            ],\n            \"guard_quote\": \"If an individual is a dependent of a taxpayer for any taxable year of such taxpayer beginning in a calendar year\",\n            \"quote\": quote_152b1\n        },\n        {\n            \"id\": \"r151c_applicability\",\n            \"head\": {\"predicate\": \"section_151c_applies\", \"arguments\": [\"?subject\", \"?claimant\", \"?year\"], \"positive\": True},\n            \"body\": [\n                {\"predicate\": \"dependent\", \"arguments\": [\"?subject\", \"?claimant\", \"?year\"], \"positive\": True}\n            ],\n            \"guard_quote\": \"each individual who is a dependent (as defined in section 152) of the taxpayer for the taxable year\",\n            \"quote\": quote_151c\n        },\n        {\n            \"id\": \"r151c_deduction_allowable\",\n            \"head\": {\"predicate\": \"deduction_under_151_allowable_to\", \"arguments\": [\"?subject\", \"?claimant\", \"?year\"], \"positive\": True},\n            \"body\": [\n                {\"predicate\": \"dependent\", \"arguments\": [\"?subject\", \"?claimant\", \"?year\"], \"positive\": True}\n            ],\n            \"guard_quote\": \"each individual who is a dependent (as defined in section 152) of the taxpayer for the taxable year\",\n            \"quote\": quote_151c\n        },\n        {\n            \"id\": \"r151d1_applicability\",\n            \"head\": {\"predicate\": \"section_151d1_applies\", \"arguments\": [\"?subject\", \"?subject_year\"], \"positive\": True},\n            \"body\": [\n                {\"predicate\": \"case_subject_year\", \"arguments\": [\"?subject\", \"?subject_year\"], \"positive\": True}\n            ],\n            \"guard_quote\": \"Except as otherwise provided in this subsection\",\n            \"quote\": quote_151d1\n        },\n        {\n            \"id\": \"r151d1_amount\",\n            \"head\": {\"predicate\": \"exemption_amount\", \"arguments\": [\"?subject\", \"?subject_year\", \"$2,000\"], \"positive\": True},\n            \"body\": [\n                {\"predicate\": \"case_subject_year\", \"arguments\": [\"?subject\", \"?subject_year\"], \"positive\": True}\n            ],\n            \"guard_quote\": \"Except as otherwise provided in this subsection\",\n            \"quote\": quote_151d1\n        },\n        {\n            \"id\": \"r151d2_applicability\",\n            \"head\": {\"predicate\": \"section_151d2_applies\", \"arguments\": [\"?subject\", \"?subject_year\", \"?other_taxpayer\", \"?other_year\", \"?calendar_year\"], \"positive\": True},\n            \"body\": [\n                {\"predicate\": \"case_subject_year\", \"arguments\": [\"?subject\", \"?subject_year\"], \"positive\": True},\n                {\"predicate\": \"deduction_under_151_allowable_to\", \"arguments\": [\"?subject\", \"?other_taxpayer\", \"?other_year\"], \"positive\": True},\n                {\"predicate\": \"different\", \"arguments\": [\"?subject\", \"?other_taxpayer\"], \"positive\": True},\n                {\"predicate\": \"taxable_year_begins_in_calendar_year\", \"arguments\": [\"?subject\", \"?subject_year\", \"?calendar_year\"], \"positive\": True},\n                {\"predicate\": \"taxable_year_begins_in_calendar_year\", \"arguments\": [\"?other_taxpayer\", \"?other_year\", \"?calendar_year\"], \"positive\": True}\n            ],\n            \"guard_quote\": \"In the case of an individual with respect to whom a deduction under this section is allowable to another taxpayer for a taxable year beginning in the calendar year in which the individual's taxable year begins\",\n            \"quote\": quote_151d2\n        },\n        {\n            \"id\": \"r151d2_amount\",\n            \"head\": {\"predicate\": \"exemption_amount\", \"arguments\": [\"?subject\", \"?subject_year\", \"zero\"], \"positive\": True},\n            \"body\": [\n                {\"predicate\": \"case_subject_year\", \"arguments\": [\"?subject\", \"?subject_year\"], \"positive\": True},\n                {\"predicate\": \"deduction_under_151_allowable_to\", \"arguments\": [\"?subject\", \"?other_taxpayer\", \"?other_year\"], \"positive\": True},\n                {\"predicate\": \"different\", \"arguments\": [\"?subject\", \"?other_taxpayer\"], \"positive\": True},\n                {\"predicate\": \"taxable_year_begins_in_calendar_year\", \"arguments\": [\"?subject\", \"?subject_year\", \"?calendar_year\"], \"positive\": True},\n                {\"predicate\": \"taxable_year_begins_in_calendar_year\", \"arguments\": [\"?other_taxpayer\", \"?other_year\", \"?calendar_year\"], \"positive\": True}\n            ],\n            \"guard_quote\": \"In the case of an individual with respect to whom a deduction under this section is allowable to another taxpayer for a taxable year beginning in the calendar year in which the individual's taxable year begins\",\n            \"quote\": quote_151d2\n        },\n        {\n            \"id\": \"r151d5_applicability\",\n            \"head\": {\"predicate\": \"section_151d5_applies\", \"arguments\": [\"?subject\", \"?subject_year\"], \"positive\": True},\n            \"body\": [\n                {\"predicate\": \"case_subject_year\", \"arguments\": [\"?subject\", \"?subject_year\"], \"positive\": True},\n                {\"predicate\": \"taxable_year_begins_in_2018_through_2025\", \"arguments\": [\"?subject_year\"], \"positive\": True}\n            ],\n            \"guard_quote\": \"In the case of a taxable year beginning after December 31, 2017, and before January 1, 2026\",\n            \"quote\": quote_151d5\n        },\n        {\n            \"id\": \"r151d5_amount\",\n            \"head\": {\"predicate\": \"exemption_amount\", \"arguments\": [\"?subject\", \"?subject_year\", \"zero\"], \"positive\": True},\n            \"body\": [\n                {\"predicate\": \"case_subject_year\", \"arguments\": [\"?subject\", \"?subject_year\"], \"positive\": True},\n                {\"predicate\": \"taxable_year_begins_in_2018_through_2025\", \"arguments\": [\"?subject_year\"], \"positive\": True}\n            ],\n            \"guard_quote\": \"In the case of a taxable year beginning after December 31, 2017, and before January 1, 2026\",\n            \"quote\": quote_151d5\n        }\n    ]\n    priorities = [\n        {\"higher\": \"r151d2_amount\", \"lower\": \"r151d1_amount\", \"quote\": quote_151d1},\n        {\"higher\": \"r151d5_amount\", \"lower\": \"r151d1_amount\", \"quote\": quote_151d1}\n    ]\n    program = {\n        \"predicates\": facts[\"interface\"],\n        \"rules\": rules,\n        \"priorities\": priorities,\n        \"unresolved\": unresolved\n    }\n    return solve(program, facts[\"facts\"], query)\n",
+    "unresolved": [
+      "The internal tests for qualifying-child and qualifying-relative status in section 152(c) and 152(d) are outside this local module; qualifying_child and qualifying_relative must therefore be supplied as signed facts.",
+      "Taxable-year-to-calendar-year alignment is factual and must be supplied through taxable_year_begins_in_calendar_year.",
+      "Whether a taxable year begins after December 31, 2017, and before January 1, 2026 is not computed arithmetically; taxable_year_begins_in_2018_through_2025 must be supplied as a factual relation.",
+      "Different-person status is never inferred; every required different pair must be supplied explicitly.",
+      "Sections 151(a), 151(b), 151(d)(3), 152(b)(2), 152(c), 152(d), and all other omitted subrules remain outside this requested local module.",
+      "Section 151(d)(1)'s exception for provisions other than the translated section 151(d)(2) and section 151(d)(5) rules remains unresolved."
+    ]
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-10T00:01:00.638709+00:00",
+    "finished_at": "2026-11-10T00:04:23.817970+00:00",
+    "elapsed_seconds": 203.179,
+    "returncode": 0,
+    "event_log_sha256": "815ef7a496cd6ce348d47efe74adc9318c292d7e77b796d50191daa256fd96bd",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 16069,
+      "cached_input_tokens": 0,
+      "output_tokens": 10745,
+      "reasoning_output_tokens": 6468
+    },
+    "estimated_credits": null
+  }
+}
