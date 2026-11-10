@@ -1,1 +1,1 @@
-[Real source learning and fixed-source controls](method_redesign_20261109/source_attachment_learning_report.md) · [Current evidence](../docs/METHOD_REDESIGN_CURRENT.md)
+[Latest offline learning evidence](method_redesign_20261109/factored_source_productions_report.md) · [Current evidence](../docs/METHOD_REDESIGN_CURRENT.md)
