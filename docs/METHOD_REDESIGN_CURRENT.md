@@ -6,9 +6,46 @@
 
 **同一Goal active、未完成。首项具有独立作用的贡献尚未成立，第二项不并行凑数。** 研究问题仍是法律源规则的可靠获取与更新，具体瓶颈已定位到规范谓词、行为、条件及引用的组合附着；不锁定旧A/B、M1/M2或范围图格式。
 
-执行树`/home/yndx/hhy/legal-skill-redesign-20261109`，本地分支`research/method-redesign-20261109`，公开分支`research/legalskillguard-rr-v2`。累计**1399E/74T、pending0**，1473calls/231meta/145oracle。最近小试0E/2T，无新增原生标签视图；旧行逐项保留。无生成客户端在运行；既有Qwen服务PID958223仍为vllm，不能把服务存在当作研究请求在运行。执行器thinking OFF、教师原配置不变。
+执行树`/home/yndx/hhy/legal-skill-redesign-20261109`，本地分支`research/method-redesign-20261109`，公开分支`research/legalskillguard-rr-v2`。当前累计**1408E/74T、pending0，1482calls/236meta/145oracle**。本轮新增9E/0T，旧行逐项保留，0新原生标签视图；无运行中的生成请求。所有9次均thinking OFF、reasoning为空、正常stop，无截断，教师配置未改。这里没有恢复旧调用/轮次上限。
 
-## 最新实质结果：附着更新算法与真实强对照
+## 最近完成：部分源反馈学习及固定来源强对照
+
+已实现共享源解析森林上的边际似然更新、hard-EM控制、修正检索和普通词法/树程序，公共解释器/动作绑定/信息引用解析/旧源头均同信息开放。跨来源特征作用于算子组合、源词项与嵌套算子的关联、限定片段角色、例外两端的动作/参与人/信息绑定。它是普通条件log-linear模型，等价线性改写不是另一项贡献。
+
+作者从既有TRAIN15/20/111细化三条源跨度/边约束，双方全部获得；人工标注时间未计时，不是零成本或模型自行学得的新知识。原生配对/标签未增加。单层程序区分F(A)、O(NOT(A))、NOT(BREACH(A))，不把否定违约变成许可/禁止。没有锁定permission语义前，不用F(A)与NOT(P(A))差异制造收益。
+
+真实新响应的缺省声明、引文实词改写和含义双重编码均已保留。公共编译只绑定同一响应中唯一一致的显式动作/对象/接收域，不补缺声明；限定片段角色和共引文单元例外边是潜在候选，不是悄悄把模型改正确。111新模型漏P，正确O/P头从已付费普通程序单列复用，不能算新模型成功。信息解析只在同一支持单元有唯一所有者和明确such引用时解析基础信息，保留all/one副本区别；它是公共组件。
+
+三份已存物理响应经过完整模型payload相等检查复用，0重复请求。参数已拟合、保存、冻结、冷恢复；7项必要软件回归通过，不计法律样本。
+
+| 路径 | TRAIN部分约束 | 固定4源上的结果 |
+|---|---:|---|
+| 边际学习候选 | 3/3 | 3个可执行切片的选择/源状态均与冻结先验完全相同 |
+| hard-EM | 3/3 | 主算子相同，部分条件/引用角色不同 |
+| 原模型提案先验 | 0/3 | 原始对照 |
+| 同材料修正检索 | 3/3 | 114选F，117仍NOT(O)，没有完整源语义证据 |
+| 普通词法/树 | 3/3 | 117选回明确禁止主算子F，其他限定缺口保留 |
+
+原114/116/117/118在生成前固定，权重/控制/评分冻结后执行；实际各选2条，共8/14个旧声明，4个母来源，不是8个独立样本。未新增原生问题/预测/标签。
+
+- 114：模型将不同接收范围声明锚到同一禁止句；候选仍为NOT(O)，未恢复接收人对应的许可/禁止及同意条件。
+- 116：原文will disclose被引成shall disclose，涉及实词，不做格式适配，获取失败。未以旧结果代替核心成功。
+- 117：候选/先验NOT(O)未保留原文shall not disclose的禁止；普通树程序选F，主算子更忠实；4.3及列举例外仍缺。
+- 118：五路径相同，定义来源与真实禁止共享跨度，明确事先书面同意限定遗漏，无学习增益。
+
+这里3/4可执行森林不是3/4语义成功，也不是原生0/4分数。候选对3个可执行切片**0次改变先验输出**。旧程序在这4源未提出可选return/retain配对，实际8条均为share；不声称原合同无返还/留档条款，不声称绑定机制已迁移，也不新增全分支实测门槛。原8题回归仍8/8，主要继承旧缓存，不计8次新核心学习；111已选P头明确来自旧知识。
+
+[完整真实结果报告](../reports/method_redesign_20261109/source_attachment_learning_report.md) · [参数/费用/逐来源审计](../reports/method_redesign_20261109/source_attachment_learning_results.json) · [实际模型响应及保存状态](../artifacts/rr_method_redesign_20261109/source_attachment_learning_v6_20261110/) · [复用前冻结](../artifacts/rr_method_redesign_20261109/source_attachment_learning_v6_20261110/reuse_freeze.json)。
+
+## 研究决定与下一项实际工作
+
+**停止把已有候选的源附着重排作为第一贡献，不再扩大它的实例、优化器或模型请求。** 不是因为算法成熟或未全库涨分，而是实际新源输出未优于先验，且简单控制能选回候选漏掉的禁止算子。不存在需要用户逐条排查的工程问题或新增额度缺口。两项贡献仍未成立，Goal保持active、未完成。
+
+源到节点/支配关系/条件的获取才是当前缺口。当前候选不能创造旧程序漏掉的节点，统计重排也补不回正确支持跨度；继续换重排损失没有依据。下一步限于离线实现/反证**词项与组合模板分开学习的源获取**，复用现有3条TRAIN约束、源程序和公共解释器，以实际改变候选覆盖为目的；与普通源解析/正确缓存比较。该下一算法尚无作用证据，不把类型树、模板字段或软件检查晋升为贡献。
+
+不重开Goal、不追加数据/来源/种子，不回看DEV挽救候选，不启动完整建库/主训练/TEST/论文。若新路线形成明确代码与离线依据，按既有资源授权自主小试，不逐轮询问；若仍无具体可区分算法，集中报告研究设计缺口，不无限换方向。旧A/B、M1/M2及所有负结果保留。
+
+## 已完成的前轮：regex附着更新与真实强对照
 
 已实现并真实运行“从有限的源捕获组产生式中选择最小一致更新”。学习对象是`anchor/head/behavior/conditions/references`及规范头类型，更新算法按产生式数、字节数和ID选择满足两条源反馈及原8题回归的最小组合。所有模式来自实际教师响应；宿主没有写入新的法律词法模式。对照独立取得自由Python修补，可采用相同语法/运行器。
 
@@ -40,15 +77,11 @@
 
 零调用事后消融：实际提出2条、选中2条；保留全部产生式与选择后的代码、TRAIN和固定源输出完全相同。**选择器没有观察到独立作用**。这只隔离选择步骤，不以普通程序可表达性否定获取。候选本次获取耗时低46.30%、tokens低6.81%，保留为单对成本信号；普通产物覆盖构式更多，紧凑接口/教师推理差异未隔离，新源又未触发更新，不能归因于选择机制或宣称同等泛化下稳定节约。
 
-[本轮完整实质报告](../reports/method_redesign_20261109/contract_attachment_update_report.md) · [运行实现](../legal_skill_guard/rr/contract_attachment_update.py) · [真实生成入口](../experiments/rr_v2_contract_attachment_update.py) · [原始响应/当前状态](../artifacts/rr_method_redesign_20261109/contract_attachment_update_v1_20261110/current_update_state.json) · [费用与逐约束结果](../reports/method_redesign_20261109/contract_attachment_update_results.json) · [固定源复用及无选择器消融](../reports/method_redesign_20261109/contract_attachment_update_review.json)。
+[本轮完整实质报告](../reports/method_redesign_20261109/contract_attachment_update_report.md) · [运行实现](../legal_skill_guard/rr/contract_attachment_update.py) · [真实生成入口](../experiments/rr_v2_contract_attachment_update.py) · [原始响应/保存状态](../artifacts/rr_method_redesign_20261109/contract_attachment_update_v1_20261110/) · [费用与逐约束结果](../reports/method_redesign_20261109/contract_attachment_update_results.json) · [固定源复用及无选择器消融](../reports/method_redesign_20261109/contract_attachment_update_review.json)。
 
-## 研究决定与真正缺口
+## 前轮判断的保留范围
 
-**停止扩展“范围图对代码”“局部regex附着”“最小子集选择”作为第一贡献。** 真实普通修补吸收本批正确性作用；学习到的是两类局部构式，没有获得可组合法律语义算子的更新。RuleChef已覆盖规则/Python失败修补，SG-DT已有核心谓词/条件/后果分解，REFAZER已有示例驱动改写与排序；基础算法成熟不自动否定法律贡献，本次不晋升依据是实际独立作用与迁移未获支持。
-
-下一项工作是**形成可组合语义算子的具体学习/更新算法，并把紧凑表示作为双方公共接口**，而不是再修同两种词面、反复评分或展开旧实例审计。当前这项可区分算法仍缺；先在已有TRAIN与真实失败上做必要离线可行性定位，没有新增依据就不购买同类调用，不为挽救本候选解封DEV或扩大建库。若仍没有具体算法/合适任务，集中报告研究设计缺口与最小研究调整，不无限换方向。
-
-这是当前研究对象/算法的调整，**不是新增通用编译器、全语义证明、零回退或涨分验收**。需要的仍是两项实质不同、可独立核验的贡献；目前没有第一项完整贡献或第二项验证。没有真实资源缺口，不申请新额度；Goal保持active、未完成。
+范围图对代码、局部regex及最小子集选择的否定证据不撤销。RuleChef、SG-DT及REFAZER已覆盖的基础机制如实引用；成熟工具仍可用于法律贡献，但本轮部分源附着学习也尚未证明独立作用。当前唯一下一步见上文，不恢复前轮动作队列。
 
 ## 已完成及可复用证据：不重复购买
 
@@ -72,8 +105,8 @@
 
 用户批准的原12配对已接纳：原5/10的nda-5/7、111/115的nda-16/20，共4TRAIN母合同/8题；另外2个DEV母合同的nda-7/20共4题继续封存。12题不是12独立来源。原提案历史文件名不改，不再按NOT_AUTHORIZED误停；当前授权见CURRENT_GOAL。原128/32五库划分、旧结果和TEST不改。109/110/112/113仅复用原TRAIN源，0新配对/标签，不增加来源或种子。
 
-最近0E/2T：103809输入+输出tokens、234.310秒；原初始程序成本24359输入/13921输出、267.228秒须在两臂完整账户各列，项目实际只付一次。从12配对获批以来全部6T合计236667 tokens、969.340秒，reasoning和缓存均为子集不重加。语法适配、固定源复用、冷重放、消融均0调用。客户端retries0、供应商内部重试不可观测；实际发票/GPU分摊/项目总现金未知，不写0。
+本轮9E/0T：输入31032、输出4584、合计35616 tokens，实测生成129.927秒。所有9次正常stop、OFF、reasoning为空；重试与失败输出均纳入物理账本。后续编译/参数学习/冷恢复/对账均0模型请求。输入API现金增量0，GPU分摊、作者细化约束时间和项目累计现金未知，不写总成本0。旧教师获取及此前失败成本不倒扣。
 
-本轮1471/230/145→1473/231/145，新增2calls/1meta、0原生标签视图，旧行逐项保留。账本前后SQLite备份保存在既有备份盘；公开只发布必要科学差量，不上传私有数据库/环境/模型权重。旧0/89执行器全源IR失败分母不变，新教师程序及局部查询恢复不并入其分子。未启动主训练、完整矩阵、正式TEST或论文。
+本轮1473/231/145→1482/236/145，新增9calls/5meta、0原生标签视图，旧行逐项保留。冷恢复的选择/源结构完全一致，分数只有约3e-16加法顺序差，用1e-12容差核验，不放宽语义检查。旧0/89全源执行器IR失败分母不变，新源切片/缓存头恢复/参数学习不并入其分子。4DEV继续封存，原128/32五库划分、TEST和旧结果不改。
 
-[逐物理请求差量](../artifacts/rr_method_redesign_20261109/contract_attachment_update_v1_20261110/request_ledger_delta.json) · [保存状态及修复](../artifacts/rr_method_redesign_20261109/contract_attachment_update_v1_20261110/current_update_state.json) · [复用前冻结](../artifacts/rr_method_redesign_20261109/contract_attachment_update_v1_20261110/reuse_freeze.json) · [最新公开发布核验](../GITHUB_LATEST.md)。
+[逐物理请求差量](../artifacts/rr_method_redesign_20261109/source_attachment_learning_v6_20261110/request_ledger_delta.json) · [保存状态及修复](../artifacts/rr_method_redesign_20261109/source_attachment_learning_v6_20261110/learned_attachment_parameters.json) · [复用前冻结](../artifacts/rr_method_redesign_20261109/source_attachment_learning_v6_20261110/reuse_freeze.json) · [最新公开发布核验](../GITHUB_LATEST.md)。
