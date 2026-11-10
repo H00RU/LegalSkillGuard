@@ -1,0 +1,137 @@
+{
+  "protocol_id": "LSG-LSL-20261110",
+  "status": "recommended_for_implementation_and_first_empirical_validation",
+  "authoritative_plan": "PLAN.md",
+  "supersedes": "prior A/B, M1/M2 candidate selection and old five-benchmark-only execution scope",
+  "preserve_history_and_ledger": true,
+  "task": "source_faithful_legal_semantic_acquisition_and_scope_composition",
+  "phase": {
+    "implementation": true,
+    "full_train256_after_engineering_smoke": true,
+    "fixed_dev64_evaluation": true,
+    "test128_evaluation": false,
+    "external_frozen_evaluation": false,
+    "paper_writing": false
+  },
+  "data": {
+    "primary": "NormBench_Chinese",
+    "source_url": "https://raw.githubusercontent.com/AlexJJJChen/NormBench/bd56aff7eb9518db02b10e189576331f271564cc/dataset/article2unit2structure/normbench_v1.json",
+    "source_sha256": "826bb2afb1b4ed5938043dc22802f22ac094df562e36acb9e348f52f928cfc19",
+    "manifest": "data_manifest/normbench_candidate_split_v1.json",
+    "manifest_status": "generated_and_automatically_checked_candidate_family_mapping_pending_source_review",
+    "train": 256,
+    "dev": 64,
+    "test": 128,
+    "group": "canonical_source_family",
+    "max_sources_per_family": 16,
+    "target": "input.rule_text",
+    "context": "input.full_article_text",
+    "mask_unseen_target_copy_in_context_during_exposure": true,
+    "teacher_generated_gold_required": false,
+    "test_gold_in_model_or_debugging": false,
+    "external_later": [
+      "SARA_v2_after_prior_exposure_audit",
+      "Catala_verified_source_version_pairs"
+    ]
+  },
+  "methods": {
+    "M1": {
+      "name": "shared_semantic_fragment_delta_acquisition",
+      "output": "native norm heads, typed semantic fragments, open conditions, source-aligned additions and revisions",
+      "gold_branch_ids_or_parent_paths_as_features": false,
+      "unavailable_role_binding_or_defeats_heads": false,
+      "max_exposure_paths_per_source": 2,
+      "details": "method1_design.md",
+      "core_supervision": "content_once_plus_source_preserved_multi_role_view_deltas",
+      "same_shared_representation_AST_edit_control": true
+    },
+    "M2": {
+      "name": "contextual_semantic_interaction_composition",
+      "output": "condition_to_branch_and_parent_scope_graph",
+      "core_supervision": "double_centered_negative_branch_error_table_on_valid_2x2_scope_alternatives",
+      "formula": "I=Y11-Y10-Y01+Y00; J=(1-2*y_gold)*I; target=Center(-Hamming_error)",
+      "losses": [
+        "gold_graph",
+        "witnessed_structured_margin",
+        "proven_equivalence",
+        "directed_interaction_regression"
+      ],
+      "truth_domain": "normalized_condition_literal_boolean_assignments",
+      "test_gold": false,
+      "same_capacity_SQLoom_style_control": true,
+      "details": "method2_design.md"
+    }
+  },
+  "model": {
+    "backbone": "existing_Qwen3-8B",
+    "thinking": false,
+    "learning": "LoRA_acquisition_and_lightweight_contextual_graph_head",
+    "teacher": "existing_Codex_CLI_configuration",
+    "teacher_temperature": "record_actual_visibility_no_imputed_value",
+    "defaults": {
+      "lora_rank": 16,
+      "epochs": 3,
+      "seed": 45,
+      "composer_hidden": 256,
+      "ancestor_context_depth": 3,
+      "beam": 8,
+      "interaction_squares_per_source": 16,
+      "boolean_witnesses_per_square": 64
+    },
+    "runtime_settings": "resolve_batch_precision_context_and_optimizer_against_actual_resources_then_snapshot_before_training",
+    "inference_sampling": "retain_existing_configuration_consistently_across_comparators",
+    "unknown_training_capacity": "inspect_existing_GPU_and_weights_before_launch_not_assume_new_resources"
+  },
+  "evaluation_systems": [
+    "B0_full_graph_SFT",
+    "B1_plain_acquisition_plain_composition",
+    "M1_only",
+    "M2_only",
+    "Joint",
+    "Edit_same_information_AST_edit",
+    "Contrast_same_information_and_capacity_SQLoom_style"
+  ],
+  "metrics": {
+    "primary": [
+      "node_span_F1",
+      "condition_membership_and_scope_edge_F1",
+      "canonical_whole_graph_exact_match"
+    ],
+    "secondary": [
+      "abstract_branch_behavior_equivalence",
+      "incomplete_or_invalid_rate",
+      "per_source_latency",
+      "training_and_inference_cost",
+      "source_role_set_recall",
+      "duplicate_payload_inconsistency"
+    ],
+    "unit": "source_provision",
+    "aggregation": "source_family_macro_and_grouped_intervals",
+    "M2_diagnostics": [
+      "gold_local_nodes",
+      "predicted_local_nodes"
+    ],
+    "curves": "epoch_training_loss_and_fixed_dev_metrics"
+  },
+  "execution": {
+    "routine_refactoring_and_bug_fixes": "autonomous",
+    "mechanical_call_cap": null,
+    "new_paid_authorization": false,
+    "continuous_call_and_resource_ledger": true,
+    "old_call_caps_reinstated": false,
+    "reopen_topic_search": false,
+    "whole_repo_refactor": false,
+    "reuse_identical_valid_evidence": true,
+    "new_sources_seeds_or_model_sweeps_to_chase_gain": false,
+    "source_review_and_offline_checks_only_completion": false
+  },
+  "completion_deliverables": [
+    "working_code_and_saved_trained_models",
+    "frozen_train_dev_manifest_and_configuration_hashes",
+    "actual_seven_system_dev_predictions_and_metrics",
+    "learning_curves",
+    "independent_M1_M2_and_strong_control_comparisons",
+    "error_attribution_and_specific_next_phase_decision",
+    "cumulative_costs_runtime_and_reproduction_commands"
+  ]
+}

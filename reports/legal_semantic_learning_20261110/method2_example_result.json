@@ -1,0 +1,129 @@
+{
+  "status": "deterministic_example_only",
+  "fact_domain": "all 8 Boolean assignments; no additional legal constraints",
+  "r_false_training_cases_cannot_distinguish_all_three": true,
+  "wrong_composition_witnesses": {
+    "restore_outside_base": [
+      {
+        "b": false,
+        "e": false,
+        "r": true
+      },
+      {
+        "b": false,
+        "e": true,
+        "r": true
+      }
+    ],
+    "parallel_exclusions": [
+      {
+        "b": true,
+        "e": false,
+        "r": true
+      },
+      {
+        "b": true,
+        "e": true,
+        "r": true
+      }
+    ]
+  },
+  "truth_table": [
+    {
+      "facts": {
+        "b": false,
+        "e": false,
+        "r": false
+      },
+      "outputs": {
+        "gold_nested": false,
+        "restore_outside_base": false,
+        "parallel_exclusions": false
+      }
+    },
+    {
+      "facts": {
+        "b": false,
+        "e": false,
+        "r": true
+      },
+      "outputs": {
+        "gold_nested": false,
+        "restore_outside_base": true,
+        "parallel_exclusions": false
+      }
+    },
+    {
+      "facts": {
+        "b": false,
+        "e": true,
+        "r": false
+      },
+      "outputs": {
+        "gold_nested": false,
+        "restore_outside_base": false,
+        "parallel_exclusions": false
+      }
+    },
+    {
+      "facts": {
+        "b": false,
+        "e": true,
+        "r": true
+      },
+      "outputs": {
+        "gold_nested": false,
+        "restore_outside_base": true,
+        "parallel_exclusions": false
+      }
+    },
+    {
+      "facts": {
+        "b": true,
+        "e": false,
+        "r": false
+      },
+      "outputs": {
+        "gold_nested": true,
+        "restore_outside_base": true,
+        "parallel_exclusions": true
+      }
+    },
+    {
+      "facts": {
+        "b": true,
+        "e": false,
+        "r": true
+      },
+      "outputs": {
+        "gold_nested": true,
+        "restore_outside_base": true,
+        "parallel_exclusions": false
+      }
+    },
+    {
+      "facts": {
+        "b": true,
+        "e": true,
+        "r": false
+      },
+      "outputs": {
+        "gold_nested": false,
+        "restore_outside_base": false,
+        "parallel_exclusions": false
+      }
+    },
+    {
+      "facts": {
+        "b": true,
+        "e": true,
+        "r": true
+      },
+      "outputs": {
+        "gold_nested": true,
+        "restore_outside_base": true,
+        "parallel_exclusions": false
+      }
+    }
+  ]
+}
