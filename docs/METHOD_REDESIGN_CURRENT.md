@@ -6,7 +6,7 @@
 
 **同一Goal active、未完成；两项具有独立作用的贡献尚未成立。** 当前具体问题是：法律事实读取把中间法律状态提前断言为硬事实，或误译参与人、年度及作用范围，原生答案仍可能正确，错误因而进入可复用技能。问题已在真实生成中出现，尚未证明针对它的新机制超出强普通控制。
 
-执行树 `/home/yndx/hhy/legal-skill-redesign-20261109`，本地分支 `research/method-redesign-20261109`，公开分支 `research/legalskillguard-rr-v2`。累计 **1393E/66T、pending0**；1459条calls、219条meta、136条oracle。最近新增2E/1T，原母来源/原生评分/oracle新增0。executor thinking OFF；教师沿用high、显式温度未设置。服务PID958223/start_ticks486445918不变，无生成客户端；未启动主训练/完整矩阵/TEST/论文，main未改。
+执行树 `/home/yndx/hhy/legal-skill-redesign-20261109`，本地分支 `research/method-redesign-20261109`，公开分支 `research/legalskillguard-rr-v2`。累计 **1397E/67T、pending0**；1464条calls、224条meta、136条oracle。最近新增4E/1T，原母来源/原生评分/oracle新增0。executor thinking OFF；教师沿用high、显式温度未设置。服务PID958223/start_ticks486445918不变，无生成客户端；未启动主训练/完整矩阵/TEST/论文，main未改。
 
 ## 已完成、可复用与方法判断
 
@@ -18,6 +18,9 @@
 | 同初始源普通接口控制 | 同151/152原文、原角色提示、同教师配置，普通缓存自行生成15谓词/14规则；未给既有API、规则、case/query/标签。自己的角色顺序与旧API相反，仍有效 | 补上从初始源获取自身API的实际控制。只见151/152，不拿未给63(c)(5)的87评它；原先“该控制未做”已过期 |
 | 真实格式与事实修复 | 原静态程序缺different/authority字段；仅补空附加不等约束与原引文精确位置元数据，不改规则体/值/优先级。首读推导法律状态及抄题目金额，原响应仍拒收；普通fact-only提示明确共享基础概念后，真实新读81/86/72主路径3/3、无fallback | 非原始程序直接通过，格式适配和新模型事实修复分开记录。概念分区、年度/不同身份结构元数据由共同任务接口给定，不称自动学得 |
 | 新控制的实际使用/恢复 | 3条有实际规则证明与冻结重放；81遗漏Bob名册但正确给出dependent，实际151c证明不需要漏项；完整名册2/3。86沿用旧查询多绑定的Alice，仅以真实正见证提升为原问题的存在结论 | 不追加名册全正确门槛；负的单人查询不得代替原存在问题的否定。3/3不是整份程序自然语言忠实性证书或新独立样本 |
+| 源文证据契约的真实获取 | Qwen首源表完整stop但14/15覆盖、14条非原文引用、10项正负标准重复；固定API键/源段ID并改由原教师编译后，15项指导生成、原文精确恢复，未见案例/问题/标签或人工基础概念表 | 格式修复成立，语义完整性不由格式保证；教师和表示同时改变，不归因纯模型能力 |
+| 新契约与普通自审真实对比 | 原全文fact-only、自审、新契约读取的原生标签均3/3；自审真实请求不同但响应逐字相同。实际错误断言3→3→1，规约仍没阻止86的错误dependent；不把所有推导状态都算语义错误 | 契约有局部作用但关键误读未解决，不新增“所有事实零推导”的Goal门槛；人工审核的原值子集都可重算3/3，但不是自动恢复 |
+| 普通API/引文隔离控制 | 不用新教师表、不用标签、不用手选基础谓词名单，仅据已有自描述API/原句引用做部分隔离，三路各重算3/3；86例外后件正确为Contradiction，81删151c规则后Unknown，冻结重放一致 | 0模型调用即可处理本次残余错误。是新的拒收/重执行控制，不声称原frame正确或无损格式适配；可错隔离有效同义表达、漏掉同词错角色，不是通用语义证书或独立贡献 |
 | 旧纠错模式复用 | 实际旧教师缓存的152(b)(1)>152(a)优先边，按同源引文/同有符号后件迁入新图；规则体和API不变。86的Charlie依赖状态由Unknown改为Contradiction，原3个预测不变 | 0调用的同政策普通纠错缓存控制；不是新来源迁移或新贡献 |
 | 真实事实通道反证 | 原81即使去掉151c规则仍因注入目标而Entailment；原86硬断言dependent使正确例外优先级仍Unknown。真实fact-only输出分别恢复Unknown/Contradiction；精确引文检查不能识别前者推导冒充事实 | 针对实际失败的离线机制证据，不接收旧坏frame或改原始评分。单纯去掉全部规则头也会丢失81显式dependent、72显式151扣除资格，不能作通用修复 |
 | 其他原法律与数值路径 | 18/8/85/76真实4/4且普通正确缓存也成功；原13源四条件程序全域等价，真实同住34/365天足够、错误生日隔离，直接/普通部分缓存亦成功 | 真实程序可用，非独立方法优势；不重跑这些等价实例 |
@@ -34,14 +37,19 @@
 
 ## 下一项实际工作
 
-**沿着已观察的“法律状态被提前升级为硬事实”检查输入证据契约，而非再买同例正确答案。** 已实际完成两条依赖性/例外反证，证明只查类型、引文或任务答案会漏掉错误，同时排除简单“规则头不能作为事实”的过强方案。下一步从既有源规则、真实原始读取与既有错误—修复记录，区分哪些输入可明示给定、哪些只能经可撤销规则推出；先与普通定义查找、共享fact-only提示和同信息纠错缓存作离线等价/反证。该机制若只能复述已有提示或被简单控制吸收，就保留否定结论，不扩成建库或同例重试；只有明确未被吸收的作用才做有限真实验证。不是新设零提示、全自动或所有样本无错要求。
+**平面的源证据指导已完成有限真实检验，本次不继续同例提示扫描。** 模型学得了15项直接/推导证据标准，实际读取减少了部分错误；普通源搜索自审未改错，但不使用新表的简单API/引用隔离即可重算本次3例。尚无超出强简单控制的独立作用，不扩大这个方案为建库。
 
+**下一项实际工作：检查原3306中的“雇主身份只能用于哪些服务”的接口作用域。** 已只读复用原73/77/83/88公共输入及原法条：3306(a)(1)明确排除相关家政服务，(a)(4)明确限制家政雇主身份向其他服务复用；本项目原文按calendar year，不添加现实法条中的其他期间要求。它涉及付款人、服务及跨条款调用的合法作用范围，不能由新增词面隔离解决。下一步先对照现有普通程序/源缓存，具体核查这些作用域和事件身份在真实已有表示中是否保留，以及按子条款拆开的普通缓存是否已足够；先离线定位，不为新名字重做旧年度cap、付款去重或已反证的M1/M2，不在有明确差异前再买同目的生成。未声明这一候选已形成贡献。
 现不锁定两个新名称，也不以这份诊断结项；原Goal继续。资源未构成外部阻断。
 
 ## 证据、请求与费用
 
 [合并报告](../reports/method_redesign_20261109/M1M2_real_TRAIN_report.md) · [同初始源API控制/逐请求账本](../reports/method_redesign_20261109/legal_auto_interface_results.json) · [真实事实通道反证](../reports/method_redesign_20261109/legal_recorded_status_promotions_results.json) · [原87任务作用域/原EV审计](../reports/method_redesign_20261109/legal_task_scope_results.json) · [接口来源审计](../artifacts/rr_method_redesign_20261109/legal_native_scope_completion_v1_20261110/interface_origin_audit.json) · [26项内核回归](../reports/method_redesign_20261109/legal_guard_conflict_final_regression.txt) · [7项适配回归](../reports/method_redesign_20261109/legal_ordinary_literal_regression_v2.txt)。
 
-最近2E合计2415输入/2204输出tokens、59.639秒，OFF、stop、无reasoning；1T为16069输入/10745输出tokens、203.180秒，6468 reasoning为输出子集，attempt1/无工具事件。3个物理请求总耗时262.819秒，非工程总耗时。旧1456calls/216meta/136oracle逐行相同；新增3calls/3meta/0oracle，备份未重置。新源步骤203.180秒与旧133.135秒只是同源单次观察；接口形状、修复和读取指导并非完全匹配的端到端成本因果对照，不能据此宣称架构更省或更贵。执行器增量API现金0；教师实际发票、GPU分摊及总费用未知，不写零。
+最近4E合计20122输入/10669输出tokens、300.680秒，均OFF/stop/无reasoning、客户端重试0；1T为20978输入/6223输出tokens、122.565秒，2700 reasoning为输出子集，attempt1/无工具事件。总请求耗时423.244秒。教师供应商内部HTTP重试不可观测；上述计数覆盖全部可见物理调用/失败，不声称未知内部次数为0。本轮前1459calls/219meta/136oracle逐行保留，新增5calls/5meta/0oracle，现1464/224/136，另存账本快照。执行器增量API现金0；教师发票、GPU分摊及项目总费用未知。
+
+成功源契约获取+读取为1T/1E共163.078秒；普通首读+自审2E共186.361秒，首读独用91.521秒；模型角色、输出和语义完整性不同，不据一次耗时宣称因果成本优势。普通隔离控制新增模型0，仍承担已计账的源API/程序获取成本；失败源表和自审成本不从累计费用中删除。
+
+[源契约真实获取/读取/自审/费用](../reports/method_redesign_20261109/legal_evidence_contract_results.json) · [简单控制实际重执行](../reports/method_redesign_20261109/legal_evidence_contract_guard_control_results.json) · [反证后的阶段决定](../artifacts/rr_method_redesign_20261109/legal_evidence_contract_audit_v1_20261110/comparison_decision.json) · [既有3306源范围与输入检查](../artifacts/rr_method_redesign_20261109/legal_3306_scope_inspection_v1_20261110/source_scope_and_existing_input.json)。
 
 [旧源反馈/更新/成本反证](../reports/method_redesign_20261109/legal_feedback_acquisition_results.json)、[年度局部程序](../reports/method_redesign_20261109/legal_annual_scope_results.json)、[原13真实执行](../reports/method_redesign_20261109/legal_temporal13_results.json)及旧A/B/M1/M2结果继续保留。
