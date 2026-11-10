@@ -1,6 +1,8 @@
-# 当前结论：普通法规缓存完成真实读取与跨案复用，两项贡献仍未成立
+# 当前结论：普通路径可用，两项独立方法仍未成立
 
-本轮新增 **1E/0T**，原TRAIN3的普通事实读取实际执行为Entailment；另在0新增生成下，以明确源目标修正原TRAIN83的错选并实际执行为Contradiction。两者分别匹配原TRAIN缓存标签；有冻结重放和原始响应，不是默认输出。它们进一步证明普通正确缓存能够处理已见失败，**没有建立两项独立方法贡献**。原Goal active、未完成。目标/验收/授权仍唯一见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，最新证据和下一项工作原位维护于[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。
+最新工作是**0新增模型调用**的固定TRAIN响应清点与强普通控制。它补上原20来源之外的已有事实输出入口，揭示原21的规则引文冒充事实证据和原50的例外排除误读；分别可由已有引文合同/精确去重、官方结构化位置/原规则排除控制处理，未建立新学习机制。两项贡献仍未成立，Goal active、未完成。目标/验收/授权唯一见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，最新证据与下一项工作维护于[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。
+
+上一真实验证新增1E/0T，原TRAIN3事实读取后缓存执行为E；原TRAIN83以旧事实/新目标路径执行为C，均匹配原TRAIN标签并有冻结重放。这些普通路径的证据继续保留，不能直接变成两项贡献。
 
 ## 正确缓存已具有什么
 
@@ -35,11 +37,27 @@
 
 [源目标选择代码](../../experiments/rr_v2_cached_statute_target.py) · [原发送菜单与错误响应](../../artifacts/rr_method_redesign_20261109/cached_statute_target_control_v1_20261110/actual_old_route_input.json) · [执行先于评分、旧事实/程序、软件反例](../../artifacts/rr_method_redesign_20261109/cached_statute_target_control_v1_20261110/execution_before_original_cached_grade.json) · [结果和原生评分](cached_statute_target_results.json)。
 
+## 固定TRAIN响应清点和新增普通控制
+
+读取原固定128个TRAIN来源键对应的1215条已完成执行器响应，另1条失败仍计费。响应有53种JSON顶层形状；35条含命名事实值，共255行、30个账本主来源。加上局部角色、事件、批量case和金额span等，共74条事实型候选响应、37个主来源。重复请求、混合source/fact响应、同一母来源变体及批量响应分别保留，不能换算成独立native样本、接受IR或新增训练数据。
+
+该清点没有把程序中的观察声明当成实际读取值，也不以外层code/IR桶排除其中所有可能可用的嵌入信息。472条非JSON记录含合法的原始Python文本，不把这个数当新截断/失败统计；原89条记录与分母不改。旧20来源审计也不外推到全部128。
+
+原OpenExempt TRAIN21是新展开的实际例子：八个false值分别引用联邦/州法服装条文，而非案情，已有精确事实引文检查就会拒收。它们不经修补变成true。按完整语义输入（entity、predicate、fact_text、predicate_context、reference_years）做普通精确去重，可把八个输出槽合成四组；没有擅自把不同法域的同词含义合并。**输出槽减半不是物理调用/耗时减半，也不是核心学习。**
+
+原Airline TRAIN50把首行明确排除Peru的地理条件返回true。只读取已核验官方gen_questions.py的城市映射常量，可知原Orlando→Lima为U.S.→Peru；配合原请求中该谓词的明确排除，就得到必要条件false，无需费用答案或新教师标签。此控制只驳斥这一行，未把未触犯排除的其他行都判正确；原模型输出、旧IR/得分不改，不宣称完整费用计算恢复。
+
+[清点与最终控制结果](recorded_fact_inventory_with_controls_results.json) · [逐物理响应形状清单](../../artifacts/rr_method_redesign_20261109/recorded_fact_inventory_v1_20261110/frozen_inventory.json) · [原21请求、八个原错值和精确去重](../../artifacts/rr_method_redesign_20261109/recorded_fact_inventory_v1_20261110/original_OE21_provenance_and_exact_dedup.json) · [普通源位置/排除控制](../../artifacts/rr_method_redesign_20261109/recorded_fact_inventory_v1_20261110/ordinary_native_location_exclusion_control.json)。官方代码固定在[RuleArena原提交](https://github.com/SkyRiver-2000/RuleArena/blob/59f60f6b4eb93a9b6d187ec781349d4f15618903/airline/gen_questions.py)，只抽取城市常量，未执行题目生成或读取生成数据。
+
+这为后续机制提供了更完整的已有入口，**没有证明其余字段已解决或所有研究方向都不可能**。当前“源谓词分解/共享或噪声校正”仍须面对fact-only、精确语义输入去重及结构化事实后执行源条件这些强控制，不因存在一个神经读错就拟合新模型。也不新增所有255行逐条全对的Goal验收。
+
+本次模型/标签视图/来源/配对新增均0，账本1467calls/228meta/137oracle逐行与快照一致，累计1399E/68T、pending0；API现金增量0。无DEV/TEST、完整建库/矩阵、主训练或论文，main未改。下述1E费用是上一真实验证，不能重复计费。
+
 ## 方法判断、调用与费用
 
 正确缓存计算、静态依赖、精确目标选择和既有直接事实读取已足以完成这两条普通路径；不能把它们拆成两个创新，也不能将源程序仍未自动学得的新机制描述成已经完成。当前没有依据为这两个成功来源重复购买相同修复；剩余研究必须有未被强普通控制吸收的具体学习/更新作用，必要DEV/迁移也仍缺。没有启动主训练、完整建库/矩阵、DEV/TEST或论文。
 
-本轮新执行器501输入/91输出tokens、2.489秒，wire明确OFF、reasoning_content=null、temperature0.6/top_p0.95/top_k20/seed45/max_tokens8192及客户端重试0不变；非缓存，新增API现金0。教师新增0，旧缓存获取费用不抹去；GPU分摊、教师实际发票和项目总费用未知。
+上一真实验证的新执行器501输入/91输出tokens、2.489秒，wire明确OFF、reasoning_content=null、temperature0.6/top_p0.95/top_k20/seed45/max_tokens8192及客户端重试0不变；非缓存，新增API现金0。教师新增0，旧缓存获取费用不抹去；GPU分摊、教师实际发票和项目总费用未知。
 
 原1466calls/226meta/136oracle逐行保留，新增1 calls、2 policy meta和1个原TRAIN83缓存标签视图；无新增反事实、数据来源或原生配对。累计 **1399E/68T、pending0**，1467/228/137，账本另存前后快照。本轮新模型原生预测/缓存评分1（TRAIN3）；原模型事实在新调用路径重执行/评分1（TRAIN83），不是两个新模型生成、更不是两项贡献。main未改。
 
