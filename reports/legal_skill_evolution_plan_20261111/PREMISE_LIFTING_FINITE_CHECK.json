@@ -1,0 +1,164 @@
+{
+  "purpose": "demonstrate coupled premise dependence; not a benchmark or evidence of novelty/performance",
+  "source": "author-defined finite provisions A/B",
+  "reader": "exact fixture, not an LLM",
+  "cases_per_source": 4,
+  "summary": {
+    "fixed_original": {
+      "A": 4,
+      "B": 1
+    },
+    "lift_ceiling_only": {
+      "A": 4,
+      "B": 1
+    },
+    "lift_scope_only": {
+      "A": 4,
+      "B": 1
+    },
+    "coupled_lift": {
+      "A": 4,
+      "B": 4
+    },
+    "generic_joint_repair": {
+      "A": 4,
+      "B": 4
+    },
+    "all_ports_bound": {
+      "A": 4,
+      "B": 4
+    }
+  },
+  "rows": [
+    {
+      "source": "A",
+      "case": [
+        40,
+        30
+      ],
+      "specified_output": 70,
+      "predictions": {
+        "fixed_original": 70,
+        "lift_ceiling_only": 70,
+        "lift_scope_only": 70,
+        "coupled_lift": 70,
+        "generic_joint_repair": 70,
+        "all_ports_bound": 70
+      }
+    },
+    {
+      "source": "A",
+      "case": [
+        70,
+        5
+      ],
+      "specified_output": 75,
+      "predictions": {
+        "fixed_original": 75,
+        "lift_ceiling_only": 75,
+        "lift_scope_only": 75,
+        "coupled_lift": 75,
+        "generic_joint_repair": 75,
+        "all_ports_bound": 75
+      }
+    },
+    {
+      "source": "A",
+      "case": [
+        20,
+        20
+      ],
+      "specified_output": 40,
+      "predictions": {
+        "fixed_original": 40,
+        "lift_ceiling_only": 40,
+        "lift_scope_only": 40,
+        "coupled_lift": 40,
+        "generic_joint_repair": 40,
+        "all_ports_bound": 40
+      }
+    },
+    {
+      "source": "A",
+      "case": [
+        30,
+        50
+      ],
+      "specified_output": 80,
+      "predictions": {
+        "fixed_original": 80,
+        "lift_ceiling_only": 80,
+        "lift_scope_only": 80,
+        "coupled_lift": 80,
+        "generic_joint_repair": 80,
+        "all_ports_bound": 80
+      }
+    },
+    {
+      "source": "B",
+      "case": [
+        40,
+        30
+      ],
+      "specified_output": 60,
+      "predictions": {
+        "fixed_original": 70,
+        "lift_ceiling_only": 70,
+        "lift_scope_only": 70,
+        "coupled_lift": 60,
+        "generic_joint_repair": 60,
+        "all_ports_bound": 60
+      }
+    },
+    {
+      "source": "B",
+      "case": [
+        70,
+        5
+      ],
+      "specified_output": 60,
+      "predictions": {
+        "fixed_original": 75,
+        "lift_ceiling_only": 65,
+        "lift_scope_only": 75,
+        "coupled_lift": 60,
+        "generic_joint_repair": 60,
+        "all_ports_bound": 60
+      }
+    },
+    {
+      "source": "B",
+      "case": [
+        20,
+        20
+      ],
+      "specified_output": 40,
+      "predictions": {
+        "fixed_original": 40,
+        "lift_ceiling_only": 40,
+        "lift_scope_only": 40,
+        "coupled_lift": 40,
+        "generic_joint_repair": 40,
+        "all_ports_bound": 40
+      }
+    },
+    {
+      "source": "B",
+      "case": [
+        30,
+        50
+      ],
+      "specified_output": 60,
+      "predictions": {
+        "fixed_original": 80,
+        "lift_ceiling_only": 80,
+        "lift_scope_only": 80,
+        "coupled_lift": 60,
+        "generic_joint_repair": 60,
+        "all_ports_bound": 60
+      }
+    }
+  ],
+  "honest_comparison": "Generic joint repair and binding all relevant ports also solve this example. The example disproves sufficiency of one-at-a-time lifting, not sufficiency of generic synthesis.",
+  "external_calls": 0
+}
