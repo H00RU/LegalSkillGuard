@@ -6,7 +6,7 @@
 
 **同一Goal active、未完成；两项具有独立作用的贡献尚未成立。** 当前具体问题是：法律规则获取把条件、参与人或动作提前折叠为答案常量，事实读取又可能把法律后果断言为硬事实；原生答案即使正确，也不能证明这些可复用技能保留了原文语义。问题已在真实生成中出现，尚未证明针对它的新机制超出强普通控制。
 
-执行树 `/home/yndx/hhy/legal-skill-redesign-20261109`，本地分支 `research/method-redesign-20261109`，公开分支 `research/legalskillguard-rr-v2`。累计 **1397E/67T、pending0**；1464条calls、224条meta、136条oracle。本次新增0E/0T、0反事实oracle；对原24个ContractNLI TRAIN缓存标签做了24项固定普通控制评分和6项作者解释探针比较，另核对3条原生TRAIN证据。没有新的模型原生预测；最近一轮真实生成仍为4E/1T。executor thinking OFF；教师沿用high、显式温度未设置。服务PID958223/start_ticks486445918不变，无生成客户端；未启动主训练/完整矩阵/TEST/论文，main未改。
+执行树 `/home/yndx/hhy/legal-skill-redesign-20261109`，本地分支 `research/method-redesign-20261109`，公开分支 `research/legalskillguard-rr-v2`。累计 **1397E/68T、pending0**；1465条calls、225条meta、136条oracle。本次新增0E/1T、0新原生评分或反事实oracle；真实从原111/115公开合同取得普通源缓存，执行/源审核/冻结重放已完成。此前24项缓存TRAIN控制评分、6项作者解释探针和3条TRAIN证据是上轮诊断，未重跑。执行器OFF未变；教师沿用high、显式温度未设置。服务未重启，无生成客户端；未启动主训练/完整矩阵/TEST/论文，main未改。
 
 ## 已完成、可复用与方法判断
 
@@ -28,6 +28,7 @@
 | 3306作用域的原生执行对照 | 原生代码明确把三类employer分开，a4为该分离保证的不变式；6条未改写原生子句在192个软件完成中执行，Alice一般雇主工资分支/工作日见证均不成立，家政身份可成立；SMT排除无差别身份复用 | 作用域信息确有必要，普通子条款缓存已能保留。未执行整条原生case/评分，未证明模型自动获取成功；作用域标签本身不作为新贡献 |
 | 固定ContractNLI任务覆盖 | 原适配器有意固定nda-11；24 TRAIN/8 DEV均同一“不得逆向工程”假设；仅111/115有目标词形命中，词形不等于标签。未读TEST成员、未选取/评分新增annotation choices | 不是适配器故障，不追加覆盖全17假设的验收。此范围不能验证共享员工/第三方、返回/保留信息两类新候选的独立作用 |
 | 合同语义原型的普通强对照 | 独立关系展开/真值表缓存覆盖2布尔变量的全部16种守卫、9种部分上下文；9216项软件比较与原型一致，普通一致性学习选出同一模态 | 当前字典绑定/SAT/选模本身没有超出普通控制的机制；不能算两项贡献，也不据有限软件域否定未来源获取/成本作用 |
+| 实际普通合同缓存获取/使用 | 原111/115完整公开合同、原模型配置，新增1T；模型自选4个谓词、角色和两份完整例外的复合定义，生成普通law_cache。16项软件执行、4项作用域检查及冻结重放一致 | 两种查询视角和reverse-engineering目标提示由作者给定；只验证按完整例外原子执行，未学习各子条件组合、事件读取或原生问题映射。普通组件已足以承载分离，不另造IR、不算两项贡献 |
 | 原生NDA标签与廉价普通控制 | 先冻结预测再查原24个TRAIN缓存标签：3E/21NotMentioned/0C，原固定词面控制23/24；只漏120。24条原始标签、6项解释探针及3条原生证据受控核对，无新增配对或模型 | 是当前池的任务诊断，不是新模型/核心学习；不以类别齐全或全对作为新验收 |
 | 111/115的原生解释口径 | 两条有书面授权例外的禁止，原始nda-11注释仍为Entailment，证据正是相应条件禁止句；缓存与原生TRAIN一致 | 不能用事实事件Unknown、任一可行例外就Contradiction，或严格FOL口径覆盖原生规范性查询；旧坏程序仍须通过来源/类型/条件保真检查 |
 | 120的语义桥接边界 | 唯一词面漏例为Entailment，其原生证据是未经书面批准不得publish/copy/use for sole benefit；旧首四NDA中的5/15/20亦有较宽use限制但标签为NotMentioned | 不据120添加通用use→reverse-engineering规则，不事后扩词表，也不凭相似抽象宣布原标签错误。当前输入特征不足以证明统一桥接 |
@@ -46,31 +47,20 @@
 
 ## 下一项实际工作
 
-**已用原生TRAIN口径补上“查询解释”这一具体问题证据。** 原111/115的条件禁止带书面同意例外，原生nda-11仍为Entailment；不能把原假设悄悄改成“所有未决事件完成中是否禁止”，再将Unknown作为原生失败。此前四条模型响应的重复声明、query作规则来源、截断等拒收仍然成立；旧不完整规则不因标签碰巧一致而恢复。
+**已完成一项真实获取/执行，进一步排除把普通表示当成方法增量。** 原111/115完整合同给教师，未给原生问题、标签、案例事实或旧响应；明确给定reverse-engineering模块目标及“规范存在/具体适用”两个查询视角。教师自行取得4个谓词、角色、源常量及完整例外接口，普通代码即可执行并冻结恢复，不需要新的deontic IR。未知例外不置false，合同例外不串用；例外使该条禁止失效不等于行为获得所有条款许可。
 
-**固定任务的便宜普通控制已真实按缓存标签评分。** 在看标签前冻结的词面控制为23/24；标签分布3E/21NotMentioned/0C。唯一漏例120靠更宽use限制获得原生Entailment。旧固定首四来源中5/15/20也有use限制而为NotMentioned，因此不能从一个TRAIN正例抄出通用法律规则，或把缓存/例句记忆称作源语义学习。未追加类别齐全、零回退或全对门槛；该局部结果也不证明一般NLI容易或标签错误。
+完整例外是两个**复合输入谓词**：p1包含Discloser、特定行为、事先及书面；p2包含行为pursuant于双方接受、书面并由双方签署的协议。含义真实来自模型源响应；本次没有把子条件逐项读取或自动合取，也没有新的事实阅读器/问题映射。16项软件控制和4项作用域控制不等于20个原生样本，不能报新执行模型IR或A/B核心成功。
 
-**下一项机制设计围绕“源规范与原生查询解释的分离”继续。** 需要明确：怎样保留源文中的主体、动作和条件，而不将原生任务标签硬写入法律规则；原生规范性假设与事实性条件执行如何各自得到有来源的回答。当前尚没有超出同信息普通源缓存/直接NLI/普通学习器的具体机制，不能把SAT、双层字段或已知子句图当作两个创新。相关工作新增核实COMPACT已包含主体/模态/动作/对象及定义/例外关系；Know Your Limits通过重标任务做严格逻辑评估，我们保持原生标签。先形成可被这些强对照否定的具体机制，再决定最小真实验证；不购买无实质变化的生成。
+**“源规范/任务解释分离”这一表示本身也由普通强对照实现，不能拆成两项贡献。** 原生规范性问题与事实执行必须区分，这个问题有原TRAIN证据；新方法的独立作用仍未形成。剩余是学习环节：怎样从真实材料取得可靠解释/证据绑定，而非给定两个视角、缓存字面源原子或用复合例外前提代替内部推理。后续设计必须与同信息普通缓存、直接角色抽取/检索和普通学习器比较；不因这些成熟组件可表达相同内容就自动否定法律方案，也不把表达能力/接口打通算作贡献。没有具体增量依据前，不继续为同一成功缓存购买生成或扩大建库。
 
-原定义绑定/模态开关原型仍作为公共控制，9216项声明软件域比较和实际动作修复保留，不改名晋升贡献。12配对提案仍**未授权、未执行**；它不是原Goal必需新增验收，也不自动触发旧估计2T/6E。原24/8单假设、五库、128来源、账本和所有负结果不改，未使用DEV/TEST标签或启动主训练。
+原24条NDA冻结词面控制23/24、条件禁止111/115仍原生Entailment、120的较宽use证据及旧来源5/15/20边界均保留。不据120补通用法律规则，不以事件Unknown替代原生规范性标签，也不追加类别齐全或零回退门槛。12配对仍**未授权、未执行**，不自动触发旧2T/6E计划；五库、128来源、原24/8单假设与所有负结果不改。
 
 ## 证据、请求与费用
 
-[合并报告](../reports/method_redesign_20261109/M1M2_real_TRAIN_report.md) · [同初始源API控制/逐请求账本](../reports/method_redesign_20261109/legal_auto_interface_results.json) · [真实事实通道反证](../reports/method_redesign_20261109/legal_recorded_status_promotions_results.json) · [原87任务作用域/原EV审计](../reports/method_redesign_20261109/legal_task_scope_results.json) · [接口来源审计](../artifacts/rr_method_redesign_20261109/legal_native_scope_completion_v1_20261110/interface_origin_audit.json) · [26项内核回归](../reports/method_redesign_20261109/legal_guard_conflict_final_regression.txt) · [7项适配回归](../reports/method_redesign_20261109/legal_ordinary_literal_regression_v2.txt)。
+本次可见1T：19918输入/5164输出tokens，3171 reasoning为输出子集，107.448秒，attempt1、无工具事件、非缓存命中；教师模型/high/显式温度未设置及客户端重试0不变。供应商内部HTTP重试不可观测，不把未知记0。执行器新增0请求、API现金0；教师实际发票、GPU分摊和项目总费用未知，不作跨模型/范围不同的因果成本优势。
 
-最近4E合计20122输入/10669输出tokens、300.680秒，均OFF/stop/无reasoning、客户端重试0；1T为20978输入/6223输出tokens、122.565秒，2700 reasoning为输出子集，attempt1/无工具事件。总请求耗时423.244秒。教师供应商内部HTTP重试不可观测；上述计数覆盖全部可见物理调用/失败，不声称未知内部次数为0。本轮前1459calls/219meta/136oracle逐行保留，新增5calls/5meta/0oracle，现1464/224/136，另存账本快照。执行器增量API现金0；教师发票、GPU分摊及项目总费用未知。
+原1464 calls/224 meta逐行保留，新增1 calls/1 policy meta；136 oracle逐行不变。现1465/225/136，另存本轮账本前后快照。旧调用、失败和费用不重置，原89条IR0与旧A/B/M1/M2否定结果不改。旧4E/1T源契约获取等开销见合并报告历史节，本轮没有重复计费。
 
-成功源契约获取+读取为1T/1E共163.078秒；普通首读+自审2E共186.361秒，首读独用91.521秒；模型角色、输出和语义完整性不同，不据一次耗时宣称因果成本优势。普通隔离控制新增模型0，仍承担已计账的源API/程序获取成本；失败源表和自审成本不从累计费用中删除。
+[最新合并报告](../reports/method_redesign_20261109/M1M2_real_TRAIN_report.md) · [真实普通合同缓存/费用/账本](../reports/method_redesign_20261109/contract_norm_cache_results.json) · [原始模型接口与代码](../artifacts/rr_method_redesign_20261109/contract_norm_cache_v1_20261110/source.json) · [源语义审核](../artifacts/rr_method_redesign_20261109/contract_norm_cache_audit_v1_20261110/source_semantic_review.json) · [冻结重放与作用域控制](../artifacts/rr_method_redesign_20261109/contract_norm_cache_audit_v1_20261110/frozen_replay_and_scope_controls.json)。
 
-[源契约真实获取/读取/自审/费用](../reports/method_redesign_20261109/legal_evidence_contract_results.json) · [简单控制实际重执行](../reports/method_redesign_20261109/legal_evidence_contract_guard_control_results.json) · [反证后的阶段决定](../artifacts/rr_method_redesign_20261109/legal_evidence_contract_audit_v1_20261110/comparison_decision.json) · [既有3306源范围与输入检查](../artifacts/rr_method_redesign_20261109/legal_3306_scope_inspection_v1_20261110/source_scope_and_existing_input.json)。
-
-[旧源反馈/更新/成本反证](../reports/method_redesign_20261109/legal_feedback_acquisition_results.json)、[年度局部程序](../reports/method_redesign_20261109/legal_annual_scope_results.json)、[原13真实执行](../reports/method_redesign_20261109/legal_temporal13_results.json)及旧A/B/M1/M2结果继续保留。
-
-
-[3306原生子句/SMT核查](../reports/method_redesign_20261109/legal_3306_scope_results.json) · [固定任务覆盖与数据授权边界](../reports/method_redesign_20261109/legal_scope_task_coverage_results.json) · [12配对提案（未授权、未执行）](../artifacts/rr_method_redesign_20261109/legal_scope_task_coverage_v1_20261110/proposed_native_pairs_NOT_AUTHORIZED.json) · [软件语义探针](../artifacts/rr_method_redesign_20261109/legal_scope_task_coverage_v1_20261110/software_semantics_probes.json)。
-
-本次离线接续中所有1464 calls/224 meta/136 oracle逐行不变，0模型增量请求；原费用未知项继续保留。以上“最近4E/1T”费用是前一轮历史实际调用，并非本次再次调用。
-
-[原型动作修复及普通控制](../reports/method_redesign_20261109/norm_query_control_results.json) · [原111/115四条真实响应核查](../reports/method_redesign_20261109/recorded_contract_failure_results.json) · [接口修复前后及原响应继续拒收](../artifacts/rr_method_redesign_20261109/recorded_contract_failure_audit_v1_20261110/projection_interface_repair.json) · [30项公共前端回归](../reports/method_redesign_20261109/pal_boolean_projection_regression.txt)。软件穷举、测试和旧响应重放均不计新的TRAIN/DEV效果或模型请求；本次账本逐行不变。
-
-[原生标签口径与预先冻结的控制](../reports/method_redesign_20261109/contract_native_query_label_results.json) · [看标签前的预测](../artifacts/rr_method_redesign_20261109/contract_native_query_profiles_v1_20261110/predictions_before_labels.json) · [原生证据与桥接边界](../artifacts/rr_method_redesign_20261109/contract_native_query_profiles_v1_20261110/original_native_evidence_and_scope.json)。本次有24项缓存TRAIN控制评分与6项作者解释探针比较；新模型预测、物理调用和反事实oracle均0，不将这些评分记为真实核心方法成功。
+[原生标签口径与预先冻结的控制](../reports/method_redesign_20261109/contract_native_query_label_results.json) · [原生证据与桥接边界](../artifacts/rr_method_redesign_20261109/contract_native_query_profiles_v1_20261110/original_native_evidence_and_scope.json) · [旧原型普通控制](../reports/method_redesign_20261109/norm_query_control_results.json) · [原111/115历史失败](../reports/method_redesign_20261109/recorded_contract_failure_results.json) · [12配对提案（未授权、未执行）](../artifacts/rr_method_redesign_20261109/legal_scope_task_coverage_v1_20261110/proposed_native_pairs_NOT_AUTHORIZED.json)。其余原始成功/失败、逐来源状态和历史费用由合并报告及原artifacts继续保留。

@@ -1,4 +1,44 @@
-# 当前结论：原生规范性查询不能被事件执行口径替代；强普通控制仍覆盖大部分固定任务
+# 当前结论：真实普通缓存已承载两种查询视角；表示分离不计新贡献
+
+**本次新增1T，真实从原111/115公开合同取得4个谓词及普通缓存代码，完成执行、条件审核与冻结重放。现有普通组件已能区分“合同规定一项条件性禁止”与“该禁止在给定事实下适用”，无需另造IR。这是实际源获取产出，不是两项方法贡献；Goal active、未完成。** 执行边界只见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，当前证据与下一步只见[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。
+
+## 输入、实际学得内容与给定部分
+
+一次教师获取仅给原111/115两份完整公开合同；不提供原生问题、标签、案例事实、旧响应或正确程序。提示明确聚焦reverse engineering，并给定“规范存在/具体适用”两种查询含义、签名原子/普通Python调用合同和返回值含义。这些目标与视角是作者提供的共同任务接口，不声称零提示、模型发现原生注释口径或方法学习成功。
+
+模型自选4个谓词及有序角色、两份源规范原子、各自的完整例外原子和普通law_cache代码。111的例外含Discloser特定授权、事先和书面；115含行为pursuant于双方接受、书面并由双方执行的协议。两个源引文均为各自合同精确子串，没有补写模型原文或改规则。
+
+普通代码将规范原子与具体适用查询分开。前者从真实源规范获取支持；后者读取明确签名的完整例外事实。规范性查询在例外事实缺失时仍Entailment；适用性在缺失或冲突时Unknown，明确例外适用时只否定该条禁止的适用，不推出行为被所有法律/条款允许。
+
+[原始模型响应/谓词/代码](../../artifacts/rr_method_redesign_20261109/contract_norm_cache_v1_20261110/source.json) · [实际提示及封存输入](../../artifacts/rr_method_redesign_20261109/contract_norm_cache_v1_20261110/seal.json) · [普通获取入口](../../experiments/rr_v2_contract_norm_cache.py)。
+
+## 执行和边界
+
+16项执行来自2合同×2查询视角×4软件例外状态（未知、适用、明确不适用、冲突），均匹配该源模块的控制预期。另4项核对不串用他份合同的例外、不把不匹配的授权者/相对方当成本合同完整例外。写入普通JSON缓存后，冷加载按同一原代码重放逐项一致。
+
+这些都是软件上下文，不是新增原生案件/假设或反事实oracle。未将原生问题自动映射到模型API，也没有事件阅读器、执行模型新IR或新的原生评分。完整例外仍被封装为复合输入谓词；程序不独立识别每个子条件或从部分事件自动计算法律例外。原生查询的protected subject范围也未由新模型mapper验证；不能将元数据路由当作新的完整端到端NLI成功。
+
+[有限源审核](../../artifacts/rr_method_redesign_20261109/contract_norm_cache_audit_v1_20261110/source_semantic_review.json) · [冻结缓存](../../artifacts/rr_method_redesign_20261109/contract_norm_cache_audit_v1_20261110/frozen_ordinary_cache.json) · [冷重放及作用域控制](../../artifacts/rr_method_redesign_20261109/contract_norm_cache_audit_v1_20261110/frozen_replay_and_scope_controls.json) · [可重复审计](audit_contract_norm_cache.py)。
+
+## 决策
+
+本次直接复用了既有普通代码运行器，没有新增deontic框架、生产类型或旧接口兼容包装。它成为后续候选必须面对的普通强对照；不能把两个查询视角、4个谓词、源缓存或软件检查数拆成两个创新。旧原型/源契约/年度程序的否定证据全部保留，不重跑已被等价控制吸收的功能。
+
+研究缺口进一步限定为学习本身：可靠的源解释、实际证据绑定或可复用解释关系如何取得，以及能否超出同信息普通源缓存/直接模型/检索/普通学习器。当前没有这两项独立作用，不能扩大完整建库或宣布训练就绪。12配对仍未授权/未执行，也不因本次普通组件成功自动启动旧计划。
+
+## 实际费用与累计账本
+
+本次1T可见attempt1、非缓存、无工具事件；19918输入/5164输出tokens，3171 reasoning为输出子集，107.448秒。教师原模型/high、显式温度未设置、客户端重试0不变；供应商内部HTTP重试不可观测。没有新执行器请求，OFF配置未变。执行器API增量现金0；教师发票、GPU分摊及项目总费用未知。与旧失败调用的模型、目标和范围不同，不据一次耗时宣称因果成本优势。
+
+原1464 calls/224 meta逐行保留，新添1 calls/1 policy meta；136 oracle不变。现1465calls/225meta/136oracle，累计**1397E/68T、pending0**，账本另存前后快照。源码和协议在真实请求期间冻结；未新增来源、原生评分、DEV/TEST或主训练/论文，main未改。原Goal未完成。
+
+[汇总结果、费用及账本核查](contract_norm_cache_results.json) · [实际新增请求](../../artifacts/rr_method_redesign_20261109/contract_norm_cache_audit_v1_20261110/charged_delta.json)。
+
+---
+
+以下是历史证据；旧状态/计划不覆盖当前两份维护文件。
+
+# 历史证据：原生规范性查询口径与固定任务普通控制
 
 **本次没有新增模型调用。先冻结一个普通词面控制和解释探针，再核对原24个ContractNLI TRAIN缓存标签：控制23/24，标签为3个Entailment、21个NotMentioned、0个Contradiction。111/115含授权例外仍被原生任务标为Entailment，说明必须区分规范性假设与事实事件执行；这不是新的核心学习成功，两项独立贡献仍未成立。** 目标/验收/授权仅见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，最新缺口与下一项工作仅见[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。
 
