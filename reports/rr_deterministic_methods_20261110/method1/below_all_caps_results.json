@@ -1,0 +1,866 @@
+{
+  "name": "below_all_caps",
+  "public_spec": {
+    "features": [
+      [
+        0
+      ],
+      [
+        0
+      ],
+      [
+        1
+      ],
+      [
+        1
+      ]
+    ],
+    "cap": "7",
+    "optional_outer_value": "5",
+    "exclusions": true,
+    "total_bound": "4"
+  },
+  "model_count": 12,
+  "behavioral_classes_on_pool": 1,
+  "query_pool_size": 113,
+  "additional_hidden_stress_inputs": 81,
+  "common_precomputation": {
+    "candidate_evaluations": 1356,
+    "seconds": 0.007933800021419302,
+    "used_by": [
+      "max_disagreement",
+      "optimal_tree"
+    ],
+    "not_used_by": [
+      "direct",
+      "same_probe_constraints"
+    ]
+  },
+  "exact_minimax": {
+    "behavioral_classes": 1,
+    "worst_queries": 0,
+    "expected_queries_uniform_class": "0",
+    "dp_states": 1,
+    "partition_tests_considered": 0,
+    "distinct_query_partitions": 0
+  },
+  "exact_minimax_seconds": 0.00011570000788196921,
+  "summaries": {
+    "direct": {
+      "correct": 12,
+      "total": 12,
+      "query_min": 0,
+      "query_mean": 0,
+      "query_max": 0,
+      "seconds_total": 0.0003496999852359295,
+      "candidate_evaluations": 0,
+      "table_cells_scored": 0
+    },
+    "same_probe_constraints": {
+      "correct": 12,
+      "total": 12,
+      "query_min": 0,
+      "query_mean": 0,
+      "query_max": 0,
+      "seconds_total": 5.650005186907947e-05,
+      "candidate_evaluations": 0,
+      "table_cells_scored": 0
+    },
+    "max_disagreement": {
+      "correct": 12,
+      "total": 12,
+      "query_min": 0,
+      "query_mean": 0,
+      "query_max": 0,
+      "seconds_total": 8.220004383474588e-05,
+      "candidate_evaluations": 0,
+      "table_cells_scored": 0
+    },
+    "optimal_tree": {
+      "correct": 12,
+      "total": 12,
+      "query_min": 0,
+      "query_mean": 0,
+      "query_max": 0,
+      "seconds_total": 3.559998003765941e-05,
+      "candidate_evaluations": 0,
+      "table_cells_scored": 0
+    }
+  },
+  "runs": [
+    {
+      "model_id": 0,
+      "hidden": {
+        "scope": "keys:",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 2.4100008886307478e-05,
+          "candidate_evaluations": 0,
+          "local_decisions": 0,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope",
+              "order",
+              "outer"
+            ],
+            "certificates": [
+              "On this declared nonnegative bounded domain all caps are inactive; all structures equal sum(T-E)."
+            ],
+            "local_decisions": 0,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 0,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 3.5999983083456755e-06,
+          "candidate_evaluations": 0,
+          "survivors": 12,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 9.69998654909432e-06,
+          "table_cells_scored": 0,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 2.3999891709536314e-06,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 1,
+      "hidden": {
+        "scope": "keys:",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 3.15000070258975e-05,
+          "candidate_evaluations": 0,
+          "local_decisions": 0,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope",
+              "order",
+              "outer"
+            ],
+            "certificates": [
+              "On this declared nonnegative bounded domain all caps are inactive; all structures equal sum(T-E)."
+            ],
+            "local_decisions": 0,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 0,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 3.6999990697950125e-06,
+          "candidate_evaluations": 0,
+          "survivors": 12,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 5.80001506023109e-06,
+          "table_cells_scored": 0,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 2.9999937396496534e-06,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 2,
+      "hidden": {
+        "scope": "keys:",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 2.5999994250014424e-05,
+          "candidate_evaluations": 0,
+          "local_decisions": 0,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope",
+              "order",
+              "outer"
+            ],
+            "certificates": [
+              "On this declared nonnegative bounded domain all caps are inactive; all structures equal sum(T-E)."
+            ],
+            "local_decisions": 0,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 0,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 5.3000112529844046e-06,
+          "candidate_evaluations": 0,
+          "survivors": 12,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 7.199996616691351e-06,
+          "table_cells_scored": 0,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 2.7999922167509794e-06,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 3,
+      "hidden": {
+        "scope": "keys:",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 3.070000093430281e-05,
+          "candidate_evaluations": 0,
+          "local_decisions": 0,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope",
+              "order",
+              "outer"
+            ],
+            "certificates": [
+              "On this declared nonnegative bounded domain all caps are inactive; all structures equal sum(T-E)."
+            ],
+            "local_decisions": 0,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 0,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 4.3000036384910345e-06,
+          "candidate_evaluations": 0,
+          "survivors": 12,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 6.500020390376449e-06,
+          "table_cells_scored": 0,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 2.800021320581436e-06,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 4,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 3.429999924264848e-05,
+          "candidate_evaluations": 0,
+          "local_decisions": 0,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope",
+              "order",
+              "outer"
+            ],
+            "certificates": [
+              "On this declared nonnegative bounded domain all caps are inactive; all structures equal sum(T-E)."
+            ],
+            "local_decisions": 0,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 0,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 5.4000120144337416e-06,
+          "candidate_evaluations": 0,
+          "survivors": 12,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 8.500006515532732e-06,
+          "table_cells_scored": 0,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 2.7999922167509794e-06,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 5,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 2.4600012693554163e-05,
+          "candidate_evaluations": 0,
+          "local_decisions": 0,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope",
+              "order",
+              "outer"
+            ],
+            "certificates": [
+              "On this declared nonnegative bounded domain all caps are inactive; all structures equal sum(T-E)."
+            ],
+            "local_decisions": 0,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 0,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 6.300018867477775e-06,
+          "candidate_evaluations": 0,
+          "survivors": 12,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 7.599999662488699e-06,
+          "table_cells_scored": 0,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 2.8999929782003164e-06,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 6,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 3.779999678954482e-05,
+          "candidate_evaluations": 0,
+          "local_decisions": 0,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope",
+              "order",
+              "outer"
+            ],
+            "certificates": [
+              "On this declared nonnegative bounded domain all caps are inactive; all structures equal sum(T-E)."
+            ],
+            "local_decisions": 0,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 0,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 5.599984433501959e-06,
+          "candidate_evaluations": 0,
+          "survivors": 12,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 4.4000043999403715e-06,
+          "table_cells_scored": 0,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 2.6999914553016424e-06,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 7,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 2.2199994418770075e-05,
+          "candidate_evaluations": 0,
+          "local_decisions": 0,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope",
+              "order",
+              "outer"
+            ],
+            "certificates": [
+              "On this declared nonnegative bounded domain all caps are inactive; all structures equal sum(T-E)."
+            ],
+            "local_decisions": 0,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 0,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 7.100024959072471e-06,
+          "candidate_evaluations": 0,
+          "survivors": 12,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 7.099995855242014e-06,
+          "table_cells_scored": 0,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 4.4000043999403715e-06,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 8,
+      "hidden": {
+        "scope": "record",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 3.3899996196851134e-05,
+          "candidate_evaluations": 0,
+          "local_decisions": 0,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope",
+              "order",
+              "outer"
+            ],
+            "certificates": [
+              "On this declared nonnegative bounded domain all caps are inactive; all structures equal sum(T-E)."
+            ],
+            "local_decisions": 0,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 0,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 3.9000005926936865e-06,
+          "candidate_evaluations": 0,
+          "survivors": 12,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 4.8000074457377195e-06,
+          "table_cells_scored": 0,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 2.3999891709536314e-06,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 9,
+      "hidden": {
+        "scope": "record",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 2.139998832717538e-05,
+          "candidate_evaluations": 0,
+          "local_decisions": 0,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope",
+              "order",
+              "outer"
+            ],
+            "certificates": [
+              "On this declared nonnegative bounded domain all caps are inactive; all structures equal sum(T-E)."
+            ],
+            "local_decisions": 0,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 0,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 3.1999952625483274e-06,
+          "candidate_evaluations": 0,
+          "survivors": 12,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 7.499998901039362e-06,
+          "table_cells_scored": 0,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 3.2999960239976645e-06,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 10,
+      "hidden": {
+        "scope": "record",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 3.0800001695752144e-05,
+          "candidate_evaluations": 0,
+          "local_decisions": 0,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope",
+              "order",
+              "outer"
+            ],
+            "certificates": [
+              "On this declared nonnegative bounded domain all caps are inactive; all structures equal sum(T-E)."
+            ],
+            "local_decisions": 0,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 0,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 4.2000028770416975e-06,
+          "candidate_evaluations": 0,
+          "survivors": 12,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 5.2000104915350676e-06,
+          "table_cells_scored": 0,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 2.500019036233425e-06,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 11,
+      "hidden": {
+        "scope": "record",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 3.239998477511108e-05,
+          "candidate_evaluations": 0,
+          "local_decisions": 0,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope",
+              "order",
+              "outer"
+            ],
+            "certificates": [
+              "On this declared nonnegative bounded domain all caps are inactive; all structures equal sum(T-E)."
+            ],
+            "local_decisions": 0,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 0,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 3.9000005926936865e-06,
+          "candidate_evaluations": 0,
+          "survivors": 12,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 7.90000194683671e-06,
+          "table_cells_scored": 0,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 0,
+          "seconds": 3.5999983083456755e-06,
+          "precomputation_shared": true
+        }
+      }
+    }
+  ],
+  "suite_seconds": 0.14789160000509582,
+  "all_dsl_evaluations_by_category": {
+    "candidate_precomputation": 1356,
+    "reference_stress_scoring": 972,
+    "learned_and_surviving_program_verification": 15936
+  }
+}

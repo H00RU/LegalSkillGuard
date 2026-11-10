@@ -1,0 +1,112 @@
+{
+  "status": "exact restricted algorithm; no model calls",
+  "exhaustive_function_cap_pairs": 102400,
+  "finite_domain_size": 3,
+  "finite_function_range": [
+    0,
+    3
+  ],
+  "enumerated_caps": [
+    0,
+    4
+  ],
+  "enumerated_bag_sizes": [
+    0,
+    5
+  ],
+  "unbounded_domain_cases": [
+    {
+      "equivalent": true,
+      "minimum_count": null,
+      "reason": "same cap and equal clipped generators",
+      "scan_cells": 2
+    },
+    {
+      "equivalent": false,
+      "minimum_count": 333334,
+      "witness": {
+        "record": 3,
+        "repeat": 333334
+      },
+      "F": 1000000,
+      "G": 1000001,
+      "common_maximum": 3,
+      "reason": "unequal caps; repeat maximal common generator",
+      "scan_cells": 2
+    },
+    {
+      "equivalent": true,
+      "minimum_count": null,
+      "reason": "common clipped generator is identically zero",
+      "scan_cells": 1
+    },
+    {
+      "equivalent": false,
+      "minimum_count": 1,
+      "witness": {
+        "record": 0,
+        "repeat": 1
+      },
+      "F": 5,
+      "G": 8,
+      "reason": "one-record difference",
+      "scan_cells": 1
+    }
+  ],
+  "noninteger_or_infinite_cap_inputs_rejected": 6,
+  "baseline": {
+    "matched_pairs": 27,
+    "direct_seconds": 0.000797900022007525,
+    "numerical_MILP_seconds": 0.24496099998941645,
+    "qualification": "prototype overhead comparison, not a SQLSolver/LIA* benchmark"
+  },
+  "outside_scope_counterexamples": {
+    "negative_contributions": {
+      "caps": [
+        10,
+        10
+      ],
+      "f": [
+        20,
+        -10
+      ],
+      "g": [
+        10,
+        -10
+      ],
+      "single_outputs_equal": true,
+      "two_record_outputs": [
+        10,
+        0
+      ],
+      "excluded_by": "nonnegative contribution premise"
+    },
+    "shared_budget_no_replication": {
+      "caps": [
+        4,
+        7
+      ],
+      "record_contribution": 2,
+      "unrestricted_minimum": 3,
+      "maximum_legal_records": 2,
+      "legal_domain_equivalent": true,
+      "excluded_by": "freely replicable independent records premise"
+    },
+    "global_deduction": {
+      "F": "max(0, sum(x)-4)",
+      "G": "max(0, sum(x)-5)",
+      "record_domain": [
+        0,
+        3
+      ],
+      "single_outputs_equal": true,
+      "x3_twice_outputs": [
+        2,
+        1
+      ],
+      "excluded_by": "one final cap without extra aggregate-side operations"
+    }
+  },
+  "elapsed_seconds": 3.4728442000050563,
+  "novelty": "Saturation monoid laws are established mathematics; direct restricted algorithm requires separate novelty assessment."
+}

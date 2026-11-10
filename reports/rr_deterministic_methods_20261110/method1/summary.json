@@ -1,0 +1,1100 @@
+{
+  "purpose": "Deterministic, synthetic, same-information algorithm audit",
+  "model_calls": 0,
+  "native_legal_gold_used": false,
+  "test_oracle_claim": false,
+  "tests_are_finite": true,
+  "old_project_test_data_read": false,
+  "exact_all_dsl_evaluations": {
+    "candidate_precomputation": 1222008,
+    "reference_stress_scoring": 105420,
+    "learner_acquisition_truth": 2750,
+    "learned_and_surviving_program_verification": 1648236,
+    "isolation_audit_candidate_simulation": 42476,
+    "same_probe_candidate_filtering": 16954
+  },
+  "ledger_reconciled_acquisition_calls": 2750,
+  "independently_counted_reference_stress_evaluations": 105420,
+  "intermediate_domain_guard": {
+    "cases": 24,
+    "unsupported": 22,
+    "illegal_queries_submitted": 0
+  },
+  "source_hashes": {
+    "direct_recovery.py": "06709a10c9bb981416018f674247d3f0793cb6d80ab3f2ceb456ffe8b103945b",
+    "run_validation.py": "d59af3ef6024a2e927e1d4347479a005fad2ee3de8bd73b738d6dc7f22cae6ac"
+  },
+  "suites": [
+    {
+      "name": "original12",
+      "public_spec": {
+        "features": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ],
+        "cap": "7",
+        "optional_outer_value": "12",
+        "exclusions": true,
+        "total_bound": null
+      },
+      "model_count": 12,
+      "behavioral_classes_on_pool": 10,
+      "query_pool_size": 1871,
+      "additional_hidden_stress_inputs": 512,
+      "common_precomputation": {
+        "candidate_evaluations": 22452,
+        "seconds": 0.11982229998102412,
+        "used_by": [
+          "max_disagreement",
+          "optimal_tree"
+        ],
+        "not_used_by": [
+          "direct",
+          "same_probe_constraints"
+        ]
+      },
+      "exact_minimax": {
+        "behavioral_classes": 10,
+        "worst_queries": 2,
+        "expected_queries_uniform_class": "3/2",
+        "dp_states": 52,
+        "partition_tests_considered": 2562,
+        "distinct_query_partitions": 61
+      },
+      "exact_minimax_seconds": 0.03428700001677498,
+      "summaries": {
+        "direct": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 3,
+          "query_mean": 3.3333333333333335,
+          "query_max": 4,
+          "seconds_total": 0.004644500120775774,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        },
+        "same_probe_constraints": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 3,
+          "query_mean": 3.3333333333333335,
+          "query_max": 4,
+          "seconds_total": 0.0057231000100728124,
+          "candidate_evaluations": 264,
+          "table_cells_scored": 0
+        },
+        "max_disagreement": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 1,
+          "query_mean": 1.5,
+          "query_max": 2,
+          "seconds_total": 0.10031079998589121,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 246972
+        },
+        "optimal_tree": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 1,
+          "query_mean": 1.4166666666666667,
+          "query_max": 2,
+          "seconds_total": 0.0017124999722000211,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        }
+      },
+      "suite_seconds": 0.76732539999648,
+      "all_dsl_evaluations_by_category": {
+        "candidate_precomputation": 22452,
+        "reference_stress_scoring": 6144,
+        "learner_acquisition_truth": 115,
+        "learned_and_surviving_program_verification": 49076,
+        "isolation_audit_candidate_simulation": 616,
+        "same_probe_candidate_filtering": 264
+      }
+    },
+    {
+      "name": "keys2",
+      "public_spec": {
+        "features": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            0,
+            0
+          ]
+        ],
+        "cap": "7",
+        "optional_outer_value": "12",
+        "exclusions": true,
+        "total_bound": null
+      },
+      "model_count": 20,
+      "behavioral_classes_on_pool": 18,
+      "query_pool_size": 1053,
+      "additional_hidden_stress_inputs": 512,
+      "common_precomputation": {
+        "candidate_evaluations": 21060,
+        "seconds": 0.11143879999872297,
+        "used_by": [
+          "max_disagreement",
+          "optimal_tree"
+        ],
+        "not_used_by": [
+          "direct",
+          "same_probe_constraints"
+        ]
+      },
+      "exact_minimax": null,
+      "exact_minimax_seconds": 0,
+      "summaries": {
+        "direct": {
+          "correct": 20,
+          "total": 20,
+          "query_min": 3,
+          "query_mean": 4.4,
+          "query_max": 5,
+          "seconds_total": 0.01176100003067404,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        },
+        "same_probe_constraints": {
+          "correct": 20,
+          "total": 20,
+          "query_min": 3,
+          "query_mean": 4.4,
+          "query_max": 5,
+          "seconds_total": 0.014123399945674464,
+          "candidate_evaluations": 824,
+          "table_cells_scored": 0
+        },
+        "max_disagreement": {
+          "correct": 20,
+          "total": 20,
+          "query_min": 2,
+          "query_mean": 2.4,
+          "query_max": 3,
+          "seconds_total": 0.15480380001827143,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 478062
+        }
+      },
+      "suite_seconds": 0.8105007999984082,
+      "all_dsl_evaluations_by_category": {
+        "candidate_precomputation": 21060,
+        "reference_stress_scoring": 10240,
+        "learner_acquisition_truth": 224,
+        "learned_and_surviving_program_verification": 53828,
+        "isolation_audit_candidate_simulation": 2008,
+        "same_probe_candidate_filtering": 824
+      }
+    },
+    {
+      "name": "keys3",
+      "public_spec": {
+        "features": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            1
+          ],
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            1
+          ],
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            1,
+            1,
+            1
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "cap": "7",
+        "optional_outer_value": "12",
+        "exclusions": true,
+        "total_bound": null
+      },
+      "model_count": 36,
+      "behavioral_classes_on_pool": 34,
+      "query_pool_size": 3696,
+      "additional_hidden_stress_inputs": 512,
+      "common_precomputation": {
+        "candidate_evaluations": 133056,
+        "seconds": 0.8047234000114258,
+        "used_by": [
+          "max_disagreement",
+          "optimal_tree"
+        ],
+        "not_used_by": [
+          "direct",
+          "same_probe_constraints"
+        ]
+      },
+      "exact_minimax": null,
+      "exact_minimax_seconds": 0,
+      "summaries": {
+        "direct": {
+          "correct": 36,
+          "total": 36,
+          "query_min": 3,
+          "query_mean": 5.555555555555555,
+          "query_max": 6,
+          "seconds_total": 0.0364299999200739,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        },
+        "same_probe_constraints": {
+          "correct": 36,
+          "total": 36,
+          "query_min": 3,
+          "query_mean": 5.555555555555555,
+          "query_max": 6,
+          "seconds_total": 0.05349169997498393,
+          "candidate_evaluations": 2904,
+          "table_cells_scored": 0
+        },
+        "max_disagreement": {
+          "correct": 36,
+          "total": 36,
+          "query_min": 2,
+          "query_mean": 3.0555555555555554,
+          "query_max": 5,
+          "seconds_total": 1.453488599974662,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 5847072
+        }
+      },
+      "suite_seconds": 4.42023980000522,
+      "all_dsl_evaluations_by_category": {
+        "candidate_precomputation": 133056,
+        "reference_stress_scoring": 18432,
+        "learner_acquisition_truth": 510,
+        "learned_and_surviving_program_verification": 190400,
+        "isolation_audit_candidate_simulation": 7288,
+        "same_probe_candidate_filtering": 2904
+      }
+    },
+    {
+      "name": "keys4",
+      "public_spec": {
+        "features": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            1,
+            1
+          ],
+          [
+            0,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            1
+          ],
+          [
+            0,
+            1,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            0,
+            1,
+            0
+          ],
+          [
+            1,
+            0,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            0,
+            0
+          ],
+          [
+            1,
+            1,
+            0,
+            1
+          ],
+          [
+            1,
+            1,
+            1,
+            0
+          ],
+          [
+            1,
+            1,
+            1,
+            1
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "cap": "7",
+        "optional_outer_value": "12",
+        "exclusions": true,
+        "total_bound": null
+      },
+      "model_count": 68,
+      "behavioral_classes_on_pool": 66,
+      "query_pool_size": 13783,
+      "additional_hidden_stress_inputs": 512,
+      "common_precomputation": {
+        "candidate_evaluations": 937244,
+        "seconds": 5.31835330001195,
+        "used_by": [
+          "max_disagreement",
+          "optimal_tree"
+        ],
+        "not_used_by": [
+          "direct",
+          "same_probe_constraints"
+        ]
+      },
+      "exact_minimax": null,
+      "exact_minimax_seconds": 0,
+      "summaries": {
+        "direct": {
+          "correct": 68,
+          "total": 68,
+          "query_min": 3,
+          "query_mean": 6.705882352941177,
+          "query_max": 7,
+          "seconds_total": 0.15797989993006922,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        },
+        "same_probe_constraints": {
+          "correct": 68,
+          "total": 68,
+          "query_min": 3,
+          "query_mean": 6.705882352941177,
+          "query_max": 7,
+          "seconds_total": 0.21154779990320094,
+          "candidate_evaluations": 10904,
+          "table_cells_scored": 0
+        },
+        "max_disagreement": {
+          "correct": 68,
+          "total": 68,
+          "query_min": 2,
+          "query_mean": 3.7941176470588234,
+          "query_max": 6,
+          "seconds_total": 16.660711399978027,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 81071606
+        }
+      },
+      "suite_seconds": 35.32602740000584,
+      "all_dsl_evaluations_by_category": {
+        "candidate_precomputation": 937244,
+        "reference_stress_scoring": 34816,
+        "learner_acquisition_truth": 1170,
+        "learned_and_surviving_program_verification": 1043740,
+        "isolation_audit_candidate_simulation": 27832,
+        "same_probe_candidate_filtering": 10904
+      }
+    },
+    {
+      "name": "low_outer",
+      "public_spec": {
+        "features": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ],
+        "cap": "7",
+        "optional_outer_value": "5",
+        "exclusions": true,
+        "total_bound": null
+      },
+      "model_count": 12,
+      "behavioral_classes_on_pool": 10,
+      "query_pool_size": 1871,
+      "additional_hidden_stress_inputs": 512,
+      "common_precomputation": {
+        "candidate_evaluations": 22452,
+        "seconds": 0.12392569999792613,
+        "used_by": [
+          "max_disagreement",
+          "optimal_tree"
+        ],
+        "not_used_by": [
+          "direct",
+          "same_probe_constraints"
+        ]
+      },
+      "exact_minimax": {
+        "behavioral_classes": 10,
+        "worst_queries": 2,
+        "expected_queries_uniform_class": "3/2",
+        "dp_states": 48,
+        "partition_tests_considered": 1824,
+        "distinct_query_partitions": 48
+      },
+      "exact_minimax_seconds": 0.02381680000689812,
+      "summaries": {
+        "direct": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 1,
+          "query_mean": 2.75,
+          "query_max": 4,
+          "seconds_total": 0.003997199994046241,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        },
+        "same_probe_constraints": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 1,
+          "query_mean": 2.75,
+          "query_max": 4,
+          "seconds_total": 0.004081200051587075,
+          "candidate_evaluations": 221,
+          "table_cells_scored": 0
+        },
+        "max_disagreement": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 1,
+          "query_mean": 1.6666666666666667,
+          "query_max": 2,
+          "seconds_total": 0.10479179996764287,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 254456
+        },
+        "optimal_tree": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 1,
+          "query_mean": 1.5833333333333333,
+          "query_max": 2,
+          "seconds_total": 0.0016755999822635204,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        }
+      },
+      "suite_seconds": 0.752019300009124,
+      "all_dsl_evaluations_by_category": {
+        "candidate_precomputation": 22452,
+        "reference_stress_scoring": 6144,
+        "learner_acquisition_truth": 105,
+        "learned_and_surviving_program_verification": 50100,
+        "isolation_audit_candidate_simulation": 495,
+        "same_probe_candidate_filtering": 221
+      }
+    },
+    {
+      "name": "equal_outer",
+      "public_spec": {
+        "features": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ],
+        "cap": "7",
+        "optional_outer_value": "7",
+        "exclusions": true,
+        "total_bound": null
+      },
+      "model_count": 12,
+      "behavioral_classes_on_pool": 8,
+      "query_pool_size": 1871,
+      "additional_hidden_stress_inputs": 512,
+      "common_precomputation": {
+        "candidate_evaluations": 22452,
+        "seconds": 0.11941730001126416,
+        "used_by": [
+          "max_disagreement",
+          "optimal_tree"
+        ],
+        "not_used_by": [
+          "direct",
+          "same_probe_constraints"
+        ]
+      },
+      "exact_minimax": {
+        "behavioral_classes": 8,
+        "worst_queries": 2,
+        "expected_queries_uniform_class": "11/8",
+        "dp_states": 40,
+        "partition_tests_considered": 1280,
+        "distinct_query_partitions": 40
+      },
+      "exact_minimax_seconds": 0.01611389999743551,
+      "summaries": {
+        "direct": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 2,
+          "query_mean": 3.0833333333333335,
+          "query_max": 4,
+          "seconds_total": 0.0040265999850817025,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        },
+        "same_probe_constraints": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 2,
+          "query_mean": 3.0833333333333335,
+          "query_max": 4,
+          "seconds_total": 0.00444190003327094,
+          "candidate_evaluations": 265,
+          "table_cells_scored": 0
+        },
+        "max_disagreement": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 1,
+          "query_mean": 1.5833333333333333,
+          "query_max": 2,
+          "seconds_total": 0.09082310003577732,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 205810
+        },
+        "optimal_tree": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 1,
+          "query_mean": 1.5,
+          "query_max": 2,
+          "seconds_total": 0.0016671000339556485,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        }
+      },
+      "suite_seconds": 0.7547714999818709,
+      "all_dsl_evaluations_by_category": {
+        "candidate_precomputation": 22452,
+        "reference_stress_scoring": 6144,
+        "learner_acquisition_truth": 111,
+        "learned_and_surviving_program_verification": 54196,
+        "isolation_audit_candidate_simulation": 513,
+        "same_probe_candidate_filtering": 265
+      }
+    },
+    {
+      "name": "high_outer",
+      "public_spec": {
+        "features": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ],
+        "cap": "7",
+        "optional_outer_value": "100",
+        "exclusions": true,
+        "total_bound": null
+      },
+      "model_count": 12,
+      "behavioral_classes_on_pool": 6,
+      "query_pool_size": 1753,
+      "additional_hidden_stress_inputs": 512,
+      "common_precomputation": {
+        "candidate_evaluations": 21036,
+        "seconds": 0.11692930001299828,
+        "used_by": [
+          "max_disagreement",
+          "optimal_tree"
+        ],
+        "not_used_by": [
+          "direct",
+          "same_probe_constraints"
+        ]
+      },
+      "exact_minimax": {
+        "behavioral_classes": 6,
+        "worst_queries": 1,
+        "expected_queries_uniform_class": "1",
+        "dp_states": 27,
+        "partition_tests_considered": 693,
+        "distinct_query_partitions": 33
+      },
+      "exact_minimax_seconds": 0.010224300000118092,
+      "summaries": {
+        "direct": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 2,
+          "query_mean": 2.6666666666666665,
+          "query_max": 3,
+          "seconds_total": 0.004106100037461147,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        },
+        "same_probe_constraints": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 2,
+          "query_mean": 2.6666666666666665,
+          "query_max": 3,
+          "seconds_total": 0.004007799987448379,
+          "candidate_evaluations": 248,
+          "table_cells_scored": 0
+        },
+        "max_disagreement": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 1,
+          "query_mean": 1,
+          "query_max": 1,
+          "seconds_total": 0.056584900041343644,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 126216
+        },
+        "optimal_tree": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 1,
+          "query_mean": 1,
+          "query_max": 1,
+          "seconds_total": 0.001463399938074872,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        }
+      },
+      "suite_seconds": 0.6854734999942593,
+      "all_dsl_evaluations_by_category": {
+        "candidate_precomputation": 21036,
+        "reference_stress_scoring": 6144,
+        "learner_acquisition_truth": 88,
+        "learned_and_surviving_program_verification": 51756,
+        "isolation_audit_candidate_simulation": 600,
+        "same_probe_candidate_filtering": 248
+      }
+    },
+    {
+      "name": "correlated_keys",
+      "public_spec": {
+        "features": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "cap": "7",
+        "optional_outer_value": "12",
+        "exclusions": true,
+        "total_bound": null
+      },
+      "model_count": 20,
+      "behavioral_classes_on_pool": 10,
+      "query_pool_size": 1871,
+      "additional_hidden_stress_inputs": 512,
+      "common_precomputation": {
+        "candidate_evaluations": 37420,
+        "seconds": 0.20622810002532788,
+        "used_by": [
+          "max_disagreement",
+          "optimal_tree"
+        ],
+        "not_used_by": [
+          "direct",
+          "same_probe_constraints"
+        ]
+      },
+      "exact_minimax": {
+        "behavioral_classes": 10,
+        "worst_queries": 2,
+        "expected_queries_uniform_class": "3/2",
+        "dp_states": 52,
+        "partition_tests_considered": 2562,
+        "distinct_query_partitions": 61
+      },
+      "exact_minimax_seconds": 0.033718999999109656,
+      "summaries": {
+        "direct": {
+          "correct": 20,
+          "total": 20,
+          "query_min": 3,
+          "query_mean": 6.8,
+          "query_max": 8,
+          "seconds_total": 0.013902700011385605,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        },
+        "same_probe_constraints": {
+          "correct": 20,
+          "total": 20,
+          "query_min": 3,
+          "query_mean": 6.8,
+          "query_max": 8,
+          "seconds_total": 0.017294600082095712,
+          "candidate_evaluations": 1128,
+          "table_cells_scored": 0
+        },
+        "max_disagreement": {
+          "correct": 20,
+          "total": 20,
+          "query_min": 1,
+          "query_mean": 1.7,
+          "query_max": 2,
+          "seconds_total": 0.17960939990007319,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 426588
+        },
+        "optimal_tree": {
+          "correct": 20,
+          "total": 20,
+          "query_min": 1,
+          "query_mean": 1.55,
+          "query_max": 2,
+          "seconds_total": 0.0028437999717425555,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        }
+      },
+      "suite_seconds": 1.2594457999803126,
+      "all_dsl_evaluations_by_category": {
+        "candidate_precomputation": 37420,
+        "reference_stress_scoring": 10240,
+        "learner_acquisition_truth": 337,
+        "learned_and_surviving_program_verification": 92716,
+        "isolation_audit_candidate_simulation": 2824,
+        "same_probe_candidate_filtering": 1128
+      }
+    },
+    {
+      "name": "no_exclusions",
+      "public_spec": {
+        "features": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ],
+        "cap": "7",
+        "optional_outer_value": "5",
+        "exclusions": false,
+        "total_bound": null
+      },
+      "model_count": 12,
+      "behavioral_classes_on_pool": 4,
+      "query_pool_size": 290,
+      "additional_hidden_stress_inputs": 512,
+      "common_precomputation": {
+        "candidate_evaluations": 3480,
+        "seconds": 0.019751900021219626,
+        "used_by": [
+          "max_disagreement",
+          "optimal_tree"
+        ],
+        "not_used_by": [
+          "direct",
+          "same_probe_constraints"
+        ]
+      },
+      "exact_minimax": {
+        "behavioral_classes": 4,
+        "worst_queries": 1,
+        "expected_queries_uniform_class": "1",
+        "dp_states": 8,
+        "partition_tests_considered": 16,
+        "distinct_query_partitions": 4
+      },
+      "exact_minimax_seconds": 0.0006240000075194985,
+      "summaries": {
+        "direct": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 1,
+          "query_mean": 1.8333333333333333,
+          "query_max": 3,
+          "seconds_total": 0.0027959999861195683,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        },
+        "same_probe_constraints": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 1,
+          "query_mean": 1.8333333333333333,
+          "query_max": 3,
+          "seconds_total": 0.004428400017786771,
+          "candidate_evaluations": 196,
+          "table_cells_scored": 0
+        },
+        "max_disagreement": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 1,
+          "query_mean": 1,
+          "query_max": 1,
+          "seconds_total": 0.010971699986839667,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 13920
+        },
+        "optimal_tree": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 1,
+          "query_mean": 1,
+          "query_max": 1,
+          "seconds_total": 0.0015970000240486115,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        }
+      },
+      "suite_seconds": 0.468746700003976,
+      "all_dsl_evaluations_by_category": {
+        "candidate_precomputation": 3480,
+        "reference_stress_scoring": 6144,
+        "learner_acquisition_truth": 68,
+        "learned_and_surviving_program_verification": 46488,
+        "isolation_audit_candidate_simulation": 300,
+        "same_probe_candidate_filtering": 196
+      }
+    },
+    {
+      "name": "below_all_caps",
+      "public_spec": {
+        "features": [
+          [
+            0
+          ],
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ],
+        "cap": "7",
+        "optional_outer_value": "5",
+        "exclusions": true,
+        "total_bound": "4"
+      },
+      "model_count": 12,
+      "behavioral_classes_on_pool": 1,
+      "query_pool_size": 113,
+      "additional_hidden_stress_inputs": 81,
+      "common_precomputation": {
+        "candidate_evaluations": 1356,
+        "seconds": 0.007933800021419302,
+        "used_by": [
+          "max_disagreement",
+          "optimal_tree"
+        ],
+        "not_used_by": [
+          "direct",
+          "same_probe_constraints"
+        ]
+      },
+      "exact_minimax": {
+        "behavioral_classes": 1,
+        "worst_queries": 0,
+        "expected_queries_uniform_class": "0",
+        "dp_states": 1,
+        "partition_tests_considered": 0,
+        "distinct_query_partitions": 0
+      },
+      "exact_minimax_seconds": 0.00011570000788196921,
+      "summaries": {
+        "direct": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 0,
+          "query_mean": 0,
+          "query_max": 0,
+          "seconds_total": 0.0003496999852359295,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        },
+        "same_probe_constraints": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 0,
+          "query_mean": 0,
+          "query_max": 0,
+          "seconds_total": 5.650005186907947e-05,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        },
+        "max_disagreement": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 0,
+          "query_mean": 0,
+          "query_max": 0,
+          "seconds_total": 8.220004383474588e-05,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        },
+        "optimal_tree": {
+          "correct": 12,
+          "total": 12,
+          "query_min": 0,
+          "query_mean": 0,
+          "query_max": 0,
+          "seconds_total": 3.559998003765941e-05,
+          "candidate_evaluations": 0,
+          "table_cells_scored": 0
+        }
+      },
+      "suite_seconds": 0.14789160000509582,
+      "all_dsl_evaluations_by_category": {
+        "candidate_precomputation": 1356,
+        "reference_stress_scoring": 972,
+        "learned_and_surviving_program_verification": 15936
+      }
+    }
+  ]
+}

@@ -1,0 +1,206 @@
+{
+  "purpose": "Source-grounded restricted arithmetic fixture audit",
+  "source_archive_sha256": "f433146a8a83d351b7797ff12a9a5afdb3986ad790af9cfbc1c2b6d3f2dca85b",
+  "source_evidence": [
+    {
+      "member": "sara_v2/statutes/source/section3306",
+      "sha256": "cf05cdf1f27dc8d8a848bb7d41db413875b0358ceb30c63754dc08296c73c654",
+      "first_line": 31,
+      "last_line": 55,
+      "excerpt": "(b) Wages\n\nFor purposes of this chapter, the term \"wages\" means all remuneration for employment, including the cash value of all remuneration (including benefits) paid in any medium other than cash; except that such term shall not include-\n\n    (1) that part of the remuneration which, after remuneration (other than remuneration referred to in the succeeding paragraphs of this subsection) equal to $7,000 with respect to employment has been paid to an individual by an employer during any calendar year, is paid to such individual by such employer during such calendar year;\n\n    (2) the amount of any payment (including any amount paid by an employer for insurance or annuities, or into a fund, to provide for any such payment) made to, or on behalf of, an employee or any of his dependents under a plan or system established by an employer which makes provision for his employees generally (or for his employees generally and their dependents) or for a class or classes of his employees (or for a class or classes of his employees and their dependents), on account of-\n\n        (A) sickness or accident disability, or\n\n        (C) death;\n\n    (7) remuneration paid in any medium other than cash to an employee for service not in the course of the employer's trade or business;\n\n    (10) any payment or series of payments by an employer to an employee or any of his dependents which is paid-\n\n        (A) upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability, and\n\n        (B) under a plan established by the employer which makes provision for his employees generally or a class or classes of his employees (or for such employees or class or classes of employees and their dependents),\n\n    other than any such payment or series of payments which would have been paid if the employee's employment relationship had not been so terminated;\n\n    (11) remuneration for agricultural labor paid in any medium other than cash;\n\n    (15) any payment made by an employer to a survivor or the estate of a former employee after the calendar year in which such employee died;"
+    },
+    {
+      "member": "sara_v2/statutes/prolog/section3306.pl",
+      "sha256": "6d283f999cfb578d704aa5586a593dd78b89b834006d4277af81f2008a094455",
+      "first_line": 270,
+      "last_line": 306,
+      "excerpt": "s3306_b(Wages,Remuneration,Employment,Payer,Payee,Employer,Employee,Medium) :-\n\tpayment_(Remuneration),\n    (\n        (\\+ means_(Remuneration,_));\n        means_(Remuneration,Medium)\n    ),\n    agent_(Remuneration,Payer),\n    (\n        (\n            patient_(Remuneration,Payee),\n            \\+ plan_(Payee)\n        );\n        (\n            patient_(Remuneration,Plan),\n            plan_(Plan),\n            beneficiary_(Plan,Payee)\n        )\n    ),\n\tservice_(Employment),\n    agent_(Employment,Employee),\n    patient_(Employment,Employer),\n\tpurpose_(Remuneration,Employment),\n    end_(Employment,End_service),\n\tsplit_string(End_service,\"-\",\"\",[Year_s,_,_]),\n\tatom_number(Year_s,Year),\n\ts3306_c(Employment,_,_,_,Year),\n\tamount_(Remuneration,Wages_before),\n    s3306_b_1(Wages_before,Wages),\n\t\\+ s3306_b_2(Remuneration,Employment,Payer,Payee,_,Plan),\n    \\+ s3306_b_7(Remuneration,Employment,Payer,Payee,_,_),\n\t\\+ s3306_b_10(Remuneration,Employment,Payer,Payee,_,Plan),\n\t\\+ s3306_b_11(Remuneration,Employment,_),\n    \\+ s3306_b_15(Remuneration,Employer,Payee,Employee,_).\n\n%(1) that part of the remuneration which, after remuneration (other than remuneration referred to in the succeeding paragraphs of this subsection) equal to $7,000 with respect to employment has been paid to an individual by an employer during any calendar year, is paid to such individual by such employer during such calendar year;\ns3306_b_1(Remuneration,Remuneration2) :-\n    Remuneration2 is min(7000,Remuneration)."
+    },
+    {
+      "member": "sara_v2/statutes/source/section63",
+      "sha256": "1bd818a6b6a3915152a2f5f515947d2a93d749c354ef97dc24ffeb7322b623a1",
+      "first_line": 1,
+      "last_line": 109,
+      "excerpt": "§63. Taxable income defined\n\n(a) In general\n\nExcept as provided in subsection (b), for purposes of this subtitle, the term \"taxable income\" means gross income minus the deductions allowed by this chapter (other than the standard deduction).\n\n(b) Individuals who do not itemize their deductions\n\nIn the case of an individual who does not elect to itemize his deductions for the taxable year, for purposes of this subtitle, the term \"taxable income\" means adjusted gross income, minus-\n\n    (1) the standard deduction, and\n\n    (2) the deduction for personal exemptions provided in section 151.\n\n(c) Standard deduction\n\nFor purposes of this subtitle-\n\n    (1) In general\n\n    Except as otherwise provided in this subsection, the term \"standard deduction\" means the sum of-\n\n        (A) the basic standard deduction, and\n\n        (B) the additional standard deduction.\n\n    (2) Basic standard deduction\n\n    For purposes of paragraph (1), the basic standard deduction is-\n\n        (A) 200 percent of the dollar amount in effect under subparagraph (C) for the taxable year in the case of-\n\n            (i) a joint return, or\n\n            (ii) a surviving spouse (as defined in section 2(a)),\n\n        (B) $4,400 in the case of a head of household (as defined in section 2(b)), or\n\n        (C) $3,000 in any other case.\n\n    (3) Additional standard deduction for aged and blind\n\n    For purposes of paragraph (1), the additional standard deduction is the sum of each additional amount to which the taxpayer is entitled under subsection (f).\n\n    (5) Limitation on basic standard deduction in the case of certain dependents\n\n    In the case of an individual with respect to whom a deduction under section 151 is allowable to another taxpayer for a taxable year beginning in the calendar year in which the individual's taxable year begins, the basic standard deduction applicable to such individual for such individual's taxable year shall not exceed the greater of-\n\n        (A) $500, or\n\n        (B) the sum of $250 and such individual's earned income.\n\n    (6) Certain individuals, etc., not eligible for standard deduction\n\n    In the case of-\n\n        (A) a married individual filing a separate return where either spouse itemizes deductions,\n\n        (B) a nonresident alien individual, or\n\n        (D) an estate or trust, common trust fund, or partnership,\n\n    the standard deduction shall be zero.\n\n    (7) Special rules for taxable years 2018 through 2025\n\n    In the case of a taxable year beginning after December 31, 2017, and before January 1, 2026-\n\n    Paragraph (2) shall be applied-\n\n        (i) by substituting \"$18,000\" for \"$4,400\" in subparagraph (B), and\n\n        (ii) by substituting \"$12,000\" for \"$3,000\" in subparagraph (C).\n\n(d) Itemized deductions\n\nFor purposes of this subtitle, the term \"itemized deductions\" means the deductions allowable under this chapter other than-\n\n    (1) the deductions allowable in arriving at adjusted gross income, and\n\n    (2) the deduction for personal exemptions provided by section 151.\n\n(f) Aged or blind additional amounts\n\n    (1) Additional amounts for the aged\n\n    The taxpayer shall be entitled to an additional amount of $600-\n\n        (A) for himself if he has attained age 65 before the close of his taxable year, and\n\n        (B) for the spouse of the taxpayer if the spouse has attained age 65 before the close of the taxable year and an additional exemption is allowable to the taxpayer for such spouse under section 151(b).\n\n    (2) Additional amount for blind\n\n    The taxpayer shall be entitled to an additional amount of $600-\n\n        (A) for himself if he is blind at the close of the taxable year, and\n\n        (B) for the spouse of the taxpayer if the spouse is blind as of the close of the taxable year and an additional exemption is allowable to the taxpayer for such spouse under section 151(b).\n\n    For purposes of subparagraph (B), if the spouse dies during the taxable year the determination of whether such spouse is blind shall be made as of the time of such death.\n\n    (3) Higher amount for certain unmarried individuals\n\n    In the case of an individual who is not married and is not a surviving spouse, paragraphs (1) and (2) shall be applied by substituting \"$750\" for \"$600\".\n\n(g) Marital status\n\nFor purposes of this section, marital status shall be determined under section 7703."
+    },
+    {
+      "member": "sara_v2/statutes/prolog/section63.pl",
+      "sha256": "337bfedc2ad36cf29466c7b2004d1e5420a396bd6648c1a89e3073ca2d939b07",
+      "first_line": 49,
+      "last_line": 79,
+      "excerpt": "%(1) In general\n\n%Except as otherwise provided in this subsection, the term \"standard deduction\" means the sum of-\ns63_c_1(Taxp,Taxy,Standed) :-\n    (\n        s63_c_6(Taxp,Taxy,Standed);\n        (\n           \\+ s63_c_6(Taxp,Taxy,_),\n            s63_c_1_A(Taxp,Taxy,Bassd),\n            s63_c_1_B(Taxp,Taxy,Addsd),\n            Standed is Bassd+Addsd\n        )\n    ).\n\n%(A) the basic standard deduction, and\ns63_c_1_A(Taxp,Taxy,Bassd) :-\n    s63_c_2(Taxp,Taxy,Basic_amount),\n    (\n        (\n            s63_c_5(Taxp,_,_,Taxy,Max_amount),\n            Bassd is min(Basic_amount,Max_amount)\n        );\n        (\n            \\+ s63_c_5(Taxp,_,_,Taxy,_),\n            Bassd is Basic_amount\n        )\n    ).\n\n%(B) the additional standard deduction.\ns63_c_1_B(Taxp,Taxy,Addsd) :-\n    s63_c_3(Taxp,Addsd,Taxy)."
+    }
+  ],
+  "source_evidence_status": "re-extracted from original archive",
+  "assumptions": [
+    "Dataset-era source texts, not current-law tax guidance",
+    "Employment, employer/employee identity, calendar year and exclusion qualification supplied correctly",
+    "Nonnegative payment amounts; no refunds, successors, identity ambiguity or missing payments",
+    "Total wages over supplied complete payment records, not per-payment liability allocation",
+    "Section63 fixture covers dependent basic cap plus supplied additional amount; other exceptions upstream",
+    "Uses earned_income from source, does not inherit upstream gross_income substitution"
+  ],
+  "native_model_results": false,
+  "native_prolog_executed": false,
+  "independent_legal_adjudication": false,
+  "model_calls": 0,
+  "3306_named_fixtures": [
+    {
+      "name": "same_employer_employee_year",
+      "input": [
+        {
+          "employer": "A",
+          "employee": "X",
+          "year": 2015,
+          "amount": 6000,
+          "excluded": false
+        },
+        {
+          "employer": "A",
+          "employee": "X",
+          "year": 2015,
+          "amount": 6000,
+          "excluded": false
+        }
+      ],
+      "grouped": 7000,
+      "remaining_allowance": 7000,
+      "per_payment_local_extension": 12000
+    },
+    {
+      "name": "different_employees",
+      "input": [
+        {
+          "employer": "A",
+          "employee": "X",
+          "year": 2015,
+          "amount": 6000,
+          "excluded": false
+        },
+        {
+          "employer": "A",
+          "employee": "Y",
+          "year": 2015,
+          "amount": 6000,
+          "excluded": false
+        }
+      ],
+      "grouped": 12000,
+      "remaining_allowance": 12000,
+      "per_payment_local_extension": 12000
+    },
+    {
+      "name": "different_employers",
+      "input": [
+        {
+          "employer": "A",
+          "employee": "X",
+          "year": 2015,
+          "amount": 6000,
+          "excluded": false
+        },
+        {
+          "employer": "B",
+          "employee": "X",
+          "year": 2015,
+          "amount": 6000,
+          "excluded": false
+        }
+      ],
+      "grouped": 12000,
+      "remaining_allowance": 12000,
+      "per_payment_local_extension": 12000
+    },
+    {
+      "name": "different_years",
+      "input": [
+        {
+          "employer": "A",
+          "employee": "X",
+          "year": 2015,
+          "amount": 6000,
+          "excluded": false
+        },
+        {
+          "employer": "A",
+          "employee": "X",
+          "year": 2016,
+          "amount": 6000,
+          "excluded": false
+        }
+      ],
+      "grouped": 12000,
+      "remaining_allowance": 12000,
+      "per_payment_local_extension": 12000
+    },
+    {
+      "name": "excluded_does_not_consume_cap",
+      "input": [
+        {
+          "employer": "A",
+          "employee": "X",
+          "year": 2015,
+          "amount": 3000,
+          "excluded": true
+        },
+        {
+          "employer": "A",
+          "employee": "X",
+          "year": 2015,
+          "amount": 6000,
+          "excluded": false
+        }
+      ],
+      "grouped": 6000,
+      "remaining_allowance": 6000,
+      "per_payment_local_extension": 6000
+    }
+  ],
+  "3306_constructed_domain": {
+    "max_records": 3,
+    "keys": [
+      [
+        "A",
+        "X",
+        2015
+      ],
+      [
+        "A",
+        "Y",
+        2015
+      ],
+      [
+        "B",
+        "X",
+        2015
+      ],
+      [
+        "A",
+        "X",
+        2016
+      ]
+    ],
+    "amounts": [
+      0,
+      1,
+      4,
+      7,
+      8
+    ],
+    "ceiling": 7,
+    "excluded": [
+      false,
+      true
+    ]
+  },
+  "3306_cases_checked": 65641,
+  "3306_local_vs_grouped_disagreements": 5908,
+  "63_cases_checked": 108,
+  "63_example": {
+    "basic": 2000,
+    "earned_income": 0,
+    "additional": 3000,
+    "correct_restricted_value": 3500,
+    "incorrect_cap_after_addition": 500
+  }
+}

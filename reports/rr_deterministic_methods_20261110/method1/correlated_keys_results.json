@@ -1,0 +1,1325 @@
+{
+  "name": "correlated_keys",
+  "public_spec": {
+    "features": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "cap": "7",
+    "optional_outer_value": "12",
+    "exclusions": true,
+    "total_bound": null
+  },
+  "model_count": 20,
+  "behavioral_classes_on_pool": 10,
+  "query_pool_size": 1871,
+  "additional_hidden_stress_inputs": 512,
+  "common_precomputation": {
+    "candidate_evaluations": 37420,
+    "seconds": 0.20622810002532788,
+    "used_by": [
+      "max_disagreement",
+      "optimal_tree"
+    ],
+    "not_used_by": [
+      "direct",
+      "same_probe_constraints"
+    ]
+  },
+  "exact_minimax": {
+    "behavioral_classes": 10,
+    "worst_queries": 2,
+    "expected_queries_uniform_class": "3/2",
+    "dp_states": 52,
+    "partition_tests_considered": 2562,
+    "distinct_query_partitions": 61
+  },
+  "exact_minimax_seconds": 0.033718999999109656,
+  "summaries": {
+    "direct": {
+      "correct": 20,
+      "total": 20,
+      "query_min": 3,
+      "query_mean": 6.8,
+      "query_max": 8,
+      "seconds_total": 0.013902700011385605,
+      "candidate_evaluations": 0,
+      "table_cells_scored": 0
+    },
+    "same_probe_constraints": {
+      "correct": 20,
+      "total": 20,
+      "query_min": 3,
+      "query_mean": 6.8,
+      "query_max": 8,
+      "seconds_total": 0.017294600082095712,
+      "candidate_evaluations": 1128,
+      "table_cells_scored": 0
+    },
+    "max_disagreement": {
+      "correct": 20,
+      "total": 20,
+      "query_min": 1,
+      "query_mean": 1.7,
+      "query_max": 2,
+      "seconds_total": 0.17960939990007319,
+      "candidate_evaluations": 0,
+      "table_cells_scored": 426588
+    },
+    "optimal_tree": {
+      "correct": 20,
+      "total": 20,
+      "query_min": 1,
+      "query_mean": 1.55,
+      "query_max": 2,
+      "seconds_total": 0.0028437999717425555,
+      "candidate_evaluations": 0,
+      "table_cells_scored": 0
+    }
+  },
+  "runs": [
+    {
+      "model_id": 0,
+      "hidden": {
+        "scope": "keys:",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 7,
+          "seconds": 0.0005497999954968691,
+          "candidate_evaluations": 0,
+          "local_decisions": 13,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated",
+              "outer: never active on declared record universe"
+            ],
+            "certificates": [
+              "Number of possible groups times C <= B; optional outer cap cannot alter outputs on this declared universe."
+            ],
+            "local_decisions": 13,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 27,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 7,
+          "seconds": 0.0008846000127959996,
+          "candidate_evaluations": 46,
+          "survivors": 2,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.004981599980965257,
+          "table_cells_scored": 18710,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 8.460000390186906e-05,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 1,
+      "hidden": {
+        "scope": "keys:",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 7,
+          "seconds": 0.001148799987277016,
+          "candidate_evaluations": 0,
+          "local_decisions": 13,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated",
+              "outer: never active on declared record universe"
+            ],
+            "certificates": [
+              "Number of possible groups times C <= B; optional outer cap cannot alter outputs on this declared universe."
+            ],
+            "local_decisions": 13,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 27,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 7,
+          "seconds": 0.0007492000004276633,
+          "candidate_evaluations": 46,
+          "survivors": 2,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.005590399989159778,
+          "table_cells_scored": 18710,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 8.569998317398131e-05,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 2,
+      "hidden": {
+        "scope": "keys:",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 7,
+          "seconds": 0.0007307000050786883,
+          "candidate_evaluations": 0,
+          "local_decisions": 13,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated",
+              "outer: never active on declared record universe"
+            ],
+            "certificates": [
+              "Number of possible groups times C <= B; optional outer cap cannot alter outputs on this declared universe."
+            ],
+            "local_decisions": 13,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 27,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 7,
+          "seconds": 0.0007476999890059233,
+          "candidate_evaluations": 46,
+          "survivors": 2,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.007011599984252825,
+          "table_cells_scored": 18710,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 9.270000737160444e-05,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 3,
+      "hidden": {
+        "scope": "keys:",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 7,
+          "seconds": 0.00053779999143444,
+          "candidate_evaluations": 0,
+          "local_decisions": 13,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated",
+              "outer: never active on declared record universe"
+            ],
+            "certificates": [
+              "Number of possible groups times C <= B; optional outer cap cannot alter outputs on this declared universe."
+            ],
+            "local_decisions": 13,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 27,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 7,
+          "seconds": 0.000801000016508624,
+          "candidate_evaluations": 46,
+          "survivors": 2,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.005989899975247681,
+          "table_cells_scored": 18710,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.0001700000138953328,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 4,
+      "hidden": {
+        "scope": "keys:1",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0007388000085484236,
+          "candidate_evaluations": 0,
+          "local_decisions": 14,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated"
+            ],
+            "certificates": [],
+            "local_decisions": 14,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 43,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0010923999943770468,
+          "candidate_evaluations": 68,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.011663599987514317,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 9.869999485090375e-05,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 5,
+      "hidden": {
+        "scope": "keys:1",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0007431999838445336,
+          "candidate_evaluations": 0,
+          "local_decisions": 14,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "before",
+            "outer": true,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated"
+            ],
+            "certificates": [],
+            "local_decisions": 14,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 43,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0010343000176362693,
+          "candidate_evaluations": 68,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.011908799991942942,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.0001660000125411898,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 6,
+      "hidden": {
+        "scope": "keys:1",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0008017999934963882,
+          "candidate_evaluations": 0,
+          "local_decisions": 14,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated"
+            ],
+            "certificates": [],
+            "local_decisions": 14,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 43,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0010088999988511205,
+          "candidate_evaluations": 68,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.011038500000722706,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00014699998428113759,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 7,
+      "hidden": {
+        "scope": "keys:1",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0008074000070337206,
+          "candidate_evaluations": 0,
+          "local_decisions": 14,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "after",
+            "outer": true,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated"
+            ],
+            "certificates": [],
+            "local_decisions": 14,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 43,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0011869999871123582,
+          "candidate_evaluations": 68,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.008827999990899116,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.0001391999830957502,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 8,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.001037000009091571,
+          "candidate_evaluations": 0,
+          "local_decisions": 14,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated"
+            ],
+            "certificates": [],
+            "local_decisions": 14,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 43,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0008791000000201166,
+          "candidate_evaluations": 68,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.009047699975781143,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.00010980002116411924,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 9,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0006395000091288239,
+          "candidate_evaluations": 0,
+          "local_decisions": 14,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "before",
+            "outer": true,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated"
+            ],
+            "certificates": [],
+            "local_decisions": 14,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 43,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0009341000113636255,
+          "candidate_evaluations": 68,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.012933699996210635,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00015419998089782894,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 10,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0008359999919775873,
+          "candidate_evaluations": 0,
+          "local_decisions": 14,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated"
+            ],
+            "certificates": [],
+            "local_decisions": 14,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 43,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0012002000003121793,
+          "candidate_evaluations": 68,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.009921599994413555,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.0001700999855529517,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 11,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0007946999976411462,
+          "candidate_evaluations": 0,
+          "local_decisions": 14,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "after",
+            "outer": true,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated"
+            ],
+            "certificates": [],
+            "local_decisions": 14,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 43,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0009821999992709607,
+          "candidate_evaluations": 68,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.010043599992059171,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.000228599994443357,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 12,
+      "hidden": {
+        "scope": "keys:0,1",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0009990000107791275,
+          "candidate_evaluations": 0,
+          "local_decisions": 14,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated"
+            ],
+            "certificates": [],
+            "local_decisions": 14,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 43,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.000892400013981387,
+          "candidate_evaluations": 68,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00929689998156391,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.00010410000686533749,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 13,
+      "hidden": {
+        "scope": "keys:0,1",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0006799999973736703,
+          "candidate_evaluations": 0,
+          "local_decisions": 14,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "before",
+            "outer": true,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated"
+            ],
+            "certificates": [],
+            "local_decisions": 14,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 43,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0010168000007979572,
+          "candidate_evaluations": 68,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.01074009999865666,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00013130001025274396,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 14,
+      "hidden": {
+        "scope": "keys:0,1",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0006888000061735511,
+          "candidate_evaluations": 0,
+          "local_decisions": 14,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated"
+            ],
+            "certificates": [],
+            "local_decisions": 14,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 43,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.000960400007897988,
+          "candidate_evaluations": 68,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.009348500025225803,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00013279999257065356,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 15,
+      "hidden": {
+        "scope": "keys:0,1",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0006685999978799373,
+          "candidate_evaluations": 0,
+          "local_decisions": 14,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1
+            ],
+            "order": "after",
+            "outer": true,
+            "reusable_key_expression": null,
+            "unresolved": [
+              "scope-key expression: features are correlated"
+            ],
+            "certificates": [],
+            "local_decisions": 14,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 43,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 8,
+          "seconds": 0.0009568000095896423,
+          "candidate_evaluations": 68,
+          "survivors": 3,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.010892899997998029,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.0003074999840464443,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 16,
+      "hidden": {
+        "scope": "record",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.0005898000090382993,
+          "candidate_evaluations": 0,
+          "local_decisions": 4,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "record_id"
+            },
+            "unresolved": [],
+            "certificates": [
+              "Identical feature tuples split: only record-ID grouping in the declared language can do this."
+            ],
+            "local_decisions": 4,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 11,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.0004118999931961298,
+          "candidate_evaluations": 32,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.00604939999175258,
+          "table_cells_scored": 18710,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.00010960001964122057,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 17,
+      "hidden": {
+        "scope": "record",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.00029700002050958574,
+          "candidate_evaluations": 0,
+          "local_decisions": 4,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "order": "before",
+            "outer": true,
+            "reusable_key_expression": {
+              "kind": "record_id"
+            },
+            "unresolved": [],
+            "certificates": [
+              "Identical feature tuples split: only record-ID grouping in the declared language can do this."
+            ],
+            "local_decisions": 4,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 11,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.00037590001011267304,
+          "candidate_evaluations": 32,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.005303400015691295,
+          "table_cells_scored": 18710,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00015899998834356666,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 18,
+      "hidden": {
+        "scope": "record",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.00033069998607970774,
+          "candidate_evaluations": 0,
+          "local_decisions": 4,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "record_id"
+            },
+            "unresolved": [],
+            "certificates": [
+              "Identical feature tuples split: only record-ID grouping in the declared language can do this."
+            ],
+            "local_decisions": 4,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 11,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.0004954000178258866,
+          "candidate_evaluations": 32,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.010108100017532706,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 1,
+          "seconds": 0.00010080001084133983,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 19,
+      "hidden": {
+        "scope": "record",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.00028330000350251794,
+          "candidate_evaluations": 0,
+          "local_decisions": 4,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "order": "after",
+            "outer": true,
+            "reusable_key_expression": {
+              "kind": "record_id"
+            },
+            "unresolved": [],
+            "certificates": [
+              "Identical feature tuples split: only record-ID grouping in the declared language can do this."
+            ],
+            "local_decisions": 4,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 11,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.0006843000010121614,
+          "candidate_evaluations": 32,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.008911100012483075,
+          "table_cells_scored": 22452,
+          "precomputation_shared": true
+        },
+        "optimal_tree": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00015209999401122332,
+          "precomputation_shared": true
+        }
+      }
+    }
+  ],
+  "suite_seconds": 1.2594457999803126,
+  "all_dsl_evaluations_by_category": {
+    "candidate_precomputation": 37420,
+    "reference_stress_scoring": 10240,
+    "learner_acquisition_truth": 337,
+    "learned_and_surviving_program_verification": 92716,
+    "isolation_audit_candidate_simulation": 2824,
+    "same_probe_candidate_filtering": 1128
+  }
+}

@@ -1,0 +1,1288 @@
+{
+  "name": "keys2",
+  "public_spec": {
+    "features": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "cap": "7",
+    "optional_outer_value": "12",
+    "exclusions": true,
+    "total_bound": null
+  },
+  "model_count": 20,
+  "behavioral_classes_on_pool": 18,
+  "query_pool_size": 1053,
+  "additional_hidden_stress_inputs": 512,
+  "common_precomputation": {
+    "candidate_evaluations": 21060,
+    "seconds": 0.11143879999872297,
+    "used_by": [
+      "max_disagreement",
+      "optimal_tree"
+    ],
+    "not_used_by": [
+      "direct",
+      "same_probe_constraints"
+    ]
+  },
+  "exact_minimax": null,
+  "exact_minimax_seconds": 0,
+  "summaries": {
+    "direct": {
+      "correct": 20,
+      "total": 20,
+      "query_min": 3,
+      "query_mean": 4.4,
+      "query_max": 5,
+      "seconds_total": 0.01176100003067404,
+      "candidate_evaluations": 0,
+      "table_cells_scored": 0
+    },
+    "same_probe_constraints": {
+      "correct": 20,
+      "total": 20,
+      "query_min": 3,
+      "query_mean": 4.4,
+      "query_max": 5,
+      "seconds_total": 0.014123399945674464,
+      "candidate_evaluations": 824,
+      "table_cells_scored": 0
+    },
+    "max_disagreement": {
+      "correct": 20,
+      "total": 20,
+      "query_min": 2,
+      "query_mean": 2.4,
+      "query_max": 3,
+      "seconds_total": 0.15480380001827143,
+      "candidate_evaluations": 0,
+      "table_cells_scored": 478062
+    }
+  },
+  "runs": [
+    {
+      "model_id": 0,
+      "hidden": {
+        "scope": "keys:",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.0004891999997198582,
+          "candidate_evaluations": 0,
+          "local_decisions": 7,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": []
+            },
+            "unresolved": [
+              "outer: never active on declared record universe"
+            ],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration.",
+              "Number of possible groups times C <= B; optional outer cap cannot alter outputs on this declared universe."
+            ],
+            "local_decisions": 7,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.0006367999885696918,
+          "candidate_evaluations": 42,
+          "survivors": 2,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.006489099992904812,
+          "table_cells_scored": 22113,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 1,
+      "hidden": {
+        "scope": "keys:",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.0009452000085730106,
+          "candidate_evaluations": 0,
+          "local_decisions": 7,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": []
+            },
+            "unresolved": [
+              "outer: never active on declared record universe"
+            ],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration.",
+              "Number of possible groups times C <= B; optional outer cap cannot alter outputs on this declared universe."
+            ],
+            "local_decisions": 7,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.0008558999979868531,
+          "candidate_evaluations": 42,
+          "survivors": 2,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.006388400011928752,
+          "table_cells_scored": 22113,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 2,
+      "hidden": {
+        "scope": "keys:",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.0004859000036958605,
+          "candidate_evaluations": 0,
+          "local_decisions": 7,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": []
+            },
+            "unresolved": [
+              "outer: never active on declared record universe"
+            ],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration.",
+              "Number of possible groups times C <= B; optional outer cap cannot alter outputs on this declared universe."
+            ],
+            "local_decisions": 7,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.0006114999996498227,
+          "candidate_evaluations": 42,
+          "survivors": 2,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.007541700004367158,
+          "table_cells_scored": 22113,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 3,
+      "hidden": {
+        "scope": "keys:",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.0004975000047124922,
+          "candidate_evaluations": 0,
+          "local_decisions": 7,
+          "result": {
+            "partition": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": []
+            },
+            "unresolved": [
+              "outer: never active on declared record universe"
+            ],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration.",
+              "Number of possible groups times C <= B; optional outer cap cannot alter outputs on this declared universe."
+            ],
+            "local_decisions": 7,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 4,
+          "seconds": 0.0005689999961759895,
+          "candidate_evaluations": 42,
+          "survivors": 2,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.006787999998778105,
+          "table_cells_scored": 22113,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 4,
+      "hidden": {
+        "scope": "keys:1",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0006970000104047358,
+          "candidate_evaluations": 0,
+          "local_decisions": 8,
+          "result": {
+            "partition": [
+              0,
+              1,
+              0,
+              1,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                1
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 8,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0006322000117506832,
+          "candidate_evaluations": 44,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.006010199984302744,
+          "table_cells_scored": 22113,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 5,
+      "hidden": {
+        "scope": "keys:1",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.00046629999997094274,
+          "candidate_evaluations": 0,
+          "local_decisions": 8,
+          "result": {
+            "partition": [
+              0,
+              1,
+              0,
+              1,
+              0
+            ],
+            "order": "before",
+            "outer": true,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                1
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 8,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0006690999725833535,
+          "candidate_evaluations": 44,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.006466099992394447,
+          "table_cells_scored": 22113,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 6,
+      "hidden": {
+        "scope": "keys:1",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0006565000221598893,
+          "candidate_evaluations": 0,
+          "local_decisions": 8,
+          "result": {
+            "partition": [
+              0,
+              1,
+              0,
+              1,
+              0
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                1
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 8,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0006615000020246953,
+          "candidate_evaluations": 44,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.006395800010068342,
+          "table_cells_scored": 22113,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 7,
+      "hidden": {
+        "scope": "keys:1",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.000599599996348843,
+          "candidate_evaluations": 0,
+          "local_decisions": 8,
+          "result": {
+            "partition": [
+              0,
+              1,
+              0,
+              1,
+              0
+            ],
+            "order": "after",
+            "outer": true,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                1
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 8,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0012621000059880316,
+          "candidate_evaluations": 44,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.006256000022403896,
+          "table_cells_scored": 22113,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 8,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0008650000090710819,
+          "candidate_evaluations": 0,
+          "local_decisions": 8,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                0
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 8,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.000763599993661046,
+          "candidate_evaluations": 44,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.007081299991114065,
+          "table_cells_scored": 22113,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 9,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0004859000036958605,
+          "candidate_evaluations": 0,
+          "local_decisions": 8,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1,
+              0
+            ],
+            "order": "before",
+            "outer": true,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                0
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 8,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0006080000021029264,
+          "candidate_evaluations": 44,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.00704660001792945,
+          "table_cells_scored": 22113,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 10,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0006223999953363091,
+          "candidate_evaluations": 0,
+          "local_decisions": 8,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1,
+              0
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                0
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 8,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0006860000139568001,
+          "candidate_evaluations": 44,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.009685500001069158,
+          "table_cells_scored": 27378,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 11,
+      "hidden": {
+        "scope": "keys:0",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0008727000094950199,
+          "candidate_evaluations": 0,
+          "local_decisions": 8,
+          "result": {
+            "partition": [
+              0,
+              0,
+              1,
+              1,
+              0
+            ],
+            "order": "after",
+            "outer": true,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                0
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 8,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0010220000112894922,
+          "candidate_evaluations": 44,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.009432299993932247,
+          "table_cells_scored": 27378,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 12,
+      "hidden": {
+        "scope": "keys:0,1",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0005774000019300729,
+          "candidate_evaluations": 0,
+          "local_decisions": 8,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3,
+              0
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                0,
+                1
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 8,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0006426999752875417,
+          "candidate_evaluations": 44,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.0059022000059485435,
+          "table_cells_scored": 22113,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 13,
+      "hidden": {
+        "scope": "keys:0,1",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0005444000125862658,
+          "candidate_evaluations": 0,
+          "local_decisions": 8,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3,
+              0
+            ],
+            "order": "before",
+            "outer": true,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                0,
+                1
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 8,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0007153999758884311,
+          "candidate_evaluations": 44,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.009696799999801442,
+          "table_cells_scored": 24219,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 14,
+      "hidden": {
+        "scope": "keys:0,1",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0005117999971844256,
+          "candidate_evaluations": 0,
+          "local_decisions": 8,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3,
+              0
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                0,
+                1
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 8,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0010642000124789774,
+          "candidate_evaluations": 44,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.009581299993442371,
+          "table_cells_scored": 27378,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 15,
+      "hidden": {
+        "scope": "keys:0,1",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.0006181999924592674,
+          "candidate_evaluations": 0,
+          "local_decisions": 8,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3,
+              0
+            ],
+            "order": "after",
+            "outer": true,
+            "reusable_key_expression": {
+              "kind": "group_by_keys",
+              "key_indices": [
+                0,
+                1
+              ]
+            },
+            "unresolved": [],
+            "certificates": [
+              "Independent single-key interventions recover key membership directly; no subset enumeration."
+            ],
+            "local_decisions": 8,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 23,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 5,
+          "seconds": 0.000766399985877797,
+          "candidate_evaluations": 44,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.010749700013548136,
+          "table_cells_scored": 27378,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 16,
+      "hidden": {
+        "scope": "record",
+        "order": "before",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.00041019998025149107,
+          "candidate_evaluations": 0,
+          "local_decisions": 4,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "order": "before",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "record_id"
+            },
+            "unresolved": [],
+            "certificates": [
+              "Identical feature tuples split: only record-ID grouping in the declared language can do this."
+            ],
+            "local_decisions": 4,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 11,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.00043639997602440417,
+          "candidate_evaluations": 32,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 2,
+          "seconds": 0.006967099994653836,
+          "table_cells_scored": 22113,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 17,
+      "hidden": {
+        "scope": "record",
+        "order": "before",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.0005569999921135604,
+          "candidate_evaluations": 0,
+          "local_decisions": 4,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "order": "before",
+            "outer": true,
+            "reusable_key_expression": {
+              "kind": "record_id"
+            },
+            "unresolved": [],
+            "certificates": [
+              "Identical feature tuples split: only record-ID grouping in the declared language can do this."
+            ],
+            "local_decisions": 4,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 11,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.00040749998879618943,
+          "candidate_evaluations": 32,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.008795900008408353,
+          "table_cells_scored": 24219,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 18,
+      "hidden": {
+        "scope": "record",
+        "order": "after",
+        "outer": false
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.00031079998007044196,
+          "candidate_evaluations": 0,
+          "local_decisions": 4,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "order": "after",
+            "outer": false,
+            "reusable_key_expression": {
+              "kind": "record_id"
+            },
+            "unresolved": [],
+            "certificates": [
+              "Identical feature tuples split: only record-ID grouping in the declared language can do this."
+            ],
+            "local_decisions": 4,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 11,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.00043750001350417733,
+          "candidate_evaluations": 32,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.007823799998732284,
+          "table_cells_scored": 27378,
+          "precomputation_shared": true
+        }
+      }
+    },
+    {
+      "model_id": 19,
+      "hidden": {
+        "scope": "record",
+        "order": "after",
+        "outer": true
+      },
+      "methods": {
+        "direct": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.0005480000108946115,
+          "candidate_evaluations": 0,
+          "local_decisions": 4,
+          "result": {
+            "partition": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "order": "after",
+            "outer": true,
+            "reusable_key_expression": {
+              "kind": "record_id"
+            },
+            "unresolved": [],
+            "certificates": [
+              "Identical feature tuples split: only record-ID grouping in the declared language can do this."
+            ],
+            "local_decisions": 4,
+            "complete_programs_enumerated": 0
+          },
+          "isolation": {
+            "candidate_context_checks": 11,
+            "violations": [],
+            "explicit_equal_cap_quotient_probes": 0
+          }
+        },
+        "same_probe_constraints": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.0006756000220775604,
+          "candidate_evaluations": 32,
+          "survivors": 1,
+          "correct_model_retained": true
+        },
+        "max_disagreement": {
+          "correct": true,
+          "queries": 3,
+          "seconds": 0.00970599998254329,
+          "table_cells_scored": 27378,
+          "precomputation_shared": true
+        }
+      }
+    }
+  ],
+  "suite_seconds": 0.8105007999984082,
+  "all_dsl_evaluations_by_category": {
+    "candidate_precomputation": 21060,
+    "reference_stress_scoring": 10240,
+    "learner_acquisition_truth": 224,
+    "learned_and_surviving_program_verification": 53828,
+    "isolation_audit_candidate_simulation": 2008,
+    "same_probe_candidate_filtering": 824
+  }
+}

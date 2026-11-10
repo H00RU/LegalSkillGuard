@@ -1,0 +1,2810 @@
+[
+  {
+    "model_id": 0,
+    "method": "direct",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "identify_order",
+        "isolation": "Only one active record: scope irrelevant. AFTER gives q < B; BEFORE gives C or B, both > q; no assumptions about hidden scope/order."
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "scope_pair_0_1",
+        "isolation": "E=0 makes order irrelevant. For B>C, C<2a<B; for known absent outer, no outer interference. B=C handled as an explicit observational equivalence, not assumed isolated."
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "scope_pair_0_2",
+        "isolation": "E=0 makes order irrelevant. For B>C, C<2a<B; for known absent outer, no outer interference. B=C handled as an explicit observational equivalence, not assumed isolated."
+      }
+    ]
+  },
+  {
+    "model_id": 0,
+    "method": "same_probe_constraints",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 0,
+    "method": "max_disagreement",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "4",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "7",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 0,
+    "method": "optimal_tree",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "7",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 1,
+    "method": "direct",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "identify_order",
+        "isolation": "Only one active record: scope irrelevant. AFTER gives q < B; BEFORE gives C or B, both > q; no assumptions about hidden scope/order."
+      }
+    ]
+  },
+  {
+    "model_id": 1,
+    "method": "same_probe_constraints",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 1,
+    "method": "max_disagreement",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "4",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 1,
+    "method": "optimal_tree",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 2,
+    "method": "direct",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "identify_order",
+        "isolation": "Only one active record: scope irrelevant. AFTER gives q < B; BEFORE gives C or B, both > q; no assumptions about hidden scope/order."
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "0",
+        "purpose": "scope_pair_0_1",
+        "isolation": "Observed AFTER order: two records (C,C-q) give 0 if shared, 2q if separate; 2q<=B/2, so optional outer cap is inactive."
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "0",
+        "purpose": "scope_pair_0_2",
+        "isolation": "Observed AFTER order: two records (C,C-q) give 0 if shared, 2q if separate; 2q<=B/2, so optional outer cap is inactive."
+      },
+      {
+        "number": 4,
+        "input": [
+          [
+            "7",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "identify_outer",
+        "isolation": "Confirmed distinct groups, E=0; each contributes C. Compare B with k*C."
+      }
+    ]
+  },
+  {
+    "model_id": 2,
+    "method": "same_probe_constraints",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "0",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "0",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 4,
+        "input": [
+          [
+            "7",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 2,
+    "method": "max_disagreement",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "4",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "0",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ]
+        ],
+        "output": "21/4",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 2,
+    "method": "optimal_tree",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "3",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ]
+        ],
+        "output": "21/4",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 3,
+    "method": "direct",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "identify_order",
+        "isolation": "Only one active record: scope irrelevant. AFTER gives q < B; BEFORE gives C or B, both > q; no assumptions about hidden scope/order."
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "0",
+        "purpose": "scope_pair_0_1",
+        "isolation": "Observed AFTER order: two records (C,C-q) give 0 if shared, 2q if separate; 2q<=B/2, so optional outer cap is inactive."
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "0",
+        "purpose": "scope_pair_0_2",
+        "isolation": "Observed AFTER order: two records (C,C-q) give 0 if shared, 2q if separate; 2q<=B/2, so optional outer cap is inactive."
+      },
+      {
+        "number": 4,
+        "input": [
+          [
+            "7",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "identify_outer",
+        "isolation": "Confirmed distinct groups, E=0; each contributes C. Compare B with k*C."
+      }
+    ]
+  },
+  {
+    "model_id": 3,
+    "method": "same_probe_constraints",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "0",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "0",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 4,
+        "input": [
+          [
+            "7",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 3,
+    "method": "max_disagreement",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "4",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "0",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 3,
+    "method": "optimal_tree",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "3",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 4,
+    "method": "direct",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "identify_order",
+        "isolation": "Only one active record: scope irrelevant. AFTER gives q < B; BEFORE gives C or B, both > q; no assumptions about hidden scope/order."
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "scope_pair_0_1",
+        "isolation": "E=0 makes order irrelevant. For B>C, C<2a<B; for known absent outer, no outer interference. B=C handled as an explicit observational equivalence, not assumed isolated."
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "21/2",
+        "purpose": "scope_pair_0_2",
+        "isolation": "E=0 makes order irrelevant. For B>C, C<2a<B; for known absent outer, no outer interference. B=C handled as an explicit observational equivalence, not assumed isolated."
+      }
+    ]
+  },
+  {
+    "model_id": 4,
+    "method": "same_probe_constraints",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "21/2",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 4,
+    "method": "max_disagreement",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "4",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "11",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 4,
+    "method": "optimal_tree",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "14",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 5,
+    "method": "direct",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "identify_order",
+        "isolation": "Only one active record: scope irrelevant. AFTER gives q < B; BEFORE gives C or B, both > q; no assumptions about hidden scope/order."
+      }
+    ]
+  },
+  {
+    "model_id": 5,
+    "method": "same_probe_constraints",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 5,
+    "method": "max_disagreement",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "4",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 5,
+    "method": "optimal_tree",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 6,
+    "method": "direct",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "identify_order",
+        "isolation": "Only one active record: scope irrelevant. AFTER gives q < B; BEFORE gives C or B, both > q; no assumptions about hidden scope/order."
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "0",
+        "purpose": "scope_pair_0_1",
+        "isolation": "Observed AFTER order: two records (C,C-q) give 0 if shared, 2q if separate; 2q<=B/2, so optional outer cap is inactive."
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "scope_pair_0_2",
+        "isolation": "Observed AFTER order: two records (C,C-q) give 0 if shared, 2q if separate; 2q<=B/2, so optional outer cap is inactive."
+      },
+      {
+        "number": 4,
+        "input": [
+          [
+            "7",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "identify_outer",
+        "isolation": "Confirmed distinct groups, E=0; each contributes C. Compare B with k*C."
+      }
+    ]
+  },
+  {
+    "model_id": 6,
+    "method": "same_probe_constraints",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "0",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 4,
+        "input": [
+          [
+            "7",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 6,
+    "method": "max_disagreement",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "4",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "4",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ]
+        ],
+        "output": "21/4",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 6,
+    "method": "optimal_tree",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "10",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 7,
+    "method": "direct",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "identify_order",
+        "isolation": "Only one active record: scope irrelevant. AFTER gives q < B; BEFORE gives C or B, both > q; no assumptions about hidden scope/order."
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "0",
+        "purpose": "scope_pair_0_1",
+        "isolation": "Observed AFTER order: two records (C,C-q) give 0 if shared, 2q if separate; 2q<=B/2, so optional outer cap is inactive."
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "scope_pair_0_2",
+        "isolation": "Observed AFTER order: two records (C,C-q) give 0 if shared, 2q if separate; 2q<=B/2, so optional outer cap is inactive."
+      },
+      {
+        "number": 4,
+        "input": [
+          [
+            "7",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "identify_outer",
+        "isolation": "Confirmed distinct groups, E=0; each contributes C. Compare B with k*C."
+      }
+    ]
+  },
+  {
+    "model_id": 7,
+    "method": "same_probe_constraints",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "0",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 4,
+        "input": [
+          [
+            "7",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 7,
+    "method": "max_disagreement",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "4",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "4",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 7,
+    "method": "optimal_tree",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "3",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 8,
+    "method": "direct",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "identify_order",
+        "isolation": "Only one active record: scope irrelevant. AFTER gives q < B; BEFORE gives C or B, both > q; no assumptions about hidden scope/order."
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "21/2",
+        "purpose": "scope_pair_0_1",
+        "isolation": "E=0 makes order irrelevant. For B>C, C<2a<B; for known absent outer, no outer interference. B=C handled as an explicit observational equivalence, not assumed isolated."
+      }
+    ]
+  },
+  {
+    "model_id": 8,
+    "method": "same_probe_constraints",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "21/4",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "21/2",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 8,
+    "method": "max_disagreement",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "4",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "16",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 8,
+    "method": "optimal_tree",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "20",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 9,
+    "method": "direct",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "identify_order",
+        "isolation": "Only one active record: scope irrelevant. AFTER gives q < B; BEFORE gives C or B, both > q; no assumptions about hidden scope/order."
+      }
+    ]
+  },
+  {
+    "model_id": 9,
+    "method": "same_probe_constraints",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 9,
+    "method": "max_disagreement",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "4",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 9,
+    "method": "optimal_tree",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 10,
+    "method": "direct",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "identify_order",
+        "isolation": "Only one active record: scope irrelevant. AFTER gives q < B; BEFORE gives C or B, both > q; no assumptions about hidden scope/order."
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "scope_pair_0_1",
+        "isolation": "Observed AFTER order: two records (C,C-q) give 0 if shared, 2q if separate; 2q<=B/2, so optional outer cap is inactive."
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "7",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "identify_outer",
+        "isolation": "Confirmed distinct groups, E=0; each contributes C. Compare B with k*C."
+      }
+    ]
+  },
+  {
+    "model_id": 10,
+    "method": "same_probe_constraints",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "7",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "7",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 10,
+    "method": "max_disagreement",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "4",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "10",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 10,
+    "method": "optimal_tree",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "17",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 11,
+    "method": "direct",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "identify_order",
+        "isolation": "Only one active record: scope irrelevant. AFTER gives q < B; BEFORE gives C or B, both > q; no assumptions about hidden scope/order."
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "scope_pair_0_1",
+        "isolation": "Observed AFTER order: two records (C,C-q) give 0 if shared, 2q if separate; 2q<=B/2, so optional outer cap is inactive."
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "7",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "identify_outer",
+        "isolation": "Confirmed distinct groups, E=0; each contributes C. Compare B with k*C."
+      }
+    ]
+  },
+  {
+    "model_id": 11,
+    "method": "same_probe_constraints",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "23/2",
+            "9/2"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "7",
+            "23/4"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5/2",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      },
+      {
+        "number": 3,
+        "input": [
+          [
+            "7",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ]
+        ],
+        "output": "5",
+        "purpose": "same_probe_constraint",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 11,
+    "method": "max_disagreement",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "4",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "3",
+        "purpose": "max_disagreement",
+        "isolation": ""
+      }
+    ]
+  },
+  {
+    "model_id": 11,
+    "method": "optimal_tree",
+    "queries": [
+      {
+        "number": 1,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "8",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "5",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      },
+      {
+        "number": 2,
+        "input": [
+          [
+            "0",
+            "0"
+          ],
+          [
+            "0",
+            "0"
+          ],
+          [
+            "1",
+            "0"
+          ],
+          [
+            "10",
+            "4"
+          ]
+        ],
+        "output": "4",
+        "purpose": "optimal_minimax_tree",
+        "isolation": ""
+      }
+    ]
+  }
+]
