@@ -12,7 +12,7 @@ import tokenize
 from copy import deepcopy
 
 from .source_code import (_Parser, SourceCodeError, _arguments, _call_name,
-                          _literal, _node_code, _render_expression, PRIMITIVES)
+                          _literal, _node_code, _render_expression, PRIMITIVES, GRAPHS)
 from .source_structure import inspect_source, compact_contexts,explicit_query_target
 from .strict_contract import obj
 from .coverage import digest
@@ -52,6 +52,13 @@ class _Expressions(_Parser):
                 list_expression(value.left) and list_expression(value.right))
         if isinstance(node,ast.BinOp) and isinstance(node.op,ast.Add) and list_expression(node):
             return {'op':'concat','args':[self.expression(node.left),self.expression(node.right)]}
+        if isinstance(node,ast.Call) and _call_name(node)=='entailment_label':
+            value=_arguments(node,('value',))['value']
+            # Named graph slots and concrete graphs retain the connector path.
+            # Ordinary Boolean expressions use the same explicit label mapping;
+            # the existing IR checker still requires a Boolean condition.
+            if not isinstance(value,ast.Name) and _call_name(value) not in set(GRAPHS)|PRIMITIVES|{'learned'}:
+                return {'op':'if','args':[self.expression(value),'Entailment','Contradiction']}
         if isinstance(node,ast.Call) and not node.keywords and len(node.args)==1:
             if _call_name(node)=='sum' and not isinstance(node.args[0],ast.Starred):
                 return {'op':'sum_numbers','args':[self.expression(node.args[0])]}
@@ -296,6 +303,8 @@ def pal_prompt(source, library=None, *, feedback=None,full_template=False):
         'Unused scopes, ordinary calculations and references do not cover untranslated rules. '
         'Declare each name once; reference a rule result by its name or a no-argument call. '
         'Finish with query = EXPRESSION using guarded rule outputs and the exact native output shape. '
+        'entailment_label(BOOLEAN_EXPRESSION) maps True to Entailment and False to Contradiction; '
+        'an unresolved Boolean stays unresolved and never defaults to NotMentioned. '
         'Do not substitute a native answer literal, an unguarded local result or a fallback. '
         'Python lists/dictionaries, min/max and sum(NUMERIC_LIST) are supported. All branches must type check. '
         'Exact division uses an integer denominator; monetary results must remain exact. '

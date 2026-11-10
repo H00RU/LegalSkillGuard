@@ -1,0 +1,168 @@
+FFFF..........................                                           [100%]
+=================================== FAILURES ===================================
+_________ test_ordinary_boolean_comparison_projects_exact_labels[True] _________
+
+value = True
+
+    @pytest.mark.parametrize('value',[True,False])
+    def test_ordinary_boolean_comparison_projects_exact_labels(value):
+        p=parse_pal('query = entailment_label(x == True)')
+        q=compile_query(p['nodes'],p['query'],{'x':value})
+>       assert q({})==('Entailment' if value else 'Contradiction')
+               ^^^^^
+E       TypeError: 'ScopedQuery' object is not callable
+
+tests/test_rr_pal_boolean_projection.py:13: TypeError
+________ test_ordinary_boolean_comparison_projects_exact_labels[False] _________
+
+value = False
+
+    @pytest.mark.parametrize('value',[True,False])
+    def test_ordinary_boolean_comparison_projects_exact_labels(value):
+        p=parse_pal('query = entailment_label(x == True)')
+        q=compile_query(p['nodes'],p['query'],{'x':value})
+>       assert q({})==('Entailment' if value else 'Contradiction')
+               ^^^^^
+E       TypeError: 'ScopedQuery' object is not callable
+
+tests/test_rr_pal_boolean_projection.py:13: TypeError
+_______________ test_unknown_boolean_keeps_both_native_outcomes ________________
+
+    def test_unknown_boolean_keeps_both_native_outcomes():
+        p=parse_pal('query = entailment_label(not unresolved)')
+        q=compile_query(p['nodes'],p['query'],{},domains={'unresolved':(False,True)})
+>       assert {q({'unresolved':v}) for v in [False,True]}=={'Entailment','Contradiction'}
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_rr_pal_boolean_projection.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <tuple_iterator object at 0x7fbb77949360>
+
+>   assert {q({'unresolved':v}) for v in [False,True]}=={'Entailment','Contradiction'}
+            ^^^^^^^^^^^^^^^^^^^
+E   TypeError: 'ScopedQuery' object is not callable
+
+tests/test_rr_pal_boolean_projection.py:19: TypeError
+______________ test_nonboolean_projection_still_fails_type_check _______________
+
+    def test_nonboolean_projection_still_fails_type_check():
+        p=parse_pal('query = entailment_label("Entailment")')
+>       with pytest.raises(Unsupported):compile_query(p['nodes'],p['query'],{})
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_rr_pal_boolean_projection.py:25: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+legal_skill_guard/rr/scoped_program.py:204: in compile_query
+    check_expression({'query':query},{},slot_types=types)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+body = {'query': {'op': 'if', 'args': ['Entailment', 'Entailment', 'Contradiction']}}
+slots = {}, slot_types = {}
+
+    def check_expression(body, slots, *, slot_types=None):
+        errors = []
+    
+        def issue(path, expected, actual):
+            errors.append({"path": path, "expected": expected, "actual": actual})
+    
+        def literal_type(value):
+            if type(value) is bool:
+                return "boolean"
+            if type(value) in (int, Fraction):
+                return "number"
+            if isinstance(value, str):
+                return "string"
+            if value is None:
+                return "null"
+            if isinstance(value,list) and value and all(type(v) in (int,Fraction) for v in value):
+                return 'numbers'
+            return "array" if isinstance(value, list) else "object" if isinstance(value, dict) else type(value).__name__
+    
+        def infer(node, path):
+            if not isinstance(node, dict):
+                return {literal_type(node)}
+            if set(node) == {"var"}:
+                if slot_types is not None and node['var'] in slot_types:
+                    return set(slot_types[node['var']])
+                if node["var"] not in slots:
+                    issue(path + ".var", "bound variable name", repr(node["var"]))
+                    return {"invalid"}
+                return {literal_type(slots[node["var"]])}
+            if set(node) != {"op", "args"} or not isinstance(node["args"], list):
+                issue(path, "object with op and args array", repr(node))
+                return {"invalid"}
+            op, args = node["op"], node["args"]
+            if op in FIXED_ARITIES and len(args) != FIXED_ARITIES[op] or op in NONEMPTY_OPERATORS and not args:
+                issue(path + ".args", f"arity {FIXED_ARITIES.get(op, 'at least 1')}", len(args))
+                return {"invalid"}
+            types = [infer(arg, f"{path}.args[{i}]") for i, arg in enumerate(args)]
+    
+            def require(i, wanted):
+                allowed = {"array", "pair", "numbers"} if wanted == "array" else {wanted}
+                if not types[i] <= allowed:
+                    issue(f"{path}.args[{i}]", wanted, sorted(types[i]))
+    
+            if op == "if":
+                require(0, "boolean")
+                return types[1] | types[2]
+            if op in {"and", "or", "xor", "not"}:
+                for i in range(len(args)):
+                    require(i, "boolean")
+                return {"boolean"}
+            if op in {"eq", "ne"}:
+                return {"boolean"}  # evaluator explicitly defines cross-type inequality
+            if op in {"add", "sub", "min", "max", "lt", "le", "scale", "divide_constant", "ceil_divide_constant"}:
+                for i in range(len(args)):
+                    require(i, "number")
+                if op == "scale" and type(args[0]) not in (int, Fraction):
+                    issue(path + ".args[0]", "literal numeric scale constant", args[0])
+                if op == "divide_constant" and (type(args[1]) not in (int, Fraction) or args[1] == 0):
+                    issue(path + ".args[1]", "nonzero literal numeric denominator", args[1])
+                if op == 'ceil_divide_constant' and (type(args[1]) not in (int,Fraction) or args[1] <= 0):
+                    issue(path+'.args[1]','positive literal numeric denominator',args[1])
+                return {"boolean" if op in {"lt", "le"} else "number"}
+            if op == 'number_at':
+                require(0,'numbers');require(1,'number')
+                if type(args[1]) is not int or args[1] < 0:
+                    issue(path+'.args[1]','nonnegative literal integer index',args[1])
+                return {'number'}
+            if op == 'number_field':
+                require(0,'object');require(1,'string')
+                return {'number'}
+            if op == 'sum_numbers':
+                require(0,'numbers')
+                return {'number'}
+            if op == "array":
+                return {'numbers'} if types and all(t<={'number'} for t in types) else {"array"}
+            if op == "pair":
+                require(0, "string")
+                return {"pair"}
+            if op == "object":
+                for i in range(len(args)):
+                    require(i, "pair")
+                return {"object"}
+            if op == "concat":
+                for i in range(len(args)):
+                    require(i, "array")
+                return {'numbers'} if types and all(t<={'numbers'} for t in types) else {"array"}
+            issue(path + ".op", "supported expression operator", op)
+            return {"invalid"}
+    
+        result_types = infer(body["query"], "program.body.query")
+        nodes = {"query"} | {"binding:" + name for name in slots}
+        for source, values in body.get("source_links", {}).items():
+            for i, value in enumerate(values):
+                if value not in nodes:
+                    issue(f"program.body.source_links.{source}[{i}]", "existing semantic node (query or binding:NAME)", value)
+        if errors:
+>           raise IRTypeError(errors)
+E           legal_skill_guard.rr.ir_types.IRTypeError: [{'path': 'program.body.query.args[0]', 'expected': 'boolean', 'actual': ['string']}]
+
+legal_skill_guard/rr/ir_types.py:114: IRTypeError
+=========================== short test summary info ============================
+FAILED tests/test_rr_pal_boolean_projection.py::test_ordinary_boolean_comparison_projects_exact_labels[True]
+FAILED tests/test_rr_pal_boolean_projection.py::test_ordinary_boolean_comparison_projects_exact_labels[False]
+FAILED tests/test_rr_pal_boolean_projection.py::test_unknown_boolean_keeps_both_native_outcomes
+FAILED tests/test_rr_pal_boolean_projection.py::test_nonboolean_projection_still_fails_type_check
+4 failed, 26 passed in 1.18s

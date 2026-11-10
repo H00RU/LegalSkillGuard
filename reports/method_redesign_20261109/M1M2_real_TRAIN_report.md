@@ -1,6 +1,49 @@
+# 当前结论：修复真实调用不兼容；当前原型仍被普通控制覆盖
+
+**本次0E/0T，继续了原固定TRAIN上的离线研究。发现并修复两处具体工程问题：原型缺少动作绑定、公共布尔投影调用与说明不一致。独立普通缓存覆盖现有原型的全部已声明软件语义，因此没有把这两项修复/软件开关算成两项贡献。Goal active、未完成。** 目标/验收/授权只见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，当前缺口与下一项工作只见[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。
+
+## 真正增加的证据
+
+原型只接受recipient，未接受查询action：隔离软件fixture中，逆向工程许可会错误支持保留信息，逆向工程禁止会错误否定保留信息。现要求规则和查询显式匹配action，不加别名或猜测；两类反例都恢复Unknown。义务仍明确拒绝，不把permission/prohibition原型冒充完整合同语义。9项相关回归通过，修复前源码和反例保留。
+
+独立普通对照把角色定义作有限关系连接，将守卫物化为真值表，不调用候选的定义展开、分类或一致性函数来生成对照答案。在2个软件布尔变量的全部16种正守卫、16种负守卫、2种角色、2种模式与9种部分上下文上，共9216项输出相同（Entailment3504、Contradiction642、Unknown5070）。普通一致性学习在软件约束上也选出同一possible模式。
+
+这只覆盖声明的微型域，不是9216个法律样本，不证明自然语言源获取或原生NLI语义；有限表达能力相同也不排除未来获取可靠性或成本作用。它已经足以说明：当前原型的字典/SAT/选模没有额外学习机制，不能拆作两个已实证贡献。
+
+[独立控制实现](audit_norm_query_controls.py) · [完整结果](norm_query_control_results.json) · [动作修复回归](norm_query_action_binding_regression.txt) · [修复前后工件](../../artifacts/rr_method_redesign_20261109/norm_query_control_audit_v1_20261110)。
+
+## 固定111/115的真实失败，与当前原型问题分开
+
+检查同一账本中reference-v8已有4次执行器请求，逐字核对发送body、原始响应及OFF配置。使用与旧seal一致的pal_frontend/source_code源码回放；未读取原生标签、未调用oracle、未生成新查询。
+
+| 原TRAIN/尝试 | 完成原因 / 输出tokens | 精确拒收与其他可见问题 |
+|---|---|---|
+| 111/0 | stop /215 | 普通布尔比较无法进入entailment_label的图路径；另有重复函数、query来源冒充规则、固定No忽略例外 |
+| 111/1 | length /8192 | 重复展开后语法截断；不能补齐缺失语义 |
+| 115/0 | stop /71 | 同一投影调用问题；对问题字符串检查reverse-engineer而不检查合同，常量条件为false，另以query作规则来源 |
+| 115/1 | stop /573 | 重复city_state_zip/name/title/signature声明及无关标签常量，query来源仍被用作规则 |
+
+因此这4条中3条完整、1条截断；不据这个局部比例修改旧89条的约96%截断记录，也不推断模型普遍无能力或现有输入不足。当前玩具原型的action缺陷并不是这些历史失败的原因。
+
+原发送runtime_contract确实说明entailment_label为Boolean到Entailment/Contradiction投影，但解析器只允许将其包在connector graph上，普通比较/已声明规则调用无法使用。这是接口说明与可执行路径的不一致，不能把函数名说成模型凭空发明。现将普通布尔表达式确定性降为既有if，图/slot投影仍走原路径；类型器继续拒绝字符串条件，未决布尔仍有两个完成，不默认NotMentioned，也不补来源或规则。
+
+30项相关回归通过（含原有完整前端控制）；第一次新测试误把ScopedQuery当callable并捕错异常类，失败日志保留，随后只修正测试调用为evaluate和实际IRTypeError。4条旧响应在新解析器下仍因其余错误拒收；此修复不是无损恢复全部原始输出，更不是新的原生成功。
+
+[历史真实响应与冻结解析器核查](audit_recorded_contract_failures.py) · [逐请求结果](recorded_contract_failure_results.json) · [接口修复前后](../../artifacts/rr_method_redesign_20261109/recorded_contract_failure_audit_v1_20261110/projection_interface_repair.json) · [30项回归](pal_boolean_projection_regression.txt)。
+
+## 决策与费用
+
+继续以原固定来源的条件丢失、动作/角色和查询常量污染为依据形成可检验机制；普通源缓存、定义查找、直接NLI和同语法普通学习不能被排除。当前仍缺实质差异、真实源获取及独立作用，未进入完整建库/矩阵。12配对提案仍未授权、未执行；它不再被写成整个Goal唯一阻断。即使数据许可到达，也不会据旧计划自动发2T/6E，因为数据许可不等于方法必要性。
+
+累计仍1397E/67T、pending0；1464calls/224meta/136oracle逐行与前一备份一致。新增模型、原生评分、oracle、配对及API现金均0；上述4次历史调用早已记账，本次不重复计费。项目GPU分摊和教师历史发票仍未知。原服务未改，未启动主训练、完整评测矩阵、TEST或论文。main不改，Goal未完成。
+
+---
+
+以下为历史研究证据；旧候选、下一步及调用计划不覆盖当前两份执行文件。
+
 # 法律技能学习：作用范围、真实执行与强对照证据
 
-## 当前结论：3306作用域已被普通表示覆盖；下一候选需要明确的数据范围决定
+## 历史证据：3306作用域与固定任务覆盖审计
 
 **本次0E/0T。已执行原生3306作用域子句，确认普通子条款缓存足以表达该区别，不把scope标签晋升为贡献。另核实当前ContractNLI被预先限定为同一个nda-11假设；新的合同定义/模态候选尚只有软件原型，未有真实方法实证。两项贡献仍未成立，Goal active、未完成。** 目标和授权仍只见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，当前状态见[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。下面12配对是待决定提案，不是已授权实验。
 
