@@ -1,4 +1,55 @@
-# 当前结论：普通基线完成两条原生调用，方法贡献仍未成立
+# 当前结论：普通法规缓存完成真实读取与跨案复用，两项贡献仍未成立
+
+本轮新增 **1E/0T**，原TRAIN3的普通事实读取实际执行为Entailment；另在0新增生成下，以明确源目标修正原TRAIN83的错选并实际执行为Contradiction。两者分别匹配原TRAIN缓存标签；有冻结重放和原始响应，不是默认输出。它们进一步证明普通正确缓存能够处理已见失败，**没有建立两项独立方法贡献**。原Goal active、未完成。目标/验收/授权仍唯一见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，最新证据和下一项工作原位维护于[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。
+
+## 正确缓存已具有什么
+
+复用旧实际教师原响应，不重新生成法规：完整TRAIN3缓存包含A的终止后付款、死亡或残疾退休条件，并有覆盖其他条款的原程序。对A的三个条件枚举27项软件部分赋值，旧程序与对应布尔条件一致。只给原生注释支持的after/retirement两个正前提时，也能决定A；其他事件/计划保持未知。它不是27个法律样本、自动事实读取或新方法。
+
+目标专用短教师程序与完整程序分开：短程序在旧全源接口下仍保留未翻译单元TOP，不忽略它们制造证书；这也不是给当前Goal追加每个模块都必须解析全部源码的门槛。旧教师两个生成都见过原案例/问题，不能称纯源、零提示或本轮新学习。
+
+[实际旧缓存、27项软件控制及原生参考前提](train3_cached_condition_results.json) · [冻结原程序与执行](../../artifacts/rr_method_redesign_20261109/train3_cached_condition_control_v1_20261110/frozen_control.json)。
+
+## 两条原来源的真实路径
+
+| 原TRAIN | 模型/源程序的实际来源 | 当前执行 | 边界 |
+|---|---|---|---|
+| 3 | 新Qwen/OFF从原公共facts读三个既有谓词；规则来自旧完整教师程序 | after=true、retirement=true、death=null，旧缓存A查询输出E；原标签E；fallback0/1；冷重放一致 | 给定谓词API，不是执行器新生成全源IR；旧教师见过原案/问题 |
+| 83 | 原direct:TRAIN83:original的payer=Alice/payee=Bob、work_is_agricultural=false；复用同部3306旧教师程序，代码只重新绑定原公开query的目标 | c(1)直接拥有s32的agricultural_labor_exclusion输出C；原标签C；fallback0/1；冷重放一致 | 新普通调用路径；旧路由错选记录不改，不将已有事实值或错误源代码改成答案 |
+
+原TRAIN3的新事实模型没有看到原问题、标签、标注日期或参考证明，只收到原公共案情和实际缓存谓词/原文条件；生成91tokens，完整stop。给定的谓词与源代码不能再算成新学得接口。原0/89全源执行器IR失败分母及旧错误保持不变。
+
+### 值正确和引文范围分开
+
+模型把死亡留未知，未用缺失事实作否定；退休在公共案情直接出现。after=true与原生意图/既有参考证明一致，但模型引用的是“Bob被诊断残疾并退休”一句，没有单独覆盖付款时序。公共完整案情确已给模型，其中有“因终止合同而付款”的因果叙述；精确付款日只存在于另存原生标注，未输入或替换模型值。
+
+因此记录为原生任务一致、存在引用范围缺口，**不称quote-only语义证书或任意自然语言蕴含保证**。也不事后新增“每条引文必须自含全证明/案情必须给精确付款日”的验收来抹去原任务结果。当前两项方法未成立，不用这一次答对替代其语义验收。
+
+[原始事实值及执行前保存](../../artifacts/rr_method_redesign_20261109/train3_cached_fact_reader_v1_20261110/execution_before_cached_grading.json) · [实际发送内容、配置与冻结文件](../../artifacts/rr_method_redesign_20261109/train3_cached_fact_reader_v1_20261110/seal.json) · [原生语义/引文范围审核与恢复](../../artifacts/rr_method_redesign_20261109/train3_cached_fact_reader_audit_v1_20261110/native_review_and_replay.json)。
+
+### TRAIN83的具体错选与修正
+
+旧请求已经给出明确c(1)→s32地址，菜单同时列出s32的农业劳动排除和下层现金/工作日资格。模型却选了下层agricultural_employing_person_qualification。它是模型错选，旧调用器没有强制目标归属。当前普通选择器按原明确citation找唯一直接拥有目标单元的原声明；父条件仍由既有编译器继承。未按标签、名称相似或人工新规则猜答案；不同法条、含糊归属、其他问题形状均拒绝，不增加泛化兜底。
+
+两个输出在原83家政案例上可以同答，不能据标签正确判语义等价。一个明确标作**软件完成**的条件组合让根排除为E、下层资格为C，证明它们不能互换；未把这个反例视为新法律样本。新实际路径复用原direct事实false、不改旧教师规则，通过当前原83预测与原缓存标签比较及冷重放；首次读取该原生标签视图记入账本。单一服务事件的已声明同义布尔适配和Alice/Bob角色核对由作者审核，不声称学习了任意多事件角色映射。
+
+[源目标选择代码](../../experiments/rr_v2_cached_statute_target.py) · [原发送菜单与错误响应](../../artifacts/rr_method_redesign_20261109/cached_statute_target_control_v1_20261110/actual_old_route_input.json) · [执行先于评分、旧事实/程序、软件反例](../../artifacts/rr_method_redesign_20261109/cached_statute_target_control_v1_20261110/execution_before_original_cached_grade.json) · [结果和原生评分](cached_statute_target_results.json)。
+
+## 方法判断、调用与费用
+
+正确缓存计算、静态依赖、精确目标选择和既有直接事实读取已足以完成这两条普通路径；不能把它们拆成两个创新，也不能将源程序仍未自动学得的新机制描述成已经完成。当前没有依据为这两个成功来源重复购买相同修复；剩余研究必须有未被强普通控制吸收的具体学习/更新作用，必要DEV/迁移也仍缺。没有启动主训练、完整建库/矩阵、DEV/TEST或论文。
+
+本轮新执行器501输入/91输出tokens、2.489秒，wire明确OFF、reasoning_content=null、temperature0.6/top_p0.95/top_k20/seed45/max_tokens8192及客户端重试0不变；非缓存，新增API现金0。教师新增0，旧缓存获取费用不抹去；GPU分摊、教师实际发票和项目总费用未知。
+
+原1466calls/226meta/136oracle逐行保留，新增1 calls、2 policy meta和1个原TRAIN83缓存标签视图；无新增反事实、数据来源或原生配对。累计 **1399E/68T、pending0**，1467/228/137，账本另存前后快照。本轮新模型原生预测/缓存评分1（TRAIN3）；原模型事实在新调用路径重执行/评分1（TRAIN83），不是两个新模型生成、更不是两项贡献。main未改。
+
+[真实读取/费用/完整账本核查](train3_cached_fact_reader_results.json) · [请求与原标签视图差量](../../artifacts/rr_method_redesign_20261109/train3_cached_fact_reader_audit_v1_20261110/request_and_view_ledger_delta.json)。
+
+---
+
+以下均为保留的历史科学证据；旧状态与“下一步”不覆盖当前两份维护文件。
+
+# 历史证据：普通基线完成两条原生调用，方法贡献仍未成立
 
 **本次新增1E，锁定Qwen/OFF在原111/115问题上实际选择缓存调用并执行，两条均与原生TRAIN标签匹配；无回退，冻结重放一致；事后固定任务选择器也在0新增模型请求下复现2/2。这里打通的是普通源缓存的使用链，不是执行器独立源规则生成、两项方法贡献或整体训练就绪。** 授权/验收仍仅见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，当前缺口与下一步只见[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。
 

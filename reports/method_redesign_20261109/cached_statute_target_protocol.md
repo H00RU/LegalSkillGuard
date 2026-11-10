@@ -1,0 +1,9 @@
+# 原固定TRAIN83缓存目标绑定复核
+
+继续CURRENT_GOAL，无新模型生成。原已付费TRAIN83路由在明确c(1)问题下选择agricultural_employing_person_qualification；实际完整源缓存同时具有直接拥有s32的agricultural_labor_exclusion。根据原公开问题和源结构，选择唯一直接拥有目标单元的缓存声明；不按名字或标签猜输出，不修改原教师规则，不接受旧错选为正确。
+
+复用已完成的direct:TRAIN83:original事实输出：同一原始案情、payer=Alice/payee=Bob、work_activity=domestic service、work_is_agricultural=false。将同义已声明布尔值送入旧缓存的b_agricultural_labor，不改其值。角色为原单一服务/付款事件，不能将此适配推广到任意多事件文本。源作用范围继承和未知条件仍由现有编译器处理。
+
+先封存新调用及原生预测，再只读原TRAIN83既有缓存标签；该原问题首次在此路径比较，作为一个原TRAIN标签视图记入原oracle账本，不构造新问题/来源或反事实。不读DEV/TEST，不训练/重启服务。真实故障与软件条件反例分开：原旧路由错选来自原生请求；农业资格/排除输出相反的数值条件只是缓存程序的软件完成，不当作新法律样本。
+
+该路径是普通准确政策缓存的强对照/工程修正，未提出两项新贡献。当前已有明确失败才修复，不扩展为五库全接口重构，不为所有历史格式加兼容层；不能绑定时明确拒绝，不返回默认答案。
