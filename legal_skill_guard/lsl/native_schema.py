@@ -32,8 +32,8 @@ def schema(dataset,public=None):
     if dataset=='ContractNLI':
         if not public or len(public['queries'])!=17:raise ValueError('All17 public hypotheses required')
         positive=obj({'id':{'type':'string','enum':list(public['queries'])},
-                      'label':{'type':'string','enum':['Entailment','Contradiction']},
-                      'evidence':array({'type':'integer','minimum':0,'maximum':len(public['sentence_spans'])-1})})
+                      'evidence':{'type':'object','properties':{str(i):{'type':'boolean','const':True} for i in range(len(public['sentence_spans']))},'required':[],'additionalProperties':False},
+                      'label':{'type':'string','enum':['Entailment','Contradiction']}})
         not_mentioned=obj({'id':{'type':'string','enum':list(public['queries'])},
                            'label':{'type':'string','enum':['NotMentioned']}})
         return obj({'answers':{**array({'anyOf':[positive,not_mentioned]}),'minItems':17,'maxItems':17}})

@@ -10,6 +10,8 @@ import random
 
 from .projection import b0_target,compact,TAGS,KINDS
 from .role_codec import WIRE_ROLES,encode_native
+from .contract_wire import encode_evidence,actor_public
+from .horn_codec import normalize as normalize_horn
 
 
 SYSTEM='You learn legal and rule-constrained reasoning from the supplied source. Return only the specified JSON. Do not output reasoning or markdown. The public source and current case are input; hidden reference programs are never prediction tools.'
@@ -24,22 +26,23 @@ def prompt(record,semantic=None):
         instruction='Acquire the complete source facts and Horn rules, preserving explicit negation and shared variables. Output {"program":{"facts":[atom],"rules":[{"body":[atom],"head":atom}],"query":atom},"answer":"True" or "False" or "Unknown"}. Each atom is [predicate,[arguments],positive_boolean]. Variables start with ?, concrete names/properties are lowercase. Unknown means neither polarity is provable under OWA.'
         instruction+=' Exact syntax examples only: "Amy is blue" -> ["blue",["amy"],true]; "Amy is not blue" -> ["blue",["amy"],false]; "If someone is blue then they are kind" -> {"body":[["blue",["?x"],true]],"head":["kind",["?x"],true]}. Use these arrays, never predicate/arguments objects. The answer is outside program. Reuse the same variable within one rule; different rule variables are local. Do not prepend is_ to unary predicates.'
     elif dataset=='ContractNLI':
-        instruction='Answer all17 native hypotheses from the contract. Output {"answers":[{"id":hypothesis_id,"label":"Entailment" or "Contradiction" or "NotMentioned","evidence":[native sentence-span indices]}]}. For NotMentioned omit evidence, because the absence of an annotation is not a global negative evidence label. Do not replace normative existence with actual event applicability. Evidence indices refer to the supplied sentence_spans.'
+        instruction='Answer all17 DISTINCT native hypotheses from the contract. All original source characters are preserved in document_segments; span_id is a public evidence identifier, not legal text. For Entailment/Contradiction acquire evidence before reading out the label: output {"answers":[{"id":hypothesis_id,"evidence":{"0":true,"2":true},"label":"Entailment" or "Contradiction"}]}. The example shows syntax only. Evidence is a sparse set of selected native span IDs: use each selected span ID once as a string key with value true, in ascending numeric order. Do not enumerate irrelevant spans. The label follows its acquired evidence. For NotMentioned output {"id":hypothesis_id,"label":"NotMentioned"} without evidence, because absence is not a global negative evidence label. Do not replace normative existence with actual event applicability.'
     elif dataset=='SARA_v2_Binary':
         instruction='Apply the supplied tax statute to the current facts and query. Output {"answer":"Entailment" or "Contradiction"}. Use the available public referenced sections; do not invent missing statutory context.'
     elif dataset=='RuleArena_Airline':
         instruction='Apply the airline policy to this current passenger and every current bag. Output {"answer":integer_total_cost}. The total includes the current ticket price and applicable bag fees. Do not inherit values from another passenger.'
     else:raise ValueError(dataset)
     if semantic is not None:instruction+='\nAcquired source semantics selected by the shared composition model:\n'+compact(semantic)
-    return [{'role':'system','content':SYSTEM},{'role':'user','content':instruction+'\nDATASET='+dataset+'\nPUBLIC_INPUT='+compact(public)}]
+    view=actor_public(public) if dataset=='ContractNLI' else public
+    return [{'role':'system','content':SYSTEM},{'role':'user','content':instruction+'\nDATASET='+dataset+'\nPUBLIC_INPUT='+compact(view)}]
 
 
 def target(record):
     d=record['dataset'];g=record['grade']
     if d=='NormBench':return encode_native(b0_target(record['native_record'],len(record['public']['rule_text'])))
-    if d=='ProofWriter_OWA_depth5':return {'program':g['horn'],'answer':g['answer']}
+    if d=='ProofWriter_OWA_depth5':return {'program':normalize_horn(g['horn']),'answer':g['answer']}
     if d=='ContractNLI':
-        return {'answers':[{'id':k,'label':g['answers'][k],**({'evidence':g['evidence'][k]} if k in g['evidence'] else {})} for k in record['public']['queries']]}
+        return {'answers':[{'id':k,**({'evidence':encode_evidence(g['evidence'][k],len(record['public']['sentence_spans']))} if k in g['evidence'] else {}),'label':g['answers'][k]} for k in record['public']['queries']]}
     return {'answer':g['answer']}
 
 
