@@ -2,6 +2,16 @@
 
 **本次新增1E，锁定Qwen/OFF在原111/115问题上实际选择缓存调用并执行，两条均与原生TRAIN标签匹配；无回退，冻结重放一致；事后固定任务选择器也在0新增模型请求下复现2/2。这里打通的是普通源缓存的使用链，不是执行器独立源规则生成、两项方法贡献或整体训练就绪。** 授权/验收仍仅见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，当前缺口与下一步只见[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。
 
+## 最新离线核对：原TRAIN3的子条件与整项豁免
+
+新增模型调用0。只加载原固定TRAIN3的原始事实、未改写的原生法条和原始目标s3306_b_10_A("paid",_,_,_,_,_)，SWI-Prolog实际返回雇佣关系、Bob、Alice、终止事件与残疾原因见证，与已缓存原TRAIN标签Entailment一致。原生A规则不依赖B计划；B出现在整项b10规则中，不能把完整豁免的计划条件追加为原A问题的验收。
+
+两条已付费Qwen响应均完整stop，却将1000元、2019个案常量或非家政/农业条件写成A规则，属于模型语义错误，原拒收不变。已有目标专用教师程序已表示“雇主付款且残疾退休终止”普通条件；它见过案例/问题，不算新的纯源获取、方法优势或本次模型执行。原生标注中的2019-10-10付款日也不冒充公共文本的自动抽取。
+
+这次补足查询口径和实际错误定位，不新建案例/假设，不执行新整项豁免问题，不把原生参考重放计作模型主路径或新有效全源IR。账本仍1398E/68T、pending0，1466calls/226meta/136oracle逐行不变；没有新增DEV/TEST或完整训练。
+
+[结果及账本核查](native_subclause3_results.json) · [实际原生见证、旧错误响应与教师对照](../../artifacts/rr_method_redesign_20261109/native_subclause3_audit_v1_20261110/evidence.json) · [离线审计实现](audit_native_subclause3.py)。
+
 ## 实际生成与确定性编译分别做了什么
 
 源程序、4个谓词、角色、例外定义及完整ground calls由上轮1T从两份合同取得。执行模型本次只看到原生问题、实际接口含义、源引文和两个可用调用；不提供原生标签、正确选择或旧响应。模型输出每个policy的entrypoint与positive；ground arguments由所选真实源调用确定性拷贝。null入口会记录未绑定，不默认到任何调用/NotMentioned。
