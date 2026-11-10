@@ -1,0 +1,128 @@
+{
+  "captured_utc": "2026-11-10T18:19:30.180525+00:00",
+  "user_requested_pause": true,
+  "execution_state": "stopped",
+  "goal_status": "paused",
+  "goal_complete": false,
+  "protocol": "LSG-MIX256-20261110",
+  "continuous_counts": {
+    "executor": 1893,
+    "teacher": 74
+  },
+  "pending": 0,
+  "requests_after_pause_request": 0,
+  "all_relevant_units_inactive": {
+    "legal-lsl-mix256-dev-e1.service": "MainPID=0\nLoadState=not-found\nActiveState=inactive\n",
+    "legal-lsl-mix256-serving-e1.service": "MainPID=0\nLoadState=not-found\nActiveState=inactive\n",
+    "legal-lsl-mix256-continuation.service": "MainPID=0\nLoadState=not-found\nActiveState=inactive\n",
+    "legal-lsl-mix256-final-evidence.service": "MainPID=0\nLoadState=not-found\nActiveState=inactive\n"
+  },
+  "TRAIN_sources": 256,
+  "DEV_sources": 80,
+  "TEST_sources_sealed": 160,
+  "mixed_epochs_planned": 3,
+  "mixed_epochs_complete": 1,
+  "full_DEV_epochs_complete": 0,
+  "acquisition_training": {
+    "Base": {
+      "sources": 256,
+      "optimizer_steps": 32,
+      "seconds": 612.3668853063136
+    },
+    "M1": {
+      "sources": 256,
+      "optimizer_steps": 32,
+      "seconds": 593.7802126705647
+    },
+    "HardEM": {
+      "sources": 256,
+      "optimizer_steps": 32,
+      "seconds": 593.9417905025184
+    },
+    "ExecutionFilter": {
+      "sources": 256,
+      "optimizer_steps": 32,
+      "seconds": 595.3406440243125
+    }
+  },
+  "DEV_terminal_request_stages": {
+    "LSG-MIX256-candidates-epoch1-Base-dev": {
+      "physical_requests": 80,
+      "completed": 72,
+      "failed": 8,
+      "finish_counts": {
+        "stop": 67,
+        "transport_failure": 8,
+        "length": 5
+      }
+    },
+    "LSG-MIX256-candidates-epoch1-M1-dev": {
+      "physical_requests": 78,
+      "completed": 78,
+      "failed": 0,
+      "finish_counts": {
+        "stop": 64,
+        "length": 14
+      }
+    }
+  },
+  "MIX_phase_executor_requests": 483,
+  "MIX_phase_teacher_requests": 0,
+  "weights": {
+    "Base": {
+      "checkpoint": "/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/lsl_mixed256_20261110/acquisition/Base/epoch1/step_0032",
+      "adapter_sha256": "dcc437302bf4f7fed77a4d8d4c504a25fbffa85026ff853fa277679cd3c4344f",
+      "optimizer_sha256": "78886253af410a136348f19d6da054efaaae27a755c7f288f8428e3a7792c73a"
+    },
+    "M1": {
+      "checkpoint": "/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/lsl_mixed256_20261110/acquisition/M1/epoch1/step_0032",
+      "adapter_sha256": "e49cbb9e851c68529c84e3f995fed3d297ab984d8049df485aa05699d72adb7c",
+      "optimizer_sha256": "273827ade78b156fee0851a65d2e486931cd237c8761b73423c7f2e129b6eb87"
+    },
+    "HardEM": {
+      "checkpoint": "/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/lsl_mixed256_20261110/acquisition/HardEM/epoch1/step_0032",
+      "adapter_sha256": "377c5026d5baec55e25473eb91f92f592c2667c53152d65beaeb4da6ccc89f15",
+      "optimizer_sha256": "70f295b47fd4b9b8a2ee4ccd0e7c87b992c6174ffd420d87f2b6f38ff3a46fb1"
+    },
+    "ExecutionFilter": {
+      "checkpoint": "/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/lsl_mixed256_20261110/acquisition/ExecutionFilter/epoch1/step_0032",
+      "adapter_sha256": "fc68d1ba05a07852ca5169725835fba30cba6480851968768489ca50cd0cbd4a",
+      "optimizer_sha256": "9a7dce4a81a23a55a2bb9bc7fef4af5c82b225acdb5fcd6e3e9a4271e0a69e85"
+    },
+    "common_native_initialization": {
+      "checkpoint": "/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/lsl_mixed256_20261110/common_native_initialization/step_0032",
+      "adapter_sha256": "e0c531073a7878cf82bb6c1f719bada8176a26a7aad4899cf387b44e1a48b693",
+      "optimizer_sha256": "5369ac4fe52ca33024e22d0a3e735c3a3d3bcd8fd2d8379b8710ab5ea5873a36"
+    },
+    "composer_ordinary": {
+      "checkpoint": "/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/lsl_mixed256_20261110/composition/ordinary/epoch1/model.pt",
+      "sha256": "71617d8ba5345bed6980bdcd9d0361d2fe86dace98ddf0aee508739250e97500"
+    },
+    "composer_directed": {
+      "checkpoint": "/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/lsl_mixed256_20261110/composition/directed/epoch1/model.pt",
+      "sha256": "79e42ef1fcf90932ad95dde48af2d72f2baf671e73ecf602376daf3f8304d8c1"
+    },
+    "composer_contrast": {
+      "checkpoint": "/home/yndx/hhy/legal-skill-redesign-20261109/artifacts/lsl_mixed256_20261110/composition/contrast/epoch1/model.pt",
+      "sha256": "3bff4fe1e9261b2f73b365e6a470c0875a0c8479fa8fec69590cc335dc9fbc0d"
+    }
+  },
+  "ledger_snapshot_sha256": "c7d450524fa2db057af93cb7ca29aad8a026fb806c77a8c40ceb9bb4dbb4b162",
+  "DEV_terminal_results_sha256": "ce189b9504218579ec332a5265e28d5e0022e1bfcf461b538e5f62a49e7b1ae8",
+  "common_TRAIN_primary_valid": {
+    "ContractNLI": 32,
+    "NormBench": 126,
+    "ProofWriter_OWA_depth5": 32,
+    "RuleArena_Airline": 20,
+    "SARA_v2_Binary": 5
+  },
+  "M1_robust_stable_blocks": 4,
+  "M1_stable_multicompletion_blocks": 0,
+  "M1_legal_core_update_sources": 0,
+  "M1_independent_effect_established": false,
+  "M2_DEV_effect_established": false,
+  "teacher_free_external_text_skill_evolution_claimed": false,
+  "TEST_opened": false,
+  "paper_started": false,
+  "server_review_pending": true
+}

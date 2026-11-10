@@ -1,6 +1,6 @@
 # 当前有效执行说明
 
-当前活动Goal继续，**不新建、不重置**。用户最新补充指定的[68989ee统一方案](https://github.com/H00RU/LegalSkillGuard/blob/68989ee7eac6a9e9d8db670e9e8985f13d097104/reports/legal_five_dataset_amendment_20261110/PLAN.md)及同目录protocol.json为当前范围：**LSG-MIX256-20261110**。它替代83fe5ad单NormBench数据范围、旧M1机制、旧七系统及验收矩阵；已实现组件、原始记录、有效缓存、版本和累计账本连续保留。其他报告只提供历史或技术证据，不构成并行执行说明。
+当前Goal已按用户明确请求**暂停，未完成；不新建、不重置**。所有相关任务/本阶段推理服务已停止，恢复须等待用户明确指令。暂停库存与截至当前进度见[暂停报告](../reports/legal_five_dataset_run_20261110/PAUSE_20261111.md)。用户最新补充指定的[68989ee统一方案](https://github.com/H00RU/LegalSkillGuard/blob/68989ee7eac6a9e9d8db670e9e8985f13d097104/reports/legal_five_dataset_amendment_20261110/PLAN.md)及同目录protocol.json为当前范围：**LSG-MIX256-20261110**。它替代83fe5ad单NormBench数据范围、旧M1机制、旧七系统及验收矩阵；已实现组件、原始记录、有效缓存、版本和累计账本连续保留。其他报告只提供历史或技术证据，不构成并行执行说明。
 
 本文件唯一维护目标、验收、授权与边界；[METHOD_REDESIGN_CURRENT.md](METHOD_REDESIGN_CURRENT.md)唯一维护当前证据、运行任务、缺口和下一项工作。用户后续补充在这两份文件原位合并。
 

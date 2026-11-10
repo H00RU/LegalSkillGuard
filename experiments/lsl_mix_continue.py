@@ -67,8 +67,8 @@ def main():
             subprocess.run([sys.executable,'-c',code],cwd=ROOT,check=True)
             checkpoint=load_json(out/'acquisition/Base'/('epoch%d'%previous_epoch)/'complete.json')['checkpoint']
             if not (bank/'complete.json').exists():
-                run('lsl_mix_candidate_generation.py','--stage',stage,'--split','train','--checkpoint',checkpoint,'--alias','Base')
-            if not (bank/'local/complete.json').exists():run('lsl_mix_local_candidates.py','--stage',stage,'--alias','Base')
+                run('lsl_mix_run_stage.py','generate','--stage',stage,'--split','train','--checkpoint',checkpoint,'--alias','Base')
+            if not (bank/'local/complete.json').exists():run('lsl_mix_run_stage.py','local','--stage',stage,'--alias','Base')
             if not (bank/'composition/preparation.json').exists():compose_examples(out,bank,banks[previous_epoch])
             code='from pathlib import Path;from experiments.lsl_mix_dev import stop_serving;stop_serving(Path('+repr(str(out))+'),'+str(previous_epoch)+')'
             subprocess.run([sys.executable,'-c',code],cwd=ROOT,check=True)
@@ -79,7 +79,7 @@ def main():
             for arm in ('Base','M1','HardEM','ExecutionFilter'):
                 if not (out/'acquisition'/arm/('epoch%d'%epoch)/'complete.json').exists():
                     run('lsl_mix_acquisition_training.py','--bank',bank,'--arm',arm,'--epoch',epoch)
-        if not (out/'dev'/('epoch%d'%epoch)/'complete.json').exists():run('lsl_mix_dev.py','--epoch',epoch)
+        if not (out/'dev'/('epoch%d'%epoch)/'complete.json').exists():run('lsl_mix_run_stage.py','dev','--epoch',epoch)
     summaries={str(e):load_json(out/'dev'/('epoch%d'%e)/'summary.json')for e in (1,2,3)}
     write_json(out/'dev_learning_curves.json',summaries)
     status('fixed_three_epoch_matrix_complete_server_review_required')

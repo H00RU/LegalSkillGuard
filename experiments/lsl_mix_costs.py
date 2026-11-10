@@ -59,6 +59,12 @@ def main():
         'completed_GPU_training_loops': training,
         'completed_training_loop_wall_hours_excluding_loading_encoding_and_generation': sum(r['loop_seconds'] for r in training) / 3600,
         'training_hours_are_not_total_project_GPU_hours': True}
+    snapshot['CPU_composition_loops'] = [{'path': str(p.parent.relative_to(ROOT)),
+        'seconds': load_json(p)['seconds'], 'receipt_sha256': sha(p)}
+        for p in sorted((out / 'composition').glob('*/epoch*/complete.json'))]
+    probe = out / 'contract_evidence_probe/complete.json'
+    snapshot['bounded_GPU_diagnostics'] = [{'path': str(probe.relative_to(ROOT)),
+        'receipt_sha256': sha(probe), **load_json(probe)}] if probe.exists() else []
     write_json(out / 'mixed_request_cost_snapshot.json', snapshot)
     write_json(out / 'mixed_physical_request_ledger.json', compact)
     print(json.dumps({'counts': snapshot['continuous_ledger_counts'], 'pending': snapshot['pending'],
