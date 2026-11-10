@@ -1,4 +1,40 @@
-# 当前结论：修复真实调用不兼容；当前原型仍被普通控制覆盖
+# 当前结论：原生规范性查询不能被事件执行口径替代；强普通控制仍覆盖大部分固定任务
+
+**本次没有新增模型调用。先冻结一个普通词面控制和解释探针，再核对原24个ContractNLI TRAIN缓存标签：控制23/24，标签为3个Entailment、21个NotMentioned、0个Contradiction。111/115含授权例外仍被原生任务标为Entailment，说明必须区分规范性假设与事实事件执行；这不是新的核心学习成功，两项独立贡献仍未成立。** 目标/验收/授权仅见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，最新缺口与下一项工作仅见[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。
+
+## 原数据范围内的实际受控核查
+
+控制在读取标签前写入不可变工件：命中reverse-engineer/decompile/disassemble词形则预测Entailment，否则NotMentioned。未按标签调整词表，未添加文档、假设、来源或反事实。随后只选原24个TRAIN nda-11缓存标签评分，未读取DEV/TEST标签。它是一个故意简单、没有一般NLI保证的对照，23/24不等于机制或整体就绪；也不把缺少Contradiction新增为验收失败条件。
+
+另在看标签前固定三个作者解释探针：条件性禁止规范存在时Entailment、要求所有未知事件完成均禁止时Unknown、用任一可行例外反驳无条件禁止时Contradiction。这些是作者诊断抽象，不是模型输出或正确源程序，没有真实学习/自动解释证书。
+
+[审计实现及分开的prepare/grade/evidence阶段](audit_contract_native_query_labels.py) · [看标签前的不可变预测](../../artifacts/rr_method_redesign_20261109/contract_native_query_profiles_v1_20261110/predictions_before_labels.json) · [24条结果与解释探针](contract_native_query_label_results.json)。
+
+## 原生证据说明了什么
+
+111/115均标为Entailment。只打开原始TRAIN成员，精确匹配文档hash、原文假设ID、choice及证据span，确认缓存未错位：对应证据正是带书面授权例外的逆向工程禁止。原生问题询问合同规范，不是在问授权是否已发生；不能把未决授权事件枚举后的Unknown，或任一可行例外直接产生的Contradiction，强行当成该原任务唯一正确解释。
+
+这修正的是验收解释，不放宽程序检查。原111/115的重复声明、query来源冒充规则、问题字符串产标签、截断及源条件丢失等记录仍保留。一个忽略例外的固定No即使匹配原生标签，也不是完整源规则保真证明；同样不能把所有条件不明的规范性原生判断都改判失败。
+
+唯一词面漏例是120：原生标签Entailment，证据为一条未经书面批准不得publish/copy/use for sole benefit的较宽限制。该句没有词面reverse-engineering。它说明直接找目标词不覆盖原任务解释，但不能据此补造通用use→reverse-engineering法律规则。原固定首四NDA中的5/15/20也有不同的use限制，原生标签为NotMentioned；这些文本与120并非完整语义等价，不能从局部相似断言注释错误。未事后修补预测器，未将原生证据输入模型或写入新规则。
+
+[原生TRAIN证据、精确位置、hash及use边界](../../artifacts/rr_method_redesign_20261109/contract_native_query_profiles_v1_20261110/original_native_evidence_and_scope.json)。
+
+## 对机制设计的约束
+
+[ContractNLI原研究](https://aclanthology.org/2021.findings-emnlp.164/)将其定义为文档级NLI并使用针对固定假设的注释指南；不能把它缩成句子存在检测。[Know Your Limits](https://arxiv.org/html/2606.16118v1)明确通过重标来评估严格逻辑蕴含；这里保持原标签。[COMPACT](https://aclanthology.org/2026.eacl-long.377/)已有主体/模态/动作/对象/时间和定义、例外、依赖等图关系，因此这些字段和边本身不能再拆作两个贡献。
+
+下一问题是源规范与任务解释如何分离并学习：保留条件/角色/动作，又不把任务标签硬写进法律规则；区分规范性查询与事实执行。当前还没有超出普通源缓存、直接NLI、检索和同信息普通学习器的具体机制。已有开关、SAT和公共接口修复不能替代这一差异；仍须真实主路径、独立作用及必要开发/恢复证据。12配对提案未授权、未执行，即便许可到达，也不自动购买旧计划小试，更不据此完成Goal。
+
+## 账本、隔离与状态
+
+本次新增模型原生预测0、物理请求0、反事实oracle0；实际完成24项原缓存TRAIN控制评分、6项作者解释探针比较，核对3条原始TRAIN证据。它们不是24个新来源、模型实证或新的完整评测矩阵。calls1464、meta224、oracle136逐行与原备份一致，累计1397E/67T、pending0；原标签未重定义，未碰DEV/TEST成员或启动主训练/论文。新增API现金0，历史教师发票和GPU分摊未知；main未改，Goal未完成。
+
+---
+
+以下是历史证据；旧状态/计划不覆盖当前两份维护文件。
+
+# 历史证据：调用不兼容修复与普通控制覆盖
 
 **本次0E/0T，继续了原固定TRAIN上的离线研究。发现并修复两处具体工程问题：原型缺少动作绑定、公共布尔投影调用与说明不一致。独立普通缓存覆盖现有原型的全部已声明软件语义，因此没有把这两项修复/软件开关算成两项贡献。Goal active、未完成。** 目标/验收/授权只见[CURRENT_GOAL](../../docs/CURRENT_GOAL.md)，当前缺口与下一项工作只见[METHOD_REDESIGN_CURRENT](../../docs/METHOD_REDESIGN_CURRENT.md)。
 
