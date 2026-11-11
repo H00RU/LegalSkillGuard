@@ -21,6 +21,11 @@ def schedule_lift(library, trigger_rows, arm):
             continue
         attempted = set()
         for view in row['views']:
+            # A multi-view parent can fail on an unrelated legal question.
+            # A successful knowledge-definition helper is not implicated by a
+            # wrong pandemic-covenant answer from the same contract.
+            if view['score']['grade'] == 1:
+                continue
             execution = view['execution']
             attempted.update(e['skill_id'] for e in execution.get('events', [])
                              if e.get('kind') == 'APPLY')

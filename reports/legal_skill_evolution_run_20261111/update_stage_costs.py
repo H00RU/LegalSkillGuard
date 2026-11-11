@@ -13,6 +13,7 @@ def main():
     with sqlite3.connect('file:' + str(root / 'artifacts/rr_v2_preflight/research_ledger.sqlite3') + '?mode=ro', uri=True) as db:
         for stage, prefix in [('first_pass', 'legal_skill_evolution_pilot_'),
                               ('repair', 'legal_skill_evolution_repair_'),
+                              ('activation_TRAIN_diagnostic', 'legal_skill_evolution_activation_'),
                               ('formal', 'legal_skill_evolution_formal_'),
                               ('frozen_TEST_and_transfer', 'legal_skill_evolution_frozen_')]:
             result = {}
@@ -29,7 +30,7 @@ def main():
             out[stage] = result
     Path(__file__).with_name('stage_costs.json').write_text(json.dumps(out, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps({stage: {r: out[stage][r]['physical_requests'] for r in ('executor', 'teacher')}
-        for stage in ('first_pass', 'repair', 'formal', 'frozen_TEST_and_transfer')}))
+        for stage in ('first_pass', 'repair', 'activation_TRAIN_diagnostic', 'formal', 'frozen_TEST_and_transfer')}))
 
 
 if __name__ == '__main__':main()

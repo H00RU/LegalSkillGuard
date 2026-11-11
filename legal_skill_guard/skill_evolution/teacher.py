@@ -300,6 +300,25 @@ ARM_PROMPTS = {
     'AllPorts+CoRev': 'Parameterize ALL related source-premise ports at acquisition, one joint reader is allowed without a three-port cap. Use contextual co-revision patterns to generate companion edits.'}
 
 
+def trigger_failure_views(feedback, trigger):
+    """Expose existing per-view deficits, without adding supervision or gates."""
+    result = []
+    for row in feedback:
+        if row['source'] not in trigger:
+            continue
+        for view in row['execution']['views']:
+            if view['score']['grade'] == 1:
+                continue
+            execution = view['execution']
+            result.append({'source': row['source'], 'view': view['view'],
+                'controlled': view.get('controlled', False), 'grade': view['score']['grade'],
+                'current_answer': execution['answer'],
+                'terminal_skill': execution.get('terminal_skill'),
+                'actual_failed_candidates': deepcopy(execution.get('failed_candidates', [])),
+                'unresolved': execution.get('unresolved', False)})
+    return result
+
+
 def propose(teacher, *, arm, batch, library, source_records, feedback, learned_patterns,
             trigger, history, max_blocks=3, planned_lift=None):
     source_ids = [r['key'] for r in source_records]
@@ -333,6 +352,8 @@ def propose(teacher, *, arm, batch, library, source_records, feedback, learned_p
         'source_premise_block_candidates': {s.id: [list(b) for b in coupled_blocks(s)
             if all(s.premises[n]['mode'] == 'constant' for n in b)] for s in library.skills.values()},
         'update_objective': {'trigger_parents': list(trigger), 'history_parents': list(history),
+            'trigger_failure_views': trigger_failure_views(feedback, trigger),
+            'failure_focus': 'Prioritize edits affecting these below-full-grade or unresolved views. Correct views in the same parent do not by themselves offer trigger improvement. Parent-level admission and history preservation remain unchanged.',
             'trigger': 'strict improvement in mean selection_grade across these same parents',
             'history': 'every parent selection_grade must not decrease',
             'selection_grade': 'mean of all predeclared native and controlled views within each parent',

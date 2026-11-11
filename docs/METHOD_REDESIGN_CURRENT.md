@@ -1,71 +1,55 @@
 # 当前证据与下一项实际工作
 
-Goal **active、未完成**。唯一目标和验收见[CURRENT_GOAL.md](CURRENT_GOAL.md)。执行目录 `/home/yndx/hhy/legal-skill-redesign-20261109`，分支 `research/legal-skill-evolution-20261111`；main不修改。历史暂停、旧A/B/M1/M2及参数训练路径不再构成动作队列。
+Goal **active、未完成**。目标、验收与边界唯一见[CURRENT_GOAL.md](CURRENT_GOAL.md)。执行目录`/home/yndx/hhy/legal-skill-redesign-20261109`、分支`research/legal-skill-evolution-20261111`；main不改。旧A/B、旧M1/M2、参数训练及历史暂停不构成行动队列。
 
-## 当前实测
+## 实际运行与恢复
 
-2026-11-12根因修复优先：48次提议中专门Lift为0、全部依赖端口和CoRev模式为0。旧B6共同修订为single_sufficient，不能说明法律依赖共同修订。进一步TRAIN核对：OE32案法条块完全相同，Airline24案政策文本完全相同；有变化的税档已直接读取。OE的governing_regime由原任务Solved Reasoning Steps给定，读取它合法，不能误记为将法源选择推给reader。SARA若事实明确给定§151/§152中间判断也允许直接读取，不强造依赖。原模型能力、获取接口与任务机会必须区分，不能只修schema便宣称贡献成立。
+检查时间：2026-11-11T19:05:38.917967+00:00。原128来源/8批正式学习和42个DEV点均已结算；B8、资格审查及输入容量检查通过。当前阶段`frozen_TEST`，只生成原冻结矩阵及随后已注册迁移；不使用这些预测指导修复。
 
-已在隔离工程树`/media/sangfor/vdb/legal-skill-runtime/engineering/lift-corev-activation-20261112`实现小型Lift reader提议及确定性编译/排队；程序、端口、类型和旧常量不得由教师重写。公共获取说明区分事实、明示给定中间结论、法源参数和待计算法义，两臂共享。64项相关离线回归通过；48份真实上下文及75个已编译候选保持一致。3个当前编译失败保留，另4个历史引文失败能被本次之前的编译器离线恢复但未重跑/接纳，不计本次收益。一次原B5航空Lift已真实接通，两题提升前后0、1，实际读取的旧/新尺寸值相同，缺失的国际航线计费分支未被修复，按原判据拒绝。两次SARA独立获取中FreeEvolution只漏函数壳，已在保留body AST的严格适配回归后复用原响应、公平重放两臂，没有再次调用教师。两臂都获得§152(a)→§152(b)(1)真实依赖及该题0→1；均为新建，旧技能共同修订/模式仍0。另一§151(c)题Full错误使用§152终端却碰巧答对，Free为回退，均不计语义成立的核心证据。共15E/3T全结算、无失败/重试，原TEST输出/标签未用于诊断。[具体代码、原始响应、逐来源语义与成本](../reports/legal_skill_evolution_run_20261111/ACTIVATION_REPAIR_20261112.md)。
+原接续器PID1765016/start_ticks642498467，session79159；当前子进程PID1765024/start_ticks642498475，入口`python -m experiments.legal_skill_evolution_frozen run`、配置`configs/legal_skill_evolution_frozen_v1_20261111.json`。实时唯一入口`artifacts/legal_skill_evolution_20261111/fixed_pipeline_v1/status.json`。已提交父来源检查点计数（仅数量，未读部分TEST得分）：{"NoSkill": 160, "FreeEvolution": 160, "LiftOnly": 160, "CoRevOnly": 160, "Full": 160, "Lift+GenericJoint": 85, "AllPorts+CoRev": 0}，每臂目标160。
 
-固定128母来源/8批、七系统外部技能学习已完成**全部128来源初答、48次学习臂更新和42/42个固定DEV点**。formal_v5真实退出0；B8冻结、完整教师暴露资格核对和352个原生TEST输入容量预检均已通过，当前运行既定七系统冻结TEST。教师、技能更新与模型参数更新均关闭，不根据测试结果改方法。
+纯分析收尾器PID1863615/start_ticks642889676、session7804，入口`/tmp/lsg_finalize_fixed_evidence_20261112.py`；实时状态`fixed_pipeline_v1/final_report_status.json`。它等待上述实际接续器退出，并核对TEST/迁移完成凭据、绑定和在途0后，生成固定研究审计、成本和结算证据。该入口新增模型0、不发布、不改Goal状态；完成后由主要执行者科学复核。
 
-B8最终库：FreeEvolution5、LiftOnly2、CoRevOnly3、Full4、Lift+GenericJoint4、AllPorts+CoRev3。103次原始create、6次revise、0次Lift，接纳21 create与3 revise；全部技能依赖端口、共同修订模式及跨来源模式移植仍0。B8 Full接纳单项OE修订，加入Arizona/Federal and Arizona分支，在一个同案TRAIN来源回放由0到.75，推理程序已改变，不属于保持原过程的Lift。CoRevOnly新增的是中美商务舱行李费程序，不能按臂名计成CoRev成功。
+恢复必须核对真实PID、start_ticks、SQLite在途及完成凭据，不能只读本页或重起旧任务。旧formal PID1382062已退出0；旧controller1487538/child1572906已在工程边界退出75。旧session72926、5779、91629均不恢复。原formal77项、freeze129项绑定反复核实未变；运行中不可重写绑定的源码、配置、测试、数据或回归JSON。
 
-最终B8 DEV：Full .5932961，CoRevOnly .5063387，AllPorts+CoRev .4815701，NoSkill/FreeEvolution/LiftOnly/Lift+GenericJoint均.4813387。Full比空库高.1119574、比AllPorts高.1117261，但比B6的.5999947略低；已按原协议冻结B8，没有选择最好DEV批次。Full核心执行17个原生视图、全对4个；AllPorts核心执行7个、全对0个，只有部分OE F1改善。48次提议没有专门Lift，故冻结测试只能验证当前库的收益、正确性与迁移，不能补出未发生的提升或共同修订学习事件。Goal保持未完成。
+## 已完成的真实研究证据
 
-全部128来源均完成初答并参与固定触发选择；每学习臂27个母来源的原文/反馈直接进入教师上下文。Full为OE6、SARA8、Airline11、CNLI1、MAUD1；其余臂为OE3、SARA7、Airline15、CNLI1、MAUD1。未将初答覆盖冒充教师获取覆盖，不增加新覆盖门槛或补来源。
+固定128母来源、280原生TRAIN视图/臂，48次学习臂更新、42/42个固定DEV点完成。原始提议103 create、6 revise、0 Lift；接纳21 create、3 revise。原B8全部技能依赖端口及CoRev模式仍0。最终库数量：Free5、LiftOnly2、CoRevOnly3、Full4、Generic4、AllPorts3。Full B8添加Arizona/Federal and Arizona分支属于过程修补；B6三项候选完整八格为single_sufficient，两个修订处理不同任务，不是必要法律共同修订。
 
-前四批共140个原生视图/臂，七系统批初新来源主路径正确均为0。B5 Full首次在一个新航空来源用B4旧库主路径答对，同案NoSkill错；这是更新前实际复用，其他臂该批核心正确仍0。反馈内改对另记。B3批初五库等权均为.4167478，各批案情不同，不能据批间分数变化判断学习收益。[逐来源配对轨迹](../reports/legal_skill_evolution_run_20261111/formal_TRAIN_trajectory.json)、[训练图](../reports/legal_skill_evolution_run_20261111/formal_TRAIN_learning_trajectory.pdf)分开显示任务得分、同案NoSkill差值、库规模、回退和排除DEV后的请求使用量。共享缓存不重复计实际支出，各臂响应使用量不能相加冒充独立费用。
+| B8 DEV系统 | 五库等权原生得分 |
+|---|---:|
+| NoSkill / Free / LiftOnly / Lift+GenericJoint | .4813387 |
+| CoRevOnly | .5063387 |
+| AllPorts+CoRev | .4815701 |
+| Full | .5932961 |
 
-B6末技能数：FreeEvolution4、LiftOnly2、CoRevOnly2、Full4、Lift+GenericJoint3、AllPorts+CoRev2。累计提议81次create、2次revise、0次Lift，全部CoRev模式0。Full两项SARA程序从获取时已直接读取参数；后续虽有固定法源前提，仍无专门Lift转换。所有当前库技能依赖输入端口数均0；B6两个旧程序修订已完成8格，分类single_sufficient，并非联合必要事件。版本表选择器为所有臂共用，不能认领通用枚举选择的增量。[正式机制清单](../reports/legal_skill_evolution_run_20261111/formal_mechanism_inventory.json)。
+Full对空库+.1119574，对AllPorts+.1117261；Full17个核心执行视图、4个全对，增益来自普通获取/过程修补。按原协议冻结B8，未挑B6最高DEV点。不能因臂名或分数差认领没有发生的机制。
 
-B0七系统、B1–B3四主臂DEV五库等权均为.4813387。**B4 Full为.5313387，比其B0高.0500**，航空库从0/8变为2/8；另外三主臂B4仍为.4813387。Full B4共有3个核心正确DEV视图，其中1个SARA题基线本来正确，新增2个航空题由行李费程序实际执行。其他四库得分不变；两个强对照的下一注册DEV点为B8，不能据此宣布优于强对照。B5 Full为.5446176，OE原生F1均分从.1983604到.2647547，航空仍.25、其他三库不变；完全正确的核心视图仍3个。其他三主臂B5仍.4813387。截至B6为31/42个注册DEV点完成；部分F1改善与新增全对分开，不计专门Lift/CoRev贡献。[DEV统计](../reports/legal_skill_evolution_run_20261111/formal_DEV_summary.json)、[DEV曲线](../reports/legal_skill_evolution_run_20261111/formal_DEV_learning_curves.pdf)。
+完整TRAIN初答轨迹：Full .4668578，同案NoSkill .4427277，配对+.0241302；37个核心执行、6个新增全对，来自4个母来源；另1个SARA由对改错。AllPorts配对+.0115327。B7退化及所有回退/失败保留。图表与逐来源证据见[执行报告](../reports/legal_skill_evolution_run_20261111/README.md)、[TRAIN轨迹](../reports/legal_skill_evolution_run_20261111/formal_TRAIN_trajectory.json)、[DEV汇总](../reports/legal_skill_evolution_run_20261111/formal_DEV_summary.json)、[机制清单](../reports/legal_skill_evolution_run_20261111/formal_mechanism_inventory.json)。
 
-逐来源覆盖已补齐，并与同一SQLite中的30个已结算教师响应逐项核对。前5批每学习臂直接向教师提供18个独立来源；Full为OE3、SARA5、Airline8、CNLI1、MAUD1，其他臂SARA4、Airline9，其余相同。全部80来源的初答分数参与最差触发组选择，只有所选cohort进入教师原文/反馈。两者不等同；不因此新增覆盖阈值或改变固定策略。逐来源的初答、教师trigger/history角色与当前技能声明引文分别保留在[机制清单](../reports/legal_skill_evolution_run_20261111/formal_mechanism_inventory.json)的source_level_learning_coverage，未处理来源保持unknown。
+全部128来源参与初答及触发选择；每学习臂只有27个母来源的原文/反馈直接进入教师。Full为OE6/SARA8/Airline11/CNLI1/MAUD1，其他臂为OE3/SARA7/Airline15/CNLI1/MAUD1。初答覆盖不是教师获取覆盖；不另加覆盖验收门槛。
 
-B6已结算：Full固定DEV五库均分.5999947（OE .4166400、Airline .375，其他三库不变），完全正确的核心视图4个；其他三主臂仍.4813387。B6训练初答使用B5末库，同16来源五库等权均分.5051587，相对同来源NoSkill差+.1243633；这是不同新案的实际复用轨迹，不能直接拿训练与DEV分数相减。累计81次create、2次revise、0次Lift，所有当前库的skill依赖输入端口数均0。Full的三项候选已完成8格，选择mask6（两个旧程序修订），分类为single_sufficient；实际是航空与豁免任务的独立修复，不能作为需要法律依赖共同修订的证据，模式数仍0。当前证据证明普通程序获取/修订的收益，未证明两项专门机制。
+## 根因定位与已实施修复
 
-技能生成频率固定为每16来源初答后，各学习臂1次教师，共6次/批；正式7批42次，8批计划48次，NoSkill不调教师。每次最多3个候选包、每包最多3项编辑，实际可不接纳。教师直接读取最差3个新来源＋最多5个固定历史来源，另有当前库与旧编辑；不是直接获得本批全部16个原文/反馈。前5批每臂18/80的直接覆盖是当前采样设计局限，与16案评分用于选择的口径分开，不中途更改策略或加新案例追分。库参数与两模型权重均不做梯度更新。
+隔离工程树`/media/sangfor/vdb/legal-skill-runtime/engineering/lift-corev-activation-20261112`、分支`repair/lift-corev-activation-20261112`，不向原冻结目录注入科学改动。最新公开实现及逐字核验见`reports/legal_skill_evolution_run_20261111/activation_publication_manifest.json`与对应verified收据。
 
-B7更新前Full有35个原生视图：12个核心执行完成、0个核心全对、23个回退，未发生整视图调用中断。五库等权得分.4305556，同案NoSkill .5274116，差-.0968561；损失来自OE与SARA。OE程序读到未覆盖的Federal and Oregon/Federal and Arizona后仍正常返回空claim列表，属于语义覆盖错误，执行成功不能等同正确。B7六臂提议均未获接纳，库大小保持，所有库skill依赖端口和CoRev模式仍0；累计91 create、4 revise、0 Lift，接纳17 create、2 revise。35/42个固定DEV点已完成，Full B7仍.5999947，其他三主臂仍.4813387。错误并不稀缺，但独立程序修补不能替代已有依赖技能的必要共同修订；不人为拆链或把错误答案改记为回退。
+1. Lift原先只显示候选，且教师必须重写整份Skill再被要求P不变。现有小型reader提议、确定性编译及真实失败视图排队，保留原P/输入输出/旧版本，仍按原完整回放准入。
+2. 3个固定教师任务已完成，累计15E/3T全结算。真实航空Lift新旧尺寸相同、得分前后0/1，未接纳；未补入缺失国际航线分支。Full/Free各自从空库获取§152(a)→§152(b)(1)两技能，均在原§152题0→1；属于创建，不是旧技能共同修订。Free只漏函数壳，保留body AST适配后复用原响应，教师未重调。
+3. Full另在§151(c)错用§152终端而碰巧得分1，现已通过“明确最终命题声明＋硬编码current-question读取绑定”的保守检查修复。禁网、只读账本、逐字节缓存回放验证两臂四条记录：§151误用改回退，真正§152核心保持，原生分数不变、新增模型0。没有明确声明/多条款/父子范围时unknown；不是完整语义验证，更不是创新收益。
+4. 当前错误视图目标提示定位64份真实教师上下文中的216个未满分/未解视图；Lift只从这些视图的实际尝试排队。八个历史排队不变；提示的真实模型收益尚未验证。当前71项相关回归通过。严格删除case-reader法源的原型已退出路径；完整原文、given中间结论及原准入规则保留。
 
-截至B7补做42次真实教师输入的离线逐项核对：原始request与同一账本的完整请求哈希一致，传入的批初库及固定前提候选与确定性生成结果一致，没有发现库/候选在传输或接续中遗漏。非空固定前提候选出现在FreeEvolution6次、CoRevOnly6次、Full3次、Lift+GenericJoint6次；LiftOnly与AllPorts均0次，后者与预参数化设计一致。所有请求的技能依赖端口及已学模式均0。LiftOnly实际获取的程序已参数化，故该臂尚无专门Lift的处理对象；Full虽有3次候选机会，也未提出Lift。候选存在不等于该案需要提升，不能用臂名或得分差倒推机制生效。[逐请求证据与原验收分项核对](../reports/legal_skill_evolution_run_20261111/FIXED_STUDY_COMPLETION_AUDIT.md)、[数据与哈希](../reports/legal_skill_evolution_run_20261111/fixed_study_completion_audit.json)。本核对不新增模型调用、来源或验收门槛；B8原队列继续。
+完整代码、原始响应、作用域回归和费用见[修复报告](../reports/legal_skill_evolution_run_20261111/ACTIVATION_REPAIR_20261112.md)、[范围回归](../reports/legal_skill_evolution_run_20261111/claim_scope_actual_response_regression.json)、[修复物理账本摘要](../reports/legal_skill_evolution_run_20261111/activation_repair_summary.json)。工程修复、缓存回放、回退正确及少量主路径成功不能替代双贡献验收。
 
-全部七臂的128来源/280原生视图初答现已结算。Full整段prequential五库等权得分.4668578，同案NoSkill .4427277，差+.0241302；37个核心执行、6个核心全对、242回退、1个未解决视图。AllPorts .4542604，差+.0115327；7个核心执行、2个核心全对、272回退、1个未解决。其余四学习臂整体分数与空库相同。B8 Full相对同案空库差+.0988674，新增两个OE母来源的4个全对核心视图；AllPorts也在其中一个OE母来源的2个视图全对。完整56个训练初答点已保存，包括B7退化，不挑最好批次。这是不同批初库依次回答新来源的描述性轨迹，不能当作冻结B8或TEST结果，也不能归因于尚未实测的专门机制。
+## 现有学习信号的边界
 
-逐视图与同案NoSkill核对后，Full的6个核心全对均为空库原本错误，来自4个独立母来源：B5/B6各1个Airline来源、B8两个OE来源各EC/EV两视图；没有把空库已有正确计为新收益。另有1个SARA视图被核心路径由对改错，其余30个核心执行视图双方均未全对。AllPorts的2个新增全对属于同一个OE母来源。原生F1的部分改善仍由原配对得分表达，不用二值全对计数替代；逐视图来源、旧/新得分和正确性已写入训练轨迹`core_outcomes_paired_with_NoSkill`，未新增模型调用、数据或验收门槛。
+[TRAIN信号审计](../reports/legal_skill_evolution_run_20261111/training_signal_audit.json)确认：原32个受控直接基线32/32正确；MAUD24个受控角色条件均给定True。仅修已正确控题不满足原严格提分准入，不能借此证明角色归属改善。OE32及Airline24案分别共用同一法条/政策正文；适用记录仍可变化，不把这当作“所有Lift不可能”的证明。SARA有8个正文族、24个精确查询条款各1次。CNLI/MAUD有变动合同/摘录，但原生任务无额外case-facts字段，完整问卷的Boolean READ→标签不等于学得法义计算。
 
-## 当前进程与本次工程决定
+早期小试16份去重教师响应已有13项合同修订。Full小试B3确曾接纳NDA许可程序；AllPorts/Generic知识依赖包也已实际执行，但在MAUD447上分别6/7→5/7、6/7→6/7，未修复真正错误的负面契约疫情例外。此处已完成的等价验证和负证据不重跑。源获取/更新对象、模型字段误读、准入信号和语义核验缺失需要分开，不再把所有缺口归为schema。
 
-已结束的学习入口为 `python -m experiments.legal_skill_evolution_formal run`，配置 `configs/legal_skill_evolution_formal_v5_20261111.json`，原PID1382062/start_ticks641058649、session38824已真实退出0，完整收据为`formal_v5/training_DEV_completed.json`。formal_v1/v2均已终态并保留持有文件，v3在B5教师输入传输检查失败后退出1；v4为路由修复在请求边界退出75。全部旧命名空间均不能重启。Goal始终active，工程请求边界持有不是用户暂停。
+## 资源、保全和下一步
 
-原接续器PID1487538/start_ticks641433352、旧冻结子进程1572906/start_ticks641752043在本次工程请求边界持有后均退出75，已终态，不能重复启动。原77/129项绑定在持有及恢复时全部一致，原在途已结算；隔离诊断与格式复验均终态且在途0后恢复既定冻结run，未重跑prepare/preflight。当前接续器为PID1765016/start_ticks642498467、session79159，操作入口`/tmp/lsg_resume_fixed_after_activation_20261112.py`；当前唯一生成子进程PID1765024/start_ticks642498475，原`experiments.legal_skill_evolution_frozen run`及配置不变。后续运行原注册迁移，全部旧来源缓存保留。真实动态状态仍为`artifacts/legal_skill_evolution_20261111/fixed_pipeline_v1/status.json`，恢复须核对PID、start_ticks、原绑定及SQLite；Goal始终active，未完成。
+原连续账本起点1893E/74T不重置，失败、重试和物理缓存分别核算；旧100/96、teacher2或修复轮次限制不恢复。正式学习/DEV新增3304E/48T；固定预检492E/16T、集中修复237E/0T、后续获取/格式诊断15E/3T已结算，冻结矩阵单列且禁教师。最新累计和在途只读同一SQLite及[动态状态](../reports/legal_skill_evolution_run_20261111/pilot_progress.json)，不硬覆盖成本文旧数字。GPU/教师发票不可见，不当作0美元。冻结矩阵和迁移的实际物理成本与各臂响应消费足迹分开，不把缓存首访差异当方法收益。
 
-正式学习及DEV总计3304E/48T，全部物理请求均已结算，TEST单独累计。冻结前核对2759份教师请求文件、2703个去重提示输入，合格160个TEST身份在这些记录和连续账本中的访问均0；原CNLI537按预定规则由555补位。352个测试输入最大11126 tokens，加固定8192输出额度后满足32768上下文，无裁切。冻结前准备/容量核验新增生成调用0，全部冻结代码/数据哈希及thinking OFF、teacher disabled、library/model updates false已再次核实。原测试标签只在该门控后用于既定评分。
+无损教师传输、两T并发、原生枚举预检查、CoRevOnly分发及跨版本接续均已有证据，按[执行报告](../reports/legal_skill_evolution_run_20261111/README.md)复用，不重复有效工作。原先所有失败、旧A/B/M1M2、LoRA及确定性资产保留；不重启历史路径或强行接入已淘汰方法。
 
-首批更新实测19.96分钟、48E/6T，其中教师累计965.99秒，约占81%；DEV/TEST另计。为减少串行等待，**B4起同一批六臂独立教师提议最多两路并发，执行模型及候选验证仍串行**。教师gpt-5.6-sol/high、Qwen3-8B/thinking OFF及采样参数不变；同批初库、最差3当前＋最早5历史、共享3候选/192逻辑执行均不变。2是并发数，不是教师累计调用上限。不增加探测调用；正常B4六次提议均已完成，CLI峰值并发2，六次耗时之和1125.23秒、阶段墙钟565.40秒，观察到的区间重叠因子1.9904，阶段内E请求0；不是另跑串行对照的因果加速估计，也不计方法收益。[实际并发](../reports/legal_skill_evolution_run_20261111/actual_teacher_overlap.json)。
-
-此前v2→v3双教师调度接入时，隔离目录及接入后42项回归通过，覆盖两T记账、E互斥、跨run隔离、失败排空/停止未发送、已完成提议恢复不重发。12个新鲜fixture输入及6个真实B3缓存上下文的新旧模型提议输入字节一致；与原请求逐值、类型、schema和源文本核对也一致。原请求与缓存重读存在JSON键序差异，该差异在旧代码中同样存在，已单列，未放松真实响应缓存的逐字匹配。[工程复核](../reports/legal_skill_evolution_run_20261111/formal_teacher_parallel_review.json)、[真实输入核对](../reports/legal_skill_evolution_run_20261111/actual_teacher_prefetch_payload_parity.json)。
-
-六臂B3更新全结算、旧PID退出75、在途0后才接入；逐字导入2723个已结算文件，B0–B3库/初答/更新及部分DEV缓存保持，新模型调用0、账本不重置。原368视图预检在运行/原生编解码/worker/wire/数据及模型配置哈希一致的核验后复用，最大输入9468 tokens，输出8192不变。[导入收据](../reports/legal_skill_evolution_run_20261111/formal_teacher_overlap_state_import.json)。
-
-B5全部七臂80来源初答已完成。FreeEvolution完整教师输入1082126字符超过CLI固定1048576字符上限，本地拒绝前未新增其物理请求；并行LiftOnly的1个提议已完成并保留。当前统一使用**可逆的重复JSON值引用编码**，六个真实B5输入还原后每个值、类型、键序和原文字符串与旧输入一致，完整输入降至36.7万–50.9万字符；未删除原文、反馈、旧程序或版本结果，六臂共同使用，模型配置不变。[传输回归](../reports/legal_skill_evolution_run_20261111/actual_B5_teacher_transport_regression.json)。
-
-v3真实退出、在途0和原绑定不变核实后，4315个已结算文件原样接至v4；23个DEV聚合由复制的精确视图缓存恢复并与原文件逐字一致，新增模型调用0。保留B1–B4更新、B5全部初答和成功LiftOnly提议，其余5个教师已正常完成，B5六臂候选/语义验证及DEV均已结算。原生枚举提前检查同时接入全部臂，384个受影响TRAIN读取回放保持答案/主路径/回退/终端/检索，可省690次逻辑读取；未知程序及中间依赖仍走原执行。隔离52项、接入及冻结恢复共60项检查通过。[工程复核](../reports/legal_skill_evolution_run_20261111/formal_native_enum_review.json)、[状态接续](../reports/legal_skill_evolution_run_20261111/formal_native_enum_state_import.json)。这些工程收益不计Lift/CoRev贡献。v4 manifest绑定的两份离线回归JSON保持冻结，运行中不重写。
-
-方法与消融代码复核发现CoRevOnly遗漏了`patterns.learn`与`patterns.candidates`两条M2分发，已补齐为与Full相同的模式学习/伴随生成路径，仍禁用专门Lift。修复前两个功能回归均只在CoRevOnly失败，修复后54项隔离检查、接入及冻结恢复共62项通过。30个真实已结算上下文的教师输入前后字节一致，CoRevOnly前5批接受的均为单项新建，调用补齐后库/模式/分数不变；此缺陷不解释所有臂此前零机制事件。未重新评分或补调教师。[真实前缀核对](../reports/legal_skill_evolution_run_20261111/actual_corevision_arm_routing_regression.json)、[接入复核](../reports/legal_skill_evolution_run_20261111/formal_corevision_arm_review.json)。
-
-v4在途结算、原冻结文件不变核实后，5327个文件逐字接至v5，保留B1–B5、27个DEV点和B6已完成初答（六臂各16、AllPorts10）。初答运行时、读取/教师模型配置、数据和预算不变，检查与导入新增模型调用0；账本在接续时为4922E/120T，未重置。当前客户端已完成B6全部初答并进入正常教师更新。[状态接续](../reports/legal_skill_evolution_run_20261111/formal_corevision_arm_state_import.json)。新绑定的路由回归JSON及before/after测试文本保持冻结，不在运行中重写。
-
-## 保全和下一步
-
-同一SQLite账本保留1893E/74T起点及全部失败、重试与旧输出；旧96/100、teacher2或修复轮次上限不恢复。[动态状态](../reports/legal_skill_evolution_run_20261111/current_status.json)、[阶段成本](../reports/legal_skill_evolution_run_20261111/stage_costs.json)与原始记录分开保存；GPU/教师实际现金发票不可见，不能把本地增量API为0说成整个实验免费。
-
-固定20来源首遍16更新和29项受影响集中复验均已完成，分别新增492E/16T、237E/0T。旧结果、失败及两机制未触发的否定证据保留，不重做旧构造实验、不导入小试库。unknown未到达分支、无绑定死读取、唯一未安装草稿及引文转录/失败原程序可见性修复的原始回归见[执行报告](../reports/legal_skill_evolution_run_20261111/README.md)及各修复收据。
-
-下一项实际工作：沿既有TRAIN规则、真实输出及版本证据查找正确前提确实变化的Lift机会和两项已有依赖技能的自然共同错误，先离线反证；不能将修接口、创建依赖或标签偶合当作双贡献。真实见证成立才安排对应验证，若没有则集中提出机制设计调整，而不重复当前小试或无限补实验。原冻结矩阵和注册迁移独立继续、保持原B8及掩码，不用于修复选择，也不能靠矩阵完成替代方法验收。保持法律规则获取—更新—复用问题及同信息强对照，不脱离主线另开工程框架。
-
-最终费用归因入口已补齐：矩阵及迁移完成后运行 `python -m reports.legal_skill_evolution_run_20261111.frozen_cost_footprints`，沿实际响应ID去重，分别报告矩阵实际物理支出、各臂消费的响应、排除DEV的获取＋推理足迹及迁移新增物理请求。共用既有归因函数，不将先访问缓存的差异当作方法费用优势。4项隔离记账回归通过，覆盖共享/失败、DEV剔除、迁移分账与冻结教师禁用；真实矩阵未完成时入口立即等待、不读取部分测试预测。回归仅验证统计实现，不算方法实证，当前未新增模型调用或改变冻结文件。[回归收据](../reports/legal_skill_evolution_run_20261111/frozen_cost_footprints_regression.json)。
-
-CNLI原TEST537通过旧TRAIN538暴露，原清单保留，按预定hash补位555；不改TRAIN/DEV，不用旧暴露来源宣称盲测。冻结及迁移入口不加教师、不更新库、不改测试追分。只有完整实验、相对强对照实际收益及两项独立贡献均被支持才完成Goal；当前这些条件尚未满足，不自动进入论文。
+下一项实际工作：让现存矩阵、注册迁移和纯分析收尾器完整结算，再由主要执行者核对原生统计、四项预注册区间、逐来源、费用及两项独立贡献。目前未发现已验证的自然共同修订见证，不为非零计数追加同类小试；这是有限研究判断，不是新机械调用上限。不得根据TEST调方法。完整矩阵不能补出训练期没发生的机制，双贡献不足则如实报告未完成及具体研究调整需求；不自动完成Goal、不进入论文、不无限换方向。

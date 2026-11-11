@@ -11,6 +11,7 @@ import jsonschema
 
 from .objects import Skill, digest
 from .answer_domain import incompatible_native_enum
+from .claim_scope import declared_claim_mismatch
 from legal_skill_guard.rr.checkpoint import immutable_json
 from .native import (record_schema, answer_wire_schema, decode_answer,
                      public_task, public_strings, DIRECT_SYSTEM, restore_enum_transport, source_spans)
@@ -341,6 +342,12 @@ class SkillRuntime:
 
         for identity in selected:
             if identity in library.skills:
+                scope = declared_claim_mismatch(library.skills[identity], view)
+                if scope:
+                    failures.append({'skill_id': identity,
+                        'error': 'StaticQueryScopeMismatch: the declared final proposition differs from the current explicit query',
+                        'static_proof': scope})
+                    continue
                 proof = incompatible_native_enum(library.skills[identity].procedure, view['answer_schema'])
                 if proof:
                     failures.append({'skill_id': identity,

@@ -1,0 +1,510 @@
+{
+  "kind": "actual_MULTI_view_TRAIN_parent_failure_focus",
+  "original_candidate_relative_path": "pilot_v11/AllPorts+CoRev/B4_candidates/1.json",
+  "original_candidate_sha256": "2195b6405ad803d33bff16cbacf4ca04179981b8904798a388f22910935c6221",
+  "actual_parent": {
+    "dataset": "MAUD",
+    "library_hash": "2d6bf904437524f8bab422fae640c661d9854f75f1ce6cdda9a5f99e23024633",
+    "native_core_correct": 0,
+    "native_fallback_views": 3,
+    "native_grade": 0.6666666666666666,
+    "selection_grade": 0.8571428571428571,
+    "selection_protocol": "mean_of_all_predeclared_native_and_controlled_TRAIN_views_within_parent",
+    "source": "MAUD:447ae333300498aa622383a77766c17bb1c59941a44e99499def4bc3929a5655",
+    "views": [
+      {
+        "controlled": false,
+        "execution": {
+          "answer": "Actual knowledge",
+          "core_executed": false,
+          "events": [
+            {
+              "cache_hit": true,
+              "call_id": "legal_skill_evolution_pilot_v11_20261111:e7e7e771e5fca5172594a00131621cc824c28cb102acae7a92e4105c955c23c7",
+              "elapsed_seconds": 1.268250952474773,
+              "fields": {
+                "claimed_result": {
+                  "status": "unknown",
+                  "support": [],
+                  "support_ids": [],
+                  "value": null
+                },
+                "condition_satisfied": {
+                  "status": "unknown",
+                  "support": [],
+                  "support_ids": [],
+                  "value": null
+                }
+              },
+              "kind": "READ_LOCAL",
+              "locator": "current supplied source, facts and question, according to each requested field",
+              "physical_call_id": "legal_skill_evolution_pilot_v11_20261111:e7e7e771e5fca5172594a00131621cc824c28cb102acae7a92e4105c955c23c7",
+              "question": "Read the current task input fields.",
+              "response_hash": "dcb7de8d28b1b63e3ca3d0e6059ec27a7546789d24e7cad21698ef8e83682166",
+              "source": "MAUD:447ae333300498aa622383a77766c17bb1c59941a44e99499def4bc3929a5655",
+              "transport_adaptations": [],
+              "usage": {
+                "completion_tokens": 44,
+                "prompt_tokens": 662,
+                "prompt_tokens_details": null,
+                "total_tokens": 706
+              },
+              "view": "Knowledge Definition-Answer"
+            },
+            {
+              "cache_hit": false,
+              "call_id": "legal_skill_evolution_pilot_v11_20261111:12b0184efdcb14e96c76682e992bdf626361e0e0aba54fb30b13cd57eea55958",
+              "elapsed_seconds": 0.4986595558002591,
+              "physical_call_id": "legal_skill_evolution_pilot_v11_20261111:12b0184efdcb14e96c76682e992bdf626361e0e0aba54fb30b13cd57eea55958",
+              "response_hash": "afa25db015e6c4aa33cedb31907c6e1b017e6d1e835fa91642cba53bb9f17433",
+              "transport_adaptations": [],
+              "usage": {
+                "completion_tokens": 17,
+                "prompt_tokens": 361,
+                "prompt_tokens_details": null,
+                "total_tokens": 378
+              }
+            }
+          ],
+          "evidence_sentence_ids": [],
+          "failed_candidates": [
+            {
+              "error": "ValueError: Missing or cyclic skill dependency",
+              "skill_id": "classify_contract_knowledge_definition"
+            },
+            {
+              "error": "LocalReadError: Current-source read unresolved: condition_satisfied",
+              "skill_id": "apply_statutory_exception_result"
+            }
+          ],
+          "fallback": true,
+          "retrieved": [
+            "classify_contract_knowledge_definition",
+            "apply_statutory_exception_result"
+          ]
+        },
+        "score": {
+          "correct": true,
+          "grade": 1.0,
+          "metric": "native_exact_match",
+          "valid": true
+        },
+        "view": "Knowledge Definition-Answer"
+      },
+      {
+        "controlled": false,
+        "execution": {
+          "answer": "Yes",
+          "core_executed": false,
+          "events": [
+            {
+              "cache_hit": true,
+              "call_id": "legal_skill_evolution_pilot_v11_20261111:ad9bb7dd4d1b5e4bae25857102a6b3d46f9e2ee38666c57bf4852bcab02fc28b",
+              "elapsed_seconds": 1.3951467843726277,
+              "fields": {
+                "claimed_result": {
+                  "status": "known",
+                  "support": [
+                    {
+                      "end": 1416,
+                      "field": "source_text",
+                      "id": 0,
+                      "start": 0,
+                      "text": "Section 6.1    Conduct of Company Business Pending the Merger. (a)    Except (i) as set forth on Schedule 6.1(a) of the Company Disclosure Letter, (ii) as expressly permitted or required by this Agreement or the Exchange Agreement, (iii) as may be required by applicable Law, (including any COVID-19 Measures), or (iv) otherwise consented to by Parent in writing (which consent shall not be unreasonably withheld, delayed or conditioned), the Company covenants and agrees that, until the earlier of the Effective Time and the termination of this Agreement pursuant to Article VIII, it shall, and shall cause each of its Subsidiaries to, use reasonable best efforts to conduct its businesses in the Ordinary Course, including by using reasonable best efforts to preserve substantially intact its present business organization, goodwill and assets, to keep available the services of its current officers and employees and preserve its existing relationships with Governmental Entities and its significant customers, suppliers, licensors, licensees, distributors, lessors and others having significant business dealings with it.\n<omitted>\n“Ordinary Course” means, with respect to an action taken by any Person, that such action is consistent with the ordinary course of business and past practices of such Person, excluding any commercially reasonable deviations therefrom due to COVID-19 orCOVID-19 Measures. (Page 55)"
+                    }
+                  ],
+                  "support_ids": [
+                    0
+                  ],
+                  "value": "Y"
+                },
+                "condition_satisfied": {
+                  "status": "known",
+                  "support": [
+                    {
+                      "end": 1416,
+                      "field": "source_text",
+                      "id": 0,
+                      "start": 0,
+                      "text": "Section 6.1    Conduct of Company Business Pending the Merger. (a)    Except (i) as set forth on Schedule 6.1(a) of the Company Disclosure Letter, (ii) as expressly permitted or required by this Agreement or the Exchange Agreement, (iii) as may be required by applicable Law, (including any COVID-19 Measures), or (iv) otherwise consented to by Parent in writing (which consent shall not be unreasonably withheld, delayed or conditioned), the Company covenants and agrees that, until the earlier of the Effective Time and the termination of this Agreement pursuant to Article VIII, it shall, and shall cause each of its Subsidiaries to, use reasonable best efforts to conduct its businesses in the Ordinary Course, including by using reasonable best efforts to preserve substantially intact its present business organization, goodwill and assets, to keep available the services of its current officers and employees and preserve its existing relationships with Governmental Entities and its significant customers, suppliers, licensors, licensees, distributors, lessors and others having significant business dealings with it.\n<omitted>\n“Ordinary Course” means, with respect to an action taken by any Person, that such action is consistent with the ordinary course of business and past practices of such Person, excluding any commercially reasonable deviations therefrom due to COVID-19 orCOVID-19 Measures. (Page 55)"
+                    }
+                  ],
+                  "support_ids": [
+                    0
+                  ],
+                  "value": true
+                }
+              },
+              "kind": "READ_LOCAL",
+              "locator": "current supplied source, facts and question, according to each requested field",
+              "physical_call_id": "legal_skill_evolution_pilot_v11_20261111:ad9bb7dd4d1b5e4bae25857102a6b3d46f9e2ee38666c57bf4852bcab02fc28b",
+              "question": "Read the current task input fields.",
+              "response_hash": "138cf07d95f5cba1acae2116e1d0b4e3f18b87c434113828a917ee7d6a690a7d",
+              "source": "MAUD:447ae333300498aa622383a77766c17bb1c59941a44e99499def4bc3929a5655",
+              "transport_adaptations": [],
+              "usage": {
+                "completion_tokens": 48,
+                "prompt_tokens": 889,
+                "prompt_tokens_details": null,
+                "total_tokens": 937
+              },
+              "view": "Ordinary Course Covenant includes carve-out for Pandemic responses-Answer (Y/N)"
+            },
+            {
+              "cache_hit": true,
+              "call_id": "legal_skill_evolution_pilot_v11_20261111:78c1cdfa01455ecf7faa0bf52517ab4b60e75b70de40cf0216a6d118fc0ae49c",
+              "elapsed_seconds": 2.194310578517616,
+              "fields": {
+                "default_result": {
+                  "status": "known",
+                  "support": [
+                    {
+                      "end": 1416,
+                      "field": "source_text",
+                      "id": 0,
+                      "start": 0,
+                      "text": "Section 6.1    Conduct of Company Business Pending the Merger. (a)    Except (i) as set forth on Schedule 6.1(a) of the Company Disclosure Letter, (ii) as expressly permitted or required by this Agreement or the Exchange Agreement, (iii) as may be required by applicable Law, (including any COVID-19 Measures), or (iv) otherwise consented to by Parent in writing (which consent shall not be unreasonably withheld, delayed or conditioned), the Company covenants and agrees that, until the earlier of the Effective Time and the termination of this Agreement pursuant to Article VIII, it shall, and shall cause each of its Subsidiaries to, use reasonable best efforts to conduct its businesses in the Ordinary Course, including by using reasonable best efforts to preserve substantially intact its present business organization, goodwill and assets, to keep available the services of its current officers and employees and preserve its existing relationships with Governmental Entities and its significant customers, suppliers, licensors, licensees, distributors, lessors and others having significant business dealings with it.\n<omitted>\n“Ordinary Course” means, with respect to an action taken by any Person, that such action is consistent with the ordinary course of business and past practices of such Person, excluding any commercially reasonable deviations therefrom due to COVID-19 orCOVID-19 Measures. (Page 55)"
+                    }
+                  ],
+                  "support_ids": [
+                    0
+                  ],
+                  "value": "Conduct businesses in the Ordinary Course"
+                },
+                "exception_result": {
+                  "status": "known",
+                  "support": [
+                    {
+                      "end": 1416,
+                      "field": "source_text",
+                      "id": 0,
+                      "start": 0,
+                      "text": "Section 6.1    Conduct of Company Business Pending the Merger. (a)    Except (i) as set forth on Schedule 6.1(a) of the Company Disclosure Letter, (ii) as expressly permitted or required by this Agreement or the Exchange Agreement, (iii) as may be required by applicable Law, (including any COVID-19 Measures), or (iv) otherwise consented to by Parent in writing (which consent shall not be unreasonably withheld, delayed or conditioned), the Company covenants and agrees that, until the earlier of the Effective Time and the termination of this Agreement pursuant to Article VIII, it shall, and shall cause each of its Subsidiaries to, use reasonable best efforts to conduct its businesses in the Ordinary Course, including by using reasonable best efforts to preserve substantially intact its present business organization, goodwill and assets, to keep available the services of its current officers and employees and preserve its existing relationships with Governmental Entities and its significant customers, suppliers, licensors, licensees, distributors, lessors and others having significant business dealings with it.\n<omitted>\n“Ordinary Course” means, with respect to an action taken by any Person, that such action is consistent with the ordinary course of business and past practices of such Person, excluding any commercially reasonable deviations therefrom due to COVID-19 orCOVID-19 Measures. (Page 55)"
+                    }
+                  ],
+                  "support_ids": [
+                    0
+                  ],
+                  "value": "Deviation from Ordinary Course due to Pandemic responses"
+                }
+              },
+              "kind": "READ_LOCAL",
+              "locator": "current view public source_text and any supplied referenced_public_sections",
+              "physical_call_id": "legal_skill_evolution_pilot_v11_20261111:78c1cdfa01455ecf7faa0bf52517ab4b60e75b70de40cf0216a6d118fc0ae49c",
+              "question": "Read the current statutory provision as one coupled default-and-exception rule and normalize both legal results in the same vocabulary used for the current question.",
+              "response_hash": "9966aa4032eb6d89ec91176e73824edcc48cc8da08e506e7b0b238b535731d9d",
+              "source": "MAUD:447ae333300498aa622383a77766c17bb1c59941a44e99499def4bc3929a5655",
+              "transport_adaptations": [],
+              "usage": {
+                "completion_tokens": 78,
+                "prompt_tokens": 891,
+                "prompt_tokens_details": null,
+                "total_tokens": 969
+              },
+              "view": "Ordinary Course Covenant includes carve-out for Pandemic responses-Answer (Y/N)"
+            },
+            {
+              "inputs": {
+                "claimed_result": "Y",
+                "condition_satisfied": true
+              },
+              "kind": "APPLY",
+              "outputs": {
+                "answer": "Contradiction"
+              },
+              "premises": {
+                "default_result": "Conduct businesses in the Ordinary Course",
+                "exception_result": "Deviation from Ordinary Course due to Pandemic responses"
+              },
+              "skill_hash": "d139ecbaed8136f60dd969b68266275fd151612f5032d11f230d63eadac9bdaf",
+              "skill_id": "apply_statutory_exception_result",
+              "source": "MAUD:447ae333300498aa622383a77766c17bb1c59941a44e99499def4bc3929a5655",
+              "version": 1,
+              "view": "Ordinary Course Covenant includes carve-out for Pandemic responses-Answer (Y/N)"
+            },
+            {
+              "cache_hit": false,
+              "call_id": "legal_skill_evolution_pilot_v11_20261111:e807e13cce478903202a9f0f02c4c365dc85efa3c47fa77cd58331e891a1d994",
+              "elapsed_seconds": 0.5275750150904059,
+              "physical_call_id": "legal_skill_evolution_pilot_v11_20261111:e807e13cce478903202a9f0f02c4c365dc85efa3c47fa77cd58331e891a1d994",
+              "response_hash": "446cb1746cf585292f5059408213cdc27a5a3f587790242b2106c23e819d65fb",
+              "transport_adaptations": [],
+              "usage": {
+                "completion_tokens": 17,
+                "prompt_tokens": 584,
+                "prompt_tokens_details": null,
+                "total_tokens": 601
+              }
+            }
+          ],
+          "evidence_sentence_ids": [],
+          "failed_candidates": [
+            {
+              "error": "ValidationError: 'Contradiction' is not one of ['Yes', 'No']\n\nFailed validating 'enum' in schema:\n    {'type': 'string', 'enum': ['Yes', 'No']}\n\nOn instance:\n    'Contradiction'",
+              "skill_id": "apply_statutory_exception_result"
+            },
+            {
+              "error": "ValueError: Missing or cyclic skill dependency",
+              "skill_id": "classify_contract_knowledge_definition"
+            }
+          ],
+          "fallback": true,
+          "retrieved": [
+            "apply_statutory_exception_result",
+            "classify_contract_knowledge_definition"
+          ]
+        },
+        "score": {
+          "correct": true,
+          "grade": 1.0,
+          "metric": "native_exact_match",
+          "valid": true
+        },
+        "view": "Ordinary Course Covenant includes carve-out for Pandemic responses-Answer (Y/N)"
+      },
+      {
+        "controlled": false,
+        "execution": {
+          "answer": "Yes",
+          "core_executed": false,
+          "events": [
+            {
+              "cache_hit": true,
+              "call_id": "legal_skill_evolution_pilot_v11_20261111:20695db1a2c4c2d760500fb4089b16a531ef1bb7fc1b1f5b6ad60cc9ec09bbce",
+              "elapsed_seconds": 1.6472885357216,
+              "fields": {
+                "claimed_result": {
+                  "status": "unknown",
+                  "support": [],
+                  "support_ids": [],
+                  "value": null
+                },
+                "condition_satisfied": {
+                  "status": "unknown",
+                  "support": [],
+                  "support_ids": [],
+                  "value": null
+                }
+              },
+              "kind": "READ_LOCAL",
+              "locator": "current supplied source, facts and question, according to each requested field",
+              "physical_call_id": "legal_skill_evolution_pilot_v11_20261111:20695db1a2c4c2d760500fb4089b16a531ef1bb7fc1b1f5b6ad60cc9ec09bbce",
+              "question": "Read the current task input fields.",
+              "response_hash": "dcb7de8d28b1b63e3ca3d0e6059ec27a7546789d24e7cad21698ef8e83682166",
+              "source": "MAUD:447ae333300498aa622383a77766c17bb1c59941a44e99499def4bc3929a5655",
+              "transport_adaptations": [],
+              "usage": {
+                "completion_tokens": 58,
+                "prompt_tokens": 758,
+                "prompt_tokens_details": null,
+                "total_tokens": 816
+              },
+              "view": "Negative Interim Covenant includes carveout for pandemic responses-Answer (Y/N)"
+            },
+            {
+              "cache_hit": false,
+              "call_id": "legal_skill_evolution_pilot_v11_20261111:f20e9d2e2bb0e90827643e8a72e798c0f7c80193ccd620907bde2c34c8629e4f",
+              "elapsed_seconds": 0.4845382794737816,
+              "physical_call_id": "legal_skill_evolution_pilot_v11_20261111:f20e9d2e2bb0e90827643e8a72e798c0f7c80193ccd620907bde2c34c8629e4f",
+              "response_hash": "446cb1746cf585292f5059408213cdc27a5a3f587790242b2106c23e819d65fb",
+              "transport_adaptations": [],
+              "usage": {
+                "completion_tokens": 16,
+                "prompt_tokens": 454,
+                "prompt_tokens_details": null,
+                "total_tokens": 470
+              }
+            }
+          ],
+          "evidence_sentence_ids": [],
+          "failed_candidates": [
+            {
+              "error": "ValueError: Missing or cyclic skill dependency",
+              "skill_id": "classify_contract_knowledge_definition"
+            },
+            {
+              "error": "LocalReadError: Current-source read unresolved: condition_satisfied",
+              "skill_id": "apply_statutory_exception_result"
+            }
+          ],
+          "fallback": true,
+          "retrieved": [
+            "classify_contract_knowledge_definition",
+            "apply_statutory_exception_result"
+          ]
+        },
+        "score": {
+          "correct": false,
+          "grade": 0.0,
+          "metric": "native_exact_match",
+          "valid": true
+        },
+        "view": "Negative Interim Covenant includes carveout for pandemic responses-Answer (Y/N)"
+      },
+      {
+        "controlled": true,
+        "execution": {
+          "answer": false,
+          "core_executed": false,
+          "events": [
+            {
+              "cache_hit": false,
+              "call_id": "legal_skill_evolution_pilot_v11_20261111:f6a77fe7759f21b74d7e630adfda573af7fe12be1f3d508e25cdf3cebc9bbab0",
+              "elapsed_seconds": 0.42985883075743914,
+              "physical_call_id": "legal_skill_evolution_pilot_v11_20261111:f6a77fe7759f21b74d7e630adfda573af7fe12be1f3d508e25cdf3cebc9bbab0",
+              "response_hash": "87b45e460c0dfd782020c6d3086f196e4d391289017c076385e2f68d4c3d5c2f",
+              "transport_adaptations": [],
+              "usage": {
+                "completion_tokens": 14,
+                "prompt_tokens": 423,
+                "prompt_tokens_details": null,
+                "total_tokens": 437
+              }
+            }
+          ],
+          "evidence_sentence_ids": [],
+          "failed_candidates": [
+            {
+              "error": "ValueError: Missing or cyclic skill dependency",
+              "skill_id": "evaluate_defined_knowledge_inclusion"
+            }
+          ],
+          "fallback": true,
+          "retrieved": [
+            "evaluate_defined_knowledge_inclusion"
+          ]
+        },
+        "score": {
+          "correct": true,
+          "grade": 1.0,
+          "metric": "native_exact_match",
+          "valid": true
+        },
+        "view": "controlled_knowledge_0"
+      },
+      {
+        "controlled": true,
+        "execution": {
+          "answer": false,
+          "core_executed": false,
+          "events": [
+            {
+              "cache_hit": false,
+              "call_id": "legal_skill_evolution_pilot_v11_20261111:991053bcd61f6a9cb33a136fbc94b949ce59279bd0c00cf59eb1a80741be9f61",
+              "elapsed_seconds": 0.43201244063675404,
+              "physical_call_id": "legal_skill_evolution_pilot_v11_20261111:991053bcd61f6a9cb33a136fbc94b949ce59279bd0c00cf59eb1a80741be9f61",
+              "response_hash": "87b45e460c0dfd782020c6d3086f196e4d391289017c076385e2f68d4c3d5c2f",
+              "transport_adaptations": [],
+              "usage": {
+                "completion_tokens": 14,
+                "prompt_tokens": 423,
+                "prompt_tokens_details": null,
+                "total_tokens": 437
+              }
+            }
+          ],
+          "evidence_sentence_ids": [],
+          "failed_candidates": [
+            {
+              "error": "ValueError: Missing or cyclic skill dependency",
+              "skill_id": "evaluate_defined_knowledge_inclusion"
+            }
+          ],
+          "fallback": true,
+          "retrieved": [
+            "evaluate_defined_knowledge_inclusion"
+          ]
+        },
+        "score": {
+          "correct": true,
+          "grade": 1.0,
+          "metric": "native_exact_match",
+          "valid": true
+        },
+        "view": "controlled_knowledge_1"
+      },
+      {
+        "controlled": true,
+        "execution": {
+          "answer": true,
+          "core_executed": false,
+          "events": [
+            {
+              "cache_hit": false,
+              "call_id": "legal_skill_evolution_pilot_v11_20261111:c566caec74dd7d520f7cbba82ea91a761c50060c1b7038734d893041a8ba2a53",
+              "elapsed_seconds": 0.43207063525915146,
+              "physical_call_id": "legal_skill_evolution_pilot_v11_20261111:c566caec74dd7d520f7cbba82ea91a761c50060c1b7038734d893041a8ba2a53",
+              "response_hash": "21c9934fc39e7eb7cc5976f078af692aba77f337a4afc1a6eaf3f88a4671aefd",
+              "transport_adaptations": [],
+              "usage": {
+                "completion_tokens": 14,
+                "prompt_tokens": 423,
+                "prompt_tokens_details": null,
+                "total_tokens": 437
+              }
+            }
+          ],
+          "evidence_sentence_ids": [],
+          "failed_candidates": [
+            {
+              "error": "ValueError: Missing or cyclic skill dependency",
+              "skill_id": "evaluate_defined_knowledge_inclusion"
+            }
+          ],
+          "fallback": true,
+          "retrieved": [
+            "evaluate_defined_knowledge_inclusion"
+          ]
+        },
+        "score": {
+          "correct": true,
+          "grade": 1.0,
+          "metric": "native_exact_match",
+          "valid": true
+        },
+        "view": "controlled_knowledge_2"
+      },
+      {
+        "controlled": true,
+        "execution": {
+          "answer": true,
+          "core_executed": false,
+          "events": [
+            {
+              "cache_hit": false,
+              "call_id": "legal_skill_evolution_pilot_v11_20261111:50355423e7be3f4567096943cd0ca82755eec2119073e0108832bf7f707a9948",
+              "elapsed_seconds": 0.43320200871676207,
+              "physical_call_id": "legal_skill_evolution_pilot_v11_20261111:50355423e7be3f4567096943cd0ca82755eec2119073e0108832bf7f707a9948",
+              "response_hash": "21c9934fc39e7eb7cc5976f078af692aba77f337a4afc1a6eaf3f88a4671aefd",
+              "transport_adaptations": [],
+              "usage": {
+                "completion_tokens": 14,
+                "prompt_tokens": 423,
+                "prompt_tokens_details": null,
+                "total_tokens": 437
+              }
+            }
+          ],
+          "evidence_sentence_ids": [],
+          "failed_candidates": [
+            {
+              "error": "ValueError: Missing or cyclic skill dependency",
+              "skill_id": "evaluate_defined_knowledge_inclusion"
+            }
+          ],
+          "fallback": true,
+          "retrieved": [
+            "evaluate_defined_knowledge_inclusion"
+          ]
+        },
+        "score": {
+          "correct": true,
+          "grade": 1.0,
+          "metric": "native_exact_match",
+          "valid": true
+        },
+        "view": "controlled_knowledge_3"
+      }
+    ]
+  }
+}

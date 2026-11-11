@@ -36,7 +36,8 @@ def reader():
 
 def row():
     return {'source': 'parent_16', 'selection_grade': 0,
-            'views': [{'execution': {'events': [{'kind': 'APPLY', 'skill_id': 'bound'}]}}]}
+            'views': [{'score': {'grade': 0},
+                       'execution': {'events': [{'kind': 'APPLY', 'skill_id': 'bound'}]}}]}
 
 
 class LiftProposalTests(unittest.TestCase):
@@ -54,6 +55,11 @@ class LiftProposalTests(unittest.TestCase):
     def test_static_native_mismatch_does_not_trigger_a_useless_lift(self):
         trace = row();trace['views'][0]['execution'] = {'failed_candidates': [
             {'skill_id': 'bound', 'static_proof': {'incompatible': True}}]}
+        self.assertIsNone(schedule_lift(Library(skills={'bound': old_skill()}), [trace], 'Full'))
+
+    def test_wrong_parent_does_not_implicate_a_skill_on_its_correct_view(self):
+        trace = row();trace['views'][0]['score']['grade'] = 1
+        trace['views'].append({'score': {'grade': 0}, 'execution': {'events': []}})
         self.assertIsNone(schedule_lift(Library(skills={'bound': old_skill()}), [trace], 'Full'))
 
     def test_small_wire_compiles_without_repeating_or_mutating_program(self):

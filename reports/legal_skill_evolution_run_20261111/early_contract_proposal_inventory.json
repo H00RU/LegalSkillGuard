@@ -1,0 +1,220 @@
+{
+  "unique_teacher_responses": 16,
+  "contract_revisions": [
+    {
+      "teacher": "pilot_v11/AllPorts+CoRev/teacher_B3.json",
+      "block": 0,
+      "revision": 0,
+      "skill": "apply_statutory_exception_result",
+      "datasets": [
+        "ContractNLI"
+      ],
+      "operation": "revise",
+      "premise_names": [
+        [
+          "default_result",
+          "read"
+        ],
+        [
+          "exception_result",
+          "read"
+        ]
+      ]
+    },
+    {
+      "teacher": "pilot_v11/AllPorts+CoRev/teacher_B4.json",
+      "block": 1,
+      "revision": 0,
+      "skill": "classify_contract_knowledge_definition",
+      "datasets": [
+        "MAUD"
+      ],
+      "operation": "create",
+      "premise_names": [
+        [
+          "actual_knowledge_only",
+          "read"
+        ]
+      ]
+    },
+    {
+      "teacher": "pilot_v11/AllPorts+CoRev/teacher_B4.json",
+      "block": 1,
+      "revision": 1,
+      "skill": "evaluate_defined_knowledge_inclusion",
+      "datasets": [
+        "MAUD"
+      ],
+      "operation": "create",
+      "premise_names": []
+    },
+    {
+      "teacher": "pilot_v11/AllPorts+CoRev/teacher_B4.json",
+      "block": 2,
+      "revision": 0,
+      "skill": "classify_pandemic_response_covenant_carveout",
+      "datasets": [
+        "MAUD"
+      ],
+      "operation": "create",
+      "premise_names": [
+        [
+          "pandemic_carveout_present",
+          "read"
+        ]
+      ]
+    },
+    {
+      "teacher": "pilot_v11/FreeEvolution/teacher_B3.json",
+      "block": 2,
+      "revision": 0,
+      "skill": "nda_authorized_recipient_permission",
+      "datasets": [
+        "ContractNLI"
+      ],
+      "operation": "create",
+      "premise_names": []
+    },
+    {
+      "teacher": "pilot_v11/FreeEvolution/teacher_B4.json",
+      "block": 0,
+      "revision": 0,
+      "skill": "actual_only_knowledge_membership",
+      "datasets": [
+        "MAUD"
+      ],
+      "operation": "create",
+      "premise_names": []
+    },
+    {
+      "teacher": "pilot_v11/FreeEvolution/teacher_B4.json",
+      "block": 0,
+      "revision": 2,
+      "skill": "scoped_pandemic_carveout_answer",
+      "datasets": [
+        "MAUD"
+      ],
+      "operation": "create",
+      "premise_names": []
+    },
+    {
+      "teacher": "pilot_v11/Full/teacher_B3.json",
+      "block": 0,
+      "revision": 0,
+      "skill": "classify_nda_recipient_disclosure_permission",
+      "datasets": [
+        "ContractNLI"
+      ],
+      "operation": "create",
+      "premise_names": []
+    },
+    {
+      "teacher": "pilot_v11/Full/teacher_B4.json",
+      "block": 2,
+      "revision": 0,
+      "skill": "classify_current_covenant_pandemic_carveout",
+      "datasets": [
+        "MAUD"
+      ],
+      "operation": "create",
+      "premise_names": []
+    },
+    {
+      "teacher": "pilot_v11/Lift+GenericJoint/teacher_B3.json",
+      "block": 1,
+      "revision": 0,
+      "skill": "classify_nda_disclosure_or_disposition_statement",
+      "datasets": [
+        "ContractNLI"
+      ],
+      "operation": "create",
+      "premise_names": [
+        [
+          "employee_sharing_permitted",
+          "read"
+        ],
+        [
+          "employee_sharing_prohibited",
+          "read"
+        ],
+        [
+          "representative_sharing_permitted",
+          "read"
+        ],
+        [
+          "representative_sharing_prohibited",
+          "read"
+        ],
+        [
+          "disposition_trigger",
+          "read"
+        ],
+        [
+          "disposition_scope",
+          "read"
+        ],
+        [
+          "termination_disposition_prohibited",
+          "read"
+        ],
+        [
+          "post_disposition_retention_permitted",
+          "read"
+        ],
+        [
+          "post_disposition_retention_prohibited",
+          "read"
+        ]
+      ]
+    },
+    {
+      "teacher": "pilot_v11/Lift+GenericJoint/teacher_B4.json",
+      "block": 1,
+      "revision": 0,
+      "skill": "classify_contract_knowledge_standard",
+      "datasets": [
+        "MAUD"
+      ],
+      "operation": "create",
+      "premise_names": [
+        [
+          "definition_requires_actual_knowledge",
+          "read"
+        ],
+        [
+          "definition_imposes_inquiry_or_constructive_standard",
+          "read"
+        ]
+      ]
+    },
+    {
+      "teacher": "pilot_v11/Lift+GenericJoint/teacher_B4.json",
+      "block": 1,
+      "revision": 1,
+      "skill": "apply_contract_knowledge_attribution",
+      "datasets": [
+        "MAUD"
+      ],
+      "operation": "create",
+      "premise_names": []
+    },
+    {
+      "teacher": "pilot_v11/Lift+GenericJoint/teacher_B4.json",
+      "block": 1,
+      "revision": 2,
+      "skill": "classify_express_pandemic_covenant_carveout",
+      "datasets": [
+        "MAUD"
+      ],
+      "operation": "create",
+      "premise_names": [
+        [
+          "express_pandemic_response_carveout",
+          "read"
+        ]
+      ]
+    }
+  ],
+  "new_model_calls": 0,
+  "test_read": false
+}
