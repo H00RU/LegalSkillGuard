@@ -20,9 +20,13 @@ B6已结算：Full固定DEV五库均分.5999947（OE .4166400、Airline .375，�
 
 B7更新前Full有35个原生视图：12个核心执行完成、0个核心全对、23个回退，未发生整视图调用中断。五库等权得分.4305556，同案NoSkill .5274116，差-.0968561；损失来自OE与SARA。OE程序读到未覆盖的Federal and Oregon/Federal and Arizona后仍正常返回空claim列表，属于语义覆盖错误，执行成功不能等同正确。B7六臂提议均未获接纳，库大小保持，所有库skill依赖端口和CoRev模式仍0；累计91 create、4 revise、0 Lift，接纳17 create、2 revise。35/42个固定DEV点已完成，Full B7仍.5999947，其他三主臂仍.4813387。错误并不稀缺，但独立程序修补不能替代已有依赖技能的必要共同修订；不人为拆链或把错误答案改记为回退。
 
+补做42次真实教师输入的离线逐项核对：原始request与同一账本的完整请求哈希一致，传入的批初库及固定前提候选与确定性生成结果一致，没有发现库/候选在传输或接续中遗漏。非空固定前提候选出现在FreeEvolution6次、CoRevOnly6次、Full3次、Lift+GenericJoint6次；LiftOnly与AllPorts均0次，后者与预参数化设计一致。所有请求的技能依赖端口及已学模式均0。LiftOnly实际获取的程序已参数化，故该臂尚无专门Lift的处理对象；Full虽有3次候选机会，也未提出Lift。候选存在不等于该案需要提升，不能用臂名或得分差倒推机制生效。[逐请求证据与原验收分项核对](../reports/legal_skill_evolution_run_20261111/FIXED_STUDY_COMPLETION_AUDIT.md)、[数据与哈希](../reports/legal_skill_evolution_run_20261111/fixed_study_completion_audit.json)。本核对不新增模型调用、来源或验收门槛；B8原队列继续。
+
 ## 当前进程与本次工程决定
 
 唯一入口 `python -m experiments.legal_skill_evolution_formal run`，当前配置 `configs/legal_skill_evolution_formal_v5_20261111.json`，PID1382062/start_ticks641058649、session38824；实际身份记录为 `artifacts/legal_skill_evolution_20261111/formal_v5/live_process.json`。恢复先核实该PID和SQLite在途，不只看本文件。formal_v1/v2均已终态并保留持有文件，v3在B5教师输入传输检查失败后退出1；v4为修复CoRevOnly分发遗漏已在请求边界退出75；四个旧命名空间均不能重启。Goal始终active，工程请求边界持有不是用户暂停。
+
+已接好原固定阶段的顺序接续器，PID1487538/start_ticks641433352、session72926；状态与完整脚本/哈希保存在`artifacts/legal_skill_evolution_20261111/fixed_pipeline_v1/`。当前仅等原formal进程退出；必须核实B8完整收据、42个DEV点、全部绑定哈希及在途0，才顺序运行既有freeze prepare、preflight、固定TEST与注册迁移入口。排他锁防止重复接续，任一阶段失败保存原日志待定位，不自动重试或标记Goal完成。安装/门控核验未调用模型，当前TEST仍封存；未启动第二个学习客户端，未改任何科学实现或配置。恢复时同时检查接续器及其child_pid，不能另起冻结任务。
 
 首批更新实测19.96分钟、48E/6T，其中教师累计965.99秒，约占81%；DEV/TEST另计。为减少串行等待，**B4起同一批六臂独立教师提议最多两路并发，执行模型及候选验证仍串行**。教师gpt-5.6-sol/high、Qwen3-8B/thinking OFF及采样参数不变；同批初库、最差3当前＋最早5历史、共享3候选/192逻辑执行均不变。2是并发数，不是教师累计调用上限。不增加探测调用；正常B4六次提议均已完成，CLI峰值并发2，六次耗时之和1125.23秒、阶段墙钟565.40秒，观察到的区间重叠因子1.9904，阶段内E请求0；不是另跑串行对照的因果加速估计，也不计方法收益。[实际并发](../reports/legal_skill_evolution_run_20261111/actual_teacher_overlap.json)。
 
