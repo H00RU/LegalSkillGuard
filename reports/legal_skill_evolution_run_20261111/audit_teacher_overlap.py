@@ -82,6 +82,7 @@ def main():
         if set(arm_counts) != set(started['source_cohorts']) or any(n != 1 for n in arm_counts.values()):
             raise ValueError('Completed teacher phase must retain every original physical dispatch')
         batches.append({'batch': batch, 'phase_complete': True, 'teacher_calls': calls,
+            'physical_run_namespaces': sorted({c['physical_ledger_id'].split(':', 1)[0] for c in calls}),
             'teacher_status_counts': dict(Counter(c['status'] for c in calls)),
             'teacher_dispatches_by_arm': dict(Counter(c['arm'] for c in calls)),
             'phase_wall_seconds': end - start, 'invocation_intervals': measured,
@@ -92,7 +93,7 @@ def main():
     result = {'captured_utc': datetime.now(timezone.utc).isoformat(), 'new_model_calls': 0,
         'batches': batches, 'TEST_opened': False,
         'measurement_scope': 'Observed completed CLI invocation intervals, ledger dispatches and unchanged per-arm input cohorts.',
-        'interpretation': 'The overlap factor compares summed observed invocation durations with their observed wall span. It is not a separately rerun serial-control speedup or evidence for Lift/CoRev.'}
+        'interpretation': 'The overlap factor compares summed observed invocation durations with their observed wall span. The phase starts at the original request cohort and includes any preserved engineering-repair gap across namespaces. It is not a separately rerun serial-control speedup or evidence for Lift/CoRev.'}
     (REPORT / 'actual_teacher_overlap.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps({'completed_prefetch_batches_measured': len(batches), 'new_model_calls': 0,
         'summary': [{'batch': r['batch'], 'peak_overlap': r['invocation_intervals']['peak_overlap'],

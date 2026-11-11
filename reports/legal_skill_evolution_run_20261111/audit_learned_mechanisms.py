@@ -5,10 +5,65 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import sqlite3
 
 from experiments.legal_skill_evolution import PROFILE
 from legal_skill_guard.skill_evolution.study import load_json, PILOT_ARMS
 from legal_skill_guard.skill_evolution.objects import Library, coupled_blocks
+
+
+def source_coverage(root, folder, arms):
+    """Keep answering, selection exposure and declared learned support separate."""
+    manifest = load_json(root / 'reports/legal_skill_evolution_plan_20261111/candidate_source_manifest.json')
+    batches = {r['source_key']: n for n, batch in enumerate(manifest['source_sequence'], 1) for r in batch['sources']}
+    datasets = {r['key']: dataset for dataset, partitions in manifest['datasets'].items() for r in partitions['train']}
+    with sqlite3.connect('file:' + str(root / 'artifacts/rr_v2_preflight/research_ledger.sqlite3') + '?mode=ro', uri=True) as db:
+        settled = {}
+        for identity, raw in db.execute("select id,result from calls where role='teacher' and status='completed'"):
+            value = json.loads(raw)
+            if value.get('request_sha256'):settled[value['request_sha256']] = (identity, value)
+    result = {}
+    for arm in ('NoSkill', *arms):
+        initial, direct, support = {}, {}, {}
+        for path in sorted((folder / arm).glob('initial_B*/*.json')):
+            row = load_json(path)
+            if row['source'] in initial:raise ValueError('A TRAIN parent has duplicate first-attempt checkpoints')
+            initial[row['source']] = row
+        teacher_calls = []
+        for path in sorted((folder / arm).glob('teacher_B*.json')):
+            response = load_json(path);identity, physical = settled[response['request_sha256']]
+            if response['source_ids'] != physical['source_ids'] or response['value'] != physical['value']:
+                raise ValueError('A teacher exposure record differs from its settled physical response')
+            batch = int(path.stem.split('_B')[1])
+            context = load_json(folder / arm / f'update_context_B{batch}.json')
+            if response['source_ids'] != context['cohort']:raise ValueError('Actual teacher sources differ from saved context')
+            teacher_calls.append({'batch': batch, 'physical_ledger_id': identity, 'direct_sources': response['source_ids']})
+            for key in response['source_ids']:
+                if key not in datasets or batches[key] > batch:raise ValueError('Teacher exposure is outside seen TRAIN')
+                direct.setdefault(key, []).append({'batch': batch, 'role': 'trigger' if batches[key] == batch else 'history',
+                                                   'physical_ledger_id': identity})
+        paths = list((folder / arm).glob('B[0-8].json'))
+        latest = max(paths, key=lambda p: int(p.stem[1:]))
+        for skill in Library.load(latest).skills.values():
+            for origin in skill.source_provenance:
+                support.setdefault(origin['source_id'], set()).add(skill.id)
+        rows = []
+        for key in batches:
+            row = initial.get(key)
+            rows.append({'source': key, 'dataset': datasets[key], 'fixed_batch': batches[key],
+                'first_attempt_completed': row is not None,
+                'native_first_attempt_grade': row['native_grade'] if row else None,
+                'native_core_correct_views': row['native_core_correct'] if row else None,
+                'native_fallback_views': row['native_fallback_views'] if row else None,
+                'direct_teacher_contexts': direct.get(key, []),
+                'declared_current_skill_citations': sorted(support.get(key, set()))})
+        result[arm] = {'first_attempt_parents': len(initial), 'fixed_TRAIN_parent_count': len(batches),
+            'unique_direct_teacher_parents': len(direct),
+            'direct_teacher_parents_by_dataset': dict(Counter(datasets[k] for k in direct)),
+            'current_library_batch': int(latest.stem[1:]), 'actual_teacher_calls': teacher_calls, 'source_rows': rows}
+    return {'arms': result,
+        'interpretation': 'Every completed batch parent supplies a grade to the fixed trigger selection. Only the recorded cohort is directly supplied as full source/feedback to its teacher; these are distinct coverage measures. Current-skill citations are declarations, not proof of independent semantic learning or successful reuse.',
+        'new_acceptance_threshold_added': False, 'source_or_cohort_policy_changed': False}
 
 
 def main(formal=False):
@@ -91,6 +146,7 @@ def main(formal=False):
             'additional_learned_runtime_skill_mask': 'absent; all arms share lexical/type retrieval; frozen foreign-skill masks are a separate registered transfer contrast'},
         'library_inventory': rows,
         'dedicated_mechanisms_require_actual_events_and_other_parent_validation': True}
+    if formal:result['source_level_learning_coverage'] = source_coverage(root, folder, arms)
     target = Path(__file__).with_name('formal_mechanism_inventory.json' if formal else 'learned_mechanism_inventory.json')
     target.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps({'settled_updates': len(rows), 'latest_by_arm': {
