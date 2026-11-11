@@ -29,6 +29,8 @@ Full对空库+.1119574，对AllPorts+.1117261；Full17个核心执行视图、4�
 
 全部128来源参与初答及触发选择；每学习臂只有27个母来源的原文/反馈直接进入教师。Full为OE6/SARA8/Airline11/CNLI1/MAUD1，其他臂为OE3/SARA7/Airline15/CNLI1/MAUD1。初答覆盖不是教师获取覆盖；不另加覆盖验收门槛。
 
+[原TRAIN前提定位](../reports/legal_skill_evolution_run_20261111/TRAIN_PRECONDITION_DECISION.md)进一步核对48次教师请求的109项原始提议：3个对照臂生成4个依赖包、6个消费技能和20个依赖端口，均已编译、完整4/8格验证，端口没有丢失；4包触发均分均无改善，1包还损害历史来源，原判据正确拒绝。它们全部是create；48个批初库均无旧依赖链，Full原始提议的依赖端口也为0。CoRev缺的是可自然连续修订的既有对象，不能将创建图或原两项独立程序修补重标为共同修订。继续需改变获取/更新协议及验证边界，超出普通接口修复；不悄悄重开原固定实验。
+
 ## 根因定位与已实施修复
 
 隔离工程树`/media/sangfor/vdb/legal-skill-runtime/engineering/lift-corev-activation-20261112`、分支`repair/lift-corev-activation-20261112`，不向原冻结目录注入科学改动。最新公开实现及逐字核验见`reports/legal_skill_evolution_run_20261111/activation_publication_manifest.json`与对应verified收据。
