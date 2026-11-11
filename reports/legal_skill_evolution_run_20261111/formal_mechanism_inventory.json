@@ -1,19 +1,19 @@
 {
-  "captured_utc": "2026-11-11T14:55:42.783900+00:00",
+  "captured_utc": "2026-11-11T15:31:58.183778+00:00",
   "new_model_calls": 0,
   "goal_complete": false,
   "evidence_scope": "settled fixed formal TRAIN updates; DEV not supplied to teachers; no TEST",
   "teacher_proposed_operations": {
-    "create": 91,
-    "revise": 4
+    "create": 103,
+    "revise": 6
   },
   "compiled_candidate_operations": {
-    "create": 87,
-    "revise": 4
+    "create": 98,
+    "revise": 6
   },
   "accepted_operations": {
-    "create": 17,
-    "revise": 2
+    "create": 21,
+    "revise": 3
   },
   "candidates_changing_multiple_existing_skills": [
     {
@@ -49,7 +49,12 @@
       1,
       1,
       1,
+      1,
+      1,
       2,
+      1,
+      1,
+      1,
       1,
       1,
       1,
@@ -787,6 +792,173 @@
       "initial_dependency_creation_is_not_joint_revision_learning": true
     },
     {
+      "arm": "FreeEvolution",
+      "batch": 8,
+      "accepted_skill_count": 5,
+      "skills": [
+        {
+          "id": "personal_property_exemption_citation_mapper",
+          "version": 1,
+          "hash": "6e44a4c52ab77ec9d75a9b9ced0f4e2749b7881953da6a502109c293a75a48fc",
+          "origin_parents": [
+            "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "OpenExempt:dbbe6b3d0e812c2b08d81bed808f5659e8bcfbee6d80655acb3919c5493e07ea"
+          ],
+          "declared_read_input_count": 5,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 4,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "current_asset_exemption_classification",
+              "neighbors": [
+                "personal_property_citation_record"
+              ],
+              "ports": [
+                "asset_descriptions",
+                "illinois_other_property_eligible",
+                "federal_household_property_eligible",
+                "federal_wildcard_eligible",
+                "wisconsin_consumer_goods_eligible"
+              ]
+            },
+            {
+              "id": "personal_property_citation_record",
+              "neighbors": [
+                "current_asset_exemption_classification"
+              ],
+              "ports": [
+                "illinois_other_property_citation",
+                "federal_household_property_citation",
+                "federal_wildcard_citation",
+                "wisconsin_consumer_goods_citation"
+              ]
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "section_1_cited_tax_bracket_claim_decider",
+          "version": 1,
+          "hash": "6af73104fdc85d8e993e4fe23f87fa9e20b241f9a0b873aede62bb2ceb272ba1",
+          "origin_parents": [
+            "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b"
+          ],
+          "declared_read_input_count": 8,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "cited_section_1_tax_bracket_record",
+              "ports": [
+                "taxable_income",
+                "claimed_tax_amount",
+                "claim_affirms_exact_tax",
+                "cited_bracket_lower_exclusive",
+                "cited_bracket_upper_inclusive",
+                "cited_bracket_base_tax",
+                "cited_bracket_excess_threshold",
+                "cited_bracket_rate_percent"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "section_3306_b10a_claim_decider",
+          "version": 1,
+          "hash": "73a8a4d68b64f53694a96d6a750be65bd35bc5991148268a62931eb79e038ad3",
+          "origin_parents": [
+            "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac"
+          ],
+          "declared_read_input_count": 3,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 1,
+          "declared_coupled_blocks": [
+            [
+              "b10a_requires_both_conditions"
+            ]
+          ],
+          "semantic_records": [
+            {
+              "id": "b10a_applicability_record",
+              "ports": [
+                "paid_upon_or_after_termination",
+                "termination_due_to_death_or_disability_retirement",
+                "claim_affirms_application",
+                "b10a_requires_both_conditions"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "section_3306_noncash_agricultural_wages_claim_decider",
+          "version": 1,
+          "hash": "902f3a6ce9a5d411eda8fa8f6656ac18ddfe33a8ca214da2a978ea401eebe587",
+          "origin_parents": [
+            "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1"
+          ],
+          "declared_read_input_count": 3,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 1,
+          "declared_coupled_blocks": [
+            [
+              "noncash_agricultural_remuneration_excluded"
+            ]
+          ],
+          "semantic_records": [
+            {
+              "id": "noncash_agricultural_remuneration_record",
+              "ports": [
+                "payment_for_agricultural_labor",
+                "payment_made_in_noncash_medium",
+                "noncash_agricultural_remuneration_excluded",
+                "claim_affirms_wages_coverage"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "section_63_c5_dependent_standard_deduction_claim_decider",
+          "version": 1,
+          "hash": "19eec92b22ffd454cf1f515500ba93ec283e9179bb80f8a7d88db0d979666e52",
+          "origin_parents": [
+            "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b"
+          ],
+          "declared_read_input_count": 2,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 1,
+          "declared_coupled_blocks": [
+            [
+              "c5_requires_allowable_deduction_to_another"
+            ]
+          ],
+          "semantic_records": [
+            {
+              "id": "section_63_c5_applicability_record",
+              "neighbors": [],
+              "ports": [
+                "section_151_deduction_allowable_to_another_taxpayer",
+                "claim_affirms_application",
+                "c5_requires_allowable_deduction_to_another"
+              ]
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        }
+      ],
+      "accepted_dedicated_lift_revisions_this_update": [],
+      "learned_revision_pattern_count": 0,
+      "learned_pattern_ids_this_update": [],
+      "initial_dependency_creation_is_not_joint_revision_learning": true
+    },
+    {
       "arm": "LiftOnly",
       "batch": 1,
       "accepted_skill_count": 1,
@@ -1130,6 +1302,59 @@
       "initial_dependency_creation_is_not_joint_revision_learning": true
     },
     {
+      "arm": "LiftOnly",
+      "batch": 8,
+      "accepted_skill_count": 2,
+      "skills": [
+        {
+          "id": "classify_section_1_tax_bracket_claim",
+          "version": 1,
+          "hash": "f61774a83ad503ed9268e86f6a63c91c0fff42202a1a6af29d5dd00e844d6273",
+          "origin_parents": [
+            "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b"
+          ],
+          "declared_read_input_count": 6,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "current_section_1_bracket_schedule",
+              "ports": [
+                "finite_upper_bounds",
+                "bracket_base_amounts",
+                "bracket_rates"
+              ],
+              "neighbors": [
+                "taxable_income",
+                "cited_bracket_number",
+                "claimed_tax_amount"
+              ]
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "classify_termination_payment_subparagraph",
+          "version": 1,
+          "hash": "2bad3254989c76344932e23ae3a42bb42fe441761d3967987e6e532e71bf0448",
+          "origin_parents": [
+            "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac"
+          ],
+          "declared_read_input_count": 1,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        }
+      ],
+      "accepted_dedicated_lift_revisions_this_update": [],
+      "learned_revision_pattern_count": 0,
+      "learned_pattern_ids_this_update": [],
+      "initial_dependency_creation_is_not_joint_revision_learning": true
+    },
+    {
       "arm": "CoRevOnly",
       "batch": 1,
       "accepted_skill_count": 1,
@@ -1575,6 +1800,132 @@
       "batch": 7,
       "accepted_skill_count": 2,
       "skills": [
+        {
+          "id": "progressive_tax_bracket_claim_classifier",
+          "version": 1,
+          "hash": "da1746a2686020e9de5466c34b1a668e8d9a855759f4e1219832c9253dffe97d",
+          "origin_parents": [
+            "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b"
+          ],
+          "declared_read_input_count": 8,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "current_taxpayer_status_and_claim",
+              "ports": [
+                "filing_status_matches_schedule",
+                "taxable_income",
+                "claimed_tax_amount",
+                "claimed_bracket_index"
+              ],
+              "neighbors": [
+                "asserted_progressive_schedule"
+              ]
+            },
+            {
+              "id": "asserted_progressive_schedule",
+              "ports": [
+                "bracket_lower_bounds",
+                "bracket_upper_bounds",
+                "bracket_base_amounts",
+                "bracket_rates"
+              ],
+              "neighbors": [
+                "current_taxpayer_status_and_claim"
+              ]
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "termination_cause_subclause_classifier",
+          "version": 1,
+          "hash": "435042b40adc2957e2bdf297ea004317e94d35a958211580ac177ee521c1f493",
+          "origin_parents": [
+            "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac"
+          ],
+          "declared_read_input_count": 2,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 2,
+          "declared_coupled_blocks": [
+            [
+              "requires_death_or_disability_cause",
+              "requires_upon_or_after_termination"
+            ]
+          ],
+          "semantic_records": [
+            {
+              "id": "termination_trigger_record",
+              "ports": [
+                "payment_upon_or_after_termination",
+                "termination_caused_by_death_or_disability",
+                "requires_upon_or_after_termination",
+                "requires_death_or_disability_cause"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        }
+      ],
+      "accepted_dedicated_lift_revisions_this_update": [],
+      "learned_revision_pattern_count": 0,
+      "learned_pattern_ids_this_update": [],
+      "initial_dependency_creation_is_not_joint_revision_learning": true
+    },
+    {
+      "arm": "CoRevOnly",
+      "batch": 8,
+      "accepted_skill_count": 3,
+      "skills": [
+        {
+          "id": "china_us_business_baggage_total_calculator",
+          "version": 1,
+          "hash": "e0bf67027d23375623314a1d5866bd9fd6b8f57a586073b5b9a30fcceb6ade95",
+          "origin_parents": [
+            "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a"
+          ],
+          "declared_read_input_count": 5,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 10,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "ordered_current_items",
+              "neighbors": [
+                "china_us_business_schedule"
+              ],
+              "ports": [
+                "ticket_price",
+                "lengths",
+                "widths",
+                "heights",
+                "weights"
+              ]
+            },
+            {
+              "id": "china_us_business_schedule",
+              "neighbors": [
+                "ordered_current_items"
+              ],
+              "ports": [
+                "personal_limits",
+                "carryon_limits",
+                "complimentary_checked_count",
+                "third_and_later_checked_fee",
+                "business_weight_limit",
+                "overweight_upper_bounds",
+                "overweight_fees",
+                "standard_dimension_limit",
+                "oversize_upper_bounds",
+                "oversize_fees"
+              ]
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
         {
           "id": "progressive_tax_bracket_claim_classifier",
           "version": 1,
@@ -2360,6 +2711,183 @@
       "initial_dependency_creation_is_not_joint_revision_learning": true
     },
     {
+      "arm": "Full",
+      "batch": 8,
+      "accepted_skill_count": 4,
+      "skills": [
+        {
+          "id": "domestic_main_or_first_bag_total",
+          "version": 2,
+          "hash": "7a18bf7fddddcc63838534e70f22fd8e56e744760b8309b0c6731bb9601da272",
+          "origin_parents": [
+            "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701"
+          ],
+          "declared_read_input_count": 7,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 14,
+          "declared_coupled_blocks": [
+            [
+              "carry_on_limits",
+              "personal_item_limits"
+            ]
+          ],
+          "semantic_records": [
+            {
+              "id": "current_supported_trip_measurements",
+              "neighbors": [
+                "supported_route_fee_schedule"
+              ],
+              "ports": [
+                "cabin_class",
+                "route_fee_region",
+                "item_lengths",
+                "item_widths",
+                "item_heights",
+                "item_weights",
+                "personal_item_limits",
+                "carry_on_limits"
+              ]
+            },
+            {
+              "id": "supported_route_fee_schedule",
+              "neighbors": [
+                "current_supported_trip_measurements"
+              ],
+              "ports": [
+                "domestic_economy_base_schedule",
+                "domestic_premium_base_schedule",
+                "south_america_economy_base_schedule",
+                "south_america_premium_base_schedule",
+                "east_asia_economy_base_schedule",
+                "east_asia_premium_base_schedule",
+                "common_overweight_fees",
+                "east_asia_overweight_fees",
+                "small_oversize_fee",
+                "domestic_large_oversize_fee",
+                "south_america_large_oversize_fee",
+                "east_asia_large_oversize_fee"
+              ]
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "personal_asset_exemption_plan_by_solved_regime",
+          "version": 3,
+          "hash": "1200287c0d5d3c256790d87f5878cd35c7f9eaf4792eddcee9ee48a334b33ff7",
+          "origin_parents": [
+            "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96"
+          ],
+          "declared_read_input_count": 11,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 15,
+          "declared_coupled_blocks": [
+            [
+              "arizona_household_citation",
+              "arizona_household_limit"
+            ],
+            [
+              "arizona_wearing_apparel_citation",
+              "arizona_wearing_apparel_limit"
+            ],
+            [
+              "federal_household_citation",
+              "federal_household_item_limit"
+            ],
+            [
+              "federal_wildcard_base_limit",
+              "federal_wildcard_citation"
+            ],
+            [
+              "illinois_other_property_citation",
+              "illinois_other_property_limit"
+            ],
+            [
+              "pennsylvania_general_property_citation",
+              "pennsylvania_general_property_limit"
+            ],
+            [
+              "wisconsin_consumer_goods_citation",
+              "wisconsin_consumer_goods_limit"
+            ]
+          ],
+          "semantic_records": [
+            {
+              "id": "current_asset_exemption_records",
+              "neighbors": [],
+              "ports": [
+                "asset_descriptions",
+                "asset_values",
+                "governing_regime",
+                "number_of_debtors",
+                "asset_is_personal_nonbusiness_property",
+                "asset_is_federal_household_category",
+                "asset_is_personal_tangible_property",
+                "asset_is_wearing_apparel",
+                "asset_is_arizona_wearing_apparel",
+                "asset_is_arizona_household_good_or_appliance"
+              ]
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "progressive_tax_subsection_amount_verdict",
+          "version": 1,
+          "hash": "6f163ab1e6e966a9741299eb7ce35545f7b6c027b4683dad4b1e692e5f71c44d",
+          "origin_parents": [
+            "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b"
+          ],
+          "declared_read_input_count": 6,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "claimed_progressive_tax_bracket_record",
+              "ports": [
+                "taxable_income",
+                "claimed_tax_amount",
+                "claimed_bracket_lower_exclusive",
+                "claimed_bracket_upper_inclusive",
+                "claimed_bracket_base_tax",
+                "claimed_bracket_rate_percent"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "section_3306_b_11_noncash_agricultural_wages_verdict",
+          "version": 1,
+          "hash": "9b889203f8ebd746d32dc049e7d01a233d0c376fc06ac9b98978083a9e94df1c",
+          "origin_parents": [
+            "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1"
+          ],
+          "declared_read_input_count": 2,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "current_agricultural_remuneration_record",
+              "ports": [
+                "is_agricultural_labor",
+                "is_paid_in_non_cash_medium"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        }
+      ],
+      "accepted_dedicated_lift_revisions_this_update": [],
+      "learned_revision_pattern_count": 0,
+      "learned_pattern_ids_this_update": [],
+      "initial_dependency_creation_is_not_joint_revision_learning": true
+    },
+    {
       "arm": "Lift+GenericJoint",
       "batch": 1,
       "accepted_skill_count": 1,
@@ -2782,6 +3310,117 @@
       "batch": 7,
       "accepted_skill_count": 3,
       "skills": [
+        {
+          "id": "evaluate_family_employment_exclusion_claim",
+          "version": 1,
+          "hash": "ca1383648c1f8fc99ad0f565b4a9bb2c8c0ec0753c1d0fdacaf2f6e65585819f",
+          "origin_parents": [
+            "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0"
+          ],
+          "declared_read_input_count": 1,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 1,
+          "declared_coupled_blocks": [
+            [
+              "qualifying_family_relationships"
+            ]
+          ],
+          "semantic_records": [
+            {
+              "id": "family_employment_relationship",
+              "neighbors": [],
+              "ports": [
+                "employee_to_employer_relationship",
+                "qualifying_family_relationships"
+              ]
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "evaluate_progressive_tax_amount_and_subsection_claim",
+          "version": 1,
+          "hash": "c1c49a0fcbce508d429d2538e2929aaca65cc99750a63a2677539975cdea68c0",
+          "origin_parents": [
+            "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b"
+          ],
+          "declared_read_input_count": 8,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "progressive_tax_claim",
+              "ports": [
+                "taxable_income",
+                "asserted_tax",
+                "asserted_subsection",
+                "bracket_upper_bounds",
+                "bracket_thresholds",
+                "bracket_base_amounts",
+                "bracket_rates",
+                "bracket_labels"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "evaluate_termination_payment_subclause_a",
+          "version": 1,
+          "hash": "6ba0017eb47d9ce030f70b5fa6248187d56874066eb2cf41811dcc240c338bac",
+          "origin_parents": [
+            "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac"
+          ],
+          "declared_read_input_count": 2,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 2,
+          "declared_coupled_blocks": [
+            [
+              "qualifying_termination_causes",
+              "requires_upon_or_after_termination"
+            ]
+          ],
+          "semantic_records": [
+            {
+              "id": "termination_payment_event",
+              "ports": [
+                "payment_upon_or_after_termination",
+                "termination_cause",
+                "requires_upon_or_after_termination",
+                "qualifying_termination_causes"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        }
+      ],
+      "accepted_dedicated_lift_revisions_this_update": [],
+      "learned_revision_pattern_count": 0,
+      "learned_pattern_ids_this_update": [],
+      "initial_dependency_creation_is_not_joint_revision_learning": true
+    },
+    {
+      "arm": "Lift+GenericJoint",
+      "batch": 8,
+      "accepted_skill_count": 4,
+      "skills": [
+        {
+          "id": "evaluate_dependent_basic_standard_deduction_limitation_claim",
+          "version": 1,
+          "hash": "d07b471af6e105717ef7841b69d10c3c3ef9bf807b8f7ebf1b7fd30754d00ff1",
+          "origin_parents": [
+            "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b"
+          ],
+          "declared_read_input_count": 1,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
         {
           "id": "evaluate_family_employment_exclusion_claim",
           "version": 1,
@@ -3204,6 +3843,96 @@
       "learned_revision_pattern_count": 0,
       "learned_pattern_ids_this_update": [],
       "initial_dependency_creation_is_not_joint_revision_learning": true
+    },
+    {
+      "arm": "AllPorts+CoRev",
+      "batch": 8,
+      "accepted_skill_count": 3,
+      "skills": [
+        {
+          "id": "illinois_other_property_asset_exemptions",
+          "version": 1,
+          "hash": "4b20159d9ee317da669dd5995cd02624789369838ad82ca050f9e85060cca6bd",
+          "origin_parents": [
+            "OpenExempt:dbbe6b3d0e812c2b08d81bed808f5659e8bcfbee6d80655acb3919c5493e07ea"
+          ],
+          "declared_read_input_count": 6,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "illinois_asset_exemption_record",
+              "neighbors": [],
+              "ports": [
+                "asset_names",
+                "asset_values",
+                "other_property_applies",
+                "other_property_citation",
+                "other_property_limit",
+                "include_claim_values"
+              ]
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "section1_tax_amount_claim",
+          "version": 1,
+          "hash": "61e4d41454aced0e3164736c36a767aa1479a4a652045476bc170f70718aa6b7",
+          "origin_parents": [
+            "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b"
+          ],
+          "declared_read_input_count": 8,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "section1_schedule_and_claim",
+              "ports": [
+                "taxable_income",
+                "claimed_subsection",
+                "claimed_tax_amount",
+                "bracket_subsections",
+                "bracket_upper_bounds",
+                "bracket_base_amounts",
+                "bracket_excess_floors",
+                "bracket_rates"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "section63_c5_dependent_standard_deduction_limit",
+          "version": 1,
+          "hash": "810bb75c85608d7c741289c0a793bed44898f3c46702061288242f5f37449d94",
+          "origin_parents": [
+            "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b"
+          ],
+          "declared_read_input_count": 2,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "section63_c5_applicability_record",
+              "neighbors": [],
+              "ports": [
+                "section151_deduction_allowable_to_another_taxpayer",
+                "proposition_asserts_limit_applies"
+              ]
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        }
+      ],
+      "accepted_dedicated_lift_revisions_this_update": [],
+      "learned_revision_pattern_count": 0,
+      "learned_pattern_ids_this_update": [],
+      "initial_dependency_creation_is_not_joint_revision_learning": true
     }
   ],
   "dedicated_mechanisms_require_actual_events_and_other_parent_validation": true,
@@ -3214,7 +3943,7 @@
         "fixed_TRAIN_parent_count": 128,
         "unique_direct_teacher_parents": 0,
         "direct_teacher_parents_by_dataset": {},
-        "current_library_batch": 7,
+        "current_library_batch": 8,
         "actual_teacher_calls": [],
         "source_rows": [
           {
@@ -4630,15 +5359,15 @@
       "FreeEvolution": {
         "first_attempt_parents": 128,
         "fixed_TRAIN_parent_count": 128,
-        "unique_direct_teacher_parents": 24,
+        "unique_direct_teacher_parents": 27,
         "direct_teacher_parents_by_dataset": {
-          "SARA_v2_Binary": 5,
-          "RuleArena_Airline": 14,
+          "SARA_v2_Binary": 7,
+          "RuleArena_Airline": 15,
           "OpenExempt": 3,
           "ContractNLI": 1,
           "MAUD": 1
         },
-        "current_library_batch": 7,
+        "current_library_batch": 8,
         "actual_teacher_calls": [
           {
             "batch": 1,
@@ -4739,6 +5468,21 @@
               "MAUD:7e2add3ce5bb9160f13ccedb9f8405507934d213f01de0c03eec20dfc62136ed"
             ],
             "associated_update_completed": true
+          },
+          {
+            "batch": 8,
+            "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:3de9daca768648f6f8459677fb1e468efb54cd76770d69202c87d25967e17be4",
+            "direct_sources": [
+              "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+              "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+              "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+              "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+              "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+              "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+              "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+              "MAUD:7e2add3ce5bb9160f13ccedb9f8405507934d213f01de0c03eec20dfc62136ed"
+            ],
+            "associated_update_completed": true
           }
         ],
         "source_rows": [
@@ -4780,6 +5524,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:e1abaef3872a4ab8e34ba12feb6da1832966cfed201a44ad64a8e38bd6c55512"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:3de9daca768648f6f8459677fb1e468efb54cd76770d69202c87d25967e17be4"
               }
             ],
             "declared_current_skill_citations": [
@@ -4829,6 +5578,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:e1abaef3872a4ab8e34ba12feb6da1832966cfed201a44ad64a8e38bd6c55512"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:3de9daca768648f6f8459677fb1e468efb54cd76770d69202c87d25967e17be4"
               }
             ],
             "declared_current_skill_citations": [
@@ -4873,6 +5627,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:e1abaef3872a4ab8e34ba12feb6da1832966cfed201a44ad64a8e38bd6c55512"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:3de9daca768648f6f8459677fb1e468efb54cd76770d69202c87d25967e17be4"
               }
             ],
             "declared_current_skill_citations": []
@@ -4920,6 +5679,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:e1abaef3872a4ab8e34ba12feb6da1832966cfed201a44ad64a8e38bd6c55512"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:3de9daca768648f6f8459677fb1e468efb54cd76770d69202c87d25967e17be4"
               }
             ],
             "declared_current_skill_citations": []
@@ -4962,6 +5726,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:e1abaef3872a4ab8e34ba12feb6da1832966cfed201a44ad64a8e38bd6c55512"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:3de9daca768648f6f8459677fb1e468efb54cd76770d69202c87d25967e17be4"
               }
             ],
             "declared_current_skill_citations": []
@@ -6282,7 +7051,13 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 1,
-            "direct_teacher_contexts": [],
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:3de9daca768648f6f8459677fb1e468efb54cd76770d69202c87d25967e17be4"
+              }
+            ],
             "declared_current_skill_citations": []
           },
           {
@@ -6304,7 +7079,13 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 1,
-            "direct_teacher_contexts": [],
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:3de9daca768648f6f8459677fb1e468efb54cd76770d69202c87d25967e17be4"
+              }
+            ],
             "declared_current_skill_citations": []
           },
           {
@@ -6337,8 +7118,16 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 1,
-            "direct_teacher_contexts": [],
-            "declared_current_skill_citations": []
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:3de9daca768648f6f8459677fb1e468efb54cd76770d69202c87d25967e17be4"
+              }
+            ],
+            "declared_current_skill_citations": [
+              "section_63_c5_dependent_standard_deduction_claim_decider"
+            ]
           },
           {
             "source": "ContractNLI:bc93d2a77d87fd87dc9fc0b42c77fe2002a5e5cd63aed6c20aaeb8f0a718a443",
@@ -6452,7 +7241,7 @@
           "ContractNLI": 1,
           "MAUD": 1
         },
-        "current_library_batch": 7,
+        "current_library_batch": 8,
         "actual_teacher_calls": [
           {
             "batch": 1,
@@ -6567,7 +7356,7 @@
               "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
               "MAUD:7e2add3ce5bb9160f13ccedb9f8405507934d213f01de0c03eec20dfc62136ed"
             ],
-            "associated_update_completed": false
+            "associated_update_completed": true
           }
         ],
         "source_rows": [
@@ -8310,15 +9099,15 @@
       "CoRevOnly": {
         "first_attempt_parents": 128,
         "fixed_TRAIN_parent_count": 128,
-        "unique_direct_teacher_parents": 24,
+        "unique_direct_teacher_parents": 27,
         "direct_teacher_parents_by_dataset": {
-          "SARA_v2_Binary": 5,
-          "RuleArena_Airline": 14,
+          "SARA_v2_Binary": 7,
+          "RuleArena_Airline": 15,
           "OpenExempt": 3,
           "ContractNLI": 1,
           "MAUD": 1
         },
-        "current_library_batch": 7,
+        "current_library_batch": 8,
         "actual_teacher_calls": [
           {
             "batch": 1,
@@ -8419,6 +9208,21 @@
               "MAUD:7e2add3ce5bb9160f13ccedb9f8405507934d213f01de0c03eec20dfc62136ed"
             ],
             "associated_update_completed": true
+          },
+          {
+            "batch": 8,
+            "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:191c9b8e25aa9430ec0c0b74c34dcb6dee7916169ad02c9df588fc2e1fbe8fa8",
+            "direct_sources": [
+              "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+              "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+              "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+              "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+              "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+              "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+              "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+              "MAUD:7e2add3ce5bb9160f13ccedb9f8405507934d213f01de0c03eec20dfc62136ed"
+            ],
+            "associated_update_completed": true
           }
         ],
         "source_rows": [
@@ -8460,6 +9264,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:266960aa61b17f36819be32303bba322ab98056310aa55d751c34ccd877c29a4"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:191c9b8e25aa9430ec0c0b74c34dcb6dee7916169ad02c9df588fc2e1fbe8fa8"
               }
             ],
             "declared_current_skill_citations": []
@@ -8507,6 +9316,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:266960aa61b17f36819be32303bba322ab98056310aa55d751c34ccd877c29a4"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:191c9b8e25aa9430ec0c0b74c34dcb6dee7916169ad02c9df588fc2e1fbe8fa8"
               }
             ],
             "declared_current_skill_citations": [
@@ -8551,6 +9365,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:266960aa61b17f36819be32303bba322ab98056310aa55d751c34ccd877c29a4"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:191c9b8e25aa9430ec0c0b74c34dcb6dee7916169ad02c9df588fc2e1fbe8fa8"
               }
             ],
             "declared_current_skill_citations": []
@@ -8598,6 +9417,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:266960aa61b17f36819be32303bba322ab98056310aa55d751c34ccd877c29a4"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:191c9b8e25aa9430ec0c0b74c34dcb6dee7916169ad02c9df588fc2e1fbe8fa8"
               }
             ],
             "declared_current_skill_citations": []
@@ -8640,6 +9464,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:266960aa61b17f36819be32303bba322ab98056310aa55d751c34ccd877c29a4"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:191c9b8e25aa9430ec0c0b74c34dcb6dee7916169ad02c9df588fc2e1fbe8fa8"
               }
             ],
             "declared_current_skill_citations": []
@@ -9956,7 +10785,13 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 1,
-            "direct_teacher_contexts": [],
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:191c9b8e25aa9430ec0c0b74c34dcb6dee7916169ad02c9df588fc2e1fbe8fa8"
+              }
+            ],
             "declared_current_skill_citations": []
           },
           {
@@ -9978,8 +10813,16 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 1,
-            "direct_teacher_contexts": [],
-            "declared_current_skill_citations": []
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:191c9b8e25aa9430ec0c0b74c34dcb6dee7916169ad02c9df588fc2e1fbe8fa8"
+              }
+            ],
+            "declared_current_skill_citations": [
+              "china_us_business_baggage_total_calculator"
+            ]
           },
           {
             "source": "MAUD:447ae333300498aa622383a77766c17bb1c59941a44e99499def4bc3929a5655",
@@ -10011,7 +10854,13 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 1,
-            "direct_teacher_contexts": [],
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:191c9b8e25aa9430ec0c0b74c34dcb6dee7916169ad02c9df588fc2e1fbe8fa8"
+              }
+            ],
             "declared_current_skill_citations": []
           },
           {
@@ -10118,15 +10967,15 @@
       "Full": {
         "first_attempt_parents": 128,
         "fixed_TRAIN_parent_count": 128,
-        "unique_direct_teacher_parents": 24,
+        "unique_direct_teacher_parents": 27,
         "direct_teacher_parents_by_dataset": {
-          "SARA_v2_Binary": 7,
-          "RuleArena_Airline": 10,
-          "OpenExempt": 5,
+          "SARA_v2_Binary": 8,
+          "RuleArena_Airline": 11,
+          "OpenExempt": 6,
           "ContractNLI": 1,
           "MAUD": 1
         },
-        "current_library_batch": 7,
+        "current_library_batch": 8,
         "actual_teacher_calls": [
           {
             "batch": 1,
@@ -10227,6 +11076,21 @@
               "MAUD:7e2add3ce5bb9160f13ccedb9f8405507934d213f01de0c03eec20dfc62136ed"
             ],
             "associated_update_completed": true
+          },
+          {
+            "batch": 8,
+            "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:a1021c9d47319088534b5aad27605b131dfc92defc01c95d657ab9622c7b659d",
+            "direct_sources": [
+              "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+              "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+              "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+              "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+              "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+              "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+              "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+              "MAUD:7e2add3ce5bb9160f13ccedb9f8405507934d213f01de0c03eec20dfc62136ed"
+            ],
+            "associated_update_completed": true
           }
         ],
         "source_rows": [
@@ -10268,6 +11132,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:e3ed83e81dd8556f601cfb61b5e4085e47b5aa68c80f65ebd51ef78971a24f06"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:a1021c9d47319088534b5aad27605b131dfc92defc01c95d657ab9622c7b659d"
               }
             ],
             "declared_current_skill_citations": []
@@ -10315,6 +11184,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:e3ed83e81dd8556f601cfb61b5e4085e47b5aa68c80f65ebd51ef78971a24f06"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:a1021c9d47319088534b5aad27605b131dfc92defc01c95d657ab9622c7b659d"
               }
             ],
             "declared_current_skill_citations": []
@@ -10357,6 +11231,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:e3ed83e81dd8556f601cfb61b5e4085e47b5aa68c80f65ebd51ef78971a24f06"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:a1021c9d47319088534b5aad27605b131dfc92defc01c95d657ab9622c7b659d"
               }
             ],
             "declared_current_skill_citations": []
@@ -10404,6 +11283,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:e3ed83e81dd8556f601cfb61b5e4085e47b5aa68c80f65ebd51ef78971a24f06"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:a1021c9d47319088534b5aad27605b131dfc92defc01c95d657ab9622c7b659d"
               }
             ],
             "declared_current_skill_citations": []
@@ -10446,6 +11330,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:e3ed83e81dd8556f601cfb61b5e4085e47b5aa68c80f65ebd51ef78971a24f06"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:a1021c9d47319088534b5aad27605b131dfc92defc01c95d657ab9622c7b659d"
               }
             ],
             "declared_current_skill_citations": []
@@ -11441,9 +12330,7 @@
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:d0e4ee936d9f848a9a51b5949707cd95a7c338d6b80ed4b25d0a22dc0e5f39bf"
               }
             ],
-            "declared_current_skill_citations": [
-              "personal_asset_exemption_plan_by_solved_regime"
-            ]
+            "declared_current_skill_citations": []
           },
           {
             "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
@@ -11757,8 +12644,16 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 0,
-            "direct_teacher_contexts": [],
-            "declared_current_skill_citations": []
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:a1021c9d47319088534b5aad27605b131dfc92defc01c95d657ab9622c7b659d"
+              }
+            ],
+            "declared_current_skill_citations": [
+              "personal_asset_exemption_plan_by_solved_regime"
+            ]
           },
           {
             "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
@@ -11768,7 +12663,13 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 1,
-            "direct_teacher_contexts": [],
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:a1021c9d47319088534b5aad27605b131dfc92defc01c95d657ab9622c7b659d"
+              }
+            ],
             "declared_current_skill_citations": []
           },
           {
@@ -11790,7 +12691,13 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 0,
-            "direct_teacher_contexts": [],
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:a1021c9d47319088534b5aad27605b131dfc92defc01c95d657ab9622c7b659d"
+              }
+            ],
             "declared_current_skill_citations": []
           },
           {
@@ -11930,15 +12837,15 @@
       "Lift+GenericJoint": {
         "first_attempt_parents": 128,
         "fixed_TRAIN_parent_count": 128,
-        "unique_direct_teacher_parents": 24,
+        "unique_direct_teacher_parents": 27,
         "direct_teacher_parents_by_dataset": {
-          "SARA_v2_Binary": 5,
-          "RuleArena_Airline": 14,
+          "SARA_v2_Binary": 7,
+          "RuleArena_Airline": 15,
           "OpenExempt": 3,
           "ContractNLI": 1,
           "MAUD": 1
         },
-        "current_library_batch": 7,
+        "current_library_batch": 8,
         "actual_teacher_calls": [
           {
             "batch": 1,
@@ -12039,6 +12946,21 @@
               "MAUD:7e2add3ce5bb9160f13ccedb9f8405507934d213f01de0c03eec20dfc62136ed"
             ],
             "associated_update_completed": true
+          },
+          {
+            "batch": 8,
+            "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:b4c22d8e07e98f256e7a99c0dc64bc301dbcdd46d1913f90bb20e7f9f8e21419",
+            "direct_sources": [
+              "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+              "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+              "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+              "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+              "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+              "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+              "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+              "MAUD:7e2add3ce5bb9160f13ccedb9f8405507934d213f01de0c03eec20dfc62136ed"
+            ],
+            "associated_update_completed": true
           }
         ],
         "source_rows": [
@@ -12080,6 +13002,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:b1bf981d561cfba46b396e889a36a0c636d3ef9d976fcab964c9d038b331d9e8"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:b4c22d8e07e98f256e7a99c0dc64bc301dbcdd46d1913f90bb20e7f9f8e21419"
               }
             ],
             "declared_current_skill_citations": []
@@ -12127,6 +13054,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:b1bf981d561cfba46b396e889a36a0c636d3ef9d976fcab964c9d038b331d9e8"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:b4c22d8e07e98f256e7a99c0dc64bc301dbcdd46d1913f90bb20e7f9f8e21419"
               }
             ],
             "declared_current_skill_citations": [
@@ -12171,6 +13103,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:b1bf981d561cfba46b396e889a36a0c636d3ef9d976fcab964c9d038b331d9e8"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:b4c22d8e07e98f256e7a99c0dc64bc301dbcdd46d1913f90bb20e7f9f8e21419"
               }
             ],
             "declared_current_skill_citations": []
@@ -12218,6 +13155,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:b1bf981d561cfba46b396e889a36a0c636d3ef9d976fcab964c9d038b331d9e8"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:b4c22d8e07e98f256e7a99c0dc64bc301dbcdd46d1913f90bb20e7f9f8e21419"
               }
             ],
             "declared_current_skill_citations": []
@@ -12260,6 +13202,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:b1bf981d561cfba46b396e889a36a0c636d3ef9d976fcab964c9d038b331d9e8"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:b4c22d8e07e98f256e7a99c0dc64bc301dbcdd46d1913f90bb20e7f9f8e21419"
               }
             ],
             "declared_current_skill_citations": []
@@ -13578,7 +14525,13 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 1,
-            "direct_teacher_contexts": [],
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:b4c22d8e07e98f256e7a99c0dc64bc301dbcdd46d1913f90bb20e7f9f8e21419"
+              }
+            ],
             "declared_current_skill_citations": []
           },
           {
@@ -13600,7 +14553,13 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 1,
-            "direct_teacher_contexts": [],
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:b4c22d8e07e98f256e7a99c0dc64bc301dbcdd46d1913f90bb20e7f9f8e21419"
+              }
+            ],
             "declared_current_skill_citations": []
           },
           {
@@ -13633,8 +14592,16 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 1,
-            "direct_teacher_contexts": [],
-            "declared_current_skill_citations": []
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:b4c22d8e07e98f256e7a99c0dc64bc301dbcdd46d1913f90bb20e7f9f8e21419"
+              }
+            ],
+            "declared_current_skill_citations": [
+              "evaluate_dependent_basic_standard_deduction_limitation_claim"
+            ]
           },
           {
             "source": "ContractNLI:bc93d2a77d87fd87dc9fc0b42c77fe2002a5e5cd63aed6c20aaeb8f0a718a443",
@@ -13740,15 +14707,15 @@
       "AllPorts+CoRev": {
         "first_attempt_parents": 128,
         "fixed_TRAIN_parent_count": 128,
-        "unique_direct_teacher_parents": 24,
+        "unique_direct_teacher_parents": 27,
         "direct_teacher_parents_by_dataset": {
-          "SARA_v2_Binary": 5,
-          "RuleArena_Airline": 14,
+          "SARA_v2_Binary": 7,
+          "RuleArena_Airline": 15,
           "OpenExempt": 3,
           "ContractNLI": 1,
           "MAUD": 1
         },
-        "current_library_batch": 7,
+        "current_library_batch": 8,
         "actual_teacher_calls": [
           {
             "batch": 1,
@@ -13849,6 +14816,21 @@
               "MAUD:7e2add3ce5bb9160f13ccedb9f8405507934d213f01de0c03eec20dfc62136ed"
             ],
             "associated_update_completed": true
+          },
+          {
+            "batch": 8,
+            "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:25938287bf5a6947d46f08047f43e0d86013225f34c9e0f8870d86e97ff3fed0",
+            "direct_sources": [
+              "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+              "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+              "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+              "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+              "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+              "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+              "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+              "MAUD:7e2add3ce5bb9160f13ccedb9f8405507934d213f01de0c03eec20dfc62136ed"
+            ],
+            "associated_update_completed": true
           }
         ],
         "source_rows": [
@@ -13890,6 +14872,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:917066625d2a737a6b6c179255ac97b0ee43329d7062e7fa6321ccec4d325c8d"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:25938287bf5a6947d46f08047f43e0d86013225f34c9e0f8870d86e97ff3fed0"
               }
             ],
             "declared_current_skill_citations": []
@@ -13937,6 +14924,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:917066625d2a737a6b6c179255ac97b0ee43329d7062e7fa6321ccec4d325c8d"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:25938287bf5a6947d46f08047f43e0d86013225f34c9e0f8870d86e97ff3fed0"
               }
             ],
             "declared_current_skill_citations": []
@@ -13979,6 +14971,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:917066625d2a737a6b6c179255ac97b0ee43329d7062e7fa6321ccec4d325c8d"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:25938287bf5a6947d46f08047f43e0d86013225f34c9e0f8870d86e97ff3fed0"
               }
             ],
             "declared_current_skill_citations": []
@@ -14026,6 +15023,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:917066625d2a737a6b6c179255ac97b0ee43329d7062e7fa6321ccec4d325c8d"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:25938287bf5a6947d46f08047f43e0d86013225f34c9e0f8870d86e97ff3fed0"
               }
             ],
             "declared_current_skill_citations": []
@@ -14068,6 +15070,11 @@
                 "batch": 7,
                 "role": "history",
                 "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:917066625d2a737a6b6c179255ac97b0ee43329d7062e7fa6321ccec4d325c8d"
+              },
+              {
+                "batch": 8,
+                "role": "history",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:25938287bf5a6947d46f08047f43e0d86013225f34c9e0f8870d86e97ff3fed0"
               }
             ],
             "declared_current_skill_citations": []
@@ -15386,7 +16393,13 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 1,
-            "direct_teacher_contexts": [],
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:25938287bf5a6947d46f08047f43e0d86013225f34c9e0f8870d86e97ff3fed0"
+              }
+            ],
             "declared_current_skill_citations": []
           },
           {
@@ -15408,7 +16421,13 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 1,
-            "direct_teacher_contexts": [],
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:25938287bf5a6947d46f08047f43e0d86013225f34c9e0f8870d86e97ff3fed0"
+              }
+            ],
             "declared_current_skill_citations": []
           },
           {
@@ -15441,8 +16460,16 @@
             "native_first_attempt_grade": 0.0,
             "native_core_correct_views": 0,
             "native_fallback_views": 1,
-            "direct_teacher_contexts": [],
-            "declared_current_skill_citations": []
+            "direct_teacher_contexts": [
+              {
+                "batch": 8,
+                "role": "trigger",
+                "physical_ledger_id": "legal_skill_evolution_formal_v5_20261111:teacher:25938287bf5a6947d46f08047f43e0d86013225f34c9e0f8870d86e97ff3fed0"
+              }
+            ],
+            "declared_current_skill_citations": [
+              "section63_c5_dependent_standard_deduction_limit"
+            ]
           },
           {
             "source": "ContractNLI:bc93d2a77d87fd87dc9fc0b42c77fe2002a5e5cd63aed6c20aaeb8f0a718a443",
