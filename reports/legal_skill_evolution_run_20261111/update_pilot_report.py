@@ -122,15 +122,34 @@ def main():
         snapshot['formal_128_training_started'] = bool(source_checkpoints)
         snapshot['DEV_started'] = any(r['purpose'] == 'skill_dev' for r in formal_calls)
         snapshot['stage'] = 'fixed_128_parent_skill_learning_and_DEV' if formal_calls else 'formal_input_preflight_passed'
+    frozen = ROOT / 'artifacts/legal_skill_evolution_20261111/frozen_test_v1'
+    frozen_calls = [r for r in attempts if r['id'].startswith('legal_skill_evolution_frozen_')]
+    snapshot['TEST_started'] = any(r['purpose'] == 'skill_test' for r in frozen_calls)
+    snapshot['frozen_evaluation'] = {'B8_native_materialized': (frozen / 'native_materialization.json').exists(),
+        'freeze_prepared': (frozen / 'freeze_manifest.json').exists(),
+        'native_input_preflight_complete': (frozen / 'preflight.json').exists(),
+        'main_matrix_complete': (frozen / 'TEST_completed.json').exists(),
+        'main_parent_checkpoints_by_arm': Counter(p.parent.name for p in (frozen / 'predictions').glob('*/*.json')),
+        'registered_transfer_complete': (frozen / 'transfer/completed.json').exists(),
+        'physical_call_statuses': Counter(r['status'] for r in frozen_calls),
+        'teacher_calls': sum(r['role'] == 'teacher' for r in frozen_calls),
+        'library_updates_authorized': False, 'goal_complete': False}
+    if snapshot['TEST_started']:
+        snapshot['stage'] = ('fixed_frozen_TEST' if not snapshot['frozen_evaluation']['main_matrix_complete']
+            else 'registered_frozen_transfer' if not snapshot['frozen_evaluation']['registered_transfer_complete']
+            else 'completion_audit')
     (REPORT / 'pilot_progress.json').write_text(json.dumps(snapshot, ensure_ascii=False, indent=2) + '\n')
     (REPORT / 'current_status.json').write_text(json.dumps({k: snapshot[k] for k in (
         'captured_utc', 'goal_status', 'goal_complete', 'thinking', 'model_parameter_updates',
         'cumulative_physical_requests', 'pending', 'formal_128_training_started', 'DEV_started', 'TEST_started')}
         | {'first_pilot_pass_complete': len(updates) == 16,
            'repair_validation': snapshot.get('repair_validation'),
-           'formal_fixed_study': snapshot.get('formal_fixed_study')}, ensure_ascii=False, indent=2) + '\n')
+           'formal_fixed_study': snapshot.get('formal_fixed_study'),
+           'frozen_evaluation': snapshot['frozen_evaluation'], 'stage': snapshot['stage']}, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps({'cumulative': snapshot['cumulative_physical_requests'], 'pending': len(pending),
-        'completed_updates': len(updates), 'goal_status': 'active'}, ensure_ascii=False))
+        'completed_pilot_updates': len(updates),
+        'formal_learning_updates': len(snapshot.get('formal_fixed_study', {}).get('update_receipts', [])),
+        'TEST_started': snapshot['TEST_started'], 'goal_status': 'active'}, ensure_ascii=False))
 
 
 if __name__ == '__main__':

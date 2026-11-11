@@ -4,7 +4,7 @@ Goal **active、未完成**。唯一目标与验收见[CURRENT_GOAL.md](CURRENT_
 
 ## 当前结论
 
-固定20个TRAIN母来源、4批、4个学习臂的**首遍已经完成**，共16次更新结算，原始结果保持。Full/FreeEvolution/AllPorts+CoRev/Lift+GenericJoint最终分别有2/3/2/0个已接纳技能，CoRev模式均为0。Full的专门Lift修订为0。已有真实获取与执行，但两项独立机制与强对照增量均未成立。正式128来源/8批七系统流程已完成B1/B2更新，正在接续B2 DEV及后续批次；TEST仍封存，Goal未完成。
+固定20个TRAIN母来源、4批、4个学习臂的**首遍已经完成**，共16次更新结算，原始结果保持。Full/FreeEvolution/AllPorts+CoRev/Lift+GenericJoint最终分别有2/3/2/0个已接纳技能，CoRev模式均为0。Full的专门Lift修订为0。已有真实获取与执行，但两项独立机制与强对照增量均未成立。正式128来源/8批七系统流程已完成B1/B2更新及全部对应DEV，正在B3批初作答；TEST仍封存，Goal未完成。
 
 | 臂 | 接纳技能 | 批初新母来源原生核心正确/50视图 | 原生fallback/50 | CoRev模式 |
 |---|---:|---:|---:|---:|
@@ -40,6 +40,8 @@ AllPorts另外2次批初主路径执行均错误，不能计成功。训练后�
 **当前实际工作：固定128来源/8批、七系统技能学习与DEV。** 唯一入口`python -m experiments.legal_skill_evolution_formal run`已接续到formal_v2，同一学习过程，不是第二遍。原32项及新引文/失败提议回归合计37项相关检查通过，368个TRAIN/DEV原生视图输入预检复用经相同运行依赖哈希核验的结果，最大输入9468 tokens，保持8192输出上限、thinking OFF。每批16（OE4＋其他各3），原顺序；全部批初先答再更新。四主臂DEV为B0–B8，其余B0/B8，DEV不进教师或技能更新。各臂从空库开始，不导入小试技能；该入口不开TEST。当前Goal覆盖旧首阶段停止边界，完整固定实验用于检验两机制及强对照收益；小试缺证据不改记为通过，也不降低最终验收。
 
 B0 DEV已完成，七系统空库五库等权均为.4813387；B1四主臂DEV仍为同一得分，尚无开发增益。B1自由演化、LiftOnly、CoRevOnly及Generic各接纳1个SARA技能；Full和AllPorts暂为0。训练内改对与DEV不增益分开记录，不能据技能数认定贡献。曲线和逐库指标由只读统计脚本生成，TEST未参与。
+
+B2四主臂DEV现已全部结算，仍均为.4813387：FreeEvolution/LiftOnly/CoRevOnly各1个原生视图由核心技能答对，但基线原本正确；Full核心执行0。当前完成15/42个注册DEV点，已进入B3首答；不能把这些主路径覆盖变化称为新增准确率或两方法增量。本次公开证据[核验提交a28f667](https://github.com/H00RU/LegalSkillGuard/blob/a28f667d2dd3d939ff24e5810228aaf91fa3b1c6/reports/legal_skill_evolution_run_20261111/README.md)包含3401个独立取回一致文件，快照截于B2三个DEV点，随后Full/B2原始记录在本地继续保留，main未改。
 
 已完成有原始记录支持的前向修复：Full/B1一条法律引文的破折号/换行复制差异可唯一绑定回原文，原P、端口、法律值均不变，离线恢复编译；AllPorts另一个转述引用仍拒绝。另将已保存却未进入教师输入的失败原始提议接入后续修复上下文，所有臂一致应用。formal_v1在六臂B2更新全部结算后正常退出75，核实旧PID退出及SQLite在途0才改动绑定源码；这不是Goal暂停。随后逐字导入1482个已结算文件至formal_v2，B0–B2库、初答、更新和部分DEV视图保持，导入新增调用0、账本不重置。新客户端PID1049186/start_ticks639865782、session87795已核实；唯一有效身份记录为`artifacts/legal_skill_evolution_20261111/formal_v2/live_process.json`。原v1终态及持有文件保留，不得重启。修复只影响B3及以后，不回写旧结果。[离线复核](../reports/legal_skill_evolution_run_20261111/formal_forward_grounding_repair_review.json)与[导入收据](../reports/legal_skill_evolution_run_20261111/formal_grounding_state_import.json)保留。
 

@@ -1,19 +1,19 @@
 {
-  "captured_utc": "2026-11-11T10:37:15.905663+00:00",
+  "captured_utc": "2026-11-11T10:43:05.199868+00:00",
   "goal_status": "active",
   "goal_complete": false,
   "thinking": false,
   "model_parameter_updates": false,
   "cumulative_physical_requests": {
-    "executor": 3397,
+    "executor": 3466,
     "teacher": 102
   },
   "pending": [
     {
-      "id": "legal_skill_evolution_formal_v2_20261111:7ff244ea7c4f9c1698608e53d895620bf85766ba7e9d4703f8888fef258197aa",
+      "id": "legal_skill_evolution_formal_v2_20261111:8f3e61eb1223df6912f95e547045cdde85652d65d73e91ad8e30433889424afe",
       "role": "executor",
-      "purpose": "skill_dev",
-      "reserved_at": 1794393432.763971
+      "purpose": "skill_actor",
+      "reserved_at": 1794393784.7001328
     }
   ],
   "formal_128_training_started": true,
@@ -273,9 +273,9 @@
     "native_TRAIN_DEV_input_preflight_passed": true,
     "source_first_attempt_checkpoints_by_arm": {
       "Lift+GenericJoint": 32,
-      "NoSkill": 32,
+      "NoSkill": 48,
       "CoRevOnly": 32,
-      "FreeEvolution": 32,
+      "FreeEvolution": 34,
       "LiftOnly": 32,
       "AllPorts+CoRev": 32,
       "Full": 32
@@ -605,6 +605,19 @@
         "equal_dataset_macro": 0.4813387375887375
       },
       {
+        "arm": "Full",
+        "batch": 2,
+        "library_hash": "db60021074f7f2cd24bbaf74d16c8f8421fbdb73baf3c487265104f4a3648244",
+        "native_parent_means_by_dataset": {
+          "ContractNLI": 0.625,
+          "MAUD": 0.8333333333333333,
+          "OpenExempt": 0.19836035461035464,
+          "RuleArena_Airline": 0.0,
+          "SARA_v2_Binary": 0.75
+        },
+        "equal_dataset_macro": 0.4813387375887375
+      },
+      {
         "arm": "Lift+GenericJoint",
         "batch": 0,
         "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
@@ -671,12 +684,25 @@
       }
     ],
     "physical_call_statuses": {
-      "completed": 786,
+      "completed": 855,
       "reserved": 1
     },
     "training_and_DEV_complete": false,
     "pilot_skills_imported": false,
     "teacher_DEV_access": false,
     "TEST_started": false
-  }
+  },
+  "frozen_evaluation": {
+    "B8_native_materialized": false,
+    "freeze_prepared": false,
+    "native_input_preflight_complete": false,
+    "main_matrix_complete": false,
+    "main_parent_checkpoints_by_arm": {},
+    "registered_transfer_complete": false,
+    "physical_call_statuses": {},
+    "teacher_calls": 0,
+    "library_updates_authorized": false,
+    "goal_complete": false
+  },
+  "stage": "fixed_128_parent_skill_learning_and_DEV"
 }
