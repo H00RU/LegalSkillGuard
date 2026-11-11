@@ -28,7 +28,8 @@ def premise_uses(procedure):
                  ast.ClassDef, ast.Lambda, ast.AsyncFunctionDef, ast.With, ast.Try)
     if any(isinstance(node, forbidden) for node in ast.walk(tree)):
         raise ValueError('Unsupported effectful skill helper')
-    allowed_calls = {'min', 'max', 'sum', 'len', 'abs', 'round', 'sorted', 'all', 'any', 'int', 'float', 'bool'}
+    allowed_calls = {'min', 'max', 'sum', 'len', 'abs', 'round', 'sorted', 'all', 'any',
+                     'int', 'float', 'bool', 'str', 'list', 'dict', 'range', 'enumerate', 'zip'}
     if any(isinstance(node, ast.Call) and (not isinstance(node.func, ast.Name)
            or node.func.id not in allowed_calls) for node in ast.walk(tree)):
         raise ValueError('Skill helpers use public deterministic primitives only')
@@ -76,8 +77,8 @@ class Skill:
             else:
                 raise ValueError('Unknown premise acquisition mode')
         for record in self.semantic_records:
-            if not set(record['premises']) <= set(self.premises):
-                raise ValueError('Coupling record names an undeclared premise')
+            if not set(record['ports']) <= set(self.premises) | set(self.inputs):
+                raise ValueError('Coupling record names an undeclared premise or input port')
         return self
 
     @property
@@ -126,7 +127,7 @@ def coupled_blocks(skill):
         reached = set()
         for _ in range(3):
             reached |= frontier
-            names = frozenset(p for r in reached for p in records[r]['premises'])
+            names = frozenset(p for r in reached for p in records[r]['ports'] if p in skill.premises)
             if 0 < len(names) <= 3:
                 candidates.add(tuple(sorted(names)))
             frontier = {n for r in frontier for n in records[r].get('neighbors', []) if n in records} - reached

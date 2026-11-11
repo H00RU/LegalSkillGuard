@@ -1,5 +1,5 @@
-# LegalSkillGuard: current research status
+# LegalSkillGuard: active external legal-skill evolution
 
-[Correction of mistaken pause](reports/legal_skill_evolution_run_20261111/PAUSE_CORRECTION_20261111.md) | [Actual progress](reports/legal_skill_evolution_run_20261111/PAUSE_20261111.md) | [Current Goal](docs/CURRENT_GOAL.md)
+[Current Goal](docs/CURRENT_GOAL.md) · [Current evidence](docs/METHOD_REDESIGN_CURRENT.md) · [Real pilot report](reports/legal_skill_evolution_run_20261111/README.md) · [Physical requests and source-level snapshot](reports/legal_skill_evolution_run_20261111/pilot_progress.json)
 
-A historical pause request was mistakenly replayed by the assistant despite later continuation authorization. This was not a new user pause request. The Goal remains incomplete; real method benefits are unverified. The Goal tool is still paused and cannot be resumed by the available tool API. Preserve this same Goal, all progress and the continuous ledger.
+Fixed frozen-model pilot continues. FreeEvolution has its first real TRAIN main-path success; Lift and CoRev benefits remain unverified. Formal 128-source learning, DEV and TEST have not started. Archived pauses and plans are historical records, not execution instructions.

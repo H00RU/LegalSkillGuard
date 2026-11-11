@@ -13,7 +13,7 @@ def skill():
     return Skill(id='fixture', intent='fixture only', procedure='def apply(inputs, premises):\n    return min(inputs["x"], premises["limit"]) + premises["extra"] + premises["limit"]\n',
         inputs={}, outputs={}, premises={name: {'mode': 'constant', 'type': 'integer', 'value': value,
         'origin': {'source': 'fixture', 'span': str(value)}} for name, value in [('limit', 5), ('extra', 2)]},
-        reads=(), semantic_records=({'id': 'record', 'premises': ['limit', 'extra']},),
+        reads=(), semantic_records=({'id': 'record', 'ports': ['limit', 'extra']},),
         source_obligations=(), source_provenance=({'source': 'fixture'},)).validate()
 
 

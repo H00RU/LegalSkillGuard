@@ -46,10 +46,14 @@ class EvolutionLedger:
             raise BudgetError('Source outside the fixed study manifest')
 
     def require_train(self, source_ids):
+        if self.freeze is not None:
+            raise BudgetError('Frozen evaluation cannot call the teacher or update TRAIN skills')
         if not source_ids or len(set(source_ids)) != len(source_ids) or not set(source_ids) <= set(self.sources['train']):
             raise BudgetError('Teacher input and candidate selection use only fixed TRAIN parents')
 
     def permit(self, source, purpose, role):
+        if self.freeze is not None and role == 'teacher':
+            raise BudgetError('Teacher dispatch is disabled for frozen evaluation')
         if purpose not in self.PURPOSES:
             raise BudgetError('Unknown external-study request purpose')
         partition, expected_role = self.PURPOSES[purpose]
