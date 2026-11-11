@@ -1,16 +1,16 @@
 {
-  "captured_utc": "2026-11-11T11:34:12.251974+00:00",
+  "captured_utc": "2026-11-11T12:51:11.167402+00:00",
   "new_model_calls": 0,
   "goal_complete": false,
   "evidence_scope": "settled fixed formal TRAIN updates; DEV not supplied to teachers; no TEST",
   "teacher_proposed_operations": {
-    "create": 39
+    "create": 56
   },
   "compiled_candidate_operations": {
-    "create": 35
+    "create": 52
   },
   "accepted_operations": {
-    "create": 12
+    "create": 13
   },
   "candidates_changing_multiple_existing_skills": [],
   "actual_pattern_transplant_candidates": [],
@@ -20,6 +20,7 @@
     "common_selector_sha256": "55233243b108c6264402bc442928d202cbb39a97d0cc23ba27bf99a4a79ec204",
     "same_candidate_same_table_generic_joint_selection": "identical_by_shared_implementation; not a method advantage",
     "accepted_update_widths": [
+      1,
       1,
       1,
       1,
@@ -249,6 +250,104 @@
       "initial_dependency_creation_is_not_joint_revision_learning": true
     },
     {
+      "arm": "FreeEvolution",
+      "batch": 4,
+      "accepted_skill_count": 3,
+      "skills": [
+        {
+          "id": "section_1_cited_tax_bracket_claim_decider",
+          "version": 1,
+          "hash": "6af73104fdc85d8e993e4fe23f87fa9e20b241f9a0b873aede62bb2ceb272ba1",
+          "origin_parents": [
+            "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b"
+          ],
+          "declared_read_input_count": 8,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "cited_section_1_tax_bracket_record",
+              "ports": [
+                "taxable_income",
+                "claimed_tax_amount",
+                "claim_affirms_exact_tax",
+                "cited_bracket_lower_exclusive",
+                "cited_bracket_upper_inclusive",
+                "cited_bracket_base_tax",
+                "cited_bracket_excess_threshold",
+                "cited_bracket_rate_percent"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "section_3306_b10a_claim_decider",
+          "version": 1,
+          "hash": "73a8a4d68b64f53694a96d6a750be65bd35bc5991148268a62931eb79e038ad3",
+          "origin_parents": [
+            "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac"
+          ],
+          "declared_read_input_count": 3,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 1,
+          "declared_coupled_blocks": [
+            [
+              "b10a_requires_both_conditions"
+            ]
+          ],
+          "semantic_records": [
+            {
+              "id": "b10a_applicability_record",
+              "ports": [
+                "paid_upon_or_after_termination",
+                "termination_due_to_death_or_disability_retirement",
+                "claim_affirms_application",
+                "b10a_requires_both_conditions"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "section_3306_noncash_agricultural_wages_claim_decider",
+          "version": 1,
+          "hash": "902f3a6ce9a5d411eda8fa8f6656ac18ddfe33a8ca214da2a978ea401eebe587",
+          "origin_parents": [
+            "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1"
+          ],
+          "declared_read_input_count": 3,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 1,
+          "declared_coupled_blocks": [
+            [
+              "noncash_agricultural_remuneration_excluded"
+            ]
+          ],
+          "semantic_records": [
+            {
+              "id": "noncash_agricultural_remuneration_record",
+              "ports": [
+                "payment_for_agricultural_labor",
+                "payment_made_in_noncash_medium",
+                "noncash_agricultural_remuneration_excluded",
+                "claim_affirms_wages_coverage"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        }
+      ],
+      "accepted_dedicated_lift_revisions_this_update": [],
+      "learned_revision_pattern_count": 0,
+      "learned_pattern_ids_this_update": [],
+      "initial_dependency_creation_is_not_joint_revision_learning": true
+    },
+    {
       "arm": "LiftOnly",
       "batch": 1,
       "accepted_skill_count": 1,
@@ -329,6 +428,59 @@
     {
       "arm": "LiftOnly",
       "batch": 3,
+      "accepted_skill_count": 2,
+      "skills": [
+        {
+          "id": "classify_section_1_tax_bracket_claim",
+          "version": 1,
+          "hash": "f61774a83ad503ed9268e86f6a63c91c0fff42202a1a6af29d5dd00e844d6273",
+          "origin_parents": [
+            "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b"
+          ],
+          "declared_read_input_count": 6,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "current_section_1_bracket_schedule",
+              "ports": [
+                "finite_upper_bounds",
+                "bracket_base_amounts",
+                "bracket_rates"
+              ],
+              "neighbors": [
+                "taxable_income",
+                "cited_bracket_number",
+                "claimed_tax_amount"
+              ]
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "classify_termination_payment_subparagraph",
+          "version": 1,
+          "hash": "2bad3254989c76344932e23ae3a42bb42fe441761d3967987e6e532e71bf0448",
+          "origin_parents": [
+            "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac"
+          ],
+          "declared_read_input_count": 1,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        }
+      ],
+      "accepted_dedicated_lift_revisions_this_update": [],
+      "learned_revision_pattern_count": 0,
+      "learned_pattern_ids_this_update": [],
+      "initial_dependency_creation_is_not_joint_revision_learning": true
+    },
+    {
+      "arm": "LiftOnly",
+      "batch": 4,
       "accepted_skill_count": 2,
       "skills": [
         {
@@ -503,6 +655,86 @@
     {
       "arm": "CoRevOnly",
       "batch": 3,
+      "accepted_skill_count": 2,
+      "skills": [
+        {
+          "id": "progressive_tax_bracket_claim_classifier",
+          "version": 1,
+          "hash": "da1746a2686020e9de5466c34b1a668e8d9a855759f4e1219832c9253dffe97d",
+          "origin_parents": [
+            "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b"
+          ],
+          "declared_read_input_count": 8,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "current_taxpayer_status_and_claim",
+              "ports": [
+                "filing_status_matches_schedule",
+                "taxable_income",
+                "claimed_tax_amount",
+                "claimed_bracket_index"
+              ],
+              "neighbors": [
+                "asserted_progressive_schedule"
+              ]
+            },
+            {
+              "id": "asserted_progressive_schedule",
+              "ports": [
+                "bracket_lower_bounds",
+                "bracket_upper_bounds",
+                "bracket_base_amounts",
+                "bracket_rates"
+              ],
+              "neighbors": [
+                "current_taxpayer_status_and_claim"
+              ]
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "termination_cause_subclause_classifier",
+          "version": 1,
+          "hash": "435042b40adc2957e2bdf297ea004317e94d35a958211580ac177ee521c1f493",
+          "origin_parents": [
+            "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac"
+          ],
+          "declared_read_input_count": 2,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 2,
+          "declared_coupled_blocks": [
+            [
+              "requires_death_or_disability_cause",
+              "requires_upon_or_after_termination"
+            ]
+          ],
+          "semantic_records": [
+            {
+              "id": "termination_trigger_record",
+              "ports": [
+                "payment_upon_or_after_termination",
+                "termination_caused_by_death_or_disability",
+                "requires_upon_or_after_termination",
+                "requires_death_or_disability_cause"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        }
+      ],
+      "accepted_dedicated_lift_revisions_this_update": [],
+      "learned_revision_pattern_count": 0,
+      "learned_pattern_ids_this_update": [],
+      "initial_dependency_creation_is_not_joint_revision_learning": true
+    },
+    {
+      "arm": "CoRevOnly",
+      "batch": 4,
       "accepted_skill_count": 2,
       "skills": [
         {
@@ -633,6 +865,117 @@
       "batch": 3,
       "accepted_skill_count": 2,
       "skills": [
+        {
+          "id": "progressive_tax_subsection_amount_verdict",
+          "version": 1,
+          "hash": "6f163ab1e6e966a9741299eb7ce35545f7b6c027b4683dad4b1e692e5f71c44d",
+          "origin_parents": [
+            "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b"
+          ],
+          "declared_read_input_count": 6,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "claimed_progressive_tax_bracket_record",
+              "ports": [
+                "taxable_income",
+                "claimed_tax_amount",
+                "claimed_bracket_lower_exclusive",
+                "claimed_bracket_upper_inclusive",
+                "claimed_bracket_base_tax",
+                "claimed_bracket_rate_percent"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "section_3306_b_11_noncash_agricultural_wages_verdict",
+          "version": 1,
+          "hash": "9b889203f8ebd746d32dc049e7d01a233d0c376fc06ac9b98978083a9e94df1c",
+          "origin_parents": [
+            "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1"
+          ],
+          "declared_read_input_count": 2,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "current_agricultural_remuneration_record",
+              "ports": [
+                "is_agricultural_labor",
+                "is_paid_in_non_cash_medium"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        }
+      ],
+      "accepted_dedicated_lift_revisions_this_update": [],
+      "learned_revision_pattern_count": 0,
+      "learned_pattern_ids_this_update": [],
+      "initial_dependency_creation_is_not_joint_revision_learning": true
+    },
+    {
+      "arm": "Full",
+      "batch": 4,
+      "accepted_skill_count": 3,
+      "skills": [
+        {
+          "id": "domestic_main_or_first_bag_total",
+          "version": 1,
+          "hash": "b7383eb0bea2aeda3b6c4c9840567d872d1362918799c307d2ebccc773d22552",
+          "origin_parents": [
+            "RuleArena_Airline:748306d9ae5a14db81ea9c071a08cbe3e6806f28017e4e08f163952d7602a0d2",
+            "RuleArena_Airline:bc47b812c90b27f9b78349fe4974cd24f05b97add0870f8f22cb83ddfcb81ddb"
+          ],
+          "declared_read_input_count": 6,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 8,
+          "declared_coupled_blocks": [
+            [
+              "carry_on_limits",
+              "personal_item_limits"
+            ]
+          ],
+          "semantic_records": [
+            {
+              "id": "current_domestic_bag_measurements",
+              "neighbors": [
+                "domestic_bag_fee_schedule"
+              ],
+              "ports": [
+                "cabin_class",
+                "item_lengths",
+                "item_widths",
+                "item_heights",
+                "item_weights",
+                "personal_item_limits",
+                "carry_on_limits"
+              ]
+            },
+            {
+              "id": "domestic_bag_fee_schedule",
+              "neighbors": [
+                "current_domestic_bag_measurements"
+              ],
+              "ports": [
+                "main_domestic_base_schedule",
+                "first_domestic_base_schedule",
+                "main_standard_weight_limit",
+                "first_standard_weight_limit",
+                "domestic_overweight_fees",
+                "domestic_oversize_fees"
+              ]
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
         {
           "id": "progressive_tax_subsection_amount_verdict",
           "version": 1,
@@ -871,6 +1214,76 @@
       "initial_dependency_creation_is_not_joint_revision_learning": true
     },
     {
+      "arm": "Lift+GenericJoint",
+      "batch": 4,
+      "accepted_skill_count": 2,
+      "skills": [
+        {
+          "id": "evaluate_progressive_tax_amount_and_subsection_claim",
+          "version": 1,
+          "hash": "c1c49a0fcbce508d429d2538e2929aaca65cc99750a63a2677539975cdea68c0",
+          "origin_parents": [
+            "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b"
+          ],
+          "declared_read_input_count": 8,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "progressive_tax_claim",
+              "ports": [
+                "taxable_income",
+                "asserted_tax",
+                "asserted_subsection",
+                "bracket_upper_bounds",
+                "bracket_thresholds",
+                "bracket_base_amounts",
+                "bracket_rates",
+                "bracket_labels"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        },
+        {
+          "id": "evaluate_termination_payment_subclause_a",
+          "version": 1,
+          "hash": "6ba0017eb47d9ce030f70b5fa6248187d56874066eb2cf41811dcc240c338bac",
+          "origin_parents": [
+            "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac"
+          ],
+          "declared_read_input_count": 2,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 2,
+          "declared_coupled_blocks": [
+            [
+              "qualifying_termination_causes",
+              "requires_upon_or_after_termination"
+            ]
+          ],
+          "semantic_records": [
+            {
+              "id": "termination_payment_event",
+              "ports": [
+                "payment_upon_or_after_termination",
+                "termination_cause",
+                "requires_upon_or_after_termination",
+                "qualifying_termination_causes"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        }
+      ],
+      "accepted_dedicated_lift_revisions_this_update": [],
+      "learned_revision_pattern_count": 0,
+      "learned_pattern_ids_this_update": [],
+      "initial_dependency_creation_is_not_joint_revision_learning": true
+    },
+    {
       "arm": "AllPorts+CoRev",
       "batch": 1,
       "accepted_skill_count": 0,
@@ -923,6 +1336,46 @@
     {
       "arm": "AllPorts+CoRev",
       "batch": 3,
+      "accepted_skill_count": 1,
+      "skills": [
+        {
+          "id": "section1_tax_amount_claim",
+          "version": 1,
+          "hash": "61e4d41454aced0e3164736c36a767aa1479a4a652045476bc170f70718aa6b7",
+          "origin_parents": [
+            "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b"
+          ],
+          "declared_read_input_count": 8,
+          "current_source_premise_read_count": 0,
+          "fixed_source_premise_count": 0,
+          "declared_coupled_blocks": [],
+          "semantic_records": [
+            {
+              "id": "section1_schedule_and_claim",
+              "ports": [
+                "taxable_income",
+                "claimed_subsection",
+                "claimed_tax_amount",
+                "bracket_subsections",
+                "bracket_upper_bounds",
+                "bracket_base_amounts",
+                "bracket_excess_floors",
+                "bracket_rates"
+              ],
+              "neighbors": []
+            }
+          ],
+          "note": "Input-vs-premise declarations are teacher proposals, not independently verified semantic roles."
+        }
+      ],
+      "accepted_dedicated_lift_revisions_this_update": [],
+      "learned_revision_pattern_count": 0,
+      "learned_pattern_ids_this_update": [],
+      "initial_dependency_creation_is_not_joint_revision_learning": true
+    },
+    {
+      "arm": "AllPorts+CoRev",
+      "batch": 4,
       "accepted_skill_count": 1,
       "skills": [
         {

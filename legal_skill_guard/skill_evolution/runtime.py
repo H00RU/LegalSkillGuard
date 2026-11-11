@@ -10,6 +10,7 @@ import sys
 import jsonschema
 
 from .objects import Skill, digest
+from .answer_domain import incompatible_native_enum
 from legal_skill_guard.rr.checkpoint import immutable_json
 from .native import (record_schema, answer_wire_schema, decode_answer,
                      public_task, public_strings, DIRECT_SYSTEM, restore_enum_transport, source_spans)
@@ -339,6 +340,13 @@ class SkillRuntime:
             return value
 
         for identity in selected:
+            if identity in library.skills:
+                proof = incompatible_native_enum(library.skills[identity].procedure, view['answer_schema'])
+                if proof:
+                    failures.append({'skill_id': identity,
+                        'error': 'StaticNativeEnumMismatch: no possible helper answer satisfies the current native enum',
+                        'static_proof': proof})
+                    continue
             try:
                 value = apply(identity)
                 jsonschema.validate(value['answer'], view['answer_schema'])

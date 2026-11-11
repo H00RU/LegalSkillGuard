@@ -17,7 +17,7 @@ from legal_skill_guard.skill_evolution.native import public_task, answer_wire_sc
 from legal_skill_guard.skill_evolution.runtime import render_messages
 
 ROOT = Path(__file__).resolve().parents[1]
-PROFILE = ROOT / 'configs/legal_skill_evolution_formal_v3_20261111.json'
+PROFILE = ROOT / 'configs/legal_skill_evolution_formal_v4_20261111.json'
 ARMS = ('NoSkill', 'FreeEvolution', 'LiftOnly', 'CoRevOnly', 'Full', 'Lift+GenericJoint', 'AllPorts+CoRev')
 CURVE_ARMS = ('FreeEvolution', 'LiftOnly', 'CoRevOnly', 'Full')
 
@@ -38,40 +38,31 @@ def schedule():
 def prepare():
     goal = load_json(ROOT / 'configs/legal_skill_evolution_20261111.json')
     if goal['latest_user_overrides']['stage_one_only_stop'] is not False:
-        raise ValueError('The current full-study authorization must supersede the historical first-stage stop')
-    review_path = ROOT / 'reports/legal_skill_evolution_run_20261111/formal_entry_review.json'
+        raise ValueError('The current full-study authorization supersedes the old stage-one stop')
+    review_path = ROOT / 'reports/legal_skill_evolution_run_20261111/formal_native_enum_review.json'
     review = load_json(review_path)
-    if not review['engineering_ready'] or not review['continue_fixed_experiment_under_current_goal']:
-        raise ValueError('Finish the actual implementation review before preparing the formal run')
-    prior = load_json(ROOT / 'configs/legal_skill_evolution_repair_v13_20261111.json')
-    if not (ROOT / prior['artifacts'] / 'completed.json').exists():
-        raise ValueError('The fixed affected-candidate queue must settle first')
+    if not review['old_client_terminal'] or review['inflight_before_promotion'] != 0:
+        raise ValueError('Settle the existing client before promoting this common runtime check')
+    if not review['offline_actual_TRAIN_final_answers_and_paths_preserved']:
+        raise ValueError('A native type-check optimization needs actual offline evidence')
+    previous = 'configs/legal_skill_evolution_formal_v3_20261111.json'
+    prior = load_json(ROOT / previous)
     original = load_json(ROOT / prior['artifacts'] / 'execution_manifest.json')
     code = {p: sha(ROOT / p) for p in original['code']}
-    for p in [Path(__file__), ROOT / 'tests/test_skill_evolution_formal.py']:
-        code[str(p.relative_to(ROOT))] = sha(p)
-    for p in list((ROOT / 'legal_skill_guard/skill_evolution').glob('*.py')) + [ROOT / 'tests/test_skill_evolution_grounding.py', ROOT / 'tests/test_skill_evolution_teacher_batch.py']:
-        code[str(p.relative_to(ROOT))] = sha(p)
-    data = {p: sha(ROOT / p) for p in original['data']
-            if not p.startswith(('artifacts/legal_skill_evolution_20261111/repair_',
-                                 'artifacts/legal_skill_evolution_20261111/pilot_'))}
-    for p in [ROOT / 'artifacts/legal_skill_evolution_20261111/prepared/dev/public.json',
-              ROOT / 'artifacts/legal_skill_evolution_20261111/prepared/dev/grading.json',
-              review_path, ROOT / 'configs/legal_skill_evolution_20261111.json',
-              ROOT / 'reports/legal_skill_evolution_run_20261111/formal_forward_grounding_repair_review.json',
-              ROOT / 'reports/legal_skill_evolution_run_20261111/formal_teacher_parallel_review.json']:
-        data[str(p.relative_to(ROOT))] = sha(p)
-    profile = {**prior, 'run_id': 'legal_skill_evolution_formal_v3_20261111',
-        'artifacts': 'artifacts/legal_skill_evolution_20261111/formal_v3', 'stage': 'formal',
-        'arms': list(ARMS), 'curve_arms': list(CURVE_ARMS), 'prior_logical_replay_executions': {},
-        'controlled_TRAIN_diagnostics_in_formal_learning': False,
-        'selection_grade': 'native_views_mean_within_parent', 'pilot_skills_imported': False,
-        'dev_feedback_to_teacher': False, 'sealed_TEST_opened': False,
-        'schedule': schedule(), 'continuation_of': 'configs/legal_skill_evolution_formal_v2_20261111.json',
-        'same_training_pass': True, 'preserved_completed_batch_prefix': 3, 'teacher_proposal_workers': 2, 'teacher_prefetch_from_batch': 4,
-        'forward_repair': 'two independent teacher proposals overlap; executor and candidate validation stay serial'}
-    profile['exact_replay_profiles'] = prior['exact_replay_profiles'] + ['configs/legal_skill_evolution_repair_v13_20261111.json',
-        'configs/legal_skill_evolution_formal_v1_20261111.json', 'configs/legal_skill_evolution_formal_v2_20261111.json']
+    for relative in ('legal_skill_guard/skill_evolution/answer_domain.py',
+                     'tests/test_skill_evolution_answer_domain.py', 'legal_skill_guard/skill_evolution/teacher_transport.py',
+                     'tests/test_skill_evolution_teacher_transport.py'):
+        code[relative] = sha(ROOT / relative)
+    data = {p: sha(ROOT / p) for p in original['data']}
+    for path in (review_path, ROOT / 'reports/legal_skill_evolution_run_20261111/actual_TRAIN_enum_skip_regression.json'):
+        data[str(path.relative_to(ROOT))] = sha(path)
+    profile = {**prior, 'run_id': 'legal_skill_evolution_formal_v4_20261111',
+        'artifacts': 'artifacts/legal_skill_evolution_20261111/formal_v4',
+        'continuation_of': previous, 'same_training_pass': True,
+        'preserved_completed_batch_prefix': review['preserved_completed_batch_prefix'],
+        'teacher_input_transport': 'Lossless shared JSON values with exact round-trip evidence; no removed fields, source text or prior outcomes.',
+        'forward_repair': 'Prove literal terminal answers disjoint from the existing native enum before unnecessary reads; unknown programs and dependency producers retain normal execution.'}
+    profile['exact_replay_profiles'] = prior['exact_replay_profiles'] + [previous]
     profile['generation_binding'] = {'code_hash': digest(code), 'data_hash': digest(data),
         'executor_hash': digest(profile['executor']), 'teacher_hash': digest(profile['teacher'])}
     immutable_json(PROFILE, profile)

@@ -8,6 +8,7 @@ import sqlite3
 
 from experiments.legal_skill_evolution_formal import ARMS, PROFILE as FORMAL_PROFILE
 from legal_skill_guard.skill_evolution.objects import digest
+from legal_skill_guard.skill_evolution.teacher_transport import unpack
 
 ROOT = Path(__file__).resolve().parents[2]
 REPORT = Path(__file__).resolve().parent
@@ -88,6 +89,7 @@ def main():
         if not teacher_id:continue
         raw = json.loads(request.read_text())
         context = json.loads(raw['user_prompt'])
+        if context.get('encoding') == 'lossless_shared_JSON_values_v1':context = unpack(context)
         arm = context['arm']
         if arm not in ARMS:raise ValueError('A teacher request has an unregistered arm')
         teacher_ids[arm].add(teacher_id)

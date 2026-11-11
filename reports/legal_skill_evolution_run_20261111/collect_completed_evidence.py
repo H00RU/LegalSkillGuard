@@ -15,12 +15,12 @@ def main():
     with sqlite3.connect('file:' + str(ROOT / 'artifacts/rr_v2_preflight/research_ledger.sqlite3') + '?mode=ro', uri=True) as db:
         settled_folders = {digest(r[0]) for r in db.execute("select id from calls where status in ('completed','failed')")}
     sources = []
-    for version in ('pilot_v11', 'repair_v12', 'repair_v13', 'formal_v1', 'formal_v2', 'formal_v3'):
+    for version in ('pilot_v11', 'repair_v12', 'repair_v13', 'formal_v1', 'formal_v2', 'formal_v3', 'formal_v4'):
         folder = ROOT / 'artifacts/legal_skill_evolution_20261111' / version
         for name in ('execution_manifest.json', 'preflight.json', 'repair_queue.json', 'completed.json',
                      'state_import.json', 'resumption_preflight.json', 'training_DEV_completed.json'):
             if (folder / name).exists():sources.append((folder, folder / name))
-        patterns = ('*/initial_B*.json', '*/update_B*.json', '*/teacher_B*.json', '*/B[0-8].json',
+        patterns = ('teacher_prefetch_B*.json', '*/initial_B*.json', '*/update_B*.json', '*/teacher_B*.json', '*/B[0-8].json',
                     '*/B*_candidates/*.json', '*/B*_c*.json', 'source_snapshot/**/*.py', 'dev/*/B*.json')
         for pattern in patterns:sources.extend((folder, p) for p in folder.glob(pattern))
         for request in (folder / 'calls').glob('*/request.json'):

@@ -8,6 +8,7 @@ from legal_skill_guard.inference.codex_cli_client import strict_output_schema_is
 from .objects import Skill, digest, lift, coupled_blocks, premise_uses
 from .native import record_schema, public_strings
 from .grounding import bind_transcribed_quotes
+from .teacher_transport import pack, serialized, INSTRUCTION
 
 STRING = {'type': 'string'}
 NULL_STRING = {'type': ['string', 'null']}
@@ -286,6 +287,8 @@ def propose(teacher, *, arm, batch, library, source_records, feedback, learned_p
         'native_TRAIN_feedback': feedback, 'library': {k: asdict(s) for k, s in library.skills.items()},
         'retained_edits': retained, 'learned_patterns': memory}, ensure_ascii=False)
     system = COMMON_PROMPT + '\n' + ARM_PROMPTS[arm] + f'\nRemaining shared candidate slots: {max_blocks}. Return at most that many blocks.'
+    user = serialized(pack(json.loads(user)))
+    system += '\n' + INSTRUCTION
     identity = teacher.ledger.run_id + ':teacher:' + digest({'system': system, 'user': user,
                                                            'schema': PROPOSAL_SCHEMA})
     return teacher.propose(identity, source_ids=source_ids, system_prompt=system,

@@ -1,0 +1,1051 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "5ade0bc3f68a5078316404b13dae818e58bc7ed4d5781b9220fe93a8bf790f6a",
+  "skills": {
+    "evaluate_termination_payment_subclause_a": {
+      "id": "evaluate_termination_payment_subclause_a",
+      "intent": "Determine whether a payment satisfies a termination-payment subclause requiring payment upon or after termination because of death or retirement for disability, and return the native binary entailment label.",
+      "procedure": "def apply(inputs, premises):\n    timing_ok = bool(inputs[\"payment_upon_or_after_termination\"]) == bool(premises[\"requires_upon_or_after_termination\"])\n    cause_ok = False\n    for cause in premises[\"qualifying_termination_causes\"]:\n        if inputs[\"termination_cause\"] == cause:\n            cause_ok = True\n    answer = \"Contradiction\"\n    if timing_ok and cause_ok:\n        answer = \"Entailment\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "payment_upon_or_after_termination": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Was the payment described in the current facts made upon or after termination of the employment relationship?",
+          "skill_id": null,
+          "field": "payment_upon_or_after_termination"
+        },
+        "termination_cause": {
+          "type": "string",
+          "mode": "read",
+          "question": "What caused the employment relationship to terminate in the current facts? Normalize the result as death, disability_retirement, or other.",
+          "skill_id": null,
+          "field": "termination_cause"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "The native label Entailment or Contradiction."
+        }
+      },
+      "premises": {
+        "requires_upon_or_after_termination": {
+          "type": "boolean",
+          "mode": "constant",
+          "value": true,
+          "question": "Does the source subclause require the payment to occur upon or after termination?",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "upon or after the termination of an employee's employment relationship"
+          }
+        },
+        "qualifying_termination_causes": {
+          "type": "array",
+          "mode": "constant",
+          "value": [
+            "death",
+            "disability_retirement"
+          ],
+          "question": "Which termination causes qualify under the source subclause?",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "because of (i) death, or (ii) retirement for disability"
+          }
+        }
+      },
+      "reads": [
+        {
+          "id": "read_current_termination_payment_facts",
+          "question": "Read the current facts to identify the payment's timing relative to termination and the reason the employment relationship ended.",
+          "source_locator": "current source native view facts and question",
+          "fields": {
+            "payment_upon_or_after_termination": {
+              "type": "boolean",
+              "question": "Was the current payment made upon or after termination?"
+            },
+            "termination_cause": {
+              "type": "string",
+              "question": "Was the current termination caused by death, retirement for disability, or another reason?"
+            }
+          },
+          "bindings": {
+            "payment_upon_or_after_termination": "payment_upon_or_after_termination",
+            "termination_cause": "termination_cause"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "payment_upon_or_after_termination": {
+                "type": "boolean"
+              },
+              "termination_cause": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "payment_upon_or_after_termination",
+              "termination_cause"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "termination_payment_event",
+          "ports": [
+            "payment_upon_or_after_termination",
+            "termination_cause",
+            "requires_upon_or_after_termination",
+            "qualifying_termination_causes"
+          ],
+          "neighbors": []
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "termination_timing_check",
+          "statement": "Check whether the current payment occurred upon or after termination as required by the subclause.",
+          "role": "preliminary",
+          "port": "payment_upon_or_after_termination",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "upon or after the termination of an employee's employment relationship"
+          }
+        },
+        {
+          "id": "termination_cause_check",
+          "statement": "Check whether termination was because of death or retirement for disability.",
+          "role": "terminal",
+          "port": "termination_cause",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "because of (i) death, or (ii) retirement for disability"
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+          "view_id": "native",
+          "quote": "(A) upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability"
+        }
+      ],
+      "version": 1
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [
+    {
+      "batch": 1,
+      "candidate_index": 0,
+      "raw_block": {
+        "rationale": "Create a focused terminal helper for statutory subclause claims involving payments made upon or after termination. It separates current-case fact reading from the source-grounded timing and qualifying-cause rule, preventing the observed fallback from overlooking disability retirement.",
+        "revisions": [
+          {
+            "operation": "create",
+            "skill": {
+              "id": "evaluate_termination_payment_subclause_a",
+              "intent": "Determine whether a payment satisfies a termination-payment subclause requiring payment upon or after termination because of death or retirement for disability, and return the native binary entailment label.",
+              "procedure": "def apply(inputs, premises):\n    timing_ok = bool(inputs[\"payment_upon_or_after_termination\"]) == bool(premises[\"requires_upon_or_after_termination\"])\n    cause_ok = False\n    for cause in premises[\"qualifying_termination_causes\"]:\n        if inputs[\"termination_cause\"] == cause:\n            cause_ok = True\n    answer = \"Contradiction\"\n    if timing_ok and cause_ok:\n        answer = \"Entailment\"\n    return {\"answer\": answer}",
+              "inputs": [
+                {
+                  "name": "payment_upon_or_after_termination",
+                  "type": "boolean",
+                  "mode": "read",
+                  "question": "Was the payment described in the current facts made upon or after termination of the employment relationship?",
+                  "skill_id": null,
+                  "field": "payment_upon_or_after_termination"
+                },
+                {
+                  "name": "termination_cause",
+                  "type": "string",
+                  "mode": "read",
+                  "question": "What caused the employment relationship to terminate in the current facts? Normalize the result as death, disability_retirement, or other.",
+                  "skill_id": null,
+                  "field": "termination_cause"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "answer",
+                  "type": "string",
+                  "description": "The native label Entailment or Contradiction."
+                }
+              ],
+              "premises": [
+                {
+                  "name": "requires_upon_or_after_termination",
+                  "type": "boolean",
+                  "mode": "constant",
+                  "value": true,
+                  "question": "Does the source subclause require the payment to occur upon or after termination?",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                    "view_id": "native",
+                    "quote": "upon or after the termination of an employee's employment relationship"
+                  },
+                  "read_id": null,
+                  "field": null
+                },
+                {
+                  "name": "qualifying_termination_causes",
+                  "type": "array",
+                  "mode": "constant",
+                  "value": [
+                    "death",
+                    "disability_retirement"
+                  ],
+                  "question": "Which termination causes qualify under the source subclause?",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                    "view_id": "native",
+                    "quote": "because of (i) death, or (ii) retirement for disability"
+                  },
+                  "read_id": null,
+                  "field": null
+                }
+              ],
+              "reads": [
+                {
+                  "id": "read_current_termination_payment_facts",
+                  "question": "Read the current facts to identify the payment's timing relative to termination and the reason the employment relationship ended.",
+                  "source_locator": "current source native view facts and question",
+                  "fields": [
+                    {
+                      "name": "payment_upon_or_after_termination",
+                      "type": "boolean",
+                      "question": "Was the current payment made upon or after termination?"
+                    },
+                    {
+                      "name": "termination_cause",
+                      "type": "string",
+                      "question": "Was the current termination caused by death, retirement for disability, or another reason?"
+                    }
+                  ],
+                  "bindings": [
+                    {
+                      "premise": "payment_upon_or_after_termination",
+                      "field": "payment_upon_or_after_termination"
+                    },
+                    {
+                      "premise": "termination_cause",
+                      "field": "termination_cause"
+                    }
+                  ]
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "termination_payment_event",
+                  "ports": [
+                    "payment_upon_or_after_termination",
+                    "termination_cause",
+                    "requires_upon_or_after_termination",
+                    "qualifying_termination_causes"
+                  ],
+                  "neighbors": []
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "termination_timing_check",
+                  "statement": "Check whether the current payment occurred upon or after termination as required by the subclause.",
+                  "role": "preliminary",
+                  "port": "payment_upon_or_after_termination",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                    "view_id": "native",
+                    "quote": "upon or after the termination of an employee's employment relationship"
+                  }
+                },
+                {
+                  "id": "termination_cause_check",
+                  "statement": "Check whether termination was because of death or retirement for disability.",
+                  "role": "terminal",
+                  "port": "termination_cause",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                    "view_id": "native",
+                    "quote": "because of (i) death, or (ii) retirement for disability"
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                  "view_id": "native",
+                  "quote": "(A) upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability"
+                }
+              ],
+              "version": 1
+            }
+          }
+        ]
+      },
+      "revisions": [
+        {
+          "skill_id": "evaluate_termination_payment_subclause_a",
+          "old_hash": null,
+          "new_hash": "6ba0017eb47d9ce030f70b5fa6248187d56874066eb2cf41811dcc240c338bac",
+          "new": {
+            "id": "evaluate_termination_payment_subclause_a",
+            "intent": "Determine whether a payment satisfies a termination-payment subclause requiring payment upon or after termination because of death or retirement for disability, and return the native binary entailment label.",
+            "procedure": "def apply(inputs, premises):\n    timing_ok = bool(inputs[\"payment_upon_or_after_termination\"]) == bool(premises[\"requires_upon_or_after_termination\"])\n    cause_ok = False\n    for cause in premises[\"qualifying_termination_causes\"]:\n        if inputs[\"termination_cause\"] == cause:\n            cause_ok = True\n    answer = \"Contradiction\"\n    if timing_ok and cause_ok:\n        answer = \"Entailment\"\n    return {\"answer\": answer}",
+            "inputs": {
+              "payment_upon_or_after_termination": {
+                "type": "boolean",
+                "mode": "read",
+                "question": "Was the payment described in the current facts made upon or after termination of the employment relationship?",
+                "skill_id": null,
+                "field": "payment_upon_or_after_termination"
+              },
+              "termination_cause": {
+                "type": "string",
+                "mode": "read",
+                "question": "What caused the employment relationship to terminate in the current facts? Normalize the result as death, disability_retirement, or other.",
+                "skill_id": null,
+                "field": "termination_cause"
+              }
+            },
+            "outputs": {
+              "answer": {
+                "type": "string",
+                "description": "The native label Entailment or Contradiction."
+              }
+            },
+            "premises": {
+              "requires_upon_or_after_termination": {
+                "type": "boolean",
+                "mode": "constant",
+                "value": true,
+                "question": "Does the source subclause require the payment to occur upon or after termination?",
+                "origin": {
+                  "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                  "view_id": "native",
+                  "quote": "upon or after the termination of an employee's employment relationship"
+                }
+              },
+              "qualifying_termination_causes": {
+                "type": "array",
+                "mode": "constant",
+                "value": [
+                  "death",
+                  "disability_retirement"
+                ],
+                "question": "Which termination causes qualify under the source subclause?",
+                "origin": {
+                  "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                  "view_id": "native",
+                  "quote": "because of (i) death, or (ii) retirement for disability"
+                }
+              }
+            },
+            "reads": [
+              {
+                "id": "read_current_termination_payment_facts",
+                "question": "Read the current facts to identify the payment's timing relative to termination and the reason the employment relationship ended.",
+                "source_locator": "current source native view facts and question",
+                "fields": {
+                  "payment_upon_or_after_termination": {
+                    "type": "boolean",
+                    "question": "Was the current payment made upon or after termination?"
+                  },
+                  "termination_cause": {
+                    "type": "string",
+                    "question": "Was the current termination caused by death, retirement for disability, or another reason?"
+                  }
+                },
+                "bindings": {
+                  "payment_upon_or_after_termination": "payment_upon_or_after_termination",
+                  "termination_cause": "termination_cause"
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "payment_upon_or_after_termination": {
+                      "type": "boolean"
+                    },
+                    "termination_cause": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "payment_upon_or_after_termination",
+                    "termination_cause"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            ],
+            "semantic_records": [
+              {
+                "id": "termination_payment_event",
+                "ports": [
+                  "payment_upon_or_after_termination",
+                  "termination_cause",
+                  "requires_upon_or_after_termination",
+                  "qualifying_termination_causes"
+                ],
+                "neighbors": []
+              }
+            ],
+            "source_obligations": [
+              {
+                "id": "termination_timing_check",
+                "statement": "Check whether the current payment occurred upon or after termination as required by the subclause.",
+                "role": "preliminary",
+                "port": "payment_upon_or_after_termination",
+                "origin": {
+                  "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                  "view_id": "native",
+                  "quote": "upon or after the termination of an employee's employment relationship"
+                }
+              },
+              {
+                "id": "termination_cause_check",
+                "statement": "Check whether termination was because of death or retirement for disability.",
+                "role": "terminal",
+                "port": "termination_cause",
+                "origin": {
+                  "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                  "view_id": "native",
+                  "quote": "because of (i) death, or (ii) retirement for disability"
+                }
+              }
+            ],
+            "source_provenance": [
+              {
+                "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                "view_id": "native",
+                "quote": "(A) upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability"
+              }
+            ],
+            "version": 1
+          },
+          "operation": "create",
+          "representation_adaptation": {
+            "removed_unobserved_declarations": [],
+            "retained_draft_installation": null,
+            "procedure_unchanged": true,
+            "used_premise_values_unchanged": true
+          }
+        }
+      ],
+      "table": {
+        "revision_hashes": [
+          "6ba0017eb47d9ce030f70b5fa6248187d56874066eb2cf41811dcc240c338bac"
+        ],
+        "trigger": [
+          "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+          "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+          "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74"
+        ],
+        "history": [],
+        "mixed_version_table": [
+          {
+            "mask": 0,
+            "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Contradiction",
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:6837b7f86dd2c59ef2a05d34403765856818c85cad926fb4d90a5dc2bb53ed70",
+                        "elapsed_seconds": 0.7346750916913152,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:6837b7f86dd2c59ef2a05d34403765856818c85cad926fb4d90a5dc2bb53ed70",
+                        "response_hash": "693c1c1424fcbbf16d31663015a86a13c00807da05aa7f90a284ab26694d0c7f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 17,
+                          "prompt_tokens": 1982,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 1999
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "evaluate_termination_payment_subclause_a"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "evaluate_termination_payment_subclause_a",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 0,
+            "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+              "dataset": "RuleArena_Airline",
+              "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": 963,
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:1919bb6fafbe377f7b4daa764fa3558223e2610aecd20d9ccf8c4afa018a8d77",
+                        "elapsed_seconds": 1.1610122546553612,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:1919bb6fafbe377f7b4daa764fa3558223e2610aecd20d9ccf8c4afa018a8d77",
+                        "response_hash": "14fa2481e46e75610b3b7951b0e3cc26c2803a8e53c2a49b7acb17ac7f46fa5f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 17,
+                          "prompt_tokens": 4478,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 4495
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [],
+                    "failed_candidates": []
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 0,
+            "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+              "dataset": "RuleArena_Airline",
+              "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": 1475,
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:f6b5da9d4981f096d40d60d18e45da222e2a4a087231b4bd36f7c7004970ea4e",
+                        "elapsed_seconds": 1.219830228947103,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:f6b5da9d4981f096d40d60d18e45da222e2a4a087231b4bd36f7c7004970ea4e",
+                        "response_hash": "3338508f8ddb4048193a9e67df6a9a650c9e264e2515bba8c4dce7579a18df8d",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 18,
+                          "prompt_tokens": 4625,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 4643
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [],
+                    "failed_candidates": []
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 1,
+            "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "native_parent_grade": 1.0,
+            "trace": {
+              "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "5ade0bc3f68a5078316404b13dae818e58bc7ed4d5781b9220fe93a8bf790f6a",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Entailment",
+                    "evidence_sentence_ids": [],
+                    "fallback": false,
+                    "core_executed": true,
+                    "terminal_skill": "evaluate_termination_payment_subclause_a",
+                    "retrieved": [
+                      "evaluate_termination_payment_subclause_a"
+                    ],
+                    "events": [
+                      {
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:e6a499636563b91e0e0581907f3da75bf99c6b4d74b0bbb02a0f9e5f7fb2c20b",
+                        "cache_hit": false,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:e6a499636563b91e0e0581907f3da75bf99c6b4d74b0bbb02a0f9e5f7fb2c20b",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "prompt_tokens": 4010,
+                          "total_tokens": 4068,
+                          "completion_tokens": 58,
+                          "prompt_tokens_details": null
+                        },
+                        "elapsed_seconds": 2.19496603962034,
+                        "response_hash": "1f704fb17cd9c901d95a092ad8b558c7177b4581d05211910ce2593e8dc2e05a",
+                        "kind": "READ_LOCAL",
+                        "question": "Read the current task input fields.",
+                        "locator": "current supplied source, facts and question, according to each requested field",
+                        "fields": {
+                          "payment_upon_or_after_termination": {
+                            "status": "known",
+                            "value": true,
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 208,
+                                "text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability."
+                              }
+                            ]
+                          },
+                          "termination_cause": {
+                            "status": "known",
+                            "value": "disability_retirement",
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 208,
+                                "text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability."
+                              }
+                            ]
+                          }
+                        },
+                        "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                        "view": "native",
+                        "unresolved_fields": []
+                      },
+                      {
+                        "kind": "APPLY",
+                        "skill_id": "evaluate_termination_payment_subclause_a",
+                        "skill_hash": "6ba0017eb47d9ce030f70b5fa6248187d56874066eb2cf41811dcc240c338bac",
+                        "version": 1,
+                        "inputs": {
+                          "payment_upon_or_after_termination": true,
+                          "termination_cause": "disability_retirement"
+                        },
+                        "premises": {
+                          "requires_upon_or_after_termination": true,
+                          "qualifying_termination_causes": [
+                            "death",
+                            "disability_retirement"
+                          ]
+                        },
+                        "outputs": {
+                          "answer": "Entailment"
+                        },
+                        "unresolved_inputs": [],
+                        "unresolved_premises": [],
+                        "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                        "view": "native"
+                      }
+                    ],
+                    "failed_candidates": []
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": true,
+                    "metric": "native_exact_match",
+                    "grade": 1.0
+                  }
+                }
+              ],
+              "native_grade": 1.0,
+              "selection_grade": 1.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 1,
+              "native_fallback_views": 0
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 1,
+            "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+              "dataset": "RuleArena_Airline",
+              "library_hash": "5ade0bc3f68a5078316404b13dae818e58bc7ed4d5781b9220fe93a8bf790f6a",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": 963,
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:1919bb6fafbe377f7b4daa764fa3558223e2610aecd20d9ccf8c4afa018a8d77",
+                        "elapsed_seconds": 1.1610122546553612,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:1919bb6fafbe377f7b4daa764fa3558223e2610aecd20d9ccf8c4afa018a8d77",
+                        "response_hash": "14fa2481e46e75610b3b7951b0e3cc26c2803a8e53c2a49b7acb17ac7f46fa5f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 17,
+                          "prompt_tokens": 4478,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 4495
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [],
+                    "failed_candidates": []
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 1,
+            "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+              "dataset": "RuleArena_Airline",
+              "library_hash": "5ade0bc3f68a5078316404b13dae818e58bc7ed4d5781b9220fe93a8bf790f6a",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": 1475,
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:f6b5da9d4981f096d40d60d18e45da222e2a4a087231b4bd36f7c7004970ea4e",
+                        "elapsed_seconds": 1.219830228947103,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:f6b5da9d4981f096d40d60d18e45da222e2a4a087231b4bd36f7c7004970ea4e",
+                        "response_hash": "3338508f8ddb4048193a9e67df6a9a650c9e264e2515bba8c4dce7579a18df8d",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 18,
+                          "prompt_tokens": 4625,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 4643
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [],
+                    "failed_candidates": []
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          }
+        ],
+        "complete": true,
+        "minimal_blocks": [
+          1
+        ],
+        "classification": "single_sufficient",
+        "unmeasured_assignments": "unknown",
+        "hash": "2640b6b941c6742eaa26285ea12109954d46de93c5f1013f381c2f3f4d122720"
+      },
+      "error": null,
+      "selection_exclusion": null
+    },
+    {
+      "batch": 1,
+      "candidate_index": 1,
+      "raw_block": {
+        "rationale": "Create one reusable airline-fee calculator with a joint reader for the coupled per-bag components. The program preserves positional checked-bag fees and implements the source's higher-of rule for simultaneous overweight and oversize charges before adding the ticket price.",
+        "revisions": [
+          {
+            "operation": "create",
+            "skill": {
+              "id": "compute_airline_baggage_total",
+              "intent": "Compute the exact integer ticket price plus all checked-bag base and applicable overweight or oversize fees for the current itinerary.",
+              "procedure": "def apply(inputs, premises):\n    base_total = 0\n    for fee in inputs[\"checked_bag_base_fees\"]:\n        base_total = base_total + int(fee)\n    excess_total = 0\n    overweight = inputs[\"checked_bag_overweight_fees\"]\n    oversize = inputs[\"checked_bag_oversize_fees\"]\n    count = max(len(overweight), len(oversize))\n    for i in range(count):\n        weight_fee = 0\n        size_fee = 0\n        if i < len(overweight):\n            weight_fee = int(overweight[i])\n        if i < len(oversize):\n            size_fee = int(oversize[i])\n        if premises[\"simultaneous_excess_rule\"] == \"higher_plus_checked_fee\":\n            excess_total = excess_total + max(weight_fee, size_fee)\n    answer = int(inputs[\"ticket_price\"]) + base_total + excess_total\n    return {\"answer\": answer}",
+              "inputs": [
+                {
+                  "name": "ticket_price",
+                  "type": "integer",
+                  "mode": "read",
+                  "question": "What is the integer ticket price stated in the current facts?",
+                  "skill_id": null,
+                  "field": "ticket_price"
+                },
+                {
+                  "name": "checked_bag_base_fees",
+                  "type": "array",
+                  "mode": "read",
+                  "question": "For each current item that must be checked after applying the personal-item and carry-on allowances, what positional checked-bag fee applies for the current route, cabin, and complimentary allowance? Return fees in checked-item order and exclude weight and size surcharges.",
+                  "skill_id": null,
+                  "field": "checked_bag_base_fees"
+                },
+                {
+                  "name": "checked_bag_overweight_fees",
+                  "type": "array",
+                  "mode": "read",
+                  "question": "For each current checked item, what overweight fee does the current source assign after applying the route, cabin, complimentary-bag weight allowance, and weight interval? Return zero where none applies, in checked-item order.",
+                  "skill_id": null,
+                  "field": "checked_bag_overweight_fees"
+                },
+                {
+                  "name": "checked_bag_oversize_fees",
+                  "type": "array",
+                  "mode": "read",
+                  "question": "For each current checked item, what oversize fee does the current source assign from its total outside dimensions and route? Return zero where none applies, in checked-item order.",
+                  "skill_id": null,
+                  "field": "checked_bag_oversize_fees"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "answer",
+                  "type": "integer",
+                  "description": "Exact integer ticket price plus fees for all current bags."
+                }
+              ],
+              "premises": [
+                {
+                  "name": "simultaneous_excess_rule",
+                  "type": "string",
+                  "mode": "constant",
+                  "value": "higher_plus_checked_fee",
+                  "question": "How are simultaneous oversize and overweight charges combined with the checked-bag fee?",
+                  "origin": {
+                    "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                    "view_id": "native",
+                    "quote": "The higher fee between oversize and overweight applies, in addition to the checked bag fee."
+                  },
+                  "read_id": null,
+                  "field": null
+                }
+              ],
+              "reads": [
+                {
+                  "id": "read_current_airline_bag_fee_components",
+                  "question": "Using the current itinerary, cabin, item dimensions and weights, identify which items are checked and extract their positional base, overweight, and oversize fees from the current source.",
+                  "source_locator": "current source native view source_text, facts, and question",
+                  "fields": [
+                    {
+                      "name": "ticket_price",
+                      "type": "integer",
+                      "question": "What ticket price is stated for the current passenger?"
+                    },
+                    {
+                      "name": "checked_bag_base_fees",
+                      "type": "array",
+                      "question": "What base checked-bag fee applies to each checked item in order?"
+                    },
+                    {
+                      "name": "checked_bag_overweight_fees",
+                      "type": "array",
+                      "question": "What overweight fee applies to each checked item in the same order?"
+                    },
+                    {
+                      "name": "checked_bag_oversize_fees",
+                      "type": "array",
+                      "question": "What oversize fee applies to each checked item in the same order?"
+                    }
+                  ],
+                  "bindings": [
+                    {
+                      "premise": "ticket_price",
+                      "field": "ticket_price"
+                    },
+                    {
+                      "premise": "checked_bag_base_fees",
+                      "field": "checked_bag_base_fees"
+                    },
+                    {
+                      "premise": "checked_bag_overweight_fees",
+                      "field": "checked_bag_overweight_fees"
+                    },
+                    {
+                      "premise": "checked_bag_oversize_fees",
+                      "field": "checked_bag_oversize_fees"
+                    }
+                  ]
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "ordered_checked_bag_fee_components",
+                  "ports": [
+                    "checked_bag_base_fees",
+                    "checked_bag_overweight_fees",
+                    "checked_bag_oversize_fees",
+                    "simultaneous_excess_rule"
+                  ],
+                  "neighbors": []
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "identify_checked_items",
+                  "statement": "Apply the personal-item and single-carry-on allowances before assigning checked-bag positions.",
+                  "role": "preliminary",
+                  "port": "checked_bag_base_fees",
+                  "origin": {
+                    "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                    "view_id": "native",
+                    "quote": "You can bring only one carry-on item along with your personal item."
+                  }
+                },
+                {
+                  "id": "assign_positional_checked_fees",
+                  "statement": "Assign each checked item the fee for its ordinal position, route, cabin, and applicable complimentary allowance.",
+                  "role": "preliminary",
+                  "port": "checked_bag_base_fees",
+                  "origin": {
+                    "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                    "view_id": "native",
+                    "quote": "All bag fees are non-refundable and apply per person, each way"
+                  }
+                },
+                {
+                  "id": "combine_weight_and_size_fees",
+                  "statement": "When a checked bag is both overweight and oversize, add only the higher of those two excess fees to its checked-bag fee.",
+                  "role": "terminal",
+                  "port": "simultaneous_excess_rule",
+                  "origin": {
+                    "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                    "view_id": "native",
+                    "quote": "The higher fee between oversize and overweight applies, in addition to the checked bag fee."
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                  "view_id": "native",
+                  "quote": "We calculate the size limits of your bag by adding the total outside dimensions of each bag, length + width + height."
+                },
+                {
+                  "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                  "view_id": "native",
+                  "quote": "The higher fee between oversize and overweight applies, in addition to the checked bag fee."
+                },
+                {
+                  "source_id": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+                  "view_id": "native",
+                  "quote": "For all confirmed customers on flights to / from Australia or New Zealand: Dimension: 62 in / 158 cm; Weight: 70 lbs / 32kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                },
+                {
+                  "source_id": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+                  "view_id": "native",
+                  "quote": "The higher fee between oversize and overweight applies, in addition to the checked bag fee."
+                }
+              ],
+              "version": 1
+            }
+          }
+        ]
+      },
+      "revisions": null,
+      "table": null,
+      "error": "ValueError: Teacher provenance is not a literal supplied TRAIN-source quote",
+      "selection_exclusion": null
+    }
+  ],
+  "execution_events": []
+}

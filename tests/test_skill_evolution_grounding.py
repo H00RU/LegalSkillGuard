@@ -1,5 +1,6 @@
 """Exact source binding repairs formatting, never missing legal meaning."""
 import unittest
+from legal_skill_guard.skill_evolution.teacher_transport import unpack
 import json
 
 from legal_skill_guard.skill_evolution.grounding import bind_transcribed_quotes
@@ -34,7 +35,7 @@ class GroundingTests(unittest.TestCase):
         result = propose(Capture(), arm='Full', batch=2, library=library,
             source_records=[{'key': 'fixture', 'views': [{'id': 'v', 'answer_schema': {'type': 'boolean'}}]}],
             feedback=[], learned_patterns=[], trigger=['fixture'], history=[])
-        retained = json.loads(result['user_prompt'])['retained_edits']
+        retained = unpack(json.loads(result['user_prompt']))['retained_edits']
         self.assertEqual(retained[0]['raw_block'], raw)
         self.assertNotIn('raw_block', retained[1])
 

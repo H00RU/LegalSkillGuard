@@ -8,6 +8,7 @@ import tempfile
 import threading
 from types import SimpleNamespace
 import unittest
+from legal_skill_guard.skill_evolution.teacher_transport import unpack
 from unittest.mock import patch
 
 from legal_skill_guard.rr.ledger import BudgetError
@@ -123,7 +124,7 @@ class TeacherBatchTests(unittest.TestCase):
             class Teacher:
                 def __init__(self, current, artifacts, config):self.ledger = current
                 def propose(self, call_id, **kwargs):
-                    current = json.loads(kwargs['user_prompt']);failed = current['arm'] == 'FreeEvolution'
+                    current = unpack(json.loads(kwargs['user_prompt']));failed = current['arm'] == 'FreeEvolution'
                     self.ledger.reserve(call_id, role='teacher', purpose='skill_teacher', source=kwargs['source_ids'][0], request=kwargs)
                     barrier.wait(timeout=5)
                     if failed:

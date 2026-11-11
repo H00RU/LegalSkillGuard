@@ -1,14 +1,14 @@
-# 冻结模型法律技能进化：首遍结果与集中修复复验
+# 冻结模型法律技能进化：正式学习与开发验证
 
-**同一Goal active、未完成。正式128来源/8批七系统学习已完成B1–B3的48来源初答及18次学习臂更新、对应DEV，正在B4初答。** 固定20来源首遍与29项集中复验均保留。已有真实技能获取与执行，但Lift、CoRev的独立贡献尚未成立，TEST尚未打开。
+**同一Goal active、未完成。正式128来源/8批七系统学习已完成前5批80来源初答，前4批24次学习臂更新及对应DEV，正在接续B5剩余更新。** 固定20来源首遍与29项集中复验均保留。已有真实技能获取与执行，但Lift、CoRev的独立贡献尚未成立，TEST尚未打开。
 
 [当前目标](../../docs/CURRENT_GOAL.md) · [当前工作](../../docs/METHOD_REDESIGN_CURRENT.md) · [动态账本与队列](pilot_progress.json) · [简明状态](current_status.json)
 
 ## 正式学习的当前结果
 
-七系统已按固定顺序回答前48/128个TRAIN母来源，六学习臂完成18/48次批次更新。B3末Full有2个SARA程序，自由演化3个，其他臂1–2个；全部CoRev模式0。Full均将法源条件作为当前读取的inputs，固定前提0，属于普通参数化获取，不能计Lift。前三批新来源初答每臂共105原生视图，主路径正确均0，与同案NoSkill差值均0；反馈内回放改对另列。[逐来源配对训练轨迹](formal_TRAIN_trajectory.json)、[CSV](formal_TRAIN_trajectory.csv)、[训练曲线PDF](formal_TRAIN_learning_trajectory.pdf)与[PNG](formal_TRAIN_learning_trajectory.png)包含库规模、回退和排除DEV后的请求使用量。B3批初宏平均.4167478反映这一批不同案情，不能把批间变化当作学习收益。
+七系统已按固定顺序回答前80/128个TRAIN母来源，六学习臂完成24/48次批次更新。B4末Full有两个SARA程序与新学的行李费程序，自由演化3个，其他臂1–2个；全部CoRev模式0。两个SARA程序没有固定法源前提，行李费程序有8项固定前提；这些新建均不能倒算Lift。前四批新来源初答每臂共140原生视图，主路径正确均0；B5 Full首次用批初旧库在一个新航空来源主路径答对，同案NoSkill错，其他臂B5核心正确仍0。反馈内回放改对另列。[逐来源配对训练轨迹](formal_TRAIN_trajectory.json)、[CSV](formal_TRAIN_trajectory.csv)、[训练曲线PDF](formal_TRAIN_learning_trajectory.pdf)与[PNG](formal_TRAIN_learning_trajectory.png)包含库规模、回退和排除DEV后的请求使用量，各批不同案情的分数不能当作同案学习收益。
 
-B0七系统五库等权均为**0.4813387**；B1–B3四主臂仍为同一分数。B2 FreeEvolution、LiftOnly、CoRevOnly各有1个DEV视图由技能主路径答对，但该题直接基线本来正确；Full核心执行0。B3四主臂各1个DEV视图核心答对，仍是基线原本正确的题。当前19/42个注册点完成，详见[逐库DEV统计](formal_DEV_summary.json)。这里有实际主路径执行，尚无新增答对或方法增量。[学习曲线PNG](formal_DEV_learning_curves.png)、[向量PDF](formal_DEV_learning_curves.pdf)及[数据CSV](formal_DEV_curve_data.csv)仅绘制实际完成点；区间表示母来源不确定性，不表示训练种子波动。
+**B4 Full的DEV五库等权均分为.5313387，比其B0的.4813387提高.0500；航空库由0/8变为2/8，另外四库不变。** 行李费程序在两个新航空来源实际执行并答对；Full共3个核心正确DEV视图，另1个SARA题基线本已正确。FreeEvolution、LiftOnly、CoRevOnly的B4均分仍为.4813387。两个强对照下一注册DEV点为B8，因此当前不能认定相对强对照收益，也不能把普通技能获取的增益计作专门Lift/CoRev贡献。当前23/42个注册点完成，详见[逐库DEV统计](formal_DEV_summary.json)。[学习曲线PNG](formal_DEV_learning_curves.png)、[向量PDF](formal_DEV_learning_curves.pdf)及[数据CSV](formal_DEV_curve_data.csv)仅绘制实际完成点；区间表示母来源不确定性，不表示训练种子波动。
 
 正式流程在六臂B2更新全部结算、旧客户端退出、账本在途0后统一接入前向修复：唯一可还原的引文换行/破折号转录绑定回原文；原程序、法律值和类型检查保持。另一条实质转述继续拒绝。并将已保存但原先遗漏的失败原始程序交给后续教师修复，所有臂一致。1482个已结算文件逐字接至formal_v2，新增调用0；B0–B2不重跑、不回写，入口和同一8批顺序保持。[真实失败回归](actual_quote_transcription_regression.json)、[前向修复复核](formal_forward_grounding_repair_review.json)、[状态导入收据](formal_grounding_state_import.json)。
 
@@ -16,9 +16,15 @@ B0七系统五库等权均为**0.4813387**；B1–B3四主臂仍为同一分数�
 
 首批实际更新阶段约**19.96分钟、48E/6T**，不含DEV/TEST；后续历史回放更大，不能将首批线性外推视为全程时长承诺。[阶段费用与tokens](stage_costs.json)、[各臂实际响应使用成本](formal_cost_footprints.json)及[首批测量](fixed_study_cost_estimate_B1.json)分别保留；共享精确缓存不重复算物理费用，也不将各臂共享使用量相加冒充支出。运行依赖按每版manifest冻结，前向切换前核对原运行，切换后使用新清单。
 
-首批六个教师累计965.99秒，约占更新阶段81%。已在B3安全边界接入**两路教师提议并发、执行模型与候选验证串行**，从正常B4提议启用，不增加探测调用；模型、采样、数据、8批顺序、每臂3候选/192逻辑执行保持。42项隔离及接入回归通过，12个新鲜fixture及6个真实B3缓存上下文的新旧模型提议输入字节一致；原请求的完整JSON值、类型及schema一致。缓存重读的键序差异在旧代码中同样存在，单列说明，未放松真实响应逐字缓存。[工程复核](formal_teacher_parallel_review.json)、[真实输入比对](actual_teacher_prefetch_payload_parity.json)。旧PID退出75、在途0后逐字导入2723个已结算文件至formal_v3，新增调用0；[导入证据](formal_teacher_overlap_state_import.json)。真实并发和耗时将由固定B4队列验证，尚不宣称实测提速。
+首批六个教师累计965.99秒，约占更新阶段81%。已在B3安全边界接入**两路教师提议并发、执行模型与候选验证串行**，从正常B4提议启用，不增加探测调用；模型、采样、数据、8批顺序、每臂3候选/192逻辑执行保持。42项隔离及接入回归通过，12个新鲜fixture及6个真实B3缓存上下文的新旧模型提议输入字节一致；原请求的完整JSON值、类型及schema一致。缓存重读的键序差异在旧代码中同样存在，单列说明，未放松真实响应逐字缓存。[工程复核](formal_teacher_parallel_review.json)、[真实输入比对](actual_teacher_prefetch_payload_parity.json)。旧PID退出75、在途0后逐字导入2723个已结算文件至formal_v3，新增调用0；[导入证据](formal_teacher_overlap_state_import.json)。正常B4的6次提议已全部完成，峰值并发2，六次CLI调用耗时之和1125.23秒、整个阶段墙钟565.40秒，阶段内E派发0，观察到的区间重叠因子1.9904。[实测记录](actual_teacher_overlap.json)。该比值没有另跑串行对照，也不计Lift/CoRev方法收益。
 
-截至B3，39项教师原始操作全为create，35项编译、12项接纳，未出现多已有技能修订或专门Lift。所有臂共享`VersionTable.choose`，因此同候选同表的普通联合选择相同，不能计选择算法优势。无记忆候选的固定队列诊断也不能替代独立获取比较；单端口Lift尚无真实操作可配对。[机制与固定表诊断](formal_mechanism_inventory.json)保留适用范围和未证实项，没有重做旧确定性构造或新增实验。
+截至B4，56项教师原始操作全为create，52项编译、13项接纳，未出现多已有技能修订或专门Lift。所有臂共享`VersionTable.choose`，因此同候选同表的普通联合选择相同，不能计选择算法优势。无记忆候选的固定队列诊断也不能替代独立获取比较；单端口Lift尚无真实操作可配对。[机制与固定表诊断](formal_mechanism_inventory.json)保留适用范围和未证实项，没有重做旧确定性构造或新增实验。
+
+原生标签检查的提前执行已完成隔离验证：对只能返回与当前任务枚举完全不相交的字面字符串程序，保留原检索列表，提前记录失败；依赖中的中间程序与不能证明的动态程序仍执行原路径。48项回归及384条受影响真实TRAIN记录的原始读取回放通过，最终答案、核心/回退、终端技能及检索列表一致，可省690次逻辑读取。历史物理费用不回写，普通fallback仍不算核心成功。[离线证据](actual_TRAIN_enum_skip_regression.json)。B5初答全部完成后因实际教师传输错误统一接入formal_v4共同底座；原B5初答保持，不重跑。
+
+B5教师更新遇到真实传输阻断：FreeEvolution输入1082126字符超过CLI固定1048576字符上限，本地拒绝未占其物理调用；独立LiftOnly提议成功结算，余4臂尚未发送。保留全部记录后使用可逆重复JSON值引用编码，不删除任何来源、反馈、原程序或旧表。六个真实B5输入逐值、类型、键序及字面字符串还原一致，编码后36.7万–50.9万字符，所有臂共用；模型、采样、监督与逻辑预算不变。[实际传输回归](actual_B5_teacher_transport_regression.json)。
+
+v3退出1、在途0后，4315个文件原样接至v4，23个DEV聚合从精确视图缓存恢复且与原文件逐字一致；接续新增模型调用0。B5全部初答及已完成的LiftOnly教师提议保留，仅执行其余5个提议，不重启epoch。52项隔离检查及接入/冻结恢复共60项通过，[前向接入复核](formal_native_enum_review.json)、[逐文件接续](formal_native_enum_state_import.json)。运行中绑定的离线证据冻结，不把格式或提速计成方法机制成功。
 
 ## 20来源首遍（独立历史轨迹）
 
@@ -70,7 +76,7 @@ Full部分已完成：原OE候选恢复真实主路径，选中分类器＋EV渲
 本次保持首遍顺序库与初答成绩，不把修复后较好的输出覆盖历史，不借用修复未来信息回写旧批次。复验只回答明确工程问题，不把修复后输出回填原学习历史。复验新增237次executor、0次teacher，结束累计2622E/90T。
 
 
-正式入口为`python -m experiments.legal_skill_evolution_formal run`，当前formal_v3继续同一次学习，固定每批16（OE4、其余各3），全批先答再更新，各系统从空库开始，四主臂B0–B8 DEV、其余B0/B8。加入两教师并发及隔离恢复后42项相关检查通过，368个TRAIN/DEV视图容量预检保持，最大输入9468 tokens；没有开TEST或更新模型参数。
+正式入口为`python -m experiments.legal_skill_evolution_formal run`，当前formal_v4继续同一次学习，固定每批16（OE4、其余各3），全批先答再更新，各系统从空库开始，四主臂B0–B8 DEV、其余B0/B8。加入两教师并发及隔离恢复后42项相关检查通过，368个TRAIN/DEV视图容量预检保持，最大输入9468 tokens；没有开TEST或更新模型参数。
 
 当前Goal明确覆盖历史“首阶段停止”边界，因此按完整固定实验继续；原包不改写，小试缺机制事件和强对照吸收保留为负面证据。最终仍须完整实验、相对强对照实际收益及两项独立贡献才完成。阶段入口的工程可运行不等于贡献已通过，[入口复核](formal_entry_review.json)分别记录。
 

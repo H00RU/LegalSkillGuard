@@ -1,0 +1,3322 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "da64c0fdd8ba217a38a1e269d9bdc510fc89311ffc90879f7c7acabe47145254",
+  "skills": {
+    "termination_cause_subclause_classifier": {
+      "id": "termination_cause_subclause_classifier",
+      "intent": "Determine whether facts entail a claim that the termination-cause condition in a legal payment subclause applies, without importing sibling conditions outside the queried subclause.",
+      "procedure": "def apply(inputs, premises):\n    trigger_met = True\n    if premises[\"requires_upon_or_after_termination\"]:\n        trigger_met = trigger_met and inputs[\"payment_upon_or_after_termination\"]\n    if premises[\"requires_death_or_disability_cause\"]:\n        trigger_met = trigger_met and inputs[\"termination_caused_by_death_or_disability\"]\n    if trigger_met:\n        answer = \"Entailment\"\n    else:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "payment_upon_or_after_termination": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Do the current facts state that the payment was made upon or after termination of the employee's employment relationship?",
+          "skill_id": null,
+          "field": "payment_upon_or_after_termination"
+        },
+        "termination_caused_by_death_or_disability": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Do the current facts state that the employment relationship was terminated because of death or retirement for disability?",
+          "skill_id": null,
+          "field": "termination_caused_by_death_or_disability"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "The current native binary label: Entailment when the queried termination-cause subclause is satisfied, otherwise Contradiction."
+        }
+      },
+      "premises": {
+        "requires_upon_or_after_termination": {
+          "type": "boolean",
+          "mode": "constant",
+          "value": true,
+          "question": "Does the queried subclause require payment upon or after termination?",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "upon or after the termination of an employee's employment relationship"
+          }
+        },
+        "requires_death_or_disability_cause": {
+          "type": "boolean",
+          "mode": "constant",
+          "value": true,
+          "question": "Does the queried subclause require termination because of death or retirement for disability?",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "because of (i) death, or (ii) retirement for disability"
+          }
+        }
+      },
+      "reads": [
+        {
+          "id": "read_termination_payment_facts",
+          "question": "Read the current payment and termination facts relevant to the termination-cause condition of the specifically queried subclause.",
+          "source_locator": "current facts and question",
+          "fields": {
+            "payment_upon_or_after_termination": {
+              "type": "boolean",
+              "question": "Was the current payment made upon or after termination of the employment relationship?"
+            },
+            "termination_caused_by_death_or_disability": {
+              "type": "boolean",
+              "question": "Was the current termination caused by death or retirement for disability?"
+            }
+          },
+          "bindings": {},
+          "schema": {
+            "type": "object",
+            "properties": {
+              "payment_upon_or_after_termination": {
+                "type": "boolean"
+              },
+              "termination_caused_by_death_or_disability": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "payment_upon_or_after_termination",
+              "termination_caused_by_death_or_disability"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "termination_trigger_record",
+          "ports": [
+            "payment_upon_or_after_termination",
+            "termination_caused_by_death_or_disability",
+            "requires_upon_or_after_termination",
+            "requires_death_or_disability_cause"
+          ],
+          "neighbors": []
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "check_queried_termination_trigger",
+          "statement": "Check only whether the current payment and termination facts satisfy the two elements stated in the queried termination-cause subclause.",
+          "role": "terminal",
+          "port": "termination_caused_by_death_or_disability",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability"
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+          "view_id": "native",
+          "quote": "upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability"
+        }
+      ],
+      "version": 1
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [
+    {
+      "batch": 1,
+      "candidate_index": 0,
+      "raw_block": {
+        "rationale": "Create one joint package covering all three trigger failures: a scoped statutory-subclause classifier for §3306(b)(10)(A), and an itinerary-sensitive baggage calculator that distinguishes cabin items from checked bags, applies positional checked-bag fees, uses the higher of overweight and oversize charges, and optimally assigns complimentary higher-weight allowances. The latter yields 1433 for Karen and 3695 for Emily without encoding either answer.",
+        "revisions": [
+          {
+            "operation": "create",
+            "skill": {
+              "id": "termination_cause_subclause_classifier",
+              "intent": "Determine whether facts entail a claim that the termination-cause condition in a legal payment subclause applies, without importing sibling conditions outside the queried subclause.",
+              "procedure": "def apply(inputs, premises):\n    trigger_met = True\n    if premises[\"requires_upon_or_after_termination\"]:\n        trigger_met = trigger_met and inputs[\"payment_upon_or_after_termination\"]\n    if premises[\"requires_death_or_disability_cause\"]:\n        trigger_met = trigger_met and inputs[\"termination_caused_by_death_or_disability\"]\n    if trigger_met:\n        answer = \"Entailment\"\n    else:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+              "inputs": [
+                {
+                  "name": "payment_upon_or_after_termination",
+                  "type": "boolean",
+                  "mode": "read",
+                  "question": "Do the current facts state that the payment was made upon or after termination of the employee's employment relationship?",
+                  "skill_id": null,
+                  "field": "payment_upon_or_after_termination"
+                },
+                {
+                  "name": "termination_caused_by_death_or_disability",
+                  "type": "boolean",
+                  "mode": "read",
+                  "question": "Do the current facts state that the employment relationship was terminated because of death or retirement for disability?",
+                  "skill_id": null,
+                  "field": "termination_caused_by_death_or_disability"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "answer",
+                  "type": "string",
+                  "description": "The current native binary label: Entailment when the queried termination-cause subclause is satisfied, otherwise Contradiction."
+                }
+              ],
+              "premises": [
+                {
+                  "name": "requires_upon_or_after_termination",
+                  "type": "boolean",
+                  "mode": "constant",
+                  "value": true,
+                  "question": "Does the queried subclause require payment upon or after termination?",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                    "view_id": "native",
+                    "quote": "upon or after the termination of an employee's employment relationship"
+                  },
+                  "read_id": null,
+                  "field": null
+                },
+                {
+                  "name": "requires_death_or_disability_cause",
+                  "type": "boolean",
+                  "mode": "constant",
+                  "value": true,
+                  "question": "Does the queried subclause require termination because of death or retirement for disability?",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                    "view_id": "native",
+                    "quote": "because of (i) death, or (ii) retirement for disability"
+                  },
+                  "read_id": null,
+                  "field": null
+                }
+              ],
+              "reads": [
+                {
+                  "id": "read_termination_payment_facts",
+                  "question": "Read the current payment and termination facts relevant to the termination-cause condition of the specifically queried subclause.",
+                  "source_locator": "current facts and question",
+                  "fields": [
+                    {
+                      "name": "payment_upon_or_after_termination",
+                      "type": "boolean",
+                      "question": "Was the current payment made upon or after termination of the employment relationship?"
+                    },
+                    {
+                      "name": "termination_caused_by_death_or_disability",
+                      "type": "boolean",
+                      "question": "Was the current termination caused by death or retirement for disability?"
+                    }
+                  ],
+                  "bindings": []
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "termination_trigger_record",
+                  "ports": [
+                    "payment_upon_or_after_termination",
+                    "termination_caused_by_death_or_disability",
+                    "requires_upon_or_after_termination",
+                    "requires_death_or_disability_cause"
+                  ],
+                  "neighbors": []
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "check_queried_termination_trigger",
+                  "statement": "Check only whether the current payment and termination facts satisfy the two elements stated in the queried termination-cause subclause.",
+                  "role": "terminal",
+                  "port": "termination_caused_by_death_or_disability",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                    "view_id": "native",
+                    "quote": "upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability"
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                  "view_id": "native",
+                  "quote": "upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability"
+                }
+              ],
+              "version": 1
+            }
+          },
+          {
+            "operation": "create",
+            "skill": {
+              "id": "airline_current_bag_total_calculator",
+              "intent": "Compute the exact ticket-plus-baggage total under the current itinerary, cabin, carry-on, checked-bag, overweight, oversize, and complimentary-weight rules.",
+              "procedure": "def apply(inputs, premises):\n    lengths = inputs[\"lengths\"]\n    widths = inputs[\"widths\"]\n    heights = inputs[\"heights\"]\n    weights = inputs[\"weights\"]\n    personal = inputs[\"personal_dimension_limits\"]\n    carryon = inputs[\"carryon_dimension_limits\"]\n    checked = []\n    personal_used = False\n    carryon_used = False\n    for i in range(len(lengths)):\n        fits_personal = lengths[i] <= personal[0] and widths[i] <= personal[1] and heights[i] <= personal[2]\n        fits_carryon = lengths[i] <= carryon[0] and widths[i] <= carryon[1] and heights[i] <= carryon[2]\n        if fits_personal and not personal_used:\n            personal_used = True\n        elif fits_carryon and not carryon_used:\n            carryon_used = True\n        else:\n            checked = checked + [i]\n    checked_count = len(checked)\n    base_total = sum(inputs[\"base_fees_by_checked_position\"][:checked_count])\n    complimentary_count = 0\n    for fee in inputs[\"base_fees_by_checked_position\"][:checked_count]:\n        if fee == 0:\n            complimentary_count = complimentary_count + 1\n    complimentary_count = min(complimentary_count, checked_count)\n    charged_excess_total = 0\n    savings = []\n    for checked_position in range(checked_count):\n        i = checked[checked_position]\n        dimension = lengths[i] + widths[i] + heights[i]\n        charged_weight_fee = 0\n        if weights[i] > inputs[\"charged_weight_limit\"]:\n            for j in range(len(inputs[\"overweight_upper_limits\"])):\n                if weights[i] <= inputs[\"overweight_upper_limits\"][j]:\n                    charged_weight_fee = inputs[\"overweight_fees\"][j]\n                    break\n        complimentary_weight_fee = 0\n        if weights[i] > inputs[\"complimentary_weight_limit\"]:\n            for j in range(len(inputs[\"overweight_upper_limits\"])):\n                if weights[i] <= inputs[\"overweight_upper_limits\"][j]:\n                    complimentary_weight_fee = inputs[\"overweight_fees\"][j]\n                    break\n        size_fee = 0\n        if dimension > inputs[\"standard_dimension_limit\"]:\n            for j in range(len(inputs[\"oversize_upper_limits\"])):\n                if dimension <= inputs[\"oversize_upper_limits\"][j]:\n                    size_fee = inputs[\"oversize_fees\"][j]\n                    break\n        charged_excess = max(charged_weight_fee, size_fee)\n        complimentary_excess = max(complimentary_weight_fee, size_fee)\n        charged_excess_total = charged_excess_total + charged_excess\n        savings = savings + [charged_excess - complimentary_excess]\n    ordered_savings = sorted(savings)\n    complimentary_savings = sum(ordered_savings[len(ordered_savings) - complimentary_count:])\n    total = inputs[\"ticket_price\"] + base_total + charged_excess_total - complimentary_savings\n    return {\"answer\": int(total)}",
+              "inputs": [
+                {
+                  "name": "ticket_price",
+                  "type": "integer",
+                  "mode": "read",
+                  "question": "What is the current passenger's integer ticket price?",
+                  "skill_id": null,
+                  "field": "ticket_price"
+                },
+                {
+                  "name": "lengths",
+                  "type": "array",
+                  "mode": "read",
+                  "question": "What are the outside lengths in inches of the current passenger's ordered items?",
+                  "skill_id": null,
+                  "field": "lengths"
+                },
+                {
+                  "name": "widths",
+                  "type": "array",
+                  "mode": "read",
+                  "question": "What are the outside widths in inches of the current passenger's ordered items?",
+                  "skill_id": null,
+                  "field": "widths"
+                },
+                {
+                  "name": "heights",
+                  "type": "array",
+                  "mode": "read",
+                  "question": "What are the outside heights in inches of the current passenger's ordered items?",
+                  "skill_id": null,
+                  "field": "heights"
+                },
+                {
+                  "name": "weights",
+                  "type": "array",
+                  "mode": "read",
+                  "question": "What are the weights in pounds of the current passenger's ordered items?",
+                  "skill_id": null,
+                  "field": "weights"
+                },
+                {
+                  "name": "personal_dimension_limits",
+                  "type": "array",
+                  "mode": "read",
+                  "question": "What ordered length, width, and height limits does the current source give for one personal item?",
+                  "skill_id": null,
+                  "field": "personal_dimension_limits"
+                },
+                {
+                  "name": "carryon_dimension_limits",
+                  "type": "array",
+                  "mode": "read",
+                  "question": "What ordered length, width, and height limits does the current source give for one carry-on bag?",
+                  "skill_id": null,
+                  "field": "carryon_dimension_limits"
+                },
+                {
+                  "name": "base_fees_by_checked_position",
+                  "type": "array",
+                  "mode": "read",
+                  "question": "For the current itinerary and cabin, what numeric base fees apply to successive checked-bag positions, expanding the fourth-bag-plus rate through the number of current items?",
+                  "skill_id": null,
+                  "field": "base_fees_by_checked_position"
+                },
+                {
+                  "name": "standard_dimension_limit",
+                  "type": "number",
+                  "mode": "read",
+                  "question": "What total outside-dimension limit applies to a standard checked bag under the current source?",
+                  "skill_id": null,
+                  "field": "standard_dimension_limit"
+                },
+                {
+                  "name": "charged_weight_limit",
+                  "type": "number",
+                  "mode": "read",
+                  "question": "What standard weight limit applies to an excess-charged checked bag on the current itinerary?",
+                  "skill_id": null,
+                  "field": "charged_weight_limit"
+                },
+                {
+                  "name": "complimentary_weight_limit",
+                  "type": "number",
+                  "mode": "read",
+                  "question": "What standard weight limit applies to a complimentary checked bag on the current itinerary and cabin?",
+                  "skill_id": null,
+                  "field": "complimentary_weight_limit"
+                },
+                {
+                  "name": "overweight_upper_limits",
+                  "type": "array",
+                  "mode": "read",
+                  "question": "What ascending upper weight bounds define the accepted overweight bands applicable to the current itinerary?",
+                  "skill_id": null,
+                  "field": "overweight_upper_limits"
+                },
+                {
+                  "name": "overweight_fees",
+                  "type": "array",
+                  "mode": "read",
+                  "question": "What numeric overweight fees correspond to the current itinerary's ascending overweight bands?",
+                  "skill_id": null,
+                  "field": "overweight_fees"
+                },
+                {
+                  "name": "oversize_upper_limits",
+                  "type": "array",
+                  "mode": "read",
+                  "question": "What ascending total-dimension bounds define the accepted oversize bands applicable to the current itinerary?",
+                  "skill_id": null,
+                  "field": "oversize_upper_limits"
+                },
+                {
+                  "name": "oversize_fees",
+                  "type": "array",
+                  "mode": "read",
+                  "question": "What numeric oversize fees correspond to the current itinerary's ascending oversize bands?",
+                  "skill_id": null,
+                  "field": "oversize_fees"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "answer",
+                  "type": "integer",
+                  "description": "Exact integer total of the current ticket price and all applicable bag fees."
+                }
+              ],
+              "premises": [],
+              "reads": [
+                {
+                  "id": "read_current_baggage_case_and_rules",
+                  "question": "Jointly read the current passenger's ordered item measurements and ticket price together with the current source's applicable cabin-item, checked-position, complimentary-weight, overweight, and oversize rules for this itinerary and cabin.",
+                  "source_locator": "current facts, question, and baggage-fee source",
+                  "fields": [
+                    {
+                      "name": "ticket_price",
+                      "type": "integer",
+                      "question": "What is the stated ticket price?"
+                    },
+                    {
+                      "name": "lengths",
+                      "type": "array",
+                      "question": "List item lengths in stated order."
+                    },
+                    {
+                      "name": "widths",
+                      "type": "array",
+                      "question": "List item widths in stated order."
+                    },
+                    {
+                      "name": "heights",
+                      "type": "array",
+                      "question": "List item heights in stated order."
+                    },
+                    {
+                      "name": "weights",
+                      "type": "array",
+                      "question": "List item weights in stated order."
+                    },
+                    {
+                      "name": "personal_dimension_limits",
+                      "type": "array",
+                      "question": "List the personal-item length, width, and height limits."
+                    },
+                    {
+                      "name": "carryon_dimension_limits",
+                      "type": "array",
+                      "question": "List the carry-on length, width, and height limits."
+                    },
+                    {
+                      "name": "base_fees_by_checked_position",
+                      "type": "array",
+                      "question": "List applicable checked-position base fees, expanding the fourth-plus rate as needed."
+                    },
+                    {
+                      "name": "standard_dimension_limit",
+                      "type": "number",
+                      "question": "Give the standard checked-bag total-dimension limit."
+                    },
+                    {
+                      "name": "charged_weight_limit",
+                      "type": "number",
+                      "question": "Give the standard weight limit for excess-charged checked bags."
+                    },
+                    {
+                      "name": "complimentary_weight_limit",
+                      "type": "number",
+                      "question": "Give the standard weight limit for complimentary checked bags."
+                    },
+                    {
+                      "name": "overweight_upper_limits",
+                      "type": "array",
+                      "question": "List applicable overweight-band upper bounds in ascending order."
+                    },
+                    {
+                      "name": "overweight_fees",
+                      "type": "array",
+                      "question": "List the corresponding numeric overweight fees."
+                    },
+                    {
+                      "name": "oversize_upper_limits",
+                      "type": "array",
+                      "question": "List applicable oversize-band upper bounds in ascending order."
+                    },
+                    {
+                      "name": "oversize_fees",
+                      "type": "array",
+                      "question": "List the corresponding numeric oversize fees."
+                    }
+                  ],
+                  "bindings": []
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "ordered_bag_measurements",
+                  "ports": [
+                    "lengths",
+                    "widths",
+                    "heights",
+                    "weights",
+                    "personal_dimension_limits",
+                    "carryon_dimension_limits"
+                  ],
+                  "neighbors": [
+                    "applicable_baggage_fee_schedule"
+                  ]
+                },
+                {
+                  "id": "applicable_baggage_fee_schedule",
+                  "ports": [
+                    "base_fees_by_checked_position",
+                    "standard_dimension_limit",
+                    "charged_weight_limit",
+                    "complimentary_weight_limit",
+                    "overweight_upper_limits",
+                    "overweight_fees",
+                    "oversize_upper_limits",
+                    "oversize_fees"
+                  ],
+                  "neighbors": [
+                    "ordered_bag_measurements"
+                  ]
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "classify_cabin_and_checked_items",
+                  "statement": "Apply the one-personal-item and one-carry-on allowances using the current dimension limits; items not fitting an available allowance are checked.",
+                  "role": "preliminary",
+                  "port": "carryon_dimension_limits",
+                  "origin": {
+                    "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                    "view_id": "native",
+                    "quote": "You're allowed 1 carry-on bag and 1 personal item in all cabins."
+                  }
+                },
+                {
+                  "id": "measure_checked_dimensions",
+                  "statement": "Compute checked-bag size by adding length, width, and height.",
+                  "role": "preliminary",
+                  "port": "standard_dimension_limit",
+                  "origin": {
+                    "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                    "view_id": "native",
+                    "quote": "We calculate the size limits of your bag by adding the total outside dimensions of each bag, length + width + height."
+                  }
+                },
+                {
+                  "id": "combine_excess_fees",
+                  "statement": "For a bag exceeding both weight and size standards, add only the higher of its overweight and oversize fees to its checked-bag fee.",
+                  "role": "terminal",
+                  "port": "overweight_fees",
+                  "origin": {
+                    "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                    "view_id": "native",
+                    "quote": "The higher fee between oversize and overweight applies, in addition to the checked bag fee."
+                  }
+                },
+                {
+                  "id": "apply_complimentary_weight_allowance",
+                  "statement": "Use the current source's distinct complimentary-bag and excess-charged-bag weight limits when assigning available complimentary checked-bag allowances.",
+                  "role": "constraint",
+                  "port": "complimentary_weight_limit",
+                  "origin": {
+                    "source_id": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+                    "view_id": "native",
+                    "quote": "Weight: 70 lbs / 32kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                  "view_id": "native",
+                  "quote": "Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm)."
+                },
+                {
+                  "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                  "view_id": "native",
+                  "quote": "The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport."
+                },
+                {
+                  "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                  "view_id": "native",
+                  "quote": "The higher fee between oversize and overweight applies, in addition to the checked bag fee."
+                },
+                {
+                  "source_id": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+                  "view_id": "native",
+                  "quote": "For all confirmed customers on flights to / from Australia or New Zealand:\n* Dimension: 62 in / 158 cm\n* Weight: 70 lbs / 32kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                }
+              ],
+              "version": 1
+            }
+          }
+        ]
+      },
+      "revisions": [
+        {
+          "skill_id": "termination_cause_subclause_classifier",
+          "old_hash": null,
+          "new_hash": "435042b40adc2957e2bdf297ea004317e94d35a958211580ac177ee521c1f493",
+          "new": {
+            "id": "termination_cause_subclause_classifier",
+            "intent": "Determine whether facts entail a claim that the termination-cause condition in a legal payment subclause applies, without importing sibling conditions outside the queried subclause.",
+            "procedure": "def apply(inputs, premises):\n    trigger_met = True\n    if premises[\"requires_upon_or_after_termination\"]:\n        trigger_met = trigger_met and inputs[\"payment_upon_or_after_termination\"]\n    if premises[\"requires_death_or_disability_cause\"]:\n        trigger_met = trigger_met and inputs[\"termination_caused_by_death_or_disability\"]\n    if trigger_met:\n        answer = \"Entailment\"\n    else:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+            "inputs": {
+              "payment_upon_or_after_termination": {
+                "type": "boolean",
+                "mode": "read",
+                "question": "Do the current facts state that the payment was made upon or after termination of the employee's employment relationship?",
+                "skill_id": null,
+                "field": "payment_upon_or_after_termination"
+              },
+              "termination_caused_by_death_or_disability": {
+                "type": "boolean",
+                "mode": "read",
+                "question": "Do the current facts state that the employment relationship was terminated because of death or retirement for disability?",
+                "skill_id": null,
+                "field": "termination_caused_by_death_or_disability"
+              }
+            },
+            "outputs": {
+              "answer": {
+                "type": "string",
+                "description": "The current native binary label: Entailment when the queried termination-cause subclause is satisfied, otherwise Contradiction."
+              }
+            },
+            "premises": {
+              "requires_upon_or_after_termination": {
+                "type": "boolean",
+                "mode": "constant",
+                "value": true,
+                "question": "Does the queried subclause require payment upon or after termination?",
+                "origin": {
+                  "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                  "view_id": "native",
+                  "quote": "upon or after the termination of an employee's employment relationship"
+                }
+              },
+              "requires_death_or_disability_cause": {
+                "type": "boolean",
+                "mode": "constant",
+                "value": true,
+                "question": "Does the queried subclause require termination because of death or retirement for disability?",
+                "origin": {
+                  "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                  "view_id": "native",
+                  "quote": "because of (i) death, or (ii) retirement for disability"
+                }
+              }
+            },
+            "reads": [
+              {
+                "id": "read_termination_payment_facts",
+                "question": "Read the current payment and termination facts relevant to the termination-cause condition of the specifically queried subclause.",
+                "source_locator": "current facts and question",
+                "fields": {
+                  "payment_upon_or_after_termination": {
+                    "type": "boolean",
+                    "question": "Was the current payment made upon or after termination of the employment relationship?"
+                  },
+                  "termination_caused_by_death_or_disability": {
+                    "type": "boolean",
+                    "question": "Was the current termination caused by death or retirement for disability?"
+                  }
+                },
+                "bindings": {},
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "payment_upon_or_after_termination": {
+                      "type": "boolean"
+                    },
+                    "termination_caused_by_death_or_disability": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "payment_upon_or_after_termination",
+                    "termination_caused_by_death_or_disability"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            ],
+            "semantic_records": [
+              {
+                "id": "termination_trigger_record",
+                "ports": [
+                  "payment_upon_or_after_termination",
+                  "termination_caused_by_death_or_disability",
+                  "requires_upon_or_after_termination",
+                  "requires_death_or_disability_cause"
+                ],
+                "neighbors": []
+              }
+            ],
+            "source_obligations": [
+              {
+                "id": "check_queried_termination_trigger",
+                "statement": "Check only whether the current payment and termination facts satisfy the two elements stated in the queried termination-cause subclause.",
+                "role": "terminal",
+                "port": "termination_caused_by_death_or_disability",
+                "origin": {
+                  "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                  "view_id": "native",
+                  "quote": "upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability"
+                }
+              }
+            ],
+            "source_provenance": [
+              {
+                "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                "view_id": "native",
+                "quote": "upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability"
+              }
+            ],
+            "version": 1
+          },
+          "operation": "create",
+          "representation_adaptation": {
+            "removed_unobserved_declarations": [],
+            "retained_draft_installation": null,
+            "procedure_unchanged": true,
+            "used_premise_values_unchanged": true
+          }
+        },
+        {
+          "skill_id": "airline_current_bag_total_calculator",
+          "old_hash": null,
+          "new_hash": "eb16c22e6f5e31ea2d1c66f70b12e6395c3d6f4fce67855115bbce36222ffd4a",
+          "new": {
+            "id": "airline_current_bag_total_calculator",
+            "intent": "Compute the exact ticket-plus-baggage total under the current itinerary, cabin, carry-on, checked-bag, overweight, oversize, and complimentary-weight rules.",
+            "procedure": "def apply(inputs, premises):\n    lengths = inputs[\"lengths\"]\n    widths = inputs[\"widths\"]\n    heights = inputs[\"heights\"]\n    weights = inputs[\"weights\"]\n    personal = inputs[\"personal_dimension_limits\"]\n    carryon = inputs[\"carryon_dimension_limits\"]\n    checked = []\n    personal_used = False\n    carryon_used = False\n    for i in range(len(lengths)):\n        fits_personal = lengths[i] <= personal[0] and widths[i] <= personal[1] and heights[i] <= personal[2]\n        fits_carryon = lengths[i] <= carryon[0] and widths[i] <= carryon[1] and heights[i] <= carryon[2]\n        if fits_personal and not personal_used:\n            personal_used = True\n        elif fits_carryon and not carryon_used:\n            carryon_used = True\n        else:\n            checked = checked + [i]\n    checked_count = len(checked)\n    base_total = sum(inputs[\"base_fees_by_checked_position\"][:checked_count])\n    complimentary_count = 0\n    for fee in inputs[\"base_fees_by_checked_position\"][:checked_count]:\n        if fee == 0:\n            complimentary_count = complimentary_count + 1\n    complimentary_count = min(complimentary_count, checked_count)\n    charged_excess_total = 0\n    savings = []\n    for checked_position in range(checked_count):\n        i = checked[checked_position]\n        dimension = lengths[i] + widths[i] + heights[i]\n        charged_weight_fee = 0\n        if weights[i] > inputs[\"charged_weight_limit\"]:\n            for j in range(len(inputs[\"overweight_upper_limits\"])):\n                if weights[i] <= inputs[\"overweight_upper_limits\"][j]:\n                    charged_weight_fee = inputs[\"overweight_fees\"][j]\n                    break\n        complimentary_weight_fee = 0\n        if weights[i] > inputs[\"complimentary_weight_limit\"]:\n            for j in range(len(inputs[\"overweight_upper_limits\"])):\n                if weights[i] <= inputs[\"overweight_upper_limits\"][j]:\n                    complimentary_weight_fee = inputs[\"overweight_fees\"][j]\n                    break\n        size_fee = 0\n        if dimension > inputs[\"standard_dimension_limit\"]:\n            for j in range(len(inputs[\"oversize_upper_limits\"])):\n                if dimension <= inputs[\"oversize_upper_limits\"][j]:\n                    size_fee = inputs[\"oversize_fees\"][j]\n                    break\n        charged_excess = max(charged_weight_fee, size_fee)\n        complimentary_excess = max(complimentary_weight_fee, size_fee)\n        charged_excess_total = charged_excess_total + charged_excess\n        savings = savings + [charged_excess - complimentary_excess]\n    ordered_savings = sorted(savings)\n    complimentary_savings = sum(ordered_savings[len(ordered_savings) - complimentary_count:])\n    total = inputs[\"ticket_price\"] + base_total + charged_excess_total - complimentary_savings\n    return {\"answer\": int(total)}",
+            "inputs": {
+              "ticket_price": {
+                "type": "integer",
+                "mode": "read",
+                "question": "What is the current passenger's integer ticket price?",
+                "skill_id": null,
+                "field": "ticket_price"
+              },
+              "lengths": {
+                "type": "array",
+                "mode": "read",
+                "question": "What are the outside lengths in inches of the current passenger's ordered items?",
+                "skill_id": null,
+                "field": "lengths"
+              },
+              "widths": {
+                "type": "array",
+                "mode": "read",
+                "question": "What are the outside widths in inches of the current passenger's ordered items?",
+                "skill_id": null,
+                "field": "widths"
+              },
+              "heights": {
+                "type": "array",
+                "mode": "read",
+                "question": "What are the outside heights in inches of the current passenger's ordered items?",
+                "skill_id": null,
+                "field": "heights"
+              },
+              "weights": {
+                "type": "array",
+                "mode": "read",
+                "question": "What are the weights in pounds of the current passenger's ordered items?",
+                "skill_id": null,
+                "field": "weights"
+              },
+              "personal_dimension_limits": {
+                "type": "array",
+                "mode": "read",
+                "question": "What ordered length, width, and height limits does the current source give for one personal item?",
+                "skill_id": null,
+                "field": "personal_dimension_limits"
+              },
+              "carryon_dimension_limits": {
+                "type": "array",
+                "mode": "read",
+                "question": "What ordered length, width, and height limits does the current source give for one carry-on bag?",
+                "skill_id": null,
+                "field": "carryon_dimension_limits"
+              },
+              "base_fees_by_checked_position": {
+                "type": "array",
+                "mode": "read",
+                "question": "For the current itinerary and cabin, what numeric base fees apply to successive checked-bag positions, expanding the fourth-bag-plus rate through the number of current items?",
+                "skill_id": null,
+                "field": "base_fees_by_checked_position"
+              },
+              "standard_dimension_limit": {
+                "type": "number",
+                "mode": "read",
+                "question": "What total outside-dimension limit applies to a standard checked bag under the current source?",
+                "skill_id": null,
+                "field": "standard_dimension_limit"
+              },
+              "charged_weight_limit": {
+                "type": "number",
+                "mode": "read",
+                "question": "What standard weight limit applies to an excess-charged checked bag on the current itinerary?",
+                "skill_id": null,
+                "field": "charged_weight_limit"
+              },
+              "complimentary_weight_limit": {
+                "type": "number",
+                "mode": "read",
+                "question": "What standard weight limit applies to a complimentary checked bag on the current itinerary and cabin?",
+                "skill_id": null,
+                "field": "complimentary_weight_limit"
+              },
+              "overweight_upper_limits": {
+                "type": "array",
+                "mode": "read",
+                "question": "What ascending upper weight bounds define the accepted overweight bands applicable to the current itinerary?",
+                "skill_id": null,
+                "field": "overweight_upper_limits"
+              },
+              "overweight_fees": {
+                "type": "array",
+                "mode": "read",
+                "question": "What numeric overweight fees correspond to the current itinerary's ascending overweight bands?",
+                "skill_id": null,
+                "field": "overweight_fees"
+              },
+              "oversize_upper_limits": {
+                "type": "array",
+                "mode": "read",
+                "question": "What ascending total-dimension bounds define the accepted oversize bands applicable to the current itinerary?",
+                "skill_id": null,
+                "field": "oversize_upper_limits"
+              },
+              "oversize_fees": {
+                "type": "array",
+                "mode": "read",
+                "question": "What numeric oversize fees correspond to the current itinerary's ascending oversize bands?",
+                "skill_id": null,
+                "field": "oversize_fees"
+              }
+            },
+            "outputs": {
+              "answer": {
+                "type": "integer",
+                "description": "Exact integer total of the current ticket price and all applicable bag fees."
+              }
+            },
+            "premises": {},
+            "reads": [
+              {
+                "id": "read_current_baggage_case_and_rules",
+                "question": "Jointly read the current passenger's ordered item measurements and ticket price together with the current source's applicable cabin-item, checked-position, complimentary-weight, overweight, and oversize rules for this itinerary and cabin.",
+                "source_locator": "current facts, question, and baggage-fee source",
+                "fields": {
+                  "ticket_price": {
+                    "type": "integer",
+                    "question": "What is the stated ticket price?"
+                  },
+                  "lengths": {
+                    "type": "array",
+                    "question": "List item lengths in stated order."
+                  },
+                  "widths": {
+                    "type": "array",
+                    "question": "List item widths in stated order."
+                  },
+                  "heights": {
+                    "type": "array",
+                    "question": "List item heights in stated order."
+                  },
+                  "weights": {
+                    "type": "array",
+                    "question": "List item weights in stated order."
+                  },
+                  "personal_dimension_limits": {
+                    "type": "array",
+                    "question": "List the personal-item length, width, and height limits."
+                  },
+                  "carryon_dimension_limits": {
+                    "type": "array",
+                    "question": "List the carry-on length, width, and height limits."
+                  },
+                  "base_fees_by_checked_position": {
+                    "type": "array",
+                    "question": "List applicable checked-position base fees, expanding the fourth-plus rate as needed."
+                  },
+                  "standard_dimension_limit": {
+                    "type": "number",
+                    "question": "Give the standard checked-bag total-dimension limit."
+                  },
+                  "charged_weight_limit": {
+                    "type": "number",
+                    "question": "Give the standard weight limit for excess-charged checked bags."
+                  },
+                  "complimentary_weight_limit": {
+                    "type": "number",
+                    "question": "Give the standard weight limit for complimentary checked bags."
+                  },
+                  "overweight_upper_limits": {
+                    "type": "array",
+                    "question": "List applicable overweight-band upper bounds in ascending order."
+                  },
+                  "overweight_fees": {
+                    "type": "array",
+                    "question": "List the corresponding numeric overweight fees."
+                  },
+                  "oversize_upper_limits": {
+                    "type": "array",
+                    "question": "List applicable oversize-band upper bounds in ascending order."
+                  },
+                  "oversize_fees": {
+                    "type": "array",
+                    "question": "List the corresponding numeric oversize fees."
+                  }
+                },
+                "bindings": {},
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ticket_price": {
+                      "type": "integer"
+                    },
+                    "lengths": {
+                      "type": "array"
+                    },
+                    "widths": {
+                      "type": "array"
+                    },
+                    "heights": {
+                      "type": "array"
+                    },
+                    "weights": {
+                      "type": "array"
+                    },
+                    "personal_dimension_limits": {
+                      "type": "array"
+                    },
+                    "carryon_dimension_limits": {
+                      "type": "array"
+                    },
+                    "base_fees_by_checked_position": {
+                      "type": "array"
+                    },
+                    "standard_dimension_limit": {
+                      "type": "number"
+                    },
+                    "charged_weight_limit": {
+                      "type": "number"
+                    },
+                    "complimentary_weight_limit": {
+                      "type": "number"
+                    },
+                    "overweight_upper_limits": {
+                      "type": "array"
+                    },
+                    "overweight_fees": {
+                      "type": "array"
+                    },
+                    "oversize_upper_limits": {
+                      "type": "array"
+                    },
+                    "oversize_fees": {
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "ticket_price",
+                    "lengths",
+                    "widths",
+                    "heights",
+                    "weights",
+                    "personal_dimension_limits",
+                    "carryon_dimension_limits",
+                    "base_fees_by_checked_position",
+                    "standard_dimension_limit",
+                    "charged_weight_limit",
+                    "complimentary_weight_limit",
+                    "overweight_upper_limits",
+                    "overweight_fees",
+                    "oversize_upper_limits",
+                    "oversize_fees"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            ],
+            "semantic_records": [
+              {
+                "id": "ordered_bag_measurements",
+                "ports": [
+                  "lengths",
+                  "widths",
+                  "heights",
+                  "weights",
+                  "personal_dimension_limits",
+                  "carryon_dimension_limits"
+                ],
+                "neighbors": [
+                  "applicable_baggage_fee_schedule"
+                ]
+              },
+              {
+                "id": "applicable_baggage_fee_schedule",
+                "ports": [
+                  "base_fees_by_checked_position",
+                  "standard_dimension_limit",
+                  "charged_weight_limit",
+                  "complimentary_weight_limit",
+                  "overweight_upper_limits",
+                  "overweight_fees",
+                  "oversize_upper_limits",
+                  "oversize_fees"
+                ],
+                "neighbors": [
+                  "ordered_bag_measurements"
+                ]
+              }
+            ],
+            "source_obligations": [
+              {
+                "id": "classify_cabin_and_checked_items",
+                "statement": "Apply the one-personal-item and one-carry-on allowances using the current dimension limits; items not fitting an available allowance are checked.",
+                "role": "preliminary",
+                "port": "carryon_dimension_limits",
+                "origin": {
+                  "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                  "view_id": "native",
+                  "quote": "You're allowed 1 carry-on bag and 1 personal item in all cabins."
+                }
+              },
+              {
+                "id": "measure_checked_dimensions",
+                "statement": "Compute checked-bag size by adding length, width, and height.",
+                "role": "preliminary",
+                "port": "standard_dimension_limit",
+                "origin": {
+                  "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                  "view_id": "native",
+                  "quote": "We calculate the size limits of your bag by adding the total outside dimensions of each bag, length + width + height."
+                }
+              },
+              {
+                "id": "combine_excess_fees",
+                "statement": "For a bag exceeding both weight and size standards, add only the higher of its overweight and oversize fees to its checked-bag fee.",
+                "role": "terminal",
+                "port": "overweight_fees",
+                "origin": {
+                  "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                  "view_id": "native",
+                  "quote": "The higher fee between oversize and overweight applies, in addition to the checked bag fee."
+                }
+              },
+              {
+                "id": "apply_complimentary_weight_allowance",
+                "statement": "Use the current source's distinct complimentary-bag and excess-charged-bag weight limits when assigning available complimentary checked-bag allowances.",
+                "role": "constraint",
+                "port": "complimentary_weight_limit",
+                "origin": {
+                  "source_id": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+                  "view_id": "native",
+                  "quote": "Weight: 70 lbs / 32kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                }
+              }
+            ],
+            "source_provenance": [
+              {
+                "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                "view_id": "native",
+                "quote": "Your personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm)."
+              },
+              {
+                "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                "view_id": "native",
+                "quote": "The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport."
+              },
+              {
+                "source_id": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                "view_id": "native",
+                "quote": "The higher fee between oversize and overweight applies, in addition to the checked bag fee."
+              },
+              {
+                "source_id": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+                "view_id": "native",
+                "quote": "For all confirmed customers on flights to / from Australia or New Zealand:\n* Dimension: 62 in / 158 cm\n* Weight: 70 lbs / 32kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+              }
+            ],
+            "version": 1
+          },
+          "operation": "create",
+          "representation_adaptation": {
+            "removed_unobserved_declarations": [],
+            "retained_draft_installation": null,
+            "procedure_unchanged": true,
+            "used_premise_values_unchanged": true
+          }
+        }
+      ],
+      "table": {
+        "revision_hashes": [
+          "435042b40adc2957e2bdf297ea004317e94d35a958211580ac177ee521c1f493",
+          "eb16c22e6f5e31ea2d1c66f70b12e6395c3d6f4fce67855115bbce36222ffd4a"
+        ],
+        "trigger": [
+          "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+          "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+          "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74"
+        ],
+        "history": [],
+        "mixed_version_table": [
+          {
+            "mask": 0,
+            "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Contradiction",
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:6837b7f86dd2c59ef2a05d34403765856818c85cad926fb4d90a5dc2bb53ed70",
+                        "elapsed_seconds": 0.7346750916913152,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:6837b7f86dd2c59ef2a05d34403765856818c85cad926fb4d90a5dc2bb53ed70",
+                        "response_hash": "693c1c1424fcbbf16d31663015a86a13c00807da05aa7f90a284ab26694d0c7f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 17,
+                          "prompt_tokens": 1982,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 1999
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "termination_cause_subclause_classifier"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "termination_cause_subclause_classifier",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 0,
+            "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+              "dataset": "RuleArena_Airline",
+              "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": 963,
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:1919bb6fafbe377f7b4daa764fa3558223e2610aecd20d9ccf8c4afa018a8d77",
+                        "elapsed_seconds": 1.1610122546553612,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:1919bb6fafbe377f7b4daa764fa3558223e2610aecd20d9ccf8c4afa018a8d77",
+                        "response_hash": "14fa2481e46e75610b3b7951b0e3cc26c2803a8e53c2a49b7acb17ac7f46fa5f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 17,
+                          "prompt_tokens": 4478,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 4495
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "airline_current_bag_total_calculator"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "airline_current_bag_total_calculator",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 0,
+            "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+              "dataset": "RuleArena_Airline",
+              "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": 1475,
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:f6b5da9d4981f096d40d60d18e45da222e2a4a087231b4bd36f7c7004970ea4e",
+                        "elapsed_seconds": 1.219830228947103,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:f6b5da9d4981f096d40d60d18e45da222e2a4a087231b4bd36f7c7004970ea4e",
+                        "response_hash": "3338508f8ddb4048193a9e67df6a9a650c9e264e2515bba8c4dce7579a18df8d",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 18,
+                          "prompt_tokens": 4625,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 4643
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "airline_current_bag_total_calculator"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "airline_current_bag_total_calculator",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 1,
+            "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "native_parent_grade": 1.0,
+            "trace": {
+              "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "da64c0fdd8ba217a38a1e269d9bdc510fc89311ffc90879f7c7acabe47145254",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Entailment",
+                    "evidence_sentence_ids": [],
+                    "fallback": false,
+                    "core_executed": true,
+                    "terminal_skill": "termination_cause_subclause_classifier",
+                    "retrieved": [
+                      "termination_cause_subclause_classifier"
+                    ],
+                    "events": [
+                      {
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:de5fa57205af5d0880ceb56c9be75b75536022273fd74a7e5572890be25854d1",
+                        "cache_hit": false,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:de5fa57205af5d0880ceb56c9be75b75536022273fd74a7e5572890be25854d1",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "prompt_tokens": 4022,
+                          "total_tokens": 4081,
+                          "completion_tokens": 59,
+                          "prompt_tokens_details": null
+                        },
+                        "elapsed_seconds": 2.2060678796842694,
+                        "response_hash": "91f7ca8713816fa63aa2fe0c4eb68895760f95d0bc3e21e5d9f23fa221b6eb4b",
+                        "kind": "READ_LOCAL",
+                        "question": "Read the current task input fields.",
+                        "locator": "current supplied source, facts and question, according to each requested field",
+                        "fields": {
+                          "payment_upon_or_after_termination": {
+                            "status": "known",
+                            "value": true,
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 208,
+                                "text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability."
+                              }
+                            ]
+                          },
+                          "termination_caused_by_death_or_disability": {
+                            "status": "known",
+                            "value": true,
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 208,
+                                "text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability."
+                              }
+                            ]
+                          }
+                        },
+                        "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                        "view": "native",
+                        "unresolved_fields": []
+                      },
+                      {
+                        "kind": "APPLY",
+                        "skill_id": "termination_cause_subclause_classifier",
+                        "skill_hash": "435042b40adc2957e2bdf297ea004317e94d35a958211580ac177ee521c1f493",
+                        "version": 1,
+                        "inputs": {
+                          "payment_upon_or_after_termination": true,
+                          "termination_caused_by_death_or_disability": true
+                        },
+                        "premises": {
+                          "requires_upon_or_after_termination": true,
+                          "requires_death_or_disability_cause": true
+                        },
+                        "outputs": {
+                          "answer": "Entailment"
+                        },
+                        "unresolved_inputs": [],
+                        "unresolved_premises": [],
+                        "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                        "view": "native"
+                      }
+                    ],
+                    "failed_candidates": []
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": true,
+                    "metric": "native_exact_match",
+                    "grade": 1.0
+                  }
+                }
+              ],
+              "native_grade": 1.0,
+              "selection_grade": 1.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 1,
+              "native_fallback_views": 0
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 1,
+            "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+              "dataset": "RuleArena_Airline",
+              "library_hash": "da64c0fdd8ba217a38a1e269d9bdc510fc89311ffc90879f7c7acabe47145254",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": 963,
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:1919bb6fafbe377f7b4daa764fa3558223e2610aecd20d9ccf8c4afa018a8d77",
+                        "elapsed_seconds": 1.1610122546553612,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:1919bb6fafbe377f7b4daa764fa3558223e2610aecd20d9ccf8c4afa018a8d77",
+                        "response_hash": "14fa2481e46e75610b3b7951b0e3cc26c2803a8e53c2a49b7acb17ac7f46fa5f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 17,
+                          "prompt_tokens": 4478,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 4495
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "airline_current_bag_total_calculator"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "airline_current_bag_total_calculator",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 1,
+            "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+              "dataset": "RuleArena_Airline",
+              "library_hash": "da64c0fdd8ba217a38a1e269d9bdc510fc89311ffc90879f7c7acabe47145254",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": 1475,
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:f6b5da9d4981f096d40d60d18e45da222e2a4a087231b4bd36f7c7004970ea4e",
+                        "elapsed_seconds": 1.219830228947103,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:f6b5da9d4981f096d40d60d18e45da222e2a4a087231b4bd36f7c7004970ea4e",
+                        "response_hash": "3338508f8ddb4048193a9e67df6a9a650c9e264e2515bba8c4dce7579a18df8d",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 18,
+                          "prompt_tokens": 4625,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 4643
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "airline_current_bag_total_calculator"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "airline_current_bag_total_calculator",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 2,
+            "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "eb8eed1069b7b7eb074527b4318f3ee3ac0ea9c77fd7302f8ac9075aa70937eb",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Contradiction",
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:6837b7f86dd2c59ef2a05d34403765856818c85cad926fb4d90a5dc2bb53ed70",
+                        "elapsed_seconds": 0.7346750916913152,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:6837b7f86dd2c59ef2a05d34403765856818c85cad926fb4d90a5dc2bb53ed70",
+                        "response_hash": "693c1c1424fcbbf16d31663015a86a13c00807da05aa7f90a284ab26694d0c7f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 17,
+                          "prompt_tokens": 1982,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 1999
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "termination_cause_subclause_classifier"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "termination_cause_subclause_classifier",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 2,
+            "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+              "dataset": "RuleArena_Airline",
+              "library_hash": "eb8eed1069b7b7eb074527b4318f3ee3ac0ea9c77fd7302f8ac9075aa70937eb",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": 963,
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:1e2908c1663fc927c2a79d2d1d7434001005acc2509f0e8a7f9e08360019caa5",
+                        "cache_hit": false,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:1e2908c1663fc927c2a79d2d1d7434001005acc2509f0e8a7f9e08360019caa5",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "prompt_tokens": 8371,
+                          "total_tokens": 8910,
+                          "completion_tokens": 539,
+                          "prompt_tokens_details": null
+                        },
+                        "elapsed_seconds": 16.756201783195138,
+                        "response_hash": "c7da4e7909028be0da082af12c6a42867cfb162334ee727fad9136d7f969bdc3",
+                        "kind": "READ_LOCAL",
+                        "question": "Read the current task input fields.",
+                        "locator": "current supplied source, facts and question, according to each requested field",
+                        "fields": {
+                          "ticket_price": {
+                            "status": "known",
+                            "value": 563,
+                            "support_ids": [
+                              43
+                            ],
+                            "support": [
+                              {
+                                "id": 43,
+                                "field": "facts",
+                                "start": 330,
+                                "end": 360,
+                                "text": "Karen's flight ticket is $563."
+                              }
+                            ]
+                          },
+                          "lengths": {
+                            "status": "known",
+                            "value": [
+                              19,
+                              38,
+                              35,
+                              43,
+                              36
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 328,
+                                "text": "Karen is a Basic Economy Class passenger flying from Phoenix to Rio de Janeiro with the following items:\n1. A backpack: 19 x 13 x 6 inches, 10 lbs;\n2. A luggage box: 38 x 18 x 9 inches, 64 lbs;\n3. A backpack: 35 x 15 x 14 inches, 53 lbs;\n4. A backpack: 43 x 24 x 20 inches, 53 lbs;\n5. A luggage box: 36 x 18 x 10 inches, 52 lbs;"
+                              }
+                            ]
+                          },
+                          "widths": {
+                            "status": "known",
+                            "value": [
+                              13,
+                              18,
+                              15,
+                              24,
+                              18
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 328,
+                                "text": "Karen is a Basic Economy Class passenger flying from Phoenix to Rio de Janeiro with the following items:\n1. A backpack: 19 x 13 x 6 inches, 10 lbs;\n2. A luggage box: 38 x 18 x 9 inches, 64 lbs;\n3. A backpack: 35 x 15 x 14 inches, 53 lbs;\n4. A backpack: 43 x 24 x 20 inches, 53 lbs;\n5. A luggage box: 36 x 18 x 10 inches, 52 lbs;"
+                              }
+                            ]
+                          },
+                          "heights": {
+                            "status": "known",
+                            "value": [
+                              6,
+                              9,
+                              14,
+                              20,
+                              10
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 328,
+                                "text": "Karen is a Basic Economy Class passenger flying from Phoenix to Rio de Janeiro with the following items:\n1. A backpack: 19 x 13 x 6 inches, 10 lbs;\n2. A luggage box: 38 x 18 x 9 inches, 64 lbs;\n3. A backpack: 35 x 15 x 14 inches, 53 lbs;\n4. A backpack: 43 x 24 x 20 inches, 53 lbs;\n5. A luggage box: 36 x 18 x 10 inches, 52 lbs;"
+                              }
+                            ]
+                          },
+                          "weights": {
+                            "status": "known",
+                            "value": [
+                              10,
+                              64,
+                              53,
+                              53,
+                              52
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 328,
+                                "text": "Karen is a Basic Economy Class passenger flying from Phoenix to Rio de Janeiro with the following items:\n1. A backpack: 19 x 13 x 6 inches, 10 lbs;\n2. A luggage box: 38 x 18 x 9 inches, 64 lbs;\n3. A backpack: 35 x 15 x 14 inches, 53 lbs;\n4. A backpack: 43 x 24 x 20 inches, 53 lbs;\n5. A luggage box: 36 x 18 x 10 inches, 52 lbs;"
+                              }
+                            ]
+                          },
+                          "personal_dimension_limits": {
+                            "status": "known",
+                            "value": [
+                              18,
+                              14,
+                              8
+                            ],
+                            "support_ids": [
+                              2
+                            ],
+                            "support": [
+                              {
+                                "id": 2,
+                                "field": "source_text",
+                                "start": 244,
+                                "end": 419,
+                                "text": "### Personal items\nYour personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm)."
+                              }
+                            ]
+                          },
+                          "carryon_dimension_limits": {
+                            "status": "known",
+                            "value": [
+                              22,
+                              14,
+                              9
+                            ],
+                            "support_ids": [
+                              5
+                            ],
+                            "support": [
+                              {
+                                "id": 5,
+                                "field": "source_text",
+                                "start": 909,
+                                "end": 1086,
+                                "text": "#### Carry-on bag\nThe total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport."
+                              }
+                            ]
+                          },
+                          "base_fees_by_checked_position": {
+                            "status": "unknown",
+                            "value": null,
+                            "support_ids": [],
+                            "support": []
+                          },
+                          "standard_dimension_limit": {
+                            "status": "known",
+                            "value": 62,
+                            "support_ids": [
+                              30
+                            ],
+                            "support": [
+                              {
+                                "id": 30,
+                                "field": "source_text",
+                                "start": 13817,
+                                "end": 14078,
+                                "text": "For all regions, except to / from Australia or New Zealand, your checked bag allowance is:\n* Dimension: 62 in / 158 cm\n* Weight: 50 lbs / 23 kgs\n* For First / Business, weight is 70 lbs / 32 kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                              }
+                            ]
+                          },
+                          "charged_weight_limit": {
+                            "status": "known",
+                            "value": 50,
+                            "support_ids": [
+                              30
+                            ],
+                            "support": [
+                              {
+                                "id": 30,
+                                "field": "source_text",
+                                "start": 13817,
+                                "end": 14078,
+                                "text": "For all regions, except to / from Australia or New Zealand, your checked bag allowance is:\n* Dimension: 62 in / 158 cm\n* Weight: 50 lbs / 23 kgs\n* For First / Business, weight is 70 lbs / 32 kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                              }
+                            ]
+                          },
+                          "complimentary_weight_limit": {
+                            "status": "known",
+                            "value": 70,
+                            "support_ids": [
+                              30
+                            ],
+                            "support": [
+                              {
+                                "id": 30,
+                                "field": "source_text",
+                                "start": 13817,
+                                "end": 14078,
+                                "text": "For all regions, except to / from Australia or New Zealand, your checked bag allowance is:\n* Dimension: 62 in / 158 cm\n* Weight: 50 lbs / 23 kgs\n* For First / Business, weight is 70 lbs / 32 kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                              }
+                            ]
+                          },
+                          "overweight_upper_limits": {
+                            "status": "known",
+                            "value": [
+                              50,
+                              53,
+                              70,
+                              100
+                            ],
+                            "support_ids": [
+                              34,
+                              36,
+                              38
+                            ],
+                            "support": [
+                              {
+                                "id": 34,
+                                "field": "source_text",
+                                "start": 14486,
+                                "end": 14531,
+                                "text": "##### Over 50 lbs / 23 kgs to 53 lbs / 24 kgs"
+                              },
+                              {
+                                "id": 36,
+                                "field": "source_text",
+                                "start": 14783,
+                                "end": 14828,
+                                "text": "##### Over 53 lbs / 24 kgs to 70 lbs / 32 kgs"
+                              },
+                              {
+                                "id": 38,
+                                "field": "source_text",
+                                "start": 16695,
+                                "end": 16740,
+                                "text": "##### Over 70 lbs / 32kgs to 100 lbs / 45 kgs"
+                              }
+                            ]
+                          },
+                          "overweight_fees": {
+                            "status": "known",
+                            "value": [
+                              30,
+                              30,
+                              100,
+                              200
+                            ],
+                            "support_ids": [
+                              34,
+                              36,
+                              38
+                            ],
+                            "support": [
+                              {
+                                "id": 34,
+                                "field": "source_text",
+                                "start": 14486,
+                                "end": 14531,
+                                "text": "##### Over 50 lbs / 23 kgs to 53 lbs / 24 kgs"
+                              },
+                              {
+                                "id": 36,
+                                "field": "source_text",
+                                "start": 14783,
+                                "end": 14828,
+                                "text": "##### Over 53 lbs / 24 kgs to 70 lbs / 32 kgs"
+                              },
+                              {
+                                "id": 38,
+                                "field": "source_text",
+                                "start": 16695,
+                                "end": 16740,
+                                "text": "##### Over 70 lbs / 32kgs to 100 lbs / 45 kgs"
+                              }
+                            ]
+                          },
+                          "oversize_upper_limits": {
+                            "status": "known",
+                            "value": [
+                              62,
+                              65,
+                              115,
+                              158
+                            ],
+                            "support_ids": [
+                              41
+                            ],
+                            "support": [
+                              {
+                                "id": 41,
+                                "field": "source_text",
+                                "start": 18464,
+                                "end": 19583,
+                                "text": "| Region                                                                       | Over 62 in / 158 cm – 65 in / 165 cm | Over 65 in / 165 cm – 115 in / 292 cm |\n|------------------------------------------------------------------------------|--------------------------------------|---------------------------------------|\n| Between U.S., Puerto Rico, U.S. Virgin Islands and Canada                    | $30                                  | $200                                  |\n| Mexico / Caribbean / Central America (except Panama) / Guyana / Suriname     | $30                                  | $200                                  |\n| Panama / South America (except Guyana / Suriname)                            | $30                                  | $150                                  |\n| Europe, Israel, Qatar                                                        | $30                                  | $150                                  |\n| China, Japan, South Korea, Hong Kong, India, Australia, and New Zealand      | $30                                  | $200                                  |"
+                              }
+                            ]
+                          },
+                          "oversize_fees": {
+                            "status": "known",
+                            "value": [
+                              30,
+                              200,
+                              150,
+                              200
+                            ],
+                            "support_ids": [
+                              41
+                            ],
+                            "support": [
+                              {
+                                "id": 41,
+                                "field": "source_text",
+                                "start": 18464,
+                                "end": 19583,
+                                "text": "| Region                                                                       | Over 62 in / 158 cm – 65 in / 165 cm | Over 65 in / 165 cm – 115 in / 292 cm |\n|------------------------------------------------------------------------------|--------------------------------------|---------------------------------------|\n| Between U.S., Puerto Rico, U.S. Virgin Islands and Canada                    | $30                                  | $200                                  |\n| Mexico / Caribbean / Central America (except Panama) / Guyana / Suriname     | $30                                  | $200                                  |\n| Panama / South America (except Guyana / Suriname)                            | $30                                  | $150                                  |\n| Europe, Israel, Qatar                                                        | $30                                  | $150                                  |\n| China, Japan, South Korea, Hong Kong, India, Australia, and New Zealand      | $30                                  | $200                                  |"
+                              }
+                            ]
+                          }
+                        },
+                        "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                        "view": "native",
+                        "unresolved_fields": [
+                          "base_fees_by_checked_position"
+                        ]
+                      },
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:1919bb6fafbe377f7b4daa764fa3558223e2610aecd20d9ccf8c4afa018a8d77",
+                        "elapsed_seconds": 1.1610122546553612,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:1919bb6fafbe377f7b4daa764fa3558223e2610aecd20d9ccf8c4afa018a8d77",
+                        "response_hash": "14fa2481e46e75610b3b7951b0e3cc26c2803a8e53c2a49b7acb17ac7f46fa5f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 17,
+                          "prompt_tokens": 4478,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 4495
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "airline_current_bag_total_calculator"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "airline_current_bag_total_calculator",
+                        "error": "ValueError: Learned helper failed: Traceback (most recent call last):\n  File \"/home/yndx/hhy/legal-skill-redesign-20261109/legal_skill_guard/skill_evolution/worker.py\", line 26, in <module>\n    main()\n  File \"/home/yndx/hhy/legal-skill-redesign-20261109/legal_skill_guard/skill_evolution/worker.py\", line 18, in main\n    value = scope['apply'](request['inputs'], request['premises'])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<learned-skill>\", line 21, in apply\nKeyError: 'base_fees_by_checked_position'\n"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 2,
+            "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+              "dataset": "RuleArena_Airline",
+              "library_hash": "eb8eed1069b7b7eb074527b4318f3ee3ac0ea9c77fd7302f8ac9075aa70937eb",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": 1475,
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:84c349169432cbad2c09fde562220245f13b3d6c88a09d70c5aef2d3c140d920",
+                        "cache_hit": false,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:84c349169432cbad2c09fde562220245f13b3d6c88a09d70c5aef2d3c140d920",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "prompt_tokens": 8518,
+                          "total_tokens": 9119,
+                          "completion_tokens": 601,
+                          "prompt_tokens_details": null
+                        },
+                        "elapsed_seconds": 18.574194978922606,
+                        "response_hash": "39a2e30be7396725ad92ec4e28e4d3c756eaf9f2582e5f28188f18e3228f30f3",
+                        "kind": "READ_LOCAL",
+                        "question": "Read the current task input fields.",
+                        "locator": "current supplied source, facts and question, according to each requested field",
+                        "fields": {
+                          "ticket_price": {
+                            "status": "known",
+                            "value": 875,
+                            "support_ids": [
+                              43
+                            ],
+                            "support": [
+                              {
+                                "id": 43,
+                                "field": "facts",
+                                "start": 608,
+                                "end": 638,
+                                "text": "Emily's flight ticket is $875."
+                              }
+                            ]
+                          },
+                          "lengths": {
+                            "status": "known",
+                            "value": [
+                              21,
+                              44,
+                              45,
+                              36,
+                              33,
+                              46,
+                              36,
+                              35,
+                              51,
+                              37,
+                              38
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 606,
+                                "text": "Emily is a Premium Economy Class passenger flying from San Francisco to Auckland with the following items:\n1. A backpack: 21 x 13 x 6 inches, 6 lbs;\n2. A luggage box: 44 x 29 x 20 inches, 62 lbs;\n3. A luggage box: 45 x 23 x 19 inches, 53 lbs;\n4. A backpack: 36 x 18 x 9 inches, 66 lbs;\n5. A backpack: 33 x 21 x 10 inches, 53 lbs;\n6. A backpack: 46 x 31 x 27 inches, 57 lbs;\n7. A luggage box: 36 x 15 x 14 inches, 63 lbs;\n8. A luggage box: 35 x 18 x 10 inches, 58 lbs;\n9. A luggage box: 51 x 29 x 24 inches, 52 lbs;\n10. A backpack: 37 x 17 x 9 inches, 52 lbs;\n11. A luggage box: 38 x 20 x 13 inches, 53 lbs;"
+                              }
+                            ]
+                          },
+                          "widths": {
+                            "status": "known",
+                            "value": [
+                              13,
+                              29,
+                              23,
+                              18,
+                              21,
+                              31,
+                              15,
+                              18,
+                              20,
+                              17,
+                              20
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 606,
+                                "text": "Emily is a Premium Economy Class passenger flying from San Francisco to Auckland with the following items:\n1. A backpack: 21 x 13 x 6 inches, 6 lbs;\n2. A luggage box: 44 x 29 x 20 inches, 62 lbs;\n3. A luggage box: 45 x 23 x 19 inches, 53 lbs;\n4. A backpack: 36 x 18 x 9 inches, 66 lbs;\n5. A backpack: 33 x 21 x 10 inches, 53 lbs;\n6. A backpack: 46 x 31 x 27 inches, 57 lbs;\n7. A luggage box: 36 x 15 x 14 inches, 63 lbs;\n8. A luggage box: 35 x 18 x 10 inches, 58 lbs;\n9. A luggage box: 51 x 29 x 24 inches, 52 lbs;\n10. A backpack: 37 x 17 x 9 inches, 52 lbs;\n11. A luggage box: 38 x 20 x 13 inches, 53 lbs;"
+                              }
+                            ]
+                          },
+                          "heights": {
+                            "status": "known",
+                            "value": [
+                              6,
+                              20,
+                              19,
+                              9,
+                              10,
+                              27,
+                              14,
+                              10,
+                              24,
+                              9,
+                              13
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 606,
+                                "text": "Emily is a Premium Economy Class passenger flying from San Francisco to Auckland with the following items:\n1. A backpack: 21 x 13 x 6 inches, 6 lbs;\n2. A luggage box: 44 x 29 x 20 inches, 62 lbs;\n3. A luggage box: 45 x 23 x 19 inches, 53 lbs;\n4. A backpack: 36 x 18 x 9 inches, 66 lbs;\n5. A backpack: 33 x 21 x 10 inches, 53 lbs;\n6. A backpack: 46 x 31 x 27 inches, 57 lbs;\n7. A luggage box: 36 x 15 x 14 inches, 63 lbs;\n8. A luggage box: 35 x 18 x 10 inches, 58 lbs;\n9. A luggage box: 51 x 29 x 24 inches, 52 lbs;\n10. A backpack: 37 x 17 x 9 inches, 52 lbs;\n11. A luggage box: 38 x 20 x 13 inches, 53 lbs;"
+                              }
+                            ]
+                          },
+                          "weights": {
+                            "status": "known",
+                            "value": [
+                              6,
+                              62,
+                              53,
+                              66,
+                              53,
+                              57,
+                              63,
+                              58,
+                              52,
+                              52,
+                              53
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 606,
+                                "text": "Emily is a Premium Economy Class passenger flying from San Francisco to Auckland with the following items:\n1. A backpack: 21 x 13 x 6 inches, 6 lbs;\n2. A luggage box: 44 x 29 x 20 inches, 62 lbs;\n3. A luggage box: 45 x 23 x 19 inches, 53 lbs;\n4. A backpack: 36 x 18 x 9 inches, 66 lbs;\n5. A backpack: 33 x 21 x 10 inches, 53 lbs;\n6. A backpack: 46 x 31 x 27 inches, 57 lbs;\n7. A luggage box: 36 x 15 x 14 inches, 63 lbs;\n8. A luggage box: 35 x 18 x 10 inches, 58 lbs;\n9. A luggage box: 51 x 29 x 24 inches, 52 lbs;\n10. A backpack: 37 x 17 x 9 inches, 52 lbs;\n11. A luggage box: 38 x 20 x 13 inches, 53 lbs;"
+                              }
+                            ]
+                          },
+                          "personal_dimension_limits": {
+                            "status": "known",
+                            "value": [
+                              18,
+                              14,
+                              8
+                            ],
+                            "support_ids": [
+                              2
+                            ],
+                            "support": [
+                              {
+                                "id": 2,
+                                "field": "source_text",
+                                "start": 244,
+                                "end": 419,
+                                "text": "### Personal items\nYour personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm)."
+                              }
+                            ]
+                          },
+                          "carryon_dimension_limits": {
+                            "status": "known",
+                            "value": [
+                              22,
+                              14,
+                              9
+                            ],
+                            "support_ids": [
+                              5
+                            ],
+                            "support": [
+                              {
+                                "id": 5,
+                                "field": "source_text",
+                                "start": 909,
+                                "end": 1086,
+                                "text": "#### Carry-on bag\nThe total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport."
+                              }
+                            ]
+                          },
+                          "base_fees_by_checked_position": {
+                            "status": "unknown",
+                            "value": null,
+                            "support_ids": [],
+                            "support": []
+                          },
+                          "standard_dimension_limit": {
+                            "status": "known",
+                            "value": 62,
+                            "support_ids": [
+                              30
+                            ],
+                            "support": [
+                              {
+                                "id": 30,
+                                "field": "source_text",
+                                "start": 13817,
+                                "end": 14078,
+                                "text": "For all regions, except to / from Australia or New Zealand, your checked bag allowance is:\n* Dimension: 62 in / 158 cm\n* Weight: 50 lbs / 23 kgs\n* For First / Business, weight is 70 lbs / 32 kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                              }
+                            ]
+                          },
+                          "charged_weight_limit": {
+                            "status": "known",
+                            "value": 50,
+                            "support_ids": [
+                              30
+                            ],
+                            "support": [
+                              {
+                                "id": 30,
+                                "field": "source_text",
+                                "start": 13817,
+                                "end": 14078,
+                                "text": "For all regions, except to / from Australia or New Zealand, your checked bag allowance is:\n* Dimension: 62 in / 158 cm\n* Weight: 50 lbs / 23 kgs\n* For First / Business, weight is 70 lbs / 32 kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                              }
+                            ]
+                          },
+                          "complimentary_weight_limit": {
+                            "status": "known",
+                            "value": 70,
+                            "support_ids": [
+                              30
+                            ],
+                            "support": [
+                              {
+                                "id": 30,
+                                "field": "source_text",
+                                "start": 13817,
+                                "end": 14078,
+                                "text": "For all regions, except to / from Australia or New Zealand, your checked bag allowance is:\n* Dimension: 62 in / 158 cm\n* Weight: 50 lbs / 23 kgs\n* For First / Business, weight is 70 lbs / 32 kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                              }
+                            ]
+                          },
+                          "overweight_upper_limits": {
+                            "status": "known",
+                            "value": [
+                              50,
+                              70
+                            ],
+                            "support_ids": [
+                              34,
+                              36,
+                              38
+                            ],
+                            "support": [
+                              {
+                                "id": 34,
+                                "field": "source_text",
+                                "start": 14486,
+                                "end": 14531,
+                                "text": "##### Over 50 lbs / 23 kgs to 53 lbs / 24 kgs"
+                              },
+                              {
+                                "id": 36,
+                                "field": "source_text",
+                                "start": 14783,
+                                "end": 14828,
+                                "text": "##### Over 53 lbs / 24 kgs to 70 lbs / 32 kgs"
+                              },
+                              {
+                                "id": 38,
+                                "field": "source_text",
+                                "start": 16695,
+                                "end": 16740,
+                                "text": "##### Over 70 lbs / 32kgs to 100 lbs / 45 kgs"
+                              }
+                            ]
+                          },
+                          "overweight_fees": {
+                            "status": "known",
+                            "value": [
+                              30,
+                              100,
+                              200
+                            ],
+                            "support_ids": [
+                              34,
+                              36,
+                              38
+                            ],
+                            "support": [
+                              {
+                                "id": 34,
+                                "field": "source_text",
+                                "start": 14486,
+                                "end": 14531,
+                                "text": "##### Over 50 lbs / 23 kgs to 53 lbs / 24 kgs"
+                              },
+                              {
+                                "id": 36,
+                                "field": "source_text",
+                                "start": 14783,
+                                "end": 14828,
+                                "text": "##### Over 53 lbs / 24 kgs to 70 lbs / 32 kgs"
+                              },
+                              {
+                                "id": 38,
+                                "field": "source_text",
+                                "start": 16695,
+                                "end": 16740,
+                                "text": "##### Over 70 lbs / 32kgs to 100 lbs / 45 kgs"
+                              }
+                            ]
+                          },
+                          "oversize_upper_limits": {
+                            "status": "known",
+                            "value": [
+                              62,
+                              115
+                            ],
+                            "support_ids": [
+                              41
+                            ],
+                            "support": [
+                              {
+                                "id": 41,
+                                "field": "source_text",
+                                "start": 18464,
+                                "end": 19583,
+                                "text": "| Region                                                                       | Over 62 in / 158 cm – 65 in / 165 cm | Over 65 in / 165 cm – 115 in / 292 cm |\n|------------------------------------------------------------------------------|--------------------------------------|---------------------------------------|\n| Between U.S., Puerto Rico, U.S. Virgin Islands and Canada                    | $30                                  | $200                                  |\n| Mexico / Caribbean / Central America (except Panama) / Guyana / Suriname     | $30                                  | $200                                  |\n| Panama / South America (except Guyana / Suriname)                            | $30                                  | $150                                  |\n| Europe, Israel, Qatar                                                        | $30                                  | $150                                  |\n| China, Japan, South Korea, Hong Kong, India, Australia, and New Zealand      | $30                                  | $200                                  |"
+                              }
+                            ]
+                          },
+                          "oversize_fees": {
+                            "status": "known",
+                            "value": [
+                              30,
+                              200
+                            ],
+                            "support_ids": [
+                              41
+                            ],
+                            "support": [
+                              {
+                                "id": 41,
+                                "field": "source_text",
+                                "start": 18464,
+                                "end": 19583,
+                                "text": "| Region                                                                       | Over 62 in / 158 cm – 65 in / 165 cm | Over 65 in / 165 cm – 115 in / 292 cm |\n|------------------------------------------------------------------------------|--------------------------------------|---------------------------------------|\n| Between U.S., Puerto Rico, U.S. Virgin Islands and Canada                    | $30                                  | $200                                  |\n| Mexico / Caribbean / Central America (except Panama) / Guyana / Suriname     | $30                                  | $200                                  |\n| Panama / South America (except Guyana / Suriname)                            | $30                                  | $150                                  |\n| Europe, Israel, Qatar                                                        | $30                                  | $150                                  |\n| China, Japan, South Korea, Hong Kong, India, Australia, and New Zealand      | $30                                  | $200                                  |"
+                              }
+                            ]
+                          }
+                        },
+                        "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+                        "view": "native",
+                        "unresolved_fields": [
+                          "base_fees_by_checked_position"
+                        ]
+                      },
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:f6b5da9d4981f096d40d60d18e45da222e2a4a087231b4bd36f7c7004970ea4e",
+                        "elapsed_seconds": 1.219830228947103,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:f6b5da9d4981f096d40d60d18e45da222e2a4a087231b4bd36f7c7004970ea4e",
+                        "response_hash": "3338508f8ddb4048193a9e67df6a9a650c9e264e2515bba8c4dce7579a18df8d",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 18,
+                          "prompt_tokens": 4625,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 4643
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "airline_current_bag_total_calculator"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "airline_current_bag_total_calculator",
+                        "error": "ValueError: Learned helper failed: Traceback (most recent call last):\n  File \"/home/yndx/hhy/legal-skill-redesign-20261109/legal_skill_guard/skill_evolution/worker.py\", line 26, in <module>\n    main()\n  File \"/home/yndx/hhy/legal-skill-redesign-20261109/legal_skill_guard/skill_evolution/worker.py\", line 18, in main\n    value = scope['apply'](request['inputs'], request['premises'])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<learned-skill>\", line 21, in apply\nKeyError: 'base_fees_by_checked_position'\n"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 3,
+            "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "native_parent_grade": 1.0,
+            "trace": {
+              "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "2ddd2471aba1951b12075ca401f5037964604b880606bf726d1e27903223bece",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Entailment",
+                    "evidence_sentence_ids": [],
+                    "fallback": false,
+                    "core_executed": true,
+                    "terminal_skill": "termination_cause_subclause_classifier",
+                    "retrieved": [
+                      "termination_cause_subclause_classifier"
+                    ],
+                    "events": [
+                      {
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:de5fa57205af5d0880ceb56c9be75b75536022273fd74a7e5572890be25854d1",
+                        "cache_hit": true,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:de5fa57205af5d0880ceb56c9be75b75536022273fd74a7e5572890be25854d1",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "prompt_tokens": 4022,
+                          "total_tokens": 4081,
+                          "completion_tokens": 59,
+                          "prompt_tokens_details": null
+                        },
+                        "elapsed_seconds": 2.2060678796842694,
+                        "response_hash": "91f7ca8713816fa63aa2fe0c4eb68895760f95d0bc3e21e5d9f23fa221b6eb4b",
+                        "kind": "READ_LOCAL",
+                        "question": "Read the current task input fields.",
+                        "locator": "current supplied source, facts and question, according to each requested field",
+                        "fields": {
+                          "payment_upon_or_after_termination": {
+                            "status": "known",
+                            "value": true,
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 208,
+                                "text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability."
+                              }
+                            ]
+                          },
+                          "termination_caused_by_death_or_disability": {
+                            "status": "known",
+                            "value": true,
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 208,
+                                "text": "Alice has employed Bob from Jan 2nd, 2011 to Oct 10, 2019. On Oct 10, 2019 Bob was diagnosed as disabled and retired. Alice paid Bob $12980 because she had to terminate their contract due to Bob's disability."
+                              }
+                            ]
+                          }
+                        },
+                        "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                        "view": "native",
+                        "unresolved_fields": []
+                      },
+                      {
+                        "kind": "APPLY",
+                        "skill_id": "termination_cause_subclause_classifier",
+                        "skill_hash": "435042b40adc2957e2bdf297ea004317e94d35a958211580ac177ee521c1f493",
+                        "version": 1,
+                        "inputs": {
+                          "payment_upon_or_after_termination": true,
+                          "termination_caused_by_death_or_disability": true
+                        },
+                        "premises": {
+                          "requires_upon_or_after_termination": true,
+                          "requires_death_or_disability_cause": true
+                        },
+                        "outputs": {
+                          "answer": "Entailment"
+                        },
+                        "unresolved_inputs": [],
+                        "unresolved_premises": [],
+                        "source": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+                        "view": "native"
+                      }
+                    ],
+                    "failed_candidates": []
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": true,
+                    "metric": "native_exact_match",
+                    "grade": 1.0
+                  }
+                }
+              ],
+              "native_grade": 1.0,
+              "selection_grade": 1.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 1,
+              "native_fallback_views": 0
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 3,
+            "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+              "dataset": "RuleArena_Airline",
+              "library_hash": "2ddd2471aba1951b12075ca401f5037964604b880606bf726d1e27903223bece",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": 963,
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:1e2908c1663fc927c2a79d2d1d7434001005acc2509f0e8a7f9e08360019caa5",
+                        "cache_hit": true,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:1e2908c1663fc927c2a79d2d1d7434001005acc2509f0e8a7f9e08360019caa5",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "prompt_tokens": 8371,
+                          "total_tokens": 8910,
+                          "completion_tokens": 539,
+                          "prompt_tokens_details": null
+                        },
+                        "elapsed_seconds": 16.756201783195138,
+                        "response_hash": "c7da4e7909028be0da082af12c6a42867cfb162334ee727fad9136d7f969bdc3",
+                        "kind": "READ_LOCAL",
+                        "question": "Read the current task input fields.",
+                        "locator": "current supplied source, facts and question, according to each requested field",
+                        "fields": {
+                          "ticket_price": {
+                            "status": "known",
+                            "value": 563,
+                            "support_ids": [
+                              43
+                            ],
+                            "support": [
+                              {
+                                "id": 43,
+                                "field": "facts",
+                                "start": 330,
+                                "end": 360,
+                                "text": "Karen's flight ticket is $563."
+                              }
+                            ]
+                          },
+                          "lengths": {
+                            "status": "known",
+                            "value": [
+                              19,
+                              38,
+                              35,
+                              43,
+                              36
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 328,
+                                "text": "Karen is a Basic Economy Class passenger flying from Phoenix to Rio de Janeiro with the following items:\n1. A backpack: 19 x 13 x 6 inches, 10 lbs;\n2. A luggage box: 38 x 18 x 9 inches, 64 lbs;\n3. A backpack: 35 x 15 x 14 inches, 53 lbs;\n4. A backpack: 43 x 24 x 20 inches, 53 lbs;\n5. A luggage box: 36 x 18 x 10 inches, 52 lbs;"
+                              }
+                            ]
+                          },
+                          "widths": {
+                            "status": "known",
+                            "value": [
+                              13,
+                              18,
+                              15,
+                              24,
+                              18
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 328,
+                                "text": "Karen is a Basic Economy Class passenger flying from Phoenix to Rio de Janeiro with the following items:\n1. A backpack: 19 x 13 x 6 inches, 10 lbs;\n2. A luggage box: 38 x 18 x 9 inches, 64 lbs;\n3. A backpack: 35 x 15 x 14 inches, 53 lbs;\n4. A backpack: 43 x 24 x 20 inches, 53 lbs;\n5. A luggage box: 36 x 18 x 10 inches, 52 lbs;"
+                              }
+                            ]
+                          },
+                          "heights": {
+                            "status": "known",
+                            "value": [
+                              6,
+                              9,
+                              14,
+                              20,
+                              10
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 328,
+                                "text": "Karen is a Basic Economy Class passenger flying from Phoenix to Rio de Janeiro with the following items:\n1. A backpack: 19 x 13 x 6 inches, 10 lbs;\n2. A luggage box: 38 x 18 x 9 inches, 64 lbs;\n3. A backpack: 35 x 15 x 14 inches, 53 lbs;\n4. A backpack: 43 x 24 x 20 inches, 53 lbs;\n5. A luggage box: 36 x 18 x 10 inches, 52 lbs;"
+                              }
+                            ]
+                          },
+                          "weights": {
+                            "status": "known",
+                            "value": [
+                              10,
+                              64,
+                              53,
+                              53,
+                              52
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 328,
+                                "text": "Karen is a Basic Economy Class passenger flying from Phoenix to Rio de Janeiro with the following items:\n1. A backpack: 19 x 13 x 6 inches, 10 lbs;\n2. A luggage box: 38 x 18 x 9 inches, 64 lbs;\n3. A backpack: 35 x 15 x 14 inches, 53 lbs;\n4. A backpack: 43 x 24 x 20 inches, 53 lbs;\n5. A luggage box: 36 x 18 x 10 inches, 52 lbs;"
+                              }
+                            ]
+                          },
+                          "personal_dimension_limits": {
+                            "status": "known",
+                            "value": [
+                              18,
+                              14,
+                              8
+                            ],
+                            "support_ids": [
+                              2
+                            ],
+                            "support": [
+                              {
+                                "id": 2,
+                                "field": "source_text",
+                                "start": 244,
+                                "end": 419,
+                                "text": "### Personal items\nYour personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm)."
+                              }
+                            ]
+                          },
+                          "carryon_dimension_limits": {
+                            "status": "known",
+                            "value": [
+                              22,
+                              14,
+                              9
+                            ],
+                            "support_ids": [
+                              5
+                            ],
+                            "support": [
+                              {
+                                "id": 5,
+                                "field": "source_text",
+                                "start": 909,
+                                "end": 1086,
+                                "text": "#### Carry-on bag\nThe total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport."
+                              }
+                            ]
+                          },
+                          "base_fees_by_checked_position": {
+                            "status": "unknown",
+                            "value": null,
+                            "support_ids": [],
+                            "support": []
+                          },
+                          "standard_dimension_limit": {
+                            "status": "known",
+                            "value": 62,
+                            "support_ids": [
+                              30
+                            ],
+                            "support": [
+                              {
+                                "id": 30,
+                                "field": "source_text",
+                                "start": 13817,
+                                "end": 14078,
+                                "text": "For all regions, except to / from Australia or New Zealand, your checked bag allowance is:\n* Dimension: 62 in / 158 cm\n* Weight: 50 lbs / 23 kgs\n* For First / Business, weight is 70 lbs / 32 kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                              }
+                            ]
+                          },
+                          "charged_weight_limit": {
+                            "status": "known",
+                            "value": 50,
+                            "support_ids": [
+                              30
+                            ],
+                            "support": [
+                              {
+                                "id": 30,
+                                "field": "source_text",
+                                "start": 13817,
+                                "end": 14078,
+                                "text": "For all regions, except to / from Australia or New Zealand, your checked bag allowance is:\n* Dimension: 62 in / 158 cm\n* Weight: 50 lbs / 23 kgs\n* For First / Business, weight is 70 lbs / 32 kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                              }
+                            ]
+                          },
+                          "complimentary_weight_limit": {
+                            "status": "known",
+                            "value": 70,
+                            "support_ids": [
+                              30
+                            ],
+                            "support": [
+                              {
+                                "id": 30,
+                                "field": "source_text",
+                                "start": 13817,
+                                "end": 14078,
+                                "text": "For all regions, except to / from Australia or New Zealand, your checked bag allowance is:\n* Dimension: 62 in / 158 cm\n* Weight: 50 lbs / 23 kgs\n* For First / Business, weight is 70 lbs / 32 kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                              }
+                            ]
+                          },
+                          "overweight_upper_limits": {
+                            "status": "known",
+                            "value": [
+                              50,
+                              53,
+                              70,
+                              100
+                            ],
+                            "support_ids": [
+                              34,
+                              36,
+                              38
+                            ],
+                            "support": [
+                              {
+                                "id": 34,
+                                "field": "source_text",
+                                "start": 14486,
+                                "end": 14531,
+                                "text": "##### Over 50 lbs / 23 kgs to 53 lbs / 24 kgs"
+                              },
+                              {
+                                "id": 36,
+                                "field": "source_text",
+                                "start": 14783,
+                                "end": 14828,
+                                "text": "##### Over 53 lbs / 24 kgs to 70 lbs / 32 kgs"
+                              },
+                              {
+                                "id": 38,
+                                "field": "source_text",
+                                "start": 16695,
+                                "end": 16740,
+                                "text": "##### Over 70 lbs / 32kgs to 100 lbs / 45 kgs"
+                              }
+                            ]
+                          },
+                          "overweight_fees": {
+                            "status": "known",
+                            "value": [
+                              30,
+                              30,
+                              100,
+                              200
+                            ],
+                            "support_ids": [
+                              34,
+                              36,
+                              38
+                            ],
+                            "support": [
+                              {
+                                "id": 34,
+                                "field": "source_text",
+                                "start": 14486,
+                                "end": 14531,
+                                "text": "##### Over 50 lbs / 23 kgs to 53 lbs / 24 kgs"
+                              },
+                              {
+                                "id": 36,
+                                "field": "source_text",
+                                "start": 14783,
+                                "end": 14828,
+                                "text": "##### Over 53 lbs / 24 kgs to 70 lbs / 32 kgs"
+                              },
+                              {
+                                "id": 38,
+                                "field": "source_text",
+                                "start": 16695,
+                                "end": 16740,
+                                "text": "##### Over 70 lbs / 32kgs to 100 lbs / 45 kgs"
+                              }
+                            ]
+                          },
+                          "oversize_upper_limits": {
+                            "status": "known",
+                            "value": [
+                              62,
+                              65,
+                              115,
+                              158
+                            ],
+                            "support_ids": [
+                              41
+                            ],
+                            "support": [
+                              {
+                                "id": 41,
+                                "field": "source_text",
+                                "start": 18464,
+                                "end": 19583,
+                                "text": "| Region                                                                       | Over 62 in / 158 cm – 65 in / 165 cm | Over 65 in / 165 cm – 115 in / 292 cm |\n|------------------------------------------------------------------------------|--------------------------------------|---------------------------------------|\n| Between U.S., Puerto Rico, U.S. Virgin Islands and Canada                    | $30                                  | $200                                  |\n| Mexico / Caribbean / Central America (except Panama) / Guyana / Suriname     | $30                                  | $200                                  |\n| Panama / South America (except Guyana / Suriname)                            | $30                                  | $150                                  |\n| Europe, Israel, Qatar                                                        | $30                                  | $150                                  |\n| China, Japan, South Korea, Hong Kong, India, Australia, and New Zealand      | $30                                  | $200                                  |"
+                              }
+                            ]
+                          },
+                          "oversize_fees": {
+                            "status": "known",
+                            "value": [
+                              30,
+                              200,
+                              150,
+                              200
+                            ],
+                            "support_ids": [
+                              41
+                            ],
+                            "support": [
+                              {
+                                "id": 41,
+                                "field": "source_text",
+                                "start": 18464,
+                                "end": 19583,
+                                "text": "| Region                                                                       | Over 62 in / 158 cm – 65 in / 165 cm | Over 65 in / 165 cm – 115 in / 292 cm |\n|------------------------------------------------------------------------------|--------------------------------------|---------------------------------------|\n| Between U.S., Puerto Rico, U.S. Virgin Islands and Canada                    | $30                                  | $200                                  |\n| Mexico / Caribbean / Central America (except Panama) / Guyana / Suriname     | $30                                  | $200                                  |\n| Panama / South America (except Guyana / Suriname)                            | $30                                  | $150                                  |\n| Europe, Israel, Qatar                                                        | $30                                  | $150                                  |\n| China, Japan, South Korea, Hong Kong, India, Australia, and New Zealand      | $30                                  | $200                                  |"
+                              }
+                            ]
+                          }
+                        },
+                        "source": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+                        "view": "native",
+                        "unresolved_fields": [
+                          "base_fees_by_checked_position"
+                        ]
+                      },
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:1919bb6fafbe377f7b4daa764fa3558223e2610aecd20d9ccf8c4afa018a8d77",
+                        "elapsed_seconds": 1.1610122546553612,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:1919bb6fafbe377f7b4daa764fa3558223e2610aecd20d9ccf8c4afa018a8d77",
+                        "response_hash": "14fa2481e46e75610b3b7951b0e3cc26c2803a8e53c2a49b7acb17ac7f46fa5f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 17,
+                          "prompt_tokens": 4478,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 4495
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "airline_current_bag_total_calculator"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "airline_current_bag_total_calculator",
+                        "error": "ValueError: Learned helper failed: Traceback (most recent call last):\n  File \"/home/yndx/hhy/legal-skill-redesign-20261109/legal_skill_guard/skill_evolution/worker.py\", line 26, in <module>\n    main()\n  File \"/home/yndx/hhy/legal-skill-redesign-20261109/legal_skill_guard/skill_evolution/worker.py\", line 18, in main\n    value = scope['apply'](request['inputs'], request['premises'])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<learned-skill>\", line 21, in apply\nKeyError: 'base_fees_by_checked_position'\n"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 3,
+            "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+              "dataset": "RuleArena_Airline",
+              "library_hash": "2ddd2471aba1951b12075ca401f5037964604b880606bf726d1e27903223bece",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": 1475,
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:84c349169432cbad2c09fde562220245f13b3d6c88a09d70c5aef2d3c140d920",
+                        "cache_hit": true,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:84c349169432cbad2c09fde562220245f13b3d6c88a09d70c5aef2d3c140d920",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "prompt_tokens": 8518,
+                          "total_tokens": 9119,
+                          "completion_tokens": 601,
+                          "prompt_tokens_details": null
+                        },
+                        "elapsed_seconds": 18.574194978922606,
+                        "response_hash": "39a2e30be7396725ad92ec4e28e4d3c756eaf9f2582e5f28188f18e3228f30f3",
+                        "kind": "READ_LOCAL",
+                        "question": "Read the current task input fields.",
+                        "locator": "current supplied source, facts and question, according to each requested field",
+                        "fields": {
+                          "ticket_price": {
+                            "status": "known",
+                            "value": 875,
+                            "support_ids": [
+                              43
+                            ],
+                            "support": [
+                              {
+                                "id": 43,
+                                "field": "facts",
+                                "start": 608,
+                                "end": 638,
+                                "text": "Emily's flight ticket is $875."
+                              }
+                            ]
+                          },
+                          "lengths": {
+                            "status": "known",
+                            "value": [
+                              21,
+                              44,
+                              45,
+                              36,
+                              33,
+                              46,
+                              36,
+                              35,
+                              51,
+                              37,
+                              38
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 606,
+                                "text": "Emily is a Premium Economy Class passenger flying from San Francisco to Auckland with the following items:\n1. A backpack: 21 x 13 x 6 inches, 6 lbs;\n2. A luggage box: 44 x 29 x 20 inches, 62 lbs;\n3. A luggage box: 45 x 23 x 19 inches, 53 lbs;\n4. A backpack: 36 x 18 x 9 inches, 66 lbs;\n5. A backpack: 33 x 21 x 10 inches, 53 lbs;\n6. A backpack: 46 x 31 x 27 inches, 57 lbs;\n7. A luggage box: 36 x 15 x 14 inches, 63 lbs;\n8. A luggage box: 35 x 18 x 10 inches, 58 lbs;\n9. A luggage box: 51 x 29 x 24 inches, 52 lbs;\n10. A backpack: 37 x 17 x 9 inches, 52 lbs;\n11. A luggage box: 38 x 20 x 13 inches, 53 lbs;"
+                              }
+                            ]
+                          },
+                          "widths": {
+                            "status": "known",
+                            "value": [
+                              13,
+                              29,
+                              23,
+                              18,
+                              21,
+                              31,
+                              15,
+                              18,
+                              20,
+                              17,
+                              20
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 606,
+                                "text": "Emily is a Premium Economy Class passenger flying from San Francisco to Auckland with the following items:\n1. A backpack: 21 x 13 x 6 inches, 6 lbs;\n2. A luggage box: 44 x 29 x 20 inches, 62 lbs;\n3. A luggage box: 45 x 23 x 19 inches, 53 lbs;\n4. A backpack: 36 x 18 x 9 inches, 66 lbs;\n5. A backpack: 33 x 21 x 10 inches, 53 lbs;\n6. A backpack: 46 x 31 x 27 inches, 57 lbs;\n7. A luggage box: 36 x 15 x 14 inches, 63 lbs;\n8. A luggage box: 35 x 18 x 10 inches, 58 lbs;\n9. A luggage box: 51 x 29 x 24 inches, 52 lbs;\n10. A backpack: 37 x 17 x 9 inches, 52 lbs;\n11. A luggage box: 38 x 20 x 13 inches, 53 lbs;"
+                              }
+                            ]
+                          },
+                          "heights": {
+                            "status": "known",
+                            "value": [
+                              6,
+                              20,
+                              19,
+                              9,
+                              10,
+                              27,
+                              14,
+                              10,
+                              24,
+                              9,
+                              13
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 606,
+                                "text": "Emily is a Premium Economy Class passenger flying from San Francisco to Auckland with the following items:\n1. A backpack: 21 x 13 x 6 inches, 6 lbs;\n2. A luggage box: 44 x 29 x 20 inches, 62 lbs;\n3. A luggage box: 45 x 23 x 19 inches, 53 lbs;\n4. A backpack: 36 x 18 x 9 inches, 66 lbs;\n5. A backpack: 33 x 21 x 10 inches, 53 lbs;\n6. A backpack: 46 x 31 x 27 inches, 57 lbs;\n7. A luggage box: 36 x 15 x 14 inches, 63 lbs;\n8. A luggage box: 35 x 18 x 10 inches, 58 lbs;\n9. A luggage box: 51 x 29 x 24 inches, 52 lbs;\n10. A backpack: 37 x 17 x 9 inches, 52 lbs;\n11. A luggage box: 38 x 20 x 13 inches, 53 lbs;"
+                              }
+                            ]
+                          },
+                          "weights": {
+                            "status": "known",
+                            "value": [
+                              6,
+                              62,
+                              53,
+                              66,
+                              53,
+                              57,
+                              63,
+                              58,
+                              52,
+                              52,
+                              53
+                            ],
+                            "support_ids": [
+                              42
+                            ],
+                            "support": [
+                              {
+                                "id": 42,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 606,
+                                "text": "Emily is a Premium Economy Class passenger flying from San Francisco to Auckland with the following items:\n1. A backpack: 21 x 13 x 6 inches, 6 lbs;\n2. A luggage box: 44 x 29 x 20 inches, 62 lbs;\n3. A luggage box: 45 x 23 x 19 inches, 53 lbs;\n4. A backpack: 36 x 18 x 9 inches, 66 lbs;\n5. A backpack: 33 x 21 x 10 inches, 53 lbs;\n6. A backpack: 46 x 31 x 27 inches, 57 lbs;\n7. A luggage box: 36 x 15 x 14 inches, 63 lbs;\n8. A luggage box: 35 x 18 x 10 inches, 58 lbs;\n9. A luggage box: 51 x 29 x 24 inches, 52 lbs;\n10. A backpack: 37 x 17 x 9 inches, 52 lbs;\n11. A luggage box: 38 x 20 x 13 inches, 53 lbs;"
+                              }
+                            ]
+                          },
+                          "personal_dimension_limits": {
+                            "status": "known",
+                            "value": [
+                              18,
+                              14,
+                              8
+                            ],
+                            "support_ids": [
+                              2
+                            ],
+                            "support": [
+                              {
+                                "id": 2,
+                                "field": "source_text",
+                                "start": 244,
+                                "end": 419,
+                                "text": "### Personal items\nYour personal item like a purse or small handbag must fit under the seat in front of you. Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm)."
+                              }
+                            ]
+                          },
+                          "carryon_dimension_limits": {
+                            "status": "known",
+                            "value": [
+                              22,
+                              14,
+                              9
+                            ],
+                            "support_ids": [
+                              5
+                            ],
+                            "support": [
+                              {
+                                "id": 5,
+                                "field": "source_text",
+                                "start": 909,
+                                "end": 1086,
+                                "text": "#### Carry-on bag\nThe total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport."
+                              }
+                            ]
+                          },
+                          "base_fees_by_checked_position": {
+                            "status": "unknown",
+                            "value": null,
+                            "support_ids": [],
+                            "support": []
+                          },
+                          "standard_dimension_limit": {
+                            "status": "known",
+                            "value": 62,
+                            "support_ids": [
+                              30
+                            ],
+                            "support": [
+                              {
+                                "id": 30,
+                                "field": "source_text",
+                                "start": 13817,
+                                "end": 14078,
+                                "text": "For all regions, except to / from Australia or New Zealand, your checked bag allowance is:\n* Dimension: 62 in / 158 cm\n* Weight: 50 lbs / 23 kgs\n* For First / Business, weight is 70 lbs / 32 kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                              }
+                            ]
+                          },
+                          "charged_weight_limit": {
+                            "status": "known",
+                            "value": 50,
+                            "support_ids": [
+                              30
+                            ],
+                            "support": [
+                              {
+                                "id": 30,
+                                "field": "source_text",
+                                "start": 13817,
+                                "end": 14078,
+                                "text": "For all regions, except to / from Australia or New Zealand, your checked bag allowance is:\n* Dimension: 62 in / 158 cm\n* Weight: 50 lbs / 23 kgs\n* For First / Business, weight is 70 lbs / 32 kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                              }
+                            ]
+                          },
+                          "complimentary_weight_limit": {
+                            "status": "known",
+                            "value": 70,
+                            "support_ids": [
+                              30
+                            ],
+                            "support": [
+                              {
+                                "id": 30,
+                                "field": "source_text",
+                                "start": 13817,
+                                "end": 14078,
+                                "text": "For all regions, except to / from Australia or New Zealand, your checked bag allowance is:\n* Dimension: 62 in / 158 cm\n* Weight: 50 lbs / 23 kgs\n* For First / Business, weight is 70 lbs / 32 kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags"
+                              }
+                            ]
+                          },
+                          "overweight_upper_limits": {
+                            "status": "known",
+                            "value": [
+                              50,
+                              70
+                            ],
+                            "support_ids": [
+                              34,
+                              36,
+                              38
+                            ],
+                            "support": [
+                              {
+                                "id": 34,
+                                "field": "source_text",
+                                "start": 14486,
+                                "end": 14531,
+                                "text": "##### Over 50 lbs / 23 kgs to 53 lbs / 24 kgs"
+                              },
+                              {
+                                "id": 36,
+                                "field": "source_text",
+                                "start": 14783,
+                                "end": 14828,
+                                "text": "##### Over 53 lbs / 24 kgs to 70 lbs / 32 kgs"
+                              },
+                              {
+                                "id": 38,
+                                "field": "source_text",
+                                "start": 16695,
+                                "end": 16740,
+                                "text": "##### Over 70 lbs / 32kgs to 100 lbs / 45 kgs"
+                              }
+                            ]
+                          },
+                          "overweight_fees": {
+                            "status": "known",
+                            "value": [
+                              30,
+                              100,
+                              200
+                            ],
+                            "support_ids": [
+                              34,
+                              36,
+                              38
+                            ],
+                            "support": [
+                              {
+                                "id": 34,
+                                "field": "source_text",
+                                "start": 14486,
+                                "end": 14531,
+                                "text": "##### Over 50 lbs / 23 kgs to 53 lbs / 24 kgs"
+                              },
+                              {
+                                "id": 36,
+                                "field": "source_text",
+                                "start": 14783,
+                                "end": 14828,
+                                "text": "##### Over 53 lbs / 24 kgs to 70 lbs / 32 kgs"
+                              },
+                              {
+                                "id": 38,
+                                "field": "source_text",
+                                "start": 16695,
+                                "end": 16740,
+                                "text": "##### Over 70 lbs / 32kgs to 100 lbs / 45 kgs"
+                              }
+                            ]
+                          },
+                          "oversize_upper_limits": {
+                            "status": "known",
+                            "value": [
+                              62,
+                              115
+                            ],
+                            "support_ids": [
+                              41
+                            ],
+                            "support": [
+                              {
+                                "id": 41,
+                                "field": "source_text",
+                                "start": 18464,
+                                "end": 19583,
+                                "text": "| Region                                                                       | Over 62 in / 158 cm – 65 in / 165 cm | Over 65 in / 165 cm – 115 in / 292 cm |\n|------------------------------------------------------------------------------|--------------------------------------|---------------------------------------|\n| Between U.S., Puerto Rico, U.S. Virgin Islands and Canada                    | $30                                  | $200                                  |\n| Mexico / Caribbean / Central America (except Panama) / Guyana / Suriname     | $30                                  | $200                                  |\n| Panama / South America (except Guyana / Suriname)                            | $30                                  | $150                                  |\n| Europe, Israel, Qatar                                                        | $30                                  | $150                                  |\n| China, Japan, South Korea, Hong Kong, India, Australia, and New Zealand      | $30                                  | $200                                  |"
+                              }
+                            ]
+                          },
+                          "oversize_fees": {
+                            "status": "known",
+                            "value": [
+                              30,
+                              200
+                            ],
+                            "support_ids": [
+                              41
+                            ],
+                            "support": [
+                              {
+                                "id": 41,
+                                "field": "source_text",
+                                "start": 18464,
+                                "end": 19583,
+                                "text": "| Region                                                                       | Over 62 in / 158 cm – 65 in / 165 cm | Over 65 in / 165 cm – 115 in / 292 cm |\n|------------------------------------------------------------------------------|--------------------------------------|---------------------------------------|\n| Between U.S., Puerto Rico, U.S. Virgin Islands and Canada                    | $30                                  | $200                                  |\n| Mexico / Caribbean / Central America (except Panama) / Guyana / Suriname     | $30                                  | $200                                  |\n| Panama / South America (except Guyana / Suriname)                            | $30                                  | $150                                  |\n| Europe, Israel, Qatar                                                        | $30                                  | $150                                  |\n| China, Japan, South Korea, Hong Kong, India, Australia, and New Zealand      | $30                                  | $200                                  |"
+                              }
+                            ]
+                          }
+                        },
+                        "source": "RuleArena_Airline:9b47bd06b2ac8dec3e43933c48c3879746f949879683fa2977b397b1253a0f74",
+                        "view": "native",
+                        "unresolved_fields": [
+                          "base_fees_by_checked_position"
+                        ]
+                      },
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_formal_v1_20261111:f6b5da9d4981f096d40d60d18e45da222e2a4a087231b4bd36f7c7004970ea4e",
+                        "elapsed_seconds": 1.219830228947103,
+                        "physical_call_id": "legal_skill_evolution_formal_v1_20261111:f6b5da9d4981f096d40d60d18e45da222e2a4a087231b4bd36f7c7004970ea4e",
+                        "response_hash": "3338508f8ddb4048193a9e67df6a9a650c9e264e2515bba8c4dce7579a18df8d",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 18,
+                          "prompt_tokens": 4625,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 4643
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "airline_current_bag_total_calculator"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "airline_current_bag_total_calculator",
+                        "error": "ValueError: Learned helper failed: Traceback (most recent call last):\n  File \"/home/yndx/hhy/legal-skill-redesign-20261109/legal_skill_guard/skill_evolution/worker.py\", line 26, in <module>\n    main()\n  File \"/home/yndx/hhy/legal-skill-redesign-20261109/legal_skill_guard/skill_evolution/worker.py\", line 18, in main\n    value = scope['apply'](request['inputs'], request['premises'])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<learned-skill>\", line 21, in apply\nKeyError: 'base_fees_by_checked_position'\n"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          }
+        ],
+        "complete": true,
+        "minimal_blocks": [
+          1
+        ],
+        "classification": "single_sufficient",
+        "unmeasured_assignments": "unknown",
+        "hash": "e6bdfeba8bc88402eed4dd2fb32b322c6ff83f9573918f7b871ae7f2ceda1a21"
+      },
+      "error": null,
+      "selection_exclusion": null
+    }
+  ],
+  "execution_events": []
+}
