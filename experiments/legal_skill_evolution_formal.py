@@ -17,7 +17,7 @@ from legal_skill_guard.skill_evolution.native import public_task, answer_wire_sc
 from legal_skill_guard.skill_evolution.runtime import render_messages
 
 ROOT = Path(__file__).resolve().parents[1]
-PROFILE = ROOT / 'configs/legal_skill_evolution_formal_v1_20261111.json'
+PROFILE = ROOT / 'configs/legal_skill_evolution_formal_v2_20261111.json'
 ARMS = ('NoSkill', 'FreeEvolution', 'LiftOnly', 'CoRevOnly', 'Full', 'Lift+GenericJoint', 'AllPorts+CoRev')
 CURVE_ARMS = ('FreeEvolution', 'LiftOnly', 'CoRevOnly', 'Full')
 
@@ -50,21 +50,27 @@ def prepare():
     code = {p: sha(ROOT / p) for p in original['code']}
     for p in [Path(__file__), ROOT / 'tests/test_skill_evolution_formal.py']:
         code[str(p.relative_to(ROOT))] = sha(p)
+    for p in list((ROOT / 'legal_skill_guard/skill_evolution').glob('*.py')) + [ROOT / 'tests/test_skill_evolution_grounding.py']:
+        code[str(p.relative_to(ROOT))] = sha(p)
     data = {p: sha(ROOT / p) for p in original['data']
             if not p.startswith(('artifacts/legal_skill_evolution_20261111/repair_',
                                  'artifacts/legal_skill_evolution_20261111/pilot_'))}
     for p in [ROOT / 'artifacts/legal_skill_evolution_20261111/prepared/dev/public.json',
               ROOT / 'artifacts/legal_skill_evolution_20261111/prepared/dev/grading.json',
-              review_path, ROOT / 'configs/legal_skill_evolution_20261111.json']:
+              review_path, ROOT / 'configs/legal_skill_evolution_20261111.json',
+              ROOT / 'reports/legal_skill_evolution_run_20261111/formal_forward_grounding_repair_review.json']:
         data[str(p.relative_to(ROOT))] = sha(p)
-    profile = {**prior, 'run_id': 'legal_skill_evolution_formal_v1_20261111',
-        'artifacts': 'artifacts/legal_skill_evolution_20261111/formal_v1', 'stage': 'formal',
+    profile = {**prior, 'run_id': 'legal_skill_evolution_formal_v2_20261111',
+        'artifacts': 'artifacts/legal_skill_evolution_20261111/formal_v2', 'stage': 'formal',
         'arms': list(ARMS), 'curve_arms': list(CURVE_ARMS), 'prior_logical_replay_executions': {},
         'controlled_TRAIN_diagnostics_in_formal_learning': False,
         'selection_grade': 'native_views_mean_within_parent', 'pilot_skills_imported': False,
         'dev_feedback_to_teacher': False, 'sealed_TEST_opened': False,
-        'schedule': schedule()}
-    profile['exact_replay_profiles'] = prior['exact_replay_profiles'] + ['configs/legal_skill_evolution_repair_v13_20261111.json']
+        'schedule': schedule(), 'continuation_of': 'configs/legal_skill_evolution_formal_v1_20261111.json',
+        'same_training_pass': True, 'preserved_completed_batch_prefix': 2,
+        'forward_repair': 'unique source quote transcription binding and retained failed raw proposal visibility'}
+    profile['exact_replay_profiles'] = prior['exact_replay_profiles'] + ['configs/legal_skill_evolution_repair_v13_20261111.json',
+        'configs/legal_skill_evolution_formal_v1_20261111.json']
     profile['generation_binding'] = {'code_hash': digest(code), 'data_hash': digest(data),
         'executor_hash': digest(profile['executor']), 'teacher_hash': digest(profile['teacher'])}
     immutable_json(PROFILE, profile)

@@ -1,5 +1,7 @@
 """Inventory accepted learning and dedicated mechanisms without model calls."""
 from datetime import datetime, timezone
+from collections import Counter
+import argparse
 import json
 from pathlib import Path
 
@@ -8,11 +10,17 @@ from legal_skill_guard.skill_evolution.study import load_json, PILOT_ARMS
 from legal_skill_guard.skill_evolution.objects import Library, coupled_blocks
 
 
-def main():
+def main(formal=False):
     root = Path(__file__).resolve().parents[2]
-    folder = root / load_json(PROFILE)['artifacts']
+    profile, arms = PROFILE, PILOT_ARMS
+    if formal:
+        from experiments.legal_skill_evolution_formal import PROFILE as FORMAL_PROFILE, ARMS
+        profile, arms = FORMAL_PROFILE, tuple(a for a in ARMS if a != 'NoSkill')
+    folder = root / load_json(profile)['artifacts']
     rows = []
-    for arm in PILOT_ARMS:
+    proposal_counts, compiled_counts, accepted_counts = Counter(), Counter(), Counter()
+    transfers, existing_joint_candidates = [], []
+    for arm in arms:
         for path in sorted((folder / arm).glob('update_B*.json')):
             receipt = load_json(path)
             library = Library.load(folder / arm / ('B' + str(receipt['batch']) + '.json'))
@@ -27,28 +35,55 @@ def main():
                     'semantic_records': list(skill.semantic_records),
                     'note': 'Input-vs-premise declarations are teacher proposals, not independently verified semantic roles.'})
             lift_revisions = []
+            teacher = load_json(folder / arm / ('teacher_B' + str(receipt['batch']) + '.json'))
+            for block in teacher['value']['blocks']:
+                proposal_counts.update(r['operation'] for r in block['revisions'])
+            candidates = sorted((folder / arm / ('B' + str(receipt['batch']) + '_candidates')).glob('*.json'))
+            for candidate_path in candidates:
+                candidate = load_json(candidate_path)
+                compiled_counts.update(r['operation'] for r in candidate.get('revisions', []))
+                existing = [r for r in candidate.get('revisions', []) if r['old_hash'] is not None]
+                if len(existing) >= 2:
+                    existing_joint_candidates.append({'arm': arm, 'batch': receipt['batch'],
+                        'candidate': int(candidate_path.stem), 'existing_skill_ids': [r['skill_id'] for r in existing],
+                        'table_complete': candidate.get('table', {}).get('complete', False),
+                        'classification': candidate.get('table', {}).get('classification'),
+                        'selected_mask': candidate.get('selected_mask'),
+                        'finally_accepted': receipt['selected_candidate'] == int(candidate_path.stem)})
+                if candidate.get('pattern_id'):
+                    transfers.append({'arm': arm, 'batch': receipt['batch'], 'pattern_id': candidate['pattern_id'],
+                        'candidate': int(candidate_path.stem), 'verified_context': candidate['verified_context'],
+                        'table_complete': candidate.get('table', {}).get('complete', False),
+                        'classification': candidate.get('transplant_classification'),
+                        'finally_accepted': receipt['selected_candidate'] == int(candidate_path.stem)})
             if receipt['selected_candidate'] is not None:
-                candidates = sorted((folder / arm / ('B' + str(receipt['batch']) + '_candidates')).glob('*.json'))
                 if candidates:
                     candidate = load_json(next(p for p in candidates if int(p.stem) == receipt['selected_candidate']))
-                    lift_revisions = [r['skill_id'] for i, r in enumerate(candidate['revisions'])
-                        if receipt['selected_mask'] & (1 << i) and r.get('operation') == 'lift']
+                    accepted = [r for i, r in enumerate(candidate['revisions']) if receipt['selected_mask'] & (1 << i)]
+                    accepted_counts.update(r['operation'] for r in accepted)
+                    lift_revisions = [r['skill_id'] for r in accepted if r.get('operation') == 'lift']
             rows.append({'arm': arm, 'batch': receipt['batch'], 'accepted_skill_count': len(library.skills),
                 'skills': skills, 'accepted_dedicated_lift_revisions_this_update': lift_revisions,
                 'learned_revision_pattern_count': len(library.revision_patterns),
                 'learned_pattern_ids_this_update': receipt['learned_pattern_ids'],
                 'initial_dependency_creation_is_not_joint_revision_learning': True})
     result = {'captured_utc': datetime.now(timezone.utc).isoformat(), 'new_model_calls': 0,
-        'goal_complete': False, 'evidence_scope': 'settled pilot updates only; not formal DEV/TEST',
+        'goal_complete': False, 'evidence_scope': ('settled fixed formal TRAIN updates; DEV not supplied to teachers; no TEST' if formal
+                                                 else 'settled pilot updates only; not formal DEV/TEST'),
+        'teacher_proposed_operations': dict(proposal_counts), 'compiled_candidate_operations': dict(compiled_counts),
+        'accepted_operations': dict(accepted_counts), 'candidates_changing_multiple_existing_skills': existing_joint_candidates,
+        'actual_pattern_transplant_candidates': transfers,
         'library_inventory': rows,
         'dedicated_mechanisms_require_actual_events_and_other_parent_validation': True}
-    target = Path(__file__).with_name('learned_mechanism_inventory.json')
+    target = Path(__file__).with_name('formal_mechanism_inventory.json' if formal else 'learned_mechanism_inventory.json')
     target.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps({'settled_updates': len(rows), 'latest_by_arm': {
         arm: {k: next(r for r in reversed(rows) if r['arm'] == arm)[k]
               for k in ('batch', 'accepted_skill_count', 'learned_revision_pattern_count')}
-        for arm in PILOT_ARMS if any(r['arm'] == arm for r in rows)}}))
+        for arm in arms if any(r['arm'] == arm for r in rows)}}))
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--formal', action='store_true')
+    main(parser.parse_args().formal)

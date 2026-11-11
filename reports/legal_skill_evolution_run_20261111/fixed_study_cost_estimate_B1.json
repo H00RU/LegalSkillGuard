@@ -1,0 +1,58 @@
+{
+  "captured_utc": "2026-11-11T09:51:13.524480+00:00",
+  "new_model_calls": 0,
+  "observed_B1": {
+    "parent_sources": 16,
+    "learning_arms": 6,
+    "start_reserved_at": 1794387884.443878,
+    "first_post_update_DEV_dispatch_at": 1794389082.059713,
+    "learning_phase_wall_seconds": 1197.6158349514008,
+    "actual_physical_cost": {
+      "physical_requests": 54,
+      "statuses": {
+        "teacher:completed": 6,
+        "executor:completed": 48
+      },
+      "reported_token_fields": {
+        "teacher:input_tokens": 164594,
+        "teacher:cached_input_tokens": 56320,
+        "teacher:output_tokens": 48402,
+        "teacher:reasoning_output_tokens": 29354,
+        "executor:prompt_tokens": 193663,
+        "executor:total_tokens": 200595,
+        "executor:completion_tokens": 6932
+      },
+      "sum_reported_generation_latency_seconds": 1190.7130865575746,
+      "cash_invoice_usd": null
+    },
+    "logical_candidate_parent_executions_by_arm": {
+      "FreeEvolution": 12,
+      "LiftOnly": 12,
+      "CoRevOnly": 12,
+      "Full": 6,
+      "Lift+GenericJoint": 6,
+      "AllPorts+CoRev": 0
+    },
+    "mean_teacher_latency_seconds": 160.9989898748075,
+    "DEV_and_TEST_execution_cost_not_in_this_phase": true
+  },
+  "conditional_sizing_not_a_completion_promise": {
+    "8_batches_at_identical_B1_workload_learning_hours": 2.661368522114224,
+    "48_teacher_calls_at_observed_B1_mean_hours": 2.1466531983307666,
+    "future_replay_parents_per_block": 8,
+    "B1_replay_parents_per_block": 3,
+    "per_arm_batch_logical_ceiling": 192,
+    "actual_B1_logical_by_arm": {
+      "FreeEvolution": 12,
+      "LiftOnly": 12,
+      "CoRevOnly": 12,
+      "Full": 6,
+      "Lift+GenericJoint": 6,
+      "AllPorts+CoRev": 0
+    },
+    "point_to_update_after_B2": "B1 has three-parent trigger-only replay; later batches have history and more retained candidates, so B1 alone cannot forecast complete replay/DEV/TEST cost.",
+    "model_retry_seed_source_or_configuration_scan_added": false
+  },
+  "actual_project_cash_invoice_usd": null,
+  "token_latency_and_physical_accounting_are_authoritative_not_assumed_cash_prices": true
+}

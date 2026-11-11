@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import sqlite3
 from experiments.legal_skill_evolution import PROFILE
+from experiments.legal_skill_evolution_formal import PROFILE as FORMAL_PROFILE
 
 ROOT = Path(__file__).resolve().parents[2]
 REPORT = Path(__file__).resolve().parent
@@ -102,12 +103,12 @@ def main():
             'receipts': [{k: v for k, v in read(p).items() if k in
                          ('arm', 'batch', 'candidate', 'selected_mask', 'selection', 'logical_executions', 'compile_error')}
                          for p in receipts]}
-    formal = ROOT / 'artifacts/legal_skill_evolution_20261111/formal_v1'
+    formal = ROOT / read(FORMAL_PROFILE)['artifacts']
     if (formal / 'execution_manifest.json').exists():
         formal_calls = [r for r in attempts if r['id'].startswith('legal_skill_evolution_formal_')]
         dev = [read(p) for p in sorted((formal / 'dev').glob('*/B*.json'))]
         source_checkpoints = list(formal.glob('*/initial_B*/*.json'))
-        snapshot['formal_fixed_study'] = {'profile': 'configs/legal_skill_evolution_formal_v1_20261111.json',
+        snapshot['formal_fixed_study'] = {'profile': str(FORMAL_PROFILE.relative_to(ROOT)),
             'run_started': bool(formal_calls), 'frozen_model_external_skill_learning': True,
             'source_count': 128, 'batch_count': 8, 'sources_per_batch': 16,
             'native_TRAIN_DEV_input_preflight_passed': (formal / 'preflight.json').exists(),

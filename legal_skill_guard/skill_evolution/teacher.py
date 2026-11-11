@@ -7,6 +7,7 @@ import json
 from legal_skill_guard.inference.codex_cli_client import strict_output_schema_issues
 from .objects import Skill, digest, lift, coupled_blocks, premise_uses
 from .native import record_schema, public_strings
+from .grounding import bind_transcribed_quotes
 
 STRING = {'type': 'string'}
 NULL_STRING = {'type': ['string', 'null']}
@@ -142,7 +143,8 @@ def compile_block(block, library, sources, arm):
         raise ValueError('A candidate block has one to three revisions')
     revisions = []
     for proposed in block['revisions']:
-        normalized, removed = prune_unobserved_premise_metadata(proposed['skill'])
+        normalized, quote_bindings = bind_transcribed_quotes(proposed['skill'], sources)
+        normalized, removed = prune_unobserved_premise_metadata(normalized)
         new = skill_from_wire(normalized)
         old = library.skills.get(new.id)
         operation = proposed['operation']
@@ -201,6 +203,8 @@ def compile_block(block, library, sources, arm):
                               'retained_draft_installation': draft_installation,
                               'procedure_unchanged': new.procedure == proposed['skill']['procedure'],
                               'used_premise_values_unchanged': True}})
+        if quote_bindings:
+            revisions[-1]['representation_adaptation']['source_quote_transcription_bindings'] = quote_bindings
     if len({r['skill_id'] for r in revisions}) != len(revisions):
         raise ValueError('Duplicate skill revisions in one block')
     return revisions
@@ -266,6 +270,7 @@ def propose(teacher, *, arm, batch, library, source_records, feedback, learned_p
                                    for c in table['mixed_version_table']],
             'actual_execution_failures': failures, 'unique_actual_reads': reads}
     retained = [{**{k: e.get(k) for k in ('batch', 'candidate_index', 'revisions', 'error', 'read_diagnostics', 'selection_exclusion')},
+                 **({'raw_block': deepcopy(e['raw_block'])} if not e.get('revisions') and e.get('raw_block') else {}),
                  'table': compact_table(e.get('table'))} for e in library.provisional_edits]
     memory = [{k: deepcopy(v) for k, v in p.items() if k not in ('evidence', 'exact_version_table')}
               | {'exact_version_table': compact_table(p['exact_version_table'])} for p in learned_patterns]
