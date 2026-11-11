@@ -1,0 +1,457 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "6c811f16ba59426a050c60846ef2f7fadafd200ac5f53237af9f1277848ff1f3",
+  "skills": {
+    "domestic_main_or_first_bag_total": {
+      "id": "domestic_main_or_first_bag_total",
+      "intent": "Calculate the exact integer ticket-plus-bag-fee total for current domestic U.S., other South American, or East Asian itineraries using raw bag measurements, cabin benefits, and the applicable route fee bands.",
+      "procedure": "def apply(inputs, premises):\n    personal_used = False\n    carry_used = False\n    checked = []\n    n = len(inputs[\"item_lengths\"])\n    for i in range(n):\n        personal_ok = float(inputs[\"item_lengths\"][i]) <= float(premises[\"personal_item_limits\"][0]) and float(inputs[\"item_widths\"][i]) <= float(premises[\"personal_item_limits\"][1]) and float(inputs[\"item_heights\"][i]) <= float(premises[\"personal_item_limits\"][2])\n        carry_ok = float(inputs[\"item_lengths\"][i]) <= float(premises[\"carry_on_limits\"][0]) and float(inputs[\"item_widths\"][i]) <= float(premises[\"carry_on_limits\"][1]) and float(inputs[\"item_heights\"][i]) <= float(premises[\"carry_on_limits\"][2])\n        if personal_ok and not personal_used:\n            personal_used = True\n        elif carry_ok and not carry_used:\n            carry_used = True\n        else:\n            checked = checked + [i]\n    premium_cabin = inputs[\"cabin_class\"] == \"Premium Economy\" or inputs[\"cabin_class\"] == \"Business\" or inputs[\"cabin_class\"] == \"First\"\n    if inputs[\"route_fee_region\"] == \"domestic_us\":\n        if premium_cabin:\n            base_schedule = premises[\"domestic_premium_base_schedule\"]\n        else:\n            base_schedule = premises[\"domestic_economy_base_schedule\"]\n        overweight_schedule = premises[\"common_overweight_fees\"]\n        large_oversize_fee = int(premises[\"domestic_large_oversize_fee\"])\n    elif inputs[\"route_fee_region\"] == \"south_america_other\":\n        if premium_cabin:\n            base_schedule = premises[\"south_america_premium_base_schedule\"]\n        else:\n            base_schedule = premises[\"south_america_economy_base_schedule\"]\n        overweight_schedule = premises[\"common_overweight_fees\"]\n        large_oversize_fee = int(premises[\"south_america_large_oversize_fee\"])\n    else:\n        if premium_cabin:\n            base_schedule = premises[\"east_asia_premium_base_schedule\"]\n        else:\n            base_schedule = premises[\"east_asia_economy_base_schedule\"]\n        overweight_schedule = premises[\"east_asia_overweight_fees\"]\n        large_oversize_fee = int(premises[\"east_asia_large_oversize_fee\"])\n    total = int(inputs[\"ticket_price\"])\n    for j in range(len(checked)):\n        i = checked[j]\n        if j < 4:\n            base_fee = int(base_schedule[j])\n        else:\n            base_fee = int(base_schedule[3])\n        standard_weight_limit = 50\n        if (inputs[\"cabin_class\"] == \"First\" or inputs[\"cabin_class\"] == \"Business\") and base_fee == 0:\n            standard_weight_limit = 70\n        weight = float(inputs[\"item_weights\"][i])\n        overweight = 0\n        if weight > standard_weight_limit:\n            if weight <= 53:\n                overweight = int(overweight_schedule[0])\n            elif weight <= 70:\n                overweight = int(overweight_schedule[1])\n            else:\n                overweight = int(overweight_schedule[2])\n        size = float(inputs[\"item_lengths\"][i]) + float(inputs[\"item_widths\"][i]) + float(inputs[\"item_heights\"][i])\n        oversize = 0\n        if size > 65:\n            oversize = large_oversize_fee\n        elif size > 62:\n            oversize = int(premises[\"small_oversize_fee\"])\n        total = total + base_fee + max(overweight, oversize)\n    return {\"answer\": total}",
+      "inputs": {
+        "ticket_price": {
+          "field": "ticket_price",
+          "mode": "read",
+          "question": "What integer ticket price is stated in the current passenger facts?",
+          "skill_id": null,
+          "type": "integer"
+        },
+        "cabin_class": {
+          "field": "cabin_class",
+          "mode": "read",
+          "question": "What cabin class is stated for the current passenger?",
+          "skill_id": null,
+          "type": "string"
+        },
+        "route_fee_region": {
+          "field": "route_fee_region",
+          "mode": "read",
+          "question": "Which current checked-bag fee region contains the itinerary: domestic_us, south_america_other, or east_asia?",
+          "skill_id": null,
+          "type": "string"
+        },
+        "item_lengths": {
+          "field": "item_lengths",
+          "mode": "read",
+          "question": "For every current bag in stated order, what is its first listed dimension in inches?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "item_widths": {
+          "field": "item_widths",
+          "mode": "read",
+          "question": "For every current bag in stated order, what is its second listed dimension in inches?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "item_heights": {
+          "field": "item_heights",
+          "mode": "read",
+          "question": "For every current bag in stated order, what is its third listed dimension in inches?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "item_weights": {
+          "field": "item_weights",
+          "mode": "read",
+          "question": "For every current bag in stated order, what is its weight in pounds?",
+          "skill_id": null,
+          "type": "array"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "description": "Exact integer ticket price plus all applicable checked-bag base and excess fees.",
+          "type": "integer"
+        }
+      },
+      "premises": {
+        "personal_item_limits": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            18,
+            14,
+            8
+          ]
+        },
+        "carry_on_limits": {
+          "mode": "constant",
+          "origin": {
+            "quote": "The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            22,
+            14,
+            9
+          ]
+        },
+        "domestic_economy_base_schedule": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            40,
+            45,
+            150,
+            200
+          ]
+        },
+        "domestic_premium_base_schedule": {
+          "mode": "constant",
+          "origin": {
+            "quote": "1st and 2nd checked bags are complimentary for:\n* AAdvantage Platinum® status\n* oneworld® Sapphire members\n* Confirmed Domestic First customers\n* Confirmed Business customers\n* Confirmed Premium Economy customers",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            0,
+            0,
+            150,
+            200
+          ]
+        },
+        "south_america_economy_base_schedule": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Between South America (excluding Colombia, Ecuador, Peru, Guyana, Suriname) and U.S., Puerto Rico, U.S. Virgin Islands, Canada, Mexico, Caribbean (including Haiti), Central America | $60",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            60,
+            100,
+            200,
+            200
+          ]
+        },
+        "south_america_premium_base_schedule": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Between South America (excluding Guyana, Suriname) and U.S., Puerto Rico, U.S. Virgin Islands, Canada, Mexico, Caribbean (including Haiti, excluding Cuba), Central America | $100          | $100        | $0              | $0       | $0",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            0,
+            0,
+            200,
+            200
+          ]
+        },
+        "east_asia_economy_base_schedule": {
+          "mode": "constant",
+          "origin": {
+            "quote": "To or from India, China, Japan, South Korea, Hong Kong, Australia and New Zealand                                                                                                    | $75           | $0          | $0              | $0       | $0",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            75,
+            100,
+            200,
+            200
+          ]
+        },
+        "east_asia_premium_base_schedule": {
+          "mode": "constant",
+          "origin": {
+            "quote": "To or from India, China, Japan, South Korea, Hong Kong, Australia and New Zealand                                                                                           | $100          | $100        | $0              | $0       | $0",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            0,
+            0,
+            200,
+            200
+          ]
+        },
+        "common_overweight_fees": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Over 50 lbs / 23 kgs to 53 lbs / 24 kgs",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            30,
+            100,
+            200
+          ]
+        },
+        "east_asia_overweight_fees": {
+          "mode": "constant",
+          "origin": {
+            "quote": "To or from India, China, Japan, South Korea and Hong Kong                                                                                                  | $450          | $450          | $450            | $450           | $450",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            30,
+            100,
+            450
+          ]
+        },
+        "small_oversize_fee": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Over 62 in / 158 cm – 65 in / 165 cm",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "integer",
+          "value": 30
+        },
+        "domestic_large_oversize_fee": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Between U.S., Puerto Rico, U.S. Virgin Islands and Canada                    | $30                                  | $200",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "integer",
+          "value": 200
+        },
+        "south_america_large_oversize_fee": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Panama / South America (except Guyana / Suriname)                            | $30                                  | $150",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "integer",
+          "value": 150
+        },
+        "east_asia_large_oversize_fee": {
+          "mode": "constant",
+          "origin": {
+            "quote": "China, Japan, South Korea, Hong Kong, India, Australia, and New Zealand      | $30                                  | $200",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "integer",
+          "value": 200
+        }
+      },
+      "reads": [
+        {
+          "id": "read_current_supported_route_bag_measurements",
+          "question": "Extract the current passenger's ticket, cabin, supported fee region, and aligned raw measurements for every listed bag.",
+          "source_locator": "Current view's passenger facts and itinerary.",
+          "fields": {
+            "ticket_price": {
+              "question": "What integer ticket price is stated?",
+              "type": "integer"
+            },
+            "cabin_class": {
+              "question": "What cabin class is stated?",
+              "type": "string"
+            },
+            "route_fee_region": {
+              "question": "Does the itinerary use the domestic U.S., other South American, or East Asian fee rows?",
+              "type": "string"
+            },
+            "item_lengths": {
+              "question": "What are the first dimensions of all listed bags in order?",
+              "type": "array"
+            },
+            "item_widths": {
+              "question": "What are the second dimensions of all listed bags in order?",
+              "type": "array"
+            },
+            "item_heights": {
+              "question": "What are the third dimensions of all listed bags in order?",
+              "type": "array"
+            },
+            "item_weights": {
+              "question": "What are the weights of all listed bags in order?",
+              "type": "array"
+            }
+          },
+          "bindings": {
+            "ticket_price": "ticket_price",
+            "cabin_class": "cabin_class",
+            "route_fee_region": "route_fee_region",
+            "item_lengths": "item_lengths",
+            "item_widths": "item_widths",
+            "item_heights": "item_heights",
+            "item_weights": "item_weights"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "ticket_price": {
+                "type": "integer"
+              },
+              "cabin_class": {
+                "type": "string"
+              },
+              "route_fee_region": {
+                "type": "string"
+              },
+              "item_lengths": {
+                "type": "array"
+              },
+              "item_widths": {
+                "type": "array"
+              },
+              "item_heights": {
+                "type": "array"
+              },
+              "item_weights": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "ticket_price",
+              "cabin_class",
+              "route_fee_region",
+              "item_lengths",
+              "item_widths",
+              "item_heights",
+              "item_weights"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "current_supported_trip_measurements",
+          "neighbors": [
+            "supported_route_fee_schedule"
+          ],
+          "ports": [
+            "cabin_class",
+            "route_fee_region",
+            "item_lengths",
+            "item_widths",
+            "item_heights",
+            "item_weights",
+            "personal_item_limits",
+            "carry_on_limits"
+          ]
+        },
+        {
+          "id": "supported_route_fee_schedule",
+          "neighbors": [
+            "current_supported_trip_measurements"
+          ],
+          "ports": [
+            "domestic_economy_base_schedule",
+            "domestic_premium_base_schedule",
+            "south_america_economy_base_schedule",
+            "south_america_premium_base_schedule",
+            "east_asia_economy_base_schedule",
+            "east_asia_premium_base_schedule",
+            "common_overweight_fees",
+            "east_asia_overweight_fees",
+            "small_oversize_fee",
+            "domestic_large_oversize_fee",
+            "south_america_large_oversize_fee",
+            "east_asia_large_oversize_fee"
+          ]
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "assign_cabin_allowances",
+          "origin": {
+            "quote": "You're allowed 1 carry-on bag and 1 personal item in all cabins.",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "port": "carry_on_limits",
+          "role": "preliminary",
+          "statement": "Apply no more than one personal-item allowance and one carry-on allowance before assigning checked-bag ordinals."
+        },
+        {
+          "id": "select_current_route_schedule",
+          "origin": {
+            "quote": "All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "port": "route_fee_region",
+          "role": "preliminary",
+          "statement": "Select the checked-bag, overweight, and oversize rows matching the current itinerary and cabin."
+        },
+        {
+          "id": "combine_current_excess_fees",
+          "origin": {
+            "quote": "The higher fee between oversize and overweight applies, in addition to the checked bag fee.",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "port": "small_oversize_fee",
+          "role": "constraint",
+          "statement": "For a checked bag that is both oversized and overweight, add the higher excess fee to its ordinal checked-bag fee."
+        },
+        {
+          "id": "return_current_trip_total",
+          "origin": {
+            "quote": "What is the exact integer ticket plus fees for every current bag?",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "port": "answer",
+          "role": "terminal",
+          "statement": "Return the ticket price plus all applicable current bag fees as an exact integer."
+        }
+      ],
+      "source_provenance": [
+        {
+          "quote": "You're allowed 1 carry-on bag and 1 personal item in all cabins.",
+          "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+          "view_id": "native"
+        },
+        {
+          "quote": "We calculate the size limits of your bag by adding the total outside dimensions of each bag, length + width + height.",
+          "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+          "view_id": "native"
+        },
+        {
+          "quote": "The higher fee between oversize and overweight applies, in addition to the checked bag fee.",
+          "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+          "view_id": "native"
+        }
+      ],
+      "version": 2
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [],
+  "execution_events": []
+}

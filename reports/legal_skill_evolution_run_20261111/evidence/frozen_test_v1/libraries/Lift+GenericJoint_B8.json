@@ -1,0 +1,552 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "66dd37e67eb05be8895ef27ee952adfb565d59a5a7c9fe7f2ff3c15c93416256",
+  "skills": {
+    "evaluate_dependent_basic_standard_deduction_limitation_claim": {
+      "id": "evaluate_dependent_basic_standard_deduction_limitation_claim",
+      "intent": "Determine whether a positive claim that section 63(c)(5) applies to the current individual's basic standard deduction is supported by a section 151 deduction being allowable to another taxpayer.",
+      "procedure": "def apply(inputs, premises):\n    answer = \"Contradiction\"\n    if bool(inputs[\"section_151_deduction_allowable_to_another_taxpayer\"]):\n        answer = \"Entailment\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "section_151_deduction_allowable_to_another_taxpayer": {
+          "field": "section_151_deduction_allowable_to_another_taxpayer",
+          "mode": "read",
+          "question": "Do the current facts establish that a deduction under section 151 for the individual addressed by the proposition is allowable to another taxpayer for a taxable year beginning in the same calendar year?",
+          "skill_id": null,
+          "type": "boolean"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "description": "The native label Entailment when section 63(c)(5) applies, otherwise Contradiction.",
+          "type": "string"
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "read_current_section_151_deduction_eligibility",
+          "question": "Read the current facts and proposition to determine whether another taxpayer is entitled to a section 151 deduction for the individual whose basic standard deduction is at issue.",
+          "source_locator": "current source native view source_text, referenced section 151, facts, and question",
+          "fields": {
+            "section_151_deduction_allowable_to_another_taxpayer": {
+              "question": "Is a section 151 deduction for the current individual allowable to another taxpayer for the relevant calendar year?",
+              "type": "boolean"
+            }
+          },
+          "bindings": {
+            "section_151_deduction_allowable_to_another_taxpayer": "section_151_deduction_allowable_to_another_taxpayer"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "section_151_deduction_allowable_to_another_taxpayer": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "section_151_deduction_allowable_to_another_taxpayer"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [],
+      "source_obligations": [
+        {
+          "id": "check_other_taxpayer_deduction",
+          "origin": {
+            "quote": "In the case of an individual with respect to whom a deduction under section 151 is allowable to another taxpayer for a taxable year beginning in the calendar year in which the individual's taxable year begins",
+            "source_id": "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+            "view_id": "native"
+          },
+          "port": "section_151_deduction_allowable_to_another_taxpayer",
+          "role": "preliminary",
+          "statement": "Check whether the current record establishes that a section 151 deduction for the individual is allowable to another taxpayer in the corresponding calendar year."
+        },
+        {
+          "id": "apply_basic_standard_deduction_limitation",
+          "origin": {
+            "quote": "the basic standard deduction applicable to such individual for such individual's taxable year shall not exceed the greater of-\n\n        (A) $500, or\n\n        (B) the sum of $250 and such individual's earned income.",
+            "source_id": "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+            "view_id": "native"
+          },
+          "port": "section_151_deduction_allowable_to_another_taxpayer",
+          "role": "terminal",
+          "statement": "Apply section 63(c)(5) only when its prerequisite that the section 151 deduction is allowable to another taxpayer is satisfied."
+        }
+      ],
+      "source_provenance": [
+        {
+          "quote": "In the case of an individual with respect to whom a deduction under section 151 is allowable to another taxpayer for a taxable year beginning in the calendar year in which the individual's taxable year begins, the basic standard deduction applicable to such individual for such individual's taxable year shall not exceed the greater of-\n\n        (A) $500, or\n\n        (B) the sum of $250 and such individual's earned income.",
+          "source_id": "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+          "view_id": "native"
+        }
+      ],
+      "version": 1
+    },
+    "evaluate_family_employment_exclusion_claim": {
+      "id": "evaluate_family_employment_exclusion_claim",
+      "intent": "Determine whether a positive claim that section 3306(c)(5) applies is supported by the current employee-to-employer family relationship, returning the native binary label.",
+      "procedure": "def apply(inputs, premises):\n    applies = False\n    for relation in premises[\"qualifying_family_relationships\"]:\n        if inputs[\"employee_to_employer_relationship\"] == relation:\n            applies = True\n    answer = \"Contradiction\"\n    if applies:\n        answer = \"Entailment\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "employee_to_employer_relationship": {
+          "field": "employee_to_employer_relationship",
+          "mode": "read",
+          "question": "What is the current employee's relationship to the employer, normalized as employee_is_parent_of_employer, employee_is_spouse_of_employer, employee_is_child_of_employer_under_21, or other?",
+          "skill_id": null,
+          "type": "string"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "description": "The native label Entailment when section 3306(c)(5) applies to the stated family employment, otherwise Contradiction.",
+          "type": "string"
+        }
+      },
+      "premises": {
+        "qualifying_family_relationships": {
+          "mode": "constant",
+          "origin": {
+            "quote": "(A) service performed by an individual in the employ of his son, daughter, or spouse;\n\n        (B) service performed by a child under the age of 21 in the employ of his father or mother;",
+            "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+            "view_id": "native"
+          },
+          "question": "Which employee-to-employer family relationships fall within section 3306(c)(5)?",
+          "type": "array",
+          "value": [
+            "employee_is_parent_of_employer",
+            "employee_is_spouse_of_employer",
+            "employee_is_child_of_employer_under_21"
+          ]
+        }
+      },
+      "reads": [
+        {
+          "id": "read_current_family_employment_relationship",
+          "question": "Read the current employment facts to identify the employee's family relationship to the employer, including the under-21 condition when the employee is the employer's child.",
+          "source_locator": "current source native view facts and question",
+          "fields": {
+            "employee_to_employer_relationship": {
+              "question": "What qualifying or nonqualifying family relationship connects the current employee to the employer?",
+              "type": "string"
+            }
+          },
+          "bindings": {
+            "employee_to_employer_relationship": "employee_to_employer_relationship"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "employee_to_employer_relationship": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "employee_to_employer_relationship"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "family_employment_relationship",
+          "neighbors": [],
+          "ports": [
+            "employee_to_employer_relationship",
+            "qualifying_family_relationships"
+          ]
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "identify_family_employment_direction",
+          "origin": {
+            "quote": "service performed by an individual in the employ of his son, daughter, or spouse",
+            "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+            "view_id": "native"
+          },
+          "port": "employee_to_employer_relationship",
+          "role": "preliminary",
+          "statement": "Determine the family relationship from the employee's perspective, including that an employee working for the employee's daughter is within the first branch."
+        },
+        {
+          "id": "apply_family_service_exclusion",
+          "origin": {
+            "quote": "(B) service performed by a child under the age of 21 in the employ of his father or mother;",
+            "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+            "view_id": "native"
+          },
+          "port": "qualifying_family_relationships",
+          "role": "terminal",
+          "statement": "Check whether the current relationship is one of the family-service relationships enumerated in section 3306(c)(5)."
+        }
+      ],
+      "source_provenance": [
+        {
+          "quote": "(A) service performed by an individual in the employ of his son, daughter, or spouse;\n\n        (B) service performed by a child under the age of 21 in the employ of his father or mother;",
+          "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+          "view_id": "native"
+        }
+      ],
+      "version": 1
+    },
+    "evaluate_progressive_tax_amount_and_subsection_claim": {
+      "id": "evaluate_progressive_tax_amount_and_subsection_claim",
+      "intent": "Evaluate whether a claimed tax amount and cited subsection agree with the applicable progressive tax bracket in the current source, returning the native binary label.",
+      "procedure": "def apply(inputs, premises):\n    income = float(inputs[\"taxable_income\"])\n    actual_tax = 0.0\n    actual_subsection = \"\"\n    found = False\n    for i in range(len(inputs[\"bracket_upper_bounds\"])):\n        if not found and income <= float(inputs[\"bracket_upper_bounds\"][i]):\n            actual_tax = float(inputs[\"bracket_base_amounts\"][i]) + float(inputs[\"bracket_rates\"][i]) * (income - float(inputs[\"bracket_thresholds\"][i]))\n            actual_subsection = str(inputs[\"bracket_labels\"][i])\n            found = True\n    actual_tax = round(actual_tax, 2)\n    amount_ok = abs(actual_tax - float(inputs[\"asserted_tax\"])) <= 0.005\n    subsection_ok = actual_subsection == str(inputs[\"asserted_subsection\"])\n    answer = \"Contradiction\"\n    if found and amount_ok and subsection_ok:\n        answer = \"Entailment\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "taxable_income": {
+          "type": "number",
+          "mode": "read",
+          "question": "What taxable income is stated for the current taxpayer and tax year?",
+          "skill_id": null,
+          "field": "taxable_income"
+        },
+        "asserted_tax": {
+          "type": "number",
+          "mode": "read",
+          "question": "What tax amount does the current proposition assert?",
+          "skill_id": null,
+          "field": "asserted_tax"
+        },
+        "asserted_subsection": {
+          "type": "string",
+          "mode": "read",
+          "question": "What statutory bracket subsection does the current proposition cite, normalized to the source's subsection label?",
+          "skill_id": null,
+          "field": "asserted_subsection"
+        },
+        "bracket_upper_bounds": {
+          "type": "array",
+          "mode": "read",
+          "question": "For the taxpayer's current filing category, what are the progressive brackets' upper income bounds in order, using a sufficiently large numeric bound for an unbounded final bracket?",
+          "skill_id": null,
+          "field": "bracket_upper_bounds"
+        },
+        "bracket_thresholds": {
+          "type": "array",
+          "mode": "read",
+          "question": "For those brackets in the same order, what income threshold is subtracted when computing each bracket's excess?",
+          "skill_id": null,
+          "field": "bracket_thresholds"
+        },
+        "bracket_base_amounts": {
+          "type": "array",
+          "mode": "read",
+          "question": "For those brackets in the same order, what fixed base tax amount applies before tax on the excess?",
+          "skill_id": null,
+          "field": "bracket_base_amounts"
+        },
+        "bracket_rates": {
+          "type": "array",
+          "mode": "read",
+          "question": "For those brackets in the same order, what decimal tax rate applies to taxable income or excess income?",
+          "skill_id": null,
+          "field": "bracket_rates"
+        },
+        "bracket_labels": {
+          "type": "array",
+          "mode": "read",
+          "question": "What are the source's subsection labels for those brackets in the same order?",
+          "skill_id": null,
+          "field": "bracket_labels"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "The native label Entailment when both the asserted amount and cited bracket are correct, otherwise Contradiction."
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "read_current_tax_claim_and_applicable_schedule",
+          "question": "Read the current taxpayer facts and proposition together with the complete progressive bracket schedule for the taxpayer's applicable filing category.",
+          "source_locator": "current source native view, referenced sections, facts, and question",
+          "fields": {
+            "taxable_income": {
+              "type": "number",
+              "question": "What is the current taxable income?"
+            },
+            "asserted_tax": {
+              "type": "number",
+              "question": "What tax amount is asserted?"
+            },
+            "asserted_subsection": {
+              "type": "string",
+              "question": "Which bracket subsection is asserted?"
+            },
+            "bracket_upper_bounds": {
+              "type": "array",
+              "question": "What are the applicable bracket upper bounds in order?"
+            },
+            "bracket_thresholds": {
+              "type": "array",
+              "question": "What are the corresponding excess-income thresholds?"
+            },
+            "bracket_base_amounts": {
+              "type": "array",
+              "question": "What are the corresponding fixed base tax amounts?"
+            },
+            "bracket_rates": {
+              "type": "array",
+              "question": "What are the corresponding decimal marginal rates?"
+            },
+            "bracket_labels": {
+              "type": "array",
+              "question": "What are the corresponding subsection labels?"
+            }
+          },
+          "bindings": {
+            "taxable_income": "taxable_income",
+            "asserted_tax": "asserted_tax",
+            "asserted_subsection": "asserted_subsection",
+            "bracket_upper_bounds": "bracket_upper_bounds",
+            "bracket_thresholds": "bracket_thresholds",
+            "bracket_base_amounts": "bracket_base_amounts",
+            "bracket_rates": "bracket_rates",
+            "bracket_labels": "bracket_labels"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "taxable_income": {
+                "type": "number"
+              },
+              "asserted_tax": {
+                "type": "number"
+              },
+              "asserted_subsection": {
+                "type": "string"
+              },
+              "bracket_upper_bounds": {
+                "type": "array"
+              },
+              "bracket_thresholds": {
+                "type": "array"
+              },
+              "bracket_base_amounts": {
+                "type": "array"
+              },
+              "bracket_rates": {
+                "type": "array"
+              },
+              "bracket_labels": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "taxable_income",
+              "asserted_tax",
+              "asserted_subsection",
+              "bracket_upper_bounds",
+              "bracket_thresholds",
+              "bracket_base_amounts",
+              "bracket_rates",
+              "bracket_labels"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "progressive_tax_claim",
+          "ports": [
+            "taxable_income",
+            "asserted_tax",
+            "asserted_subsection",
+            "bracket_upper_bounds",
+            "bracket_thresholds",
+            "bracket_base_amounts",
+            "bracket_rates",
+            "bracket_labels"
+          ],
+          "neighbors": []
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "select_applicable_tax_bracket",
+          "statement": "Select the first applicable bracket in the current filing category's ordered schedule and compute its base tax plus the stated rate on excess income.",
+          "role": "preliminary",
+          "port": "bracket_upper_bounds",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "There is hereby imposed on the taxable income of every married individual (as defined in section 7703) who does not make a single return jointly with his spouse, a tax determined in accordance with the following:"
+          }
+        },
+        {
+          "id": "compare_tax_claim",
+          "statement": "Check both the proposition's claimed dollar amount and its cited bracket subsection against the statutory calculation.",
+          "role": "terminal",
+          "port": "asserted_tax",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "(i) 15% of taxable income if the taxable income is not over $18,450;"
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "(i) 15% of taxable income if the taxable income is not over $18,450;"
+        },
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "(ii) $2,767.50, plus 28% of the excess over $18,450 if the taxable income is over $18,450 but not over $44,575;"
+        },
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "(iii) $10,082.50, plus 31% of the excess over $44,575 if the taxable income is over $44,575 but not over $70,000;"
+        }
+      ],
+      "version": 1
+    },
+    "evaluate_termination_payment_subclause_a": {
+      "id": "evaluate_termination_payment_subclause_a",
+      "intent": "Determine whether a payment satisfies a termination-payment subclause requiring payment upon or after termination because of death or retirement for disability, and return the native binary entailment label.",
+      "procedure": "def apply(inputs, premises):\n    timing_ok = bool(inputs[\"payment_upon_or_after_termination\"]) == bool(premises[\"requires_upon_or_after_termination\"])\n    cause_ok = False\n    for cause in premises[\"qualifying_termination_causes\"]:\n        if inputs[\"termination_cause\"] == cause:\n            cause_ok = True\n    answer = \"Contradiction\"\n    if timing_ok and cause_ok:\n        answer = \"Entailment\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "payment_upon_or_after_termination": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Was the payment described in the current facts made upon or after termination of the employment relationship?",
+          "skill_id": null,
+          "field": "payment_upon_or_after_termination"
+        },
+        "termination_cause": {
+          "type": "string",
+          "mode": "read",
+          "question": "What caused the employment relationship to terminate in the current facts? Normalize the result as death, disability_retirement, or other.",
+          "skill_id": null,
+          "field": "termination_cause"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "The native label Entailment or Contradiction."
+        }
+      },
+      "premises": {
+        "requires_upon_or_after_termination": {
+          "type": "boolean",
+          "mode": "constant",
+          "value": true,
+          "question": "Does the source subclause require the payment to occur upon or after termination?",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "upon or after the termination of an employee's employment relationship"
+          }
+        },
+        "qualifying_termination_causes": {
+          "type": "array",
+          "mode": "constant",
+          "value": [
+            "death",
+            "disability_retirement"
+          ],
+          "question": "Which termination causes qualify under the source subclause?",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "because of (i) death, or (ii) retirement for disability"
+          }
+        }
+      },
+      "reads": [
+        {
+          "id": "read_current_termination_payment_facts",
+          "question": "Read the current facts to identify the payment's timing relative to termination and the reason the employment relationship ended.",
+          "source_locator": "current source native view facts and question",
+          "fields": {
+            "payment_upon_or_after_termination": {
+              "type": "boolean",
+              "question": "Was the current payment made upon or after termination?"
+            },
+            "termination_cause": {
+              "type": "string",
+              "question": "Was the current termination caused by death, retirement for disability, or another reason?"
+            }
+          },
+          "bindings": {
+            "payment_upon_or_after_termination": "payment_upon_or_after_termination",
+            "termination_cause": "termination_cause"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "payment_upon_or_after_termination": {
+                "type": "boolean"
+              },
+              "termination_cause": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "payment_upon_or_after_termination",
+              "termination_cause"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "termination_payment_event",
+          "ports": [
+            "payment_upon_or_after_termination",
+            "termination_cause",
+            "requires_upon_or_after_termination",
+            "qualifying_termination_causes"
+          ],
+          "neighbors": []
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "termination_timing_check",
+          "statement": "Check whether the current payment occurred upon or after termination as required by the subclause.",
+          "role": "preliminary",
+          "port": "payment_upon_or_after_termination",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "upon or after the termination of an employee's employment relationship"
+          }
+        },
+        {
+          "id": "termination_cause_check",
+          "statement": "Check whether termination was because of death or retirement for disability.",
+          "role": "terminal",
+          "port": "termination_cause",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "because of (i) death, or (ii) retirement for disability"
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+          "view_id": "native",
+          "quote": "(A) upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability"
+        }
+      ],
+      "version": 1
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [],
+  "execution_events": []
+}

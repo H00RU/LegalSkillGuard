@@ -4,13 +4,11 @@ Goal **active、未完成**。目标、验收与边界唯一见[CURRENT_GOAL.md]
 
 ## 实际运行与恢复
 
-检查时间：2026-11-11T19:26:16.503073+00:00。原128来源/8批正式学习和42个DEV点均已结算；B8、资格审查及输入容量检查通过。当前阶段`frozen_TEST`，只生成原冻结矩阵及随后已注册迁移；不使用这些预测指导修复。
+2026-11-11T19:45:54 UTC已完成原128来源/8批学习、42个DEV点、B8七系统五库各32来源TEST、注册外库技能掩码及全部结算审计。主要执行者随后核对原生统计、四项注册区间、程序/模式和费用，见[阶段复核](../reports/legal_skill_evolution_run_20261111/FIXED_STUDY_STAGE_REVIEW.md)与[主要执行者判断](../reports/legal_skill_evolution_run_20261111/primary_scientific_review.json)。没有根据TEST修改方法。
 
-原接续器PID1765016/start_ticks642498467，session79159；当前子进程PID1765024/start_ticks642498475，入口`python -m experiments.legal_skill_evolution_frozen run`、配置`configs/legal_skill_evolution_frozen_v1_20261111.json`。实时唯一入口`artifacts/legal_skill_evolution_20261111/fixed_pipeline_v1/status.json`。已提交父来源检查点计数（仅数量，未读部分TEST得分）：{"AllPorts+CoRev": 57, "CoRevOnly": 160, "FreeEvolution": 160, "Full": 160, "Lift+GenericJoint": 160, "LiftOnly": 160, "NoSkill": 160}，每臂目标160。
+接续器1765016/start_ticks642498467、主矩阵子进程1765024/start_ticks642498475、迁移子进程1962568/start_ticks643280713和纯分析收尾器1863615/start_ticks642889676均已终止，不重启。七系统各160母来源、352原生视图，迁移各库32来源全部齐备；SQLite在途0。完成凭据位于`artifacts/legal_skill_evolution_20261111/frozen_test_v1/TEST_completed.json`、`transfer/completed.json`及`fixed_pipeline_v1/final_report_completed.json`；它们记录实验结算，不是Goal成功凭据。
 
-纯分析收尾器PID1863615/start_ticks642889676、session7804，入口`/tmp/lsg_finalize_fixed_evidence_20261112.py`；实时状态`fixed_pipeline_v1/final_report_status.json`。它等待上述实际接续器退出，并核对TEST/迁移完成凭据、绑定和在途0后，生成固定研究审计、成本和结算证据。该入口新增模型0、不发布、不改Goal状态；完成后由主要执行者科学复核。
-
-恢复必须核对真实PID、start_ticks、SQLite在途及完成凭据，不能只读本页或重起旧任务。旧formal PID1382062已退出0；旧controller1487538/child1572906已在工程边界退出75。旧session72926、5779、91629均不恢复。原formal77项、freeze129项绑定反复核实未变；运行中不可重写绑定的源码、配置、测试、数据或回归JSON。
+恢复仍须核对真实进程和同一账本，不据旧PID、状态或会话重跑。原formal77项、freeze129项绑定保持；旧失败、原始请求、冻结程序及全部正负结果保留。原始结算证据共31066文件、907487267字节，逐项清单见[证据清单](../reports/legal_skill_evolution_run_20261111/settled_evidence_manifest.json)。
 
 ## 已完成的真实研究证据
 
@@ -24,6 +22,8 @@ Goal **active、未完成**。目标、验收与边界唯一见[CURRENT_GOAL.md]
 | Full | .5932961 |
 
 Full对空库+.1119574，对AllPorts+.1117261；Full17个核心执行视图、4个全对，增益来自普通获取/过程修补。按原协议冻结B8，未挑B6最高DEV点。不能因臂名或分数差认领没有发生的机制。
+
+完整TEST五库等权得分：NoSkill .4127775、Free .4139755、LiftOnly .4065275、CoRevOnly .4252775、Full .5384792、Generic .4002775、AllPorts .4261885。Full对AllPorts差+.1122908，校正98.75%区间[.0632968,.1631957]；对Generic差+.1382017，区间[.0823598,.1968819]。本固定轨迹的实际收益成立，主要来自OE和Airline；SARA略降，CNLI/MAUD不变。Full76/352程序路径、16个原生全对、276回退；不是两项专门机制证明。外库掩码160来源全不变、实际外库最终路径0，跨库收益不成立。[1120行逐来源结果](../reports/legal_skill_evolution_run_20261111/fixed_TEST_source_results.csv)按系统重复同一160来源，不算1120个独立来源。
 
 完整TRAIN初答轨迹：Full .4668578，同案NoSkill .4427277，配对+.0241302；37个核心执行、6个新增全对，来自4个母来源；另1个SARA由对改错。AllPorts配对+.0115327。B7退化及所有回退/失败保留。图表与逐来源证据见[执行报告](../reports/legal_skill_evolution_run_20261111/README.md)、[TRAIN轨迹](../reports/legal_skill_evolution_run_20261111/formal_TRAIN_trajectory.json)、[DEV汇总](../reports/legal_skill_evolution_run_20261111/formal_DEV_summary.json)、[机制清单](../reports/legal_skill_evolution_run_20261111/formal_mechanism_inventory.json)。
 
@@ -48,10 +48,12 @@ Full对空库+.1119574，对AllPorts+.1117261；Full17个核心执行视图、4�
 
 ## 资源、保全和下一步
 
-原连续账本起点1893E/74T不重置，失败、重试和物理缓存分别核算；旧100/96、teacher2或修复轮次限制不恢复。正式学习/DEV新增3304E/48T；固定预检492E/16T、集中修复237E/0T、后续获取/格式诊断15E/3T已结算，冻结矩阵单列且禁教师。最新累计和在途只读同一SQLite及[动态状态](../reports/legal_skill_evolution_run_20261111/pilot_progress.json)，不硬覆盖成本文旧数字。GPU/教师发票不可见，不当作0美元。冻结矩阵和迁移的实际物理成本与各臂响应消费足迹分开，不把缓存首访差异当方法收益。
+原连续账本起点1893E/74T不重置，失败、重试和物理缓存分别核算；旧100/96、teacher2或修复轮次限制不恢复。正式学习/DEV新增3304E/48T；固定预检492E/16T、集中修复237E/0T、后续获取/格式诊断15E/3T，主矩阵3141E/0T、迁移精确复用新增0，均结算。累计9082E/141T、在途0；历史失败E10/T4保留。GPU/教师发票不可见，不当作0美元。Full获取＋TEST响应消费足迹1267，对AllPorts1221，不宣称其成本优于AllPorts；物理共享缓存只收一次，不能把消费足迹相加或当独立支出。
 
 TRAIN异常成本引用已离线补齐：28条原生视图禁网精确回放找回原3次请求的13个逐臂引用，原总账费用、全部56个初答点和评分保持，逐臂未归属请求3→0。10项统计/成本回归通过；[回放及费用证据](../reports/legal_skill_evolution_run_20261111/recovered_TRAIN_cost_references.json)属于记账修复，不算学习或机制收益。
 
+最终OFF核对读取实际响应标志、reasoning内容和结束原因：3304次正式executor响应全部OFF、reasoning为空，其中2次截断保留；3141次冻结响应全部OFF、reasoning为空且正常stop。正常stop不当作执行或法义正确。
+
 无损教师传输、两T并发、原生枚举预检查、CoRevOnly分发及跨版本接续均已有证据，按[执行报告](../reports/legal_skill_evolution_run_20261111/README.md)复用，不重复有效工作。原先所有失败、旧A/B/M1M2、LoRA及确定性资产保留；不重启历史路径或强行接入已淘汰方法。
 
-下一项实际工作：让现存矩阵、注册迁移和纯分析收尾器完整结算，再由主要执行者核对原生统计、四项预注册区间、逐来源、费用及两项独立贡献。[阶段复核汇总入口](../reports/legal_skill_evolution_run_20261111/stage_review.py)只在三份完成凭据齐备后读取完整结果，输出统一结果表与逐来源CSV，不自动批准方法或Goal；当前等待分支已核验未读部分TEST。目前未发现已验证的自然共同修订见证，不为非零计数追加同类小试；这是有限研究判断，不是新机械调用上限。不得根据TEST调方法。完整矩阵不能补出训练期没发生的机制，双贡献不足则如实报告未完成及具体研究调整需求；不自动完成Goal、不进入论文、不无限换方向。
+阶段交付以开发分支发布及独立取回核验收据为准。当前明确结论为“固定实验和实际分数收益成立，本研究未证实两项专门贡献”，Goal未完成。继续追求原双贡献的下一步是针对学习对象与自然依赖更新信号作一次明确研究调整决定；现有接口修补或同类加量不足以支持它。不重跑矩阵、不扩源、扫参数或按TEST修方法，不把报告交付认作Goal成功，也不自动进入论文；没有新增机械调用上限或逐轮授权要求。

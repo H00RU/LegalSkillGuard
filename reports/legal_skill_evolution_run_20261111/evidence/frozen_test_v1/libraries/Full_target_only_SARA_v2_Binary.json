@@ -1,0 +1,333 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "4d8d8dad2e0e136d1488b8b82ffb9f6efe692b25b136b682afb3973a7f8f0535",
+  "skills": {
+    "progressive_tax_subsection_amount_verdict": {
+      "id": "progressive_tax_subsection_amount_verdict",
+      "intent": "Decide Entailment or Contradiction for a claim that a stated taxable income owes a stated amount under a specifically cited progressive-tax bracket.",
+      "procedure": "def apply(inputs, premises):\n    income = float(inputs[\"taxable_income\"])\n    claimed = float(inputs[\"claimed_tax_amount\"])\n    lower = float(inputs[\"claimed_bracket_lower_exclusive\"])\n    upper = float(inputs[\"claimed_bracket_upper_inclusive\"])\n    base = float(inputs[\"claimed_bracket_base_tax\"])\n    rate = float(inputs[\"claimed_bracket_rate_percent\"])\n    applicable = income > lower\n    if upper >= 0:\n        applicable = applicable and income <= upper\n    expected = base + rate * (income - lower) / 100\n    answer = \"Contradiction\"\n    if applicable and abs(expected - claimed) <= 0.01:\n        answer = \"Entailment\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "taxable_income": {
+          "type": "number",
+          "mode": "read",
+          "question": "What taxable income is stated in the current facts?",
+          "skill_id": null,
+          "field": "taxable_income"
+        },
+        "claimed_tax_amount": {
+          "type": "number",
+          "mode": "read",
+          "question": "What tax amount does the current claim assert?",
+          "skill_id": null,
+          "field": "claimed_tax_amount"
+        },
+        "claimed_bracket_lower_exclusive": {
+          "type": "number",
+          "mode": "read",
+          "question": "For the tax subsection expressly cited by the current claim, what lower income boundary must be exceeded?",
+          "skill_id": null,
+          "field": "claimed_bracket_lower_exclusive"
+        },
+        "claimed_bracket_upper_inclusive": {
+          "type": "number",
+          "mode": "read",
+          "question": "For the tax subsection expressly cited by the current claim, what inclusive upper income boundary applies, using -1 if the bracket has no upper boundary?",
+          "skill_id": null,
+          "field": "claimed_bracket_upper_inclusive"
+        },
+        "claimed_bracket_base_tax": {
+          "type": "number",
+          "mode": "read",
+          "question": "What base tax amount is specified by the tax subsection expressly cited in the current claim?",
+          "skill_id": null,
+          "field": "claimed_bracket_base_tax"
+        },
+        "claimed_bracket_rate_percent": {
+          "type": "number",
+          "mode": "read",
+          "question": "What percentage rate on income exceeding the lower boundary is specified by the tax subsection expressly cited in the current claim?",
+          "skill_id": null,
+          "field": "claimed_bracket_rate_percent"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "Entailment only when the cited bracket applies to the stated income and its formula yields the claimed tax amount; otherwise Contradiction."
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "read_claimed_progressive_tax_bracket",
+          "question": "Extract the current taxpayer's income, asserted tax amount, and the complete formula and boundaries of the tax subsection cited by the claim.",
+          "source_locator": "The current view's taxpayer facts, claim, and progressive-tax schedule.",
+          "fields": {
+            "taxable_income": {
+              "type": "number",
+              "question": "What taxable income is stated?"
+            },
+            "claimed_tax_amount": {
+              "type": "number",
+              "question": "What tax amount is asserted?"
+            },
+            "claimed_bracket_lower_exclusive": {
+              "type": "number",
+              "question": "What lower-exclusive boundary appears in the cited bracket?"
+            },
+            "claimed_bracket_upper_inclusive": {
+              "type": "number",
+              "question": "What upper-inclusive boundary appears in the cited bracket, or -1 if none?"
+            },
+            "claimed_bracket_base_tax": {
+              "type": "number",
+              "question": "What base tax appears in the cited bracket?"
+            },
+            "claimed_bracket_rate_percent": {
+              "type": "number",
+              "question": "What percentage applies to the excess over the lower boundary in the cited bracket?"
+            }
+          },
+          "bindings": {
+            "taxable_income": "taxable_income",
+            "claimed_tax_amount": "claimed_tax_amount",
+            "claimed_bracket_lower_exclusive": "claimed_bracket_lower_exclusive",
+            "claimed_bracket_upper_inclusive": "claimed_bracket_upper_inclusive",
+            "claimed_bracket_base_tax": "claimed_bracket_base_tax",
+            "claimed_bracket_rate_percent": "claimed_bracket_rate_percent"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "taxable_income": {
+                "type": "number"
+              },
+              "claimed_tax_amount": {
+                "type": "number"
+              },
+              "claimed_bracket_lower_exclusive": {
+                "type": "number"
+              },
+              "claimed_bracket_upper_inclusive": {
+                "type": "number"
+              },
+              "claimed_bracket_base_tax": {
+                "type": "number"
+              },
+              "claimed_bracket_rate_percent": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "taxable_income",
+              "claimed_tax_amount",
+              "claimed_bracket_lower_exclusive",
+              "claimed_bracket_upper_inclusive",
+              "claimed_bracket_base_tax",
+              "claimed_bracket_rate_percent"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "claimed_progressive_tax_bracket_record",
+          "ports": [
+            "taxable_income",
+            "claimed_tax_amount",
+            "claimed_bracket_lower_exclusive",
+            "claimed_bracket_upper_inclusive",
+            "claimed_bracket_base_tax",
+            "claimed_bracket_rate_percent"
+          ],
+          "neighbors": []
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "check_cited_bracket_applicability",
+          "statement": "Check whether the stated taxable income lies within the boundaries of the subsection expressly cited by the claim.",
+          "role": "preliminary",
+          "port": "claimed_bracket_lower_exclusive",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "(iii) $10,082.50, plus 31% of the excess over $44,575 if the taxable income is over $44,575 but not over $70,000;"
+          }
+        },
+        {
+          "id": "check_cited_bracket_amount",
+          "statement": "If the cited bracket applies, calculate its base amount plus its percentage of income exceeding the lower boundary and compare that result with the asserted amount.",
+          "role": "constraint",
+          "port": "claimed_bracket_base_tax",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "(iii) $10,082.50, plus 31% of the excess over $44,575 if the taxable income is over $44,575 but not over $70,000;"
+          }
+        },
+        {
+          "id": "return_binary_tax_verdict",
+          "statement": "Return Entailment only if both the cited subsection and its asserted tax amount are correct; otherwise return Contradiction.",
+          "role": "terminal",
+          "port": "answer",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "Alice has to pay $999 in taxes for the year 2017 under section 1(d)(iii)."
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "Alice's taxable income for the year 2017 is $6662."
+        },
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "(iii) $10,082.50, plus 31% of the excess over $44,575 if the taxable income is over $44,575 but not over $70,000;"
+        },
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "Alice has to pay $999 in taxes for the year 2017 under section 1(d)(iii)."
+        }
+      ],
+      "version": 1
+    },
+    "section_3306_b_11_noncash_agricultural_wages_verdict": {
+      "id": "section_3306_b_11_noncash_agricultural_wages_verdict",
+      "intent": "Decide Entailment or Contradiction when the current claim asserts that §3306(b) applies to remuneration for agricultural labor paid in a noncash medium.",
+      "procedure": "def apply(inputs, premises):\n    excluded = bool(inputs[\"is_agricultural_labor\"]) and bool(inputs[\"is_paid_in_non_cash_medium\"])\n    answer = \"Entailment\"\n    if excluded:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "is_agricultural_labor": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Was the service for which the current payment was made agricultural labor?",
+          "skill_id": null,
+          "field": "is_agricultural_labor"
+        },
+        "is_paid_in_non_cash_medium": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Was the current remuneration paid in a medium other than cash?",
+          "skill_id": null,
+          "field": "is_paid_in_non_cash_medium"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "Contradiction when §3306(b)(11) excludes the current noncash agricultural remuneration; otherwise Entailment."
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "read_current_agricultural_payment_medium",
+          "question": "Identify the nature of the labor and the payment medium for the remuneration addressed by the current §3306(b) claim.",
+          "source_locator": "Current view's facts and question, together with the current §3306(b)(11) exclusion.",
+          "fields": {
+            "is_agricultural_labor": {
+              "type": "boolean",
+              "question": "Was the remuneration paid for agricultural labor?"
+            },
+            "is_paid_in_non_cash_medium": {
+              "type": "boolean",
+              "question": "Was the remuneration paid in a medium other than cash?"
+            }
+          },
+          "bindings": {
+            "is_agricultural_labor": "is_agricultural_labor",
+            "is_paid_in_non_cash_medium": "is_paid_in_non_cash_medium"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "is_agricultural_labor": {
+                "type": "boolean"
+              },
+              "is_paid_in_non_cash_medium": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "is_agricultural_labor",
+              "is_paid_in_non_cash_medium"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "current_agricultural_remuneration_record",
+          "ports": [
+            "is_agricultural_labor",
+            "is_paid_in_non_cash_medium"
+          ],
+          "neighbors": []
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "classify_agricultural_service",
+          "statement": "Check whether the current remuneration was paid for agricultural labor.",
+          "role": "preliminary",
+          "port": "is_agricultural_labor",
+          "origin": {
+            "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+            "view_id": "native",
+            "quote": "Alice has paid $2325 in hay to Bob for agricultural labor."
+          }
+        },
+        {
+          "id": "apply_noncash_agricultural_exclusion",
+          "statement": "Exclude agricultural-labor remuneration from wages when it was paid in a medium other than cash.",
+          "role": "constraint",
+          "port": "is_paid_in_non_cash_medium",
+          "origin": {
+            "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+            "view_id": "native",
+            "quote": "(11) remuneration for agricultural labor paid in any medium other than cash;"
+          }
+        },
+        {
+          "id": "return_wages_applicability_verdict",
+          "statement": "Return Contradiction when the payment asserted to fall under §3306(b) is excluded by paragraph (11).",
+          "role": "terminal",
+          "port": "answer",
+          "origin": {
+            "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+            "view_id": "native",
+            "quote": "Section 3306(b) applies to the payment in hay made by Alice to Bob for the year 2018."
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+          "view_id": "native",
+          "quote": "Over the year 2018, Alice has paid $2325 in hay to Bob for agricultural labor."
+        },
+        {
+          "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+          "view_id": "native",
+          "quote": "(11) remuneration for agricultural labor paid in any medium other than cash;"
+        },
+        {
+          "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+          "view_id": "native",
+          "quote": "Section 3306(b) applies to the payment in hay made by Alice to Bob for the year 2018."
+        }
+      ],
+      "version": 1
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [],
+  "execution_events": []
+}

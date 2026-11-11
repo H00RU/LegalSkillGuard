@@ -1,5 +1,5 @@
-# LegalSkillGuard: legal-rule skill evolution
+# LegalSkillGuard: completed fixed study, Goal incomplete
 
-[Current Goal](docs/CURRENT_GOAL.md) · [Current evidence](docs/METHOD_REDESIGN_CURRENT.md) · [Study report and costs](reports/legal_skill_evolution_run_20261111/README.md)
+[Current Goal](docs/CURRENT_GOAL.md) · [Current evidence](docs/METHOD_REDESIGN_CURRENT.md) · [Primary scientific stage review](reports/legal_skill_evolution_run_20261111/FIXED_STUDY_STAGE_REVIEW.md) · [Source results](reports/legal_skill_evolution_run_20261111/fixed_TEST_source_results.csv)
 
-The original seven-system frozen matrix is running; final method review follows its registered transfer. Offline exact-cache replay of 28 actual TRAIN views restored 13 arm references for three already charged exception requests. Physical totals and all 56 initial-answer points are unchanged; ten statistics/cost regressions passed. Final aggregation refuses partial TEST outputs. This update uses zero new model calls and does not establish Lift or CoRev benefit. Goal active and incomplete; main unchanged.
+The fixed 128-source/8-batch learning study, 42 DEV points, seven-system five-dataset TEST and registered foreign-skill masks are settled. Full scores 0.538479 versus AllPorts+CoRev 0.426188: difference +0.112291, registered Bonferroni 98.75% interval [0.063297, 0.163196]. Actual performance gains are supported in this fixed run. Dedicated Lift and CoRev benefits are not established: no accepted Lift or learned co-revision pattern, and no observed foreign final-path reuse. Goal remains active and incomplete; no paper or additional experiment is started. Continuous ledger: 9082 executor / 141 teacher, pending zero; main unchanged.

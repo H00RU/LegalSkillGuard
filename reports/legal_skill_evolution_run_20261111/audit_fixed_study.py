@@ -28,6 +28,25 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def actual_executor_metadata(db, prefix):
+    """Transport facts only; a normal stop is not semantic correctness."""
+    statuses, finishes = Counter(), Counter()
+    off, missing, reasoning = 0, 0, 0
+    for status, raw in db.execute('select status,result from calls where role=\'executor\' and id like ?', (prefix + '%',)):
+        statuses[status] += 1
+        if status != 'completed':continue
+        value = json.loads(raw)
+        finishes[str(value.get('finish_reason'))] += 1
+        off += value.get('thinking_requested') is False
+        missing += 'thinking_requested' not in value
+        reasoning += bool(value.get('reasoning_content'))
+    return {'physical_statuses': dict(statuses), 'completed_finish_reasons': dict(finishes),
+        'completed_OFF_flags': off, 'completed_missing_thinking_flag': missing,
+        'completed_nonempty_reasoning_content': reasoning,
+        'completed_response_OFF_consistent': off == statuses['completed'] and reasoning == 0,
+        'normal_stop_is_not_semantic_or_method_evidence': True}
+
+
 def teacher_delivery(profile, formal):
     """Check actual settled inputs, rather than infer dispatch from a prompt."""
     profiles = [profile] + [load(ROOT / p) for p in profile['exact_replay_profiles']]
@@ -228,6 +247,9 @@ def build():
         statuses = {role: dict(db.execute('select status,count(*) from calls where role=? group by status', (role,)))
                     for role in ('executor', 'teacher')}
         forbidden_teachers = db.execute("select count(*) from calls where role='teacher' and id like 'legal_skill_evolution_frozen_%'").fetchone()[0]
+        transport = {phase: actual_executor_metadata(db, prefix) for phase, prefix in (
+            ('formal', 'legal_skill_evolution_formal_'),
+            ('frozen', 'legal_skill_evolution_frozen_v1_20261111:'))}
     lift_status = ('not_supported_in_fixed_study' if formal_complete else 'incomplete') if not accepted['lift'] else 'trace_review_required'
     corev_status = ('not_supported_in_fixed_study' if formal_complete else 'incomplete') if not patterns or not transplants else 'trace_review_required'
     strong = {arm: contrasts.get(arm) for arm in ('Lift+GenericJoint', 'AllPorts+CoRev')}
@@ -238,8 +260,11 @@ def build():
             else 'effect_and_registered_uncertainty_review_required')
     requirements = {
         'fixed_model_thinking_OFF_no_parameter_training': {
-            'status': 'verified_configuration' if not profile['executor']['enable_thinking'] and not profile['model_parameter_updates'] else 'contradicted',
-            'base_weight_receipt': 'artifacts/legal_skill_evolution_20261111/base_model_verified.json'},
+            'status': 'verified_configuration_and_observed_response_flags' if (
+                not profile['executor']['enable_thinking'] and not profile['model_parameter_updates'] and
+                all(row['completed_response_OFF_consistent'] for row in transport.values())) else 'contradicted',
+            'base_weight_receipt': 'artifacts/legal_skill_evolution_20261111/base_model_verified.json',
+            'actual_response_transport': transport},
         'formal_bound_code_data_profile': {'status': 'verified' if not bad_bindings else 'contradicted', 'changed_paths': bad_bindings},
         '128_TRAIN_8_batches_48_updates_42_DEV_points': {'status': 'verified' if formal_complete else 'incomplete',
             'settled_learning_updates': len(updates), 'settled_DEV_points': len(dev)},

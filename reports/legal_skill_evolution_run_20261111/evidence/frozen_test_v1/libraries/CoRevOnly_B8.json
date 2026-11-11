@@ -1,0 +1,691 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "e84d3df0ab954c3506a67dd3845c538f8b8a3a38730a87d62efb0a98d7e617e6",
+  "skills": {
+    "china_us_business_baggage_total_calculator": {
+      "id": "china_us_business_baggage_total_calculator",
+      "intent": "Compute the exact ticket-plus-baggage total for a confirmed Business Class itinerary between China and the United States under the published checked-bag, overweight, and oversize rules.",
+      "procedure": "def apply(inputs, premises):\n    checked = []\n    personal_used = False\n    carryon_used = False\n    for i in range(len(inputs[\"lengths\"])):\n        fits_personal = inputs[\"lengths\"][i] <= premises[\"personal_limits\"][0] and inputs[\"widths\"][i] <= premises[\"personal_limits\"][1] and inputs[\"heights\"][i] <= premises[\"personal_limits\"][2]\n        fits_carryon = inputs[\"lengths\"][i] <= premises[\"carryon_limits\"][0] and inputs[\"widths\"][i] <= premises[\"carryon_limits\"][1] and inputs[\"heights\"][i] <= premises[\"carryon_limits\"][2]\n        if fits_personal and not personal_used:\n            personal_used = True\n        elif fits_carryon and not carryon_used:\n            carryon_used = True\n        else:\n            checked = checked + [i]\n    fees = 0\n    for position in range(len(checked)):\n        if position >= premises[\"complimentary_checked_count\"]:\n            fees = fees + premises[\"third_and_later_checked_fee\"]\n        item = checked[position]\n        weight_fee = 0\n        if inputs[\"weights\"][item] > premises[\"business_weight_limit\"]:\n            for j in range(len(premises[\"overweight_upper_bounds\"])):\n                if inputs[\"weights\"][item] <= premises[\"overweight_upper_bounds\"][j]:\n                    weight_fee = premises[\"overweight_fees\"][j]\n                    break\n        dimension = inputs[\"lengths\"][item] + inputs[\"widths\"][item] + inputs[\"heights\"][item]\n        size_fee = 0\n        if dimension > premises[\"standard_dimension_limit\"]:\n            for j in range(len(premises[\"oversize_upper_bounds\"])):\n                if dimension <= premises[\"oversize_upper_bounds\"][j]:\n                    size_fee = premises[\"oversize_fees\"][j]\n                    break\n        fees = fees + max(weight_fee, size_fee)\n    return {\"answer\": int(inputs[\"ticket_price\"] + fees)}",
+      "inputs": {
+        "ticket_price": {
+          "field": "ticket_price",
+          "mode": "read",
+          "question": "What integer ticket price is stated for the current passenger?",
+          "skill_id": null,
+          "type": "integer"
+        },
+        "lengths": {
+          "field": "lengths",
+          "mode": "read",
+          "question": "What are the outside lengths in inches of the current passenger's items, in stated order?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "widths": {
+          "field": "widths",
+          "mode": "read",
+          "question": "What are the outside widths in inches of the current passenger's items, in stated order?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "heights": {
+          "field": "heights",
+          "mode": "read",
+          "question": "What are the outside heights in inches of the current passenger's items, in stated order?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "weights": {
+          "field": "weights",
+          "mode": "read",
+          "question": "What are the weights in pounds of the current passenger's items, in stated order?",
+          "skill_id": null,
+          "type": "array"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "description": "The exact integer total of the current ticket price and every applicable baggage fee.",
+          "type": "integer"
+        }
+      },
+      "premises": {
+        "personal_limits": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).",
+            "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+            "view_id": "native"
+          },
+          "question": "What ordered length, width, and height limits apply to a personal item?",
+          "type": "array",
+          "value": [
+            18,
+            14,
+            8
+          ]
+        },
+        "carryon_limits": {
+          "mode": "constant",
+          "origin": {
+            "quote": "The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.",
+            "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+            "view_id": "native"
+          },
+          "question": "What ordered length, width, and height limits apply to a carry-on bag?",
+          "type": "array",
+          "value": [
+            22,
+            14,
+            9
+          ]
+        },
+        "complimentary_checked_count": {
+          "mode": "constant",
+          "origin": {
+            "quote": "1st and 2nd checked bags are complimentary for:\n* AAdvantage Platinum® status\n* oneworld® Sapphire members\n* Confirmed Domestic First customers\n* Confirmed Business customers\n* Confirmed Premium Economy customers",
+            "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+            "view_id": "native"
+          },
+          "question": "How many checked bags are complimentary for a confirmed Business customer?",
+          "type": "integer",
+          "value": 2
+        },
+        "third_and_later_checked_fee": {
+          "mode": "constant",
+          "origin": {
+            "quote": "To or from India, China, Japan, South Korea, Hong Kong, Australia and New Zealand                                                                          | $200          | $200       | $200            | $200     | $0",
+            "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+            "view_id": "native"
+          },
+          "question": "What base fee applies to the third and each later checked bag in Business Class on travel to or from China?",
+          "type": "number",
+          "value": 200
+        },
+        "business_weight_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "For First / Business, weight is 70 lbs / 32 kgs for complimentary bags and 50 lbs / 23 kgs for excess charged bags",
+            "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+            "view_id": "native"
+          },
+          "question": "What checked-bag weight limit applies to Business Class under the current schedule?",
+          "type": "number",
+          "value": 70
+        },
+        "overweight_upper_bounds": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Over 70 lbs / 32kgs to 100 lbs / 45 kgs",
+            "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+            "view_id": "native"
+          },
+          "question": "What upper bound applies to the accepted overweight band above 70 pounds on travel to or from China?",
+          "type": "array",
+          "value": [
+            100
+          ]
+        },
+        "overweight_fees": {
+          "mode": "constant",
+          "origin": {
+            "quote": "To or from India, China, Japan, South Korea and Hong Kong                                                                                                  | $450          | $450          | $450            | $450           | $450",
+            "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+            "view_id": "native"
+          },
+          "question": "What fee corresponds to the over-70-through-100-pound band on travel to or from China?",
+          "type": "array",
+          "value": [
+            450
+          ]
+        },
+        "standard_dimension_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Dimension: 62 in / 158 cm",
+            "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+            "view_id": "native"
+          },
+          "question": "What total outside-dimension limit applies to a standard checked bag?",
+          "type": "number",
+          "value": 62
+        },
+        "oversize_upper_bounds": {
+          "mode": "constant",
+          "origin": {
+            "quote": "| Region                                                                       | Over 62 in / 158 cm – 65 in / 165 cm | Over 65 in / 165 cm – 115 in / 292 cm |",
+            "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+            "view_id": "native"
+          },
+          "question": "What ascending total-dimension upper bounds define the oversize bands for China travel?",
+          "type": "array",
+          "value": [
+            65,
+            115
+          ]
+        },
+        "oversize_fees": {
+          "mode": "constant",
+          "origin": {
+            "quote": "China, Japan, South Korea, Hong Kong, India, Australia, and New Zealand      | $30                                  | $200",
+            "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+            "view_id": "native"
+          },
+          "question": "What fees correspond to the oversize bands for China travel?",
+          "type": "array",
+          "value": [
+            30,
+            200
+          ]
+        }
+      },
+      "reads": [
+        {
+          "id": "read_current_china_us_business_bags",
+          "question": "Read the ticket price and the ordered outside dimensions and weights of every item in the current confirmed Business Class itinerary between China and the United States.",
+          "source_locator": "current airline facts and question",
+          "fields": {
+            "ticket_price": {
+              "question": "What is the stated integer ticket price?",
+              "type": "integer"
+            },
+            "lengths": {
+              "question": "List the item lengths in stated order.",
+              "type": "array"
+            },
+            "widths": {
+              "question": "List the item widths in stated order.",
+              "type": "array"
+            },
+            "heights": {
+              "question": "List the item heights in stated order.",
+              "type": "array"
+            },
+            "weights": {
+              "question": "List the item weights in stated order.",
+              "type": "array"
+            }
+          },
+          "bindings": {},
+          "schema": {
+            "type": "object",
+            "properties": {
+              "ticket_price": {
+                "type": "integer"
+              },
+              "lengths": {
+                "type": "array"
+              },
+              "widths": {
+                "type": "array"
+              },
+              "heights": {
+                "type": "array"
+              },
+              "weights": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "ticket_price",
+              "lengths",
+              "widths",
+              "heights",
+              "weights"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "ordered_current_items",
+          "neighbors": [
+            "china_us_business_schedule"
+          ],
+          "ports": [
+            "ticket_price",
+            "lengths",
+            "widths",
+            "heights",
+            "weights"
+          ]
+        },
+        {
+          "id": "china_us_business_schedule",
+          "neighbors": [
+            "ordered_current_items"
+          ],
+          "ports": [
+            "personal_limits",
+            "carryon_limits",
+            "complimentary_checked_count",
+            "third_and_later_checked_fee",
+            "business_weight_limit",
+            "overweight_upper_bounds",
+            "overweight_fees",
+            "standard_dimension_limit",
+            "oversize_upper_bounds",
+            "oversize_fees"
+          ]
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "assign_personal_and_carryon_allowances",
+          "origin": {
+            "quote": "You're allowed 1 carry-on bag and 1 personal item in all cabins.",
+            "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+            "view_id": "native"
+          },
+          "port": "carryon_limits",
+          "role": "preliminary",
+          "statement": "Use at most one qualifying personal item and one qualifying carry-on; treat the remaining items as checked bags."
+        },
+        {
+          "id": "apply_business_checked_fees",
+          "origin": {
+            "quote": "1st and 2nd checked bags are complimentary for:\n* AAdvantage Platinum® status\n* oneworld® Sapphire members\n* Confirmed Domestic First customers\n* Confirmed Business customers\n* Confirmed Premium Economy customers",
+            "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+            "view_id": "native"
+          },
+          "port": "complimentary_checked_count",
+          "role": "constraint",
+          "statement": "Treat the first two checked positions as complimentary for the confirmed Business passenger and charge the published China-route rate for later checked positions."
+        },
+        {
+          "id": "measure_total_dimensions",
+          "origin": {
+            "quote": "We calculate the size limits of your bag by adding the total outside dimensions of each bag, length + width + height.",
+            "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+            "view_id": "native"
+          },
+          "port": "standard_dimension_limit",
+          "role": "preliminary",
+          "statement": "Calculate each checked bag's size by adding its outside length, width, and height."
+        },
+        {
+          "id": "combine_excess_fees",
+          "origin": {
+            "quote": "The higher fee between oversize and overweight applies, in addition to the checked bag fee.",
+            "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+            "view_id": "native"
+          },
+          "port": "overweight_fees",
+          "role": "terminal",
+          "statement": "For a bag exceeding both weight and size standards, add only the higher excess fee to its checked-position fee."
+        }
+      ],
+      "source_provenance": [
+        {
+          "quote": "You're allowed 1 carry-on bag and 1 personal item in all cabins.",
+          "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+          "view_id": "native"
+        },
+        {
+          "quote": "1st and 2nd checked bags are complimentary for:\n* AAdvantage Platinum® status\n* oneworld® Sapphire members\n* Confirmed Domestic First customers\n* Confirmed Business customers\n* Confirmed Premium Economy customers",
+          "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+          "view_id": "native"
+        },
+        {
+          "quote": "More than one fee may apply per bag that exceeds standard dimensions for both weight and size. The higher fee between oversize and overweight applies, in addition to the checked bag fee.",
+          "source_id": "RuleArena_Airline:27dccd092e457195103167718bb84bbcabc815eee9f60de672505d7669771d4a",
+          "view_id": "native"
+        }
+      ],
+      "version": 1
+    },
+    "progressive_tax_bracket_claim_classifier": {
+      "id": "progressive_tax_bracket_claim_classifier",
+      "intent": "Determine whether a claimed tax amount attributed to a specified progressive-tax subclause follows from the taxpayer's current filing status, taxable income, and the current statutory bracket schedule.",
+      "procedure": "def apply(inputs, premises):\n    applicable_index = -1\n    for i in range(len(inputs[\"bracket_lower_bounds\"])):\n        above_lower = inputs[\"taxable_income\"] > inputs[\"bracket_lower_bounds\"][i] or inputs[\"bracket_lower_bounds\"][i] == 0\n        below_upper = inputs[\"bracket_upper_bounds\"][i] < 0 or inputs[\"taxable_income\"] <= inputs[\"bracket_upper_bounds\"][i]\n        if above_lower and below_upper:\n            applicable_index = i + 1\n            break\n    correct = inputs[\"filing_status_matches_schedule\"] and applicable_index == inputs[\"claimed_bracket_index\"]\n    if correct:\n        i = applicable_index - 1\n        computed_tax = inputs[\"bracket_base_amounts\"][i] + inputs[\"bracket_rates\"][i] * (inputs[\"taxable_income\"] - inputs[\"bracket_lower_bounds\"][i])\n        correct = abs(computed_tax - inputs[\"claimed_tax_amount\"]) <= 0.005\n    if correct:\n        answer = \"Entailment\"\n    else:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "filing_status_matches_schedule": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Do the current taxpayer facts place the taxpayer within the filing-status schedule cited by the claim?",
+          "skill_id": null,
+          "field": "filing_status_matches_schedule"
+        },
+        "taxable_income": {
+          "type": "number",
+          "mode": "read",
+          "question": "What taxable income do the current facts state?",
+          "skill_id": null,
+          "field": "taxable_income"
+        },
+        "claimed_tax_amount": {
+          "type": "number",
+          "mode": "read",
+          "question": "What tax amount does the current proposition claim?",
+          "skill_id": null,
+          "field": "claimed_tax_amount"
+        },
+        "claimed_bracket_index": {
+          "type": "integer",
+          "mode": "read",
+          "question": "Which numbered bracket or subclause does the current proposition expressly invoke, using one-based numbering?",
+          "skill_id": null,
+          "field": "claimed_bracket_index"
+        },
+        "bracket_lower_bounds": {
+          "type": "array",
+          "mode": "read",
+          "question": "For the current claimed filing-status schedule, what are the lower income bounds of all brackets in order, using zero for the first bracket?",
+          "skill_id": null,
+          "field": "bracket_lower_bounds"
+        },
+        "bracket_upper_bounds": {
+          "type": "array",
+          "mode": "read",
+          "question": "For the current claimed filing-status schedule, what are the upper income bounds of all brackets in order, using -1 only for an open-ended final bracket?",
+          "skill_id": null,
+          "field": "bracket_upper_bounds"
+        },
+        "bracket_base_amounts": {
+          "type": "array",
+          "mode": "read",
+          "question": "What fixed base tax amounts correspond in order to the brackets of the current claimed filing-status schedule, using zero for a bracket with no fixed base?",
+          "skill_id": null,
+          "field": "bracket_base_amounts"
+        },
+        "bracket_rates": {
+          "type": "array",
+          "mode": "read",
+          "question": "What decimal marginal rates correspond in order to the brackets of the current claimed filing-status schedule?",
+          "skill_id": null,
+          "field": "bracket_rates"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "The current native binary label: Entailment if the expressly invoked bracket applies and yields the claimed tax amount, otherwise Contradiction."
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "read_current_progressive_tax_claim",
+          "question": "Read the current taxpayer's filing status and taxable income, the tax amount and numbered subclause asserted by the proposition, and the complete progressive schedule for that asserted filing status.",
+          "source_locator": "current statutory source, referenced sections, facts, and question",
+          "fields": {
+            "filing_status_matches_schedule": {
+              "type": "boolean",
+              "question": "Does the taxpayer satisfy the filing status governed by the asserted schedule?"
+            },
+            "taxable_income": {
+              "type": "number",
+              "question": "What is the stated taxable income?"
+            },
+            "claimed_tax_amount": {
+              "type": "number",
+              "question": "What tax amount is asserted?"
+            },
+            "claimed_bracket_index": {
+              "type": "integer",
+              "question": "What one-based bracket number is expressly asserted?"
+            },
+            "bracket_lower_bounds": {
+              "type": "array",
+              "question": "List the schedule's bracket lower bounds, beginning with zero."
+            },
+            "bracket_upper_bounds": {
+              "type": "array",
+              "question": "List the schedule's bracket upper bounds, using -1 for the open final bracket."
+            },
+            "bracket_base_amounts": {
+              "type": "array",
+              "question": "List the schedule's fixed base amounts."
+            },
+            "bracket_rates": {
+              "type": "array",
+              "question": "List the schedule's marginal rates as decimals."
+            }
+          },
+          "bindings": {},
+          "schema": {
+            "type": "object",
+            "properties": {
+              "filing_status_matches_schedule": {
+                "type": "boolean"
+              },
+              "taxable_income": {
+                "type": "number"
+              },
+              "claimed_tax_amount": {
+                "type": "number"
+              },
+              "claimed_bracket_index": {
+                "type": "integer"
+              },
+              "bracket_lower_bounds": {
+                "type": "array"
+              },
+              "bracket_upper_bounds": {
+                "type": "array"
+              },
+              "bracket_base_amounts": {
+                "type": "array"
+              },
+              "bracket_rates": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "filing_status_matches_schedule",
+              "taxable_income",
+              "claimed_tax_amount",
+              "claimed_bracket_index",
+              "bracket_lower_bounds",
+              "bracket_upper_bounds",
+              "bracket_base_amounts",
+              "bracket_rates"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "current_taxpayer_status_and_claim",
+          "ports": [
+            "filing_status_matches_schedule",
+            "taxable_income",
+            "claimed_tax_amount",
+            "claimed_bracket_index"
+          ],
+          "neighbors": [
+            "asserted_progressive_schedule"
+          ]
+        },
+        {
+          "id": "asserted_progressive_schedule",
+          "ports": [
+            "bracket_lower_bounds",
+            "bracket_upper_bounds",
+            "bracket_base_amounts",
+            "bracket_rates"
+          ],
+          "neighbors": [
+            "current_taxpayer_status_and_claim"
+          ]
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "select_income_bracket",
+          "statement": "Identify the bracket whose stated income interval contains the current taxable income before applying its formula.",
+          "role": "preliminary",
+          "port": "bracket_upper_bounds",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "$2,767.50, plus 28% of the excess over $18,450 if the taxable income is over $18,450 but not over $44,575"
+          }
+        },
+        {
+          "id": "verify_asserted_subclause",
+          "statement": "The proposition is entailed only if its expressly cited numbered bracket is the applicable bracket for the current income and filing status.",
+          "role": "constraint",
+          "port": "claimed_bracket_index",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "(iii) $10,082.50, plus 31% of the excess over $44,575 if the taxable income is over $44,575 but not over $70,000"
+          }
+        },
+        {
+          "id": "verify_claimed_tax_amount",
+          "statement": "Apply the fixed base and marginal rate of the applicable bracket to determine whether it yields the proposition's claimed tax amount.",
+          "role": "terminal",
+          "port": "claimed_tax_amount",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "15% of taxable income if the taxable income is not over $18,450"
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "There is hereby imposed on the taxable income of every married individual (as defined in section 7703) who does not make a single return jointly with his spouse, a tax determined in accordance with the following:"
+        },
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "(i) 15% of taxable income if the taxable income is not over $18,450;"
+        },
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "(iii) $10,082.50, plus 31% of the excess over $44,575 if the taxable income is over $44,575 but not over $70,000;"
+        }
+      ],
+      "version": 1
+    },
+    "termination_cause_subclause_classifier": {
+      "id": "termination_cause_subclause_classifier",
+      "intent": "Determine whether facts entail a claim that the termination-cause condition in a legal payment subclause applies, without importing sibling conditions outside the queried subclause.",
+      "procedure": "def apply(inputs, premises):\n    trigger_met = True\n    if premises[\"requires_upon_or_after_termination\"]:\n        trigger_met = trigger_met and inputs[\"payment_upon_or_after_termination\"]\n    if premises[\"requires_death_or_disability_cause\"]:\n        trigger_met = trigger_met and inputs[\"termination_caused_by_death_or_disability\"]\n    if trigger_met:\n        answer = \"Entailment\"\n    else:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "payment_upon_or_after_termination": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Do the current facts state that the payment was made upon or after termination of the employee's employment relationship?",
+          "skill_id": null,
+          "field": "payment_upon_or_after_termination"
+        },
+        "termination_caused_by_death_or_disability": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Do the current facts state that the employment relationship was terminated because of death or retirement for disability?",
+          "skill_id": null,
+          "field": "termination_caused_by_death_or_disability"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "The current native binary label: Entailment when the queried termination-cause subclause is satisfied, otherwise Contradiction."
+        }
+      },
+      "premises": {
+        "requires_upon_or_after_termination": {
+          "type": "boolean",
+          "mode": "constant",
+          "value": true,
+          "question": "Does the queried subclause require payment upon or after termination?",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "upon or after the termination of an employee's employment relationship"
+          }
+        },
+        "requires_death_or_disability_cause": {
+          "type": "boolean",
+          "mode": "constant",
+          "value": true,
+          "question": "Does the queried subclause require termination because of death or retirement for disability?",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "because of (i) death, or (ii) retirement for disability"
+          }
+        }
+      },
+      "reads": [
+        {
+          "id": "read_termination_payment_facts",
+          "question": "Read the current payment and termination facts relevant to the termination-cause condition of the specifically queried subclause.",
+          "source_locator": "current facts and question",
+          "fields": {
+            "payment_upon_or_after_termination": {
+              "type": "boolean",
+              "question": "Was the current payment made upon or after termination of the employment relationship?"
+            },
+            "termination_caused_by_death_or_disability": {
+              "type": "boolean",
+              "question": "Was the current termination caused by death or retirement for disability?"
+            }
+          },
+          "bindings": {},
+          "schema": {
+            "type": "object",
+            "properties": {
+              "payment_upon_or_after_termination": {
+                "type": "boolean"
+              },
+              "termination_caused_by_death_or_disability": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "payment_upon_or_after_termination",
+              "termination_caused_by_death_or_disability"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "termination_trigger_record",
+          "ports": [
+            "payment_upon_or_after_termination",
+            "termination_caused_by_death_or_disability",
+            "requires_upon_or_after_termination",
+            "requires_death_or_disability_cause"
+          ],
+          "neighbors": []
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "check_queried_termination_trigger",
+          "statement": "Check only whether the current payment and termination facts satisfy the two elements stated in the queried termination-cause subclause.",
+          "role": "terminal",
+          "port": "termination_caused_by_death_or_disability",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability"
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+          "view_id": "native",
+          "quote": "upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability"
+        }
+      ],
+      "version": 1
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [],
+  "execution_events": []
+}

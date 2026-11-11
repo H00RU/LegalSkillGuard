@@ -1,0 +1,86 @@
+{
+  "scope": "Descriptive analysis of completed fixed Full TEST; no method changes, no new calls. Failure classes can overlap within a view.",
+  "new_model_calls": 0,
+  "datasets": {
+    "MAUD": {
+      "native_views": 96,
+      "core_views": 0,
+      "fallback_views": 96,
+      "unresolved_views": 0,
+      "fallback_no_retrieved_skill": 0,
+      "fallback_views_with_StaticNativeEnumMismatch": 96
+    },
+    "ContractNLI": {
+      "native_views": 128,
+      "core_views": 0,
+      "fallback_views": 128,
+      "unresolved_views": 0,
+      "fallback_no_retrieved_skill": 0,
+      "fallback_views_with_ValueError": 128
+    },
+    "SARA_v2_Binary": {
+      "native_views": 32,
+      "core_views": 5,
+      "fallback_views": 27,
+      "unresolved_views": 0,
+      "fallback_no_retrieved_skill": 0,
+      "fallback_views_with_ValueError": 27
+    },
+    "RuleArena_Airline": {
+      "native_views": 32,
+      "core_views": 29,
+      "fallback_views": 3,
+      "unresolved_views": 0,
+      "fallback_no_retrieved_skill": 0,
+      "fallback_views_with_ValueError": 3
+    },
+    "OpenExempt": {
+      "native_views": 64,
+      "core_views": 42,
+      "fallback_views": 22,
+      "unresolved_views": 0,
+      "fallback_no_retrieved_skill": 0,
+      "fallback_views_with_ValueError": 22
+    }
+  },
+  "failed_candidate_counts_by_error_class": {
+    "MAUD": {
+      "StaticNativeEnumMismatch": 192
+    },
+    "ContractNLI": {
+      "ValueError": 256
+    },
+    "RuleArena_Airline": {
+      "ValueError": 3
+    },
+    "SARA_v2_Binary": {
+      "ValueError": 54
+    },
+    "OpenExempt": {
+      "ValueError": 22
+    }
+  },
+  "failed_candidate_counts_by_terminal_error": {
+    "MAUD": {
+      "StaticNativeEnumMismatch: no possible helper answer satisfies the current native enum": 192
+    },
+    "ContractNLI": {
+      "KeyError: 'is_agricultural_labor'": 128,
+      "KeyError: 'taxable_income'": 128
+    },
+    "RuleArena_Airline": {
+      "KeyError: 'route_fee_region'": 3
+    },
+    "SARA_v2_Binary": {
+      "KeyError: 'taxable_income'": 20,
+      "KeyError: 'is_agricultural_labor'": 27,
+      "KeyError: 'claimed_tax_amount'": 6,
+      "KeyError: 'claimed_bracket_lower_exclusive'": 1
+    },
+    "OpenExempt": {
+      "KeyError: 'asset_is_arizona_wearing_apparel'": 16,
+      "KeyError: 'asset_is_federal_household_category'": 4,
+      "KeyError: 'asset_is_wearing_apparel'": 2
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "reviewed_utc": "2026-11-11T19:50:59.276996+00:00",
+  "reviewer": "primary executing agent; direct code, raw settled records and registered statistics review",
+  "goal_status": "active",
+  "goal_complete": false,
+  "fixed_experiment_complete": true,
+  "actual_meaningful_gain_over_both_strong_controls_in_this_fixed_run": true,
+  "causal_attribution_to_Lift_or_CoRev_supported": false,
+  "Lift_independent_evidence_supported": false,
+  "CoRev_independent_evidence_supported": false,
+  "independent_mechanism_ablation_supported": false,
+  "registered_cross_dataset_reuse_supported": false,
+  "TEST_used_to_change_method": false,
+  "new_model_calls_for_review": 0,
+  "cumulative_physical_requests": {
+    "executor": 9082,
+    "teacher": 141
+  },
+  "pending_physical_requests": 0,
+  "TEST_scores": {
+    "NoSkill": 0.41277754109082243,
+    "FreeEvolution": 0.4139754577574891,
+    "LiftOnly": 0.40652754109082245,
+    "CoRevOnly": 0.42527754109082244,
+    "Full": 0.5384792446626087,
+    "Lift+GenericJoint": 0.4002775410908225,
+    "AllPorts+CoRev": 0.4261884893730943
+  },
+  "registered_strong_control_contrasts": {
+    "AllPorts+CoRev": {
+      "bootstrap_draws": 10000,
+      "dataset_differences": {
+        "ContractNLI": 0.0,
+        "MAUD": 0.0,
+        "OpenExempt": 0.3427037764475719,
+        "RuleArena_Airline": 0.25,
+        "SARA_v2_Binary": -0.03125
+      },
+      "equal_dataset_macro_difference": 0.11229075528951438,
+      "four_contrast_Bonferroni_98_75_percent_interval": [
+        0.063296810318038,
+        0.16319572680134586
+      ],
+      "independent_parents_per_dataset": {
+        "ContractNLI": 32,
+        "MAUD": 32,
+        "OpenExempt": 32,
+        "RuleArena_Airline": 32,
+        "SARA_v2_Binary": 32
+      },
+      "independent_training_seed_uncertainty_claimed": false,
+      "new_model_calls": 0,
+      "paired_source_bootstrap_95_percent_interval": [
+        0.07331668997563029,
+        0.15297051379273877
+      ],
+      "resampling_unit": "independent parent, stratified by dataset; all native views remain grouped",
+      "statistical_resampling_seed": 20261111
+    },
+    "Lift+GenericJoint": {
+      "bootstrap_draws": 10000,
+      "dataset_differences": {
+        "ContractNLI": 0.0,
+        "MAUD": 0.0,
+        "OpenExempt": 0.4097585178589309,
+        "RuleArena_Airline": 0.25,
+        "SARA_v2_Binary": 0.03125
+      },
+      "equal_dataset_macro_difference": 0.13820170357178618,
+      "four_contrast_Bonferroni_98_75_percent_interval": [
+        0.08235977421294123,
+        0.1968819207202501
+      ],
+      "independent_parents_per_dataset": {
+        "ContractNLI": 32,
+        "MAUD": 32,
+        "OpenExempt": 32,
+        "RuleArena_Airline": 32,
+        "SARA_v2_Binary": 32
+      },
+      "independent_training_seed_uncertainty_claimed": false,
+      "new_model_calls": 0,
+      "paired_source_bootstrap_95_percent_interval": [
+        0.09483388270119796,
+        0.18344092679114393
+      ],
+      "resampling_unit": "independent parent, stratified by dataset; all native views remain grouped",
+      "statistical_resampling_seed": 20261111
+    }
+  },
+  "Full_TEST_path_counts": {
+    "native_views": 352,
+    "core_views": 76,
+    "fully_correct_core_views": 16,
+    "fallback_views": 276,
+    "unresolved_views": 0
+  },
+  "transfer_parent_outcomes": {
+    "beneficial": 0,
+    "harmful": 0,
+    "unchanged": 160,
+    "unknown": 0
+  },
+  "registered_transfer_additional_physical_requests": 0,
+  "formal_updates_checked": 48,
+  "maximum_actual_logical_candidate_parent_executions_per_update": 80,
+  "per_arm_consumed_learning_plus_TEST_responses_excluding_DEV": {
+    "NoSkill": 632,
+    "FreeEvolution": 1810,
+    "LiftOnly": 1244,
+    "CoRevOnly": 1296,
+    "Full": 1267,
+    "Lift+GenericJoint": 1633,
+    "AllPorts+CoRev": 1221
+  },
+  "cash_invoices_unavailable_not_zero": true,
+  "research_plan_adjustment_needed_to_pursue_original_two_contributions": true,
+  "new_resource_request": null,
+  "conclusion_paragraphs": [
+    "完整固定实验已交付，且Full在本次冻结测试中确有清晰实际收益：五库等权原生得分0.538479，对NoSkill为+0.125702，对AllPorts+CoRev为+0.112291，对Lift+GenericJoint为+0.138202。两项强对照差值的校正98.75%区间分别为[0.063297, 0.163196]和[0.082360, 0.196882]；结论限于当前固定数据、一次学习轨迹和母来源抽样不确定性，不宣称覆盖训练种子变化。",
+    "收益来自已有程序技能的获取与过程修补。Full在OpenExempt和Airline提升明显，SARA略降，ContractNLI和MAUD与空库相同；不能将臂名或七系统分差当作专门机制的因果证据。Full有76/352个程序终端路径，16个对应原生全对，276个回退；这些执行和评分统计不自动等于法义或两机制验证。",
+    "Lift原正式学习没有真实专门提议和接纳；CoRev没有学得或实际使用共同修订模式，全部B8技能依赖端口为0。两技能同批修改的完整八格显示single_sufficient，所修为不同任务。冻结外库掩码的160个母来源全部不变，实际外库最终路径0；跨库效果未获支持。两项独立贡献及其有效机制消融要求未满足，Goal不能完成。",
+    "已有原始程序、正负结果、固定128来源训练、42个DEV点、完整七系统TEST、注册迁移、曲线、1120行逐来源表及累计成本均保留。隔离修复和少量真实获取证明部分接口与类型问题已解决，但没有补出独立机制增益，也没有导入原冻结结果。",
+    "建议保留并复用已获得的程序技能学习资产，停止为当前两个未触发机制追加同类请求；不重跑矩阵、不扩源、不扫参数、不用TEST修方法。最小下一步是作一次明确的研究调整决定：原有学习对象与更新协议是否能承载自然的耦合法源变化和依赖规则共同修订，若不能，应调整机制定义或研究主张后才安排有限TRAIN验证。当前不请求额外模型额度，不启动论文，也不把阶段报告当作Goal完成。"
+  ],
+  "evidence_sha256": {
+    "fixed_study_completion_audit.json": "4901db277dd3336ab2f159195c7eaf63d1145af1c82838a9a2309859c1641b14",
+    "frozen_cost_footprints.json": "9958cf26083579873fd75f7727e8a0072c97ad6427a81d7a32b662959965c426",
+    "formal_mechanism_inventory.json": "43f08df87b357ea52e7d9ac4d6d658d84082f7bf9392d39731796c747efe309a",
+    "stage_costs.json": "237f2dcae596573000eac6bdb96f8fa51376c4f285a5ed6eb939cba66b4a6094",
+    "training_signal_audit.json": "761e3d77c0eed8ec34b54ce901b0f147288e02ad4803e9f4bddbeb6d7fbbb4c2",
+    "activation_repair_summary.json": "74f0b7200f59d928820816fe3f6201f7cb1f6dea4ce89799fe09dafd37ae599a",
+    "formal_TRAIN_trajectory.json": "d17b92242added2c6f1758bfc6231715327d1aaedcb5438582053096aa9ba925",
+    "formal_DEV_summary.json": "ad18f8f934f40ae0d7b5e76944fdea0aa4dddf7552bc3c965e0ce4bfe3ad364d",
+    "settled_evidence_manifest.json": "ea5bd3d49052a23678f124710b1e7b3449099be7806c75e7b8619124a3cc6c40",
+    "Full_TEST_path_failure_summary.json": "f3a501a353dab3ce7c09bedcbb4f251ccc8d7b9e90d8a78fa1c93391729039b5"
+  }
+}

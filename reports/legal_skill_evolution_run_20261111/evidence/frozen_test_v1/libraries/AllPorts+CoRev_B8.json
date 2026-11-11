@@ -1,0 +1,518 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "4780499ce6b5d91c782ddb11fba7d3ab8d77d044b62b2c3b7edbb8cd052036eb",
+  "skills": {
+    "illinois_other_property_asset_exemptions": {
+      "id": "illinois_other_property_asset_exemptions",
+      "intent": "Return the current OpenExempt asset mapping when the solved governing system is Illinois and the supplied Illinois other-property exemption applies to the current personally used assets.",
+      "procedure": "def apply(inputs, premises):\n    answer = {}\n    count = min(len(inputs[\"asset_names\"]), len(inputs[\"asset_values\"]), len(inputs[\"other_property_applies\"]))\n    for i in range(count):\n        name = inputs[\"asset_names\"][i]\n        answer[name] = []\n        if inputs[\"other_property_applies\"][i]:\n            if inputs[\"include_claim_values\"]:\n                value = min(inputs[\"asset_values\"][i], inputs[\"other_property_limit\"])\n                answer[name] = [{\"citation\": inputs[\"other_property_citation\"], \"claim_value\": value}]\n            else:\n                answer[name] = [inputs[\"other_property_citation\"]]\n    return {\"answer\": answer}",
+      "inputs": {
+        "asset_names": {
+          "field": "asset_names",
+          "mode": "read",
+          "question": "What exact asset descriptions must be used as keys in the current response?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "asset_values": {
+          "field": "asset_values",
+          "mode": "read",
+          "question": "What dollar value belongs to each current asset in the same order?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "other_property_applies": {
+          "field": "other_property_applies",
+          "mode": "read",
+          "question": "For each current asset, does the supplied Illinois other-property exemption apply under the solved Illinois governing scope and the stated personal-use facts?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "other_property_citation": {
+          "field": "other_property_citation",
+          "mode": "read",
+          "question": "What literal citation string identifies the supplied Illinois exemption for a debtor's equity interest in other property?",
+          "skill_id": null,
+          "type": "string"
+        },
+        "other_property_limit": {
+          "field": "other_property_limit",
+          "mode": "read",
+          "question": "What dollar ceiling does that Illinois other-property exemption prescribe?",
+          "skill_id": null,
+          "type": "number"
+        },
+        "include_claim_values": {
+          "field": "include_claim_values",
+          "mode": "read",
+          "question": "Does the current response schema require each applicable citation to be paired with a numeric claim_value?",
+          "skill_id": null,
+          "type": "boolean"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "description": "The native current OpenExempt mapping, using citation arrays or citation-and-claim-value arrays as required by the current response schema.",
+          "type": "object"
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "current_illinois_other_property_record",
+          "question": "Extract the current assets and response mode, and apply the supplied Illinois other-property provision within the governing exemption system established by the current solved reasoning steps.",
+          "source_locator": "current OpenExempt statutes, solved reasoning steps, facts, and response schema",
+          "fields": {
+            "asset_names": {
+              "question": "What exact asset descriptions are required as response keys?",
+              "type": "array"
+            },
+            "asset_values": {
+              "question": "What numeric value is stated for each asset?",
+              "type": "array"
+            },
+            "other_property_applies": {
+              "question": "Which current assets satisfy the supplied Illinois other-property exemption under the stated ownership and personal-use facts?",
+              "type": "array"
+            },
+            "other_property_citation": {
+              "question": "What literal citation identifies that exemption?",
+              "type": "string"
+            },
+            "other_property_limit": {
+              "question": "What maximum protected value does that exemption state?",
+              "type": "number"
+            },
+            "include_claim_values": {
+              "question": "Does the current response schema require numeric claim values with citations?",
+              "type": "boolean"
+            }
+          },
+          "bindings": {},
+          "schema": {
+            "type": "object",
+            "properties": {
+              "asset_names": {
+                "type": "array"
+              },
+              "asset_values": {
+                "type": "array"
+              },
+              "other_property_applies": {
+                "type": "array"
+              },
+              "other_property_citation": {
+                "type": "string"
+              },
+              "other_property_limit": {
+                "type": "number"
+              },
+              "include_claim_values": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "asset_names",
+              "asset_values",
+              "other_property_applies",
+              "other_property_citation",
+              "other_property_limit",
+              "include_claim_values"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "illinois_asset_exemption_record",
+          "neighbors": [],
+          "ports": [
+            "asset_names",
+            "asset_values",
+            "other_property_applies",
+            "other_property_citation",
+            "other_property_limit",
+            "include_claim_values"
+          ]
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "illinois_governing_scope",
+          "origin": {
+            "quote": "The Debtor may claim property exemptions under Illinois statutes.",
+            "source_id": "OpenExempt:dbbe6b3d0e812c2b08d81bed808f5659e8bcfbee6d80655acb3919c5493e07ea",
+            "view_id": "EC"
+          },
+          "port": "other_property_applies",
+          "role": "preliminary",
+          "statement": "Use the Illinois exemption system identified by the current solved reasoning steps."
+        },
+        {
+          "id": "illinois_other_property_rule",
+          "origin": {
+            "quote": "735 Ill. Comp. Stat. 5/12-1001(b)\nThe debtor's equity interest, not to exceed $4,000 in value, in any other property;",
+            "source_id": "OpenExempt:dbbe6b3d0e812c2b08d81bed808f5659e8bcfbee6d80655acb3919c5493e07ea",
+            "view_id": "EC"
+          },
+          "port": "other_property_limit",
+          "role": "constraint",
+          "statement": "Protect a qualifying debtor's equity interest in other property only up to the provision's stated ceiling."
+        },
+        {
+          "id": "render_current_openexempt_schema",
+          "origin": {
+            "quote": "Consider each asset-exemption pair independently, without factoring in aggregate values across multiple assets.",
+            "source_id": "OpenExempt:dbbe6b3d0e812c2b08d81bed808f5659e8bcfbee6d80655acb3919c5493e07ea",
+            "view_id": "EV"
+          },
+          "port": "include_claim_values",
+          "role": "terminal",
+          "statement": "Return literal citations alone for the citation view, or pair each citation with the lesser of the asset value and statutory ceiling for the value view."
+        }
+      ],
+      "source_provenance": [
+        {
+          "quote": "The Debtor may claim property exemptions under Illinois statutes.",
+          "source_id": "OpenExempt:dbbe6b3d0e812c2b08d81bed808f5659e8bcfbee6d80655acb3919c5493e07ea",
+          "view_id": "EC"
+        },
+        {
+          "quote": "735 Ill. Comp. Stat. 5/12-1001(b)\nThe debtor's equity interest, not to exceed $4,000 in value, in any other property;",
+          "source_id": "OpenExempt:dbbe6b3d0e812c2b08d81bed808f5659e8bcfbee6d80655acb3919c5493e07ea",
+          "view_id": "EC"
+        },
+        {
+          "quote": "Consider each asset-exemption pair independently, without factoring in aggregate values across multiple assets.",
+          "source_id": "OpenExempt:dbbe6b3d0e812c2b08d81bed808f5659e8bcfbee6d80655acb3919c5493e07ea",
+          "view_id": "EV"
+        }
+      ],
+      "version": 1
+    },
+    "section1_tax_amount_claim": {
+      "id": "section1_tax_amount_claim",
+      "intent": "Classify an exact tax-amount claim under Internal Revenue Code section 1 when the facts identify the filing schedule and taxable income and the current source supplies that schedule's brackets.",
+      "procedure": "def apply(inputs, premises):\n    count = min(len(inputs[\"bracket_subsections\"]), len(inputs[\"bracket_upper_bounds\"]), len(inputs[\"bracket_base_amounts\"]), len(inputs[\"bracket_excess_floors\"]), len(inputs[\"bracket_rates\"]))\n    applicable = -1\n    for i in range(count):\n        if inputs[\"bracket_upper_bounds\"][i] < 0 or inputs[\"taxable_income\"] <= inputs[\"bracket_upper_bounds\"][i]:\n            applicable = i\n            break\n    answer = \"Contradiction\"\n    if applicable >= 0:\n        expected_tax = inputs[\"bracket_base_amounts\"][applicable] + inputs[\"bracket_rates\"][applicable] * (inputs[\"taxable_income\"] - inputs[\"bracket_excess_floors\"][applicable])\n        if inputs[\"claimed_subsection\"] == inputs[\"bracket_subsections\"][applicable] and abs(inputs[\"claimed_tax_amount\"] - expected_tax) < 0.005:\n            answer = \"Entailment\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "taxable_income": {
+          "type": "number",
+          "mode": "read",
+          "question": "What taxable income is stated for the current taxpayer and year?",
+          "skill_id": null,
+          "field": "taxable_income"
+        },
+        "claimed_subsection": {
+          "type": "string",
+          "mode": "read",
+          "question": "What canonical section 1 subsection and bracket identifier does the current proposition assert?",
+          "skill_id": null,
+          "field": "claimed_subsection"
+        },
+        "claimed_tax_amount": {
+          "type": "number",
+          "mode": "read",
+          "question": "What exact tax amount does the current proposition assert?",
+          "skill_id": null,
+          "field": "claimed_tax_amount"
+        },
+        "bracket_subsections": {
+          "type": "array",
+          "mode": "read",
+          "question": "For the filing schedule established by the current facts, what are the canonical subsection identifiers of its brackets in ascending-income order?",
+          "skill_id": null,
+          "field": "bracket_subsections"
+        },
+        "bracket_upper_bounds": {
+          "type": "array",
+          "mode": "read",
+          "question": "For that filing schedule, what are the inclusive upper income bounds in bracket order, using -1 only for an unbounded final bracket?",
+          "skill_id": null,
+          "field": "bracket_upper_bounds"
+        },
+        "bracket_base_amounts": {
+          "type": "array",
+          "mode": "read",
+          "question": "What fixed base tax amount applies in each bracket of the current filing schedule?",
+          "skill_id": null,
+          "field": "bracket_base_amounts"
+        },
+        "bracket_excess_floors": {
+          "type": "array",
+          "mode": "read",
+          "question": "What income floor is subtracted before applying the marginal rate in each bracket of the current filing schedule?",
+          "skill_id": null,
+          "field": "bracket_excess_floors"
+        },
+        "bracket_rates": {
+          "type": "array",
+          "mode": "read",
+          "question": "What decimal marginal tax rate applies in each bracket of the current filing schedule?",
+          "skill_id": null,
+          "field": "bracket_rates"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "Entailment only when both the asserted bracket subsection and exact computed tax amount match; otherwise Contradiction."
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "current_section1_claim_and_schedule",
+          "question": "Extract the current section 1 tax claim, taxable income, and the complete bracket schedule applicable to the filing status established by the facts.",
+          "source_locator": "current view source_text, referenced sections, facts, and question",
+          "fields": {
+            "taxable_income": {
+              "type": "number",
+              "question": "What is the current taxpayer's taxable income?"
+            },
+            "claimed_subsection": {
+              "type": "string",
+              "question": "What canonical section 1 bracket identifier is asserted?"
+            },
+            "claimed_tax_amount": {
+              "type": "number",
+              "question": "What exact tax amount is asserted?"
+            },
+            "bracket_subsections": {
+              "type": "array",
+              "question": "What are the applicable schedule's canonical bracket identifiers?"
+            },
+            "bracket_upper_bounds": {
+              "type": "array",
+              "question": "What are the applicable schedule's inclusive bracket ceilings?"
+            },
+            "bracket_base_amounts": {
+              "type": "array",
+              "question": "What fixed base amount applies in each bracket?"
+            },
+            "bracket_excess_floors": {
+              "type": "array",
+              "question": "What excess-over floor applies in each bracket?"
+            },
+            "bracket_rates": {
+              "type": "array",
+              "question": "What decimal rate applies in each bracket?"
+            }
+          },
+          "bindings": {},
+          "schema": {
+            "type": "object",
+            "properties": {
+              "taxable_income": {
+                "type": "number"
+              },
+              "claimed_subsection": {
+                "type": "string"
+              },
+              "claimed_tax_amount": {
+                "type": "number"
+              },
+              "bracket_subsections": {
+                "type": "array"
+              },
+              "bracket_upper_bounds": {
+                "type": "array"
+              },
+              "bracket_base_amounts": {
+                "type": "array"
+              },
+              "bracket_excess_floors": {
+                "type": "array"
+              },
+              "bracket_rates": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "taxable_income",
+              "claimed_subsection",
+              "claimed_tax_amount",
+              "bracket_subsections",
+              "bracket_upper_bounds",
+              "bracket_base_amounts",
+              "bracket_excess_floors",
+              "bracket_rates"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "section1_schedule_and_claim",
+          "ports": [
+            "taxable_income",
+            "claimed_subsection",
+            "claimed_tax_amount",
+            "bracket_subsections",
+            "bracket_upper_bounds",
+            "bracket_base_amounts",
+            "bracket_excess_floors",
+            "bracket_rates"
+          ],
+          "neighbors": []
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "filing_schedule_scope",
+          "statement": "Use the section 1 schedule corresponding to the taxpayer's filing status established by the current facts.",
+          "role": "preliminary",
+          "port": "bracket_subsections",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "(d) Married individuals filing separate returns\n\nThere is hereby imposed on the taxable income of every married individual (as defined in section 7703) who does not make a single return jointly with his spouse, a tax determined in accordance with the following:"
+          }
+        },
+        {
+          "id": "income_bracket_selection",
+          "statement": "Select the bracket whose income interval contains the current taxable income rather than accepting the subsection named in the proposition.",
+          "role": "constraint",
+          "port": "bracket_upper_bounds",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "(i) 15% of taxable income if the taxable income is not over $18,450;\n    (ii) $2,767.50, plus 28% of the excess over $18,450 if the taxable income is over $18,450 but not over $44,575;\n    (iii) $10,082.50, plus 31% of the excess over $44,575 if the taxable income is over $44,575 but not over $70,000;"
+          }
+        },
+        {
+          "id": "exact_claim_verification",
+          "statement": "Return Entailment only if the proposition names the applicable bracket and its asserted dollar amount equals the tax computed by that bracket.",
+          "role": "terminal",
+          "port": "claimed_tax_amount",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "(i) 15% of taxable income if the taxable income is not over $18,450;"
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "(d) Married individuals filing separate returns"
+        },
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "(i) 15% of taxable income if the taxable income is not over $18,450;\n    (ii) $2,767.50, plus 28% of the excess over $18,450 if the taxable income is over $18,450 but not over $44,575;\n    (iii) $10,082.50, plus 31% of the excess over $44,575 if the taxable income is over $44,575 but not over $70,000;"
+        }
+      ],
+      "version": 1
+    },
+    "section63_c5_dependent_standard_deduction_limit": {
+      "id": "section63_c5_dependent_standard_deduction_limit",
+      "intent": "Classify whether the dependent limitation in section 63(c)(5) applies to the current individual's basic standard deduction.",
+      "procedure": "def apply(inputs, premises):\n    applies = inputs[\"section151_deduction_allowable_to_another_taxpayer\"]\n    answer = \"Contradiction\"\n    if inputs[\"proposition_asserts_limit_applies\"] == applies:\n        answer = \"Entailment\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "section151_deduction_allowable_to_another_taxpayer": {
+          "field": "section151_deduction_allowable_to_another_taxpayer",
+          "mode": "read",
+          "question": "For the current individual and taxable year, is a deduction under section 151 allowable to another taxpayer?",
+          "skill_id": null,
+          "type": "boolean"
+        },
+        "proposition_asserts_limit_applies": {
+          "field": "proposition_asserts_limit_applies",
+          "mode": "read",
+          "question": "Does the current proposition assert that section 63(c)(5) applies to the individual's basic standard deduction?",
+          "skill_id": null,
+          "type": "boolean"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "description": "The native binary label Entailment or Contradiction.",
+          "type": "string"
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "current_section63_c5_record",
+          "question": "Read whether another taxpayer may take a section 151 deduction for the current individual and the polarity of the section 63(c)(5) proposition.",
+          "source_locator": "current native view source_text, referenced sections, facts, and question",
+          "fields": {
+            "section151_deduction_allowable_to_another_taxpayer": {
+              "question": "Is a section 151 deduction for the current individual allowable to another taxpayer for the relevant year?",
+              "type": "boolean"
+            },
+            "proposition_asserts_limit_applies": {
+              "question": "Does the proposition assert that section 63(c)(5) applies?",
+              "type": "boolean"
+            }
+          },
+          "bindings": {},
+          "schema": {
+            "type": "object",
+            "properties": {
+              "section151_deduction_allowable_to_another_taxpayer": {
+                "type": "boolean"
+              },
+              "proposition_asserts_limit_applies": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "section151_deduction_allowable_to_another_taxpayer",
+              "proposition_asserts_limit_applies"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "section63_c5_applicability_record",
+          "neighbors": [],
+          "ports": [
+            "section151_deduction_allowable_to_another_taxpayer",
+            "proposition_asserts_limit_applies"
+          ]
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "check_other_taxpayer_deduction",
+          "origin": {
+            "quote": "In the case of an individual with respect to whom a deduction under section 151 is allowable to another taxpayer for a taxable year beginning in the calendar year in which the individual's taxable year begins",
+            "source_id": "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+            "view_id": "native"
+          },
+          "port": "section151_deduction_allowable_to_another_taxpayer",
+          "role": "preliminary",
+          "statement": "Determine whether a section 151 deduction for the current individual is allowable to another taxpayer in the corresponding calendar year."
+        },
+        {
+          "id": "apply_dependent_standard_deduction_limit",
+          "origin": {
+            "quote": "the basic standard deduction applicable to such individual for such individual's taxable year shall not exceed the greater of-\n\n        (A) $500, or\n\n        (B) the sum of $250 and such individual's earned income.",
+            "source_id": "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+            "view_id": "native"
+          },
+          "port": "proposition_asserts_limit_applies",
+          "role": "terminal",
+          "statement": "Section 63(c)(5) applies only when its condition that another taxpayer may take the section 151 deduction is satisfied; compare that result with the proposition."
+        }
+      ],
+      "source_provenance": [
+        {
+          "quote": "In the case of an individual with respect to whom a deduction under section 151 is allowable to another taxpayer for a taxable year beginning in the calendar year in which the individual's taxable year begins, the basic standard deduction applicable to such individual for such individual's taxable year shall not exceed the greater of-\n\n        (A) $500, or\n\n        (B) the sum of $250 and such individual's earned income.",
+          "source_id": "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+          "view_id": "native"
+        }
+      ],
+      "version": 1
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [],
+  "execution_events": []
+}

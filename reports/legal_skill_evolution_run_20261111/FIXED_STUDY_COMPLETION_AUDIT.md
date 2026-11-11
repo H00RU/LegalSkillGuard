@@ -4,14 +4,14 @@ Goal active、未完成。下列核对复用原方案，不新增验收门槛，
 
 | 原要求 | 当前证据状态 |
 |---|---|
-| fixed_model_thinking_OFF_no_parameter_training | verified_configuration |
+| fixed_model_thinking_OFF_no_parameter_training | verified_configuration_and_observed_response_flags |
 | formal_bound_code_data_profile | verified |
 | 128_TRAIN_8_batches_48_updates_42_DEV_points | verified |
-| B8_fixed_seven_system_five_dataset_TEST | incomplete |
-| registered_foreign_skill_mask_contrast | incomplete |
+| B8_fixed_seven_system_five_dataset_TEST | verified |
+| registered_foreign_skill_mask_contrast | verified |
 | Lift_independent_cross_parent_mechanism | not_supported_in_fixed_study |
 | CoRev_independent_cross_parent_mechanism | not_supported_in_fixed_study |
-| actual_meaningful_gain_over_strong_controls | incomplete |
+| actual_meaningful_gain_over_strong_controls | effect_and_registered_uncertainty_review_required |
 | no_teacher_during_frozen_evaluation | verified_so_far |
 
 ## 实际学习状态

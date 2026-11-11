@@ -1,6 +1,6 @@
 # 当前有效执行说明
 
-**状态：用户已恢复同一Goal，工具核实为active，未完成。** 按原方案接续实现、固定真实预检和后续已授权阶段；保留进度与累计账本，不重建Goal。历史误暂停及更正仅作审计记录，不再构成执行限制。
+**状态：同一Goal为active，未完成。** 固定128来源学习、七系统DEV/TEST与注册迁移已全部结算；主要执行者已完成阶段复核，Full在冻结测试上有实际收益，但专门Lift与CoRev的独立贡献仍未获支持。完整结论见[阶段复核](../reports/legal_skill_evolution_run_20261111/FIXED_STUDY_STAGE_REVIEW.md)，剩余科学缺口与下一步维护在METHOD_REDESIGN_CURRENT；不重建Goal，不把实验跑完或报告交付认作目标完成。历史误暂停及更正仅作审计记录，不再构成执行限制。
 
 当前同一Goal为**法律技能进化完整实证**，唯一方案源为[ec54a33固定方案](../reports/legal_skill_evolution_plan_20261111/PLAN.md)，生效配置为[legal_skill_evolution_20261111.json](../configs/legal_skill_evolution_20261111.json)。用户本次Goal优先于方案包发布时的“尚未启动/只做阶段一/先停在完整训练前”状态：范围包括实现、固定预检、128来源完整技能学习、七系统DEV、B8冻结与五库TEST；不包含论文写作。原包32项哈希原样保留，覆盖关系在生效配置显式记录。
 

@@ -1,0 +1,1238 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "4ed0d439b10959d50beb549021d784ccaf14310124dd84fef88e5d50e93e6c00",
+  "skills": {
+    "domestic_main_or_first_bag_total": {
+      "id": "domestic_main_or_first_bag_total",
+      "intent": "Calculate the exact integer ticket-plus-bag-fee total for current domestic U.S., other South American, or East Asian itineraries using raw bag measurements, cabin benefits, and the applicable route fee bands.",
+      "procedure": "def apply(inputs, premises):\n    personal_used = False\n    carry_used = False\n    checked = []\n    n = len(inputs[\"item_lengths\"])\n    for i in range(n):\n        personal_ok = float(inputs[\"item_lengths\"][i]) <= float(premises[\"personal_item_limits\"][0]) and float(inputs[\"item_widths\"][i]) <= float(premises[\"personal_item_limits\"][1]) and float(inputs[\"item_heights\"][i]) <= float(premises[\"personal_item_limits\"][2])\n        carry_ok = float(inputs[\"item_lengths\"][i]) <= float(premises[\"carry_on_limits\"][0]) and float(inputs[\"item_widths\"][i]) <= float(premises[\"carry_on_limits\"][1]) and float(inputs[\"item_heights\"][i]) <= float(premises[\"carry_on_limits\"][2])\n        if personal_ok and not personal_used:\n            personal_used = True\n        elif carry_ok and not carry_used:\n            carry_used = True\n        else:\n            checked = checked + [i]\n    premium_cabin = inputs[\"cabin_class\"] == \"Premium Economy\" or inputs[\"cabin_class\"] == \"Business\" or inputs[\"cabin_class\"] == \"First\"\n    if inputs[\"route_fee_region\"] == \"domestic_us\":\n        if premium_cabin:\n            base_schedule = premises[\"domestic_premium_base_schedule\"]\n        else:\n            base_schedule = premises[\"domestic_economy_base_schedule\"]\n        overweight_schedule = premises[\"common_overweight_fees\"]\n        large_oversize_fee = int(premises[\"domestic_large_oversize_fee\"])\n    elif inputs[\"route_fee_region\"] == \"south_america_other\":\n        if premium_cabin:\n            base_schedule = premises[\"south_america_premium_base_schedule\"]\n        else:\n            base_schedule = premises[\"south_america_economy_base_schedule\"]\n        overweight_schedule = premises[\"common_overweight_fees\"]\n        large_oversize_fee = int(premises[\"south_america_large_oversize_fee\"])\n    else:\n        if premium_cabin:\n            base_schedule = premises[\"east_asia_premium_base_schedule\"]\n        else:\n            base_schedule = premises[\"east_asia_economy_base_schedule\"]\n        overweight_schedule = premises[\"east_asia_overweight_fees\"]\n        large_oversize_fee = int(premises[\"east_asia_large_oversize_fee\"])\n    total = int(inputs[\"ticket_price\"])\n    for j in range(len(checked)):\n        i = checked[j]\n        if j < 4:\n            base_fee = int(base_schedule[j])\n        else:\n            base_fee = int(base_schedule[3])\n        standard_weight_limit = 50\n        if (inputs[\"cabin_class\"] == \"First\" or inputs[\"cabin_class\"] == \"Business\") and base_fee == 0:\n            standard_weight_limit = 70\n        weight = float(inputs[\"item_weights\"][i])\n        overweight = 0\n        if weight > standard_weight_limit:\n            if weight <= 53:\n                overweight = int(overweight_schedule[0])\n            elif weight <= 70:\n                overweight = int(overweight_schedule[1])\n            else:\n                overweight = int(overweight_schedule[2])\n        size = float(inputs[\"item_lengths\"][i]) + float(inputs[\"item_widths\"][i]) + float(inputs[\"item_heights\"][i])\n        oversize = 0\n        if size > 65:\n            oversize = large_oversize_fee\n        elif size > 62:\n            oversize = int(premises[\"small_oversize_fee\"])\n        total = total + base_fee + max(overweight, oversize)\n    return {\"answer\": total}",
+      "inputs": {
+        "ticket_price": {
+          "field": "ticket_price",
+          "mode": "read",
+          "question": "What integer ticket price is stated in the current passenger facts?",
+          "skill_id": null,
+          "type": "integer"
+        },
+        "cabin_class": {
+          "field": "cabin_class",
+          "mode": "read",
+          "question": "What cabin class is stated for the current passenger?",
+          "skill_id": null,
+          "type": "string"
+        },
+        "route_fee_region": {
+          "field": "route_fee_region",
+          "mode": "read",
+          "question": "Which current checked-bag fee region contains the itinerary: domestic_us, south_america_other, or east_asia?",
+          "skill_id": null,
+          "type": "string"
+        },
+        "item_lengths": {
+          "field": "item_lengths",
+          "mode": "read",
+          "question": "For every current bag in stated order, what is its first listed dimension in inches?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "item_widths": {
+          "field": "item_widths",
+          "mode": "read",
+          "question": "For every current bag in stated order, what is its second listed dimension in inches?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "item_heights": {
+          "field": "item_heights",
+          "mode": "read",
+          "question": "For every current bag in stated order, what is its third listed dimension in inches?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "item_weights": {
+          "field": "item_weights",
+          "mode": "read",
+          "question": "For every current bag in stated order, what is its weight in pounds?",
+          "skill_id": null,
+          "type": "array"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "description": "Exact integer ticket price plus all applicable checked-bag base and excess fees.",
+          "type": "integer"
+        }
+      },
+      "premises": {
+        "personal_item_limits": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Dimensions should not exceed 18 x 14 x 8 inches (45 x 35 x 20 cm).",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            18,
+            14,
+            8
+          ]
+        },
+        "carry_on_limits": {
+          "mode": "constant",
+          "origin": {
+            "quote": "The total size of your carry-on, including the handles and wheels, cannot exceed 22 x 14 x 9 inches (56 x 36 x 23 cm) and must fit in the sizer at the airport.",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            22,
+            14,
+            9
+          ]
+        },
+        "domestic_economy_base_schedule": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Travel within / between the U.S., Puerto Rico, and U.S. Virgin Islands – 1st checked bag fee is $40 and the 2nd checked bag fee is $45.",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            40,
+            45,
+            150,
+            200
+          ]
+        },
+        "domestic_premium_base_schedule": {
+          "mode": "constant",
+          "origin": {
+            "quote": "1st and 2nd checked bags are complimentary for:\n* AAdvantage Platinum® status\n* oneworld® Sapphire members\n* Confirmed Domestic First customers\n* Confirmed Business customers\n* Confirmed Premium Economy customers",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            0,
+            0,
+            150,
+            200
+          ]
+        },
+        "south_america_economy_base_schedule": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Between South America (excluding Colombia, Ecuador, Peru, Guyana, Suriname) and U.S., Puerto Rico, U.S. Virgin Islands, Canada, Mexico, Caribbean (including Haiti), Central America | $60",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            60,
+            100,
+            200,
+            200
+          ]
+        },
+        "south_america_premium_base_schedule": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Between South America (excluding Guyana, Suriname) and U.S., Puerto Rico, U.S. Virgin Islands, Canada, Mexico, Caribbean (including Haiti, excluding Cuba), Central America | $100          | $100        | $0              | $0       | $0",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            0,
+            0,
+            200,
+            200
+          ]
+        },
+        "east_asia_economy_base_schedule": {
+          "mode": "constant",
+          "origin": {
+            "quote": "To or from India, China, Japan, South Korea, Hong Kong, Australia and New Zealand                                                                                                    | $75           | $0          | $0              | $0       | $0",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            75,
+            100,
+            200,
+            200
+          ]
+        },
+        "east_asia_premium_base_schedule": {
+          "mode": "constant",
+          "origin": {
+            "quote": "To or from India, China, Japan, South Korea, Hong Kong, Australia and New Zealand                                                                                           | $100          | $100        | $0              | $0       | $0",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            0,
+            0,
+            200,
+            200
+          ]
+        },
+        "common_overweight_fees": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Over 50 lbs / 23 kgs to 53 lbs / 24 kgs",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            30,
+            100,
+            200
+          ]
+        },
+        "east_asia_overweight_fees": {
+          "mode": "constant",
+          "origin": {
+            "quote": "To or from India, China, Japan, South Korea and Hong Kong                                                                                                  | $450          | $450          | $450            | $450           | $450",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "array",
+          "value": [
+            30,
+            100,
+            450
+          ]
+        },
+        "small_oversize_fee": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Over 62 in / 158 cm – 65 in / 165 cm",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "integer",
+          "value": 30
+        },
+        "domestic_large_oversize_fee": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Between U.S., Puerto Rico, U.S. Virgin Islands and Canada                    | $30                                  | $200",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "integer",
+          "value": 200
+        },
+        "south_america_large_oversize_fee": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Panama / South America (except Guyana / Suriname)                            | $30                                  | $150",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "integer",
+          "value": 150
+        },
+        "east_asia_large_oversize_fee": {
+          "mode": "constant",
+          "origin": {
+            "quote": "China, Japan, South Korea, Hong Kong, India, Australia, and New Zealand      | $30                                  | $200",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "question": "",
+          "type": "integer",
+          "value": 200
+        }
+      },
+      "reads": [
+        {
+          "id": "read_current_supported_route_bag_measurements",
+          "question": "Extract the current passenger's ticket, cabin, supported fee region, and aligned raw measurements for every listed bag.",
+          "source_locator": "Current view's passenger facts and itinerary.",
+          "fields": {
+            "ticket_price": {
+              "question": "What integer ticket price is stated?",
+              "type": "integer"
+            },
+            "cabin_class": {
+              "question": "What cabin class is stated?",
+              "type": "string"
+            },
+            "route_fee_region": {
+              "question": "Does the itinerary use the domestic U.S., other South American, or East Asian fee rows?",
+              "type": "string"
+            },
+            "item_lengths": {
+              "question": "What are the first dimensions of all listed bags in order?",
+              "type": "array"
+            },
+            "item_widths": {
+              "question": "What are the second dimensions of all listed bags in order?",
+              "type": "array"
+            },
+            "item_heights": {
+              "question": "What are the third dimensions of all listed bags in order?",
+              "type": "array"
+            },
+            "item_weights": {
+              "question": "What are the weights of all listed bags in order?",
+              "type": "array"
+            }
+          },
+          "bindings": {
+            "ticket_price": "ticket_price",
+            "cabin_class": "cabin_class",
+            "route_fee_region": "route_fee_region",
+            "item_lengths": "item_lengths",
+            "item_widths": "item_widths",
+            "item_heights": "item_heights",
+            "item_weights": "item_weights"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "ticket_price": {
+                "type": "integer"
+              },
+              "cabin_class": {
+                "type": "string"
+              },
+              "route_fee_region": {
+                "type": "string"
+              },
+              "item_lengths": {
+                "type": "array"
+              },
+              "item_widths": {
+                "type": "array"
+              },
+              "item_heights": {
+                "type": "array"
+              },
+              "item_weights": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "ticket_price",
+              "cabin_class",
+              "route_fee_region",
+              "item_lengths",
+              "item_widths",
+              "item_heights",
+              "item_weights"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "current_supported_trip_measurements",
+          "neighbors": [
+            "supported_route_fee_schedule"
+          ],
+          "ports": [
+            "cabin_class",
+            "route_fee_region",
+            "item_lengths",
+            "item_widths",
+            "item_heights",
+            "item_weights",
+            "personal_item_limits",
+            "carry_on_limits"
+          ]
+        },
+        {
+          "id": "supported_route_fee_schedule",
+          "neighbors": [
+            "current_supported_trip_measurements"
+          ],
+          "ports": [
+            "domestic_economy_base_schedule",
+            "domestic_premium_base_schedule",
+            "south_america_economy_base_schedule",
+            "south_america_premium_base_schedule",
+            "east_asia_economy_base_schedule",
+            "east_asia_premium_base_schedule",
+            "common_overweight_fees",
+            "east_asia_overweight_fees",
+            "small_oversize_fee",
+            "domestic_large_oversize_fee",
+            "south_america_large_oversize_fee",
+            "east_asia_large_oversize_fee"
+          ]
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "assign_cabin_allowances",
+          "origin": {
+            "quote": "You're allowed 1 carry-on bag and 1 personal item in all cabins.",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "port": "carry_on_limits",
+          "role": "preliminary",
+          "statement": "Apply no more than one personal-item allowance and one carry-on allowance before assigning checked-bag ordinals."
+        },
+        {
+          "id": "select_current_route_schedule",
+          "origin": {
+            "quote": "All published bag fees apply at each check-in location and are base rates according to travel dates and destination; applicable taxes are not shown.",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "port": "route_fee_region",
+          "role": "preliminary",
+          "statement": "Select the checked-bag, overweight, and oversize rows matching the current itinerary and cabin."
+        },
+        {
+          "id": "combine_current_excess_fees",
+          "origin": {
+            "quote": "The higher fee between oversize and overweight applies, in addition to the checked bag fee.",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "port": "small_oversize_fee",
+          "role": "constraint",
+          "statement": "For a checked bag that is both oversized and overweight, add the higher excess fee to its ordinal checked-bag fee."
+        },
+        {
+          "id": "return_current_trip_total",
+          "origin": {
+            "quote": "What is the exact integer ticket plus fees for every current bag?",
+            "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+            "view_id": "native"
+          },
+          "port": "answer",
+          "role": "terminal",
+          "statement": "Return the ticket price plus all applicable current bag fees as an exact integer."
+        }
+      ],
+      "source_provenance": [
+        {
+          "quote": "You're allowed 1 carry-on bag and 1 personal item in all cabins.",
+          "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+          "view_id": "native"
+        },
+        {
+          "quote": "We calculate the size limits of your bag by adding the total outside dimensions of each bag, length + width + height.",
+          "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+          "view_id": "native"
+        },
+        {
+          "quote": "The higher fee between oversize and overweight applies, in addition to the checked bag fee.",
+          "source_id": "RuleArena_Airline:f91df7e1a840ddc8242929393e2b483ba02ca33c3c03a4c2ec14f0b0a1ba9701",
+          "view_id": "native"
+        }
+      ],
+      "version": 2
+    },
+    "personal_asset_exemption_plan_by_solved_regime": {
+      "id": "personal_asset_exemption_plan_by_solved_regime",
+      "intent": "Return the native EC or EV per-asset exemption mapping when the solved regime is Illinois, Federal and Wisconsin, Federal and Pennsylvania, Arizona, or Federal and Arizona, considering each asset-exemption pair independently.",
+      "procedure": "def apply(inputs, premises):\n    answer = {}\n    n = len(inputs[\"asset_descriptions\"])\n    for i in range(n):\n        description = inputs[\"asset_descriptions\"][i]\n        value = float(inputs[\"asset_values\"][i])\n        claims = []\n        if inputs[\"governing_regime\"] == \"Illinois\":\n            if bool(inputs[\"asset_is_personal_nonbusiness_property\"][i]):\n                if inputs[\"output_family\"] == \"EV\":\n                    claims = [{\"citation\": premises[\"illinois_other_property_citation\"], \"claim_value\": min(value, float(premises[\"illinois_other_property_limit\"]))}]\n                else:\n                    claims = [premises[\"illinois_other_property_citation\"]]\n        elif inputs[\"governing_regime\"] == \"Federal and Wisconsin\":\n            if bool(inputs[\"asset_is_federal_household_category\"][i]):\n                if inputs[\"output_family\"] == \"EV\":\n                    claims = claims + [{\"citation\": premises[\"federal_household_citation\"], \"claim_value\": min(value, float(premises[\"federal_household_item_limit\"]))}]\n                else:\n                    claims = claims + [premises[\"federal_household_citation\"]]\n            if bool(inputs[\"asset_is_personal_tangible_property\"][i]):\n                if inputs[\"output_family\"] == \"EV\":\n                    claims = claims + [{\"citation\": premises[\"federal_wildcard_citation\"], \"claim_value\": min(value, float(premises[\"federal_wildcard_base_limit\"]))}]\n                    claims = claims + [{\"citation\": premises[\"wisconsin_consumer_goods_citation\"], \"claim_value\": min(value, float(premises[\"wisconsin_consumer_goods_limit\"]))}]\n                else:\n                    claims = claims + [premises[\"federal_wildcard_citation\"], premises[\"wisconsin_consumer_goods_citation\"]]\n        elif inputs[\"governing_regime\"] == \"Federal and Pennsylvania\":\n            if bool(inputs[\"asset_is_personal_tangible_property\"][i]):\n                if inputs[\"output_family\"] == \"EV\":\n                    claims = claims + [{\"citation\": premises[\"federal_household_citation\"], \"claim_value\": min(value, float(premises[\"federal_household_item_limit\"]))}]\n                    wildcard_limit = float(premises[\"federal_wildcard_base_limit\"]) * int(inputs[\"number_of_debtors\"])\n                    claims = claims + [{\"citation\": premises[\"federal_wildcard_citation\"], \"claim_value\": min(value, wildcard_limit)}]\n                else:\n                    claims = claims + [premises[\"federal_household_citation\"], premises[\"federal_wildcard_citation\"]]\n            if bool(inputs[\"asset_is_personal_nonbusiness_property\"][i]):\n                if inputs[\"output_family\"] == \"EV\":\n                    pennsylvania_limit = float(premises[\"pennsylvania_general_property_limit\"]) * int(inputs[\"number_of_debtors\"])\n                    claims = claims + [{\"citation\": premises[\"pennsylvania_general_property_citation\"], \"claim_value\": min(value, pennsylvania_limit)}]\n                else:\n                    claims = claims + [premises[\"pennsylvania_general_property_citation\"]]\n            if bool(inputs[\"asset_is_wearing_apparel\"][i]):\n                if inputs[\"output_family\"] == \"EV\":\n                    claims = claims + [{\"citation\": premises[\"pennsylvania_wearing_apparel_citation\"], \"claim_value\": value}]\n                else:\n                    claims = claims + [premises[\"pennsylvania_wearing_apparel_citation\"]]\n        elif inputs[\"governing_regime\"] == \"Arizona\" or inputs[\"governing_regime\"] == \"Federal and Arizona\":\n            if bool(inputs[\"asset_is_arizona_wearing_apparel\"][i]):\n                apparel_limit = float(premises[\"arizona_wearing_apparel_limit\"]) * int(inputs[\"number_of_debtors\"])\n                if inputs[\"output_family\"] == \"EV\":\n                    claims = claims + [{\"citation\": premises[\"arizona_wearing_apparel_citation\"], \"claim_value\": min(value, apparel_limit)}]\n                else:\n                    claims = claims + [premises[\"arizona_wearing_apparel_citation\"]]\n            if bool(inputs[\"asset_is_arizona_household_good_or_appliance\"][i]):\n                household_limit = float(premises[\"arizona_household_limit\"]) * int(inputs[\"number_of_debtors\"])\n                if inputs[\"output_family\"] == \"EV\":\n                    claims = claims + [{\"citation\": premises[\"arizona_household_citation\"], \"claim_value\": min(value, household_limit)}]\n                else:\n                    claims = claims + [premises[\"arizona_household_citation\"]]\n        answer[description] = claims\n    return {\"answer\": answer}",
+      "inputs": {
+        "asset_descriptions": {
+          "field": "asset_descriptions",
+          "mode": "read",
+          "question": "What are the exact asset descriptions in the current Facts, excluding ownership, appraisal, and value wording?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "asset_values": {
+          "field": "asset_values",
+          "mode": "read",
+          "question": "What dollar value is stated for each current asset, aligned with the exact asset descriptions?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "governing_regime": {
+          "field": "governing_regime",
+          "mode": "read",
+          "question": "Which exemption regime does the current solved reasoning step authorize: Illinois, Federal and Wisconsin, Federal and Pennsylvania, Arizona, or Federal and Arizona?",
+          "skill_id": null,
+          "type": "string"
+        },
+        "number_of_debtors": {
+          "field": "number_of_debtors",
+          "mode": "read",
+          "question": "How many debtors are filing in the current facts?",
+          "skill_id": null,
+          "type": "integer"
+        },
+        "asset_is_personal_nonbusiness_property": {
+          "field": "asset_is_personal_nonbusiness_property",
+          "mode": "read",
+          "question": "For each current asset, is it personal rather than business property owned by an individual debtor?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "asset_is_federal_household_category": {
+          "field": "asset_is_federal_household_category",
+          "mode": "read",
+          "question": "For each current asset, is it a household furnishing, household good, wearing apparel, appliance, book, animal, crop, or musical instrument held for personal, family, or household use?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "asset_is_personal_tangible_property": {
+          "field": "asset_is_personal_tangible_property",
+          "mode": "read",
+          "question": "For each current asset, is it tangible personal property held primarily for personal, family, or household use?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "asset_is_wearing_apparel": {
+          "field": "asset_is_wearing_apparel",
+          "mode": "read",
+          "question": "For each current asset, is it wearing apparel under the supplied Pennsylvania exemption provision?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "asset_is_arizona_wearing_apparel": {
+          "field": "asset_is_arizona_wearing_apparel",
+          "mode": "read",
+          "question": "For each current asset, is it wearing apparel used primarily for personal, family, or household purposes under the supplied Arizona provision?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "asset_is_arizona_household_good_or_appliance": {
+          "field": "asset_is_arizona_household_good_or_appliance",
+          "mode": "read",
+          "question": "For each current asset, is it household furniture, a furnishing, a household good, or a household appliance personally used by a debtor or dependent under the supplied Arizona provision?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "output_family": {
+          "field": "output_family",
+          "mode": "read",
+          "question": "Does the current response contract require citation arrays (EC) or citation-and-claim-value record arrays (EV)? Return EC or EV.",
+          "skill_id": null,
+          "type": "string"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "description": "The complete native EC or EV mapping from every exact current asset description to its independently applicable exemption claims.",
+          "type": "object"
+        }
+      },
+      "premises": {
+        "illinois_other_property_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "735 Ill. Comp. Stat. 5/12-1001(b)\nThe debtor's equity interest, not to exceed $4,000 in value, in any other property;",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "735 Ill. Comp. Stat. 5/12-1001(b)"
+        },
+        "illinois_other_property_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "The debtor's equity interest, not to exceed $4,000 in value, in any other property;",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EV"
+          },
+          "question": "",
+          "type": "number",
+          "value": 4000
+        },
+        "federal_household_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "11 U.S.C. § 522(d)(3)",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "11 U.S.C. § 522(d)(3)"
+        },
+        "federal_household_item_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "not to exceed $700 in value in any particular item",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EV"
+          },
+          "question": "",
+          "type": "number",
+          "value": 700
+        },
+        "federal_wildcard_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "11 U.S.C. § 522(d)(5)",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "11 U.S.C. § 522(d)(5)"
+        },
+        "federal_wildcard_base_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "not to exceed in value $1,475 plus up to $13,950 of any unused amount of the exemption provided under paragraph (1) of this subsection.",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EV"
+          },
+          "question": "",
+          "type": "number",
+          "value": 1475
+        },
+        "wisconsin_consumer_goods_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Wis. Stat. § 815.18(3)(d)",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "Wis. Stat. § 815.18(3)(d)"
+        },
+        "wisconsin_consumer_goods_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "not to exceed $12,000 in aggregate value.",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EV"
+          },
+          "question": "",
+          "type": "number",
+          "value": 12000
+        },
+        "pennsylvania_general_property_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "42 Pa. Cons. Stat. § 8123",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "42 Pa. Cons. Stat. § 8123"
+        },
+        "pennsylvania_general_property_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "to the value of $300 shall be exempt from attachment or execution on a judgment.",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EV"
+          },
+          "question": "",
+          "type": "number",
+          "value": 300
+        },
+        "pennsylvania_wearing_apparel_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "42 Pa. Cons. Stat. § 8124(a)(1)\nWearing apparel.",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "42 Pa. Cons. Stat. § 8124(a)(1)"
+        },
+        "arizona_wearing_apparel_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Ariz. Rev. Stat. § 33-1125(1)\nAll wearing apparel of not more than a fair market value of five hundred dollars.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "Ariz. Rev. Stat. § 33-1125(1)"
+        },
+        "arizona_wearing_apparel_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "All wearing apparel of not more than a fair market value of five hundred dollars.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EV"
+          },
+          "question": "",
+          "type": "number",
+          "value": 500
+        },
+        "arizona_household_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Ariz. Rev. Stat. § 33-1123\nHousehold furniture, furnishings and appliances.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "Ariz. Rev. Stat. § 33-1123"
+        },
+        "arizona_household_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Household furniture and furnishings, household goods, including consumer electronic devices, and household appliances personally used by the debtor or a dependent of the debtor and not otherwise specifically prescribed in this chapter are exempt from process provided their aggregate fair market value does not exceed $15,000.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EV"
+          },
+          "question": "",
+          "type": "number",
+          "value": 15000
+        }
+      },
+      "reads": [
+        {
+          "id": "read_current_personal_asset_exemption_record",
+          "question": "Extract the current assets, aligned values and legal classifications, debtor count, solved exemption regime, and required EC or EV representation.",
+          "source_locator": "Current view's solved governing-law step, Facts, applicable exemption provisions, and output contract.",
+          "fields": {
+            "asset_descriptions": {
+              "question": "What exact descriptions identify all current assets without ownership or value clauses?",
+              "type": "array"
+            },
+            "asset_values": {
+              "question": "What values correspond to those assets in the same order?",
+              "type": "array"
+            },
+            "governing_regime": {
+              "question": "Which exemption regime is authorized by the current solved reasoning step?",
+              "type": "string"
+            },
+            "number_of_debtors": {
+              "question": "How many debtors are filing in the current facts?",
+              "type": "integer"
+            },
+            "asset_is_personal_nonbusiness_property": {
+              "question": "Which aligned assets are individual-owned personal rather than business property?",
+              "type": "array"
+            },
+            "asset_is_federal_household_category": {
+              "question": "Which aligned assets fall within the federal household, apparel, appliance, book, animal, crop, or musical-instrument categories?",
+              "type": "array"
+            },
+            "asset_is_personal_tangible_property": {
+              "question": "Which aligned assets are tangible property held for personal, family, or household use?",
+              "type": "array"
+            },
+            "asset_is_wearing_apparel": {
+              "question": "Which aligned assets are wearing apparel under the supplied Pennsylvania provision?",
+              "type": "array"
+            },
+            "asset_is_arizona_wearing_apparel": {
+              "question": "Which aligned assets are wearing apparel under the supplied Arizona personal-items provision?",
+              "type": "array"
+            },
+            "asset_is_arizona_household_good_or_appliance": {
+              "question": "Which aligned assets are household furniture, furnishings, household goods, or appliances under the supplied Arizona provision?",
+              "type": "array"
+            },
+            "output_family": {
+              "question": "Does the current view require EC or EV output?",
+              "type": "string"
+            }
+          },
+          "bindings": {
+            "asset_descriptions": "asset_descriptions",
+            "asset_values": "asset_values",
+            "governing_regime": "governing_regime",
+            "number_of_debtors": "number_of_debtors",
+            "asset_is_personal_nonbusiness_property": "asset_is_personal_nonbusiness_property",
+            "asset_is_federal_household_category": "asset_is_federal_household_category",
+            "asset_is_personal_tangible_property": "asset_is_personal_tangible_property",
+            "asset_is_wearing_apparel": "asset_is_wearing_apparel",
+            "asset_is_arizona_wearing_apparel": "asset_is_arizona_wearing_apparel",
+            "asset_is_arizona_household_good_or_appliance": "asset_is_arizona_household_good_or_appliance",
+            "output_family": "output_family"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "asset_descriptions": {
+                "type": "array"
+              },
+              "asset_values": {
+                "type": "array"
+              },
+              "governing_regime": {
+                "type": "string"
+              },
+              "number_of_debtors": {
+                "type": "integer"
+              },
+              "asset_is_personal_nonbusiness_property": {
+                "type": "array"
+              },
+              "asset_is_federal_household_category": {
+                "type": "array"
+              },
+              "asset_is_personal_tangible_property": {
+                "type": "array"
+              },
+              "asset_is_wearing_apparel": {
+                "type": "array"
+              },
+              "asset_is_arizona_wearing_apparel": {
+                "type": "array"
+              },
+              "asset_is_arizona_household_good_or_appliance": {
+                "type": "array"
+              },
+              "output_family": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "asset_descriptions",
+              "asset_values",
+              "governing_regime",
+              "number_of_debtors",
+              "asset_is_personal_nonbusiness_property",
+              "asset_is_federal_household_category",
+              "asset_is_personal_tangible_property",
+              "asset_is_wearing_apparel",
+              "asset_is_arizona_wearing_apparel",
+              "asset_is_arizona_household_good_or_appliance",
+              "output_family"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "current_asset_exemption_records",
+          "neighbors": [],
+          "ports": [
+            "asset_descriptions",
+            "asset_values",
+            "governing_regime",
+            "number_of_debtors",
+            "asset_is_personal_nonbusiness_property",
+            "asset_is_federal_household_category",
+            "asset_is_personal_tangible_property",
+            "asset_is_wearing_apparel",
+            "asset_is_arizona_wearing_apparel",
+            "asset_is_arizona_household_good_or_appliance"
+          ]
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "follow_solved_exemption_regime",
+          "origin": {
+            "quote": "The Debtors may claim property exemptions under Arizona statutes.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EC"
+          },
+          "port": "governing_regime",
+          "role": "preliminary",
+          "statement": "Apply only the exemption regime authorized by the current solved reasoning step."
+        },
+        {
+          "id": "apply_arizona_apparel_limit",
+          "origin": {
+            "quote": "In the case of married persons, each spouse is entitled to the exemptions provided in this article, which may be combined with the other spouse's exemption in the same property or taken in different exempt property.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EV"
+          },
+          "port": "arizona_wearing_apparel_limit",
+          "role": "constraint",
+          "statement": "For Arizona wearing apparel, combine each spouse's $500 exemption when the current task has married joint debtors."
+        },
+        {
+          "id": "apply_arizona_household_exemption",
+          "origin": {
+            "quote": "Household furniture and furnishings, household goods, including consumer electronic devices, and household appliances personally used by the debtor or a dependent of the debtor and not otherwise specifically prescribed in this chapter are exempt from process provided their aggregate fair market value does not exceed $15,000.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EC"
+          },
+          "port": "asset_is_arizona_household_good_or_appliance",
+          "role": "constraint",
+          "statement": "Apply the Arizona household-furniture, household-goods, and appliance exemption to aligned qualifying assets."
+        },
+        {
+          "id": "return_native_exemption_mapping",
+          "origin": {
+            "quote": "For each asset in the estate, identify all applicable exemptions under which that asset may be protected.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EC"
+          },
+          "port": "answer",
+          "role": "terminal",
+          "statement": "Return every exact asset description with all independently applicable claims in the current EC or EV representation."
+        }
+      ],
+      "source_provenance": [
+        {
+          "quote": "Ariz. Rev. Stat. § 33-1125(1)\nAll wearing apparel of not more than a fair market value of five hundred dollars.",
+          "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+          "view_id": "EC"
+        },
+        {
+          "quote": "Ariz. Rev. Stat. § 33-1123\nHousehold furniture, furnishings and appliances. Household furniture and furnishings, household goods, including consumer electronic devices, and household appliances personally used by the debtor or a dependent of the debtor and not otherwise specifically prescribed in this chapter are exempt from process provided their aggregate fair market value does not exceed $15,000.",
+          "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+          "view_id": "EV"
+        },
+        {
+          "quote": "In the case of married persons, each spouse is entitled to the exemptions provided in this article, which may be combined with the other spouse's exemption in the same property or taken in different exempt property.",
+          "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+          "view_id": "EV"
+        }
+      ],
+      "version": 3
+    },
+    "progressive_tax_subsection_amount_verdict": {
+      "id": "progressive_tax_subsection_amount_verdict",
+      "intent": "Decide Entailment or Contradiction for a claim that a stated taxable income owes a stated amount under a specifically cited progressive-tax bracket.",
+      "procedure": "def apply(inputs, premises):\n    income = float(inputs[\"taxable_income\"])\n    claimed = float(inputs[\"claimed_tax_amount\"])\n    lower = float(inputs[\"claimed_bracket_lower_exclusive\"])\n    upper = float(inputs[\"claimed_bracket_upper_inclusive\"])\n    base = float(inputs[\"claimed_bracket_base_tax\"])\n    rate = float(inputs[\"claimed_bracket_rate_percent\"])\n    applicable = income > lower\n    if upper >= 0:\n        applicable = applicable and income <= upper\n    expected = base + rate * (income - lower) / 100\n    answer = \"Contradiction\"\n    if applicable and abs(expected - claimed) <= 0.01:\n        answer = \"Entailment\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "taxable_income": {
+          "type": "number",
+          "mode": "read",
+          "question": "What taxable income is stated in the current facts?",
+          "skill_id": null,
+          "field": "taxable_income"
+        },
+        "claimed_tax_amount": {
+          "type": "number",
+          "mode": "read",
+          "question": "What tax amount does the current claim assert?",
+          "skill_id": null,
+          "field": "claimed_tax_amount"
+        },
+        "claimed_bracket_lower_exclusive": {
+          "type": "number",
+          "mode": "read",
+          "question": "For the tax subsection expressly cited by the current claim, what lower income boundary must be exceeded?",
+          "skill_id": null,
+          "field": "claimed_bracket_lower_exclusive"
+        },
+        "claimed_bracket_upper_inclusive": {
+          "type": "number",
+          "mode": "read",
+          "question": "For the tax subsection expressly cited by the current claim, what inclusive upper income boundary applies, using -1 if the bracket has no upper boundary?",
+          "skill_id": null,
+          "field": "claimed_bracket_upper_inclusive"
+        },
+        "claimed_bracket_base_tax": {
+          "type": "number",
+          "mode": "read",
+          "question": "What base tax amount is specified by the tax subsection expressly cited in the current claim?",
+          "skill_id": null,
+          "field": "claimed_bracket_base_tax"
+        },
+        "claimed_bracket_rate_percent": {
+          "type": "number",
+          "mode": "read",
+          "question": "What percentage rate on income exceeding the lower boundary is specified by the tax subsection expressly cited in the current claim?",
+          "skill_id": null,
+          "field": "claimed_bracket_rate_percent"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "Entailment only when the cited bracket applies to the stated income and its formula yields the claimed tax amount; otherwise Contradiction."
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "read_claimed_progressive_tax_bracket",
+          "question": "Extract the current taxpayer's income, asserted tax amount, and the complete formula and boundaries of the tax subsection cited by the claim.",
+          "source_locator": "The current view's taxpayer facts, claim, and progressive-tax schedule.",
+          "fields": {
+            "taxable_income": {
+              "type": "number",
+              "question": "What taxable income is stated?"
+            },
+            "claimed_tax_amount": {
+              "type": "number",
+              "question": "What tax amount is asserted?"
+            },
+            "claimed_bracket_lower_exclusive": {
+              "type": "number",
+              "question": "What lower-exclusive boundary appears in the cited bracket?"
+            },
+            "claimed_bracket_upper_inclusive": {
+              "type": "number",
+              "question": "What upper-inclusive boundary appears in the cited bracket, or -1 if none?"
+            },
+            "claimed_bracket_base_tax": {
+              "type": "number",
+              "question": "What base tax appears in the cited bracket?"
+            },
+            "claimed_bracket_rate_percent": {
+              "type": "number",
+              "question": "What percentage applies to the excess over the lower boundary in the cited bracket?"
+            }
+          },
+          "bindings": {
+            "taxable_income": "taxable_income",
+            "claimed_tax_amount": "claimed_tax_amount",
+            "claimed_bracket_lower_exclusive": "claimed_bracket_lower_exclusive",
+            "claimed_bracket_upper_inclusive": "claimed_bracket_upper_inclusive",
+            "claimed_bracket_base_tax": "claimed_bracket_base_tax",
+            "claimed_bracket_rate_percent": "claimed_bracket_rate_percent"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "taxable_income": {
+                "type": "number"
+              },
+              "claimed_tax_amount": {
+                "type": "number"
+              },
+              "claimed_bracket_lower_exclusive": {
+                "type": "number"
+              },
+              "claimed_bracket_upper_inclusive": {
+                "type": "number"
+              },
+              "claimed_bracket_base_tax": {
+                "type": "number"
+              },
+              "claimed_bracket_rate_percent": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "taxable_income",
+              "claimed_tax_amount",
+              "claimed_bracket_lower_exclusive",
+              "claimed_bracket_upper_inclusive",
+              "claimed_bracket_base_tax",
+              "claimed_bracket_rate_percent"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "claimed_progressive_tax_bracket_record",
+          "ports": [
+            "taxable_income",
+            "claimed_tax_amount",
+            "claimed_bracket_lower_exclusive",
+            "claimed_bracket_upper_inclusive",
+            "claimed_bracket_base_tax",
+            "claimed_bracket_rate_percent"
+          ],
+          "neighbors": []
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "check_cited_bracket_applicability",
+          "statement": "Check whether the stated taxable income lies within the boundaries of the subsection expressly cited by the claim.",
+          "role": "preliminary",
+          "port": "claimed_bracket_lower_exclusive",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "(iii) $10,082.50, plus 31% of the excess over $44,575 if the taxable income is over $44,575 but not over $70,000;"
+          }
+        },
+        {
+          "id": "check_cited_bracket_amount",
+          "statement": "If the cited bracket applies, calculate its base amount plus its percentage of income exceeding the lower boundary and compare that result with the asserted amount.",
+          "role": "constraint",
+          "port": "claimed_bracket_base_tax",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "(iii) $10,082.50, plus 31% of the excess over $44,575 if the taxable income is over $44,575 but not over $70,000;"
+          }
+        },
+        {
+          "id": "return_binary_tax_verdict",
+          "statement": "Return Entailment only if both the cited subsection and its asserted tax amount are correct; otherwise return Contradiction.",
+          "role": "terminal",
+          "port": "answer",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "Alice has to pay $999 in taxes for the year 2017 under section 1(d)(iii)."
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "Alice's taxable income for the year 2017 is $6662."
+        },
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "(iii) $10,082.50, plus 31% of the excess over $44,575 if the taxable income is over $44,575 but not over $70,000;"
+        },
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "Alice has to pay $999 in taxes for the year 2017 under section 1(d)(iii)."
+        }
+      ],
+      "version": 1
+    },
+    "section_3306_b_11_noncash_agricultural_wages_verdict": {
+      "id": "section_3306_b_11_noncash_agricultural_wages_verdict",
+      "intent": "Decide Entailment or Contradiction when the current claim asserts that §3306(b) applies to remuneration for agricultural labor paid in a noncash medium.",
+      "procedure": "def apply(inputs, premises):\n    excluded = bool(inputs[\"is_agricultural_labor\"]) and bool(inputs[\"is_paid_in_non_cash_medium\"])\n    answer = \"Entailment\"\n    if excluded:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "is_agricultural_labor": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Was the service for which the current payment was made agricultural labor?",
+          "skill_id": null,
+          "field": "is_agricultural_labor"
+        },
+        "is_paid_in_non_cash_medium": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Was the current remuneration paid in a medium other than cash?",
+          "skill_id": null,
+          "field": "is_paid_in_non_cash_medium"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "Contradiction when §3306(b)(11) excludes the current noncash agricultural remuneration; otherwise Entailment."
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "read_current_agricultural_payment_medium",
+          "question": "Identify the nature of the labor and the payment medium for the remuneration addressed by the current §3306(b) claim.",
+          "source_locator": "Current view's facts and question, together with the current §3306(b)(11) exclusion.",
+          "fields": {
+            "is_agricultural_labor": {
+              "type": "boolean",
+              "question": "Was the remuneration paid for agricultural labor?"
+            },
+            "is_paid_in_non_cash_medium": {
+              "type": "boolean",
+              "question": "Was the remuneration paid in a medium other than cash?"
+            }
+          },
+          "bindings": {
+            "is_agricultural_labor": "is_agricultural_labor",
+            "is_paid_in_non_cash_medium": "is_paid_in_non_cash_medium"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "is_agricultural_labor": {
+                "type": "boolean"
+              },
+              "is_paid_in_non_cash_medium": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "is_agricultural_labor",
+              "is_paid_in_non_cash_medium"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "current_agricultural_remuneration_record",
+          "ports": [
+            "is_agricultural_labor",
+            "is_paid_in_non_cash_medium"
+          ],
+          "neighbors": []
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "classify_agricultural_service",
+          "statement": "Check whether the current remuneration was paid for agricultural labor.",
+          "role": "preliminary",
+          "port": "is_agricultural_labor",
+          "origin": {
+            "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+            "view_id": "native",
+            "quote": "Alice has paid $2325 in hay to Bob for agricultural labor."
+          }
+        },
+        {
+          "id": "apply_noncash_agricultural_exclusion",
+          "statement": "Exclude agricultural-labor remuneration from wages when it was paid in a medium other than cash.",
+          "role": "constraint",
+          "port": "is_paid_in_non_cash_medium",
+          "origin": {
+            "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+            "view_id": "native",
+            "quote": "(11) remuneration for agricultural labor paid in any medium other than cash;"
+          }
+        },
+        {
+          "id": "return_wages_applicability_verdict",
+          "statement": "Return Contradiction when the payment asserted to fall under §3306(b) is excluded by paragraph (11).",
+          "role": "terminal",
+          "port": "answer",
+          "origin": {
+            "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+            "view_id": "native",
+            "quote": "Section 3306(b) applies to the payment in hay made by Alice to Bob for the year 2018."
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+          "view_id": "native",
+          "quote": "Over the year 2018, Alice has paid $2325 in hay to Bob for agricultural labor."
+        },
+        {
+          "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+          "view_id": "native",
+          "quote": "(11) remuneration for agricultural labor paid in any medium other than cash;"
+        },
+        {
+          "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+          "view_id": "native",
+          "quote": "Section 3306(b) applies to the payment in hay made by Alice to Bob for the year 2018."
+        }
+      ],
+      "version": 1
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [],
+  "execution_events": []
+}

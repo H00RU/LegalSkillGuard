@@ -1,0 +1,806 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "0753515474251c55dcb949fe4a7d1fa578f84943dda38c6aa1a0f9258c44d622",
+  "skills": {
+    "personal_property_exemption_citation_mapper": {
+      "id": "personal_property_exemption_citation_mapper",
+      "intent": "Return the exact citation-only asset mapping for current Illinois or Federal-and-Wisconsin personal-property exemption tasks after classifying each asset under the applicable provisions.",
+      "procedure": "def apply(inputs, premises):\n    answer = {}\n    for i in range(len(inputs[\"asset_descriptions\"])):\n        claims = []\n        if inputs[\"illinois_other_property_eligible\"][i]:\n            claims = claims + [premises[\"illinois_other_property_citation\"]]\n        if inputs[\"federal_household_property_eligible\"][i]:\n            claims = claims + [premises[\"federal_household_property_citation\"]]\n        if inputs[\"federal_wildcard_eligible\"][i]:\n            claims = claims + [premises[\"federal_wildcard_citation\"]]\n        if inputs[\"wisconsin_consumer_goods_eligible\"][i]:\n            claims = claims + [premises[\"wisconsin_consumer_goods_citation\"]]\n        answer[inputs[\"asset_descriptions\"][i]] = claims\n    return {\"answer\": answer}",
+      "inputs": {
+        "asset_descriptions": {
+          "field": "asset_descriptions",
+          "mode": "read",
+          "question": "What are the exact asset-description keys in the current Facts, excluding ownership and value language?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "illinois_other_property_eligible": {
+          "field": "illinois_other_property_eligible",
+          "mode": "read",
+          "question": "In the same asset order, which assets are eligible under the currently applicable Illinois exemption for the debtor's interest in any other personal-use property?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "federal_household_property_eligible": {
+          "field": "federal_household_property_eligible",
+          "mode": "read",
+          "question": "In the same asset order, which assets are eligible under the currently available federal exemption for household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments held for personal, family, or household use?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "federal_wildcard_eligible": {
+          "field": "federal_wildcard_eligible",
+          "mode": "read",
+          "question": "In the same asset order, which assets may use the currently available federal exemption for any property?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "wisconsin_consumer_goods_eligible": {
+          "field": "wisconsin_consumer_goods_eligible",
+          "mode": "read",
+          "question": "In the same asset order, which assets are eligible under the currently applicable Wisconsin consumer-goods exemption for tangible personal property held for personal, family, or household use?",
+          "skill_id": null,
+          "type": "array"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "description": "The native EC mapping from each exact asset description to all applicable literal citation strings.",
+          "type": "object"
+        }
+      },
+      "premises": {
+        "illinois_other_property_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "735 Ill. Comp. Stat. 5/12-1001(b)\nThe debtor's equity interest, not to exceed $4,000 in value, in any other property;",
+            "source_id": "OpenExempt:dbbe6b3d0e812c2b08d81bed808f5659e8bcfbee6d80655acb3919c5493e07ea",
+            "view_id": "EC"
+          },
+          "question": "What literal citation identifies Illinois's exemption for the debtor's equity interest in any other property?",
+          "type": "string",
+          "value": "735 Ill. Comp. Stat. 5/12-1001(b)"
+        },
+        "federal_household_property_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "11 U.S.C. § 522(d)(3)\nThe debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "What literal citation identifies the federal personal and household-property exemption?",
+          "type": "string",
+          "value": "11 U.S.C. § 522(d)(3)"
+        },
+        "federal_wildcard_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "11 U.S.C. § 522(d)(5)\nThe debtor's aggregate interest in any property, not to exceed in value $1,475 plus up to $13,950 of any unused amount of the exemption provided under paragraph (1) of this subsection.",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "What literal citation identifies the federal exemption for any property?",
+          "type": "string",
+          "value": "11 U.S.C. § 522(d)(5)"
+        },
+        "wisconsin_consumer_goods_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Wis. Stat. § 815.18(3)(d)\nConsumer goods. Household goods and furnishings, wearing apparel, keepsakes, jewelry and other articles of personal adornment, appliances, books, musical instruments, firearms, sporting goods, animals, or other tangible personal property held primarily for the personal, family or household use of the debtor or a dependent of the debtor, not to exceed $12,000 in aggregate value.",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "What literal citation identifies Wisconsin's consumer-goods exemption?",
+          "type": "string",
+          "value": "Wis. Stat. § 815.18(3)(d)"
+        }
+      },
+      "reads": [
+        {
+          "id": "read_current_personal_property_exemption_classes",
+          "question": "Extract the exact current asset keys and classify each asset under only the exemption regimes made available by the current solved jurisdiction step.",
+          "source_locator": "current OpenExempt statutes, solved jurisdiction step, Facts, and EC output contract",
+          "fields": {
+            "asset_descriptions": {
+              "question": "What exact asset descriptions must be used as output keys?",
+              "type": "array"
+            },
+            "illinois_other_property_eligible": {
+              "question": "Which aligned assets satisfy the applicable Illinois other-personal-property rule?",
+              "type": "array"
+            },
+            "federal_household_property_eligible": {
+              "question": "Which aligned assets satisfy the available federal household and personal-property category?",
+              "type": "array"
+            },
+            "federal_wildcard_eligible": {
+              "question": "Which aligned assets may use the available federal any-property exemption?",
+              "type": "array"
+            },
+            "wisconsin_consumer_goods_eligible": {
+              "question": "Which aligned assets satisfy the applicable Wisconsin consumer-goods category?",
+              "type": "array"
+            }
+          },
+          "bindings": {},
+          "schema": {
+            "type": "object",
+            "properties": {
+              "asset_descriptions": {
+                "type": "array"
+              },
+              "illinois_other_property_eligible": {
+                "type": "array"
+              },
+              "federal_household_property_eligible": {
+                "type": "array"
+              },
+              "federal_wildcard_eligible": {
+                "type": "array"
+              },
+              "wisconsin_consumer_goods_eligible": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "asset_descriptions",
+              "illinois_other_property_eligible",
+              "federal_household_property_eligible",
+              "federal_wildcard_eligible",
+              "wisconsin_consumer_goods_eligible"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "current_asset_exemption_classification",
+          "neighbors": [
+            "personal_property_citation_record"
+          ],
+          "ports": [
+            "asset_descriptions",
+            "illinois_other_property_eligible",
+            "federal_household_property_eligible",
+            "federal_wildcard_eligible",
+            "wisconsin_consumer_goods_eligible"
+          ]
+        },
+        {
+          "id": "personal_property_citation_record",
+          "neighbors": [
+            "current_asset_exemption_classification"
+          ],
+          "ports": [
+            "illinois_other_property_citation",
+            "federal_household_property_citation",
+            "federal_wildcard_citation",
+            "wisconsin_consumer_goods_citation"
+          ]
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "respect_current_exemption_election",
+          "origin": {
+            "quote": "The Debtor may claim property exemptions under Illinois statutes.",
+            "source_id": "OpenExempt:dbbe6b3d0e812c2b08d81bed808f5659e8bcfbee6d80655acb3919c5493e07ea",
+            "view_id": "EC"
+          },
+          "port": "illinois_other_property_eligible",
+          "role": "constraint",
+          "statement": "Classify assets only under the exemption system made available by the current solved jurisdiction step."
+        },
+        {
+          "id": "apply_illinois_other_property_category",
+          "origin": {
+            "quote": "735 Ill. Comp. Stat. 5/12-1001(b)\nThe debtor's equity interest, not to exceed $4,000 in value, in any other property;",
+            "source_id": "OpenExempt:dbbe6b3d0e812c2b08d81bed808f5659e8bcfbee6d80655acb3919c5493e07ea",
+            "view_id": "EC"
+          },
+          "port": "illinois_other_property_eligible",
+          "role": "terminal",
+          "statement": "Treat debtor-owned personal-use property as eligible for the Illinois any-other-property exemption when Illinois exemptions govern."
+        },
+        {
+          "id": "apply_federal_personal_property_categories",
+          "origin": {
+            "quote": "The Debtor may claim property exemptions under Federal and Wisconsin statutes.",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "port": "federal_household_property_eligible",
+          "role": "terminal",
+          "statement": "When federal exemptions are available, separately identify the household-property category and the any-property exemption."
+        },
+        {
+          "id": "apply_wisconsin_consumer_goods_category",
+          "origin": {
+            "quote": "Wis. Stat. § 815.18(3)(d)\nConsumer goods. Household goods and furnishings, wearing apparel, keepsakes, jewelry and other articles of personal adornment, appliances, books, musical instruments, firearms, sporting goods, animals, or other tangible personal property held primarily for the personal, family or household use of the debtor or a dependent of the debtor, not to exceed $12,000 in aggregate value.",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "port": "wisconsin_consumer_goods_eligible",
+          "role": "terminal",
+          "statement": "When Wisconsin exemptions govern, identify tangible personal property held for personal, family, or household use."
+        }
+      ],
+      "source_provenance": [
+        {
+          "quote": "735 Ill. Comp. Stat. 5/12-1001(b)\nThe debtor's equity interest, not to exceed $4,000 in value, in any other property;",
+          "source_id": "OpenExempt:dbbe6b3d0e812c2b08d81bed808f5659e8bcfbee6d80655acb3919c5493e07ea",
+          "view_id": "EC"
+        },
+        {
+          "quote": "The personal property exemptions set forth in this Section shall apply only to individuals and only to personal property that is used for personal rather than business purposes.",
+          "source_id": "OpenExempt:dbbe6b3d0e812c2b08d81bed808f5659e8bcfbee6d80655acb3919c5493e07ea",
+          "view_id": "EC"
+        },
+        {
+          "quote": "11 U.S.C. § 522(d)(3)\nThe debtor's interest, not to exceed $700 in value in any particular item or $14,875 in aggregate value, in household furnishings, household goods, wearing apparel, appliances, books, animals, crops, or musical instruments, that are held primarily for the personal, family, or household use of the debtor or a dependent of the debtor.",
+          "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+          "view_id": "EC"
+        },
+        {
+          "quote": "11 U.S.C. § 522(d)(5)\nThe debtor's aggregate interest in any property, not to exceed in value $1,475 plus up to $13,950 of any unused amount of the exemption provided under paragraph (1) of this subsection.",
+          "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+          "view_id": "EC"
+        },
+        {
+          "quote": "Wis. Stat. § 815.18(3)(d)\nConsumer goods. Household goods and furnishings, wearing apparel, keepsakes, jewelry and other articles of personal adornment, appliances, books, musical instruments, firearms, sporting goods, animals, or other tangible personal property held primarily for the personal, family or household use of the debtor or a dependent of the debtor, not to exceed $12,000 in aggregate value.",
+          "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+          "view_id": "EC"
+        }
+      ],
+      "version": 1
+    },
+    "section_1_cited_tax_bracket_claim_decider": {
+      "id": "section_1_cited_tax_bracket_claim_decider",
+      "intent": "Decide whether an affirmative or negative claim about an exact tax amount under a cited §1 progressive-income-tax bracket follows from the current filing status and taxable income.",
+      "procedure": "def apply(inputs, premises):\n    in_bracket = inputs[\"taxable_income\"] > inputs[\"cited_bracket_lower_exclusive\"]\n    if inputs[\"cited_bracket_upper_inclusive\"] >= 0:\n        in_bracket = in_bracket and inputs[\"taxable_income\"] <= inputs[\"cited_bracket_upper_inclusive\"]\n    expected_tax = inputs[\"cited_bracket_base_tax\"] + inputs[\"cited_bracket_rate_percent\"] * (inputs[\"taxable_income\"] - inputs[\"cited_bracket_excess_threshold\"]) / 100\n    amount_matches = round(expected_tax, 2) == round(inputs[\"claimed_tax_amount\"], 2)\n    statement_true = in_bracket and amount_matches\n    entailed = statement_true == inputs[\"claim_affirms_exact_tax\"]\n    if entailed:\n        answer = \"Entailment\"\n    else:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "taxable_income": {
+          "type": "number",
+          "mode": "read",
+          "question": "What taxable income is established by the current facts?",
+          "skill_id": null,
+          "field": "taxable_income"
+        },
+        "claimed_tax_amount": {
+          "type": "number",
+          "mode": "read",
+          "question": "What exact tax amount does the current proposition assert or deny?",
+          "skill_id": null,
+          "field": "claimed_tax_amount"
+        },
+        "claim_affirms_exact_tax": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Does the current proposition affirm, rather than deny, that the stated tax amount is owed under the cited §1 bracket?",
+          "skill_id": null,
+          "field": "claim_affirms_exact_tax"
+        },
+        "cited_bracket_lower_exclusive": {
+          "type": "number",
+          "mode": "read",
+          "question": "For the §1 bracket cited in the current proposition, what exclusive lower taxable-income boundary is stated in the current source, using -1 when there is no lower boundary?",
+          "skill_id": null,
+          "field": "cited_bracket_lower_exclusive"
+        },
+        "cited_bracket_upper_inclusive": {
+          "type": "number",
+          "mode": "read",
+          "question": "For the §1 bracket cited in the current proposition, what inclusive upper taxable-income boundary is stated in the current source, using -1 when there is no upper boundary?",
+          "skill_id": null,
+          "field": "cited_bracket_upper_inclusive"
+        },
+        "cited_bracket_base_tax": {
+          "type": "number",
+          "mode": "read",
+          "question": "What base tax amount is stated for the §1 bracket cited in the current proposition?",
+          "skill_id": null,
+          "field": "cited_bracket_base_tax"
+        },
+        "cited_bracket_excess_threshold": {
+          "type": "number",
+          "mode": "read",
+          "question": "Above what taxable-income threshold does the cited §1 bracket apply its marginal percentage?",
+          "skill_id": null,
+          "field": "cited_bracket_excess_threshold"
+        },
+        "cited_bracket_rate_percent": {
+          "type": "number",
+          "mode": "read",
+          "question": "What marginal percentage rate is stated for the §1 bracket cited in the current proposition?",
+          "skill_id": null,
+          "field": "cited_bracket_rate_percent"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "The native binary label, either Entailment or Contradiction."
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "read_current_section_1_tax_claim",
+          "question": "Extract the current taxable income, exact claimed tax, claim polarity, and the boundaries and formula of the specifically cited §1 tax bracket.",
+          "source_locator": "current native source_text, referenced sections, facts, and question",
+          "fields": {
+            "taxable_income": {
+              "type": "number",
+              "question": "What is the current taxpayer's taxable income?"
+            },
+            "claimed_tax_amount": {
+              "type": "number",
+              "question": "What exact tax amount is asserted or denied?"
+            },
+            "claim_affirms_exact_tax": {
+              "type": "boolean",
+              "question": "Is the current exact-tax proposition affirmative?"
+            },
+            "cited_bracket_lower_exclusive": {
+              "type": "number",
+              "question": "What is the cited bracket's exclusive lower boundary?"
+            },
+            "cited_bracket_upper_inclusive": {
+              "type": "number",
+              "question": "What is the cited bracket's inclusive upper boundary, or -1 if open-ended?"
+            },
+            "cited_bracket_base_tax": {
+              "type": "number",
+              "question": "What base tax does the cited bracket specify?"
+            },
+            "cited_bracket_excess_threshold": {
+              "type": "number",
+              "question": "What excess threshold does the cited bracket specify?"
+            },
+            "cited_bracket_rate_percent": {
+              "type": "number",
+              "question": "What marginal rate percentage does the cited bracket specify?"
+            }
+          },
+          "bindings": {},
+          "schema": {
+            "type": "object",
+            "properties": {
+              "taxable_income": {
+                "type": "number"
+              },
+              "claimed_tax_amount": {
+                "type": "number"
+              },
+              "claim_affirms_exact_tax": {
+                "type": "boolean"
+              },
+              "cited_bracket_lower_exclusive": {
+                "type": "number"
+              },
+              "cited_bracket_upper_inclusive": {
+                "type": "number"
+              },
+              "cited_bracket_base_tax": {
+                "type": "number"
+              },
+              "cited_bracket_excess_threshold": {
+                "type": "number"
+              },
+              "cited_bracket_rate_percent": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "taxable_income",
+              "claimed_tax_amount",
+              "claim_affirms_exact_tax",
+              "cited_bracket_lower_exclusive",
+              "cited_bracket_upper_inclusive",
+              "cited_bracket_base_tax",
+              "cited_bracket_excess_threshold",
+              "cited_bracket_rate_percent"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "cited_section_1_tax_bracket_record",
+          "ports": [
+            "taxable_income",
+            "claimed_tax_amount",
+            "claim_affirms_exact_tax",
+            "cited_bracket_lower_exclusive",
+            "cited_bracket_upper_inclusive",
+            "cited_bracket_base_tax",
+            "cited_bracket_excess_threshold",
+            "cited_bracket_rate_percent"
+          ],
+          "neighbors": []
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "verify_cited_tax_bracket_and_amount",
+          "statement": "Check both whether the current taxable income falls within the specifically cited §1 bracket and whether that bracket's formula yields the exact claimed tax amount.",
+          "role": "terminal",
+          "port": "cited_bracket_lower_exclusive",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "(iii) $10,082.50, plus 31% of the excess over $44,575 if the taxable income is over $44,575 but not over $70,000;"
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "(iii) $10,082.50, plus 31% of the excess over $44,575 if the taxable income is over $44,575 but not over $70,000;"
+        }
+      ],
+      "version": 1
+    },
+    "section_3306_b10a_claim_decider": {
+      "id": "section_3306_b10a_claim_decider",
+      "intent": "Decide whether a positive or negative claim about the applicability of §3306(b)(10)(A) is entailed by the current payment and termination facts.",
+      "procedure": "def apply(inputs, premises):\n    applies = inputs[\"paid_upon_or_after_termination\"] and inputs[\"termination_due_to_death_or_disability_retirement\"] and premises[\"b10a_requires_both_conditions\"]\n    entailed = applies == inputs[\"claim_affirms_application\"]\n    if entailed:\n        answer = \"Entailment\"\n    else:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "paid_upon_or_after_termination": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Does the current factual record establish that the payment was made upon or after termination of the employee's employment relationship?",
+          "skill_id": null,
+          "field": "paid_upon_or_after_termination"
+        },
+        "termination_due_to_death_or_disability_retirement": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Does the current factual record establish that the employment relationship ended because of death or retirement for disability?",
+          "skill_id": null,
+          "field": "termination_due_to_death_or_disability_retirement"
+        },
+        "claim_affirms_application": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Does the current question affirm, rather than deny, that §3306(b)(10)(A) applies?",
+          "skill_id": null,
+          "field": "claim_affirms_application"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "The native binary label, either Entailment or Contradiction."
+        }
+      },
+      "premises": {
+        "b10a_requires_both_conditions": {
+          "type": "boolean",
+          "mode": "constant",
+          "value": true,
+          "question": "Does §3306(b)(10)(A) require both the specified timing and a qualifying termination reason?",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "(A) upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability, and"
+          }
+        }
+      },
+      "reads": [
+        {
+          "id": "read_b10a_current_claim",
+          "question": "Extract the timing, qualifying termination reason, and polarity of the current §3306(b)(10)(A) claim.",
+          "source_locator": "current native source_text, facts, and question",
+          "fields": {
+            "paid_upon_or_after_termination": {
+              "type": "boolean",
+              "question": "Was the current payment made upon or after termination?"
+            },
+            "termination_due_to_death_or_disability_retirement": {
+              "type": "boolean",
+              "question": "Was the current termination caused by death or retirement for disability?"
+            },
+            "claim_affirms_application": {
+              "type": "boolean",
+              "question": "Is the current proposition an affirmative applicability claim?"
+            }
+          },
+          "bindings": {},
+          "schema": {
+            "type": "object",
+            "properties": {
+              "paid_upon_or_after_termination": {
+                "type": "boolean"
+              },
+              "termination_due_to_death_or_disability_retirement": {
+                "type": "boolean"
+              },
+              "claim_affirms_application": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "paid_upon_or_after_termination",
+              "termination_due_to_death_or_disability_retirement",
+              "claim_affirms_application"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "b10a_applicability_record",
+          "ports": [
+            "paid_upon_or_after_termination",
+            "termination_due_to_death_or_disability_retirement",
+            "claim_affirms_application",
+            "b10a_requires_both_conditions"
+          ],
+          "neighbors": []
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "b10a_timing_and_cause",
+          "statement": "Check whether the current payment occurred upon or after termination and whether termination was because of death or retirement for disability.",
+          "role": "terminal",
+          "port": "b10a_requires_both_conditions",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "(A) upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability, and"
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+          "view_id": "native",
+          "quote": "(A) upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability, and"
+        }
+      ],
+      "version": 1
+    },
+    "section_3306_noncash_agricultural_wages_claim_decider": {
+      "id": "section_3306_noncash_agricultural_wages_claim_decider",
+      "intent": "Decide an affirmative or negative claim that remuneration is covered as wages under §3306(b) when the current facts concern agricultural labor paid in a noncash medium.",
+      "procedure": "def apply(inputs, premises):\n    excluded = inputs[\"payment_for_agricultural_labor\"] and inputs[\"payment_made_in_noncash_medium\"] and premises[\"noncash_agricultural_remuneration_excluded\"]\n    covered_as_wages = not excluded\n    entailed = covered_as_wages == inputs[\"claim_affirms_wages_coverage\"]\n    if entailed:\n        answer = \"Entailment\"\n    else:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "payment_for_agricultural_labor": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Was the current remuneration paid for agricultural labor?",
+          "skill_id": null,
+          "field": "payment_for_agricultural_labor"
+        },
+        "payment_made_in_noncash_medium": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Was the current remuneration paid in a medium other than cash?",
+          "skill_id": null,
+          "field": "payment_made_in_noncash_medium"
+        },
+        "claim_affirms_wages_coverage": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Does the current proposition affirm that §3306(b) covers the payment as wages?",
+          "skill_id": null,
+          "field": "claim_affirms_wages_coverage"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "The native binary label, either Entailment or Contradiction."
+        }
+      },
+      "premises": {
+        "noncash_agricultural_remuneration_excluded": {
+          "type": "boolean",
+          "mode": "constant",
+          "value": true,
+          "question": "Does §3306(b)(11) exclude remuneration for agricultural labor paid in a noncash medium from wages?",
+          "origin": {
+            "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+            "view_id": "native",
+            "quote": "(11) remuneration for agricultural labor paid in any medium other than cash;"
+          }
+        }
+      },
+      "reads": [
+        {
+          "id": "read_current_noncash_agricultural_payment_claim",
+          "question": "Extract whether the current payment is for agricultural labor, whether its medium is noncash, and the polarity of the current §3306(b) wages-coverage claim.",
+          "source_locator": "current native source_text, facts, and question",
+          "fields": {
+            "payment_for_agricultural_labor": {
+              "type": "boolean",
+              "question": "Is the current payment remuneration for agricultural labor?"
+            },
+            "payment_made_in_noncash_medium": {
+              "type": "boolean",
+              "question": "Is the current payment made in a medium other than cash?"
+            },
+            "claim_affirms_wages_coverage": {
+              "type": "boolean",
+              "question": "Does the current proposition affirm coverage as wages under §3306(b)?"
+            }
+          },
+          "bindings": {},
+          "schema": {
+            "type": "object",
+            "properties": {
+              "payment_for_agricultural_labor": {
+                "type": "boolean"
+              },
+              "payment_made_in_noncash_medium": {
+                "type": "boolean"
+              },
+              "claim_affirms_wages_coverage": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "payment_for_agricultural_labor",
+              "payment_made_in_noncash_medium",
+              "claim_affirms_wages_coverage"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "noncash_agricultural_remuneration_record",
+          "ports": [
+            "payment_for_agricultural_labor",
+            "payment_made_in_noncash_medium",
+            "noncash_agricultural_remuneration_excluded",
+            "claim_affirms_wages_coverage"
+          ],
+          "neighbors": []
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "apply_noncash_agricultural_exclusion",
+          "statement": "Check whether the current remuneration is both for agricultural labor and paid in a medium other than cash before deciding the wages-coverage claim.",
+          "role": "terminal",
+          "port": "noncash_agricultural_remuneration_excluded",
+          "origin": {
+            "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+            "view_id": "native",
+            "quote": "(11) remuneration for agricultural labor paid in any medium other than cash;"
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+          "view_id": "native",
+          "quote": "For purposes of this chapter, the term \"wages\" means all remuneration for employment, including the cash value of all remuneration (including benefits) paid in any medium other than cash; except that such term shall not include-"
+        },
+        {
+          "source_id": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+          "view_id": "native",
+          "quote": "(11) remuneration for agricultural labor paid in any medium other than cash;"
+        }
+      ],
+      "version": 1
+    },
+    "section_63_c5_dependent_standard_deduction_claim_decider": {
+      "id": "section_63_c5_dependent_standard_deduction_claim_decider",
+      "intent": "Decide whether an affirmative or negative claim that §63(c)(5) limits an individual's basic standard deduction follows from whether a §151 deduction for that individual is allowable to another taxpayer.",
+      "procedure": "def apply(inputs, premises):\n    applies = inputs[\"section_151_deduction_allowable_to_another_taxpayer\"] and premises[\"c5_requires_allowable_deduction_to_another\"]\n    entailed = applies == inputs[\"claim_affirms_application\"]\n    if entailed:\n        answer = \"Entailment\"\n    else:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "section_151_deduction_allowable_to_another_taxpayer": {
+          "field": "section_151_deduction_allowable_to_another_taxpayer",
+          "mode": "read",
+          "question": "Does the current factual record establish that a §151 deduction for the individual is allowable to another taxpayer for the relevant year?",
+          "skill_id": null,
+          "type": "boolean"
+        },
+        "claim_affirms_application": {
+          "field": "claim_affirms_application",
+          "mode": "read",
+          "question": "Does the current proposition affirm, rather than deny, that §63(c)(5) applies to the individual's basic standard deduction?",
+          "skill_id": null,
+          "type": "boolean"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "description": "The native binary label, either Entailment or Contradiction.",
+          "type": "string"
+        }
+      },
+      "premises": {
+        "c5_requires_allowable_deduction_to_another": {
+          "mode": "constant",
+          "origin": {
+            "quote": "In the case of an individual with respect to whom a deduction under section 151 is allowable to another taxpayer for a taxable year beginning in the calendar year in which the individual's taxable year begins, the basic standard deduction applicable to such individual for such individual's taxable year shall not exceed the greater of-\n\n        (A) $500, or\n\n        (B) the sum of $250 and such individual's earned income.",
+            "source_id": "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+            "view_id": "native"
+          },
+          "question": "Does §63(c)(5) apply only when a §151 deduction for the individual is allowable to another taxpayer for the corresponding calendar year?",
+          "type": "boolean",
+          "value": true
+        }
+      },
+      "reads": [
+        {
+          "id": "read_current_section_63_c5_claim",
+          "question": "Extract whether a §151 deduction for the current individual is allowable to another taxpayer and the polarity of the current §63(c)(5) proposition.",
+          "source_locator": "current native source_text, referenced sections, facts, and question",
+          "fields": {
+            "section_151_deduction_allowable_to_another_taxpayer": {
+              "question": "Is a §151 deduction for the current individual allowable to another taxpayer for the relevant year?",
+              "type": "boolean"
+            },
+            "claim_affirms_application": {
+              "question": "Is the current §63(c)(5) applicability proposition affirmative?",
+              "type": "boolean"
+            }
+          },
+          "bindings": {},
+          "schema": {
+            "type": "object",
+            "properties": {
+              "section_151_deduction_allowable_to_another_taxpayer": {
+                "type": "boolean"
+              },
+              "claim_affirms_application": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "section_151_deduction_allowable_to_another_taxpayer",
+              "claim_affirms_application"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "section_63_c5_applicability_record",
+          "neighbors": [],
+          "ports": [
+            "section_151_deduction_allowable_to_another_taxpayer",
+            "claim_affirms_application",
+            "c5_requires_allowable_deduction_to_another"
+          ]
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "check_other_taxpayer_deduction_condition",
+          "origin": {
+            "quote": "In the case of an individual with respect to whom a deduction under section 151 is allowable to another taxpayer for a taxable year beginning in the calendar year in which the individual's taxable year begins, the basic standard deduction applicable to such individual for such individual's taxable year shall not exceed the greater of-\n\n        (A) $500, or\n\n        (B) the sum of $250 and such individual's earned income.",
+            "source_id": "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+            "view_id": "native"
+          },
+          "port": "section_151_deduction_allowable_to_another_taxpayer",
+          "role": "terminal",
+          "statement": "Determine whether a §151 deduction for the current individual is allowable to another taxpayer before applying the dependent standard-deduction limitation."
+        }
+      ],
+      "source_provenance": [
+        {
+          "quote": "In the case of an individual with respect to whom a deduction under section 151 is allowable to another taxpayer for a taxable year beginning in the calendar year in which the individual's taxable year begins, the basic standard deduction applicable to such individual for such individual's taxable year shall not exceed the greater of-\n\n        (A) $500, or\n\n        (B) the sum of $250 and such individual's earned income.",
+          "source_id": "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+          "view_id": "native"
+        }
+      ],
+      "version": 1
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [],
+  "execution_events": []
+}

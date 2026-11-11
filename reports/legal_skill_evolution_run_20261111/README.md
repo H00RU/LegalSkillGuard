@@ -1,8 +1,14 @@
-# 冻结模型法律技能进化：正式学习与开发验证
+# 冻结模型法律技能进化：完整固定实验与阶段结论
 
-**2026-11-12机制根因与真实修复结果：** 已修复小型Lift提议/宿主排队、完整函数体格式不兼容，并在同信息Full/FreeEvolution独立获取中得到真实§152依赖。真实Lift未改善分数；两臂均能获取依赖，不支持CoRev额外作用。Full的§151/§152范围错配现已用禁网真实缓存回归修复：保留正确§152核心，§151误用归为回退，原生分数不变，当前71项相关回归通过。15E/3T全部结算，后续离线工作新增模型0；原32个受控视图的直接基线全部正确，旧合同知识链的负结果已核实，不重跑。Goal active，原冻结矩阵继续，诊断不读TEST。[本次完整证据与研究决定](ACTIVATION_REPAIR_20261112.md)。
+**完整固定研究已结算，Goal未完成。** 128来源8批学习、48次教师更新、42个DEV点、七系统五库各32来源TEST及注册迁移全部完成。Full的TEST五库等权原生得分为**0.538479**，AllPorts+CoRev为**0.426188**；差值**+0.112291**，校正98.75%区间**[0.063297, 0.163196]**，本次固定轨迹有实际收益。原正式学习没有专门Lift接纳或CoRev模式使用；跨库外库技能最终路径0，不能把普通程序学习的收益认作两项专门贡献。
 
-**同一Goal active、未完成。七系统全部128来源初答、48次学习臂更新及42/42个固定DEV点已完成，B8已冻结并开始既定七系统TEST。** 固定20来源首遍与29项集中复验均保留。已有真实技能获取与执行，但完整学习没有产生专门Lift或CoRev模式；冻结测试不再调用教师或更新技能。
+[主要执行者阶段复核](FIXED_STUDY_STAGE_REVIEW.md) · [1120行逐来源结果](fixed_TEST_source_results.csv) · [四项注册比较](evidence/frozen_test_v1/primary_four_contrasts.json) · [实际费用](frozen_cost_footprints.json) · [主要执行者判断与证据](primary_scientific_review.json)
+
+主要执行者已复核原始程序、版本表、统计及连续账本。累计9082E/141T、在途0；主矩阵新增3141E/0T，迁移精确复用新增0。所有运行和分析收尾进程已终止，不重复启动。两项贡献仍缺独立证据，继续研究需要明确调整学习对象或机制；不据TEST调方法，不进入论文。以下分阶段记录保留历史时点，当前状态以本节和两份当前文档为准。
+
+**2026-11-12机制根因与真实修复结果：** 已修复小型Lift提议/宿主排队、完整函数体格式不兼容，并在同信息Full/FreeEvolution独立获取中得到真实§152依赖。真实Lift未改善分数；两臂均能获取依赖，不支持CoRev额外作用。Full的§151/§152范围错配现已用禁网真实缓存回归修复：保留正确§152核心，§151误用归为回退，原生分数不变，当前71项相关回归通过。15E/3T全部结算，后续离线工作新增模型0；原32个受控视图的直接基线全部正确，旧合同知识链的负结果已核实，不重跑。隔离诊断未读取TEST指导修复，也未导入原冻结结果。[修复证据与研究决定](ACTIVATION_REPAIR_20261112.md)。
+
+固定20来源首遍与29项集中复验均保留。已有真实技能获取与执行，但完整学习没有产生专门Lift或CoRev模式；冻结测试没有调用教师或更新技能。
 
 [当前目标](../../docs/CURRENT_GOAL.md) · [当前工作](../../docs/METHOD_REDESIGN_CURRENT.md) · [动态账本与队列](pilot_progress.json) · [简明状态](current_status.json)
 
@@ -24,7 +30,7 @@
 
 Full对AllPorts强对照的差为+.1117261；收益集中在OE（.3831473）与Airline（.375），其他三库与空库相同。CoRevOnly新增一个航空费用来源答对，来自普通程序新建。AllPorts的微小变化来自OE部分F1，没有全对核心视图。Full低于B6的.5999947，已按原方案冻结B8。冻结TEST验证已有库的效果与迁移，不会产生新的技能更新或补出训练期缺失的机制事件；DEV差值也不能据臂名认作Lift/CoRev的独立收益。当前每臂直接教师覆盖为27/128母来源，全部128来源评分均参与触发选择；分库及逐来源证据见[机制清单](formal_mechanism_inventory.json)。
 
-正式学习与全部DEV合计3304E/48T，均已结算；冻结TEST另列成本。原formal客户端真实退出0且在途0后才进入冻结：2759份教师请求文件、2703个去重提示输入核对未发现合格TEST身份访问；按预定补位处理CNLI537→555。352个原生测试输入容量核验通过，最大11126 tokens，固定输出8192、上下文32768，无裁切。冻结代码、数据、B8库与迁移掩码均先于首个测试生成绑定，thinking OFF，teacher/library/model updates false；[独立核验](B8_freeze_verification.json)、[冻结清单](frozen_B8_manifest.json)、[容量预检](frozen_TEST_input_preflight.json)与[冻结配置](../../configs/legal_skill_evolution_frozen_v1_20261111.json)保留具体哈希和标志。TEST仍在运行，完整矩阵、注册迁移、原生统计与方法验收均未完成。
+正式学习与全部DEV合计3304E/48T，均已结算；冻结TEST另列成本。原formal客户端真实退出0且在途0后才进入冻结：2759份教师请求文件、2703个去重提示输入核对未发现合格TEST身份访问；按预定补位处理CNLI537→555。352个原生测试输入容量核验通过，最大11126 tokens，固定输出8192、上下文32768，无裁切。冻结代码、数据、B8库与迁移掩码均先于首个测试生成绑定，thinking OFF，teacher/library/model updates false；[独立核验](B8_freeze_verification.json)、[冻结清单](frozen_B8_manifest.json)、[容量预检](frozen_TEST_input_preflight.json)与[冻结配置](../../configs/legal_skill_evolution_frozen_v1_20261111.json)保留具体哈希和标志。完整矩阵、注册迁移及原生统计已结算；两项独立贡献仍不成立，详见阶段复核。
 
 七系统已按固定顺序回答全部128个TRAIN母来源，六学习臂完成48/48次批次更新。历史B7末库与B6相同，Full有两个SARA程序、行李费程序及豁免计划程序，自由演化4个，通用联合修复对照3个，其余臂均2个；全部CoRev模式0。两个SARA程序没有固定法源前提，行李费程序有8项固定前提；这些新建均不能倒算Lift。前四批新来源初答每臂共140原生视图，主路径正确均0；B5 Full首次用批初旧库在一个新航空来源主路径答对，同案NoSkill错，其他臂B5核心正确仍0。反馈内回放改对另列。[逐来源配对训练轨迹](formal_TRAIN_trajectory.json)、[CSV](formal_TRAIN_trajectory.csv)、[训练曲线PDF](formal_TRAIN_learning_trajectory.pdf)与[PNG](formal_TRAIN_learning_trajectory.png)包含库规模、回退和排除DEV后的请求使用量，各批不同案情的分数不能当作同案学习收益。
 

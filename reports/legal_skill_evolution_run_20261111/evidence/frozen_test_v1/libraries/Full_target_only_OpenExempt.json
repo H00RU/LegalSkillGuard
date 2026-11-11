@@ -1,0 +1,466 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "730142f4ee391e36c2abf26df203e7a8a26ca077381cbef99ba1ca9fdb478932",
+  "skills": {
+    "personal_asset_exemption_plan_by_solved_regime": {
+      "id": "personal_asset_exemption_plan_by_solved_regime",
+      "intent": "Return the native EC or EV per-asset exemption mapping when the solved regime is Illinois, Federal and Wisconsin, Federal and Pennsylvania, Arizona, or Federal and Arizona, considering each asset-exemption pair independently.",
+      "procedure": "def apply(inputs, premises):\n    answer = {}\n    n = len(inputs[\"asset_descriptions\"])\n    for i in range(n):\n        description = inputs[\"asset_descriptions\"][i]\n        value = float(inputs[\"asset_values\"][i])\n        claims = []\n        if inputs[\"governing_regime\"] == \"Illinois\":\n            if bool(inputs[\"asset_is_personal_nonbusiness_property\"][i]):\n                if inputs[\"output_family\"] == \"EV\":\n                    claims = [{\"citation\": premises[\"illinois_other_property_citation\"], \"claim_value\": min(value, float(premises[\"illinois_other_property_limit\"]))}]\n                else:\n                    claims = [premises[\"illinois_other_property_citation\"]]\n        elif inputs[\"governing_regime\"] == \"Federal and Wisconsin\":\n            if bool(inputs[\"asset_is_federal_household_category\"][i]):\n                if inputs[\"output_family\"] == \"EV\":\n                    claims = claims + [{\"citation\": premises[\"federal_household_citation\"], \"claim_value\": min(value, float(premises[\"federal_household_item_limit\"]))}]\n                else:\n                    claims = claims + [premises[\"federal_household_citation\"]]\n            if bool(inputs[\"asset_is_personal_tangible_property\"][i]):\n                if inputs[\"output_family\"] == \"EV\":\n                    claims = claims + [{\"citation\": premises[\"federal_wildcard_citation\"], \"claim_value\": min(value, float(premises[\"federal_wildcard_base_limit\"]))}]\n                    claims = claims + [{\"citation\": premises[\"wisconsin_consumer_goods_citation\"], \"claim_value\": min(value, float(premises[\"wisconsin_consumer_goods_limit\"]))}]\n                else:\n                    claims = claims + [premises[\"federal_wildcard_citation\"], premises[\"wisconsin_consumer_goods_citation\"]]\n        elif inputs[\"governing_regime\"] == \"Federal and Pennsylvania\":\n            if bool(inputs[\"asset_is_personal_tangible_property\"][i]):\n                if inputs[\"output_family\"] == \"EV\":\n                    claims = claims + [{\"citation\": premises[\"federal_household_citation\"], \"claim_value\": min(value, float(premises[\"federal_household_item_limit\"]))}]\n                    wildcard_limit = float(premises[\"federal_wildcard_base_limit\"]) * int(inputs[\"number_of_debtors\"])\n                    claims = claims + [{\"citation\": premises[\"federal_wildcard_citation\"], \"claim_value\": min(value, wildcard_limit)}]\n                else:\n                    claims = claims + [premises[\"federal_household_citation\"], premises[\"federal_wildcard_citation\"]]\n            if bool(inputs[\"asset_is_personal_nonbusiness_property\"][i]):\n                if inputs[\"output_family\"] == \"EV\":\n                    pennsylvania_limit = float(premises[\"pennsylvania_general_property_limit\"]) * int(inputs[\"number_of_debtors\"])\n                    claims = claims + [{\"citation\": premises[\"pennsylvania_general_property_citation\"], \"claim_value\": min(value, pennsylvania_limit)}]\n                else:\n                    claims = claims + [premises[\"pennsylvania_general_property_citation\"]]\n            if bool(inputs[\"asset_is_wearing_apparel\"][i]):\n                if inputs[\"output_family\"] == \"EV\":\n                    claims = claims + [{\"citation\": premises[\"pennsylvania_wearing_apparel_citation\"], \"claim_value\": value}]\n                else:\n                    claims = claims + [premises[\"pennsylvania_wearing_apparel_citation\"]]\n        elif inputs[\"governing_regime\"] == \"Arizona\" or inputs[\"governing_regime\"] == \"Federal and Arizona\":\n            if bool(inputs[\"asset_is_arizona_wearing_apparel\"][i]):\n                apparel_limit = float(premises[\"arizona_wearing_apparel_limit\"]) * int(inputs[\"number_of_debtors\"])\n                if inputs[\"output_family\"] == \"EV\":\n                    claims = claims + [{\"citation\": premises[\"arizona_wearing_apparel_citation\"], \"claim_value\": min(value, apparel_limit)}]\n                else:\n                    claims = claims + [premises[\"arizona_wearing_apparel_citation\"]]\n            if bool(inputs[\"asset_is_arizona_household_good_or_appliance\"][i]):\n                household_limit = float(premises[\"arizona_household_limit\"]) * int(inputs[\"number_of_debtors\"])\n                if inputs[\"output_family\"] == \"EV\":\n                    claims = claims + [{\"citation\": premises[\"arizona_household_citation\"], \"claim_value\": min(value, household_limit)}]\n                else:\n                    claims = claims + [premises[\"arizona_household_citation\"]]\n        answer[description] = claims\n    return {\"answer\": answer}",
+      "inputs": {
+        "asset_descriptions": {
+          "field": "asset_descriptions",
+          "mode": "read",
+          "question": "What are the exact asset descriptions in the current Facts, excluding ownership, appraisal, and value wording?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "asset_values": {
+          "field": "asset_values",
+          "mode": "read",
+          "question": "What dollar value is stated for each current asset, aligned with the exact asset descriptions?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "governing_regime": {
+          "field": "governing_regime",
+          "mode": "read",
+          "question": "Which exemption regime does the current solved reasoning step authorize: Illinois, Federal and Wisconsin, Federal and Pennsylvania, Arizona, or Federal and Arizona?",
+          "skill_id": null,
+          "type": "string"
+        },
+        "number_of_debtors": {
+          "field": "number_of_debtors",
+          "mode": "read",
+          "question": "How many debtors are filing in the current facts?",
+          "skill_id": null,
+          "type": "integer"
+        },
+        "asset_is_personal_nonbusiness_property": {
+          "field": "asset_is_personal_nonbusiness_property",
+          "mode": "read",
+          "question": "For each current asset, is it personal rather than business property owned by an individual debtor?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "asset_is_federal_household_category": {
+          "field": "asset_is_federal_household_category",
+          "mode": "read",
+          "question": "For each current asset, is it a household furnishing, household good, wearing apparel, appliance, book, animal, crop, or musical instrument held for personal, family, or household use?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "asset_is_personal_tangible_property": {
+          "field": "asset_is_personal_tangible_property",
+          "mode": "read",
+          "question": "For each current asset, is it tangible personal property held primarily for personal, family, or household use?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "asset_is_wearing_apparel": {
+          "field": "asset_is_wearing_apparel",
+          "mode": "read",
+          "question": "For each current asset, is it wearing apparel under the supplied Pennsylvania exemption provision?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "asset_is_arizona_wearing_apparel": {
+          "field": "asset_is_arizona_wearing_apparel",
+          "mode": "read",
+          "question": "For each current asset, is it wearing apparel used primarily for personal, family, or household purposes under the supplied Arizona provision?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "asset_is_arizona_household_good_or_appliance": {
+          "field": "asset_is_arizona_household_good_or_appliance",
+          "mode": "read",
+          "question": "For each current asset, is it household furniture, a furnishing, a household good, or a household appliance personally used by a debtor or dependent under the supplied Arizona provision?",
+          "skill_id": null,
+          "type": "array"
+        },
+        "output_family": {
+          "field": "output_family",
+          "mode": "read",
+          "question": "Does the current response contract require citation arrays (EC) or citation-and-claim-value record arrays (EV)? Return EC or EV.",
+          "skill_id": null,
+          "type": "string"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "description": "The complete native EC or EV mapping from every exact current asset description to its independently applicable exemption claims.",
+          "type": "object"
+        }
+      },
+      "premises": {
+        "illinois_other_property_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "735 Ill. Comp. Stat. 5/12-1001(b)\nThe debtor's equity interest, not to exceed $4,000 in value, in any other property;",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "735 Ill. Comp. Stat. 5/12-1001(b)"
+        },
+        "illinois_other_property_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "The debtor's equity interest, not to exceed $4,000 in value, in any other property;",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EV"
+          },
+          "question": "",
+          "type": "number",
+          "value": 4000
+        },
+        "federal_household_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "11 U.S.C. § 522(d)(3)",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "11 U.S.C. § 522(d)(3)"
+        },
+        "federal_household_item_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "not to exceed $700 in value in any particular item",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EV"
+          },
+          "question": "",
+          "type": "number",
+          "value": 700
+        },
+        "federal_wildcard_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "11 U.S.C. § 522(d)(5)",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "11 U.S.C. § 522(d)(5)"
+        },
+        "federal_wildcard_base_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "not to exceed in value $1,475 plus up to $13,950 of any unused amount of the exemption provided under paragraph (1) of this subsection.",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EV"
+          },
+          "question": "",
+          "type": "number",
+          "value": 1475
+        },
+        "wisconsin_consumer_goods_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Wis. Stat. § 815.18(3)(d)",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "Wis. Stat. § 815.18(3)(d)"
+        },
+        "wisconsin_consumer_goods_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "not to exceed $12,000 in aggregate value.",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EV"
+          },
+          "question": "",
+          "type": "number",
+          "value": 12000
+        },
+        "pennsylvania_general_property_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "42 Pa. Cons. Stat. § 8123",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "42 Pa. Cons. Stat. § 8123"
+        },
+        "pennsylvania_general_property_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "to the value of $300 shall be exempt from attachment or execution on a judgment.",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EV"
+          },
+          "question": "",
+          "type": "number",
+          "value": 300
+        },
+        "pennsylvania_wearing_apparel_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "42 Pa. Cons. Stat. § 8124(a)(1)\nWearing apparel.",
+            "source_id": "OpenExempt:4f3b7eff8dad708e09a3be5b3fbbf47518636ae0edc8e9acf286586350c7e028",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "42 Pa. Cons. Stat. § 8124(a)(1)"
+        },
+        "arizona_wearing_apparel_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Ariz. Rev. Stat. § 33-1125(1)\nAll wearing apparel of not more than a fair market value of five hundred dollars.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "Ariz. Rev. Stat. § 33-1125(1)"
+        },
+        "arizona_wearing_apparel_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "All wearing apparel of not more than a fair market value of five hundred dollars.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EV"
+          },
+          "question": "",
+          "type": "number",
+          "value": 500
+        },
+        "arizona_household_citation": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Ariz. Rev. Stat. § 33-1123\nHousehold furniture, furnishings and appliances.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EC"
+          },
+          "question": "",
+          "type": "string",
+          "value": "Ariz. Rev. Stat. § 33-1123"
+        },
+        "arizona_household_limit": {
+          "mode": "constant",
+          "origin": {
+            "quote": "Household furniture and furnishings, household goods, including consumer electronic devices, and household appliances personally used by the debtor or a dependent of the debtor and not otherwise specifically prescribed in this chapter are exempt from process provided their aggregate fair market value does not exceed $15,000.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EV"
+          },
+          "question": "",
+          "type": "number",
+          "value": 15000
+        }
+      },
+      "reads": [
+        {
+          "id": "read_current_personal_asset_exemption_record",
+          "question": "Extract the current assets, aligned values and legal classifications, debtor count, solved exemption regime, and required EC or EV representation.",
+          "source_locator": "Current view's solved governing-law step, Facts, applicable exemption provisions, and output contract.",
+          "fields": {
+            "asset_descriptions": {
+              "question": "What exact descriptions identify all current assets without ownership or value clauses?",
+              "type": "array"
+            },
+            "asset_values": {
+              "question": "What values correspond to those assets in the same order?",
+              "type": "array"
+            },
+            "governing_regime": {
+              "question": "Which exemption regime is authorized by the current solved reasoning step?",
+              "type": "string"
+            },
+            "number_of_debtors": {
+              "question": "How many debtors are filing in the current facts?",
+              "type": "integer"
+            },
+            "asset_is_personal_nonbusiness_property": {
+              "question": "Which aligned assets are individual-owned personal rather than business property?",
+              "type": "array"
+            },
+            "asset_is_federal_household_category": {
+              "question": "Which aligned assets fall within the federal household, apparel, appliance, book, animal, crop, or musical-instrument categories?",
+              "type": "array"
+            },
+            "asset_is_personal_tangible_property": {
+              "question": "Which aligned assets are tangible property held for personal, family, or household use?",
+              "type": "array"
+            },
+            "asset_is_wearing_apparel": {
+              "question": "Which aligned assets are wearing apparel under the supplied Pennsylvania provision?",
+              "type": "array"
+            },
+            "asset_is_arizona_wearing_apparel": {
+              "question": "Which aligned assets are wearing apparel under the supplied Arizona personal-items provision?",
+              "type": "array"
+            },
+            "asset_is_arizona_household_good_or_appliance": {
+              "question": "Which aligned assets are household furniture, furnishings, household goods, or appliances under the supplied Arizona provision?",
+              "type": "array"
+            },
+            "output_family": {
+              "question": "Does the current view require EC or EV output?",
+              "type": "string"
+            }
+          },
+          "bindings": {
+            "asset_descriptions": "asset_descriptions",
+            "asset_values": "asset_values",
+            "governing_regime": "governing_regime",
+            "number_of_debtors": "number_of_debtors",
+            "asset_is_personal_nonbusiness_property": "asset_is_personal_nonbusiness_property",
+            "asset_is_federal_household_category": "asset_is_federal_household_category",
+            "asset_is_personal_tangible_property": "asset_is_personal_tangible_property",
+            "asset_is_wearing_apparel": "asset_is_wearing_apparel",
+            "asset_is_arizona_wearing_apparel": "asset_is_arizona_wearing_apparel",
+            "asset_is_arizona_household_good_or_appliance": "asset_is_arizona_household_good_or_appliance",
+            "output_family": "output_family"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "asset_descriptions": {
+                "type": "array"
+              },
+              "asset_values": {
+                "type": "array"
+              },
+              "governing_regime": {
+                "type": "string"
+              },
+              "number_of_debtors": {
+                "type": "integer"
+              },
+              "asset_is_personal_nonbusiness_property": {
+                "type": "array"
+              },
+              "asset_is_federal_household_category": {
+                "type": "array"
+              },
+              "asset_is_personal_tangible_property": {
+                "type": "array"
+              },
+              "asset_is_wearing_apparel": {
+                "type": "array"
+              },
+              "asset_is_arizona_wearing_apparel": {
+                "type": "array"
+              },
+              "asset_is_arizona_household_good_or_appliance": {
+                "type": "array"
+              },
+              "output_family": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "asset_descriptions",
+              "asset_values",
+              "governing_regime",
+              "number_of_debtors",
+              "asset_is_personal_nonbusiness_property",
+              "asset_is_federal_household_category",
+              "asset_is_personal_tangible_property",
+              "asset_is_wearing_apparel",
+              "asset_is_arizona_wearing_apparel",
+              "asset_is_arizona_household_good_or_appliance",
+              "output_family"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "current_asset_exemption_records",
+          "neighbors": [],
+          "ports": [
+            "asset_descriptions",
+            "asset_values",
+            "governing_regime",
+            "number_of_debtors",
+            "asset_is_personal_nonbusiness_property",
+            "asset_is_federal_household_category",
+            "asset_is_personal_tangible_property",
+            "asset_is_wearing_apparel",
+            "asset_is_arizona_wearing_apparel",
+            "asset_is_arizona_household_good_or_appliance"
+          ]
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "follow_solved_exemption_regime",
+          "origin": {
+            "quote": "The Debtors may claim property exemptions under Arizona statutes.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EC"
+          },
+          "port": "governing_regime",
+          "role": "preliminary",
+          "statement": "Apply only the exemption regime authorized by the current solved reasoning step."
+        },
+        {
+          "id": "apply_arizona_apparel_limit",
+          "origin": {
+            "quote": "In the case of married persons, each spouse is entitled to the exemptions provided in this article, which may be combined with the other spouse's exemption in the same property or taken in different exempt property.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EV"
+          },
+          "port": "arizona_wearing_apparel_limit",
+          "role": "constraint",
+          "statement": "For Arizona wearing apparel, combine each spouse's $500 exemption when the current task has married joint debtors."
+        },
+        {
+          "id": "apply_arizona_household_exemption",
+          "origin": {
+            "quote": "Household furniture and furnishings, household goods, including consumer electronic devices, and household appliances personally used by the debtor or a dependent of the debtor and not otherwise specifically prescribed in this chapter are exempt from process provided their aggregate fair market value does not exceed $15,000.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EC"
+          },
+          "port": "asset_is_arizona_household_good_or_appliance",
+          "role": "constraint",
+          "statement": "Apply the Arizona household-furniture, household-goods, and appliance exemption to aligned qualifying assets."
+        },
+        {
+          "id": "return_native_exemption_mapping",
+          "origin": {
+            "quote": "For each asset in the estate, identify all applicable exemptions under which that asset may be protected.",
+            "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+            "view_id": "EC"
+          },
+          "port": "answer",
+          "role": "terminal",
+          "statement": "Return every exact asset description with all independently applicable claims in the current EC or EV representation."
+        }
+      ],
+      "source_provenance": [
+        {
+          "quote": "Ariz. Rev. Stat. § 33-1125(1)\nAll wearing apparel of not more than a fair market value of five hundred dollars.",
+          "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+          "view_id": "EC"
+        },
+        {
+          "quote": "Ariz. Rev. Stat. § 33-1123\nHousehold furniture, furnishings and appliances. Household furniture and furnishings, household goods, including consumer electronic devices, and household appliances personally used by the debtor or a dependent of the debtor and not otherwise specifically prescribed in this chapter are exempt from process provided their aggregate fair market value does not exceed $15,000.",
+          "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+          "view_id": "EV"
+        },
+        {
+          "quote": "In the case of married persons, each spouse is entitled to the exemptions provided in this article, which may be combined with the other spouse's exemption in the same property or taken in different exempt property.",
+          "source_id": "OpenExempt:74dbd97cf69592f9368f36238990452ccc764b399f15c113d45c373612f6cc96",
+          "view_id": "EV"
+        }
+      ],
+      "version": 3
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [],
+  "execution_events": []
+}

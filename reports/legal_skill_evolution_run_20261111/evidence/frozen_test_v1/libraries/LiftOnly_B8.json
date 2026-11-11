@@ -1,0 +1,261 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "7db583ac5a2cfdc4198e814b5ddfc01497f8544c41504cbdc056a98fa95118ec",
+  "skills": {
+    "classify_section_1_tax_bracket_claim": {
+      "id": "classify_section_1_tax_bracket_claim",
+      "intent": "Classify an affirmative claim about tax owed under a cited §1 bracket by selecting the applicable bracket and calculating the statutory amount from the current filing-status schedule.",
+      "procedure": "def apply(inputs, premises):\n    income = float(inputs[\"taxable_income\"])\n    tier = len(inputs[\"bracket_rates\"]) - 1\n    found = False\n    for i in range(len(inputs[\"finite_upper_bounds\"])):\n        if not found and income <= float(inputs[\"finite_upper_bounds\"][i]):\n            tier = i\n            found = True\n    lower_bound = 0.0\n    if tier > 0:\n        lower_bound = float(inputs[\"finite_upper_bounds\"][tier - 1])\n    calculated_tax = float(inputs[\"bracket_base_amounts\"][tier]) + float(inputs[\"bracket_rates\"][tier]) * (income - lower_bound)\n    bracket_matches = int(inputs[\"cited_bracket_number\"]) == tier + 1\n    amount_matches = abs(float(inputs[\"claimed_tax_amount\"]) - calculated_tax) <= 0.005\n    if bracket_matches and amount_matches:\n        answer = \"Entailment\"\n    else:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "taxable_income": {
+          "type": "number",
+          "mode": "read",
+          "question": "What taxable income is stated in the current facts?",
+          "skill_id": null,
+          "field": "taxable_income"
+        },
+        "claimed_tax_amount": {
+          "type": "number",
+          "mode": "read",
+          "question": "What dollar tax amount does the current affirmative claim assert?",
+          "skill_id": null,
+          "field": "claimed_tax_amount"
+        },
+        "cited_bracket_number": {
+          "type": "integer",
+          "mode": "read",
+          "question": "Which numbered bracket of the current §1 filing-status schedule does the claim cite, with bracket (i) represented as 1?",
+          "skill_id": null,
+          "field": "cited_bracket_number"
+        },
+        "finite_upper_bounds": {
+          "type": "array",
+          "mode": "read",
+          "question": "For the current taxpayer's filing-status schedule, what are the finite taxable-income upper bounds in ascending bracket order, excluding the final unbounded bracket?",
+          "skill_id": null,
+          "field": "finite_upper_bounds"
+        },
+        "bracket_base_amounts": {
+          "type": "array",
+          "mode": "read",
+          "question": "For every bracket of the current filing-status schedule, what statutory base tax amount applies before the marginal excess calculation, using zero for the first bracket?",
+          "skill_id": null,
+          "field": "bracket_base_amounts"
+        },
+        "bracket_rates": {
+          "type": "array",
+          "mode": "read",
+          "question": "For every bracket of the current filing-status schedule, what marginal rate applies as a decimal number?",
+          "skill_id": null,
+          "field": "bracket_rates"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "The native binary classification label: Entailment or Contradiction."
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "current_section_1_tax_schedule_record",
+          "question": "Read the current taxpayer's filing status, taxable income, claimed amount and cited bracket together with the corresponding §1 bracket schedule.",
+          "source_locator": "current source §1 tax schedule, referenced definitions, facts, and question",
+          "fields": {
+            "taxable_income": {
+              "type": "number",
+              "question": "What is the current taxpayer's taxable income?"
+            },
+            "claimed_tax_amount": {
+              "type": "number",
+              "question": "What tax amount is asserted by the current claim?"
+            },
+            "cited_bracket_number": {
+              "type": "integer",
+              "question": "What one-based bracket number is cited by the current claim?"
+            },
+            "finite_upper_bounds": {
+              "type": "array",
+              "question": "What are the finite upper bounds for the filing-status schedule applicable to the current taxpayer?"
+            },
+            "bracket_base_amounts": {
+              "type": "array",
+              "question": "What aligned base tax amounts are stated for all brackets of that schedule?"
+            },
+            "bracket_rates": {
+              "type": "array",
+              "question": "What aligned decimal marginal rates are stated for all brackets of that schedule?"
+            }
+          },
+          "bindings": {
+            "taxable_income": "taxable_income",
+            "claimed_tax_amount": "claimed_tax_amount",
+            "cited_bracket_number": "cited_bracket_number",
+            "finite_upper_bounds": "finite_upper_bounds",
+            "bracket_base_amounts": "bracket_base_amounts",
+            "bracket_rates": "bracket_rates"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "taxable_income": {
+                "type": "number"
+              },
+              "claimed_tax_amount": {
+                "type": "number"
+              },
+              "cited_bracket_number": {
+                "type": "integer"
+              },
+              "finite_upper_bounds": {
+                "type": "array"
+              },
+              "bracket_base_amounts": {
+                "type": "array"
+              },
+              "bracket_rates": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "taxable_income",
+              "claimed_tax_amount",
+              "cited_bracket_number",
+              "finite_upper_bounds",
+              "bracket_base_amounts",
+              "bracket_rates"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [
+        {
+          "id": "current_section_1_bracket_schedule",
+          "ports": [
+            "finite_upper_bounds",
+            "bracket_base_amounts",
+            "bracket_rates"
+          ],
+          "neighbors": [
+            "taxable_income",
+            "cited_bracket_number",
+            "claimed_tax_amount"
+          ]
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "select_current_filing_schedule",
+          "statement": "Use the filing status established by the current facts and referenced definitions to select the corresponding §1 schedule.",
+          "role": "preliminary",
+          "port": "finite_upper_bounds,bracket_base_amounts,bracket_rates",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "There is hereby imposed on the taxable income of every married individual (as defined in section 7703) who does not make a single return jointly with his spouse, a tax determined in accordance with the following:"
+          }
+        },
+        {
+          "id": "compare_cited_bracket_and_amount",
+          "statement": "Determine the applicable bracket from taxable income, compute its stated base-plus-marginal tax, and require both the cited bracket and claimed amount to match.",
+          "role": "terminal",
+          "port": "answer",
+          "origin": {
+            "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+            "view_id": "native",
+            "quote": "(i) 15% of taxable income if the taxable income is not over $18,450;"
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "(i) 15% of taxable income if the taxable income is not over $18,450;"
+        },
+        {
+          "source_id": "SARA_v2_Binary:cc4d8236e297f800ae24522d4d0a08f9ba12466d0bad0ef0eaefc3d8ddfa7f5b",
+          "view_id": "native",
+          "quote": "(iii) $10,082.50, plus 31% of the excess over $44,575 if the taxable income is over $44,575 but not over $70,000;"
+        }
+      ],
+      "version": 1
+    },
+    "classify_termination_payment_subparagraph": {
+      "id": "classify_termination_payment_subparagraph",
+      "intent": "Classify an affirmative claim that a payment satisfies the termination-cause condition in §3306(b)(10)(A), independently of the separate plan condition in subparagraph (B).",
+      "procedure": "def apply(inputs, premises):\n    if bool(inputs[\"subparagraph_applies\"]):\n        answer = \"Entailment\"\n    else:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "subparagraph_applies": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Do the current facts establish that the payment was made upon or after termination of employment because of death or retirement for disability, as specified by the cited subparagraph?",
+          "skill_id": null,
+          "field": "subparagraph_applies"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "The native binary classification label: Entailment or Contradiction."
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "current_termination_payment_record",
+          "question": "Evaluate the current payment, termination event, and stated reason against only the condition expressed in the cited termination-cause subparagraph.",
+          "source_locator": "current source facts, question, and §3306(b)(10)(A)",
+          "fields": {
+            "subparagraph_applies": {
+              "type": "boolean",
+              "question": "Was the current payment made upon or after termination because of death or retirement for disability?"
+            }
+          },
+          "bindings": {
+            "subparagraph_applies": "subparagraph_applies"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "subparagraph_applies": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "subparagraph_applies"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [],
+      "source_obligations": [
+        {
+          "id": "termination_cause_condition",
+          "statement": "Check whether the current payment followed termination of the employment relationship and whether death or retirement for disability caused that termination.",
+          "role": "terminal",
+          "port": "subparagraph_applies",
+          "origin": {
+            "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+            "view_id": "native",
+            "quote": "upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability"
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:815f377b6412d8c0e4b3cd0095e029728c40bc80387b97d7a0234efc72d11dac",
+          "view_id": "native",
+          "quote": "(A) upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability"
+        }
+      ],
+      "version": 1
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [],
+  "execution_events": []
+}
