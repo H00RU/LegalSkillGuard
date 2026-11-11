@@ -14,7 +14,7 @@ class EvolutionLedger:
         'skill_teacher': ('train', 'teacher'), 'skill_dev': ('dev', 'executor'),
         'skill_test': ('test', 'executor')}
 
-    def __init__(self, path, *, run_id, sources, binding, freeze=None):
+    def __init__(self, path, *, run_id, sources, binding, freeze=None, teacher_concurrency=1):
         self.path = Path(path)
         if not self.path.exists():
             raise BudgetError('Continue the existing physical ledger; never initialize a replacement')
@@ -25,10 +25,13 @@ class EvolutionLedger:
             raise BudgetError('Parent-source partitions overlap or contain duplicates')
         self.run_id = run_id
         self.freeze = freeze
+        if type(teacher_concurrency) is not int or teacher_concurrency not in (1, 2) or (freeze and teacher_concurrency != 1):
+            raise BudgetError('Only serial execution or the reviewed two-teacher prefetch is supported')
+        self.teacher_concurrency = teacher_concurrency
         self.policy = json.loads(json.dumps({'protocol': 'LSG-LegalSkill-20261111', 'run_id': run_id,
             'sources': self.sources, 'execution_binding': binding, 'freeze': freeze,
             'weight_updates': False, 'teacher_test_access': False,
-            'physical_call_caps': None, 'repair_round_cap': None}))
+            'physical_call_caps': None, 'repair_round_cap': None, 'teacher_concurrency': teacher_concurrency}))
         with self.transaction() as db:
             origin = db.execute("select value from meta where key='spec'").fetchone()
             if not origin:
@@ -78,8 +81,10 @@ class EvolutionLedger:
                 if old[4] != 'completed':
                     raise BudgetError('Failed/reserved requests remain charged; no implicit retry')
                 return {'dispatch': False, 'result': json.loads(old[5])}
-            if db.execute("select 1 from calls where status='reserved'").fetchone():
-                raise BudgetError('Reconcile the real pending request before another dispatch')
+            pending = db.execute("select id,role from calls where status='reserved'").fetchall()
+            if pending and not (role == 'teacher' and len(pending) < self.teacher_concurrency
+                    and all(r == 'teacher' and i.startswith(self.run_id + ':') for i, r in pending)):
+                raise BudgetError('Reconcile pending requests; only reviewed same-run teachers may overlap')
             db.execute('insert into calls values (?,?,?,?,?,?,?,?,NULL)',
                        (call_id, role, purpose, 'external_skill_' + self.PURPOSES[purpose][0],
                         source, h, 'reserved', time.time()))

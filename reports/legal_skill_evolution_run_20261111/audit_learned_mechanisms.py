@@ -2,6 +2,7 @@
 from datetime import datetime, timezone
 from collections import Counter
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -17,12 +18,13 @@ def main(formal=False):
         from experiments.legal_skill_evolution_formal import PROFILE as FORMAL_PROFILE, ARMS
         profile, arms = FORMAL_PROFILE, tuple(a for a in ARMS if a != 'NoSkill')
     folder = root / load_json(profile)['artifacts']
-    rows = []
+    rows, accepted_widths = [], []
     proposal_counts, compiled_counts, accepted_counts = Counter(), Counter(), Counter()
     transfers, existing_joint_candidates = [], []
     for arm in arms:
         for path in sorted((folder / arm).glob('update_B*.json')):
             receipt = load_json(path)
+            if receipt['selected_mask'] is not None:accepted_widths.append(receipt['selected_mask'].bit_count())
             library = Library.load(folder / arm / ('B' + str(receipt['batch']) + '.json'))
             skills = []
             for skill in library.skills.values():
@@ -73,6 +75,20 @@ def main(formal=False):
         'teacher_proposed_operations': dict(proposal_counts), 'compiled_candidate_operations': dict(compiled_counts),
         'accepted_operations': dict(accepted_counts), 'candidates_changing_multiple_existing_skills': existing_joint_candidates,
         'actual_pattern_transplant_candidates': transfers,
+        'fixed_table_diagnostics': {
+            'scope': 'Existing candidate tables and common production code only; no new generation, source execution or constructed mechanism experiment.',
+            'common_joint_selector': 'legal_skill_guard.skill_evolution.revisions.VersionTable.choose',
+            'common_selector_sha256': hashlib.sha256((root / 'legal_skill_guard/skill_evolution/revisions.py').read_bytes()).hexdigest(),
+            'same_candidate_same_table_generic_joint_selection': 'identical_by_shared_implementation; not a method advantage',
+            'accepted_update_widths': accepted_widths,
+            'accepted_updates_requiring_multiple_revisions': sum(n > 1 for n in accepted_widths),
+            'pattern_generated_candidates': len(transfers),
+            'no_memory_fixed_queue': ('same_observed_queue_because_no_pattern_candidates_exist' if not transfers
+                                      else 'requires_separate_fixed_queue_comparison'),
+            'no_memory_is_not_an_independently_regenerated_counterfactual': True,
+            'coupled_Lift_vs_single_port': ('no_actual_Lift_revision_available' if not accepted_counts.get('lift')
+                                          else 'inspect_existing_Lift_tables_and_binding_traces'),
+            'additional_learned_runtime_skill_mask': 'absent; all arms share lexical/type retrieval; frozen foreign-skill masks are a separate registered transfer contrast'},
         'library_inventory': rows,
         'dedicated_mechanisms_require_actual_events_and_other_parent_validation': True}
     target = Path(__file__).with_name('formal_mechanism_inventory.json' if formal else 'learned_mechanism_inventory.json')

@@ -4,14 +4,18 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import sqlite3
+from legal_skill_guard.skill_evolution.objects import digest
 
 ROOT = Path(__file__).resolve().parents[2]
 REPORT = Path(__file__).resolve().parent
 
 
 def main():
+    with sqlite3.connect('file:' + str(ROOT / 'artifacts/rr_v2_preflight/research_ledger.sqlite3') + '?mode=ro', uri=True) as db:
+        settled_folders = {digest(r[0]) for r in db.execute("select id from calls where status in ('completed','failed')")}
     sources = []
-    for version in ('pilot_v11', 'repair_v12', 'repair_v13', 'formal_v1', 'formal_v2'):
+    for version in ('pilot_v11', 'repair_v12', 'repair_v13', 'formal_v1', 'formal_v2', 'formal_v3'):
         folder = ROOT / 'artifacts/legal_skill_evolution_20261111' / version
         for name in ('execution_manifest.json', 'preflight.json', 'repair_queue.json', 'completed.json',
                      'state_import.json', 'resumption_preflight.json', 'training_DEV_completed.json'):
@@ -20,6 +24,7 @@ def main():
                     '*/B*_candidates/*.json', '*/B*_c*.json', 'source_snapshot/**/*.py', 'dev/*/B*.json')
         for pattern in patterns:sources.extend((folder, p) for p in folder.glob(pattern))
         for request in (folder / 'calls').glob('*/request.json'):
+            if request.parent.name not in settled_folders:continue
             if not any((request.parent / n).exists() for n in ('result.json', 'failure.json')):continue
             for name in ('request.json', 'wire_request.json', 'wire_response.json', 'result.json', 'failure.json'):
                 path = request.parent / name

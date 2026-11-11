@@ -1,19 +1,19 @@
 {
-  "captured_utc": "2026-11-11T10:43:05.199868+00:00",
+  "captured_utc": "2026-11-11T11:38:19.503864+00:00",
   "goal_status": "active",
   "goal_complete": false,
   "thinking": false,
   "model_parameter_updates": false,
   "cumulative_physical_requests": {
-    "executor": 3466,
-    "teacher": 102
+    "executor": 3974,
+    "teacher": 108
   },
   "pending": [
     {
-      "id": "legal_skill_evolution_formal_v2_20261111:8f3e61eb1223df6912f95e547045cdde85652d65d73e91ad8e30433889424afe",
+      "id": "legal_skill_evolution_formal_v3_20261111:79a7bd1a1bda82b5611a044d36fc408dc5ce751b9ff81a186b95321b444a0554",
       "role": "executor",
       "purpose": "skill_actor",
-      "reserved_at": 1794393784.7001328
+      "reserved_at": 1794397096.1695886
     }
   ],
   "formal_128_training_started": true,
@@ -264,7 +264,7 @@
     ]
   },
   "formal_fixed_study": {
-    "profile": "configs/legal_skill_evolution_formal_v2_20261111.json",
+    "profile": "configs/legal_skill_evolution_formal_v3_20261111.json",
     "run_started": true,
     "frozen_model_external_skill_learning": true,
     "source_count": 128,
@@ -272,13 +272,13 @@
     "sources_per_batch": 16,
     "native_TRAIN_DEV_input_preflight_passed": true,
     "source_first_attempt_checkpoints_by_arm": {
-      "Lift+GenericJoint": 32,
-      "NoSkill": 48,
-      "CoRevOnly": 32,
-      "FreeEvolution": 34,
-      "LiftOnly": 32,
-      "AllPorts+CoRev": 32,
-      "Full": 32
+      "Lift+GenericJoint": 48,
+      "NoSkill": 64,
+      "CoRevOnly": 48,
+      "FreeEvolution": 50,
+      "LiftOnly": 48,
+      "AllPorts+CoRev": 48,
+      "Full": 48
     },
     "update_receipts": [
       {
@@ -316,6 +316,23 @@
         "teacher_request_sha256": "5d49d6e2490c1040454d873f73b0e13228726d2a4bfd52710062ccc4e1cd0e7b"
       },
       {
+        "arm": "AllPorts+CoRev",
+        "batch": 3,
+        "candidate_blocks": 1,
+        "learned_pattern_ids": [],
+        "logical_candidate_parent_executions": 64,
+        "logical_candidate_parent_executions_this_validation": 64,
+        "new_library_hash": "79b3834f674f36225dd3fcd17e60b25b774a2edb5f3cb0c6dc7b635764603295",
+        "old_library_hash": "79b3834f674f36225dd3fcd17e60b25b774a2edb5f3cb0c6dc7b635764603295",
+        "pattern_count": 0,
+        "prior_logical_candidate_parent_executions": 0,
+        "reserved_logical_candidate_parent_allowance": 64,
+        "selected_candidate": null,
+        "selected_mask": null,
+        "skill_count": 1,
+        "teacher_request_sha256": "20b929f6f502c858aac988fc8af9e5799fee1b920bc77b10166bd20903a6d0d2"
+      },
+      {
         "arm": "CoRevOnly",
         "batch": 1,
         "candidate_blocks": 1,
@@ -348,6 +365,23 @@
         "selected_mask": 2,
         "skill_count": 2,
         "teacher_request_sha256": "e852780474b7fc0001a04b1c9ca7680c4cfc539b13926adc49c800180303e77f"
+      },
+      {
+        "arm": "CoRevOnly",
+        "batch": 3,
+        "candidate_blocks": 3,
+        "learned_pattern_ids": [],
+        "logical_candidate_parent_executions": 48,
+        "logical_candidate_parent_executions_this_validation": 48,
+        "new_library_hash": "5ecc2fb0e3cf440bf6748450d64a80147d330bd4bab1b6bdba21ee559d18318d",
+        "old_library_hash": "5ecc2fb0e3cf440bf6748450d64a80147d330bd4bab1b6bdba21ee559d18318d",
+        "pattern_count": 0,
+        "prior_logical_candidate_parent_executions": 0,
+        "reserved_logical_candidate_parent_allowance": 48,
+        "selected_candidate": null,
+        "selected_mask": null,
+        "skill_count": 2,
+        "teacher_request_sha256": "e8ad5da0f6e15d9417976b5a5d5b6173418e0e7332b0de68d7d86e57ceea4d39"
       },
       {
         "arm": "FreeEvolution",
@@ -384,6 +418,23 @@
         "teacher_request_sha256": "d35ba48eec3546bab0bfc5ee41e8def0a06c7959a1f324c0661ed7cdb21b6c56"
       },
       {
+        "arm": "FreeEvolution",
+        "batch": 3,
+        "candidate_blocks": 3,
+        "learned_pattern_ids": [],
+        "logical_candidate_parent_executions": 48,
+        "logical_candidate_parent_executions_this_validation": 48,
+        "new_library_hash": "67437fc0e25fccf1de875ca5734f2e572671d5e4805fed98fe1987416ca49252",
+        "old_library_hash": "012937585fec5e948e0ba092f784c15439eec235becb6887b74b74d58d0277c1",
+        "pattern_count": 0,
+        "prior_logical_candidate_parent_executions": 0,
+        "reserved_logical_candidate_parent_allowance": 48,
+        "selected_candidate": 0,
+        "selected_mask": 1,
+        "skill_count": 3,
+        "teacher_request_sha256": "dc07c4f0441f2cccc581376115be5c6ce079fb43cebc0d0411ef193045223aa2"
+      },
+      {
         "arm": "Full",
         "batch": 1,
         "candidate_blocks": 2,
@@ -416,6 +467,23 @@
         "selected_mask": 2,
         "skill_count": 1,
         "teacher_request_sha256": "9d4e18f7a37b08beaa0a891a00ec72e0ad2edc99133f9f26a9fb6227974c27f6"
+      },
+      {
+        "arm": "Full",
+        "batch": 3,
+        "candidate_blocks": 3,
+        "learned_pattern_ids": [],
+        "logical_candidate_parent_executions": 48,
+        "logical_candidate_parent_executions_this_validation": 48,
+        "new_library_hash": "4d8d8dad2e0e136d1488b8b82ffb9f6efe692b25b136b682afb3973a7f8f0535",
+        "old_library_hash": "db60021074f7f2cd24bbaf74d16c8f8421fbdb73baf3c487265104f4a3648244",
+        "pattern_count": 0,
+        "prior_logical_candidate_parent_executions": 0,
+        "reserved_logical_candidate_parent_allowance": 48,
+        "selected_candidate": 0,
+        "selected_mask": 1,
+        "skill_count": 2,
+        "teacher_request_sha256": "f12ec2b6de74e09d6c87eaca0643d741f08f6e981f503ab1a1d24b5a6bc90772"
       },
       {
         "arm": "Lift+GenericJoint",
@@ -452,6 +520,23 @@
         "teacher_request_sha256": "509cd5b5e7e4d9cee3ba78a6c328f0c7a227b8b2ce621449481b4d632e6da943"
       },
       {
+        "arm": "Lift+GenericJoint",
+        "batch": 3,
+        "candidate_blocks": 3,
+        "learned_pattern_ids": [],
+        "logical_candidate_parent_executions": 48,
+        "logical_candidate_parent_executions_this_validation": 48,
+        "new_library_hash": "25db1a7e1b72115bb16dc10b201fed01dae7fb1d5fd956a2cf82adfbf7788d30",
+        "old_library_hash": "25db1a7e1b72115bb16dc10b201fed01dae7fb1d5fd956a2cf82adfbf7788d30",
+        "pattern_count": 0,
+        "prior_logical_candidate_parent_executions": 0,
+        "reserved_logical_candidate_parent_allowance": 48,
+        "selected_candidate": null,
+        "selected_mask": null,
+        "skill_count": 2,
+        "teacher_request_sha256": "eac333a492c5d2586ac0795f26be342f7bbd95dcf00eded7340685320d9628f3"
+      },
+      {
         "arm": "LiftOnly",
         "batch": 1,
         "candidate_blocks": 1,
@@ -484,6 +569,23 @@
         "selected_mask": 1,
         "skill_count": 2,
         "teacher_request_sha256": "d502f927967689b5ebc8caaefbeea09fe6031bf3cfd0de7d55e872fbe9f025d3"
+      },
+      {
+        "arm": "LiftOnly",
+        "batch": 3,
+        "candidate_blocks": 0,
+        "learned_pattern_ids": [],
+        "logical_candidate_parent_executions": 0,
+        "logical_candidate_parent_executions_this_validation": 0,
+        "new_library_hash": "7db583ac5a2cfdc4198e814b5ddfc01497f8544c41504cbdc056a98fa95118ec",
+        "old_library_hash": "7db583ac5a2cfdc4198e814b5ddfc01497f8544c41504cbdc056a98fa95118ec",
+        "pattern_count": 0,
+        "prior_logical_candidate_parent_executions": 0,
+        "reserved_logical_candidate_parent_allowance": 0,
+        "selected_candidate": null,
+        "selected_mask": null,
+        "skill_count": 2,
+        "teacher_request_sha256": "54c065f5836c67c9cf779d6c14c5d4d08297d67853875dc1b3b4b951e307f98a"
       }
     ],
     "settled_DEV_points": [
@@ -540,6 +642,19 @@
         "equal_dataset_macro": 0.4813387375887375
       },
       {
+        "arm": "CoRevOnly",
+        "batch": 3,
+        "library_hash": "5ecc2fb0e3cf440bf6748450d64a80147d330bd4bab1b6bdba21ee559d18318d",
+        "native_parent_means_by_dataset": {
+          "ContractNLI": 0.625,
+          "MAUD": 0.8333333333333333,
+          "OpenExempt": 0.19836035461035464,
+          "RuleArena_Airline": 0.0,
+          "SARA_v2_Binary": 0.75
+        },
+        "equal_dataset_macro": 0.4813387375887375
+      },
+      {
         "arm": "FreeEvolution",
         "batch": 0,
         "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
@@ -579,6 +694,19 @@
         "equal_dataset_macro": 0.4813387375887375
       },
       {
+        "arm": "FreeEvolution",
+        "batch": 3,
+        "library_hash": "67437fc0e25fccf1de875ca5734f2e572671d5e4805fed98fe1987416ca49252",
+        "native_parent_means_by_dataset": {
+          "ContractNLI": 0.625,
+          "MAUD": 0.8333333333333333,
+          "OpenExempt": 0.19836035461035464,
+          "RuleArena_Airline": 0.0,
+          "SARA_v2_Binary": 0.75
+        },
+        "equal_dataset_macro": 0.4813387375887375
+      },
+      {
         "arm": "Full",
         "batch": 0,
         "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
@@ -608,6 +736,19 @@
         "arm": "Full",
         "batch": 2,
         "library_hash": "db60021074f7f2cd24bbaf74d16c8f8421fbdb73baf3c487265104f4a3648244",
+        "native_parent_means_by_dataset": {
+          "ContractNLI": 0.625,
+          "MAUD": 0.8333333333333333,
+          "OpenExempt": 0.19836035461035464,
+          "RuleArena_Airline": 0.0,
+          "SARA_v2_Binary": 0.75
+        },
+        "equal_dataset_macro": 0.4813387375887375
+      },
+      {
+        "arm": "Full",
+        "batch": 3,
+        "library_hash": "4d8d8dad2e0e136d1488b8b82ffb9f6efe692b25b136b682afb3973a7f8f0535",
         "native_parent_means_by_dataset": {
           "ContractNLI": 0.625,
           "MAUD": 0.8333333333333333,
@@ -670,6 +811,19 @@
         "equal_dataset_macro": 0.4813387375887375
       },
       {
+        "arm": "LiftOnly",
+        "batch": 3,
+        "library_hash": "7db583ac5a2cfdc4198e814b5ddfc01497f8544c41504cbdc056a98fa95118ec",
+        "native_parent_means_by_dataset": {
+          "ContractNLI": 0.625,
+          "MAUD": 0.8333333333333333,
+          "OpenExempt": 0.19836035461035464,
+          "RuleArena_Airline": 0.0,
+          "SARA_v2_Binary": 0.75
+        },
+        "equal_dataset_macro": 0.4813387375887375
+      },
+      {
         "arm": "NoSkill",
         "batch": 0,
         "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
@@ -684,7 +838,7 @@
       }
     ],
     "physical_call_statuses": {
-      "completed": 855,
+      "completed": 1369,
       "reserved": 1
     },
     "training_and_DEV_complete": false,

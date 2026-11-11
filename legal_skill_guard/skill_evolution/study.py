@@ -18,7 +18,8 @@ from .controlled import add_controlled
 from .native import grade_view
 from .runtime import FrozenReads, SkillRuntime, retrieve
 from .revisions import ReplayBudget, VersionTable, observe_transfer, trigger_revision_reachability
-from .teacher import propose, compile_block
+from .teacher import compile_block
+from .proposal_batch import prepare_context, propose_context
 from . import patterns
 
 PILOT_ARMS = ('Full', 'FreeEvolution', 'AllPorts+CoRev', 'Lift+GenericJoint')
@@ -63,7 +64,8 @@ class Study:
         if not set(self.order) <= set(self.source_ids['train']):
             raise ValueError('Pilot is not entirely in the pre-fixed TRAIN manifest')
         self.ledger = EvolutionLedger(self.root / 'artifacts/rr_v2_preflight/research_ledger.sqlite3',
-            run_id=profile['run_id'], sources=self.source_ids, binding=profile['generation_binding'])
+            run_id=profile['run_id'], sources=self.source_ids, binding=profile['generation_binding'],
+            teacher_concurrency=profile.get('teacher_proposal_workers', 1))
         self.executor = FrozenExecutor(self.ledger, self.folder, profile['executor'])
         self.executor.exact_replay_roots = []
         for relative in profile.get('exact_replay_profiles', []):
@@ -165,34 +167,12 @@ class Study:
             if Library.load(self.library_path(arm, batch)).hash != saved['new_library_hash']:
                 raise ValueError('Committed update receipt and library differ')
             return saved
-        initial = self.initial_batch(arm, batch)
-        old = Library.load(self.library_path(arm, batch - 1))
-        current = {r['source']: r for r in initial['results']}
-        trigger = sorted(current, key=lambda k: (current[k]['selection_grade'] is None,
-            current[k]['selection_grade'] if current[k]['selection_grade'] is not None else 0,
-            self.order.index(k)))[:3]
-        past = [key for keys in self.batches[:batch - 1] for key in keys]
-        history = past[:5]
-        cohort = trigger + history
-        context_path = self.folder / arm / ('update_context_B' + str(batch) + '.json')
-        if context_path.exists():
-            context = load_json(context_path)
-            if context['old_library_hash'] != old.hash or context['cohort'] != cohort:
-                raise ValueError('Saved teacher/replay context differs from the fixed batch')
-            current = context['current']
-        else:
-            for key in history:current[key] = self.parent(key, old)
-            immutable_json(context_path, {'old_library_hash': old.hash, 'cohort': cohort, 'current': current})
+        context = prepare_context(self, arm, batch)
+        old, current = context['old'], context['current']
+        trigger, history, cohort = context['trigger'], context['history'], context['cohort']
+        queue, teacher_path = context['queue'], context['teacher_path']
         generic = arm == 'Lift+GenericJoint'
-        generated = patterns.candidates(old, [current[k] for k in trigger], generic=generic) if (
-            arm in ('Full', 'AllPorts+CoRev', 'Lift+GenericJoint')) else []
-        queue = generated[:1]
-        teacher_path = self.folder / arm / ('teacher_B' + str(batch) + '.json')
-        response = (load_json(teacher_path) if teacher_path.exists() else propose(self.teacher,
-            arm=arm, batch=batch, library=old, source_records=[self.records[k] for k in cohort],
-            feedback=self.feedback(cohort, current), learned_patterns=old.revision_patterns,
-            trigger=trigger, history=history,
-            max_blocks=3 - len(queue)))
+        response = propose_context(self, context)
         proposal = response['value']
         immutable_json(teacher_path, response)
         for block in proposal['blocks'][:3 - len(queue)]:

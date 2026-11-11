@@ -1,61 +1,33 @@
 # 当前证据与下一项实际工作
 
-Goal **active、未完成**。唯一目标与验收见[CURRENT_GOAL.md](CURRENT_GOAL.md)。执行目录`/home/yndx/hhy/legal-skill-redesign-20261109`，分支`research/legal-skill-evolution-20261111`；main不修改。历史暂停已解除，不是当前队列。
+Goal **active、未完成**。唯一目标和验收见[CURRENT_GOAL.md](CURRENT_GOAL.md)。执行目录 `/home/yndx/hhy/legal-skill-redesign-20261109`，分支 `research/legal-skill-evolution-20261111`；main不修改。历史暂停、旧A/B/M1/M2及参数训练路径不再构成动作队列。
 
-## 当前结论
+## 当前实测
 
-固定20个TRAIN母来源、4批、4个学习臂的**首遍已经完成**，共16次更新结算，原始结果保持。Full/FreeEvolution/AllPorts+CoRev/Lift+GenericJoint最终分别有2/3/2/0个已接纳技能，CoRev模式均为0。Full的专门Lift修订为0。已有真实获取与执行，但两项独立机制与强对照增量均未成立。正式128来源/8批七系统流程已完成B1/B2更新及全部对应DEV，正在B3批初作答；TEST仍封存，Goal未完成。
+固定128母来源/8批、七系统外部技能学习已完成**B1–B3的48来源初答及18次学习臂更新、对应DEV**，当前B4初答。每批16（OE4、其余各3），全部七臂初答完成才更新；教师只看已见TRAIN，模型不更新参数。TEST仍封存。
 
-| 臂 | 接纳技能 | 批初新母来源原生核心正确/50视图 | 原生fallback/50 | CoRev模式 |
-|---|---:|---:|---:|---:|
-| Full | 2 | 0 | 50 | 0 |
-| FreeEvolution | 3 | 0 | 50 | 0 |
-| AllPorts+CoRev | 2 | 0 | 48 | 0 |
-| Lift+GenericJoint | 0 | 0 | 50 | 0 |
+三批共105个原生视图/臂，七系统批初新来源主路径正确均为0，当前与同来源NoSkill的差值均为0；反馈内改对另记。B3批初五库等权均为.4167478，各批案情不同，不能据批间分数变化判断学习收益。[逐来源配对轨迹](../reports/legal_skill_evolution_run_20261111/formal_TRAIN_trajectory.json)、[训练图](../reports/legal_skill_evolution_run_20261111/formal_TRAIN_learning_trajectory.pdf)分开显示任务得分、同案NoSkill差值、库规模、回退和排除DEV后的请求使用量。共享缓存不重复计实际支出，各臂响应使用量不能相加冒充独立费用。
 
-AllPorts另外2次批初主路径执行均错误，不能计成功。训练后回放的成功与批初新来源严格分开：自由演化在B1原OE母来源EC/EV官方F1均为1；Full在B2把一条SARA由错改对，全端口对照把两条改对，覆盖该收益；Full在B3又接纳合同披露判断技能。这些是训练反馈内成果。32个受控视图直接基线全部正确，不提供额外能力证据。
+B3末技能数：FreeEvolution3、LiftOnly2、CoRevOnly2、Full2、Lift+GenericJoint2、AllPorts+CoRev1。39项教师原始操作全为create，35项编译、12项最终接纳；专门Lift与已有技能共同修订提议均为0，全部CoRev模式0。Full的两个SARA程序均把法源条件作为当前读取的inputs，固定前提0，属于普通参数化获取，不能倒算Lift。版本表选择器为所有臂共用，不能认领通用枚举选择的增量。[正式机制清单](../reports/legal_skill_evolution_run_20261111/formal_mechanism_inventory.json)。
 
-## 为什么两项机制仍缺证据
+B0七系统、B1–B3四主臂DEV五库等权均为.4813387，尚无增益。B2 FreeEvolution/LiftOnly/CoRevOnly各1个DEV视图由核心技能答对，但基线原本正确；Full核心执行0。B3四主臂各1个DEV视图核心答对，仍是基线原本正确的题，当前19/42个注册DEV点完成，不外推未来点。[DEV统计](../reports/legal_skill_evolution_run_20261111/formal_DEV_summary.json)、[DEV曲线](../reports/legal_skill_evolution_run_20261111/formal_DEV_learning_curves.pdf)。
 
-- Lift：Full当前把法律条件放在已读取的inputs中，固定源前提为0；实际没有从旧常量成组提升并在另一母来源重新绑定的事件。已有当前源读取不能倒算成Lift。
-- CoRev：尚无已验证的已有法律技能共同修订模式，也无跨来源实例化；新建依赖包和格式渲染链不算法律责任共同修订。
-- 学习上下文覆盖14/20母来源；固定“当前最差3＋最早历史5”的选择使部分高基线MAUD来源从未进入教师上下文，不能宣称已从20来源都学到规则。原队列不因结果改选、不加来源。
-- 实现问题损失了一部分候选；必须修复后再区分方法不触发、模型语义错误与真正方法不足。完整逐来源、候选与失败见[首遍审计](../reports/legal_skill_evolution_run_20261111/completed_pilot_audit.json)。
+## 当前进程与本次工程决定
 
-## 已完成的集中修复与当前实际任务
+唯一入口 `python -m experiments.legal_skill_evolution_formal run`，当前配置 `configs/legal_skill_evolution_formal_v3_20261111.json`，PID1166485/start_ticks640286217、session42899；实际身份记录为 `artifacts/legal_skill_evolution_20261111/formal_v3/live_process.json`。恢复先核实该PID和SQLite在途，不只看本文件。formal_v1/v2均已终态并保留持有文件，不能重启。Goal始终active，工程请求边界持有不是用户暂停。
 
-无在途请求、原首遍客户端已退出后，保存v11源码快照再修改：
+首批更新实测19.96分钟、48E/6T，其中教师累计965.99秒，约占81%；DEV/TEST另计。为减少串行等待，**B4起同一批六臂独立教师提议最多两路并发，执行模型及候选验证仍串行**。教师gpt-5.6-sol/high、Qwen3-8B/thinking OFF及采样参数不变；同批初库、最差3当前＋最早5历史、共享3候选/192逻辑执行均不变。2是并发数，不是教师累计调用上限。不增加探测调用；真实并发与耗时将由正常B4提议验证，尚不宣称实测提速。
 
-1. 未到达分支的unknown不再提前拒绝整条程序。只传有支持的已知值，未知键缺席；只有只读字面字段访问的程序允许部分绑定，实际访问未知仍失败，禁止全字典观察/别名/动态访问/补值。
-2. 没有任何前提绑定的reader不执行，避免不可观察的死读取产生失败或额外成本。
-3. 未安装草稿的修订仅在记录中有唯一同ID/前版本祖先时，按原程序新建v1；保留原响应与版本关系，不把它当已有技能CoRev。8个相关失败中5个离线恢复，其他仍拒绝。
-4. 教师接口显式区分trigger/history、原生答案合同及已安装技能/保留草稿；只影响以后合法提议，本次复验**不新增教师调用**。
+隔离目录及接入后42项回归通过，覆盖两T记账、E互斥、跨run隔离、失败排空/停止未发送、已完成提议恢复不重发。12个新鲜fixture输入及6个真实B3缓存上下文的新旧模型提议输入字节一致；与原请求逐值、类型、schema和源文本核对也一致。原请求与缓存重读存在JSON键序差异，该差异在旧代码中同样存在，已单列，未放松真实响应缓存的逐字匹配。[工程复核](../reports/legal_skill_evolution_run_20261111/formal_teacher_parallel_review.json)、[真实输入核对](../reports/legal_skill_evolution_run_20261111/actual_teacher_prefetch_payload_parity.json)。
 
-原接口26项检查通过；补齐局部记录候选、缓存索引及正式调度/隔离后共32项相关检查通过；原始Full读取和原程序在离线实际READ/APPLY/USE链上可得OE EC/EV F1约.533/.733，未补unknown，实际访问未知的负例仍拒绝。它证明接口修复，不能当新来源或方法贡献。
+六臂B3更新全结算、旧PID退出75、在途0后才接入；逐字导入2723个已结算文件，B0–B3库/初答/更新及部分DEV缓存保持，新模型调用0、账本不重置。原368视图预检在运行/原生编解码/worker/wire/数据及模型配置哈希一致的核验后复用，最大输入9468 tokens，输出8192不变。[导入收据](../reports/legal_skill_evolution_run_20261111/formal_teacher_overlap_state_import.json)。
 
-**集中受影响队列已完成29/29**：10个无触发可达性的槽离线排除，其余完整版本表；4个候选有可接受mask，均不能证明专门Lift或CoRev。旧初答、旧顺序库、原提议与账本不变。复验新增237次executor、0次teacher，结束累计2622E/90T，在途0。逐臂逐批连同旧逻辑执行均≤192。
+## 保全和下一步
 
-缓存查询在请求边界保留22个已结算候选和885条视图后修复；12个真实请求的离线对照结果与物理ID完全一致，查询含建索引快约7.9倍，未重算已完成前缀。新旧`repair_v12/v13`均保留。
+同一SQLite账本保留1893E/74T起点及全部失败、重试与旧输出；旧96/100、teacher2或修复轮次上限不恢复。[动态状态](../reports/legal_skill_evolution_run_20261111/current_status.json)、[阶段成本](../reports/legal_skill_evolution_run_20261111/stage_costs.json)与原始记录分开保存；GPU/教师实际现金发票不可见，不能把本地增量API为0说成整个实验免费。
 
-**当前实际工作：固定128来源/8批、七系统技能学习与DEV。** 唯一入口`python -m experiments.legal_skill_evolution_formal run`已接续到formal_v2，同一学习过程，不是第二遍。原32项及新引文/失败提议回归合计37项相关检查通过，368个TRAIN/DEV原生视图输入预检复用经相同运行依赖哈希核验的结果，最大输入9468 tokens，保持8192输出上限、thinking OFF。每批16（OE4＋其他各3），原顺序；全部批初先答再更新。四主臂DEV为B0–B8，其余B0/B8，DEV不进教师或技能更新。各臂从空库开始，不导入小试技能；该入口不开TEST。当前Goal覆盖旧首阶段停止边界，完整固定实验用于检验两机制及强对照收益；小试缺证据不改记为通过，也不降低最终验收。
+固定20来源首遍16更新和29项受影响集中复验均已完成，分别新增492E/16T、237E/0T。旧结果、失败及两机制未触发的否定证据保留，不重做旧构造实验、不导入小试库。unknown未到达分支、无绑定死读取、唯一未安装草稿及引文转录/失败原程序可见性修复的原始回归见[执行报告](../reports/legal_skill_evolution_run_20261111/README.md)及各修复收据。
 
-B0 DEV已完成，七系统空库五库等权均为.4813387；B1四主臂DEV仍为同一得分，尚无开发增益。B1自由演化、LiftOnly、CoRevOnly及Generic各接纳1个SARA技能；Full和AllPorts暂为0。训练内改对与DEV不增益分开记录，不能据技能数认定贡献。曲线和逐库指标由只读统计脚本生成，TEST未参与。
+下一项实际工作：继续现客户端余五批，使用正常B4提议检查两教师并发及连续记账，保持全部失败与回退分母。之后按已实现入口 `python -m experiments.legal_skill_evolution_frozen prepare` 核验128/8批和42个DEV点、无在途与完整教师暴露，才读取TEST；再执行 `preflight`、`run` 和 `python -m experiments.legal_skill_evolution_transfer`。迁移掩码与来源版本追踪已在B0–B2六臂真实库/痕迹上离线核验，8项隔离/恢复检查通过；这些不是迁移效果。
 
-B2四主臂DEV现已全部结算，仍均为.4813387：FreeEvolution/LiftOnly/CoRevOnly各1个原生视图由核心技能答对，但基线原本正确；Full核心执行0。当前完成15/42个注册DEV点，已进入B3首答；不能把这些主路径覆盖变化称为新增准确率或两方法增量。本次公开证据[核验提交a28f667](https://github.com/H00RU/LegalSkillGuard/blob/a28f667d2dd3d939ff24e5810228aaf91fa3b1c6/reports/legal_skill_evolution_run_20261111/README.md)包含3401个独立取回一致文件，快照截于B2三个DEV点，随后Full/B2原始记录在本地继续保留，main未改。
-
-已完成有原始记录支持的前向修复：Full/B1一条法律引文的破折号/换行复制差异可唯一绑定回原文，原P、端口、法律值均不变，离线恢复编译；AllPorts另一个转述引用仍拒绝。另将已保存却未进入教师输入的失败原始提议接入后续修复上下文，所有臂一致应用。formal_v1在六臂B2更新全部结算后正常退出75，核实旧PID退出及SQLite在途0才改动绑定源码；这不是Goal暂停。随后逐字导入1482个已结算文件至formal_v2，B0–B2库、初答、更新和部分DEV视图保持，导入新增调用0、账本不重置。新客户端PID1049186/start_ticks639865782、session87795已核实；唯一有效身份记录为`artifacts/legal_skill_evolution_20261111/formal_v2/live_process.json`。原v1终态及持有文件保留，不得重启。修复只影响B3及以后，不回写旧结果。[离线复核](../reports/legal_skill_evolution_run_20261111/formal_forward_grounding_repair_review.json)与[导入收据](../reports/legal_skill_evolution_run_20261111/formal_grounding_state_import.json)保留。
-
-B2六臂均已完成更新：Full学得一个当前输入读取的渐进税率判断器，前提常量为0；其余臂共1–2个技能，模式仍为0。该程序是普通规则获取，不计Lift或CoRev。B1实际更新阶段约19.96分钟、48E/6T，DEV与TEST另计；按B1线性外推不当作完整队列时长承诺。训练继续期间只补齐未绑定的统计、冻结TEST入口和来源迁移分析，不修改运行manifest绑定的科学代码、配置、测试或原始数据。
-
-**接续工作已落实到可运行入口。** B8冻结及原生TEST准备为`python -m experiments.legal_skill_evolution_frozen prepare`，先验证128/8批和42个DEV点结算、哈希及无在途，再重核完整教师暴露记录，才可读取TEST评分包；随后`preflight`、`run`执行固定七系统。迁移入口`python -m experiments.legal_skill_evolution_transfer`在七系统冻结矩阵完成后使用预先冻结的Full外库掩码，无教师、无库更新、无重训练。来源沿全部真正接纳版本及编辑模式供体累积，未知不猜；实际APPLY尝试和最终答案依赖路径分开，fallback不计核心迁移。六臂B0–B2真实库/痕迹离线回归及8项相关隔离、依赖、恢复检查已通过，实际TEST与掩码调用均未开始。这些入口须接在当前训练完成后，勿与现客户端并发启动。[真实前缀回归](../reports/legal_skill_evolution_run_20261111/actual_B2_lineage_and_mask_regression.json)、[正式机制清单](../reports/legal_skill_evolution_run_20261111/formal_mechanism_inventory.json)、[DEV曲线](../reports/legal_skill_evolution_run_20261111/formal_DEV_learning_curves.pdf)。
-
-动态账本、在途和阶段结算见[运行状态](../reports/legal_skill_evolution_run_20261111/current_status.json)、[完整进度](../reports/legal_skill_evolution_run_20261111/pilot_progress.json)。
-## 可复用与保全
-
-固定方案包32项哈希、五库128/40/160母来源、280/88/352原生视图、32个受控TRAIN视图保持。Qwen3-8B原始权重、thinking OFF，教师gpt-5.6-sol/high，参数均冻结；教师温度未暴露。账本起点1893E/74T及所有失败、重复请求、旧版产物保持。
-
-`legal_skill_guard/skill_evolution/`包含严格技能对象、隔离执行、读取/绑定、实际USE数据流、版本表选择、模式实例化、来源隔离和精确缓存。官方OE55评分文件逐字保持；格式/fixture通过不等于法律语义正确。原入口`experiments.legal_skill_evolution`的v11首遍已完成，不得再次启动旧队列。
-
-历史暴露核验发现CNLI原TEST537正文通过旧TRAIN538进入3份教师提示，同母来源簇已复核；保留原清单，冻结前按既定hash顺序补位，候选555已完成现存记录预筛。不读取TEST标签、不用旧暴露TEST宣称盲测；历史核验范围和未完成项单列。
-
-[执行报告](../reports/legal_skill_evolution_run_20261111/README.md) · [离线修复证据](../reports/legal_skill_evolution_run_20261111/offline_repair_regression.json) · [实际机制清单](../reports/legal_skill_evolution_run_20261111/learned_mechanism_inventory.json)。旧A/B、M1/M2否定证据、桌面确定性资产及LoRA产物保留，不恢复旧路线。
+CNLI原TEST537通过旧TRAIN538暴露，原清单保留，按预定hash补位555；不改TRAIN/DEV，不用旧暴露来源宣称盲测。冻结及迁移入口不加教师、不更新库、不改测试追分。只有完整实验、相对强对照实际收益及两项独立贡献均被支持才完成Goal；当前这些条件尚未满足，不自动进入论文。
