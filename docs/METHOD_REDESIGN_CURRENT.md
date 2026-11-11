@@ -14,7 +14,7 @@ Goal **active、未完成**。目标和验收唯一见 [CURRENT_GOAL.md](CURRENT
 
 - ec54a33固定方案包32项原始哈希保持；五库128/40/160母来源、280/88/352原生视图按固定清单准备，actor与grading分离。32个受控TRAIN视图归属8个既有母来源，不扩来源数。
 - 原始Qwen3-8B 12个文件哈希已核实，无LoRA或参数更新；executor thinking OFF。实际教师调用明确为gpt-5.6-sol/high，CLI未暴露温度。连续账本起点1893E/74T，不重置。
-- `legal_skill_guard/skill_evolution/`已接通唯一Skill/Library格式、保存恢复、受限Python隔离执行、当前源读取、真实producer→consumer数据流、严格教师提议、完整4/8格、统一反馈选择和编辑模式实例化。19项当前路径回归通过；这是工程证据，不替代真实贡献验证。
+- `legal_skill_guard/skill_evolution/`已接通唯一Skill/Library格式、保存恢复、受限Python隔离执行、当前源读取、真实producer→consumer数据流、严格教师提议、完整4/8格、统一反馈选择和编辑模式实例化。21项当前路径回归通过；这是工程证据，不替代真实贡献验证。
 - 官方原生评分继续使用：OE接受分数为官方EC/EV F1，完整mapping准确性另列；官方55文件逐字保留，在既有评分环境执行。280个原生TRAIN答案编码往返检查通过。
 - 直接fallback按来源、完整任务和冻结executor配置固定，候选mask复用同一基线。原始请求、响应、协议版本、物理成本和确定性复用收据均保存。
 
@@ -29,19 +29,25 @@ Goal **active、未完成**。目标和验收唯一见 [CURRENT_GOAL.md](CURRENT
 | v5/v6 | 转述引用改成现成原文片段编号，由host逐字绑定；读取范围修正为原文、事实和问题。v6四响应均stop，输出454/646/626/535 tokens，转述匹配错误消除 | 航空checked_base_fees及OE部分联邦引用/额度仍unknown，未触发APPLY；不是源规则缺失的证明 |
 | v7 | 失败READ也保留完整字段及支持片段；教师反馈保留具体失败。零新增调用接续初答和Full/B1。82视图预检通过，最大输入7331 tokens；完整输入＋8192输出在32768上下文内 | 仍需其他固定臂和后续母来源的执行、接纳与机制复用证据 |
 
+v8/v9进一步仅删除程序无法观察的rule_quotes声明，原程序和使用中的法义值保持。三候选恢复编译；另一个非逐字来源引用仍拒绝。首个全规则数组读取真实出现44引用/28类别及不完整额度尾部，无法无歧义恢复；v9从实际循环索引推出数组对应关系，先读锚列表再按其长度约束后续模型输出，不补值。AllPorts/B1已完成实际读取和执行，但该OE母来源原生F1仍为0，未接纳；属于模型语义错误，仍按固定队列推进。
+
 Full/B1累计60次逻辑候选—来源执行（两次各30，包含一次明确读取接口修复），两个独立候选块；物理调用和逻辑回放分开。持续使用同一SQLite，不恢复旧机械调用上限。动态数量及在途情况见[运行快照](../reports/legal_skill_evolution_run_20261111/pilot_progress.json)和实际进程。
 
 ## 真正缺口与下一项实际工作
 
 1. 完成固定真实小试：各臂独立获取，共同初答、原文、监督、读取工具和可比反馈预算。普通错误和fallback保留分母，按固定队列继续；接口缺陷有离线证据后修复，不做无变化重试。
 2. Lift须有真实前提块提升及另一母来源读取/绑定；CoRev须有真实版本表、学得模式及对另一母来源候选生成/排序的影响。目前均未满足，不能宣布正式训练就绪。模式编译当前覆盖双procedure编辑；真实候选若需要其他编辑类型，须完成接口后再声称覆盖。
-3. 完成冻结前历史暴露核对。RR账本内当前TEST无调用；额外核对192个历史CNLI运行目录，120个有原生结果的文档与当前TEST/DEV均无交集，TRAIN重合7个；16个历史OE输入包与当前72来源无交集。这是已核查范围，不等于全历史审计结项。旧DEV开发暴露保留，不宣称盲DEV。
+3. 完成冻结前历史暴露核对。RR账本内当前TEST无调用；额外核对192个历史CNLI运行目录，120个有原生结果的文档与当前TEST/DEV均无交集，TRAIN重合7个；16个历史OE输入包与当前72来源无交集。此外，283份历史教师wire提示的完整正文匹配发现当前TEST合同537正文被旧TRAIN538正文包含，3份旧教师提示命中；当前537须标记有历史教师暴露，不能仅凭旧编号不同宣称盲测。保留原清单与结果，冻结前按DATA_PLAN第8节预定hash补位规则处理并保存映射。当前TRAIN不变，不向方法或教师提供TEST标签。全历史审计尚未结项，旧DEV开发暴露亦保留。
 4. 真实机制自审后继续已授权128/8批、七系统固定DEV、B8冻结及五库TEST，交付学习曲线、迁移掩码、独立消融、强对照、逐来源结果、区间和成本。正式入口和统计汇总尚待接完；小试或诊断不替代完整Goal。
 
 ## 当前入口与保全
 
-唯一入口：`python -m experiments.legal_skill_evolution`，当前预检配置 `configs/legal_skill_evolution_pilot_v7_20261111.json`。模型配置保持；接口修复版本不是新Goal、来源或学习epoch。
+唯一入口：`python -m experiments.legal_skill_evolution`，当前预检配置 `configs/legal_skill_evolution_pilot_v10_20261111.json`。模型配置保持；接口修复版本不是新Goal、来源或学习epoch。
 
-[执行报告](../reports/legal_skill_evolution_run_20261111/README.md) · [原教师表示恢复](../reports/legal_skill_evolution_run_20261111/recover_B1_teacher_ports.py) · [已结算状态接续](../reports/legal_skill_evolution_run_20261111/resume_after_B1_read_diagnosis.py)。完整原始结果在 `artifacts/legal_skill_evolution_20261111/pilot_v1` 至 `pilot_v7`，每版科学源码快照和manifest保留。
+[执行报告](../reports/legal_skill_evolution_run_20261111/README.md) · [原教师表示恢复](../reports/legal_skill_evolution_run_20261111/recover_B1_teacher_ports.py) · [已结算状态接续](../reports/legal_skill_evolution_run_20261111/resume_after_B1_read_diagnosis.py)。完整原始结果在 `artifacts/legal_skill_evolution_20261111/pilot_v1` 至 `pilot_v10`，每版科学源码快照和manifest保留。
 
 旧A/B、M1/M2、确定性桌面资产、OpenExempt utility v6、LoRA权重、失败和全部账本保持；旧参数启动器原字节归档于 `archive/parameter_learning_20261111`，不恢复旧队列。
+
+当前已完成四臂B1结算并进入B2。B1为Full0、FreeEvolution3、AllPorts0、Lift+GenericJoint0个接纳技能，无CoRev模式；B2五来源冻结初答完成；Full/B2已接纳1个报酬包含/非现金例外技能，SARA一个来源由0改为1，固定历史不降分，其余臂更新继续。Lift/CoRev独立证据仍未满足。v10恢复时因校验失败后启动命令仍继续，误重复2次旧初答；两次原始输出单独归档、全部计账，均未替换原初答。接续脚本先核实在途0、完成状态导入后才单独启动，4臂B1与B2已有前缀保持。
+
+离线原因核查另确认Full原程序在联邦系统不可用时不读取相应unknown字段。用既有v6已知字段、原程序及原渲染器可完成确定性执行，EC F1≈.5333、EV≈.7333；没有补任何unknown。说明原接口对未到达字段的全量拒绝过严，同时仍有原生语义错误。该记录是离线真实输出回放，尚非修复后生产路径或独立方法收益；详见实际分支核查JSON。

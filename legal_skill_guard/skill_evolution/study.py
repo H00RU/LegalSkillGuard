@@ -11,8 +11,9 @@ import jsonschema
 from legal_skill_guard.rr.checkpoint import immutable_json
 from .objects import Library, Skill, digest, apply_revision_package
 from .ledger import EvolutionLedger
-from .clients import FrozenExecutor, FrozenTeacher
+from .clients import FrozenExecutor, FrozenTeacher, GenerationHold
 from legal_skill_guard.rr.client import WireError
+from legal_skill_guard.rr.ledger import BudgetError
 from .controlled import add_controlled
 from .native import grade_view
 from .runtime import FrozenReads, SkillRuntime, retrieve
@@ -221,6 +222,8 @@ class Study:
                     receipt['transplant_classification'] = table.classify()
                 tables.append(receipt)
             except Exception as error:
+                if isinstance(error, (GenerationHold, BudgetError)):
+                    raise
                 with self.ledger.transaction() as db:
                     if db.execute("select 1 from calls where status='reserved'").fetchone():raise
                 tables.append({**candidate, 'error': type(error).__name__ + ': ' + str(error),

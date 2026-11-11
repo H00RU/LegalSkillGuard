@@ -1,10 +1,11 @@
 """One strict wire representation for bounded source-grounded skill proposals."""
 from dataclasses import asdict
 from copy import deepcopy
+import ast
 import json
 
 from legal_skill_guard.inference.codex_cli_client import strict_output_schema_issues
-from .objects import Skill, digest, lift, coupled_blocks
+from .objects import Skill, digest, lift, coupled_blocks, premise_uses
 from .native import record_schema, public_strings
 
 STRING = {'type': 'string'}
@@ -64,6 +65,44 @@ def reader_from_wire(reader):
         'schema': record_schema({name: {'type': field['type']} for name, field in fields.items()})}
 
 
+def prune_unobserved_premise_metadata(value):
+    """Remove evidence-only ports only when the program cannot observe them.
+
+    Whole-map access, aliases, iteration, and len(premises) preclude this
+    adaptation. Missing used ports, procedures and used legal values stay intact.
+    """
+    result = deepcopy(value)
+    used = set(premise_uses(result['procedure']))
+    dead = {p['name'] for p in result['premises']} - used
+    if not dead:
+        return result, []
+    tree = ast.parse(result['procedure'])
+    parents = {id(child): node for node in ast.walk(tree) for child in ast.iter_child_nodes(node)}
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Name) and node.id == 'premises' and isinstance(node.ctx, ast.Load):
+            parent = parents[id(node)]
+            if not (isinstance(parent, ast.Subscript) and parent.value is node
+                    and isinstance(parent.slice, ast.Constant) and isinstance(parent.slice.value, str)):
+                return result, []
+    if any(o['port'] in dead for o in result['source_obligations']):
+        return result, []  # Do not discard a declared semantic obligation.
+    removed = [p for p in result['premises'] if p['name'] in dead]
+    result['premises'] = [p for p in result['premises'] if p['name'] not in dead]
+    readers = []
+    for reader in result['reads']:
+        old_fields = {b['field'] for b in reader['bindings'] if b['premise'] in dead}
+        reader['bindings'] = [b for b in reader['bindings'] if b['premise'] not in dead]
+        live_fields = {b['field'] for b in reader['bindings']}
+        reader['fields'] = [f for f in reader['fields'] if f['name'] not in old_fields - live_fields]
+        if reader['bindings']:
+            readers.append(reader)
+    result['reads'] = readers
+    for record in result['semantic_records']:
+        record['ports'] = [p for p in record['ports'] if p not in dead]
+    assert result['procedure'] == value['procedure']
+    return result, removed
+
+
 def skill_from_wire(value):
     result = deepcopy(value)
     result['inputs'] = named(value['inputs'])
@@ -103,7 +142,8 @@ def compile_block(block, library, sources, arm):
         raise ValueError('A candidate block has one to three revisions')
     revisions = []
     for proposed in block['revisions']:
-        new = skill_from_wire(proposed['skill'])
+        normalized, removed = prune_unobserved_premise_metadata(proposed['skill'])
+        new = skill_from_wire(normalized)
         old = library.skills.get(new.id)
         operation = proposed['operation']
         if (old is None) != (operation == 'create'):
@@ -134,7 +174,10 @@ def compile_block(block, library, sources, arm):
             if any(p['mode'] == 'constant' for p in new.premises.values()):
                 raise ValueError('AllPorts acquisition must parameterize all related source-premise ports')
         revisions.append({'skill_id': new.id, 'old_hash': old.hash if old else None,
-                          'new_hash': new.hash, 'new': asdict(new), 'operation': operation})
+                          'new_hash': new.hash, 'new': asdict(new), 'operation': operation,
+                          'representation_adaptation': {'removed_unobserved_declarations': removed,
+                              'procedure_unchanged': new.procedure == proposed['skill']['procedure'],
+                              'used_premise_values_unchanged': True}})
     if len({r['skill_id'] for r in revisions}) != len(revisions):
         raise ValueError('Duplicate skill revisions in one block')
     return revisions
@@ -149,7 +192,8 @@ Read inputs are current facts/question fields; source-premise constants carry li
 For citation fields ask for literal citation strings, not legacy output label IDs. Retained read failures are actual model outputs, not proof that the source lacks the rule.
 For every input in mode read set field equal to name and skill_id null; in mode skill name the actual producer skill_id and its output field.
 Semantic records name ports from the declared inputs and/or source premises; already-read ports are not counted as newly Lifted premises.
-Read questions must describe the current-source concept rather than tell the reader an old value. Every known read needs a current-source literal quote.
+Read questions must describe the current-source concept rather than tell the reader an old value. The host separately binds supplied source-span IDs for read evidence.
+Declare only premises actually used in the procedure. Do not add unused rule_quotes or other evidence-only ports; source_provenance carries literal evidence.
 Use semantic_records only for local legal records with genuine coupling; a common final return does not couple everything.
 For a dependent helper, input mode skill names its real producer and field. Do not split fields of one source record into artificial skills.
 A terminal helper returns answer in the exact current native type/labels; dependencies may return intermediate records.

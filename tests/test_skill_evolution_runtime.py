@@ -9,8 +9,9 @@ from types import SimpleNamespace
 import unittest
 
 from legal_skill_guard.skill_evolution.objects import Skill, Library, coupled_blocks
-from legal_skill_guard.skill_evolution.teacher import validate_grounding
-from legal_skill_guard.skill_evolution.runtime import execute_helper, SkillRuntime, render_messages
+from legal_skill_guard.skill_evolution.teacher import validate_grounding, prune_unobserved_premise_metadata
+from legal_skill_guard.skill_evolution.runtime import (execute_helper, SkillRuntime, render_messages,
+    aligned_array_ports, FrozenReads)
 from legal_skill_guard.skill_evolution.native import answer_wire_schema, decode_answer, restore_enum_transport, source_spans
 from legal_skill_guard.skill_evolution.controlled import add_controlled
 from legal_skill_guard.skill_evolution.ledger import EvolutionLedger
@@ -40,6 +41,66 @@ def helper(procedure='def apply(inputs, premises):\n    return {"answer": inputs
 
 
 class RuntimeTests(unittest.TestCase):
+    def test_array_alignment_comes_from_actual_uses_and_never_fills_values(self):
+        program = ('def apply(inputs, premises):\n    keys = premises["keys"]\n'
+            '    amounts = premises["amounts"]\n    total = 0\n'
+            '    for j in range(len(keys)):\n        total = total + amounts[j]\n'
+            '    return {"answer": total}\n')
+        skill = replace(helper(), procedure=program, inputs={},
+            premises={n: {'type': 'array', 'mode': 'constant', 'value': [], 'origin': {'source': 'fixture'}}
+                      for n in ('keys', 'amounts')})
+        self.assertEqual(aligned_array_ports(skill), [(('premises', 'keys'), [('premises', 'amounts')])])
+        observes_length = replace(skill, procedure=program.replace('total = 0', 'total = len(amounts)'))
+        self.assertEqual(aligned_array_ports(observes_length), [])
+        direct_other_access = replace(skill, procedure=program.replace('total = 0', 'total = premises["amounts"][4]'))
+        self.assertEqual(aligned_array_ports(direct_other_access), [])
+        deletes = replace(skill, procedure=program.replace('total = total + amounts[j]', 'del amounts[j]'))
+        self.assertEqual(aligned_array_ports(deletes), [])
+        changes_index = replace(skill, procedure=program.replace('total = total + amounts[j]', 'j = j + 1\n        total = total + amounts[j]'))
+        self.assertEqual(aligned_array_ports(changes_index), [])
+        calls = []
+        reads = FrozenReads(None)
+        def generate(source, view, **args):
+            calls.append(args)
+            values = {'keys': ['a', 'b']} if len(calls) == 1 else {'amounts': [3, 5]}
+            response = {n: {'status': 'known', 'value': v, 'support_ids': [0]} for n, v in values.items()}
+            import jsonschema
+            jsonschema.validate(response, args['schema'])
+            return response, {'call_id': str(len(calls)), 'physical_call_id': str(len(calls)), 'usage': {}}
+        reads.generate = generate
+        values, event = reads.read({'key': 'fixture', 'dataset': 'fixture'},
+            {'id': 'v', 'public': {'source_text': 'a has 3; b has 5.'}}, question='Read the current pairs.',
+            fields={n: {'type': 'array', 'question': n} for n in ('keys', 'amounts')},
+            locator='source', purpose='fixture', alignment=('keys', ['amounts']))
+        self.assertEqual(values, {'keys': ['a', 'b'], 'amounts': [3, 5]})
+        shape = calls[1]['schema']['properties']['amounts']['properties']['value']
+        self.assertEqual((shape['minItems'], shape['maxItems']), (2, 2))
+        self.assertEqual(calls[1]['content']['alignment_anchor_values'], {'keys': ['a', 'b']})
+        self.assertEqual(event['physical_call_ids'], ['1', '2'])
+
+    def test_unused_evidence_port_recovery_preserves_observable_program_behavior(self):
+        raw = {'procedure': 'def apply(inputs, premises):\n    return {"answer": premises["cap"]}\n',
+            'premises': [{'name': 'cap', 'value': 17}, {'name': 'rule_quotes', 'value': None}],
+            'reads': [{'id': 'read', 'fields': [{'name': 'cap'}, {'name': 'quote'}],
+                'bindings': [{'premise': 'cap', 'field': 'cap'}, {'premise': 'rule_quotes', 'field': 'quote'}]}],
+            'semantic_records': [{'ports': ['cap', 'rule_quotes']}], 'source_obligations': []}
+        normalized, removed = prune_unobserved_premise_metadata(raw)
+        self.assertEqual([p['name'] for p in removed], ['rule_quotes'])
+        self.assertEqual(normalized['procedure'], raw['procedure'])
+        self.assertEqual(normalized['premises'], raw['premises'][:1])
+        namespace = {}
+        exec(raw['procedure'], {}, namespace)
+        for evidence in (None, ['literal source'], ['different evidence']):
+            self.assertEqual(namespace['apply']({}, {'cap': 17, 'rule_quotes': evidence}),
+                             namespace['apply']({}, {'cap': 17}))
+        # This superficially unused port affects len(premises); never prune it.
+        observable = {**raw, 'procedure': 'def apply(inputs, premises):\n    return {"answer": premises["cap"] + len(premises)}\n'}
+        self.assertEqual(prune_unobserved_premise_metadata(observable), (observable, []))
+        alias = {**raw, 'procedure': 'def apply(inputs, premises):\n    p = premises\n    return {"answer": p["cap"]}\n'}
+        self.assertEqual(prune_unobserved_premise_metadata(alias), (alias, []))
+        semantic = {**raw, 'source_obligations': [{'port': 'rule_quotes'}]}
+        self.assertEqual(prune_unobserved_premise_metadata(semantic), (semantic, []))
+
     def test_read_span_ids_bind_exact_source_and_preserve_structured_facts(self):
         public = {'source_text': 'Rule header\nA rule.\n\nA second rule.',
                   'facts': {'actual_known': False, 'tax_year': 2025}}
@@ -110,6 +171,10 @@ class RuntimeTests(unittest.TestCase):
             (Path(folder) / 'HOLD_GENERATION').write_text('hold before transport')
             # No ledger/network/config exists: the boundary must fire first.
             with self.assertRaises(GenerationHold):executor.generate('fixture')
+            teacher = object.__new__(FrozenTeacher)
+            teacher.artifacts = Path(folder)
+            with self.assertRaises(GenerationHold):
+                teacher.propose('fixture', source_ids=['train'], system_prompt='', user_prompt='', output_schema={})
 
     def test_edit_transplant_preserves_new_source_bindings(self):
         before = 'def apply(inputs, premises):\n    return {"answer": inputs["old_a"] or premises["old_b"]}\n'

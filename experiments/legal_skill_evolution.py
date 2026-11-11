@@ -15,7 +15,7 @@ from legal_skill_guard.skill_evolution.study import Study, load_json, PILOT_ARMS
 from legal_skill_guard.skill_evolution.runtime import render_messages
 
 ROOT = Path(__file__).resolve().parents[1]
-PROFILE = ROOT / 'configs/legal_skill_evolution_pilot_v7_20261111.json'
+PROFILE = ROOT / 'configs/legal_skill_evolution_pilot_v10_20261111.json'
 
 
 def file_hash(path):
@@ -46,16 +46,19 @@ def prepare():
         data[path] = file_hash(ROOT / path)
     for path in (ROOT / 'data/cache/openexempt/servantez-OpenExempt-ec6fa25').rglob('*.py'):
         data[path.relative_to(ROOT).as_posix()] = file_hash(path)
-    profile = {'protocol': 'LSG-LegalSkill-20261111', 'run_id': 'legal_skill_evolution_pilot_v7_20261111',
-        'artifacts': 'artifacts/legal_skill_evolution_20261111/pilot_v7', 'executor': executor,
+    profile = {'protocol': 'LSG-LegalSkill-20261111', 'run_id': 'legal_skill_evolution_pilot_v10_20261111',
+        'artifacts': 'artifacts/legal_skill_evolution_20261111/pilot_v10', 'executor': executor,
         'teacher': teacher, 'teacher_binary_sha256': expected_teacher,
         'generation_binding': {'code_hash': digest(code), 'data_hash': digest(data),
             'executor_hash': digest(executor), 'teacher_hash': digest(teacher)},
         'selection_grade': 'all_predeclared_native_and_controlled_TRAIN_views_mean_within_parent',
         'primary_native_scores': 'native_only_kept_separate', 'pilot_arms': PILOT_ARMS,
         'new_sources_or_seeds': False, 'model_parameter_updates': False,
-        'exact_replay_profiles': ['configs/legal_skill_evolution_pilot_v4_20261111.json'],
-        'prior_logical_replay_executions': {'Full:1': 60},
+        'exact_replay_profiles': ['configs/legal_skill_evolution_pilot_v4_20261111.json',
+                                  'configs/legal_skill_evolution_pilot_v7_20261111.json',
+                                  'configs/legal_skill_evolution_pilot_v9_20261111.json'],
+        'prior_logical_replay_executions': {'Full:1': 60, 'FreeEvolution:1': 30,
+                                          'AllPorts+CoRev:1': 36, 'Lift+GenericJoint:1': 30},
         'first_attempt_prefix_recovery': 'Only original complete native answer fields; protocol versions and raw costs retained; no labels used in recovery'}
     immutable_json(PROFILE, profile)
     folder = ROOT / profile['artifacts']

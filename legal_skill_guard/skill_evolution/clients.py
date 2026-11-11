@@ -72,6 +72,8 @@ class FrozenTeacher:
             cache_root=self.artifacts / 'teacher_adapter_cache')
 
     def propose(self, call_id, *, source_ids, system_prompt, user_prompt, output_schema):
+        if (self.artifacts / 'HOLD_GENERATION').exists():
+            raise GenerationHold('Held before the next teacher request; settled work is preserved')
         self.ledger.require_train(source_ids)
         issues = strict_output_schema_issues(output_schema)
         if issues:

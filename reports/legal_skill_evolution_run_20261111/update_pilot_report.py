@@ -4,10 +4,10 @@ from datetime import datetime, timezone
 import json
 from pathlib import Path
 import sqlite3
+from experiments.legal_skill_evolution import PROFILE
 
 ROOT = Path(__file__).resolve().parents[2]
 REPORT = Path(__file__).resolve().parent
-PROFILE = ROOT / 'configs/legal_skill_evolution_pilot_v7_20261111.json'
 
 
 def read(path):
@@ -36,10 +36,33 @@ def main():
             'reserved_at': at, 'finish_reason': result.get('finish_reason'),
             'usage': tokens, 'elapsed_seconds': result.get('elapsed_seconds'),
             'error': result.get('error'), 'request_hash': result.get('request_hash') or result.get('request_sha256')})
-    updates = []
+    updates, candidate_validation = [], []
     for arm in profile['pilot_arms']:
         for path in sorted((folder / arm).glob('update_B*.json')):
-            updates.append(read(path))
+            receipt = read(path)
+            updates.append(receipt)
+            candidate_folder = folder / arm / ('B' + str(receipt['batch']) + '_candidates')
+            candidates = [(int(p.stem), read(p)) for p in sorted(candidate_folder.glob('*.json'))]
+            if not candidates:
+                library = read(folder / arm / ('B' + str(receipt['batch']) + '.json'))
+                candidates = [(e['candidate_index'], e) for e in library['provisional_edits']
+                              if e['batch'] == receipt['batch']]
+            for candidate_index, candidate in candidates:
+                cells = []
+                for cell in candidate.get('table', {}).get('mixed_version_table', []):
+                    views = (cell.get('trace') or {}).get('views', [])
+                    for view in views:
+                        if view['execution']['core_executed']:
+                            cells.append({'mask': cell['mask'], 'source': cell['source'],
+                                'view': view['view'], 'controlled': view['controlled'],
+                                'grade': view['score']['grade'], 'correct': view['score']['correct'],
+                                'fallback': view['execution']['fallback']})
+                candidate_validation.append({'arm': arm, 'batch': receipt['batch'],
+                    'candidate_index': candidate_index, 'error': candidate.get('error'),
+                    'selected_mask': candidate.get('selected_mask'),
+                    'finally_accepted_candidate': receipt['selected_candidate'] == candidate_index,
+                    'actual_core_execution_cells': cells,
+                    'note': 'Version-table cells are repeated assignments, not independent sources or fresh physical requests.'})
     first = []
     for arm in profile['pilot_arms']:
         for path in sorted((folder / arm).glob('initial_B*.json')):
@@ -58,7 +81,8 @@ def main():
         'cumulative_physical_requests': {k: sum(v.values()) for k, v in total.items()},
         'cumulative_statuses': total, 'goal_physical_statuses': goal, 'goal_usage': usage,
         'pending': pending, 'physical_attempts_this_goal': attempts,
-        'completed_update_receipts': updates, 'first_attempt_parent_rows': first,
+        'completed_update_receipts': updates, 'candidate_validation': candidate_validation,
+        'first_attempt_parent_rows': first,
         'independent_parent_count_is_not_multiplied_by_arms_or_views': True,
         'formal_128_training_started': False, 'DEV_started': False, 'TEST_started': False,
         'cash_cost': {'executor_incremental_API_cash_usd': 0,

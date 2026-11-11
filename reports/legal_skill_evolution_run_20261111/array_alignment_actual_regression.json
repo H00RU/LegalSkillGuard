@@ -1,0 +1,171 @@
+{
+  "new_model_calls": 0,
+  "actual_v8_failure": {
+    "citation_count": 44,
+    "category_count": 28,
+    "caps_incomplete": true,
+    "raw_response_recoverable_as_complete_read": false,
+    "missing_values_or_support_not_filled": true,
+    "physical_request_count": 2
+  },
+  "inference_evidence": [
+    {
+      "arm": "AllPorts+CoRev",
+      "candidate": 0,
+      "still_rejected": "Teacher provenance is not a literal supplied TRAIN-source quote"
+    },
+    {
+      "arm": "AllPorts+CoRev",
+      "candidate": 1,
+      "skill": "openexempt_build_independent_claims",
+      "array_alignment_from_actual_program": [
+        [
+          [
+            "inputs",
+            "asset_descriptions"
+          ],
+          [
+            [
+              "inputs",
+              "asset_values"
+            ],
+            [
+              "inputs",
+              "asset_types"
+            ]
+          ]
+        ],
+        [
+          [
+            "premises",
+            "rule_citations"
+          ],
+          [
+            [
+              "premises",
+              "rule_asset_types"
+            ],
+            [
+              "premises",
+              "rule_caps"
+            ]
+          ]
+        ]
+      ],
+      "procedure_unchanged": true
+    },
+    {
+      "arm": "AllPorts+CoRev",
+      "candidate": 1,
+      "skill": "openexempt_ec_output",
+      "array_alignment_from_actual_program": [],
+      "procedure_unchanged": true
+    },
+    {
+      "arm": "AllPorts+CoRev",
+      "candidate": 1,
+      "skill": "openexempt_ev_output",
+      "array_alignment_from_actual_program": [],
+      "procedure_unchanged": true
+    },
+    {
+      "arm": "Lift+GenericJoint",
+      "candidate": 0,
+      "skill": "calculate_airline_ticket_plus_bag_fees",
+      "array_alignment_from_actual_program": [
+        [
+          [
+            "inputs",
+            "bag_lengths"
+          ],
+          [
+            [
+              "inputs",
+              "bag_weights"
+            ]
+          ]
+        ],
+        [
+          [
+            "premises",
+            "weight_upper_bounds"
+          ],
+          [
+            [
+              "premises",
+              "weight_fees"
+            ]
+          ]
+        ],
+        [
+          [
+            "premises",
+            "size_upper_bounds"
+          ],
+          [
+            [
+              "premises",
+              "size_fees"
+            ]
+          ]
+        ]
+      ],
+      "procedure_unchanged": true
+    },
+    {
+      "arm": "Lift+GenericJoint",
+      "candidate": 1,
+      "skill": "build_independent_asset_exemption_claims",
+      "array_alignment_from_actual_program": [
+        [
+          [
+            "inputs",
+            "asset_descriptions"
+          ],
+          [
+            [
+              "inputs",
+              "asset_categories"
+            ],
+            [
+              "inputs",
+              "asset_values"
+            ]
+          ]
+        ],
+        [
+          [
+            "premises",
+            "rule_citations"
+          ],
+          [
+            [
+              "premises",
+              "rule_categories"
+            ],
+            [
+              "premises",
+              "rule_caps"
+            ]
+          ]
+        ]
+      ],
+      "procedure_unchanged": true
+    },
+    {
+      "arm": "Lift+GenericJoint",
+      "candidate": 1,
+      "skill": "format_exemption_citation_mapping",
+      "array_alignment_from_actual_program": [],
+      "procedure_unchanged": true
+    },
+    {
+      "arm": "Lift+GenericJoint",
+      "candidate": 1,
+      "skill": "format_exemption_value_plan",
+      "array_alignment_from_actual_program": [],
+      "procedure_unchanged": true
+    }
+  ],
+  "related_regressions_passed": 21
+}

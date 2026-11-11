@@ -1,9 +1,9 @@
 {
-  "captured_utc": "2026-11-11T05:40:43.654726+00:00",
+  "captured_utc": "2026-11-11T06:23:54.583866+00:00",
   "goal_status": "active",
   "goal_complete": false,
   "stage": "fixed_20_TRAIN_pilot",
-  "profile": "configs/legal_skill_evolution_pilot_v7_20261111.json",
+  "profile": "configs/legal_skill_evolution_pilot_v10_20261111.json",
   "thinking": false,
   "model_parameter_updates": false,
   "ledger_start": {
@@ -11,44 +11,53 @@
     "teacher": 74
   },
   "cumulative_physical_requests": {
-    "executor": 1914,
-    "teacher": 76
+    "executor": 1976,
+    "teacher": 80
   },
   "cumulative_statuses": {
     "executor": {
-      "completed": 1904,
+      "completed": 1966,
       "failed": 10
     },
     "teacher": {
       "failed": 4,
-      "completed": 72
+      "completed": 75,
+      "reserved": 1
     }
   },
   "goal_physical_statuses": {
     "executor": {
       "failed": 1,
-      "completed": 20
+      "completed": 82
     },
     "teacher": {
-      "completed": 2
+      "completed": 5,
+      "reserved": 1
     }
   },
   "goal_usage": {
     "executor": {
-      "elapsed_seconds_settled": 963.1748119294643,
-      "prompt_tokens": 156299,
-      "total_tokens": 179528,
-      "completion_tokens": 23229
+      "elapsed_seconds_settled": 1703.3019226174802,
+      "prompt_tokens": 548267,
+      "total_tokens": 595109,
+      "completion_tokens": 46842
     },
     "teacher": {
-      "input_tokens": 76144,
+      "input_tokens": 261802,
       "cached_input_tokens": 0,
-      "output_tokens": 22557,
-      "reasoning_output_tokens": 8950,
-      "elapsed_seconds_settled": 447.56482866499573
+      "output_tokens": 56771,
+      "reasoning_output_tokens": 22470,
+      "elapsed_seconds_settled": 1119.5363410869613
     }
   },
-  "pending": [],
+  "pending": [
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:teacher:27d77e7649859ced4140375bb9d53afc87fb63b4f545a226836aa95c5f423c17",
+      "role": "teacher",
+      "purpose": "skill_teacher",
+      "reserved_at": 1794378025.0909965
+    }
+  ],
   "physical_attempts_this_goal": [
     {
       "id": "legal_skill_evolution_pilot_v1_20261111:d4adab13056d8fa8596c66492c523274e40aeed9659609355fa36ba14df1343b",
@@ -435,6 +444,1123 @@
       "elapsed_seconds": 10.388257658109069,
       "error": null,
       "request_hash": "4ebcd3589a89c6e73a3ac5f7fd9a26c7fedada873864cd2b2d6794eaf28e3bea"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v7_20261111:teacher:e03c6ff75489c33d3fe66a8fa28a0ad3f2837f1f9fc1a58dfe8d36ee05f92d0a",
+      "role": "teacher",
+      "purpose": "skill_teacher",
+      "status": "completed",
+      "reserved_at": 1794375658.4514322,
+      "finish_reason": null,
+      "usage": {
+        "input_tokens": 37770,
+        "cached_input_tokens": 0,
+        "output_tokens": 11313,
+        "reasoning_output_tokens": 4971
+      },
+      "elapsed_seconds": 224.00274960696697,
+      "error": null,
+      "request_hash": "0f7600a073d1b721070776decb914edbea5332dac543eb2d7e44b1f520d14d38"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v7_20261111:teacher:d38efd63e11bf42d68c88f5e475cca0d4fe38f7af5d2e24db8349dc02a828a44",
+      "role": "teacher",
+      "purpose": "skill_teacher",
+      "status": "completed",
+      "reserved_at": 1794375959.1293292,
+      "finish_reason": null,
+      "usage": {
+        "input_tokens": 38144,
+        "cached_input_tokens": 0,
+        "output_tokens": 11049,
+        "reasoning_output_tokens": 4660
+      },
+      "elapsed_seconds": 215.49662396870553,
+      "error": null,
+      "request_hash": "7a3b7d1c22b7a604867a05d87a74f66cbe4dd70f7a96ffb71a02afc6963296ef"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v8_20261111:9f2c3363a1e7c30cafd17f73cc2cfe250fe75a54c8ce5021e84ecaf614b5d127",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794376383.8839648,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 9061,
+        "total_tokens": 9177,
+        "completion_tokens": 116,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 4.855669029057026,
+      "error": null,
+      "request_hash": "b3fb4f2798e071d0c11360b4d1496e17855b8070181869ee03744fd4a0cb6e26"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v8_20261111:4e3068283290169321d73f9819f2dec82fa3c2b554c89a23377901afc907dbae",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794376388.7964752,
+      "finish_reason": "length",
+      "usage": {
+        "prompt_tokens": 9077,
+        "total_tokens": 17269,
+        "completion_tokens": 8192,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 243.15812990628183,
+      "error": null,
+      "request_hash": "7382ae353fd62146c2948d9eb77f9ede30e42d38caf4370afe27ed83f97c8134"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:5034f5c570d982296dffa1a436d2ec03a797cbf430dfa17d160ba8ea3115037d",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377104.8575983,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 8740,
+        "total_tokens": 8799,
+        "completion_tokens": 59,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 3.1196978632360697,
+      "error": null,
+      "request_hash": "30905de0bb7ca103bb3e7d934b9b9ef12b6570f6bca438263146c53deea71710"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:a9ccb2cdda6fb75e2657788f700ed91a0437bb06e8141f1f3ad126359fd9ea30",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377108.028345,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 9006,
+        "total_tokens": 9669,
+        "completion_tokens": 663,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 20.46818516589701,
+      "error": null,
+      "request_hash": "87e15767a09ec612699e1b46c99d21bbf1a77875a825c3fb13ec7f48feb00e9a"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:7de767e6861852cd54bd8792c915c2caa4a09220cd13c4dd062d80bd5ba2a844",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377128.5527983,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 8764,
+        "total_tokens": 9347,
+        "completion_tokens": 583,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 18.130965086631477,
+      "error": null,
+      "request_hash": "c358271b1e0e2bd8cee4104e38fe4d1fc4301b99941a42f54f34fd6c53958982"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:3679e1ab83df6edcd8c7a8c4ca70dbf868a47998b75db7cf2c2fcc1a8199b1f6",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377146.7413678,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 9474,
+        "total_tokens": 10050,
+        "completion_tokens": 576,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 18.155883048661053,
+      "error": null,
+      "request_hash": "47a9074e13c54744fcbc8e10a6aa1334df5b29c93cc7142b18d52d6ba06e54ba"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:d91f529b1da30cf78837abe1a341cf2536ed75981f7bc101038c7feff15d51fb",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377164.9684072,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 8740,
+        "total_tokens": 8791,
+        "completion_tokens": 51,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 2.913549833931029,
+      "error": null,
+      "request_hash": "cbd53b6b36150c9e84e7c3561f7ba804622d640bef9360c0632288ce88897af8"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:0393e2b00b7c88966bc59cfbbe7b79ff96ea44121019d589ceb9c6010dc0847e",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377168.3886054,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 8753,
+        "total_tokens": 8804,
+        "completion_tokens": 51,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 2.900491069070995,
+      "error": null,
+      "request_hash": "cd076d8f3bce71071a0a0cc9cce90e53cbecb8f7583a34e97631cb3ee91f6e78"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:0305d498846136428f55ff342ce4dda06c3849046b6daad2deaf6bf4e800b19a",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377171.34148,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 9019,
+        "total_tokens": 9080,
+        "completion_tokens": 61,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 3.241657248698175,
+      "error": null,
+      "request_hash": "864f629444cddd74b08a619f5455980c44fde014543ccdaa681610af96226c84"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:4193bad1a22586bc9e768d23a414580ea8a654650f27c9933ffee065929943af",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377174.6376948,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 8777,
+        "total_tokens": 8937,
+        "completion_tokens": 160,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 6.018030327744782,
+      "error": null,
+      "request_hash": "8e2a7e19e904a464fb1b5cf999e6ce9fdc4e82a1b38e10a98ed18854d1297314"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:1062a16c34534ab68cee026bb820d6230875f7f908313b9a23d41298d2e6be87",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377180.7067711,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 9056,
+        "total_tokens": 9129,
+        "completion_tokens": 73,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 3.6075819320976734,
+      "error": null,
+      "request_hash": "548a1ced4ca58fc0f72394c925ffc68fb24c28af140c35f5ab26cd266624d06f"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:cee99f82e1d237a4d76be9744294154fe3914b6628b5ca04988eabffd131989b",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377184.3851192,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 8753,
+        "total_tokens": 8804,
+        "completion_tokens": 51,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 2.9049465032294393,
+      "error": null,
+      "request_hash": "20cf191505a0dc413696c1b674785bb6282dff10533c6c313f44677c891c1e41"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:4ce371325764bf7f0afc0a34af9b1338893d004214645c236b566f7e416ef424",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377188.3145475,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6894,
+        "total_tokens": 7099,
+        "completion_tokens": 205,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 6.885168542154133,
+      "error": null,
+      "request_hash": "6a47fe8d443c8121769a65cffb9ece8021e45f24baaef29b853fc0f1f9309785"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:b6ecb5078014246a943fc83e98e8148bf256d694e01e841aea00c1dce7072210",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377195.2535954,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6239,
+        "total_tokens": 6281,
+        "completion_tokens": 42,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 2.1763047631829977,
+      "error": null,
+      "request_hash": "8ab66e5f7e7343e90f94770d2427b6c57bed9d191f7c79181463cc130b12ca46"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:0bc4446fdfc755836c518661c9a471284a3f5a423f6fb193fc43c660b37658bf",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377197.4752376,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7113,
+        "total_tokens": 7354,
+        "completion_tokens": 241,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 7.955132972449064,
+      "error": null,
+      "request_hash": "1fd46622225ebe613f1e7e5a42f02e1f417accee107f6ee3c2e54f81e803b6d6"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:608842fdada08d04b08f0b8aec839bfc74217b97900bcd0ae0437246b81087e9",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377205.486801,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6271,
+        "total_tokens": 6317,
+        "completion_tokens": 46,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 2.292387324385345,
+      "error": null,
+      "request_hash": "82375854a1a286c77caa54c7dfd2a99a31bd6fa7a94c7e889cde1a6507f93071"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:bc89f61f20d13886171670cc8fc871b86a68b456f912461d617b02ac26b97950",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377207.861086,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7038,
+        "total_tokens": 7310,
+        "completion_tokens": 272,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 8.784751547500491,
+      "error": null,
+      "request_hash": "080407881e6cf6022641ad46eff113d819a88da391e4d462a9f8f85fe82917d6"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:5141b458a313744d3317ce225c6ecd50309d9db54da4d74047978e14423d78da",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377216.702278,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6410,
+        "total_tokens": 6476,
+        "completion_tokens": 66,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 2.890351867303252,
+      "error": null,
+      "request_hash": "ffacefcdab3328193302294625ba3d224b4590bae04df63d2cbf81699dd5b204"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:6efd2f87e99658b7d61d71b9299fda299fc5fafb324560abcc5d84eba174788b",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377219.6401927,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7257,
+        "total_tokens": 7508,
+        "completion_tokens": 251,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 8.261359947733581,
+      "error": null,
+      "request_hash": "00569406d702b2c1ec63316f7ca56a8371d976014bf04933153a45ca37b7e50f"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:a0d6fc0e1b4d8ead1e2156f693df0f97f674bc5c5af139738e6a1d8da914a759",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377227.9741087,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6415,
+        "total_tokens": 6461,
+        "completion_tokens": 46,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 2.310676301829517,
+      "error": null,
+      "request_hash": "276b50ef383c27218365a319c1bf4dd6cc0733450d8bd28905709a572e3e6724"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:4ee2e47c0aba62cb2c1c1299a68d1f949f2a76c3a11897ea9fec5eebf7e3ef18",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377230.4467778,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 8910,
+        "total_tokens": 8992,
+        "completion_tokens": 82,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 3.8494941955432296,
+      "error": null,
+      "request_hash": "0d178048003fad8c298e8d6a99eca7a62eeecaacd8607da991df17f59f681324"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:ad1bd8606a45d8d1b98098c908703ba80db7238e07d3a605f2ec59a2d5ba1c0e",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377234.3540885,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 9010,
+        "total_tokens": 9079,
+        "completion_tokens": 69,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 3.4981334637850523,
+      "error": null,
+      "request_hash": "41deaed1a540b9f241f75d3f2dc955f0da9f5ce41bd2439a62af9216b607d74a"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:a600fc9b47b2bb01cdb35c761f6b658bb9b663bddae4d4455bf6d25fcb9d8b03",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377237.9112694,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 8784,
+        "total_tokens": 9431,
+        "completion_tokens": 647,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 19.984198100864887,
+      "error": null,
+      "request_hash": "1798d266115a8f446fa41125ce75ff5f858b2aa7315868c1ed230cfe97728dd9"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:a94bcdb55ce2dac0230db37b453150d2fe7a967cef5029b8f390441585148ea8",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377257.9483545,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 9531,
+        "total_tokens": 10147,
+        "completion_tokens": 616,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 19.359111786819994,
+      "error": null,
+      "request_hash": "b05a77400efeccc14bfc793944136f645e605d895e46d0552f1204dc37ff0bdd"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:5a7702d640ac0fe43302606b5e18e338eb8680e1b0c8d7d34d7a0acb86bc4d28",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377277.4071884,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 8923,
+        "total_tokens": 9005,
+        "completion_tokens": 82,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 3.8384261773899198,
+      "error": null,
+      "request_hash": "56738276e7286db3daa3b7ff46ee65fff711701e1d08b9cbd96f5daf4a45c6a7"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:5d27cf9a623493f3120fad405cda299eb2e9b6ce123d4bdcf83c463a69105c05",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377281.3048012,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 9023,
+        "total_tokens": 9098,
+        "completion_tokens": 75,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 3.6422953391447663,
+      "error": null,
+      "request_hash": "544019c8a281a0fb9f6c2642298a4efc0c56c1999fdf3187f1b491b49c51bd04"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:01608b34b5759f563843b4efa65f031f4b2b09c642c0706e00f02c3bd90c96be",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377284.9975324,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 8797,
+        "total_tokens": 9960,
+        "completion_tokens": 1163,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 34.77029084786773,
+      "error": null,
+      "request_hash": "d91823c4ac7383718c7e39d7d27628d11bae709cf53970bbb4769d6b70552acd"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:b65f1f6677adb38c02f199cac6d677cafa497365c7138fac2cbdea076d8eed0b",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377319.817509,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 9898,
+        "total_tokens": 10641,
+        "completion_tokens": 743,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 23.104613836854696,
+      "error": null,
+      "request_hash": "db33381de3a6c3363e5a8c17f7a0ae6acfa2f5ecc9b993bd60a732ded2aba06f"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:b377e9f3b36c01d93d0138845215474e2eb0ee7151191b0d57a4f2206db18e7f",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377343.5139303,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2084,
+        "total_tokens": 2103,
+        "completion_tokens": 19,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 0.8201187010854483,
+      "error": null,
+      "request_hash": "5577beb51efe1a8bc5c3502e3ab8078e5e7456d5411cd8c1e117b631ac4d397a"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:b687af967a8535c18e4458a892bde704146c0b79cece54f041c091b38fbe0c1c",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377344.3818552,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2959,
+        "total_tokens": 3270,
+        "completion_tokens": 311,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 8.903201409615576,
+      "error": null,
+      "request_hash": "24eefa0f40ea66e91e3141038b2e2fe90effcb8e17c7d4dc9f795d14f64826d6"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:2a39995bc3e25b13c48e990f2f3a28d22d179682309b891c6d1efc6576f3c18a",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377353.3399627,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2965,
+        "total_tokens": 3276,
+        "completion_tokens": 311,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 8.903136397711933,
+      "error": null,
+      "request_hash": "372f8bbc2da977468b221d6cb4b889ec03c98e0bbbb1bd25020c8c3c9eeb881d"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:4e4c5d5e13031731a3836d77cf433cd8cef690d01660e0c3ec9cab249a76eef2",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377362.2880628,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2959,
+        "total_tokens": 2982,
+        "completion_tokens": 23,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 1.0631697103381157,
+      "error": null,
+      "request_hash": "6ec5a5aee33c1deaeb34fcaa0df015c3fc352f3a5dece49b6c6b1811e67be143"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:bed80334e837b1f35cdad842179063dd2c35bae9341495e53f6c0697d9093dac",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377363.3953896,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2961,
+        "total_tokens": 2988,
+        "completion_tokens": 27,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 1.1736348364502192,
+      "error": null,
+      "request_hash": "6c2ff314d538690dede8f2da57e230f9b7c203e60dbab4c1d522d0fcba6bca2e"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:5ea6b1191769ca0c75e14869eec62177cb3b3e74155efc4e005147edaa9ab84c",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377364.6146948,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 1933,
+        "total_tokens": 1950,
+        "completion_tokens": 17,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 0.7275022510439157,
+      "error": null,
+      "request_hash": "5b7abe27e1609fe5d105fd282739c7771017d9eb6723d873a129b28e56ff4f96"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:33aa9aac6f93842d3941dacb632af873ffd69e159063ea7632de621d6968c3c3",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377365.3872583,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 3969,
+        "total_tokens": 4028,
+        "completion_tokens": 59,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 2.208935988135636,
+      "error": null,
+      "request_hash": "999b0fc67a357c0b77acc6b5924739b96767479cf1ad464727c193cff87cdf29"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:89b98e328e75387ef2cf844e6ba95989c3d4f6699e0c954a20459ddf2256b2a1",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377367.6410341,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 3975,
+        "total_tokens": 4005,
+        "completion_tokens": 30,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 1.4171000979840755,
+      "error": null,
+      "request_hash": "f858433ac2e45e39120d79f5fe42c54380f4760fd6aedf14ce9a0d41035d370f"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:c0d3bb317ddd8b3110a921dac2e7a0530911bd67bd9f37793b1510dd122a6a7e",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377369.105233,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 3969,
+        "total_tokens": 3990,
+        "completion_tokens": 21,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 1.1691337330266833,
+      "error": null,
+      "request_hash": "95f9f424e2c4b8f0564a4468e41e8c07e4f31296e4fdd7808816f7a9295862e7"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:c79a4dcbcb1c4e154d582b3709bbeaef4c8fb8a2407cf6a4e001a76623165a38",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377370.318049,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 3971,
+        "total_tokens": 3998,
+        "completion_tokens": 27,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 1.3332378510385752,
+      "error": null,
+      "request_hash": "4aaa3ba9a9cf0ca68b4d77d6d095841a22b8564366e5b8844e173670d7a4d3d7"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v9_20261111:8279fb96d3c3cecfdea64556f2adbfafa18f24b7c88a5bd0d1c3eee0a0a88849",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377371.698553,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6523,
+        "total_tokens": 7399,
+        "completion_tokens": 876,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 25.656477035954595,
+      "error": null,
+      "request_hash": "b22bbab013ed82d66858fd6e656d31e087156be18b2d9a06466e4d9f3ac201b1"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:35e9658b52488cbbb1a79718aa32313e8a94bd5b2533b6a7af5ff097c26435ee",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377496.9149828,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7270,
+        "total_tokens": 7651,
+        "completion_tokens": 381,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 11.888314677402377,
+      "error": null,
+      "request_hash": "9f4bc0ab1e87013f7a0cd47c86b25f13ad02e8870304444c6cd2f3b29fb9b553"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:bfdf8400726cfae333a0b139b92b961c655ca5ab2417aca2bf5fda498c308765",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377509.3264778,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 7331,
+        "total_tokens": 8191,
+        "completion_tokens": 860,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 25.466963443905115,
+      "error": null,
+      "request_hash": "5a99967a8f4d363636d8a2d0d82627ce5aaec4d11e550396c4127844ced8814c"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:2b63b14088554993c423ca4090871d8b546440dc6eba34b6d3308ccd813a7b23",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377618.9948175,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6529,
+        "total_tokens": 7405,
+        "completion_tokens": 876,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 25.643379345536232,
+      "error": null,
+      "request_hash": "082312259bcae863642df1fb4caf13f661266ae3afe8323f4b60663c25b73c90"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:fe3808706fa2b99f98bccaa562c6295ecd88b0ffd69053aeb57a7ef68d284328",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377644.7227209,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6523,
+        "total_tokens": 6541,
+        "completion_tokens": 18,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 1.5178995402529836,
+      "error": null,
+      "request_hash": "f2a176a032534237d3bc4db27ac9e9c89bbc979ad0b97073b46a00280edc2e20"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:93bee1dd3f71aca1fd1ee3363006ddc3cb05e3d5027606db8b2a8393a44e1507",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377646.313567,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 6525,
+        "total_tokens": 7379,
+        "completion_tokens": 854,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 25.018149997107685,
+      "error": null,
+      "request_hash": "de69b86de50bba299573e87e4cd80b9546fc12ca076ec7e63db551bdaa11ab56"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:teacher:0fb359180e0997da9816b699c25affd521a117aefb5a26abfc522149196087ba",
+      "role": "teacher",
+      "purpose": "skill_teacher",
+      "status": "completed",
+      "reserved_at": 1794377671.5017047,
+      "finish_reason": null,
+      "usage": {
+        "input_tokens": 109744,
+        "cached_input_tokens": 0,
+        "output_tokens": 11852,
+        "reasoning_output_tokens": 3889
+      },
+      "elapsed_seconds": 232.4721388462931,
+      "error": null,
+      "request_hash": "f42262d5c2839470371e02c2ac9721039b79fa0a3420ce964a3c68bc5253d522"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:2c031aca2a88c9ff13f0629750b3c3bf788f5ce2e55d1df500e8a61f18239eb2",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377905.8482308,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 3754,
+        "total_tokens": 3970,
+        "completion_tokens": 216,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 6.431196719408035,
+      "error": null,
+      "request_hash": "1be154e6e7253809af6fff256036e185c9ba97e81696e33d639b51deff0f7dbc"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:565c44fce6bdf9c8f972e65fd02b356699d971e259591fbc9d6f8ae8dcb1f7ce",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377912.3591495,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 4534,
+        "total_tokens": 4683,
+        "completion_tokens": 149,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 4.792136917822063,
+      "error": null,
+      "request_hash": "3cf24b5d97df00e7bc4127dfb3052dadd1a88dc513169f0a8368665618238b5a"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:e6364c0f0e575bf241c0eaf981644cc01dff2df85cd8e42cb412607e53e97fa3",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377917.2260284,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2909,
+        "total_tokens": 3052,
+        "completion_tokens": 143,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 4.315659437328577,
+      "error": null,
+      "request_hash": "99b80f8aaee9914b6f39001b9394b2128c3eb1d000cbed0521b22d11da8554cb"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:8136642efe5509c76a5a64ef9020f2b47a6bf721e3bf709641ca13c48834b020",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377921.6129174,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2916,
+        "total_tokens": 3059,
+        "completion_tokens": 143,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 4.300400142557919,
+      "error": null,
+      "request_hash": "532ad87c90decc62a42e1acefa78bcdd40d8c8b1cd2c7b8d53e5392ecf9c9ff7"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:b874469b279f1fab4106c4b6158ed70a23ac88940dcc66e21750766108f280e6",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377925.9857602,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2910,
+        "total_tokens": 3053,
+        "completion_tokens": 143,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 4.2949536656960845,
+      "error": null,
+      "request_hash": "2b19ee2b118897b70c8029cd26de132b1c08a9b243322ece7a68f7a159799201"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:08e6c920b71586ae63f18b2931146483edc6584b200ded270100e41cc8239619",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377930.354347,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2912,
+        "total_tokens": 3055,
+        "completion_tokens": 143,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 4.30119882337749,
+      "error": null,
+      "request_hash": "57182b862653f46bf09e19bf4b0f1896963a4b1afe80a507da5bddd4b7dc8d69"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:b8bb4bec648faa53a8ac3e692bdecb0669fc8a171dc470415a4b299e41f5e6a3",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377935.656723,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 3622,
+        "total_tokens": 3745,
+        "completion_tokens": 123,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 3.8958970811218023,
+      "error": null,
+      "request_hash": "420abb4c606ca5a0dc6e5ad088fe6fb82d963654a077b4b594a6bae91572e6a0"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:f594bbd9c18e579e064c2ef19baa58d08e7e55e16af90147029865e50f20f050",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377939.6244688,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 4402,
+        "total_tokens": 4684,
+        "completion_tokens": 282,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 8.437500536441803,
+      "error": null,
+      "request_hash": "e2e36b39a9b5085a9d07ecf2e8abc1b8686f92f100507b547d07cd373f4910bf"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:c6d1e4a9224fa94b0e7ab73955cdff94d47f867cdd26b0cb068e2ec5c8c63e77",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377948.1281404,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 4070,
+        "total_tokens": 4180,
+        "completion_tokens": 110,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 3.626379563473165,
+      "error": null,
+      "request_hash": "5acd3e9159d7396c0356984e8a943cba481494d02d91d9a7b732ec3c119a10b4"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:6109bdd64bea9c594425e3cb037e995739f7f43822741f88468767335fced701",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377951.8195736,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 3973,
+        "total_tokens": 4408,
+        "completion_tokens": 435,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 12.53128459956497,
+      "error": null,
+      "request_hash": "f2dfd047a53cd773630fdb98e790a59f8f045988e739b0aa248bf2f4415d8e99"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:c3c412e13dd23150e29f420c79943e20cf048766e4e3e73f9596feac85e303f0",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377964.4356217,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2779,
+        "total_tokens": 2901,
+        "completion_tokens": 122,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 3.7267595138400793,
+      "error": null,
+      "request_hash": "fb033119d42ce6f36db20873d65ad7b40446e2b30a392ef8f39a9737c976d9f1"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:d0c65f30e1f04b932de8ae7f8bfd105d064d3e1055210ea193d6134221a5a4f1",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377968.2301788,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2786,
+        "total_tokens": 2908,
+        "completion_tokens": 122,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 3.7161188600584865,
+      "error": null,
+      "request_hash": "9fbace4171c70c6c48ee268dadfe58bdd6443ad095a30ccbf70c4acb17634e4e"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:13ffacf0d96eaf15a1e9a237f5cdb580b291c06f7911cefab1986072afe6b272",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377972.0168207,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2780,
+        "total_tokens": 2902,
+        "completion_tokens": 122,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 3.7244555642828345,
+      "error": null,
+      "request_hash": "8d49ff23028912652e5358985d0ed68073edc414f259d978bf8a21f14e5a2c94"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:a54037c6b468bf50edbe030635aa26fd430f1cc296fd2bcd64e7ce6e77764d57",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377975.8136804,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 2782,
+        "total_tokens": 2902,
+        "completion_tokens": 120,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 3.669972997158766,
+      "error": null,
+      "request_hash": "3ac3e6191c2e8a84bdb699d539009727cbc95be70476d50447e5b4321610597a"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:98e772f601c7050d84872fc14b028d3cee5d99d7b5b43175add3fd8c52c0b9ad",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377980.2462142,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 9656,
+        "total_tokens": 9974,
+        "completion_tokens": 318,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 10.746564388275146,
+      "error": null,
+      "request_hash": "4a041cb467d6d55ce04fc0303512da2f36d792e0367a2857c5c1730e404aaf9e"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:34189fe7f91c28115552f5b4db426a2a55d0d05460059d2613759b09a95541c9",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794377991.1411555,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 9675,
+        "total_tokens": 9970,
+        "completion_tokens": 295,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 10.096164382062852,
+      "error": null,
+      "request_hash": "d93210592b00fc14f3fa6680c703140522f79c39f4d241d9ead153599ceeb77b"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:bae5ccad71a4af1a24a1be179f72e18219a6a787c9fde5f4ce5f86f3cd5e4e13",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794378001.3867145,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 9659,
+        "total_tokens": 9978,
+        "completion_tokens": 319,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 10.787011586129665,
+      "error": null,
+      "request_hash": "6b763aa360ef05f27872294f1dbbc235956088bb8ffda501d1bf5ae30135282b"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:92b43f2b70b7affd458ee0c994f0fa70a8939a5849b720a526fc733512de9460",
+      "role": "executor",
+      "purpose": "skill_actor",
+      "status": "completed",
+      "reserved_at": 1794378012.74433,
+      "finish_reason": "stop",
+      "usage": {
+        "prompt_tokens": 9670,
+        "total_tokens": 9986,
+        "completion_tokens": 316,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 10.7456168634817,
+      "error": null,
+      "request_hash": "c869d69758f22119913fbd225aa325f883690c686d0bb4ee0da794a5cf668911"
+    },
+    {
+      "id": "legal_skill_evolution_pilot_v10_20261111:teacher:27d77e7649859ced4140375bb9d53afc87fb63b4f545a226836aa95c5f423c17",
+      "role": "teacher",
+      "purpose": "skill_teacher",
+      "status": "reserved",
+      "reserved_at": 1794378025.0909965,
+      "finish_reason": null,
+      "usage": {},
+      "elapsed_seconds": null,
+      "error": null,
+      "request_hash": null
     }
   ],
   "completed_update_receipts": [
@@ -455,6 +1581,22 @@
       "teacher_request_sha256": "5506be41d075223dc1101f973384c0ae906fc2369fe9685666f6130a62cfc8af"
     },
     {
+      "arm": "Full",
+      "batch": 2,
+      "candidate_blocks": 3,
+      "learned_pattern_ids": [],
+      "logical_candidate_parent_executions": 32,
+      "logical_candidate_parent_executions_this_validation": 32,
+      "new_library_hash": "ef631c751af42770cb2eaec983ac506bc5e38a1958d29313ebb955768558833c",
+      "old_library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+      "pattern_count": 0,
+      "prior_logical_candidate_parent_executions": 0,
+      "selected_candidate": 2,
+      "selected_mask": 2,
+      "skill_count": 1,
+      "teacher_request_sha256": "f42262d5c2839470371e02c2ac9721039b79fa0a3420ce964a3c68bc5253d522"
+    },
+    {
       "arm": "FreeEvolution",
       "batch": 1,
       "candidate_blocks": 2,
@@ -469,6 +1611,316 @@
       "selected_mask": 7,
       "skill_count": 3,
       "teacher_request_sha256": "99efc3b198c1fd2452c4b20a36010f49d77bc73f0a57e4b93d108663f29ff82f"
+    },
+    {
+      "arm": "AllPorts+CoRev",
+      "batch": 1,
+      "candidate_blocks": 2,
+      "learned_pattern_ids": [],
+      "logical_candidate_parent_executions": 36,
+      "logical_candidate_parent_executions_this_validation": 24,
+      "new_library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+      "old_library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+      "pattern_count": 0,
+      "prior_logical_candidate_parent_executions": 12,
+      "selected_candidate": null,
+      "selected_mask": null,
+      "skill_count": 0,
+      "teacher_request_sha256": "0f7600a073d1b721070776decb914edbea5332dac543eb2d7e44b1f520d14d38"
+    },
+    {
+      "arm": "Lift+GenericJoint",
+      "batch": 1,
+      "candidate_blocks": 2,
+      "learned_pattern_ids": [],
+      "logical_candidate_parent_executions": 30,
+      "logical_candidate_parent_executions_this_validation": 30,
+      "new_library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+      "old_library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+      "pattern_count": 0,
+      "prior_logical_candidate_parent_executions": 0,
+      "selected_candidate": null,
+      "selected_mask": null,
+      "skill_count": 0,
+      "teacher_request_sha256": "7a3b7d1c22b7a604867a05d87a74f66cbe4dd70f7a96ffb71a02afc6963296ef"
+    }
+  ],
+  "candidate_validation": [
+    {
+      "arm": "Full",
+      "batch": 1,
+      "candidate_index": 0,
+      "error": null,
+      "selected_mask": null,
+      "finally_accepted_candidate": false,
+      "actual_core_execution_cells": [],
+      "note": "Version-table cells are repeated assignments, not independent sources or fresh physical requests."
+    },
+    {
+      "arm": "Full",
+      "batch": 1,
+      "candidate_index": 1,
+      "error": null,
+      "selected_mask": null,
+      "finally_accepted_candidate": false,
+      "actual_core_execution_cells": [],
+      "note": "Version-table cells are repeated assignments, not independent sources or fresh physical requests."
+    },
+    {
+      "arm": "Full",
+      "batch": 2,
+      "candidate_index": 0,
+      "error": "ValueError: Create/revise identity differs from the actual library",
+      "selected_mask": null,
+      "finally_accepted_candidate": false,
+      "actual_core_execution_cells": [],
+      "note": "Version-table cells are repeated assignments, not independent sources or fresh physical requests."
+    },
+    {
+      "arm": "Full",
+      "batch": 2,
+      "candidate_index": 1,
+      "error": "ValueError: Create/revise identity differs from the actual library",
+      "selected_mask": null,
+      "finally_accepted_candidate": false,
+      "actual_core_execution_cells": [],
+      "note": "Version-table cells are repeated assignments, not independent sources or fresh physical requests."
+    },
+    {
+      "arm": "Full",
+      "batch": 2,
+      "candidate_index": 2,
+      "error": null,
+      "selected_mask": 2,
+      "finally_accepted_candidate": true,
+      "actual_core_execution_cells": [
+        {
+          "mask": 2,
+          "source": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+          "view": "native",
+          "controlled": false,
+          "grade": 1.0,
+          "correct": true,
+          "fallback": false
+        },
+        {
+          "mask": 3,
+          "source": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+          "view": "native",
+          "controlled": false,
+          "grade": 1.0,
+          "correct": true,
+          "fallback": false
+        }
+      ],
+      "note": "Version-table cells are repeated assignments, not independent sources or fresh physical requests."
+    },
+    {
+      "arm": "FreeEvolution",
+      "batch": 1,
+      "candidate_index": 0,
+      "error": null,
+      "selected_mask": null,
+      "finally_accepted_candidate": false,
+      "actual_core_execution_cells": [],
+      "note": "Version-table cells are repeated assignments, not independent sources or fresh physical requests."
+    },
+    {
+      "arm": "FreeEvolution",
+      "batch": 1,
+      "candidate_index": 1,
+      "error": null,
+      "selected_mask": null,
+      "finally_accepted_candidate": true,
+      "actual_core_execution_cells": [
+        {
+          "mask": 3,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EC",
+          "controlled": false,
+          "grade": 1.0,
+          "correct": true,
+          "fallback": false
+        },
+        {
+          "mask": 5,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EV",
+          "controlled": false,
+          "grade": 1.0,
+          "correct": false,
+          "fallback": false
+        },
+        {
+          "mask": 7,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EC",
+          "controlled": false,
+          "grade": 1.0,
+          "correct": true,
+          "fallback": false
+        },
+        {
+          "mask": 7,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EV",
+          "controlled": false,
+          "grade": 1.0,
+          "correct": false,
+          "fallback": false
+        }
+      ],
+      "note": "Version-table cells are repeated assignments, not independent sources or fresh physical requests."
+    },
+    {
+      "arm": "AllPorts+CoRev",
+      "batch": 1,
+      "candidate_index": 0,
+      "error": "ValueError: Teacher provenance is not a literal supplied TRAIN-source quote",
+      "selected_mask": null,
+      "finally_accepted_candidate": false,
+      "actual_core_execution_cells": [],
+      "note": "Version-table cells are repeated assignments, not independent sources or fresh physical requests."
+    },
+    {
+      "arm": "AllPorts+CoRev",
+      "batch": 1,
+      "candidate_index": 1,
+      "error": null,
+      "selected_mask": null,
+      "finally_accepted_candidate": false,
+      "actual_core_execution_cells": [
+        {
+          "mask": 3,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EC",
+          "controlled": false,
+          "grade": 0.0,
+          "correct": false,
+          "fallback": false
+        },
+        {
+          "mask": 3,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EV",
+          "controlled": false,
+          "grade": 0.0,
+          "correct": false,
+          "fallback": false
+        },
+        {
+          "mask": 5,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EC",
+          "controlled": false,
+          "grade": 0.0,
+          "correct": false,
+          "fallback": false
+        },
+        {
+          "mask": 5,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EV",
+          "controlled": false,
+          "grade": 0.0,
+          "correct": false,
+          "fallback": false
+        },
+        {
+          "mask": 7,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EC",
+          "controlled": false,
+          "grade": 0.0,
+          "correct": false,
+          "fallback": false
+        },
+        {
+          "mask": 7,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EV",
+          "controlled": false,
+          "grade": 0.0,
+          "correct": false,
+          "fallback": false
+        }
+      ],
+      "note": "Version-table cells are repeated assignments, not independent sources or fresh physical requests."
+    },
+    {
+      "arm": "Lift+GenericJoint",
+      "batch": 1,
+      "candidate_index": 0,
+      "error": null,
+      "selected_mask": null,
+      "finally_accepted_candidate": false,
+      "actual_core_execution_cells": [],
+      "note": "Version-table cells are repeated assignments, not independent sources or fresh physical requests."
+    },
+    {
+      "arm": "Lift+GenericJoint",
+      "batch": 1,
+      "candidate_index": 1,
+      "error": null,
+      "selected_mask": null,
+      "finally_accepted_candidate": false,
+      "actual_core_execution_cells": [
+        {
+          "mask": 3,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EC",
+          "controlled": false,
+          "grade": 0.0,
+          "correct": false,
+          "fallback": false
+        },
+        {
+          "mask": 3,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EV",
+          "controlled": false,
+          "grade": 0.0,
+          "correct": false,
+          "fallback": false
+        },
+        {
+          "mask": 5,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EC",
+          "controlled": false,
+          "grade": 0.0,
+          "correct": false,
+          "fallback": false
+        },
+        {
+          "mask": 5,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EV",
+          "controlled": false,
+          "grade": 0.0,
+          "correct": false,
+          "fallback": false
+        },
+        {
+          "mask": 7,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EC",
+          "controlled": false,
+          "grade": 0.0,
+          "correct": false,
+          "fallback": false
+        },
+        {
+          "mask": 7,
+          "source": "OpenExempt:8af7018c992ed54e6aa8a0d87d741f5a9c76c32faebd25990d9adf0b25d27089",
+          "view": "EV",
+          "controlled": false,
+          "grade": 0.0,
+          "correct": false,
+          "fallback": false
+        }
+      ],
+      "note": "Version-table cells are repeated assignments, not independent sources or fresh physical requests."
     }
   ],
   "first_attempt_parent_rows": [
@@ -753,6 +2205,239 @@
       ]
     },
     {
+      "arm": "Full",
+      "batch": 2,
+      "source": "SARA_v2_Binary:e16240027250747ff69ead62bad04238598466042e1bf9bdc668c789366034c3",
+      "native_grade": 0.0,
+      "selection_grade": 0.0,
+      "core_correct": 0,
+      "fallback_views": 1,
+      "views": [
+        {
+          "view": "native",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "Full",
+      "batch": 2,
+      "source": "ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3",
+      "native_grade": 0.75,
+      "selection_grade": 0.75,
+      "core_correct": 0,
+      "fallback_views": 4,
+      "views": [
+        {
+          "view": "nda-5",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.05128205128205128,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-7",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.05128205128205128,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-16",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-20",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "Full",
+      "batch": 2,
+      "source": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "native_grade": 0.0,
+      "selection_grade": 0.0,
+      "core_correct": 0,
+      "fallback_views": 1,
+      "views": [
+        {
+          "view": "native",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "Full",
+      "batch": 2,
+      "source": "ContractNLI:467e2e05d5ade8611f13fe6ffdeea100bd3ca6c2aaa3c0ad34699c307d05b2c5",
+      "native_grade": 1.0,
+      "selection_grade": 1.0,
+      "core_correct": 0,
+      "fallback_views": 4,
+      "views": [
+        {
+          "view": "nda-5",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.375,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-7",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.25,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-16",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-20",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "Full",
+      "batch": 2,
+      "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "native_grade": 0.75,
+      "selection_grade": 0.75,
+      "core_correct": 0,
+      "fallback_views": 4,
+      "views": [
+        {
+          "view": "nda-5",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.010309278350515464,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-7",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "evidence_f1": 0.020512820512820513,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-16",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-20",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0106951871657754,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
       "arm": "FreeEvolution",
       "batch": 1,
       "source": "OpenExempt:de89e35f7b94fb912ba36805ea74042cf096ac6b8e69bc72bbfc6ca7b89eeed8",
@@ -1033,6 +2718,239 @@
       ]
     },
     {
+      "arm": "FreeEvolution",
+      "batch": 2,
+      "source": "SARA_v2_Binary:e16240027250747ff69ead62bad04238598466042e1bf9bdc668c789366034c3",
+      "native_grade": 0.0,
+      "selection_grade": 0.0,
+      "core_correct": 0,
+      "fallback_views": 1,
+      "views": [
+        {
+          "view": "native",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "FreeEvolution",
+      "batch": 2,
+      "source": "ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3",
+      "native_grade": 0.75,
+      "selection_grade": 0.75,
+      "core_correct": 0,
+      "fallback_views": 4,
+      "views": [
+        {
+          "view": "nda-5",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.05128205128205128,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-7",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.05128205128205128,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-16",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-20",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "FreeEvolution",
+      "batch": 2,
+      "source": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "native_grade": 0.0,
+      "selection_grade": 0.0,
+      "core_correct": 0,
+      "fallback_views": 1,
+      "views": [
+        {
+          "view": "native",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "FreeEvolution",
+      "batch": 2,
+      "source": "ContractNLI:467e2e05d5ade8611f13fe6ffdeea100bd3ca6c2aaa3c0ad34699c307d05b2c5",
+      "native_grade": 1.0,
+      "selection_grade": 1.0,
+      "core_correct": 0,
+      "fallback_views": 4,
+      "views": [
+        {
+          "view": "nda-5",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.375,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-7",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.25,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-16",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-20",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "FreeEvolution",
+      "batch": 2,
+      "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "native_grade": 0.75,
+      "selection_grade": 0.75,
+      "core_correct": 0,
+      "fallback_views": 4,
+      "views": [
+        {
+          "view": "nda-5",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.010309278350515464,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-7",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "evidence_f1": 0.020512820512820513,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-16",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-20",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0106951871657754,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
       "arm": "AllPorts+CoRev",
       "batch": 1,
       "source": "OpenExempt:de89e35f7b94fb912ba36805ea74042cf096ac6b8e69bc72bbfc6ca7b89eeed8",
@@ -1313,6 +3231,239 @@
       ]
     },
     {
+      "arm": "AllPorts+CoRev",
+      "batch": 2,
+      "source": "SARA_v2_Binary:e16240027250747ff69ead62bad04238598466042e1bf9bdc668c789366034c3",
+      "native_grade": 0.0,
+      "selection_grade": 0.0,
+      "core_correct": 0,
+      "fallback_views": 1,
+      "views": [
+        {
+          "view": "native",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "AllPorts+CoRev",
+      "batch": 2,
+      "source": "ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3",
+      "native_grade": 0.75,
+      "selection_grade": 0.75,
+      "core_correct": 0,
+      "fallback_views": 4,
+      "views": [
+        {
+          "view": "nda-5",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.05128205128205128,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-7",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.05128205128205128,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-16",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-20",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "AllPorts+CoRev",
+      "batch": 2,
+      "source": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "native_grade": 0.0,
+      "selection_grade": 0.0,
+      "core_correct": 0,
+      "fallback_views": 1,
+      "views": [
+        {
+          "view": "native",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "AllPorts+CoRev",
+      "batch": 2,
+      "source": "ContractNLI:467e2e05d5ade8611f13fe6ffdeea100bd3ca6c2aaa3c0ad34699c307d05b2c5",
+      "native_grade": 1.0,
+      "selection_grade": 1.0,
+      "core_correct": 0,
+      "fallback_views": 4,
+      "views": [
+        {
+          "view": "nda-5",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.375,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-7",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.25,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-16",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-20",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "AllPorts+CoRev",
+      "batch": 2,
+      "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "native_grade": 0.75,
+      "selection_grade": 0.75,
+      "core_correct": 0,
+      "fallback_views": 4,
+      "views": [
+        {
+          "view": "nda-5",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.010309278350515464,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-7",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "evidence_f1": 0.020512820512820513,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-16",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-20",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0106951871657754,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
       "arm": "Lift+GenericJoint",
       "batch": 1,
       "source": "OpenExempt:de89e35f7b94fb912ba36805ea74042cf096ac6b8e69bc72bbfc6ca7b89eeed8",
@@ -1585,6 +3736,239 @@
               },
               "status": "scored"
             },
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "Lift+GenericJoint",
+      "batch": 2,
+      "source": "SARA_v2_Binary:e16240027250747ff69ead62bad04238598466042e1bf9bdc668c789366034c3",
+      "native_grade": 0.0,
+      "selection_grade": 0.0,
+      "core_correct": 0,
+      "fallback_views": 1,
+      "views": [
+        {
+          "view": "native",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "Lift+GenericJoint",
+      "batch": 2,
+      "source": "ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3",
+      "native_grade": 0.75,
+      "selection_grade": 0.75,
+      "core_correct": 0,
+      "fallback_views": 4,
+      "views": [
+        {
+          "view": "nda-5",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.05128205128205128,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-7",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.05128205128205128,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-16",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-20",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "Lift+GenericJoint",
+      "batch": 2,
+      "source": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "native_grade": 0.0,
+      "selection_grade": 0.0,
+      "core_correct": 0,
+      "fallback_views": 1,
+      "views": [
+        {
+          "view": "native",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "Lift+GenericJoint",
+      "batch": 2,
+      "source": "ContractNLI:467e2e05d5ade8611f13fe6ffdeea100bd3ca6c2aaa3c0ad34699c307d05b2c5",
+      "native_grade": 1.0,
+      "selection_grade": 1.0,
+      "core_correct": 0,
+      "fallback_views": 4,
+      "views": [
+        {
+          "view": "nda-5",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.375,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-7",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.25,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-16",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-20",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        }
+      ]
+    },
+    {
+      "arm": "Lift+GenericJoint",
+      "batch": 2,
+      "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "native_grade": 0.75,
+      "selection_grade": 0.75,
+      "core_correct": 0,
+      "fallback_views": 4,
+      "views": [
+        {
+          "view": "nda-5",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.010309278350515464,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-7",
+          "controlled": false,
+          "score": {
+            "correct": false,
+            "evidence_f1": 0.020512820512820513,
+            "grade": 0.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-16",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "grade": 1.0,
+            "metric": "native_exact_match",
+            "valid": true
+          },
+          "core_executed": false,
+          "fallback": true
+        },
+        {
+          "view": "nda-20",
+          "controlled": false,
+          "score": {
+            "correct": true,
+            "evidence_f1": 0.0106951871657754,
+            "grade": 1.0,
+            "metric": "native_exact_match",
             "valid": true
           },
           "core_executed": false,

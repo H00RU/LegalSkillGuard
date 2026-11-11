@@ -1,5 +1,6 @@
 """Frozen local reads, actual helper dataflow and the common direct fallback."""
 from dataclasses import asdict
+import ast
 import json
 from pathlib import Path
 import re
@@ -33,6 +34,67 @@ def typed(value, kind):
         raise ValueError('Undeclared port type')
     jsonschema.validate(value, {'type': kind})
     return value
+
+
+def aligned_array_ports(skill):
+    """Infer only literal parallel-array indexing contracts from the program.
+
+    Dependent arrays must be observable solely at the anchor's loop index.
+    Whole-array access or a different index prevents this inference.
+    """
+    tree = ast.parse(skill.procedure)
+    parents = {id(c): n for n in ast.walk(tree) for c in ast.iter_child_nodes(n)}
+    aliases = {}
+    for node in ast.walk(tree):
+        if not (isinstance(node, ast.Assign) and len(node.targets) == 1
+                and isinstance(node.targets[0], ast.Name)):
+            continue
+        value = node.value
+        if (isinstance(value, ast.Subscript) and isinstance(value.value, ast.Name)
+                and value.value.id in ('inputs', 'premises') and isinstance(value.slice, ast.Constant)
+                and isinstance(value.slice.value, str)):
+            aliases[node.targets[0].id] = (value.value.id, value.slice.value)
+    stores = {name: sum(isinstance(n, ast.Name) and n.id == name and isinstance(n.ctx, ast.Store)
+                       for n in ast.walk(tree)) for name in aliases}
+    port_counts = {port: sum(p == port for p in aliases.values()) for port in aliases.values()}
+    accesses = {}
+    for port in aliases.values():
+        accesses[port] = sum(isinstance(n, ast.Subscript) and isinstance(n.value, ast.Name)
+            and n.value.id == port[0] and isinstance(n.slice, ast.Constant) and n.slice.value == port[1]
+            for n in ast.walk(tree))
+    aliases = {name: port for name, port in aliases.items()
+               if stores[name] == 1 and port_counts[port] == 1 and accesses[port] == 1}
+    groups = []
+    for loop in ast.walk(tree):
+        if not isinstance(loop, ast.For) or not isinstance(loop.target, ast.Name):continue
+        if sum(isinstance(n, ast.Name) and n.id == loop.target.id and isinstance(n.ctx, ast.Store)
+               for n in ast.walk(tree)) != 1:continue
+        call = loop.iter
+        if not (isinstance(call, ast.Call) and isinstance(call.func, ast.Name)
+                and call.func.id == 'range' and len(call.args) == 1):continue
+        length = call.args[0]
+        if not (isinstance(length, ast.Call) and isinstance(length.func, ast.Name)
+                and length.func.id == 'len' and len(length.args) == 1
+                and isinstance(length.args[0], ast.Name) and length.args[0].id in aliases):continue
+        anchor_name = length.args[0].id
+        anchor = aliases[anchor_name]
+        dependents = []
+        for name, port in aliases.items():
+            if name == anchor_name:continue
+            loads = [n for n in ast.walk(tree) if isinstance(n, ast.Name)
+                     and isinstance(n.ctx, ast.Load) and n.id == name]
+            if loads and all(isinstance(parents[id(n)], ast.Subscript)
+                    and isinstance(parents[id(n)].ctx, ast.Load)
+                    and parents[id(n)].value is n
+                    and isinstance(parents[id(n)].slice, ast.Name)
+                    and parents[id(n)].slice.id == loop.target.id
+                    and parents[id(n)] in list(ast.walk(loop)) for n in loads):
+                dependents.append(port)
+        def is_array(port):
+            return (skill.inputs if port[0] == 'inputs' else skill.premises).get(port[1], {}).get('type') == 'array'
+        dependents = [p for p in dependents if is_array(p)]
+        if dependents and is_array(anchor):groups.append((anchor, dependents))
+    return groups
 
 
 def execute_helper(skill, inputs, premises):
@@ -79,7 +141,33 @@ class FrozenReads:
                        'usage': result['usage'], 'elapsed_seconds': result['elapsed_seconds'],
                        'response_hash': digest(value)}
 
-    def read(self, source, view, *, question, fields, locator, purpose):
+    def read(self, source, view, *, question, fields, locator, purpose,
+             alignment=None, array_lengths=None, anchor_values=None):
+        if alignment:
+            anchor, dependents = alignment
+            remaining = {n: spec for n, spec in fields.items() if n not in dependents}
+            values, first = self.read(source, view, question=question, fields=remaining,
+                locator=locator, purpose=purpose)
+            count = len(values[anchor])
+            try:
+                extra, second = self.read(source, view, question=question,
+                    fields={n: fields[n] for n in dependents}, locator=locator, purpose=purpose,
+                    array_lengths={n: count for n in dependents}, anchor_values={anchor: values[anchor]})
+            except LocalReadError as error:
+                event = {**error.event, 'fields': {**first['fields'], **error.event['fields']},
+                    'subreads': [first, error.event],
+                    'alignment': {'anchor': anchor, 'length': count, 'dependents': dependents}}
+                raise LocalReadError(str(error), event) from error
+            merged = {**values, **extra}
+            events = [first, second]
+            return merged, {'kind': 'READ_LOCAL', 'question': question, 'locator': locator,
+                'source': source['key'], 'view': view['id'],
+                'call_id': 'aligned:' + digest([e['call_id'] for e in events]),
+                'physical_call_ids': [e['physical_call_id'] for e in events],
+                'usage': {k: sum((e.get('usage') or {}).get(k, 0) or 0 for e in events)
+                          for k in ('prompt_tokens', 'completion_tokens', 'total_tokens')},
+                'fields': {**first['fields'], **second['fields']}, 'subreads': events,
+                'alignment': {'anchor': anchor, 'length': count, 'dependents': dependents}}
         spans = source_spans(view['public'])
         properties = {}
         for name, specification in fields.items():
@@ -89,6 +177,8 @@ class FrozenReads:
             value = {'type': [kind, 'null']}
             if kind == 'array':
                 value['items'] = {'type': ['string', 'number', 'boolean', 'null']}
+                if name in (array_lengths or {}):
+                    value.update(minItems=array_lengths[name], maxItems=array_lengths[name])
             if kind == 'object':
                 raise ValueError('Local reads use explicit primitive or array fields')
             properties[name] = record_schema({'status': {'type': 'string', 'enum': ['known', 'unknown']},
@@ -103,7 +193,11 @@ class FrozenReads:
                 'Use status unknown with value null if the current material is insufficient. '
                 'Do not answer the entire task unless a requested field itself is that native label.'),
             content={'dataset': source['dataset'], 'view_id': view['id'], 'source_spans': spans,
-                     'read_question': question, 'source_locator': locator, 'fields': fields},
+                     'read_question': question, 'source_locator': locator, 'fields': fields,
+                     **({'alignment_anchor_values': anchor_values,
+                         'required_array_lengths': array_lengths,
+                         'alignment_instruction': 'One value per supplied anchor entry, in that exact order; no additional entries.'}
+                        if anchor_values is not None else {})},
             schema=record_schema(properties), purpose=purpose)
         for item in value.values():
             item['support'] = [spans[i] for i in item['support_ids']]
@@ -164,6 +258,17 @@ class SkillRuntime:
                 raise ValueError('Missing or cyclic skill dependency')
             visiting.add(identity)
             skill = library.skills[identity]
+            contracts = aligned_array_ports(skill)
+
+            def alignment_for(mode, ports, current_fields):
+                for anchor, dependents in contracts:
+                    if anchor[0] != mode or anchor[1] not in ports:continue
+                    names = list(dict.fromkeys(ports[p[1]] for p in dependents if p[0] == mode
+                        and p[1] in ports and ports[p[1]] != ports[anchor[1]]))
+                    if names and all(n in current_fields for n in [ports[anchor[1]]] + names):
+                        return ports[anchor[1]], names
+                return None
+
             inputs, fields = {}, {}
             for name, port in skill.inputs.items():
                 if port['mode'] == 'skill':
@@ -176,13 +281,19 @@ class SkillRuntime:
                 else:
                     raise ValueError('Unknown input acquisition mode')
             if fields:
+                alignment = alignment_for('inputs', {n: n for n in fields}, fields)
                 values, event = self.reads.read(source, view, question='Read the current task input fields.',
-                    fields=fields, locator='current supplied source, facts and question, according to each requested field', purpose=purpose)
+                    fields=fields, locator='current supplied source, facts and question, according to each requested field', purpose=purpose,
+                    **({'alignment': alignment} if alignment else {}))
                 inputs.update(values); events.append(event)
             premises = {n: p['value'] for n, p in skill.premises.items() if p['mode'] == 'constant'}
             for reader in skill.reads:
+                ports = {n: p['field'] for n, p in skill.premises.items()
+                         if p['mode'] == 'read' and p['read_id'] == reader['id']}
+                alignment = alignment_for('premises', ports, reader['fields'])
                 values, event = self.reads.read(source, view, question=reader['question'],
-                    fields=reader['fields'], locator=reader['source_locator'], purpose=purpose)
+                    fields=reader['fields'], locator=reader['source_locator'], purpose=purpose,
+                    **({'alignment': alignment} if alignment else {}))
                 events.append(event)
                 for name, port in skill.premises.items():
                     if port['mode'] == 'read' and port['read_id'] == reader['id']:
