@@ -37,7 +37,8 @@ def source_coverage(root, folder, arms):
             batch = int(path.stem.split('_B')[1])
             context = load_json(folder / arm / f'update_context_B{batch}.json')
             if response['source_ids'] != context['cohort']:raise ValueError('Actual teacher sources differ from saved context')
-            teacher_calls.append({'batch': batch, 'physical_ledger_id': identity, 'direct_sources': response['source_ids']})
+            teacher_calls.append({'batch': batch, 'physical_ledger_id': identity, 'direct_sources': response['source_ids'],
+                                  'associated_update_completed': (folder / arm / f'update_B{batch}.json').exists()})
             for key in response['source_ids']:
                 if key not in datasets or batches[key] > batch:raise ValueError('Teacher exposure is outside seen TRAIN')
                 direct.setdefault(key, []).append({'batch': batch, 'role': 'trigger' if batches[key] == batch else 'history',
@@ -61,7 +62,7 @@ def source_coverage(root, folder, arms):
             'unique_direct_teacher_parents': len(direct),
             'direct_teacher_parents_by_dataset': dict(Counter(datasets[k] for k in direct)),
             'current_library_batch': int(latest.stem[1:]), 'actual_teacher_calls': teacher_calls, 'source_rows': rows}
-    return {'arms': result,
+    return {'arms': result, 'coverage_scope': 'All settled teacher responses at capture time, including a current batch whose update is still pending; operation inventory uses completed updates only.',
         'interpretation': 'Every completed batch parent supplies a grade to the fixed trigger selection. Only the recorded cohort is directly supplied as full source/feedback to its teacher; these are distinct coverage measures. Current-skill citations are declarations, not proof of independent semantic learning or successful reuse.',
         'new_acceptance_threshold_added': False, 'source_or_cohort_policy_changed': False}
 

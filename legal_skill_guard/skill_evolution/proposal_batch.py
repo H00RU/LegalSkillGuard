@@ -35,7 +35,7 @@ def prepare_context(study, arm, batch):
         for key in history:current[key] = study.parent(key, old)
         immutable_json(path, {'old_library_hash': old.hash, 'cohort': cohort, 'current': current})
     generated = patterns.candidates(old, [current[k] for k in trigger], generic=arm == 'Lift+GenericJoint') if (
-        arm in ('Full', 'AllPorts+CoRev', 'Lift+GenericJoint')) else []
+        arm in ('Full', 'CoRevOnly', 'AllPorts+CoRev', 'Lift+GenericJoint')) else []
     return {'arm': arm, 'batch': batch, 'old': old, 'current': current,
         'trigger': trigger, 'history': history, 'cohort': cohort, 'queue': generated[:1],
         'teacher_path': study.folder / arm / f'teacher_B{batch}.json'}

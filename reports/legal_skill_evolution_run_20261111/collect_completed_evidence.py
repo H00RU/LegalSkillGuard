@@ -15,7 +15,7 @@ def main():
     with sqlite3.connect('file:' + str(ROOT / 'artifacts/rr_v2_preflight/research_ledger.sqlite3') + '?mode=ro', uri=True) as db:
         settled_folders = {digest(r[0]) for r in db.execute("select id from calls where status in ('completed','failed')")}
     sources = []
-    for version in ('pilot_v11', 'repair_v12', 'repair_v13', 'formal_v1', 'formal_v2', 'formal_v3', 'formal_v4'):
+    for version in ('pilot_v11', 'repair_v12', 'repair_v13', 'formal_v1', 'formal_v2', 'formal_v3', 'formal_v4', 'formal_v5'):
         folder = ROOT / 'artifacts/legal_skill_evolution_20261111' / version
         for name in ('execution_manifest.json', 'preflight.json', 'repair_queue.json', 'completed.json',
                      'state_import.json', 'resumption_preflight.json', 'training_DEV_completed.json'):

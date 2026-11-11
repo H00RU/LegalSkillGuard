@@ -1,12 +1,12 @@
 # 冻结模型法律技能进化：正式学习与开发验证
 
-**同一Goal active、未完成。正式128来源/8批七系统学习已完成前5批80来源初答、30次学习臂更新及对应DEV，正在B6初答。** 固定20来源首遍与29项集中复验均保留。已有真实技能获取与执行，但Lift、CoRev的独立贡献尚未成立，TEST尚未打开。
+**同一Goal active、未完成。正式128来源/8批七系统学习已完成前6批96来源初答，前5批30次学习臂更新及对应DEV，正在B6教师/候选更新。** 固定20来源首遍与29项集中复验均保留。已有真实技能获取与执行，但Lift、CoRev的独立贡献尚未成立，TEST尚未打开。
 
 [当前目标](../../docs/CURRENT_GOAL.md) · [当前工作](../../docs/METHOD_REDESIGN_CURRENT.md) · [动态账本与队列](pilot_progress.json) · [简明状态](current_status.json)
 
 ## 正式学习的当前结果
 
-七系统已按固定顺序回答前80/128个TRAIN母来源，六学习臂完成30/48次批次更新。B5末Full有两个SARA程序、行李费程序及新学的豁免计划程序，自由演化4个，其他臂均2个；全部CoRev模式0。两个SARA程序没有固定法源前提，行李费程序有8项固定前提；这些新建均不能倒算Lift。前四批新来源初答每臂共140原生视图，主路径正确均0；B5 Full首次用批初旧库在一个新航空来源主路径答对，同案NoSkill错，其他臂B5核心正确仍0。反馈内回放改对另列。[逐来源配对训练轨迹](formal_TRAIN_trajectory.json)、[CSV](formal_TRAIN_trajectory.csv)、[训练曲线PDF](formal_TRAIN_learning_trajectory.pdf)与[PNG](formal_TRAIN_learning_trajectory.png)包含库规模、回退和排除DEV后的请求使用量，各批不同案情的分数不能当作同案学习收益。
+七系统已按固定顺序回答前96/128个TRAIN母来源，六学习臂完成30/48次批次更新。B5末Full有两个SARA程序、行李费程序及新学的豁免计划程序，自由演化4个，其他臂均2个；全部CoRev模式0。两个SARA程序没有固定法源前提，行李费程序有8项固定前提；这些新建均不能倒算Lift。前四批新来源初答每臂共140原生视图，主路径正确均0；B5 Full首次用批初旧库在一个新航空来源主路径答对，同案NoSkill错，其他臂B5核心正确仍0。反馈内回放改对另列。[逐来源配对训练轨迹](formal_TRAIN_trajectory.json)、[CSV](formal_TRAIN_trajectory.csv)、[训练曲线PDF](formal_TRAIN_learning_trajectory.pdf)与[PNG](formal_TRAIN_learning_trajectory.png)包含库规模、回退和排除DEV后的请求使用量，各批不同案情的分数不能当作同案学习收益。
 
 **B4 Full的DEV五库等权均分为.5313387，比其B0的.4813387提高.0500；航空库由0/8变为2/8，另外四库不变。** 行李费程序在两个新航空来源实际执行并答对；Full共3个核心正确DEV视图，另1个SARA题基线本已正确。FreeEvolution、LiftOnly、CoRevOnly的B4均分仍为.4813387。两个强对照下一注册DEV点为B8，因此当前不能认定相对强对照收益，也不能把普通技能获取的增益计作专门Lift/CoRev贡献。**B5 Full均分进一步为.5446176，OE原生F1均分由.1983604到.2647547；完全正确的核心视图仍3个。** 这次改善为部分F1，未增加全对视图。其他三主臂仍.4813387。当前27/42个注册点完成，详见[逐库DEV统计](formal_DEV_summary.json)。[学习曲线PNG](formal_DEV_learning_curves.png)、[向量PDF](formal_DEV_learning_curves.pdf)及[数据CSV](formal_DEV_curve_data.csv)仅绘制实际完成点；区间表示母来源不确定性，不表示训练种子波动。
 
@@ -27,6 +27,30 @@ B5教师更新遇到真实传输阻断：FreeEvolution输入1082126字符超过C
 v3退出1、在途0后，4315个文件原样接至v4，23个DEV聚合从精确视图缓存恢复且与原文件逐字一致；接续新增模型调用0。B5全部初答及已完成的LiftOnly教师提议保留，其余5个提议已正常完成，B5候选验证及DEV全部结算，不重启epoch。52项隔离检查及接入/冻结恢复共60项通过，[前向接入复核](formal_native_enum_review.json)、[逐文件接续](formal_native_enum_state_import.json)。运行中绑定的离线证据冻结，不把格式或提速计成方法机制成功。
 
 前5批每学习臂直接进入教师原文/反馈的独立来源为18个；Full包括OE3、SARA5、Airline8、CNLI1、MAUD1，其他臂为SARA4、Airline9，其余相同。所有80来源分数均参与触发组选择，直接教师覆盖是另一口径。逐来源初答、实际教师上下文及当前技能声明引文已在[机制清单](formal_mechanism_inventory.json)的source_level_learning_coverage分列，并核对30个教师响应的原始物理身份。不增加覆盖验收阈值、不调整原队列。B5教师阶段的17.67分钟墙钟包含v3→v4工程接续空档，不与未中断的B4直接比较提速。
+
+## B2–B4与空库相同的原因
+
+训练曲线是每批更新前、用上一批末库对16个新来源的初答；DEV曲线是该批更新后在固定40个DEV来源上的评测。B4新学行李费技能的收益首先出现在B4 DEV和B5训练初答，不能回填B4初答。
+
+以Full为例，每批35个原生视图：
+
+| 训练初答批次 | 批初技能数 | 实际调用与结果 |
+|---|---:|---|
+| B2 | 0 | B1两个候选均未接纳，35个视图沿直接基线回答 |
+| B3 | 1 | 24次局部逻辑读取后，所需税务输入未获得，核心完成0，35个视图回退 |
+| B4 | 2 | 48次局部逻辑读取后，核心完成0；34个视图回退，1个失败记0 |
+
+逻辑读取含缓存，不等于新增物理请求。原始错误包括`taxable_income`、`is_agricultural_labor`、`claimed_tax_amount`未获得后产生KeyError。词面/输出类型检索还会把税法技能用于合同等不适合任务；字段未知时宿主拒绝继续计算，不补默认值。当前瓶颈是已接纳程序的覆盖、适用性和真实读取/复用，不是把生成数量当作完成率。
+
+B2/B3的DEV没有净新增答对；Full B4 DEV已有5个百分点增益，B5再有部分OE F1改善。它们均来自普通获取。前5批70项真实提议全为create，专门Lift0、已有技能共同修订提议0、共同修订模式0，尚不支持两项方法贡献。
+
+B6 Full刚提出首个含两个已有技能修订的三项候选包（家属服务税法新建、行李费修订、豁免计划修订）。它仍需完整版本表、实际依赖关系和后续来源验证；一起修改不同任务程序不自动构成CoRev实证，当前不计通过。
+
+## CoRevOnly分发遗漏与前向修复
+
+代码复核发现CoRevOnly没有接入`patterns.learn`和`patterns.candidates`，与四臂定义不一致。已补齐与Full相同的M2学习/伴随生成路径，继续禁止专门Lift。两个功能回归在修复前只于CoRevOnly失败；修复后54项隔离、接入及冻结恢复共62项通过。30个真实已结算教师输入前后字节一致；CoRevOnly前5次更新均无可学共同修订，补调纯函数不改变任何原库、模式或分数。这个工程缺陷不解释Full等其他臂的零事件，也不计方法实证。[真实记录回归](actual_corevision_arm_routing_regression.json)、[接入复核](formal_corevision_arm_review.json)。
+
+v4退出75、在途0及旧绑定不变后，5327个文件逐字接至v5，保留前5批和27个DEV点以及部分B6初答；初答运行时、模型、数据和候选预算不变，检查/接续新增模型调用0，账本4922E/120T不重置。[逐文件接续](formal_corevision_arm_state_import.json)。当前已完成B6全部96来源初答并进入正常教师更新，不重新开始实验。新的路由回归JSON与before/after文本已绑定冻结，运行中不重写。
 
 ## 20来源首遍（独立历史轨迹）
 
@@ -78,7 +102,7 @@ Full部分已完成：原OE候选恢复真实主路径，选中分类器＋EV渲
 本次保持首遍顺序库与初答成绩，不把修复后较好的输出覆盖历史，不借用修复未来信息回写旧批次。复验只回答明确工程问题，不把修复后输出回填原学习历史。复验新增237次executor、0次teacher，结束累计2622E/90T。
 
 
-正式入口为`python -m experiments.legal_skill_evolution_formal run`，当前formal_v4继续同一次学习，固定每批16（OE4、其余各3），全批先答再更新，各系统从空库开始，四主臂B0–B8 DEV、其余B0/B8。加入两教师并发及隔离恢复后42项相关检查通过，368个TRAIN/DEV视图容量预检保持，最大输入9468 tokens；没有开TEST或更新模型参数。
+正式入口为`python -m experiments.legal_skill_evolution_formal run`，当前formal_v5继续同一次学习，固定每批16（OE4、其余各3），全批先答再更新，各系统从空库开始，四主臂B0–B8 DEV、其余B0/B8。加入两教师并发及隔离恢复后42项相关检查通过，368个TRAIN/DEV视图容量预检保持，最大输入9468 tokens；没有开TEST或更新模型参数。
 
 当前Goal明确覆盖历史“首阶段停止”边界，因此按完整固定实验继续；原包不改写，小试缺机制事件和强对照吸收保留为负面证据。最终仍须完整实验、相对强对照实际收益及两项独立贡献才完成。阶段入口的工程可运行不等于贡献已通过，[入口复核](formal_entry_review.json)分别记录。
 

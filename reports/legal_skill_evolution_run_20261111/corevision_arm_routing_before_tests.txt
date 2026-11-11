@@ -1,0 +1,27 @@
+======================================================================
+FAIL: test_accepted_updates_route_through_pattern_learning_in_every_corevision_arm (tests.test_skill_evolution_arm_routing.ArmRoutingTests.test_accepted_updates_route_through_pattern_learning_in_every_corevision_arm) (arm='CoRevOnly')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/media/sangfor/vdb/legal-skill-runtime/engineering/teacher-prefetch-20261111/tests/test_skill_evolution_arm_routing.py", line 53, in test_accepted_updates_route_through_pattern_learning_in_every_corevision_arm
+    self.assertEqual(learner.call_count,1 if arm in COREVISION_ARMS else 0)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_every_corevision_arm_offers_the_same_pattern_candidate_path (tests.test_skill_evolution_arm_routing.ArmRoutingTests.test_every_corevision_arm_offers_the_same_pattern_candidate_path) (arm='CoRevOnly')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/media/sangfor/vdb/legal-skill-runtime/engineering/teacher-prefetch-20261111/tests/test_skill_evolution_arm_routing.py", line 25, in test_every_corevision_arm_offers_the_same_pattern_candidate_path
+    self.assertEqual(context['queue'],[{'pattern_id':'fixture_only'}] if arm in COREVISION_ARMS else [])
+AssertionError: Lists differ: [] != [{'pattern_id': 'fixture_only'}]
+
+Second list contains 1 additional elements.
+First extra element 0:
+{'pattern_id': 'fixture_only'}
+
+- []
++ [{'pattern_id': 'fixture_only'}]
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.140s
+
+FAILED (failures=2)

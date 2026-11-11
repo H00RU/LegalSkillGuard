@@ -17,7 +17,7 @@ from legal_skill_guard.skill_evolution.native import public_task, answer_wire_sc
 from legal_skill_guard.skill_evolution.runtime import render_messages
 
 ROOT = Path(__file__).resolve().parents[1]
-PROFILE = ROOT / 'configs/legal_skill_evolution_formal_v4_20261111.json'
+PROFILE = ROOT / 'configs/legal_skill_evolution_formal_v5_20261111.json'
 ARMS = ('NoSkill', 'FreeEvolution', 'LiftOnly', 'CoRevOnly', 'Full', 'Lift+GenericJoint', 'AllPorts+CoRev')
 CURVE_ARMS = ('FreeEvolution', 'LiftOnly', 'CoRevOnly', 'Full')
 
@@ -36,32 +36,28 @@ def schedule():
 
 
 def prepare():
-    goal = load_json(ROOT / 'configs/legal_skill_evolution_20261111.json')
-    if goal['latest_user_overrides']['stage_one_only_stop'] is not False:
-        raise ValueError('The current full-study authorization supersedes the old stage-one stop')
-    review_path = ROOT / 'reports/legal_skill_evolution_run_20261111/formal_native_enum_review.json'
+    review_path = ROOT / 'reports/legal_skill_evolution_run_20261111/formal_corevision_arm_review.json'
     review = load_json(review_path)
     if not review['old_client_terminal'] or review['inflight_before_promotion'] != 0:
-        raise ValueError('Settle the existing client before promoting this common runtime check')
-    if not review['offline_actual_TRAIN_final_answers_and_paths_preserved']:
-        raise ValueError('A native type-check optimization needs actual offline evidence')
-    previous = 'configs/legal_skill_evolution_formal_v3_20261111.json'
+        raise ValueError('Settle the existing client before correcting method-arm routing')
+    if not review['all_completed_prefix_model_inputs_libraries_and_scores_unchanged']:
+        raise ValueError('Preserve the completed fixed-study prefix before continuation')
+    previous = 'configs/legal_skill_evolution_formal_v4_20261111.json'
     prior = load_json(ROOT / previous)
     original = load_json(ROOT / prior['artifacts'] / 'execution_manifest.json')
     code = {p: sha(ROOT / p) for p in original['code']}
-    for relative in ('legal_skill_guard/skill_evolution/answer_domain.py',
-                     'tests/test_skill_evolution_answer_domain.py', 'legal_skill_guard/skill_evolution/teacher_transport.py',
-                     'tests/test_skill_evolution_teacher_transport.py'):
-        code[relative] = sha(ROOT / relative)
+    relative = 'tests/test_skill_evolution_arm_routing.py'
+    code[relative] = sha(ROOT / relative)
     data = {p: sha(ROOT / p) for p in original['data']}
-    for path in (review_path, ROOT / 'reports/legal_skill_evolution_run_20261111/actual_TRAIN_enum_skip_regression.json'):
+    for path in (review_path, ROOT / 'reports/legal_skill_evolution_run_20261111/actual_corevision_arm_routing_regression.json',
+                 ROOT / 'reports/legal_skill_evolution_run_20261111/corevision_arm_routing_before_tests.txt',
+                 ROOT / 'reports/legal_skill_evolution_run_20261111/corevision_arm_routing_after_tests.txt'):
         data[str(path.relative_to(ROOT))] = sha(path)
-    profile = {**prior, 'run_id': 'legal_skill_evolution_formal_v4_20261111',
-        'artifacts': 'artifacts/legal_skill_evolution_20261111/formal_v4',
+    profile = {**prior, 'run_id': 'legal_skill_evolution_formal_v5_20261111',
+        'artifacts': 'artifacts/legal_skill_evolution_20261111/formal_v5',
         'continuation_of': previous, 'same_training_pass': True,
         'preserved_completed_batch_prefix': review['preserved_completed_batch_prefix'],
-        'teacher_input_transport': 'Lossless shared JSON values with exact round-trip evidence; no removed fields, source text or prior outcomes.',
-        'forward_repair': 'Prove literal terminal answers disjoint from the existing native enum before unnecessary reads; unknown programs and dependency producers retain normal execution.'}
+        'forward_repair': 'CoRevOnly routes accepted updates and learned companion candidates through the same M2 functions as Full; no dedicated Lift added.'}
     profile['exact_replay_profiles'] = prior['exact_replay_profiles'] + [previous]
     profile['generation_binding'] = {'code_hash': digest(code), 'data_hash': digest(data),
         'executor_hash': digest(profile['executor']), 'teacher_hash': digest(profile['teacher'])}
