@@ -155,6 +155,8 @@ Full部分已完成：原OE候选恢复真实主路径，选中分类器＋EV渲
 
 ## 成本、模型和保全
 
+冻结矩阵与注册迁移的[分臂费用归因入口](frozen_cost_footprints.py)复用既有响应ID归因函数，分别核算实际物理请求与各臂消费响应，并把获取＋推理和DEV开销分开。共享缓存不重复计实际支出，也不据首次消费者宣称便宜。4项[隔离记账回归](frozen_cost_footprints_regression.json)已通过；真实矩阵未完成时不读取其部分预测，完成后再生成实际费用表。这些检查仅验证统计实现，不算方法成功。
+
 Qwen3-8B原始冻结权重、thinking OFF、温度.6/top_p .95/top_k20/seed45/output8192/context32768；没有LoRA或模型参数更新。教师实际gpt-5.6-sol/high，CLI温度未暴露。两端可见重试均为0。
 
 首遍新增**492次executor物理请求、16次teacher**；executor491完成（其中4次finish=length）、1次本地操作中断失败，teacher16完成。executor约134.89万输入/9.60万输出tokens、累计请求耗时约3200秒；teacher约209.18万输入/17.98万输出tokens、累计约3605秒，reasoning输出为其CLI报告字段，不另加到输出总数。误重复的2次初答已计账、单独归档，不替换原成绩。累计账本在首遍结束为2385E/90T；复验增量见[分阶段成本](stage_costs.json)与动态快照。
