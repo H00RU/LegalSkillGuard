@@ -4,7 +4,7 @@ Goal **active、未完成**。唯一目标和验收见[CURRENT_GOAL.md](CURRENT_
 
 ## 当前实测
 
-固定128母来源/8批、七系统外部技能学习已完成**前7批112来源初答、42次学习臂更新及对应DEV**，当前B8初答。每批16（OE4、其余各3），全部七臂初答完成才更新；教师只看已见TRAIN，模型不更新参数。TEST仍封存。
+固定128母来源/8批、七系统外部技能学习已完成**全部128来源初答，以及前7批42次学习臂更新及对应DEV**，当前B8教师提议与候选验证阶段。每批16（OE4、其余各3），全部七臂初答完成才更新；教师只看已见TRAIN，模型不更新参数。TEST仍封存。
 
 前四批共140个原生视图/臂，七系统批初新来源主路径正确均为0。B5 Full首次在一个新航空来源用B4旧库主路径答对，同案NoSkill错；这是更新前实际复用，其他臂该批核心正确仍0。反馈内改对另记。B3批初五库等权均为.4167478，各批案情不同，不能据批间分数变化判断学习收益。[逐来源配对轨迹](../reports/legal_skill_evolution_run_20261111/formal_TRAIN_trajectory.json)、[训练图](../reports/legal_skill_evolution_run_20261111/formal_TRAIN_learning_trajectory.pdf)分开显示任务得分、同案NoSkill差值、库规模、回退和排除DEV后的请求使用量。共享缓存不重复计实际支出，各臂响应使用量不能相加冒充独立费用。
 
@@ -20,7 +20,9 @@ B6已结算：Full固定DEV五库均分.5999947（OE .4166400、Airline .375，�
 
 B7更新前Full有35个原生视图：12个核心执行完成、0个核心全对、23个回退，未发生整视图调用中断。五库等权得分.4305556，同案NoSkill .5274116，差-.0968561；损失来自OE与SARA。OE程序读到未覆盖的Federal and Oregon/Federal and Arizona后仍正常返回空claim列表，属于语义覆盖错误，执行成功不能等同正确。B7六臂提议均未获接纳，库大小保持，所有库skill依赖端口和CoRev模式仍0；累计91 create、4 revise、0 Lift，接纳17 create、2 revise。35/42个固定DEV点已完成，Full B7仍.5999947，其他三主臂仍.4813387。错误并不稀缺，但独立程序修补不能替代已有依赖技能的必要共同修订；不人为拆链或把错误答案改记为回退。
 
-补做42次真实教师输入的离线逐项核对：原始request与同一账本的完整请求哈希一致，传入的批初库及固定前提候选与确定性生成结果一致，没有发现库/候选在传输或接续中遗漏。非空固定前提候选出现在FreeEvolution6次、CoRevOnly6次、Full3次、Lift+GenericJoint6次；LiftOnly与AllPorts均0次，后者与预参数化设计一致。所有请求的技能依赖端口及已学模式均0。LiftOnly实际获取的程序已参数化，故该臂尚无专门Lift的处理对象；Full虽有3次候选机会，也未提出Lift。候选存在不等于该案需要提升，不能用臂名或得分差倒推机制生效。[逐请求证据与原验收分项核对](../reports/legal_skill_evolution_run_20261111/FIXED_STUDY_COMPLETION_AUDIT.md)、[数据与哈希](../reports/legal_skill_evolution_run_20261111/fixed_study_completion_audit.json)。本核对不新增模型调用、来源或验收门槛；B8原队列继续。
+截至B7补做42次真实教师输入的离线逐项核对：原始request与同一账本的完整请求哈希一致，传入的批初库及固定前提候选与确定性生成结果一致，没有发现库/候选在传输或接续中遗漏。非空固定前提候选出现在FreeEvolution6次、CoRevOnly6次、Full3次、Lift+GenericJoint6次；LiftOnly与AllPorts均0次，后者与预参数化设计一致。所有请求的技能依赖端口及已学模式均0。LiftOnly实际获取的程序已参数化，故该臂尚无专门Lift的处理对象；Full虽有3次候选机会，也未提出Lift。候选存在不等于该案需要提升，不能用臂名或得分差倒推机制生效。[逐请求证据与原验收分项核对](../reports/legal_skill_evolution_run_20261111/FIXED_STUDY_COMPLETION_AUDIT.md)、[数据与哈希](../reports/legal_skill_evolution_run_20261111/fixed_study_completion_audit.json)。本核对不新增模型调用、来源或验收门槛；B8原队列继续。
+
+全部七臂的128来源/280原生视图初答现已结算。Full整段prequential五库等权得分.4668578，同案NoSkill .4427277，差+.0241302；37个核心执行、6个核心全对、242回退、1个未解决视图。AllPorts .4542604，差+.0115327；7个核心执行、2个核心全对、272回退、1个未解决。其余四学习臂整体分数与空库相同。B8 Full相对同案空库差+.0988674，新增两个OE母来源的4个全对核心视图；AllPorts也在其中一个OE母来源的2个视图全对。完整56个训练初答点已保存，包括B7退化，不挑最好批次。这是不同批初库依次回答新来源的描述性轨迹，不能当作冻结B8或TEST结果，也不能归因于尚未实测的专门机制。
 
 ## 当前进程与本次工程决定
 

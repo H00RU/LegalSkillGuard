@@ -50,6 +50,7 @@ def main():
     costs = {(arm, p['batch']): p for arm, values in footprints.get('per_batch_observed_response_footprints', {}).items()
              for p in values}
     points, csv_rows = [], []
+    cumulative = {arm: ([], []) for arm in ARMS}
     for batch, source_batch in enumerate(manifest['source_sequence'], 1):
         expected = [r['source_key'] for r in source_batch['sources']]
         base_path = folder / 'NoSkill' / f'initial_B{batch}.json'
@@ -65,6 +66,8 @@ def main():
             if any(parent['library_hash'] != before.hash for parent in initial['results']):
                 raise ValueError('First attempts must all use the frozen batch-start library')
             summary, paired = paired_initial(initial['results'], baseline['results'])
+            cumulative[arm][0].extend(initial['results'])
+            cumulative[arm][1].extend(baseline['results'])
             lineage = (accepted_lineage(folder, arm, batch - 1, source_datasets) if arm != 'NoSkill'
                        else {'library_hash': before.hash, 'skills': {}})
             uses = [row for parent in initial['results'] for row in actual_use(parent, before, lineage)]
@@ -91,7 +94,15 @@ def main():
                     'fallback_view_rate': metrics['fallback_view_rate'], 'skills_before': len(before.skills),
                     'skills_after': len(after.skills) if after else None,
                     'patterns_after': len(after.revision_patterns) if after else None})
+    aggregate = {}
+    for arm, (initials, baselines) in cumulative.items():
+        if initials:
+            metrics, paired = paired_initial(initials, baselines)
+            aggregate[arm] = {'independent_parents': len(initials), 'metrics': metrics,
+                'paired_NoSkill': paired,
+                'scope': 'Descriptive prequential initial answers using successive batch-start libraries; not frozen B8 performance or a held-out TEST estimate.'}
     result = {'captured_utc': datetime.now(timezone.utc).isoformat(), 'new_model_calls': 0, 'TEST_opened': False,
+        'cumulative_prequential_by_arm': aggregate,
         'points': points, 'source_manifest_sha256': hashlib.sha256((ROOT / 'reports/legal_skill_evolution_plan_20261111/candidate_source_manifest.json').read_bytes()).hexdigest(),
         'cost_snapshot_sha256': hashlib.sha256(footprints_path.read_bytes()).hexdigest() if footprints_path.exists() else None,
         'point_scope': 'All native views of all 16 parents, answered before this batch update; feedback replay never contributes to these scores.',

@@ -1,12 +1,23 @@
 # 冻结模型法律技能进化：正式学习与开发验证
 
-**同一Goal active、未完成。正式128来源/8批七系统学习已完成前7批112来源初答、42次学习臂更新及对应DEV，正在B8初答。** 固定20来源首遍与29项集中复验均保留。已有真实技能获取与执行，但Lift、CoRev的独立贡献尚未成立，TEST尚未打开。
+**同一Goal active、未完成。七系统全部128来源初答已完成，前7批42次学习臂更新及对应DEV已结算，正在B8提议与候选验证阶段。** 固定20来源首遍与29项集中复验均保留。已有真实技能获取与执行，但Lift、CoRev的独立贡献尚未成立，TEST尚未打开。
 
 [当前目标](../../docs/CURRENT_GOAL.md) · [当前工作](../../docs/METHOD_REDESIGN_CURRENT.md) · [动态账本与队列](pilot_progress.json) · [简明状态](current_status.json)
 
 ## 正式学习的当前结果
 
-七系统已按固定顺序回答前112/128个TRAIN母来源，六学习臂完成42/48次批次更新。B7末库与B6相同，Full有两个SARA程序、行李费程序及豁免计划程序，自由演化4个，通用联合修复对照3个，其余臂均2个；全部CoRev模式0。两个SARA程序没有固定法源前提，行李费程序有8项固定前提；这些新建均不能倒算Lift。前四批新来源初答每臂共140原生视图，主路径正确均0；B5 Full首次用批初旧库在一个新航空来源主路径答对，同案NoSkill错，其他臂B5核心正确仍0。反馈内回放改对另列。[逐来源配对训练轨迹](formal_TRAIN_trajectory.json)、[CSV](formal_TRAIN_trajectory.csv)、[训练曲线PDF](formal_TRAIN_learning_trajectory.pdf)与[PNG](formal_TRAIN_learning_trajectory.png)包含库规模、回退和排除DEV后的请求使用量，各批不同案情的分数不能当作同案学习收益。
+七系统已按固定顺序回答全部128个TRAIN母来源，六学习臂完成42/48次批次更新。B7末库与B6相同，Full有两个SARA程序、行李费程序及豁免计划程序，自由演化4个，通用联合修复对照3个，其余臂均2个；全部CoRev模式0。两个SARA程序没有固定法源前提，行李费程序有8项固定前提；这些新建均不能倒算Lift。前四批新来源初答每臂共140原生视图，主路径正确均0；B5 Full首次用批初旧库在一个新航空来源主路径答对，同案NoSkill错，其他臂B5核心正确仍0。反馈内回放改对另列。[逐来源配对训练轨迹](formal_TRAIN_trajectory.json)、[CSV](formal_TRAIN_trajectory.csv)、[训练曲线PDF](formal_TRAIN_learning_trajectory.pdf)与[PNG](formal_TRAIN_learning_trajectory.png)包含库规模、回退和排除DEV后的请求使用量，各批不同案情的分数不能当作同案学习收益。
+
+完整8批的更新前初答包含每臂128母来源、280个原生视图：
+
+| 学习臂 | 五库等权原生得分 | 同案空库差 | 核心执行/全对视图 | 回退/未解决视图 |
+|---|---:|---:|---:|---:|
+| NoSkill | .4427277 | — | 0/0 | 278/2 |
+| FreeEvolution、LiftOnly、CoRevOnly、Lift+GenericJoint（各臂） | .4427277 | .0000000 | 0/0 | 278/2 |
+| Full | .4668578 | +.0241302 | 37/6 | 242/1 |
+| AllPorts+CoRev | .4542604 | +.0115327 | 7/2 | 272/1 |
+
+空库的直接回答归入基线/回退路径。B8 Full在两个新OE母来源的EC/EV共4个视图核心全对，AllPorts在其中一个来源的2个视图核心全对；Full本批同案差+.0988674。全程统计同时保留B7负迁移，属于依次使用各批初旧库的描述性prequential轨迹，既不是冻结B8复测，也不是TEST结果或专门Lift/CoRev贡献。
 
 **B4 Full的DEV五库等权均分为.5313387，比其B0的.4813387提高.0500；航空库由0/8变为2/8，另外四库不变。** 行李费程序在两个新航空来源实际执行并答对；Full共3个核心正确DEV视图，另1个SARA题基线本已正确。FreeEvolution、LiftOnly、CoRevOnly的B4均分仍为.4813387。两个强对照下一注册DEV点为B8，因此当前不能认定相对强对照收益，也不能把普通技能获取的增益计作专门Lift/CoRev贡献。**B5 Full均分进一步为.5446176，OE原生F1均分由.1983604到.2647547；完全正确的核心视图仍3个。** 这次改善为部分F1，未增加全对视图。其他三主臂仍.4813387。**B6 Full均分为.5999947：OE .4166400、Airline .375，其他三库不变，完全正确的核心视图4个。** 另外三主臂仍.4813387。截至B6为31/42个注册点完成；B7后的35/42点见下文，详见[逐库DEV统计](formal_DEV_summary.json)。[学习曲线PNG](formal_DEV_learning_curves.png)、[向量PDF](formal_DEV_learning_curves.pdf)及[数据CSV](formal_DEV_curve_data.csv)仅绘制实际完成点；区间表示母来源不确定性，不表示训练种子波动。
 

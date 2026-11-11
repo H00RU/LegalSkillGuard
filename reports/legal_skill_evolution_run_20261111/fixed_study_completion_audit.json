@@ -1,5 +1,5 @@
 {
-  "captured_utc": "2026-11-11T14:45:46.758254+00:00",
+  "captured_utc": "2026-11-11T14:55:46.227640+00:00",
   "new_model_calls": 0,
   "goal_status": "active",
   "goal_complete": false,
@@ -93,8 +93,8 @@
     },
     {
       "arm": "Full",
-      "completed_initial_batches": 7,
-      "independent_TRAIN_parents": 112,
+      "completed_initial_batches": 8,
+      "independent_TRAIN_parents": 128,
       "completed_updates": 7,
       "latest_library_batch": 7,
       "skill_count": 4,
@@ -103,8 +103,8 @@
     },
     {
       "arm": "Lift+GenericJoint",
-      "completed_initial_batches": 7,
-      "independent_TRAIN_parents": 112,
+      "completed_initial_batches": 8,
+      "independent_TRAIN_parents": 128,
       "completed_updates": 7,
       "latest_library_batch": 7,
       "skill_count": 3,
@@ -113,8 +113,8 @@
     },
     {
       "arm": "AllPorts+CoRev",
-      "completed_initial_batches": 7,
-      "independent_TRAIN_parents": 112,
+      "completed_initial_batches": 8,
+      "independent_TRAIN_parents": 128,
       "completed_updates": 7,
       "latest_library_batch": 7,
       "skill_count": 2,
@@ -127,7 +127,7 @@
     "revise": 2
   },
   "actual_teacher_mechanism_delivery": {
-    "settled_teacher_inputs_checked": 42,
+    "settled_teacher_inputs_checked": 43,
     "requests_with_supplied_constant_blocks": 21,
     "requests_with_supplied_dependency_ports": 0,
     "requests_with_supplied_learned_patterns": 0,
@@ -137,7 +137,7 @@
         "requests_with_constant_blocks": 6
       },
       "LiftOnly": {
-        "settled_requests": 7,
+        "settled_requests": 8,
         "requests_with_constant_blocks": 0
       },
       "CoRevOnly": {
@@ -355,6 +355,19 @@
         "physical_id": "legal_skill_evolution_formal_v5_20261111:teacher:9b03dfdae752b595ae01a0b2d645ace2cc9f0992bf01efaed90035b5ac326dfa",
         "request_path": "artifacts/legal_skill_evolution_20261111/formal_v5/calls/865fae3f7da47c6ba6603b066af396af29b922192ff4385c06219fcd6dfe055d/request.json",
         "request_file_sha256": "01640d2e020da4158efeeb3bae835aae8b6d055b5a5bba572a9f20ac5ae16263",
+        "request_hash_matches_continuous_ledger": true,
+        "supplied_constant_blocks": 0,
+        "supplied_dependency_ports": 0,
+        "supplied_learned_patterns": 0,
+        "proposed_operations": {},
+        "actual_library_and_candidates_match": true
+      },
+      {
+        "arm": "LiftOnly",
+        "batch": 8,
+        "physical_id": "legal_skill_evolution_formal_v5_20261111:teacher:515279b52b2171cb0045d5fc7c4cd662397f27739ebf9cb2d0c5d7e1fdbd1a59",
+        "request_path": "artifacts/legal_skill_evolution_20261111/formal_v5/calls/0d748cafd0d42f5361d253271ccb9a282ca13457367ac4bc9b34912e1cb131f3/request.json",
+        "request_file_sha256": "737accd672d1de5cedccfe9d48548473c275a7e79892eb82464801e9f99006ad",
         "request_hash_matches_continuous_ledger": true,
         "supplied_constant_blocks": 0,
         "supplied_dependency_ports": 0,
@@ -800,13 +813,13 @@
   "registered_transfer_summary": null,
   "continuous_physical_ledger_statuses": {
     "executor": {
-      "completed": 5428,
-      "failed": 10,
-      "reserved": 1
+      "completed": 5537,
+      "failed": 10
     },
     "teacher": {
-      "completed": 128,
-      "failed": 4
+      "completed": 129,
+      "failed": 4,
+      "reserved": 2
     }
   },
   "unknown_cash_invoices_are_not_imputed": true,
@@ -881,7 +894,7 @@
     "artifacts/legal_skill_evolution_20261111/formal_v5/AllPorts+CoRev/B5_candidates/0.json": "55d9fe87146ae852e647d1b54ae45d4ca095dd09451725c9ca5e58c53e05aa12",
     "artifacts/legal_skill_evolution_20261111/formal_v5/AllPorts+CoRev/update_B6.json": "26e1837117761b29777a9385e92b89ff08bcbbbb89bd3c50554f81f3abe0627d",
     "artifacts/legal_skill_evolution_20261111/formal_v5/AllPorts+CoRev/update_B7.json": "bd10b2fab4511fd292405f66dc0b748abe10783463fa8fcb8bf7e7bd0823b4b6",
-    "reports/legal_skill_evolution_run_20261111/formal_mechanism_inventory.json": "6d29b1d654dabb9e8dc76015117f3353db4fe650c165bd67ae1a04ddeb44401e"
+    "reports/legal_skill_evolution_run_20261111/formal_mechanism_inventory.json": "6bcdf1c7087314937999558baab1802ef85f290b7460202eb5ce2e1ce3dd72db"
   },
   "interpretation": "Experimental completion, ordinary skill acquisition gains, and independent Lift/CoRev benefits are separate claims. Zero observed mechanism events do not invalidate an algorithm universally, but cannot substantiate its claimed benefit in this fixed study. No extra sources, training epochs, TEST tuning, or success threshold are introduced."
 }
