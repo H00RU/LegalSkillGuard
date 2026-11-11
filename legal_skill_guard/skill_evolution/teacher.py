@@ -146,6 +146,28 @@ def compile_block(block, library, sources, arm):
         new = skill_from_wire(normalized)
         old = library.skills.get(new.id)
         operation = proposed['operation']
+        draft_installation = None
+        if old is None and operation == 'revise':
+            # A retained failed proposal is evidence, not an installed skill.
+            # Recover only a unique recorded predecessor of this exact ID and
+            # version. This installs the proposed program as a creation; it
+            # never creates a fictitious old-version CoRev comparison.
+            ancestors = {}
+            for edit in library.provisional_edits:
+                for revision in edit.get('revisions') or []:
+                    ancestor = Skill.from_dict(revision['new'])
+                    if ancestor.id == new.id and ancestor.version == new.version - 1:
+                        ancestors[ancestor.hash] = ancestor
+            if len(ancestors) == 1:
+                predecessor = next(iter(ancestors.values()))
+                draft_installation = {'recorded_predecessor_hash': predecessor.hash,
+                    'proposed_operation': operation, 'proposed_version': new.version,
+                    'installed_operation': 'create', 'installed_version': 1,
+                    'counts_as_existing_skill_revision': False}
+                wire = asdict(new)
+                wire['version'] = 1
+                new = Skill.from_dict(wire)
+                operation = 'create'
         if (old is None) != (operation == 'create'):
             raise ValueError('Create/revise identity differs from the actual library')
         if new.version != (old.version + 1 if old else 1):
@@ -176,6 +198,7 @@ def compile_block(block, library, sources, arm):
         revisions.append({'skill_id': new.id, 'old_hash': old.hash if old else None,
                           'new_hash': new.hash, 'new': asdict(new), 'operation': operation,
                           'representation_adaptation': {'removed_unobserved_declarations': removed,
+                              'retained_draft_installation': draft_installation,
                               'procedure_unchanged': new.procedure == proposed['skill']['procedure'],
                               'used_premise_values_unchanged': True}})
     if len({r['skill_id'] for r in revisions}) != len(revisions):
@@ -199,6 +222,11 @@ For a dependent helper, input mode skill names its real producer and field. Do n
 A terminal helper returns answer in the exact current native type/labels; dependencies may return intermediate records.
 Scope-sensitive source obligations describe what the helper checks, with a supported source quote; unknown roles stay unknown.
 You may create helpers, revise multiple existing helpers jointly, preserve a useful reasoning skeleton or fix a process error.
+Only skills in library are installed. retained_edits are rejected or historical proposals, not current skills.
+To reuse a retained uninstalled draft, submit operation create with version 1 and its complete proposed program.
+Revise/lift only installed skills with their actual version plus one. Do not treat creation as an old/new co-revision event.
+Candidate acceptance requires strict mean improvement on trigger parents and no decrease on every history parent.
+History-only improvements cannot pass. Use update_objective to focus the limited candidate slots on trigger failures.
 For operation lift preserve old procedure/inputs/outputs, replace a coupled constant block (up to 3 premises) with ONE joint current-source reader,
 and keep every unrelated field intact. AllPorts may cover all related ports in one reader.
 Do not copy a case answer into a lookup, branch on a source ID/person name or fabricate absent law. Native labels supervise selection, not missing semantic gold.
@@ -215,8 +243,11 @@ ARM_PROMPTS = {
     'AllPorts+CoRev': 'Parameterize ALL related source-premise ports at acquisition, one joint reader is allowed without a three-port cap. Use contextual co-revision patterns to generate companion edits.'}
 
 
-def propose(teacher, *, arm, batch, library, source_records, feedback, learned_patterns, max_blocks=3):
+def propose(teacher, *, arm, batch, library, source_records, feedback, learned_patterns,
+            trigger, history, max_blocks=3):
     source_ids = [r['key'] for r in source_records]
+    if set(trigger) & set(history) or set(trigger) | set(history) != set(source_ids):
+        raise ValueError('Teacher objective must identify the complete disjoint replay cohort')
     def compact_table(table):
         if not table:return None
         failures, reads = [], {}
@@ -234,11 +265,19 @@ def propose(teacher, *, arm, batch, library, source_records, feedback, learned_p
             'mixed_version_table': [{k: c[k] for k in ('mask', 'source', 'native_parent_grade', 'measured')}
                                    for c in table['mixed_version_table']],
             'actual_execution_failures': failures, 'unique_actual_reads': reads}
-    retained = [{**{k: e.get(k) for k in ('batch', 'candidate_index', 'revisions', 'error', 'read_diagnostics')},
+    retained = [{**{k: e.get(k) for k in ('batch', 'candidate_index', 'revisions', 'error', 'read_diagnostics', 'selection_exclusion')},
                  'table': compact_table(e.get('table'))} for e in library.provisional_edits]
     memory = [{k: deepcopy(v) for k, v in p.items() if k not in ('evidence', 'exact_version_table')}
               | {'exact_version_table': compact_table(p['exact_version_table'])} for p in learned_patterns]
     user = json.dumps({'arm': arm, 'batch': batch, 'sources': source_records,
+        'source_premise_block_candidates': {s.id: [list(b) for b in coupled_blocks(s)
+            if all(s.premises[n]['mode'] == 'constant' for n in b)] for s in library.skills.values()},
+        'update_objective': {'trigger_parents': list(trigger), 'history_parents': list(history),
+            'trigger': 'strict improvement in mean selection_grade across these same parents',
+            'history': 'every parent selection_grade must not decrease',
+            'selection_grade': 'mean of all predeclared native and controlled views within each parent',
+            'native_answer_contracts': {r['key']: {v['id']: v['answer_schema'] for v in r['views']}
+                                      for r in source_records}},
         'native_TRAIN_feedback': feedback, 'library': {k: asdict(s) for k, s in library.skills.items()},
         'retained_edits': retained, 'learned_patterns': memory}, ensure_ascii=False)
     system = COMMON_PROMPT + '\n' + ARM_PROMPTS[arm] + f'\nRemaining shared candidate slots: {max_blocks}. Return at most that many blocks.'

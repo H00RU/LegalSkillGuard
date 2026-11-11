@@ -1,4 +1,4 @@
-"""Fixed pilot orchestration: immutable first attempts, bounded updates and resume."""
+"""Fixed native studies: immutable first attempts, bounded updates and resume."""
 from copy import deepcopy
 from dataclasses import asdict
 import hashlib
@@ -17,7 +17,7 @@ from legal_skill_guard.rr.ledger import BudgetError
 from .controlled import add_controlled
 from .native import grade_view
 from .runtime import FrozenReads, SkillRuntime, retrieve
-from .revisions import ReplayBudget, VersionTable, observe_transfer
+from .revisions import ReplayBudget, VersionTable, observe_transfer, trigger_revision_reachability
 from .teacher import propose, compile_block
 from . import patterns
 
@@ -36,15 +36,30 @@ class Study:
         self.source_ids = {p: [r['key'] for rows in manifest['datasets'].values() for r in rows[p]]
                            for p in ('train', 'dev', 'test')}
         prepared = self.root / 'artifacts/legal_skill_evolution_20261111/prepared/train'
-        records, self.grading = add_controlled(load_json(prepared / 'public.json'),
-            load_json(prepared / 'grading.json'), load_json(self.root /
+        records, self.grading = load_json(prepared / 'public.json'), load_json(prepared / 'grading.json')
+        if stage == 'pilot':
+            records, self.grading = add_controlled(records, self.grading, load_json(self.root /
                 'reports/legal_skill_evolution_plan_20261111/CONTROLLED_LAYER_EVIDENCE.json'))
+        elif stage != 'formal':
+            raise ValueError('Unknown native study stage')
         self.records = {r['key']: r for r in records}
         pilot = load_json(self.root / 'reports/legal_skill_evolution_plan_20261111/pilot_source_manifest.json')
-        self.order = [r['key'] for r in pilot['source_sequence']]
-        self.arms = PILOT_ARMS
-        if stage != 'pilot':
-            raise ValueError('Formal entry is gated on the actual pilot mechanism review')
+        if stage == 'pilot':
+            self.order = [r['key'] for r in pilot['source_sequence']]
+            self.batches = [self.order[i:i + 5] for i in range(0, 20, 5)]
+            self.arms = PILOT_ARMS
+        else:
+            self.batches = [[r['source_key'] for r in b['sources']] for b in manifest['source_sequence']]
+            self.order = [key for batch in self.batches for key in batch]
+            self.arms = tuple(profile['arms'])
+            if len(self.batches) != 8 or any(len(b) != 16 for b in self.batches):
+                raise ValueError('The fixed formal order must contain 8 batches of 16 parents')
+            if len(self.order) != 128 or set(self.order) != set(self.source_ids['train']):
+                raise ValueError('The formal order must cover every fixed TRAIN parent exactly once')
+            dev = self.root / 'artifacts/legal_skill_evolution_20261111/prepared/dev'
+            self.dev_records = {r['key']: r for r in load_json(dev / 'public.json')}
+            self.dev_grading = load_json(dev / 'grading.json')
+            if set(self.dev_records) != set(self.source_ids['dev']):raise ValueError('DEV parents differ from the fixed manifest')
         if not set(self.order) <= set(self.source_ids['train']):
             raise ValueError('Pilot is not entirely in the pre-fixed TRAIN manifest')
         self.ledger = EvolutionLedger(self.root / 'artifacts/rr_v2_preflight/research_ledger.sqlite3',
@@ -72,20 +87,22 @@ class Study:
             else:
                 Library().save(path)
 
-    def parent(self, identity, library, *, retrieval_sets=None):
-        source = self.records[identity]
+    def parent(self, identity, library, *, retrieval_sets=None, purpose='skill_actor'):
+        if purpose not in ('skill_actor', 'skill_replay', 'skill_dev'):raise ValueError('Unsupported unfrozen evaluation purpose')
+        source = (self.dev_records if purpose == 'skill_dev' else self.records)[identity]
+        grading = self.dev_grading if purpose == 'skill_dev' else self.grading
         results = []
         for view in source['views']:
             retrieval = retrieval_sets.get(view['id']) if retrieval_sets else None
             view_path = self.folder / 'view_results' / (digest({'source': identity,
-                'view': view, 'library_hash': library.hash, 'retrieved': retrieval}) + '.json')
+                'view': view, 'library_hash': library.hash, 'retrieved': retrieval, 'purpose': purpose}) + '.json')
             if view_path.exists():
                 results.append(load_json(view_path))
                 continue
             try:
-                execution = self.runtime.run(source, view, library, purpose='skill_actor',
+                execution = self.runtime.run(source, view, library, purpose=purpose,
                     retrieved=retrieval)
-                score = grade_view(source['dataset'], view, self.grading[identity][view['id']],
+                score = grade_view(source['dataset'], view, grading[identity][view['id']],
                                    execution['answer'], execution['evidence_sentence_ids'])
             except (ValueError, WireError, jsonschema.ValidationError) as error:
                 # A genuinely pending dispatch must be reconciled, never
@@ -106,12 +123,12 @@ class Study:
         return {'source': identity, 'dataset': source['dataset'], 'library_hash': library.hash,
             'views': results, 'native_grade': aggregate(native),
             'selection_grade': aggregate(results),
-            'selection_protocol': 'mean_of_all_predeclared_native_and_controlled_TRAIN_views_within_parent',
+            'selection_protocol': self.profile.get('selection_grade', 'native_views_mean_within_parent'),
             'native_core_correct': sum(r['score']['correct'] and r['execution']['core_executed'] for r in native),
             'native_fallback_views': sum(r['execution']['fallback'] for r in native)}
 
     def initial_batch(self, arm, batch):
-        keys = self.order[(batch - 1) * 5:batch * 5]
+        keys = self.batches[batch - 1]
         library = Library.load(self.library_path(arm, batch - 1))
         path = self.folder / arm / ('initial_B' + str(batch) + '.json')
         binding = {'batch': batch, 'arm': arm, 'source_ids': keys, 'library_hash': library.hash}
@@ -130,7 +147,7 @@ class Study:
                 continue
             result.append(self.parent(key, library))
             immutable_json(source_path, result[-1])
-            print(json.dumps({'stage': 'pilot_first_attempt', 'arm': arm, 'batch': batch,
+            print(json.dumps({'stage': self.stage + '_first_attempt', 'arm': arm, 'batch': batch,
                 'source': key, 'native_grade': result[-1]['native_grade'],
                 'core_correct': result[-1]['native_core_correct']}, ensure_ascii=False), flush=True)
         value = {'binding': binding, 'results': result}
@@ -154,7 +171,7 @@ class Study:
         trigger = sorted(current, key=lambda k: (current[k]['selection_grade'] is None,
             current[k]['selection_grade'] if current[k]['selection_grade'] is not None else 0,
             self.order.index(k)))[:3]
-        past = self.order[:(batch - 1) * 5]
+        past = [key for keys in self.batches[:batch - 1] for key in keys]
         history = past[:5]
         cohort = trigger + history
         context_path = self.folder / arm / ('update_context_B' + str(batch) + '.json')
@@ -174,6 +191,7 @@ class Study:
         response = (load_json(teacher_path) if teacher_path.exists() else propose(self.teacher,
             arm=arm, batch=batch, library=old, source_records=[self.records[k] for k in cohort],
             feedback=self.feedback(cohort, current), learned_patterns=old.revision_patterns,
+            trigger=trigger, history=history,
             max_blocks=3 - len(queue)))
         proposal = response['value']
         immutable_json(teacher_path, response)
@@ -181,11 +199,12 @@ class Study:
             queue.append({'raw_block': block})
         prior_logical = self.profile.get('prior_logical_replay_executions', {}).get(arm + ':' + str(batch), 0)
         budget, tables = ReplayBudget(logical_executions=prior_logical), []
+        new_parent_executions = 0
         best = None
         for index, candidate in enumerate(queue):
             try:
                 revisions = candidate.get('revisions') or compile_block(candidate['raw_block'], old,
-                    {k: self.records[k] for k in self.order[:batch * 5]}, arm)
+                    {k: self.records[k] for keys in self.batches[:batch] for k in keys}, arm)
                 budget.admit_block(len(revisions), len(cohort))
                 full = apply_revision_package(old, revisions, old.hash)
                 retrieval = {key: {v['id']: list(dict.fromkeys(retrieve(full, self.records[key], v) +
@@ -196,6 +215,21 @@ class Study:
                 existing = load_json(candidate_path) if candidate_path.exists() else None
                 if existing and digest(existing.get('revisions')) != digest(revisions):
                     raise ValueError('Saved candidate differs from the exact old/new revisions')
+                if existing and existing.get('selection_exclusion'):
+                    tables.append(existing)
+                    continue
+                if not existing:
+                    proof = trigger_revision_reachability(old, full, retrieval, trigger,
+                                                         [r['skill_id'] for r in revisions])
+                    if not proof['any_changed_reachable']:
+                        receipt = {**candidate, 'revisions': revisions, 'table': table.export(),
+                            'selected_mask': None, 'read_tokens': {},
+                            'selection_exclusion': {'reason': 'provably_no_trigger_effect', 'proof': proof,
+                                'unmeasured_version_outcomes': 'unknown',
+                                'joint_mechanism_validation': False}}
+                        tables.append(receipt)
+                        immutable_json(candidate_path, receipt)
+                        continue
                 if existing and 'table' in existing:
                     for cell in existing['table']['mixed_version_table']:
                         table.observe(cell['mask'], cell['source'], cell['native_parent_grade'], cell['trace'])
@@ -206,6 +240,7 @@ class Study:
                             [r for i, r in enumerate(revisions) if mask & (1 << i)], old.hash)
                         tokens[mask] = 0
                         for key in cohort:
+                            new_parent_executions += 1
                             result = self.parent(key, library, retrieval_sets=retrieval[key])
                             table.observe(mask, key, result['selection_grade'], result)
                             tokens[mask] += sum(e.get('usage', {}).get('total_tokens', 0)
@@ -246,18 +281,21 @@ class Study:
                     table.observe(cell['mask'], cell['source'], cell['native_parent_grade'], cell['trace'])
                 observe_transfer(memory, receipt['verified_context'], table)
         new.provisional_edits.extend({'batch': batch, 'candidate_index': i,
-            'revisions': t.get('revisions'), 'table': t.get('table'), 'error': t.get('error')}
+            'raw_block': t.get('raw_block'),
+            'revisions': t.get('revisions'), 'table': t.get('table'), 'error': t.get('error'),
+            'selection_exclusion': t.get('selection_exclusion')}
             for i, t in enumerate(tables))
         new.save(self.library_path(arm, batch))
         value = {'batch': batch, 'arm': arm, 'old_library_hash': old.hash, 'new_library_hash': new.hash,
             'teacher_request_sha256': response['request_sha256'], 'candidate_blocks': len(queue),
-            'logical_candidate_parent_executions': budget.logical_executions,
+            'logical_candidate_parent_executions': prior_logical + new_parent_executions,
+            'reserved_logical_candidate_parent_allowance': budget.logical_executions,
             'prior_logical_candidate_parent_executions': prior_logical,
-            'logical_candidate_parent_executions_this_validation': budget.logical_executions - prior_logical,
+            'logical_candidate_parent_executions_this_validation': new_parent_executions,
             'selected_candidate': best['index'] if best else None, 'selected_mask': best['mask'] if best else None,
             'learned_pattern_ids': learned, 'skill_count': len(new.skills), 'pattern_count': len(new.revision_patterns)}
         immutable_json(path, value)
-        print(json.dumps({'stage': 'pilot_update', **value}, ensure_ascii=False), flush=True)
+        print(json.dumps({'stage': self.stage + '_update', **value}, ensure_ascii=False), flush=True)
         return value
 
     def run(self):

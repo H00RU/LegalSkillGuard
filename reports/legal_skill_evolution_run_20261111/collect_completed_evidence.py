@@ -1,0 +1,43 @@
+"""Copy settled TRAIN/readonly DEV artifacts; never copies sealed TEST or DB."""
+from datetime import datetime, timezone
+import hashlib
+import json
+from pathlib import Path
+import shutil
+
+ROOT = Path(__file__).resolve().parents[2]
+REPORT = Path(__file__).resolve().parent
+
+
+def main():
+    sources = []
+    for version in ('pilot_v11', 'repair_v12', 'repair_v13', 'formal_v1'):
+        folder = ROOT / 'artifacts/legal_skill_evolution_20261111' / version
+        for name in ('execution_manifest.json', 'preflight.json', 'repair_queue.json', 'completed.json'):
+            if (folder / name).exists():sources.append((folder, folder / name))
+        patterns = ('*/initial_B*.json', '*/update_B*.json', '*/teacher_B*.json',
+                    '*/B*_candidates/*.json', '*/B*_c*.json', 'source_snapshot/**/*.py', 'dev/*/B*.json')
+        for pattern in patterns:sources.extend((folder, p) for p in folder.glob(pattern))
+        for request in (folder / 'calls').glob('*/request.json'):
+            if not any((request.parent / n).exists() for n in ('result.json', 'failure.json')):continue
+            for name in ('request.json', 'wire_request.json', 'wire_response.json', 'result.json', 'failure.json'):
+                path = request.parent / name
+                if path.exists():sources.append((folder, path))
+    receipt = []
+    for folder, path in sorted(set(sources)):
+        relative = path.relative_to(folder)
+        target = REPORT / 'evidence' / folder.name / relative
+        body = path.read_bytes()
+        if target.exists() and target.read_bytes() != body:raise ValueError('Settled evidence changed: ' + str(target))
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(path, target)
+        receipt.append({'original_path': str(path.relative_to(ROOT)), 'public_path': str(target.relative_to(ROOT)),
+            'bytes': len(body), 'sha256': hashlib.sha256(body).hexdigest(), 'byte_identical': True})
+    (REPORT / 'settled_evidence_manifest.json').write_text(json.dumps({
+        'captured_utc': datetime.now(timezone.utc).isoformat(), 'new_model_calls': 0,
+        'scope': 'settled original TRAIN pilot, fixed repair queue and frozen-config readonly DEV; no sealed TEST files or SQLite copied',
+        'files': receipt}, ensure_ascii=False, indent=2) + '\n')
+    print(json.dumps({'copied_files': len(receipt), 'bytes': sum(r['bytes'] for r in receipt)}))
+
+
+if __name__ == '__main__':main()

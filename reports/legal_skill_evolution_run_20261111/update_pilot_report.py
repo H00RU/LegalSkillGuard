@@ -88,10 +88,46 @@ def main():
         'cash_cost': {'executor_incremental_API_cash_usd': 0,
             'teacher_cash_invoice_usd': None, 'GPU_invoice_usd': None,
             'note': 'Token/time usage measured; subscription and GPU cash invoices unavailable, not asserted free.'},
-        'limitations': ['Partial pilot, not evidence of two independent contributions.',
+        'limitations': ['First pilot pass completed; not evidence of two independent contributions.',
             'Unfinished and rejected candidates retained; fallback never counts as core success.',
             'Historical exposure reconciliation remains incomplete outside the specifically audited stores.']}
+    repair = ROOT / 'artifacts/legal_skill_evolution_20261111/repair_v13'
+    if (repair / 'repair_queue.json').exists():
+        queue = read(repair / 'repair_queue.json')
+        receipts = sorted(repair.glob('*/B*_c*.json'))
+        snapshot['repair_validation'] = {'profile': 'configs/legal_skill_evolution_repair_v13_20261111.json',
+            'fixed_candidate_slots': len(queue['queue']), 'settled_candidates': len(receipts),
+            'complete': (repair / 'completed.json').exists(), 'new_teacher_requests_planned': 0,
+            'new_learning_epoch': False, 'original_first_pass_history_preserved': True,
+            'receipts': [{k: v for k, v in read(p).items() if k in
+                         ('arm', 'batch', 'candidate', 'selected_mask', 'selection', 'logical_executions', 'compile_error')}
+                         for p in receipts]}
+    formal = ROOT / 'artifacts/legal_skill_evolution_20261111/formal_v1'
+    if (formal / 'execution_manifest.json').exists():
+        formal_calls = [r for r in attempts if r['id'].startswith('legal_skill_evolution_formal_')]
+        dev = [read(p) for p in sorted((formal / 'dev').glob('*/B*.json'))]
+        source_checkpoints = list(formal.glob('*/initial_B*/*.json'))
+        snapshot['formal_fixed_study'] = {'profile': 'configs/legal_skill_evolution_formal_v1_20261111.json',
+            'run_started': bool(formal_calls), 'frozen_model_external_skill_learning': True,
+            'source_count': 128, 'batch_count': 8, 'sources_per_batch': 16,
+            'native_TRAIN_DEV_input_preflight_passed': (formal / 'preflight.json').exists(),
+            'source_first_attempt_checkpoints_by_arm': Counter(p.parent.parent.name for p in source_checkpoints),
+            'update_receipts': [read(p) for p in sorted(formal.glob('*/update_B*.json'))],
+            'settled_DEV_points': [{k: r[k] for k in ('arm', 'batch', 'library_hash',
+                'native_parent_means_by_dataset', 'equal_dataset_macro')} for r in dev],
+            'physical_call_statuses': Counter(r['status'] for r in formal_calls),
+            'training_and_DEV_complete': (formal / 'training_DEV_completed.json').exists(),
+            'pilot_skills_imported': False, 'teacher_DEV_access': False, 'TEST_started': False}
+        snapshot['formal_128_training_started'] = bool(source_checkpoints)
+        snapshot['DEV_started'] = any(r['purpose'] == 'skill_dev' for r in formal_calls)
+        snapshot['stage'] = 'fixed_128_parent_skill_learning_and_DEV' if formal_calls else 'formal_input_preflight_passed'
     (REPORT / 'pilot_progress.json').write_text(json.dumps(snapshot, ensure_ascii=False, indent=2) + '\n')
+    (REPORT / 'current_status.json').write_text(json.dumps({k: snapshot[k] for k in (
+        'captured_utc', 'goal_status', 'goal_complete', 'thinking', 'model_parameter_updates',
+        'cumulative_physical_requests', 'pending', 'formal_128_training_started', 'DEV_started', 'TEST_started')}
+        | {'first_pilot_pass_complete': len(updates) == 16,
+           'repair_validation': snapshot.get('repair_validation'),
+           'formal_fixed_study': snapshot.get('formal_fixed_study')}, ensure_ascii=False, indent=2) + '\n')
     print(json.dumps({'cumulative': snapshot['cumulative_physical_requests'], 'pending': len(pending),
         'completed_updates': len(updates), 'goal_status': 'active'}, ensure_ascii=False))
 

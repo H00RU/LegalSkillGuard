@@ -20,6 +20,35 @@ class GenerationHold(RuntimeError):
 
 
 class FrozenExecutor(ExecutorClient):
+    def replay_index(self, roots):
+        signature = tuple(str(Path(root)) for root in roots)
+        if getattr(self, '_replay_index_signature', None) == signature:
+            return self._replay_index
+        with self.ledger.transaction() as db:
+            settled = {r[0]: r[1:] for r in db.execute(
+                "select id,result,reserved_at from calls where status='completed'")}
+        index = {}
+        for root in roots:
+            for path in (Path(root) / 'calls').glob('*/request.json'):
+                prior = json.loads(path.read_text())
+                identity = prior.get('id')
+                if identity not in settled:continue
+                wire_path = path.with_name('wire_request.json')
+                if not wire_path.exists():continue
+                raw = json.loads(wire_path.read_text())
+                wire = base64.b64decode(raw['body_b64'])
+                wire_hash = hashlib.sha256(wire).hexdigest()
+                if wire_hash != raw['body_sha256']:continue
+                result, at = settled[identity]
+                result = json.loads(result)
+                if result.get('request_hash') != prior['request_hash']:
+                    raise BudgetError('Prior exact-wire request differs from its settled physical ledger row')
+                key = (prior['source'], prior['purpose'], wire_hash)
+                index.setdefault(key, []).append((at, identity, wire, prior['request_hash']))
+        for matches in index.values():matches.sort(key=lambda x: (x[0], x[1]))
+        self._replay_index_signature, self._replay_index = signature, index
+        return index
+
     def generate(self, *args, **kwargs):
         if (self.artifacts / 'HOLD_GENERATION').exists():
             raise GenerationHold('Held before the next physical request; in-flight calls were allowed to settle')
@@ -28,25 +57,20 @@ class FrozenExecutor(ExecutorClient):
             self.validate_scope(kwargs['source'], kwargs['purpose'], kwargs['thinking'])
             payload = self.payload(messages=kwargs['messages'], thinking=kwargs['thinking'], schema=kwargs.get('schema'))
             wire = json.dumps(payload, ensure_ascii=False).encode()
-            matches = []
-            for root in roots:
-                for path in (Path(root) / 'calls').glob('*/request.json'):
-                    prior = json.loads(path.read_text())
-                    if prior.get('source') != kwargs['source'] or prior.get('purpose') != kwargs['purpose']:
-                        continue
-                    raw = json.loads(path.with_name('wire_request.json').read_text())
-                    old_wire = base64.b64decode(raw['body_b64'])
-                    if old_wire != wire or hashlib.sha256(old_wire).hexdigest() != raw['body_sha256']:
-                        continue
-                    with self.ledger.transaction() as db:
-                        row = db.execute('select status,result,reserved_at from calls where id=?', (prior['id'],)).fetchone()
-                    if row and row[0] == 'completed':
-                        result = json.loads(row[1])
-                        if result['request_hash'] != prior['request_hash']:
-                            raise BudgetError('Prior exact-wire request no longer matches its settled physical ledger row')
-                        matches.append((row[2], prior['id'], result))
-            if matches:
-                _, identity, result = min(matches, key=lambda x: (x[0], x[1]))
+            key = (kwargs['source'], kwargs['purpose'], hashlib.sha256(wire).hexdigest())
+            matches = self.replay_index(roots).get(key, ())
+            exact = next((m for m in matches if m[2] == wire), None)
+            if exact:
+                at, identity, _, request_hash = exact
+                # Recheck the physical ledger on every reuse; indexing cannot
+                # turn a failed, changed or orphaned request into a completion.
+                with self.ledger.transaction() as db:
+                    row = db.execute('select status,result,reserved_at from calls where id=?', (identity,)).fetchone()
+                if not row or row[0] != 'completed' or row[2] != at:
+                    raise BudgetError('Indexed physical response no longer has its original settled ledger identity')
+                result = json.loads(row[1])
+                if result.get('request_hash') != request_hash:
+                    raise BudgetError('Indexed response differs from the preserved physical request')
                 immutable_json(self.artifacts / 'exact_replay_receipts' / (digest(args[0]) + '.json'), {
                     'logical_call_id': args[0], 'physical_call_id': identity,
                     'wire_sha256': hashlib.sha256(wire).hexdigest(), 'same_source_and_purpose': True,

@@ -1,15 +1,19 @@
 """Meaningful runtime and data isolation checks before any physical generation."""
-from dataclasses import replace
+from dataclasses import asdict, replace
 import json
+import base64
+import hashlib
 from pathlib import Path
 import subprocess
 import sqlite3
 import tempfile
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 from legal_skill_guard.skill_evolution.objects import Skill, Library, coupled_blocks
-from legal_skill_guard.skill_evolution.teacher import validate_grounding, prune_unobserved_premise_metadata
+from legal_skill_guard.skill_evolution.teacher import (validate_grounding, prune_unobserved_premise_metadata,
+    compile_block, skill_from_wire)
 from legal_skill_guard.skill_evolution.runtime import (execute_helper, SkillRuntime, render_messages,
     aligned_array_ports, FrozenReads)
 from legal_skill_guard.skill_evolution.native import answer_wire_schema, decode_answer, restore_enum_transport, source_spans
@@ -19,6 +23,7 @@ from legal_skill_guard.skill_evolution.clients import FrozenTeacher
 from legal_skill_guard.skill_evolution.clients import FrozenExecutor, GenerationHold
 from legal_skill_guard.rr.ledger import BudgetError
 from legal_skill_guard.skill_evolution.patterns import instantiate_edit
+from legal_skill_guard.skill_evolution.revisions import trigger_revision_reachability
 from legal_skill_guard.inference.codex_cli_client import canonical_json_sha256
 
 
@@ -41,6 +46,129 @@ def helper(procedure='def apply(inputs, premises):\n    return {"answer": inputs
 
 
 class RuntimeTests(unittest.TestCase):
+    def test_indexed_replay_keeps_earliest_wire_identity_and_rechecks_ledger(self):
+        with tempfile.TemporaryDirectory() as folder:
+            ledger = fixture_ledger(folder)
+            client = object.__new__(FrozenExecutor)
+            client.config = {'enable_thinking': False, 'model': 'Qwen/Qwen3-8B',
+                'temperature': .6, 'top_p': .95, 'top_k': 20, 'max_tokens': 8192, 'seed': 45}
+            client.ledger, client.artifacts = ledger, Path(folder) / 'current'
+            prior = Path(folder) / 'prior'
+            client.exact_replay_roots = [prior]
+            messages = [{'role': 'user', 'content': 'fixture'}]
+            schema = {'type': 'object', 'properties': {'a': {'type': 'boolean'}, 'b': {'type': 'boolean'}}}
+            payload = client.payload(messages=messages, thinking=False, schema=schema)
+            wire = json.dumps(payload, ensure_ascii=False).encode()
+            for i in (1, 2):
+                identity = 'fixture:old' + str(i)
+                reserved = ledger.reserve(identity, role='executor', purpose='skill_actor', source='train',
+                    request={'thinking': False, 'fixture': i})
+                ledger.finish(identity, status='completed', result={'content': str(i), 'request_hash': reserved['request_hash']})
+                dest = prior / 'calls' / str(i)
+                dest.mkdir(parents=True)
+                (dest / 'request.json').write_text(json.dumps({'id': identity, 'source': 'train',
+                    'purpose': 'skill_actor', 'request_hash': reserved['request_hash']}))
+                (dest / 'wire_request.json').write_text(json.dumps({'body_b64': base64.b64encode(wire).decode(),
+                    'body_sha256': hashlib.sha256(wire).hexdigest()}))
+            args = {'source': 'train', 'purpose': 'skill_actor', 'messages': messages, 'thinking': False, 'schema': schema}
+            first = client.generate('fixture:new1', **args)
+            self.assertEqual(first['reused_physical_call_id'], 'fixture:old1')
+            with patch.object(Path, 'glob', side_effect=AssertionError('Repeated historical filesystem scan')):
+                self.assertEqual(client.generate('fixture:new2', **args)['content'], '1')
+            reordered = {**schema, 'properties': dict(reversed(list(schema['properties'].items())))}
+            with patch('legal_skill_guard.rr.client.ExecutorClient.generate', return_value={'cache_miss': True}):
+                self.assertEqual(client.generate('fixture:new3', **(args | {'schema': reordered})), {'cache_miss': True})
+            with ledger.transaction() as db:
+                self.assertEqual(db.execute('select count(*) from calls').fetchone()[0], 2)
+                db.execute('update calls set result=? where id=?', (json.dumps({'request_hash': 'tampered'}), 'fixture:old1'))
+            with self.assertRaises(BudgetError):client.generate('fixture:new4', **args)
+
+    def test_retained_unique_draft_installs_as_creation_without_fictitious_revision(self):
+        origin = {'source_id': 'fixture', 'view_id': 'v', 'quote': 'literal source'}
+        raw = {'id': 'draft', 'intent': 'fixture', 'procedure': helper().procedure,
+            'inputs': [{'name': 'a', 'type': 'boolean', 'mode': 'read', 'question': 'A', 'field': 'a', 'skill_id': None}],
+            'outputs': [{'name': 'answer', 'type': 'boolean', 'description': 'fixture'}],
+            'premises': [{'name': 'p', 'type': 'boolean', 'mode': 'constant', 'value': True,
+                'origin': origin, 'question': 'P', 'read_id': None, 'field': None}],
+            'reads': [], 'semantic_records': [], 'source_obligations': [], 'source_provenance': [origin], 'version': 1}
+        ancestor = skill_from_wire(raw)
+        library = Library(provisional_edits=[{'revisions': [{'new': asdict(ancestor)}]}])
+        proposal = {'revisions': [{'operation': 'revise', 'skill': {**raw, 'version': 2}}]}
+        sources = {'fixture': {'views': [{'id': 'v', 'public': {'source_text': 'literal source'}}]}}
+        actual = compile_block(proposal, library, sources, 'Full')[0]
+        self.assertEqual((actual['operation'], actual['old_hash'], actual['new']['version']), ('create', None, 1))
+        self.assertEqual(actual['new']['procedure'], raw['procedure'])
+        self.assertFalse(actual['representation_adaptation']['retained_draft_installation']['counts_as_existing_skill_revision'])
+        with self.assertRaises(ValueError):compile_block(proposal, Library(), sources, 'Full')
+        competing = replace(ancestor, intent='different recorded draft with the same ID/version')
+        library.provisional_edits.append({'revisions': [{'new': asdict(competing)}]})
+        with self.assertRaises(ValueError):compile_block(proposal, library, sources, 'Full')
+
+    def test_reader_without_any_premise_binding_is_not_executed(self):
+        skill = replace(helper(), reads=({'id': 'unused', 'question': 'irrelevant', 'fields': {'unused': {'type': 'object'}}},))
+        calls = []
+        def read(*args, **kwargs):
+            calls.append(kwargs['fields'])
+            return {'a': True}, {'kind': 'READ_LOCAL', 'fields': {}}
+        runtime = SkillRuntime(SimpleNamespace(read=read))
+        actual = runtime.run({'key': 'fixture'}, {'id': 'v', 'answer_schema': {'type': 'boolean'}},
+            Library(skills={skill.id: skill}), retrieved=[skill.id], fallback=False)
+        self.assertTrue(actual['core_executed'])
+        self.assertEqual(calls, [{'a': {'type': 'boolean', 'question': 'A'}}])
+
+    def test_unreached_unknown_is_never_filled_and_reached_unknown_still_fails(self):
+        branch = replace(helper(), procedure=('def apply(inputs, premises):\n'
+            '    if inputs["a"]:\n        return {"answer": premises["p"]}\n'
+            '    return {"answer": False}\n'))
+        self.assertEqual(execute_helper(branch, {'a': False}, {}, unresolved_premises=['p']), {'answer': False})
+        with self.assertRaisesRegex(ValueError, 'KeyError'):
+            execute_helper(branch, {'a': True}, {}, unresolved_premises=['p'])
+        with self.assertRaises(ValueError):execute_helper(branch, {'a': False}, {})
+        with self.assertRaises(ValueError):
+            execute_helper(branch, {'a': False}, {'p': True}, unresolved_premises=['p'])
+        for body in ('x = premises', 'x = len(premises)', 'x = str(premises)',
+                     'x = "p" in premises', 'premises["p"] = True', 'del premises["p"]'):
+            program = ('def apply(inputs, premises):\n    ' + body + '\n'
+                '    if inputs["a"]:\n        return {"answer": premises["p"]}\n'
+                '    return {"answer": False}\n')
+            with self.assertRaises(ValueError):
+                execute_helper(replace(branch, procedure=program), {'a': False}, {}, unresolved_premises=['p'])
+
+    def test_partial_read_keeps_unknown_evidence_and_requires_support_for_known_values(self):
+        reads = FrozenReads(None)
+        response = {'a': {'status': 'known', 'value': False, 'support_ids': [0]},
+                    'b': {'status': 'unknown', 'value': None, 'support_ids': []}}
+        reads.generate = lambda *args, **kwargs: (json.loads(json.dumps(response)), {'call_id': 'fixture'})
+        args = ({'key': 'fixture', 'dataset': 'fixture'},
+                {'id': 'v', 'public': {'source_text': 'A does not apply.'}})
+        options = {'question': 'Read A and B', 'fields': {n: {'type': 'boolean'} for n in response},
+                   'locator': 'source', 'purpose': 'fixture'}
+        values, event = reads.read(*args, **options, allow_unresolved=True)
+        self.assertEqual(values, {'a': False})
+        self.assertEqual(event['unresolved_fields'], ['b'])
+        self.assertIsNone(event['fields']['b']['value'])
+        with self.assertRaises(ValueError):reads.read(*args, **options)
+        response['a']['support_ids'] = []
+        with self.assertRaisesRegex(ValueError, 'no selected current-source support'):
+            reads.read(*args, **options, allow_unresolved=True)
+
+    def test_trigger_pruning_keeps_dependencies_from_every_mixed_version(self):
+        consumer = replace(helper(), id='consumer')
+        producer = replace(helper(), id='new_producer')
+        old = Library(skills={'consumer': consumer})
+        new = Library(skills={'consumer': consumer, 'new_producer': producer})
+        roots = {'source': {'view': ['consumer']}}
+        proof = trigger_revision_reachability(old, new, roots, ['source'], ['new_producer'])
+        self.assertFalse(proof['any_changed_reachable'])
+        # The full-new graph no longer uses this producer; a mixed version
+        # with the old consumer still does. It must remain eligible.
+        old.skills['consumer'] = replace(consumer, inputs={'a': {'type': 'boolean',
+            'mode': 'skill', 'skill_id': 'new_producer', 'field': 'answer'}})
+        proof = trigger_revision_reachability(old, new, roots, ['source'], ['new_producer'])
+        self.assertTrue(proof['any_changed_reachable'])
+        self.assertIn('new_producer', proof['trigger_views'][0]['reachable_union_old_new'])
+        self.assertTrue(trigger_revision_reachability(old, new, roots, ['source'], ['consumer'])['any_changed_reachable'])
+
     def test_array_alignment_comes_from_actual_uses_and_never_fills_values(self):
         program = ('def apply(inputs, premises):\n    keys = premises["keys"]\n'
             '    amounts = premises["amounts"]\n    total = 0\n'

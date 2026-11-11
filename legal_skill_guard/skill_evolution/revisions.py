@@ -7,6 +7,34 @@ import math
 from .objects import digest
 
 
+def trigger_revision_reachability(old, new, retrieval, trigger, changed):
+    """Overapproximate every mixed-version dependency path from fixed roots.
+
+    If no changed skill is reachable, all trigger executions are invariant.
+    This uses both old and new edges and no annotations or teacher judgment.
+    """
+    changed = set(changed)
+    views = []
+    for source in trigger:
+        for view, roots in retrieval[source].items():
+            pending, reached = list(roots), set()
+            while pending:
+                identity = pending.pop()
+                if identity in reached:continue
+                reached.add(identity)
+                for library in (old, new):
+                    if identity in library.skills:
+                        pending.extend(p['skill_id'] for p in library.skills[identity].inputs.values()
+                                       if p['mode'] == 'skill')
+            views.append({'source': source, 'view': view, 'fixed_roots': list(roots),
+                'reachable_union_old_new': sorted(reached),
+                'changed_reachable': sorted(reached & changed)})
+    return {'changed_skill_ids': sorted(changed), 'trigger_views': views,
+        'any_changed_reachable': any(v['changed_reachable'] for v in views),
+        'uses_native_labels': False,
+        'criterion': 'A strict trigger improvement requires a changed skill on a possible fixed-root execution path.'}
+
+
 @dataclass
 class ReplayBudget:
     blocks: int = 0

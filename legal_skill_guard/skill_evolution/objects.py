@@ -7,6 +7,7 @@ from dataclasses import asdict, dataclass, field, replace
 import hashlib
 import json
 from pathlib import Path
+from .coupling import local_record_blocks
 
 
 def digest(value):
@@ -122,6 +123,8 @@ def coupled_blocks(skill):
     skill.validate()
     records = {r['id']: r for r in skill.semantic_records}
     candidates = set()
+    candidates.update(tuple(r['ports']) for r in local_record_blocks(skill.procedure,
+        {n for n, p in skill.premises.items() if p['mode'] == 'constant'}))
     for key, record in records.items():
         frontier = {key}
         reached = set()

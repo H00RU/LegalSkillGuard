@@ -97,10 +97,26 @@ def aligned_array_ports(skill):
     return groups
 
 
-def execute_helper(skill, inputs, premises):
+def execute_helper(skill, inputs, premises, *, unresolved_inputs=(), unresolved_premises=()):
     skill.validate()
-    if set(inputs) != set(skill.inputs) or set(premises) != set(skill.premises):
-        raise ValueError('Complete current inputs and premise bindings required')
+    unknown = {'inputs': set(unresolved_inputs), 'premises': set(unresolved_premises)}
+    for name, values, declared in (('inputs', inputs, skill.inputs), ('premises', premises, skill.premises)):
+        if set(values) & unknown[name] or set(values) | unknown[name] != set(declared):
+            raise ValueError('Every declared binding must be known or explicitly unresolved')
+    if any(unknown.values()):
+        # Omit unresolved values, never substitute None/False or a prior value.
+        # Literal indexing raises if execution reaches a missing field. Reject
+        # whole-map observation, aliases, dynamic indexing and mutation, which
+        # could otherwise observe the omission or manufacture a replacement.
+        tree = ast.parse(skill.procedure)
+        parents = {id(c): n for n in ast.walk(tree) for c in ast.iter_child_nodes(n)}
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.Name) or node.id not in unknown or not unknown[node.id]:continue
+            parent = parents.get(id(node))
+            if (not isinstance(node.ctx, ast.Load) or not isinstance(parent, ast.Subscript)
+                    or parent.value is not node or not isinstance(parent.ctx, ast.Load)
+                    or not isinstance(parent.slice, ast.Constant) or not isinstance(parent.slice.value, str)):
+                raise ValueError('Partially unresolved bindings require read-only literal field access')
     for name, value in inputs.items():
         typed(value, skill.inputs[name]['type'])
     for name, value in premises.items():
@@ -142,17 +158,20 @@ class FrozenReads:
                        'response_hash': digest(value)}
 
     def read(self, source, view, *, question, fields, locator, purpose,
-             alignment=None, array_lengths=None, anchor_values=None):
+             alignment=None, array_lengths=None, anchor_values=None, allow_unresolved=False):
         if alignment:
             anchor, dependents = alignment
             remaining = {n: spec for n, spec in fields.items() if n not in dependents}
             values, first = self.read(source, view, question=question, fields=remaining,
-                locator=locator, purpose=purpose)
+                locator=locator, purpose=purpose, allow_unresolved=allow_unresolved)
+            if anchor not in values:
+                raise LocalReadError('Array alignment anchor is unresolved: ' + anchor, first)
             count = len(values[anchor])
             try:
                 extra, second = self.read(source, view, question=question,
                     fields={n: fields[n] for n in dependents}, locator=locator, purpose=purpose,
-                    array_lengths={n: count for n in dependents}, anchor_values={anchor: values[anchor]})
+                    array_lengths={n: count for n in dependents}, anchor_values={anchor: values[anchor]},
+                    allow_unresolved=allow_unresolved)
             except LocalReadError as error:
                 event = {**error.event, 'fields': {**first['fields'], **error.event['fields']},
                     'subreads': [first, error.event],
@@ -167,6 +186,7 @@ class FrozenReads:
                 'usage': {k: sum((e.get('usage') or {}).get(k, 0) or 0 for e in events)
                           for k in ('prompt_tokens', 'completion_tokens', 'total_tokens')},
                 'fields': {**first['fields'], **second['fields']}, 'subreads': events,
+                'unresolved_fields': sorted(set(fields) - set(merged)),
                 'alignment': {'anchor': anchor, 'length': count, 'dependents': dependents}}
         spans = source_spans(view['public'])
         properties = {}
@@ -203,13 +223,19 @@ class FrozenReads:
             item['support'] = [spans[i] for i in item['support_ids']]
         event = {**event, 'kind': 'READ_LOCAL', 'question': question, 'locator': locator,
                  'fields': value, 'source': source['key'], 'view': view['id']}
+        known = {}
         for name, item in value.items():
-            if item['status'] != 'known' or item['value'] is None:
+            if item['status'] == 'unknown' and item['value'] is None:
+                if allow_unresolved:continue
                 raise LocalReadError('Current-source read unresolved: ' + name, event)
+            if item['status'] != 'known' or item['value'] is None:
+                raise LocalReadError('Inconsistent local field status/value: ' + name, event)
             if not item['support_ids']:
                 raise LocalReadError('Local field has no selected current-source support: ' + name, event)
             typed(item['value'], fields[name]['type'])
-        return {n: x['value'] for n, x in value.items()}, event
+            known[name] = item['value']
+        event['unresolved_fields'] = sorted(set(fields) - set(known))
+        return known, event
 
     def direct(self, source, view, purpose):
         self.executor.validate_scope(source['key'], purpose, False)
@@ -284,23 +310,30 @@ class SkillRuntime:
                 alignment = alignment_for('inputs', {n: n for n in fields}, fields)
                 values, event = self.reads.read(source, view, question='Read the current task input fields.',
                     fields=fields, locator='current supplied source, facts and question, according to each requested field', purpose=purpose,
+                    allow_unresolved=True,
                     **({'alignment': alignment} if alignment else {}))
                 inputs.update(values); events.append(event)
             premises = {n: p['value'] for n, p in skill.premises.items() if p['mode'] == 'constant'}
             for reader in skill.reads:
                 ports = {n: p['field'] for n, p in skill.premises.items()
                          if p['mode'] == 'read' and p['read_id'] == reader['id']}
+                if not ports:
+                    continue
                 alignment = alignment_for('premises', ports, reader['fields'])
                 values, event = self.reads.read(source, view, question=reader['question'],
                     fields=reader['fields'], locator=reader['source_locator'], purpose=purpose,
+                    allow_unresolved=True,
                     **({'alignment': alignment} if alignment else {}))
                 events.append(event)
                 for name, port in skill.premises.items():
                     if port['mode'] == 'read' and port['read_id'] == reader['id']:
-                        premises[name] = values[port['field']]
-            value = execute_helper(skill, inputs, premises)
+                        if port['field'] in values:premises[name] = values[port['field']]
+            missing_inputs, missing_premises = set(skill.inputs) - set(inputs), set(skill.premises) - set(premises)
+            value = execute_helper(skill, inputs, premises,
+                unresolved_inputs=missing_inputs, unresolved_premises=missing_premises)
             events.append({'kind': 'APPLY', 'skill_id': identity, 'skill_hash': skill.hash,
                 'version': skill.version, 'inputs': inputs, 'premises': premises, 'outputs': value,
+                'unresolved_inputs': sorted(missing_inputs), 'unresolved_premises': sorted(missing_premises),
                 'source': source['key'], 'view': view['id']})
             completed[identity] = value; visiting.remove(identity)
             return value
