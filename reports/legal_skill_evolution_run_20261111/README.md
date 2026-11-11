@@ -37,6 +37,8 @@ Full对AllPorts强对照的差为+.1117261；收益集中在OE（.3831473）与A
 
 空库的直接回答归入基线/回退路径。B8 Full在两个新OE母来源的EC/EV共4个视图核心全对，AllPorts在其中一个来源的2个视图核心全对；Full本批同案差+.0988674。全程统计同时保留B7负迁移，属于依次使用各批初旧库的描述性prequential轨迹，既不是冻结B8复测，也不是TEST结果或专门Lift/CoRev贡献。
 
+逐视图配对确认：Full的6个核心全对均为空库原先错误，来自4个独立母来源（B5/B6各1个航空来源、B8两个OE来源各2视图）；同时有1个SARA视图被核心路径由对改错，另外30个核心执行视图双方均未全对。AllPorts的2个新增全对属于同一个OE母来源。完整正/负记录见[训练轨迹](formal_TRAIN_trajectory.json)的`paired_NoSkill.core_outcomes_paired_with_NoSkill`，部分原生F1变化仍保留在原配对得分中，没有用全对计数替代整体评分。
+
 **B4 Full的DEV五库等权均分为.5313387，比其B0的.4813387提高.0500；航空库由0/8变为2/8，另外四库不变。** 行李费程序在两个新航空来源实际执行并答对；Full共3个核心正确DEV视图，另1个SARA题基线本已正确。FreeEvolution、LiftOnly、CoRevOnly的B4均分仍为.4813387。两个强对照下一注册DEV点为B8，因此当前不能认定相对强对照收益，也不能把普通技能获取的增益计作专门Lift/CoRev贡献。**B5 Full均分进一步为.5446176，OE原生F1均分由.1983604到.2647547；完全正确的核心视图仍3个。** 这次改善为部分F1，未增加全对视图。其他三主臂仍.4813387。**B6 Full均分为.5999947：OE .4166400、Airline .375，其他三库不变，完全正确的核心视图4个。** 另外三主臂仍.4813387。截至B6为31/42个注册点完成；B7后的35/42点见下文，详见[逐库DEV统计](formal_DEV_summary.json)。[学习曲线PNG](formal_DEV_learning_curves.png)、[向量PDF](formal_DEV_learning_curves.pdf)及[数据CSV](formal_DEV_curve_data.csv)仅绘制实际完成点；区间表示母来源不确定性，不表示训练种子波动。
 
 正式流程在六臂B2更新全部结算、旧客户端退出、账本在途0后统一接入前向修复：唯一可还原的引文换行/破折号转录绑定回原文；原程序、法律值和类型检查保持。另一条实质转述继续拒绝。并将已保存但原先遗漏的失败原始程序交给后续教师修复，所有臂一致。1482个已结算文件逐字接至formal_v2，新增调用0；B0–B2不重跑、不回写，入口和同一8批顺序保持。[真实失败回归](actual_quote_transcription_regression.json)、[前向修复复核](formal_forward_grounding_repair_review.json)、[状态导入收据](formal_grounding_state_import.json)。

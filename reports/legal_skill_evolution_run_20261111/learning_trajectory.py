@@ -4,6 +4,7 @@ All inputs are settled TRAIN checkpoints. Candidate feedback replays and DEV
 are kept separate. This module never calls an executor or reads TEST files.
 """
 import csv
+from collections import Counter
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -37,8 +38,36 @@ def paired_initial(initial, baseline):
             'NoSkill_native_grade': other['native_grade'], 'paired_difference': difference})
     by_dataset = {dataset: average([r['paired_difference'] for r in rows if r['dataset'] == dataset])
                   for dataset in DATASETS}
+    baseline_views = {p['source']: {v['view']: v for v in p['views'] if not v['controlled']}
+                      for p in baseline}
+    core_rows, outcomes = [], Counter()
+    for parent in initial:
+        for view in parent['views']:
+            if view['controlled'] or not view['execution']['core_executed']:
+                continue
+            other = baseline_views[parent['source']][view['view']]
+            correct, before = view['score']['correct'], other['score']['correct']
+            if view['score']['grade'] is None or other['score']['grade'] is None:
+                outcome = 'unknown'
+            elif correct and not before:
+                outcome = 'core_correct_baseline_wrong'
+            elif correct and before:
+                outcome = 'core_correct_baseline_correct'
+            elif not correct and before:
+                outcome = 'core_wrong_baseline_correct'
+            else:
+                outcome = 'core_wrong_baseline_wrong'
+            outcomes[outcome] += 1
+            core_rows.append({'source': parent['source'], 'dataset': parent['dataset'], 'view': view['view'],
+                'native_correct': correct, 'NoSkill_native_correct': before,
+                'native_grade': view['score']['grade'], 'NoSkill_native_grade': other['score']['grade'],
+                'outcome': outcome})
     return left, {'equal_five_dataset_difference': average(list(by_dataset.values())),
-                  'dataset_differences': by_dataset, 'source_rows': rows}
+                  'dataset_differences': by_dataset, 'source_rows': rows,
+                  'core_outcomes_paired_with_NoSkill': {'core_view_count': len(core_rows),
+                      'counts': dict(outcomes), 'core_views': core_rows,
+                      'view_rows_are_not_independent_parent_counts': True,
+                      'partial_native_F1_changes_remain_in_the_main_paired_grade': True}}
 
 
 def main():
