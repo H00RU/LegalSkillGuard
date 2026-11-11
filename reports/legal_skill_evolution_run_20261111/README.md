@@ -157,6 +157,8 @@ Full部分已完成：原OE候选恢复真实主路径，选中分类器＋EV渲
 
 ## 成本、模型和保全
 
+正式TRAIN有3次已计入总账、但在执行异常后丢失逐臂事件引用的请求：2次原生EV截断、1次在后续失败前已完成的局部读取。禁网、只读账本的28个原生视图精确缓存回放找回13个臂—响应引用，3304E/48T总费用及全部56个初答点保持不变；逐臂成本现包含这些实际尝试，原未归属请求3→0。原预测、评分及运行时未改，[回放证据](recovered_TRAIN_cost_references.json)、[成本回归](TRAIN_cost_reference_regression.json)和[可复现入口](recover_untraced_TRAIN_costs.py)分别保存。
+
 冻结矩阵与注册迁移的[分臂费用归因入口](frozen_cost_footprints.py)复用既有响应ID归因函数，分别核算实际物理请求与各臂消费响应，并把获取＋推理和DEV开销分开。共享缓存不重复计实际支出，也不据首次消费者宣称便宜。4项[隔离记账回归](frozen_cost_footprints_regression.json)已通过；真实矩阵未完成时不读取其部分预测，完成后再生成实际费用表。这些检查仅验证统计实现，不算方法成功。
 
 Qwen3-8B原始冻结权重、thinking OFF、温度.6/top_p .95/top_k20/seed45/output8192/context32768；没有LoRA或模型参数更新。教师实际gpt-5.6-sol/high，CLI温度未暴露。两端可见重试均为0。

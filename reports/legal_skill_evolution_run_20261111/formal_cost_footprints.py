@@ -2,6 +2,7 @@
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 import json
+import hashlib
 from pathlib import Path
 import re
 import sqlite3
@@ -50,6 +51,32 @@ def evidence_batch(path):
     return int(matches[0])
 
 
+def recovered_exception_references(ledger):
+    """Use exact-cache replay evidence for calls lost before event emission."""
+    path = REPORT / 'recovered_TRAIN_cost_references.json'
+    if not path.exists():return []
+    receipt = json.loads(path.read_text())
+    if (receipt['new_model_calls'] != 0 or not receipt['network_disabled'] or
+            not receipt['ledger_read_only'] or not receipt['original_predictions_and_scores_unchanged']):
+        raise ValueError('Cost recovery is not read-only original-result evidence')
+    for relative, expected in receipt['evidence_sha256'].items():
+        if hashlib.sha256((ROOT / relative).read_bytes()).hexdigest() != expected:
+            raise ValueError('Cost recovery evidence changed: ' + relative)
+    for identity, record in receipt['physical_responses'].items():
+        if (identity not in ledger or ledger[identity]['status'] != 'completed' or
+                digest(ledger[identity]['result']) != record['settled_result_sha256']):
+            raise ValueError('Recovered response differs from the continuous ledger')
+    rows = []
+    for row in receipt['rows']:
+        if not row['original_result_equal']:
+            raise ValueError('A cost recovery changed an original prediction')
+        if row['recovered_physical_ids']:
+            rows.append(row)
+    if {i for row in rows for i in row['recovered_physical_ids']} != set(receipt['recovered_physical_ids']):
+        raise ValueError('Recovered cost references lack actual replay witnesses')
+    return rows
+
+
 def main():
     folder = ROOT / json.loads(FORMAL_PROFILE.read_text())['artifacts']
     with sqlite3.connect('file:' + str(ROOT / 'artifacts/rr_v2_preflight/research_ledger.sqlite3') + '?mode=ro', uri=True) as db:
@@ -96,6 +123,13 @@ def main():
         by_arm[arm].add(teacher_id)
         by_batch[arm][context['batch']].add(teacher_id)
         learning_batch[arm][context['batch']].add(teacher_id)
+    recovered = recovered_exception_references(ledger)
+    for row in recovered:
+        arm, batch = row['arm'], row['batch']
+        identities = set(row['recovered_physical_ids'])
+        by_arm[arm].update(identities)
+        by_batch[arm][batch].update(identities)
+        learning_batch[arm][batch].update(identities)
     users = defaultdict(list)
     for arm, identities in by_arm.items():
         for identity in identities:users[identity].append(arm)
@@ -123,6 +157,7 @@ def main():
         'shared_responses': [{'physical_id': i, 'used_by_arms': arms} for i, arms in sorted(users.items()) if len(arms) > 1],
         'per_batch_observed_response_footprints': trajectories,
         'formal_dispatches_not_yet_associated_with_settled_arm_evidence': sorted(formal - set(users)),
+        'recovered_original_exception_cost_references': recovered,
         'interpretation': 'A response used by several arms is charged once in actual dispatch totals. Per-arm footprints describe observed consumed responses, including inherited cache entries, and must not be added or called independent standalone spending. No first-consumer cache advantage is claimed as a method cost gain.',
         'teacher_and_GPU_actual_cash_invoices_unavailable': True,
         'CLI_output_and_reasoning_token_fields_not_added_together': True}
