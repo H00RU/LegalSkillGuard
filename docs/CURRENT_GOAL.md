@@ -1,10 +1,10 @@
 # 当前有效执行说明
 
-**状态：2026-11-11按用户要求暂停，Goal未完成；禁止自动恢复、模型调用和实验。** 已保存并上传截至当前的工作。详见[暂停进度报告](../reports/legal_skill_evolution_run_20261111/PAUSE_20261111.md)。下列目标与验收保留，执行须等待用户明确恢复。
+**状态更正：此前再次暂停当前Goal是助手误将历史指令当成最新指令造成的错误。用户没有对当前Goal发出新的暂停要求；原推进授权和全部验收条件继续有效，Goal未完成。** Goal工具实际状态仍为误设的paused；当前工具不支持将其恢复为active，须由界面或系统恢复同一Goal。详见[错误更正](../reports/legal_skill_evolution_run_20261111/PAUSE_CORRECTION_20261111.md)。不另建Goal、不重置进度或账本。
 
 当前Goal为用户新设的**法律技能进化完整实证**，唯一方案源为[ec54a33固定方案](../reports/legal_skill_evolution_plan_20261111/PLAN.md)，生效配置为[legal_skill_evolution_20261111.json](../configs/legal_skill_evolution_20261111.json)。用户本次Goal优先于方案包发布时的“尚未启动/只做阶段一/先停在完整训练前”状态：范围包括实现、固定预检、128来源完整技能学习、七系统DEV、B8冻结与五库TEST；不包含论文写作。原包32项哈希原样保留，覆盖关系在生效配置显式记录。
 
-本文件唯一维护目标、验收和执行边界；[METHOD_REDESIGN_CURRENT.md](METHOD_REDESIGN_CURRENT.md)维护当前证据、缺口和下一项实际工作。旧A/B、旧M1/M2及LoRA混训路径均为历史证据，不能据旧队列恢复执行。此前旧路线的暂停曾由本次新Goal解除；当前新Goal按用户最新指令再次暂停。原参数训练产物、结果和账本完整保留。
+本文件唯一维护目标、验收和执行边界；[METHOD_REDESIGN_CURRENT.md](METHOD_REDESIGN_CURRENT.md)维护当前证据、缺口和下一项实际工作。旧A/B、旧M1/M2及LoRA混训路径均为历史证据，不能据旧队列恢复执行。此前旧路线的暂停已由本次新Goal解除；不得因再次看见历史消息而重新执行暂停。原参数训练产物、结果和账本完整保留。
 
 ## 研究目标与学习对象
 
