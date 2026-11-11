@@ -1,5 +1,5 @@
-# LegalSkillGuard: frozen-model legal-skill evolution
+# LegalSkillGuard: legal-rule skill evolution
 
-[Current Goal](docs/CURRENT_GOAL.md) · [Current evidence](docs/METHOD_REDESIGN_CURRENT.md) · [Execution report](reports/legal_skill_evolution_run_20261111/README.md) · [Freeze verification](reports/legal_skill_evolution_run_20261111/B8_freeze_verification.json)
+[Current Goal](docs/CURRENT_GOAL.md) · [Current evidence](docs/METHOD_REDESIGN_CURRENT.md) · [Real activation repair and fair control](reports/legal_skill_evolution_run_20261111/ACTIVATION_REPAIR_20261112.md)
 
-All 128-source initial answers, 48 learning-arm updates and 42 registered DEV points are complete. Fixed B8 Full DEV macro is .5932961 versus NoSkill .4813387 and AllPorts+CoRev .4815701. Actual dedicated Lift proposals and CoRev patterns remain zero, so ordinary acquisition gains do not substantiate the two contributions. B8 and all source/code/model settings are frozen; qualified seven-system TEST is running with no teacher or library updates. Goal active and incomplete; main unchanged.
+The original fixed study is preserved. A bounded TRAIN-only repair used 15 executor and 3 teacher calls: the small Lift operator executes but did not improve its real cases; both independently acquired arms learned a genuine statutory dependency, so acquisition alone does not demonstrate CoRev. One Full answer has a query-scope mismatch despite the correct native label and is excluded from semantic mechanism evidence. Goal active and incomplete. The original frozen matrix has resumed unchanged; repair outcomes were not imported into B8 and TEST feedback was not used. Main unchanged.

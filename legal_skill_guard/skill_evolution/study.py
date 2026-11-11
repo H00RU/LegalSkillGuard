@@ -19,6 +19,7 @@ from .native import grade_view
 from .runtime import FrozenReads, SkillRuntime, retrieve
 from .revisions import ReplayBudget, VersionTable, observe_transfer, trigger_revision_reachability
 from .teacher import compile_block
+from .lift_proposals import compile_scheduled_lift
 from .proposal_batch import prepare_context, propose_context
 from . import patterns
 
@@ -175,6 +176,9 @@ class Study:
         response = propose_context(self, context)
         proposal = response['value']
         immutable_json(teacher_path, response)
+        for candidate in queue:
+            if candidate.get('planned_lift'):
+                candidate['lift_reader'] = proposal['lift_reader']
         for block in proposal['blocks'][:3 - len(queue)]:
             queue.append({'raw_block': block})
         prior_logical = self.profile.get('prior_logical_replay_executions', {}).get(arm + ':' + str(batch), 0)
@@ -183,8 +187,11 @@ class Study:
         best = None
         for index, candidate in enumerate(queue):
             try:
-                revisions = candidate.get('revisions') or compile_block(candidate['raw_block'], old,
-                    {k: self.records[k] for keys in self.batches[:batch] for k in keys}, arm)
+                if candidate.get('planned_lift'):
+                    revisions = compile_scheduled_lift(candidate['planned_lift'], candidate['lift_reader'], old)
+                else:
+                    revisions = candidate.get('revisions') or compile_block(candidate['raw_block'], old,
+                        {k: self.records[k] for keys in self.batches[:batch] for k in keys}, arm)
                 budget.admit_block(len(revisions), len(cohort))
                 full = apply_revision_package(old, revisions, old.hash)
                 retrieval = {key: {v['id']: list(dict.fromkeys(retrieve(full, self.records[key], v) +
@@ -262,6 +269,7 @@ class Study:
                 observe_transfer(memory, receipt['verified_context'], table)
         new.provisional_edits.extend({'batch': batch, 'candidate_index': i,
             'raw_block': t.get('raw_block'),
+            'planned_lift': t.get('planned_lift'), 'lift_reader': t.get('lift_reader'),
             'revisions': t.get('revisions'), 'table': t.get('table'), 'error': t.get('error'),
             'selection_exclusion': t.get('selection_exclusion')}
             for i, t in enumerate(tables))

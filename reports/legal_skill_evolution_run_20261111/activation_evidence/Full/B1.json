@@ -1,0 +1,1678 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "87292619e6ef256642c4d16d42de1d38ad77c59c29b321543639da5d06052ba1",
+  "skills": {
+    "section_152_b1_dependent_ineligibility_answer": {
+      "id": "section_152_b1_dependent_ineligibility_answer",
+      "intent": "Answer whether §152(b)(1) applies to an individual who is a dependent in a taxable year beginning in the same calendar year as the queried year.",
+      "procedure": "def apply(inputs, premises):\n    rule_applies = inputs[\"is_dependent\"] and inputs[\"dependency_year\"] == inputs[\"question_year\"]\n    answer = \"Entailment\" if rule_applies == inputs[\"claim_is_affirmative\"] else \"Contradiction\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "is_dependent": {
+          "type": "boolean",
+          "mode": "skill",
+          "question": "Is the individual a dependent under §152(a) for the relevant year?",
+          "skill_id": "section_152_dependent_from_express_basis",
+          "field": "is_dependent"
+        },
+        "dependency_year": {
+          "type": "integer",
+          "mode": "skill",
+          "question": "For which taxable year was the individual determined to be a dependent?",
+          "skill_id": "section_152_dependent_from_express_basis",
+          "field": "dependency_year"
+        },
+        "question_year": {
+          "type": "integer",
+          "mode": "read",
+          "question": "For what year does the current question ask whether §152(b)(1) applies?",
+          "skill_id": null,
+          "field": "question_year"
+        },
+        "claim_is_affirmative": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Does the current question affirm that §152(b)(1) applies, rather than assert that it does not apply?",
+          "skill_id": null,
+          "field": "claim_is_affirmative"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "The native Entailment or Contradiction answer to the current §152(b)(1) proposition."
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "read_section_152_b1_question",
+          "question": "Extract the queried year and literal polarity of the current §152(b)(1) proposition.",
+          "source_locator": "current question",
+          "fields": {
+            "question_year": {
+              "type": "integer",
+              "question": "Which year is named in the proposition?"
+            },
+            "claim_is_affirmative": {
+              "type": "boolean",
+              "question": "Does the proposition say that §152(b)(1) applies?"
+            }
+          },
+          "bindings": {
+            "question_year": "question_year",
+            "claim_is_affirmative": "claim_is_affirmative"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "question_year": {
+                "type": "integer"
+              },
+              "claim_is_affirmative": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "question_year",
+              "claim_is_affirmative"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [],
+      "source_obligations": [
+        {
+          "id": "section_152_b1_same_calendar_year_rule",
+          "statement": "Section 152(b)(1) applies when the individual is another taxpayer's dependent for a taxable year beginning in the same calendar year, treating that individual as having no dependents for the individual's taxable year beginning in that calendar year.",
+          "role": "terminal",
+          "port": "answer",
+          "origin": {
+            "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+            "view_id": "native",
+            "quote": "If an individual is a dependent of a taxpayer for any taxable year of such taxpayer beginning in a calendar year, such individual shall be treated as having no dependents for any taxable year of such individual beginning in such calendar year."
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+          "view_id": "native",
+          "quote": "If an individual is a dependent of a taxpayer for any taxable year of such taxpayer beginning in a calendar year, such individual shall be treated as having no dependents for any taxable year of such individual beginning in such calendar year."
+        }
+      ],
+      "version": 1
+    },
+    "section_152_dependent_from_express_basis": {
+      "id": "section_152_dependent_from_express_basis",
+      "intent": "Determine dependent status under §152(a) from an expressly given qualifying-child or qualifying-relative intermediate, while preserving its stated taxable year.",
+      "procedure": "def apply(inputs, premises):\n    basis = inputs[\"expressly_given_dependent_basis\"]\n    is_dependent = basis == \"qualifying_child\" or basis == \"qualifying_relative\" or basis == \"both\"\n    dependency_year = inputs[\"dependent_year\"]\n    return {\"is_dependent\": is_dependent, \"dependency_year\": dependency_year}",
+      "inputs": {
+        "expressly_given_dependent_basis": {
+          "type": "string",
+          "mode": "read",
+          "question": "What dependent basis is expressly given for the individual: qualifying_child, qualifying_relative, both, or none?",
+          "skill_id": null,
+          "field": "expressly_given_dependent_basis"
+        },
+        "dependent_year": {
+          "type": "integer",
+          "mode": "read",
+          "question": "What taxable year is expressly associated with that given qualifying-child or qualifying-relative status?",
+          "skill_id": null,
+          "field": "dependent_year"
+        }
+      },
+      "outputs": {
+        "is_dependent": {
+          "type": "boolean",
+          "description": "Whether the expressly given basis makes the individual a dependent under §152(a)."
+        },
+        "dependency_year": {
+          "type": "integer",
+          "description": "The taxable year attached to the given dependent basis."
+        }
+      },
+      "premises": {},
+      "reads": [
+        {
+          "id": "read_express_section_152_basis",
+          "question": "Extract the expressly stated §152 qualifying status and its taxable year from the current facts without independently deciding eligibility.",
+          "source_locator": "current facts",
+          "fields": {
+            "expressly_given_dependent_basis": {
+              "type": "string",
+              "question": "Do the facts expressly give qualifying-child status, qualifying-relative status, both, or none?"
+            },
+            "dependent_year": {
+              "type": "integer",
+              "question": "Which taxable year do the facts expressly attach to that status?"
+            }
+          },
+          "bindings": {
+            "expressly_given_dependent_basis": "expressly_given_dependent_basis",
+            "dependent_year": "dependent_year"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "expressly_given_dependent_basis": {
+                "type": "string"
+              },
+              "dependent_year": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "expressly_given_dependent_basis",
+              "dependent_year"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [],
+      "source_obligations": [
+        {
+          "id": "section_152_a_dependent_definition",
+          "statement": "An individual is a dependent if the individual is a qualifying child or a qualifying relative.",
+          "role": "preliminary",
+          "port": "is_dependent",
+          "origin": {
+            "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+            "view_id": "native",
+            "quote": "For purposes of this subtitle, the term \"dependent\" means-\n\n    (1) a qualifying child, or\n\n    (2) a qualifying relative."
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+          "view_id": "native",
+          "quote": "For purposes of this subtitle, the term \"dependent\" means-\n\n    (1) a qualifying child, or\n\n    (2) a qualifying relative."
+        }
+      ],
+      "version": 1
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [
+    {
+      "batch": 1,
+      "candidate_index": 0,
+      "raw_block": {
+        "rationale": "The failed parent expressly gives the preliminary legal intermediate that Bob satisfies §152(c)(1). A reusable producer converts that given qualifying-child basis into dependent status under §152(a), and a connected terminal skill applies §152(b)(1) when the dependency year and queried year coincide. This targets the failed parent while leaving the already-correct §151(c) parent to its existing fallback.",
+        "revisions": [
+          {
+            "operation": "create",
+            "skill": {
+              "id": "section_152_dependent_from_express_basis",
+              "intent": "Determine dependent status under §152(a) from an expressly given qualifying-child or qualifying-relative intermediate, while preserving its stated taxable year.",
+              "procedure": "def apply(inputs, premises):\n    basis = inputs[\"expressly_given_dependent_basis\"]\n    is_dependent = basis == \"qualifying_child\" or basis == \"qualifying_relative\" or basis == \"both\"\n    dependency_year = inputs[\"dependent_year\"]\n    return {\"is_dependent\": is_dependent, \"dependency_year\": dependency_year}",
+              "inputs": [
+                {
+                  "name": "expressly_given_dependent_basis",
+                  "type": "string",
+                  "mode": "read",
+                  "question": "What dependent basis is expressly given for the individual: qualifying_child, qualifying_relative, both, or none?",
+                  "skill_id": null,
+                  "field": "expressly_given_dependent_basis"
+                },
+                {
+                  "name": "dependent_year",
+                  "type": "integer",
+                  "mode": "read",
+                  "question": "What taxable year is expressly associated with that given qualifying-child or qualifying-relative status?",
+                  "skill_id": null,
+                  "field": "dependent_year"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "is_dependent",
+                  "type": "boolean",
+                  "description": "Whether the expressly given basis makes the individual a dependent under §152(a)."
+                },
+                {
+                  "name": "dependency_year",
+                  "type": "integer",
+                  "description": "The taxable year attached to the given dependent basis."
+                }
+              ],
+              "premises": [],
+              "reads": [
+                {
+                  "id": "read_express_section_152_basis",
+                  "question": "Extract the expressly stated §152 qualifying status and its taxable year from the current facts without independently deciding eligibility.",
+                  "source_locator": "current facts",
+                  "fields": [
+                    {
+                      "name": "expressly_given_dependent_basis",
+                      "type": "string",
+                      "question": "Do the facts expressly give qualifying-child status, qualifying-relative status, both, or none?"
+                    },
+                    {
+                      "name": "dependent_year",
+                      "type": "integer",
+                      "question": "Which taxable year do the facts expressly attach to that status?"
+                    }
+                  ],
+                  "bindings": [
+                    {
+                      "premise": "expressly_given_dependent_basis",
+                      "field": "expressly_given_dependent_basis"
+                    },
+                    {
+                      "premise": "dependent_year",
+                      "field": "dependent_year"
+                    }
+                  ]
+                }
+              ],
+              "semantic_records": [],
+              "source_obligations": [
+                {
+                  "id": "section_152_a_dependent_definition",
+                  "statement": "An individual is a dependent if the individual is a qualifying child or a qualifying relative.",
+                  "role": "preliminary",
+                  "port": "is_dependent",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                    "view_id": "native",
+                    "quote": "For purposes of this subtitle, the term \"dependent\" means-\n\n    (1) a qualifying child, or\n\n    (2) a qualifying relative."
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                  "view_id": "native",
+                  "quote": "For purposes of this subtitle, the term \"dependent\" means-\n\n    (1) a qualifying child, or\n\n    (2) a qualifying relative."
+                }
+              ],
+              "version": 1
+            }
+          },
+          {
+            "operation": "create",
+            "skill": {
+              "id": "section_152_b1_dependent_ineligibility_answer",
+              "intent": "Answer whether §152(b)(1) applies to an individual who is a dependent in a taxable year beginning in the same calendar year as the queried year.",
+              "procedure": "def apply(inputs, premises):\n    rule_applies = inputs[\"is_dependent\"] and inputs[\"dependency_year\"] == inputs[\"question_year\"]\n    answer = \"Entailment\" if rule_applies == inputs[\"claim_is_affirmative\"] else \"Contradiction\"\n    return {\"answer\": answer}",
+              "inputs": [
+                {
+                  "name": "is_dependent",
+                  "type": "boolean",
+                  "mode": "skill",
+                  "question": "Is the individual a dependent under §152(a) for the relevant year?",
+                  "skill_id": "section_152_dependent_from_express_basis",
+                  "field": "is_dependent"
+                },
+                {
+                  "name": "dependency_year",
+                  "type": "integer",
+                  "mode": "skill",
+                  "question": "For which taxable year was the individual determined to be a dependent?",
+                  "skill_id": "section_152_dependent_from_express_basis",
+                  "field": "dependency_year"
+                },
+                {
+                  "name": "question_year",
+                  "type": "integer",
+                  "mode": "read",
+                  "question": "For what year does the current question ask whether §152(b)(1) applies?",
+                  "skill_id": null,
+                  "field": "question_year"
+                },
+                {
+                  "name": "claim_is_affirmative",
+                  "type": "boolean",
+                  "mode": "read",
+                  "question": "Does the current question affirm that §152(b)(1) applies, rather than assert that it does not apply?",
+                  "skill_id": null,
+                  "field": "claim_is_affirmative"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "answer",
+                  "type": "string",
+                  "description": "The native Entailment or Contradiction answer to the current §152(b)(1) proposition."
+                }
+              ],
+              "premises": [],
+              "reads": [
+                {
+                  "id": "read_section_152_b1_question",
+                  "question": "Extract the queried year and literal polarity of the current §152(b)(1) proposition.",
+                  "source_locator": "current question",
+                  "fields": [
+                    {
+                      "name": "question_year",
+                      "type": "integer",
+                      "question": "Which year is named in the proposition?"
+                    },
+                    {
+                      "name": "claim_is_affirmative",
+                      "type": "boolean",
+                      "question": "Does the proposition say that §152(b)(1) applies?"
+                    }
+                  ],
+                  "bindings": [
+                    {
+                      "premise": "question_year",
+                      "field": "question_year"
+                    },
+                    {
+                      "premise": "claim_is_affirmative",
+                      "field": "claim_is_affirmative"
+                    }
+                  ]
+                }
+              ],
+              "semantic_records": [],
+              "source_obligations": [
+                {
+                  "id": "section_152_b1_same_calendar_year_rule",
+                  "statement": "Section 152(b)(1) applies when the individual is another taxpayer's dependent for a taxable year beginning in the same calendar year, treating that individual as having no dependents for the individual's taxable year beginning in that calendar year.",
+                  "role": "terminal",
+                  "port": "answer",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                    "view_id": "native",
+                    "quote": "If an individual is a dependent of a taxpayer for any taxable year of such taxpayer beginning in a calendar year, such individual shall be treated as having no dependents for any taxable year of such individual beginning in such calendar year."
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                  "view_id": "native",
+                  "quote": "If an individual is a dependent of a taxpayer for any taxable year of such taxpayer beginning in a calendar year, such individual shall be treated as having no dependents for any taxable year of such individual beginning in such calendar year."
+                }
+              ],
+              "version": 1
+            }
+          }
+        ]
+      },
+      "planned_lift": null,
+      "lift_reader": null,
+      "revisions": [
+        {
+          "skill_id": "section_152_dependent_from_express_basis",
+          "old_hash": null,
+          "new_hash": "a2be5c8dac9410c9708b9c3dee319073841eac67267e67d73850c65cc5e3fadd",
+          "new": {
+            "id": "section_152_dependent_from_express_basis",
+            "intent": "Determine dependent status under §152(a) from an expressly given qualifying-child or qualifying-relative intermediate, while preserving its stated taxable year.",
+            "procedure": "def apply(inputs, premises):\n    basis = inputs[\"expressly_given_dependent_basis\"]\n    is_dependent = basis == \"qualifying_child\" or basis == \"qualifying_relative\" or basis == \"both\"\n    dependency_year = inputs[\"dependent_year\"]\n    return {\"is_dependent\": is_dependent, \"dependency_year\": dependency_year}",
+            "inputs": {
+              "expressly_given_dependent_basis": {
+                "type": "string",
+                "mode": "read",
+                "question": "What dependent basis is expressly given for the individual: qualifying_child, qualifying_relative, both, or none?",
+                "skill_id": null,
+                "field": "expressly_given_dependent_basis"
+              },
+              "dependent_year": {
+                "type": "integer",
+                "mode": "read",
+                "question": "What taxable year is expressly associated with that given qualifying-child or qualifying-relative status?",
+                "skill_id": null,
+                "field": "dependent_year"
+              }
+            },
+            "outputs": {
+              "is_dependent": {
+                "type": "boolean",
+                "description": "Whether the expressly given basis makes the individual a dependent under §152(a)."
+              },
+              "dependency_year": {
+                "type": "integer",
+                "description": "The taxable year attached to the given dependent basis."
+              }
+            },
+            "premises": {},
+            "reads": [
+              {
+                "id": "read_express_section_152_basis",
+                "question": "Extract the expressly stated §152 qualifying status and its taxable year from the current facts without independently deciding eligibility.",
+                "source_locator": "current facts",
+                "fields": {
+                  "expressly_given_dependent_basis": {
+                    "type": "string",
+                    "question": "Do the facts expressly give qualifying-child status, qualifying-relative status, both, or none?"
+                  },
+                  "dependent_year": {
+                    "type": "integer",
+                    "question": "Which taxable year do the facts expressly attach to that status?"
+                  }
+                },
+                "bindings": {
+                  "expressly_given_dependent_basis": "expressly_given_dependent_basis",
+                  "dependent_year": "dependent_year"
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "expressly_given_dependent_basis": {
+                      "type": "string"
+                    },
+                    "dependent_year": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "expressly_given_dependent_basis",
+                    "dependent_year"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            ],
+            "semantic_records": [],
+            "source_obligations": [
+              {
+                "id": "section_152_a_dependent_definition",
+                "statement": "An individual is a dependent if the individual is a qualifying child or a qualifying relative.",
+                "role": "preliminary",
+                "port": "is_dependent",
+                "origin": {
+                  "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                  "view_id": "native",
+                  "quote": "For purposes of this subtitle, the term \"dependent\" means-\n\n    (1) a qualifying child, or\n\n    (2) a qualifying relative."
+                }
+              }
+            ],
+            "source_provenance": [
+              {
+                "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                "view_id": "native",
+                "quote": "For purposes of this subtitle, the term \"dependent\" means-\n\n    (1) a qualifying child, or\n\n    (2) a qualifying relative."
+              }
+            ],
+            "version": 1
+          },
+          "operation": "create",
+          "representation_adaptation": {
+            "removed_unobserved_declarations": [],
+            "retained_draft_installation": null,
+            "procedure_unchanged": true,
+            "used_premise_values_unchanged": true
+          }
+        },
+        {
+          "skill_id": "section_152_b1_dependent_ineligibility_answer",
+          "old_hash": null,
+          "new_hash": "22c6e0a85eb27c352a25ace0b025ccf43fdaac44d588d6e741b54759d95abec0",
+          "new": {
+            "id": "section_152_b1_dependent_ineligibility_answer",
+            "intent": "Answer whether §152(b)(1) applies to an individual who is a dependent in a taxable year beginning in the same calendar year as the queried year.",
+            "procedure": "def apply(inputs, premises):\n    rule_applies = inputs[\"is_dependent\"] and inputs[\"dependency_year\"] == inputs[\"question_year\"]\n    answer = \"Entailment\" if rule_applies == inputs[\"claim_is_affirmative\"] else \"Contradiction\"\n    return {\"answer\": answer}",
+            "inputs": {
+              "is_dependent": {
+                "type": "boolean",
+                "mode": "skill",
+                "question": "Is the individual a dependent under §152(a) for the relevant year?",
+                "skill_id": "section_152_dependent_from_express_basis",
+                "field": "is_dependent"
+              },
+              "dependency_year": {
+                "type": "integer",
+                "mode": "skill",
+                "question": "For which taxable year was the individual determined to be a dependent?",
+                "skill_id": "section_152_dependent_from_express_basis",
+                "field": "dependency_year"
+              },
+              "question_year": {
+                "type": "integer",
+                "mode": "read",
+                "question": "For what year does the current question ask whether §152(b)(1) applies?",
+                "skill_id": null,
+                "field": "question_year"
+              },
+              "claim_is_affirmative": {
+                "type": "boolean",
+                "mode": "read",
+                "question": "Does the current question affirm that §152(b)(1) applies, rather than assert that it does not apply?",
+                "skill_id": null,
+                "field": "claim_is_affirmative"
+              }
+            },
+            "outputs": {
+              "answer": {
+                "type": "string",
+                "description": "The native Entailment or Contradiction answer to the current §152(b)(1) proposition."
+              }
+            },
+            "premises": {},
+            "reads": [
+              {
+                "id": "read_section_152_b1_question",
+                "question": "Extract the queried year and literal polarity of the current §152(b)(1) proposition.",
+                "source_locator": "current question",
+                "fields": {
+                  "question_year": {
+                    "type": "integer",
+                    "question": "Which year is named in the proposition?"
+                  },
+                  "claim_is_affirmative": {
+                    "type": "boolean",
+                    "question": "Does the proposition say that §152(b)(1) applies?"
+                  }
+                },
+                "bindings": {
+                  "question_year": "question_year",
+                  "claim_is_affirmative": "claim_is_affirmative"
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "question_year": {
+                      "type": "integer"
+                    },
+                    "claim_is_affirmative": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "question_year",
+                    "claim_is_affirmative"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            ],
+            "semantic_records": [],
+            "source_obligations": [
+              {
+                "id": "section_152_b1_same_calendar_year_rule",
+                "statement": "Section 152(b)(1) applies when the individual is another taxpayer's dependent for a taxable year beginning in the same calendar year, treating that individual as having no dependents for the individual's taxable year beginning in that calendar year.",
+                "role": "terminal",
+                "port": "answer",
+                "origin": {
+                  "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                  "view_id": "native",
+                  "quote": "If an individual is a dependent of a taxpayer for any taxable year of such taxpayer beginning in a calendar year, such individual shall be treated as having no dependents for any taxable year of such individual beginning in such calendar year."
+                }
+              }
+            ],
+            "source_provenance": [
+              {
+                "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                "view_id": "native",
+                "quote": "If an individual is a dependent of a taxpayer for any taxable year of such taxpayer beginning in a calendar year, such individual shall be treated as having no dependents for any taxable year of such individual beginning in such calendar year."
+              }
+            ],
+            "version": 1
+          },
+          "operation": "create",
+          "representation_adaptation": {
+            "removed_unobserved_declarations": [],
+            "retained_draft_installation": null,
+            "procedure_unchanged": true,
+            "used_premise_values_unchanged": true
+          }
+        }
+      ],
+      "table": {
+        "revision_hashes": [
+          "a2be5c8dac9410c9708b9c3dee319073841eac67267e67d73850c65cc5e3fadd",
+          "22c6e0a85eb27c352a25ace0b025ccf43fdaac44d588d6e741b54759d95abec0"
+        ],
+        "trigger": [
+          "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+          "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397"
+        ],
+        "history": [],
+        "mixed_version_table": [
+          {
+            "mask": 0,
+            "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Contradiction",
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": true,
+                        "call_id": "legal_skill_evolution_activation_repair_20261112:f9dfbe980958e4e8ebcecf200606417918e7945198ba28ac457fc5f76ece6f2a",
+                        "elapsed_seconds": 0.7397343227639794,
+                        "physical_call_id": "legal_skill_evolution_formal_v5_20261111:f9dfbe980958e4e8ebcecf200606417918e7945198ba28ac457fc5f76ece6f2a",
+                        "response_hash": "693c1c1424fcbbf16d31663015a86a13c00807da05aa7f90a284ab26694d0c7f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 20,
+                          "prompt_tokens": 1491,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 1511
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "section_152_b1_dependent_ineligibility_answer"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "section_152_b1_dependent_ineligibility_answer",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 0,
+            "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+            "native_parent_grade": 1.0,
+            "trace": {
+              "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Entailment",
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_activation_repair_20261112:099bd388a7bee01f64e3489d02d24209c432e0f302922655f0df5067d4ea21a9",
+                        "elapsed_seconds": 0.8213646430522203,
+                        "physical_call_id": "legal_skill_evolution_activation_repair_20261112:099bd388a7bee01f64e3489d02d24209c432e0f302922655f0df5067d4ea21a9",
+                        "response_hash": "4a75cd1186ecf5a79a716887aebb13ed17743bb471d7b12cfc2c3a5b84ae5f38",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 19,
+                          "prompt_tokens": 2091,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 2110
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "section_152_b1_dependent_ineligibility_answer"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "section_152_b1_dependent_ineligibility_answer",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": true,
+                    "metric": "native_exact_match",
+                    "grade": 1.0
+                  }
+                }
+              ],
+              "native_grade": 1.0,
+              "selection_grade": 1.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 1,
+            "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "a400c6925010e61de8cbf99af6e727940f489c9524ea31bb91ae84ab888e4816",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Contradiction",
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": true,
+                        "call_id": "legal_skill_evolution_activation_repair_20261112:f9dfbe980958e4e8ebcecf200606417918e7945198ba28ac457fc5f76ece6f2a",
+                        "elapsed_seconds": 0.7397343227639794,
+                        "physical_call_id": "legal_skill_evolution_formal_v5_20261111:f9dfbe980958e4e8ebcecf200606417918e7945198ba28ac457fc5f76ece6f2a",
+                        "response_hash": "693c1c1424fcbbf16d31663015a86a13c00807da05aa7f90a284ab26694d0c7f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 20,
+                          "prompt_tokens": 1491,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 1511
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "section_152_b1_dependent_ineligibility_answer"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "section_152_b1_dependent_ineligibility_answer",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 1,
+            "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+            "native_parent_grade": 1.0,
+            "trace": {
+              "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "a400c6925010e61de8cbf99af6e727940f489c9524ea31bb91ae84ab888e4816",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Entailment",
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_activation_repair_20261112:099bd388a7bee01f64e3489d02d24209c432e0f302922655f0df5067d4ea21a9",
+                        "elapsed_seconds": 0.8213646430522203,
+                        "physical_call_id": "legal_skill_evolution_activation_repair_20261112:099bd388a7bee01f64e3489d02d24209c432e0f302922655f0df5067d4ea21a9",
+                        "response_hash": "4a75cd1186ecf5a79a716887aebb13ed17743bb471d7b12cfc2c3a5b84ae5f38",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 19,
+                          "prompt_tokens": 2091,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 2110
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "section_152_b1_dependent_ineligibility_answer"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "section_152_b1_dependent_ineligibility_answer",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": true,
+                    "metric": "native_exact_match",
+                    "grade": 1.0
+                  }
+                }
+              ],
+              "native_grade": 1.0,
+              "selection_grade": 1.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 2,
+            "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "82eca8e81421b9368e314f6af273e8f5f523874266d37d5de2ceab8d982115a0",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Contradiction",
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": true,
+                        "call_id": "legal_skill_evolution_activation_repair_20261112:f9dfbe980958e4e8ebcecf200606417918e7945198ba28ac457fc5f76ece6f2a",
+                        "elapsed_seconds": 0.7397343227639794,
+                        "physical_call_id": "legal_skill_evolution_formal_v5_20261111:f9dfbe980958e4e8ebcecf200606417918e7945198ba28ac457fc5f76ece6f2a",
+                        "response_hash": "693c1c1424fcbbf16d31663015a86a13c00807da05aa7f90a284ab26694d0c7f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 20,
+                          "prompt_tokens": 1491,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 1511
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "section_152_b1_dependent_ineligibility_answer"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "section_152_b1_dependent_ineligibility_answer",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 2,
+            "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+            "native_parent_grade": 1.0,
+            "trace": {
+              "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "82eca8e81421b9368e314f6af273e8f5f523874266d37d5de2ceab8d982115a0",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Entailment",
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": false,
+                        "call_id": "legal_skill_evolution_activation_repair_20261112:099bd388a7bee01f64e3489d02d24209c432e0f302922655f0df5067d4ea21a9",
+                        "elapsed_seconds": 0.8213646430522203,
+                        "physical_call_id": "legal_skill_evolution_activation_repair_20261112:099bd388a7bee01f64e3489d02d24209c432e0f302922655f0df5067d4ea21a9",
+                        "response_hash": "4a75cd1186ecf5a79a716887aebb13ed17743bb471d7b12cfc2c3a5b84ae5f38",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 19,
+                          "prompt_tokens": 2091,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 2110
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "section_152_b1_dependent_ineligibility_answer"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "section_152_b1_dependent_ineligibility_answer",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": true,
+                    "metric": "native_exact_match",
+                    "grade": 1.0
+                  }
+                }
+              ],
+              "native_grade": 1.0,
+              "selection_grade": 1.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 3,
+            "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+            "native_parent_grade": 1.0,
+            "trace": {
+              "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "87292619e6ef256642c4d16d42de1d38ad77c59c29b321543639da5d06052ba1",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Entailment",
+                    "evidence_sentence_ids": [],
+                    "fallback": false,
+                    "core_executed": true,
+                    "terminal_skill": "section_152_b1_dependent_ineligibility_answer",
+                    "retrieved": [
+                      "section_152_b1_dependent_ineligibility_answer"
+                    ],
+                    "events": [
+                      {
+                        "call_id": "legal_skill_evolution_activation_repair_20261112:bd3a38acc21596230f11bf8d4ac58e89d3178b8ed7f9fa5cd0db7b578a1902cd",
+                        "cache_hit": false,
+                        "physical_call_id": "legal_skill_evolution_activation_repair_20261112:bd3a38acc21596230f11bf8d4ac58e89d3178b8ed7f9fa5cd0db7b578a1902cd",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "prompt_tokens": 3197,
+                          "total_tokens": 3388,
+                          "completion_tokens": 191,
+                          "prompt_tokens_details": null
+                        },
+                        "elapsed_seconds": 5.678811778314412,
+                        "response_hash": "2e2611d998f59d3deb03a97c26156331169b693488b58d4895158ee4b7114b58",
+                        "kind": "READ_LOCAL",
+                        "question": "Read the current task input fields.",
+                        "locator": "current supplied source, facts and question, according to each requested field",
+                        "fields": {
+                          "expressly_given_dependent_basis": {
+                            "status": "known",
+                            "value": "qualifying_child",
+                            "support_ids": [
+                              11,
+                              13,
+                              14,
+                              15,
+                              16,
+                              17,
+                              18,
+                              19,
+                              20,
+                              21,
+                              22,
+                              23,
+                              24,
+                              25,
+                              26,
+                              27,
+                              28,
+                              29,
+                              30,
+                              31,
+                              32,
+                              33,
+                              34,
+                              35,
+                              36,
+                              37,
+                              38,
+                              39,
+                              40,
+                              41,
+                              42,
+                              43,
+                              44
+                            ],
+                            "support": [
+                              {
+                                "id": 11,
+                                "field": "source_text",
+                                "start": 784,
+                                "end": 804,
+                                "text": "(c) Qualifying child"
+                              },
+                              {
+                                "id": 13,
+                                "field": "source_text",
+                                "start": 841,
+                                "end": 855,
+                                "text": "(1) In general"
+                              },
+                              {
+                                "id": 14,
+                                "field": "source_text",
+                                "start": 861,
+                                "end": 961,
+                                "text": "The term \"qualifying child\" means, with respect to any taxpayer for any taxable year, an individual-"
+                              },
+                              {
+                                "id": 15,
+                                "field": "source_text",
+                                "start": 971,
+                                "end": 1043,
+                                "text": "(A) who bears a relationship to the taxpayer described in paragraph (2),"
+                              },
+                              {
+                                "id": 16,
+                                "field": "source_text",
+                                "start": 1053,
+                                "end": 1159,
+                                "text": "(B) who has the same principal place of abode as the taxpayer for more than one-half of such taxable year,"
+                              },
+                              {
+                                "id": 17,
+                                "field": "source_text",
+                                "start": 1169,
+                                "end": 1225,
+                                "text": "(C) who meets the age requirements of paragraph (3), and"
+                              },
+                              {
+                                "id": 18,
+                                "field": "source_text",
+                                "start": 1235,
+                                "end": 1442,
+                                "text": "(E) who has not filed a joint return (other than only for a claim of refund) with the individual's spouse for the taxable year beginning in the calendar year in which the taxable year of the taxpayer begins."
+                              },
+                              {
+                                "id": 19,
+                                "field": "source_text",
+                                "start": 1448,
+                                "end": 1464,
+                                "text": "(2) Relationship"
+                              },
+                              {
+                                "id": 20,
+                                "field": "source_text",
+                                "start": 1470,
+                                "end": 1605,
+                                "text": "For purposes of paragraph (1)(A), an individual bears a relationship to the taxpayer described in this paragraph if such individual is-"
+                              },
+                              {
+                                "id": 21,
+                                "field": "source_text",
+                                "start": 1615,
+                                "end": 1678,
+                                "text": "(A) a child of the taxpayer or a descendant of such a child, or"
+                              },
+                              {
+                                "id": 22,
+                                "field": "source_text",
+                                "start": 1688,
+                                "end": 1791,
+                                "text": "(B) a brother, sister, stepbrother, or stepsister of the taxpayer or a descendant of any such relative."
+                              },
+                              {
+                                "id": 23,
+                                "field": "source_text",
+                                "start": 1797,
+                                "end": 1817,
+                                "text": "(3) Age requirements"
+                              },
+                              {
+                                "id": 24,
+                                "field": "source_text",
+                                "start": 1823,
+                                "end": 2068,
+                                "text": "For purposes of paragraph (1)(C), an individual meets the requirements of this paragraph if such individual is younger than the taxpayer claiming such individual as a qualifying child and is less than 25 years old at the end of the taxable year."
+                              },
+                              {
+                                "id": 25,
+                                "field": "source_text",
+                                "start": 2070,
+                                "end": 2093,
+                                "text": "(d) Qualifying relative"
+                              },
+                              {
+                                "id": 26,
+                                "field": "source_text",
+                                "start": 2095,
+                                "end": 2124,
+                                "text": "For purposes of this section-"
+                              },
+                              {
+                                "id": 27,
+                                "field": "source_text",
+                                "start": 2130,
+                                "end": 2144,
+                                "text": "(1) In general"
+                              },
+                              {
+                                "id": 28,
+                                "field": "source_text",
+                                "start": 2150,
+                                "end": 2253,
+                                "text": "The term \"qualifying relative\" means, with respect to any taxpayer for any taxable year, an individual-"
+                              },
+                              {
+                                "id": 29,
+                                "field": "source_text",
+                                "start": 2263,
+                                "end": 2335,
+                                "text": "(A) who bears a relationship to the taxpayer described in paragraph (2),"
+                              },
+                              {
+                                "id": 30,
+                                "field": "source_text",
+                                "start": 2345,
+                                "end": 2427,
+                                "text": "(B) who has no income for the calendar year in which such taxable year begins, and"
+                              },
+                              {
+                                "id": 31,
+                                "field": "source_text",
+                                "start": 2437,
+                                "end": 2599,
+                                "text": "(D) who is not a qualifying child of such taxpayer or of any other taxpayer for any taxable year beginning in the calendar year in which such taxable year begins."
+                              },
+                              {
+                                "id": 32,
+                                "field": "source_text",
+                                "start": 2605,
+                                "end": 2621,
+                                "text": "(2) Relationship"
+                              },
+                              {
+                                "id": 33,
+                                "field": "source_text",
+                                "start": 2627,
+                                "end": 2811,
+                                "text": "For purposes of paragraph (1)(A), an individual bears a relationship to the taxpayer described in this paragraph if the individual is any of the following with respect to the taxpayer:"
+                              },
+                              {
+                                "id": 34,
+                                "field": "source_text",
+                                "start": 2821,
+                                "end": 2860,
+                                "text": "(A) A child or a descendant of a child."
+                              },
+                              {
+                                "id": 35,
+                                "field": "source_text",
+                                "start": 2870,
+                                "end": 2920,
+                                "text": "(B) A brother, sister, stepbrother, or stepsister."
+                              },
+                              {
+                                "id": 36,
+                                "field": "source_text",
+                                "start": 2930,
+                                "end": 2981,
+                                "text": "(C) The father or mother, or an ancestor of either."
+                              },
+                              {
+                                "id": 37,
+                                "field": "source_text",
+                                "start": 2991,
+                                "end": 3022,
+                                "text": "(D) A stepfather or stepmother."
+                              },
+                              {
+                                "id": 38,
+                                "field": "source_text",
+                                "start": 3032,
+                                "end": 3093,
+                                "text": "(E) A son or daughter of a brother or sister of the taxpayer."
+                              },
+                              {
+                                "id": 39,
+                                "field": "source_text",
+                                "start": 3103,
+                                "end": 3167,
+                                "text": "(F) A brother or sister of the father or mother of the taxpayer."
+                              },
+                              {
+                                "id": 40,
+                                "field": "source_text",
+                                "start": 3177,
+                                "end": 3275,
+                                "text": "(G) A son-in-law, daughter-in-law, father-in-law, mother-in-law, brother-in-law, or sister-in-law."
+                              },
+                              {
+                                "id": 41,
+                                "field": "source_text",
+                                "start": 3285,
+                                "end": 3587,
+                                "text": "(H) An individual (other than an individual who at any time during the taxable year was the spouse, determined without regard to section 7703, of the taxpayer) who, for the taxable year of the taxpayer, has the same principal place of abode as the taxpayer and is a member of the taxpayer's household.\n"
+                              },
+                              {
+                                "id": 42,
+                                "field": "referenced_public_sections",
+                                "start": 0,
+                                "end": 1236,
+                                "text": "{\"7703\": \"§7703. Determination of marital status\\n\\n(a) General rule\\n\\n    (1) the determination of whether an individual is married shall be made as of the close of his taxable year; except that if his spouse dies during his taxable year such determination shall be made as of the time of such death; and\\n\\n    (2) an individual legally separated from his spouse under a decree of divorce or of separate maintenance shall not be considered as married.\\n\\n(b) Certain married individuals living apart\\n\\nFor purposes of those provisions of this title which refer to this subsection, if-\\n\\n    (1) an individual who is married (within the meaning of subsection (a)) and who files a separate return maintains as his home a household which constitutes for more than one-half of the taxable year the principal place of abode of a child with respect to whom such individual is entitled to a deduction for the taxable year under section 151,\\n\\n    (2) such individual furnishes over one-half of the cost of maintaining such household during the taxable year, and\\n\\n    (3) during the last 6 months of the taxable year, such individual's spouse is not a member of such household,\\n\\nsuch individual shall not be considered as married.\\n\"}"
+                              },
+                              {
+                                "id": 43,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 147,
+                                "text": "Alice has a son, Bob, who satisfies section 152(c)(1) for the year 2015. Bob has a son, Charlie, who satisfies section 152(c)(1) for the year 2015."
+                              },
+                              {
+                                "id": 44,
+                                "field": "question",
+                                "start": 0,
+                                "end": 51,
+                                "text": "Section 152(b)(1) applies to Bob for the year 2015."
+                              }
+                            ]
+                          },
+                          "dependent_year": {
+                            "status": "known",
+                            "value": 2015,
+                            "support_ids": [
+                              43,
+                              44
+                            ],
+                            "support": [
+                              {
+                                "id": 43,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 147,
+                                "text": "Alice has a son, Bob, who satisfies section 152(c)(1) for the year 2015. Bob has a son, Charlie, who satisfies section 152(c)(1) for the year 2015."
+                              },
+                              {
+                                "id": 44,
+                                "field": "question",
+                                "start": 0,
+                                "end": 51,
+                                "text": "Section 152(b)(1) applies to Bob for the year 2015."
+                              }
+                            ]
+                          }
+                        },
+                        "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                        "view": "native",
+                        "unresolved_fields": []
+                      },
+                      {
+                        "kind": "APPLY",
+                        "skill_id": "section_152_dependent_from_express_basis",
+                        "skill_hash": "a2be5c8dac9410c9708b9c3dee319073841eac67267e67d73850c65cc5e3fadd",
+                        "version": 1,
+                        "inputs": {
+                          "expressly_given_dependent_basis": "qualifying_child",
+                          "dependent_year": 2015
+                        },
+                        "premises": {},
+                        "outputs": {
+                          "is_dependent": true,
+                          "dependency_year": 2015
+                        },
+                        "unresolved_inputs": [],
+                        "unresolved_premises": [],
+                        "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                        "view": "native"
+                      },
+                      {
+                        "kind": "USE",
+                        "producer": "section_152_dependent_from_express_basis",
+                        "field": "is_dependent",
+                        "consumer": "section_152_b1_dependent_ineligibility_answer",
+                        "input": "is_dependent",
+                        "value": true
+                      },
+                      {
+                        "kind": "USE",
+                        "producer": "section_152_dependent_from_express_basis",
+                        "field": "dependency_year",
+                        "consumer": "section_152_b1_dependent_ineligibility_answer",
+                        "input": "dependency_year",
+                        "value": 2015
+                      },
+                      {
+                        "call_id": "legal_skill_evolution_activation_repair_20261112:faf89f7b75f2c522ef45775d469a7a86f928d50e1da3026f82c78066f9c1009d",
+                        "cache_hit": false,
+                        "physical_call_id": "legal_skill_evolution_activation_repair_20261112:faf89f7b75f2c522ef45775d469a7a86f928d50e1da3026f82c78066f9c1009d",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "prompt_tokens": 3201,
+                          "total_tokens": 3256,
+                          "completion_tokens": 55,
+                          "prompt_tokens_details": null
+                        },
+                        "elapsed_seconds": 1.9587528249248862,
+                        "response_hash": "344412417229112c38ab79f2a7e75f7bb2c6c9f32dc4cdd3025a421d6c69d2aa",
+                        "kind": "READ_LOCAL",
+                        "question": "Read the current task input fields.",
+                        "locator": "current supplied source, facts and question, according to each requested field",
+                        "fields": {
+                          "question_year": {
+                            "status": "known",
+                            "value": 2015,
+                            "support_ids": [
+                              44
+                            ],
+                            "support": [
+                              {
+                                "id": 44,
+                                "field": "question",
+                                "start": 0,
+                                "end": 51,
+                                "text": "Section 152(b)(1) applies to Bob for the year 2015."
+                              }
+                            ]
+                          },
+                          "claim_is_affirmative": {
+                            "status": "known",
+                            "value": true,
+                            "support_ids": [
+                              44
+                            ],
+                            "support": [
+                              {
+                                "id": 44,
+                                "field": "question",
+                                "start": 0,
+                                "end": 51,
+                                "text": "Section 152(b)(1) applies to Bob for the year 2015."
+                              }
+                            ]
+                          }
+                        },
+                        "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                        "view": "native",
+                        "unresolved_fields": []
+                      },
+                      {
+                        "kind": "APPLY",
+                        "skill_id": "section_152_b1_dependent_ineligibility_answer",
+                        "skill_hash": "22c6e0a85eb27c352a25ace0b025ccf43fdaac44d588d6e741b54759d95abec0",
+                        "version": 1,
+                        "inputs": {
+                          "is_dependent": true,
+                          "dependency_year": 2015,
+                          "question_year": 2015,
+                          "claim_is_affirmative": true
+                        },
+                        "premises": {},
+                        "outputs": {
+                          "answer": "Entailment"
+                        },
+                        "unresolved_inputs": [],
+                        "unresolved_premises": [],
+                        "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                        "view": "native"
+                      }
+                    ],
+                    "failed_candidates": []
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": true,
+                    "metric": "native_exact_match",
+                    "grade": 1.0
+                  }
+                }
+              ],
+              "native_grade": 1.0,
+              "selection_grade": 1.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 1,
+              "native_fallback_views": 0
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 3,
+            "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+            "native_parent_grade": 1.0,
+            "trace": {
+              "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "87292619e6ef256642c4d16d42de1d38ad77c59c29b321543639da5d06052ba1",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Entailment",
+                    "evidence_sentence_ids": [],
+                    "fallback": false,
+                    "core_executed": true,
+                    "terminal_skill": "section_152_b1_dependent_ineligibility_answer",
+                    "retrieved": [
+                      "section_152_b1_dependent_ineligibility_answer"
+                    ],
+                    "events": [
+                      {
+                        "call_id": "legal_skill_evolution_activation_repair_20261112:4095ad935d7229bfdf42b896441a443e45b347994a8a900541628cfd7dd2a341",
+                        "cache_hit": false,
+                        "physical_call_id": "legal_skill_evolution_activation_repair_20261112:4095ad935d7229bfdf42b896441a443e45b347994a8a900541628cfd7dd2a341",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "prompt_tokens": 3176,
+                          "total_tokens": 3235,
+                          "completion_tokens": 59,
+                          "prompt_tokens_details": null
+                        },
+                        "elapsed_seconds": 2.079643308185041,
+                        "response_hash": "17997a2356f3a5eea7edb3513a00158581442034b409cbc34c0970520b4878d0",
+                        "kind": "READ_LOCAL",
+                        "question": "Read the current task input fields.",
+                        "locator": "current supplied source, facts and question, according to each requested field",
+                        "fields": {
+                          "expressly_given_dependent_basis": {
+                            "status": "known",
+                            "value": "qualifying_child",
+                            "support_ids": [
+                              21
+                            ],
+                            "support": [
+                              {
+                                "id": 21,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 119,
+                                "text": "Alice and Charlie have been married since 2 Feb 2015. Bob counts as Alice's dependent under section 152(c)(1) for 2015."
+                              }
+                            ]
+                          },
+                          "dependent_year": {
+                            "status": "known",
+                            "value": 2015,
+                            "support_ids": [
+                              21
+                            ],
+                            "support": [
+                              {
+                                "id": 21,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 119,
+                                "text": "Alice and Charlie have been married since 2 Feb 2015. Bob counts as Alice's dependent under section 152(c)(1) for 2015."
+                              }
+                            ]
+                          }
+                        },
+                        "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+                        "view": "native",
+                        "unresolved_fields": []
+                      },
+                      {
+                        "kind": "APPLY",
+                        "skill_id": "section_152_dependent_from_express_basis",
+                        "skill_hash": "a2be5c8dac9410c9708b9c3dee319073841eac67267e67d73850c65cc5e3fadd",
+                        "version": 1,
+                        "inputs": {
+                          "expressly_given_dependent_basis": "qualifying_child",
+                          "dependent_year": 2015
+                        },
+                        "premises": {},
+                        "outputs": {
+                          "is_dependent": true,
+                          "dependency_year": 2015
+                        },
+                        "unresolved_inputs": [],
+                        "unresolved_premises": [],
+                        "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+                        "view": "native"
+                      },
+                      {
+                        "kind": "USE",
+                        "producer": "section_152_dependent_from_express_basis",
+                        "field": "is_dependent",
+                        "consumer": "section_152_b1_dependent_ineligibility_answer",
+                        "input": "is_dependent",
+                        "value": true
+                      },
+                      {
+                        "kind": "USE",
+                        "producer": "section_152_dependent_from_express_basis",
+                        "field": "dependency_year",
+                        "consumer": "section_152_b1_dependent_ineligibility_answer",
+                        "input": "dependency_year",
+                        "value": 2015
+                      },
+                      {
+                        "call_id": "legal_skill_evolution_activation_repair_20261112:0f61a6852bb6aa9e807e1265aa11c5464891c4a407919883a1b362204e353adb",
+                        "cache_hit": false,
+                        "physical_call_id": "legal_skill_evolution_activation_repair_20261112:0f61a6852bb6aa9e807e1265aa11c5464891c4a407919883a1b362204e353adb",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "prompt_tokens": 3180,
+                          "total_tokens": 3235,
+                          "completion_tokens": 55,
+                          "prompt_tokens_details": null
+                        },
+                        "elapsed_seconds": 1.9556674612686038,
+                        "response_hash": "32048dec75aa3020f850a5efc93ca4eda68f6b73ab23f7c25ac55b2ebe955110",
+                        "kind": "READ_LOCAL",
+                        "question": "Read the current task input fields.",
+                        "locator": "current supplied source, facts and question, according to each requested field",
+                        "fields": {
+                          "question_year": {
+                            "status": "known",
+                            "value": 2015,
+                            "support_ids": [
+                              21
+                            ],
+                            "support": [
+                              {
+                                "id": 21,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 119,
+                                "text": "Alice and Charlie have been married since 2 Feb 2015. Bob counts as Alice's dependent under section 152(c)(1) for 2015."
+                              }
+                            ]
+                          },
+                          "claim_is_affirmative": {
+                            "status": "known",
+                            "value": true,
+                            "support_ids": [
+                              22
+                            ],
+                            "support": [
+                              {
+                                "id": 22,
+                                "field": "question",
+                                "start": 0,
+                                "end": 82,
+                                "text": "Alice can claim an exemption with Bob the dependent for 2015 under section 151(c)."
+                              }
+                            ]
+                          }
+                        },
+                        "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+                        "view": "native",
+                        "unresolved_fields": []
+                      },
+                      {
+                        "kind": "APPLY",
+                        "skill_id": "section_152_b1_dependent_ineligibility_answer",
+                        "skill_hash": "22c6e0a85eb27c352a25ace0b025ccf43fdaac44d588d6e741b54759d95abec0",
+                        "version": 1,
+                        "inputs": {
+                          "is_dependent": true,
+                          "dependency_year": 2015,
+                          "question_year": 2015,
+                          "claim_is_affirmative": true
+                        },
+                        "premises": {},
+                        "outputs": {
+                          "answer": "Entailment"
+                        },
+                        "unresolved_inputs": [],
+                        "unresolved_premises": [],
+                        "source": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+                        "view": "native"
+                      }
+                    ],
+                    "failed_candidates": []
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": true,
+                    "metric": "native_exact_match",
+                    "grade": 1.0
+                  }
+                }
+              ],
+              "native_grade": 1.0,
+              "selection_grade": 1.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 1,
+              "native_fallback_views": 0
+            },
+            "measured": true,
+            "attempt_recorded": true
+          }
+        ],
+        "complete": true,
+        "minimal_blocks": [
+          3
+        ],
+        "classification": "joint_needed",
+        "unmeasured_assignments": "unknown",
+        "hash": "a6f114bbd1f7d7b66ace283990fd24c79c70f6d207d80881e74875af63f033df"
+      },
+      "error": null,
+      "selection_exclusion": null
+    }
+  ],
+  "execution_events": []
+}

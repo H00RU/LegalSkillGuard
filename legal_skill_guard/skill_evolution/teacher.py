@@ -39,12 +39,29 @@ SKILL = record_schema({'id': STRING, 'intent': STRING, 'procedure': STRING,
         'role': {'type': 'string', 'enum': ['preliminary', 'terminal', 'constraint', 'unknown']},
         'port': STRING, 'origin': ORIGIN})),
     'source_provenance': array(ORIGIN), 'version': {'type': 'integer', 'minimum': 1}})
-PROPOSAL_SCHEMA = record_schema({'blocks': array(record_schema({'rationale': STRING,
-    'revisions': array(record_schema({'operation': {'type': 'string', 'enum': ['create', 'revise', 'lift']},
+LIFT_READER = record_schema({'question': STRING, 'source_locator': STRING,
+    'fields': array(record_schema({'name': STRING, 'question': STRING}))})
+PROPOSAL_SCHEMA = record_schema({'lift_reader': {'type': 'null'},
+    'blocks': array(record_schema({'rationale': STRING,
+    'revisions': array(record_schema({'operation': {'type': 'string', 'enum': ['create', 'revise']},
                                     'skill': SKILL}))}))})
 PROPOSAL_SCHEMA['properties']['blocks']['maxItems'] = 3
 PROPOSAL_SCHEMA['properties']['blocks']['items']['properties']['revisions'].update(minItems=1, maxItems=3)
 assert not strict_output_schema_issues(PROPOSAL_SCHEMA)
+
+
+def proposal_schema(planned_lift, max_blocks):
+    schema = deepcopy(PROPOSAL_SCHEMA)
+    schema['properties']['blocks']['maxItems'] = max_blocks
+    if planned_lift:
+        reader = deepcopy(LIFT_READER)
+        names = planned_lift['premises']
+        reader['properties']['fields'].update(minItems=len(names), maxItems=len(names))
+        reader['properties']['fields']['items']['properties']['name'] = {'type': 'string', 'enum': names}
+        schema['properties']['lift_reader'] = reader
+    if strict_output_schema_issues(schema):
+        raise ValueError('Invalid strict proposal output schema')
+    return schema
 
 
 def named(values, key='name'):
@@ -130,6 +147,30 @@ def validate_grounding(skill, sources):
         view = next((v for v in row['views'] if v['id'] == origin['view_id']), None)
         if not view or not origin['quote'] or not any(origin['quote'] in s for s in public_strings(view['public'])):
             raise ValueError('Teacher provenance is not a literal supplied TRAIN-source quote')
+
+
+def wrap_explicit_function_body(procedure):
+    """Add only the declared apply signature to an otherwise complete body.
+
+    Reject partial/mixed function definitions. AST construction preserves string
+    literals too; text indentation could change multiline literal contents.
+    Existing helper validation still rejects effects and undeclared premises.
+    """
+    tree = ast.parse(procedure)
+    if len(tree.body) == 1 and isinstance(tree.body[0], ast.FunctionDef):
+        return procedure, None
+    if any(isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)) for n in ast.walk(tree)):
+        raise ValueError('Ambiguous helper body contains a definition')
+    if not any(isinstance(n, ast.Return) for n in ast.walk(tree)):
+        raise ValueError('A complete helper body must contain its own return')
+    function = ast.parse('def apply(inputs, premises):\n    pass\n').body[0]
+    function.body = tree.body
+    wrapped = ast.unparse(ast.fix_missing_locations(ast.Module(body=[function], type_ignores=[]))) + '\n'
+    restored_body = ast.Module(body=ast.parse(wrapped).body[0].body, type_ignores=[])
+    if ast.dump(restored_body, include_attributes=False) != ast.dump(tree, include_attributes=False):
+        raise ValueError('Function wrapper changed body semantics')
+    return wrapped, {'kind': 'fixed_apply_signature_only', 'body_AST_unchanged': True,
+                     'raw_procedure_sha256': digest(procedure)}
     if not skill.source_provenance:
         raise ValueError('A learned skill needs actual source provenance')
     for name, port in skill.inputs.items():
@@ -145,6 +186,7 @@ def compile_block(block, library, sources, arm):
     revisions = []
     for proposed in block['revisions']:
         normalized, quote_bindings = bind_transcribed_quotes(proposed['skill'], sources)
+        normalized['procedure'], body_wrapper = wrap_explicit_function_body(normalized['procedure'])
         normalized, removed = prune_unobserved_premise_metadata(normalized)
         new = skill_from_wire(normalized)
         old = library.skills.get(new.id)
@@ -206,6 +248,8 @@ def compile_block(block, library, sources, arm):
                               'used_premise_values_unchanged': True}})
         if quote_bindings:
             revisions[-1]['representation_adaptation']['source_quote_transcription_bindings'] = quote_bindings
+        if body_wrapper:
+            revisions[-1]['representation_adaptation']['function_body_wrapper'] = body_wrapper
     if len({r['skill_id'] for r in revisions}) != len(revisions):
         raise ValueError('Duplicate skill revisions in one block')
     return revisions
@@ -217,6 +261,12 @@ Each skill is one small Python def apply(inputs, premises) returning a dict with
 Use ordinary Python expressions/assignments/if/for and min,max,sum,len,abs,round,sorted,all,any,int,float,bool,str,list,dict,range,enumerate,zip.
 No imports, attributes/method calls, network, files, globals, recursion or other calls. Do not generate a full-document IR.
 Read inputs are current facts/question fields; source-premise constants carry literal provenance. Reader fields are primitive or flat arrays.
+Separate literal case facts, expressly GIVEN solved legal intermediates, literal rule parameters, and legal inferences.
+Reading an expressly given intermediate is allowed; do not recompute it just to manufacture a dependency.
+Put literal rule parameters in premise ports (constant with source evidence, or explicit current-source reads), not case-input ports.
+Do not ask a local reader to decide an unprovided eligibility, statutory applicability or final legal answer: encode that rule in apply.
+When a source rule actually invokes a distinct computed legal predicate, acquire/reuse its grounded producer and connect mode skill to its output.
+Keep a naturally single-rule program single. Do not add gratuitous helper chains or intentionally defective old versions to create CoRev events.
 For citation fields ask for literal citation strings, not legacy output label IDs. Retained read failures are actual model outputs, not proof that the source lacks the rule.
 For every input in mode read set field equal to name and skill_id null; in mode skill name the actual producer skill_id and its output field.
 Semantic records name ports from the declared inputs and/or source premises; already-read ports are not counted as newly Lifted premises.
@@ -229,11 +279,13 @@ Scope-sensitive source obligations describe what the helper checks, with a suppo
 You may create helpers, revise multiple existing helpers jointly, preserve a useful reasoning skeleton or fix a process error.
 Only skills in library are installed. retained_edits are rejected or historical proposals, not current skills.
 To reuse a retained uninstalled draft, submit operation create with version 1 and its complete proposed program.
-Revise/lift only installed skills with their actual version plus one. Do not treat creation as an old/new co-revision event.
+Revise only installed skills with their actual version plus one. Do not treat creation as an old/new co-revision event.
 Candidate acceptance requires strict mean improvement on trigger parents and no decrease on every history parent.
 History-only improvements cannot pass. Use update_objective to focus the limited candidate slots on trigger failures.
-For operation lift preserve old procedure/inputs/outputs, replace a coupled constant block (up to 3 premises) with ONE joint current-source reader,
-and keep every unrelated field intact. AllPorts may cover all related ports in one reader.
+If scheduled_lift is present, supply lift_reader with a current-source question, locator and one question per named premise.
+Do not repeat the skill, program, values, types or bindings. The host preserves the procedure and compiles this one candidate.
+Its evaluation is mandatory; admission is not. A reader must return unknown for absent law, never an old-value default.
+If no Lift is scheduled, lift_reader is null. Other create/revise blocks share the remaining candidate allowance.
 Do not copy a case answer into a lookup, branch on a source ID/person name or fabricate absent law. Native labels supervise selection, not missing semantic gold.
 All blocks are evaluated on complete mixed-version tables. A singleton may fail yet a joint package improve; preserve such candidates.
 Return fewer blocks or none if no grounded useful candidate exists. Version existing skills by exactly one; new skills start at one.
@@ -249,7 +301,7 @@ ARM_PROMPTS = {
 
 
 def propose(teacher, *, arm, batch, library, source_records, feedback, learned_patterns,
-            trigger, history, max_blocks=3):
+            trigger, history, max_blocks=3, planned_lift=None):
     source_ids = [r['key'] for r in source_records]
     if set(trigger) & set(history) or set(trigger) | set(history) != set(source_ids):
         raise ValueError('Teacher objective must identify the complete disjoint replay cohort')
@@ -271,6 +323,8 @@ def propose(teacher, *, arm, batch, library, source_records, feedback, learned_p
                                    for c in table['mixed_version_table']],
             'actual_execution_failures': failures, 'unique_actual_reads': reads}
     retained = [{**{k: e.get(k) for k in ('batch', 'candidate_index', 'revisions', 'error', 'read_diagnostics', 'selection_exclusion')},
+                 **({'planned_lift': deepcopy(e['planned_lift']), 'lift_reader': deepcopy(e.get('lift_reader'))}
+                    if e.get('planned_lift') else {}),
                  **({'raw_block': deepcopy(e['raw_block'])} if not e.get('revisions') and e.get('raw_block') else {}),
                  'table': compact_table(e.get('table'))} for e in library.provisional_edits]
     memory = [{k: deepcopy(v) for k, v in p.items() if k not in ('evidence', 'exact_version_table')}
@@ -284,12 +338,14 @@ def propose(teacher, *, arm, batch, library, source_records, feedback, learned_p
             'selection_grade': 'mean of all predeclared native and controlled views within each parent',
             'native_answer_contracts': {r['key']: {v['id']: v['answer_schema'] for v in r['views']}
                                       for r in source_records}},
+        'scheduled_lift': planned_lift,
         'native_TRAIN_feedback': feedback, 'library': {k: asdict(s) for k, s in library.skills.items()},
         'retained_edits': retained, 'learned_patterns': memory}, ensure_ascii=False)
     system = COMMON_PROMPT + '\n' + ARM_PROMPTS[arm] + f'\nRemaining shared candidate slots: {max_blocks}. Return at most that many blocks.'
     user = serialized(pack(json.loads(user)))
     system += '\n' + INSTRUCTION
+    schema = proposal_schema(planned_lift, max_blocks)
     identity = teacher.ledger.run_id + ':teacher:' + digest({'system': system, 'user': user,
-                                                           'schema': PROPOSAL_SCHEMA})
+                                                           'schema': schema})
     return teacher.propose(identity, source_ids=source_ids, system_prompt=system,
-                           user_prompt=user, output_schema=PROPOSAL_SCHEMA)
+                           user_prompt=user, output_schema=schema)

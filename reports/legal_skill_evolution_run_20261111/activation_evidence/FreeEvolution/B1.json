@@ -1,0 +1,376 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+  "skills": {},
+  "revision_patterns": [],
+  "provisional_edits": [
+    {
+      "batch": 1,
+      "candidate_index": 0,
+      "raw_block": {
+        "rationale": "Create one grounded joint package: §152(a)(1) first derives dependent status from the expressly given qualifying-child intermediate; §152(b)(1) then consumes that legal predicate and compares the relevant calendar years. A separate §151(c) terminal skill reads the dependent status expressly given in that case instead of recomputing it. This targets the failed §152(b)(1) parent while preserving the successful §151(c) parent.",
+        "revisions": [
+          {
+            "operation": "create",
+            "skill": {
+              "id": "derive_dependent_from_qualifying_child_152a1",
+              "intent": "Determine whether an individual is a dependent under §152(a)(1) when the current facts expressly give qualifying-child status under §152(c)(1).",
+              "procedure": "is_dependent = bool(inputs[\"is_expressly_qualifying_child_under_152_c_1\"] and premises[\"qualifying_child_counts_as_dependent\"])\nreturn {\"is_dependent_under_152\": is_dependent}",
+              "inputs": [
+                {
+                  "name": "is_expressly_qualifying_child_under_152_c_1",
+                  "type": "boolean",
+                  "mode": "read",
+                  "question": "Do the current case facts expressly state that the individual satisfies §152(c)(1) as the taxpayer's qualifying child for the relevant year?",
+                  "skill_id": null,
+                  "field": "is_expressly_qualifying_child_under_152_c_1"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "is_dependent_under_152",
+                  "type": "boolean",
+                  "description": "Whether the individual is a dependent of the taxpayer under §152(a)(1)."
+                }
+              ],
+              "premises": [
+                {
+                  "name": "qualifying_child_counts_as_dependent",
+                  "type": "boolean",
+                  "mode": "constant",
+                  "value": true,
+                  "question": "Does §152(a)(1) include a qualifying child within the definition of dependent?",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                    "view_id": "native",
+                    "quote": "For purposes of this subtitle, the term \"dependent\" means— (1) a qualifying child, or (2) a qualifying relative."
+                  },
+                  "read_id": null,
+                  "field": null
+                }
+              ],
+              "reads": [
+                {
+                  "id": "read_express_qualifying_child_status",
+                  "question": "Identify whether the current facts expressly give the individual's qualifying-child status under §152(c)(1).",
+                  "source_locator": "current source facts",
+                  "fields": [
+                    {
+                      "name": "is_expressly_qualifying_child_under_152_c_1",
+                      "type": "boolean",
+                      "question": "Do the facts expressly state that the individual satisfies §152(c)(1) as the taxpayer's qualifying child?"
+                    }
+                  ],
+                  "bindings": [
+                    {
+                      "premise": "is_expressly_qualifying_child_under_152_c_1",
+                      "field": "is_expressly_qualifying_child_under_152_c_1"
+                    }
+                  ]
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "section_152_dependency_status",
+                  "ports": [
+                    "is_expressly_qualifying_child_under_152_c_1",
+                    "qualifying_child_counts_as_dependent"
+                  ],
+                  "neighbors": [
+                    "apply_section_152_b1_same_calendar_year"
+                  ]
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "obligation_152a1_qualifying_child",
+                  "statement": "Treat an expressly established qualifying child as a dependent under §152(a)(1).",
+                  "role": "preliminary",
+                  "port": "is_expressly_qualifying_child_under_152_c_1",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                    "view_id": "native",
+                    "quote": "the term \"dependent\" means— (1) a qualifying child, or (2) a qualifying relative."
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                  "view_id": "native",
+                  "quote": "For purposes of this subtitle, the term \"dependent\" means— (1) a qualifying child, or (2) a qualifying relative."
+                }
+              ],
+              "version": 1
+            }
+          },
+          {
+            "operation": "create",
+            "skill": {
+              "id": "apply_section_152_b1_same_calendar_year",
+              "intent": "Answer a positive or negative claim that §152(b)(1) applies to an individual who is a dependent of another taxpayer, accounting for the same-calendar-year condition.",
+              "procedure": "rule_applies = bool(inputs[\"is_dependent_under_152\"] and inputs[\"taxpayer_taxable_year_begin_calendar_year\"] == inputs[\"individual_taxable_year_begin_calendar_year\"] and premises[\"dependent_has_no_dependents_same_calendar_year\"])\nclaim_matches = rule_applies == inputs[\"question_claims_section_152_b_1_applies\"]\nanswer = \"Entailment\" if claim_matches else \"Contradiction\"\nreturn {\"answer\": answer}",
+              "inputs": [
+                {
+                  "name": "is_dependent_under_152",
+                  "type": "boolean",
+                  "mode": "skill",
+                  "question": "Is the individual a dependent of another taxpayer under §152 for the relevant taxpayer year?",
+                  "skill_id": "derive_dependent_from_qualifying_child_152a1",
+                  "field": "is_dependent_under_152"
+                },
+                {
+                  "name": "taxpayer_taxable_year_begin_calendar_year",
+                  "type": "integer",
+                  "mode": "read",
+                  "question": "In what calendar year does the other taxpayer's relevant taxable year begin?",
+                  "skill_id": null,
+                  "field": "taxpayer_taxable_year_begin_calendar_year"
+                },
+                {
+                  "name": "individual_taxable_year_begin_calendar_year",
+                  "type": "integer",
+                  "mode": "read",
+                  "question": "In what calendar year does the individual's queried taxable year begin?",
+                  "skill_id": null,
+                  "field": "individual_taxable_year_begin_calendar_year"
+                },
+                {
+                  "name": "question_claims_section_152_b_1_applies",
+                  "type": "boolean",
+                  "mode": "read",
+                  "question": "Does the current question assert, rather than deny, that §152(b)(1) applies to the individual?",
+                  "skill_id": null,
+                  "field": "question_claims_section_152_b_1_applies"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "answer",
+                  "type": "string",
+                  "description": "The native Entailment or Contradiction label for the §152(b)(1) applicability claim."
+                }
+              ],
+              "premises": [
+                {
+                  "name": "dependent_has_no_dependents_same_calendar_year",
+                  "type": "boolean",
+                  "mode": "constant",
+                  "value": true,
+                  "question": "Does §152(b)(1) treat a dependent as having no dependents for the dependent's taxable year beginning in the same calendar year?",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                    "view_id": "native",
+                    "quote": "If an individual is a dependent of a taxpayer for any taxable year of such taxpayer beginning in a calendar year, such individual shall be treated as having no dependents for any taxable year of such individual beginning in such calendar year."
+                  },
+                  "read_id": null,
+                  "field": null
+                }
+              ],
+              "reads": [
+                {
+                  "id": "read_152b1_years_and_claim_polarity",
+                  "question": "Read the two relevant calendar years and the literal polarity of the current §152(b)(1) claim.",
+                  "source_locator": "current source facts and question",
+                  "fields": [
+                    {
+                      "name": "taxpayer_taxable_year_begin_calendar_year",
+                      "type": "integer",
+                      "question": "What calendar year is identified for the taxpayer year in which the individual is a dependent?"
+                    },
+                    {
+                      "name": "individual_taxable_year_begin_calendar_year",
+                      "type": "integer",
+                      "question": "What calendar year is identified for the individual's queried year?"
+                    },
+                    {
+                      "name": "question_claims_section_152_b_1_applies",
+                      "type": "boolean",
+                      "question": "Does the question literally assert that §152(b)(1) applies?"
+                    }
+                  ],
+                  "bindings": [
+                    {
+                      "premise": "taxpayer_taxable_year_begin_calendar_year",
+                      "field": "taxpayer_taxable_year_begin_calendar_year"
+                    },
+                    {
+                      "premise": "individual_taxable_year_begin_calendar_year",
+                      "field": "individual_taxable_year_begin_calendar_year"
+                    },
+                    {
+                      "premise": "question_claims_section_152_b_1_applies",
+                      "field": "question_claims_section_152_b_1_applies"
+                    }
+                  ]
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "section_152_b1_application_context",
+                  "ports": [
+                    "is_dependent_under_152",
+                    "taxpayer_taxable_year_begin_calendar_year",
+                    "individual_taxable_year_begin_calendar_year",
+                    "dependent_has_no_dependents_same_calendar_year"
+                  ],
+                  "neighbors": [
+                    "derive_dependent_from_qualifying_child_152a1"
+                  ]
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "obligation_152b1_dependency",
+                  "statement": "Apply the §152(b)(1) restriction only when the individual is a dependent of a taxpayer.",
+                  "role": "terminal",
+                  "port": "is_dependent_under_152",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                    "view_id": "native",
+                    "quote": "If an individual is a dependent of a taxpayer for any taxable year of such taxpayer beginning in a calendar year"
+                  }
+                },
+                {
+                  "id": "obligation_152b1_calendar_alignment",
+                  "statement": "Require the individual's taxable year to begin in the same calendar year as the taxpayer year establishing dependency.",
+                  "role": "constraint",
+                  "port": "individual_taxable_year_begin_calendar_year",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                    "view_id": "native",
+                    "quote": "such individual shall be treated as having no dependents for any taxable year of such individual beginning in such calendar year."
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+                  "view_id": "native",
+                  "quote": "If an individual is a dependent of a taxpayer for any taxable year of such taxpayer beginning in a calendar year, such individual shall be treated as having no dependents for any taxable year of such individual beginning in such calendar year."
+                }
+              ],
+              "version": 1
+            }
+          },
+          {
+            "operation": "create",
+            "skill": {
+              "id": "apply_section_151c_dependent_exemption",
+              "intent": "Answer whether §151(c) allows a taxpayer an exemption for an individual whose dependent status under §152 is expressly given in the current facts.",
+              "procedure": "exemption_allowed = bool(inputs[\"individual_is_dependent_under_152\"] and premises[\"section_151c_allows_exemption_for_dependent\"])\nclaim_matches = exemption_allowed == inputs[\"question_claims_exemption_allowed_under_151_c\"]\nanswer = \"Entailment\" if claim_matches else \"Contradiction\"\nreturn {\"answer\": answer}",
+              "inputs": [
+                {
+                  "name": "individual_is_dependent_under_152",
+                  "type": "boolean",
+                  "mode": "read",
+                  "question": "Do the current facts expressly state that the individual is the taxpayer's dependent under §152 for the relevant taxable year?",
+                  "skill_id": null,
+                  "field": "individual_is_dependent_under_152"
+                },
+                {
+                  "name": "question_claims_exemption_allowed_under_151_c",
+                  "type": "boolean",
+                  "mode": "read",
+                  "question": "Does the current question assert, rather than deny, that the taxpayer may claim the dependent exemption under §151(c)?",
+                  "skill_id": null,
+                  "field": "question_claims_exemption_allowed_under_151_c"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "answer",
+                  "type": "string",
+                  "description": "The native Entailment or Contradiction label for the §151(c) dependent-exemption claim."
+                }
+              ],
+              "premises": [
+                {
+                  "name": "section_151c_allows_exemption_for_dependent",
+                  "type": "boolean",
+                  "mode": "constant",
+                  "value": true,
+                  "question": "Does §151(c) provide an exemption amount for each individual who is the taxpayer's dependent under §152?",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+                    "view_id": "native",
+                    "quote": "An exemption of the exemption amount for each individual who is a dependent (as defined in section 152) of the taxpayer for the taxable year."
+                  },
+                  "read_id": null,
+                  "field": null
+                }
+              ],
+              "reads": [
+                {
+                  "id": "read_express_dependent_status_and_151c_claim",
+                  "question": "Read the expressly given dependent status and the literal polarity of the §151(c) claim.",
+                  "source_locator": "current source facts and question",
+                  "fields": [
+                    {
+                      "name": "individual_is_dependent_under_152",
+                      "type": "boolean",
+                      "question": "Do the facts expressly identify the individual as the taxpayer's dependent under §152 for the relevant year?"
+                    },
+                    {
+                      "name": "question_claims_exemption_allowed_under_151_c",
+                      "type": "boolean",
+                      "question": "Does the question literally assert that the taxpayer can claim the exemption under §151(c)?"
+                    }
+                  ],
+                  "bindings": [
+                    {
+                      "premise": "individual_is_dependent_under_152",
+                      "field": "individual_is_dependent_under_152"
+                    },
+                    {
+                      "premise": "question_claims_exemption_allowed_under_151_c",
+                      "field": "question_claims_exemption_allowed_under_151_c"
+                    }
+                  ]
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "section_151c_dependent_exemption_context",
+                  "ports": [
+                    "individual_is_dependent_under_152",
+                    "section_151c_allows_exemption_for_dependent"
+                  ],
+                  "neighbors": []
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "obligation_151c_dependency",
+                  "statement": "Allow the §151(c) exemption for each individual expressly established as the taxpayer's dependent under §152 for the taxable year.",
+                  "role": "terminal",
+                  "port": "individual_is_dependent_under_152",
+                  "origin": {
+                    "source_id": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+                    "view_id": "native",
+                    "quote": "An exemption of the exemption amount for each individual who is a dependent (as defined in section 152) of the taxpayer for the taxable year."
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "SARA_v2_Binary:cc82ab0fe40ca06245a9fdd00273c97ae8d8c2af9783b5618826de0125d41397",
+                  "view_id": "native",
+                  "quote": "An exemption of the exemption amount for each individual who is a dependent (as defined in section 152) of the taxpayer for the taxable year."
+                }
+              ],
+              "version": 1
+            }
+          }
+        ]
+      },
+      "planned_lift": null,
+      "lift_reader": null,
+      "revisions": null,
+      "table": null,
+      "error": "ValueError: A skill is one apply(inputs, premises) helper",
+      "selection_exclusion": null
+    }
+  ],
+  "execution_events": []
+}

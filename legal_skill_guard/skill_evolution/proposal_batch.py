@@ -10,6 +10,7 @@ from .objects import Library, digest
 from .clients import FrozenTeacher
 from .teacher import propose
 from . import patterns
+from .lift_proposals import schedule_lift
 
 
 def load(path):return json.loads(path.read_text())
@@ -36,8 +37,13 @@ def prepare_context(study, arm, batch):
         immutable_json(path, {'old_library_hash': old.hash, 'cohort': cohort, 'current': current})
     generated = patterns.candidates(old, [current[k] for k in trigger], generic=arm == 'Lift+GenericJoint') if (
         arm in ('Full', 'CoRevOnly', 'AllPorts+CoRev', 'Lift+GenericJoint')) else []
+    planned_lift = schedule_lift(old, [current[k] for k in trigger], arm)
+    queue = generated[:1]
+    if planned_lift:
+        queue.append({'planned_lift': planned_lift})
     return {'arm': arm, 'batch': batch, 'old': old, 'current': current,
-        'trigger': trigger, 'history': history, 'cohort': cohort, 'queue': generated[:1],
+        'trigger': trigger, 'history': history, 'cohort': cohort, 'queue': queue,
+        'planned_lift': planned_lift,
         'teacher_path': study.folder / arm / f'teacher_B{batch}.json'}
 
 
@@ -48,7 +54,7 @@ def propose_context(study, context, teacher=None):
     return propose(teacher or study.teacher, arm=context['arm'], batch=context['batch'], library=old,
         source_records=[study.records[k] for k in cohort], feedback=study.feedback(cohort, context['current']),
         learned_patterns=old.revision_patterns, trigger=context['trigger'], history=context['history'],
-        max_blocks=3 - len(context['queue']))
+        max_blocks=3 - len(context['queue']), planned_lift=context['planned_lift'])
 
 
 def prefetch_teachers(study, batch):

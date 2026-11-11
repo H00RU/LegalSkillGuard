@@ -4,6 +4,10 @@ Goal **active、未完成**。唯一目标和验收见[CURRENT_GOAL.md](CURRENT_
 
 ## 当前实测
 
+2026-11-12根因修复优先：48次提议中专门Lift为0、全部依赖端口和CoRev模式为0。旧B6共同修订为single_sufficient，不能说明法律依赖共同修订。进一步TRAIN核对：OE32案法条块完全相同，Airline24案政策文本完全相同；有变化的税档已直接读取。OE的governing_regime由原任务Solved Reasoning Steps给定，读取它合法，不能误记为将法源选择推给reader。SARA若事实明确给定§151/§152中间判断也允许直接读取，不强造依赖。原模型能力、获取接口与任务机会必须区分，不能只修schema便宣称贡献成立。
+
+已在隔离工程树`/media/sangfor/vdb/legal-skill-runtime/engineering/lift-corev-activation-20261112`实现小型Lift reader提议及确定性编译/排队；程序、端口、类型和旧常量不得由教师重写。公共获取说明区分事实、明示给定中间结论、法源参数和待计算法义，两臂共享。64项相关离线回归通过；48份真实上下文及75个已编译候选保持一致。3个当前编译失败保留，另4个历史引文失败能被本次之前的编译器离线恢复但未重跑/接纳，不计本次收益。一次原B5航空Lift已真实接通，两题提升前后0、1，实际读取的旧/新尺寸值相同，缺失的国际航线计费分支未被修复，按原判据拒绝。两次SARA独立获取中FreeEvolution只漏函数壳，已在保留body AST的严格适配回归后复用原响应、公平重放两臂，没有再次调用教师。两臂都获得§152(a)→§152(b)(1)真实依赖及该题0→1；均为新建，旧技能共同修订/模式仍0。另一§151(c)题Full错误使用§152终端却碰巧答对，Free为回退，均不计语义成立的核心证据。共15E/3T全结算、无失败/重试，原TEST输出/标签未用于诊断。[具体代码、原始响应、逐来源语义与成本](../reports/legal_skill_evolution_run_20261111/ACTIVATION_REPAIR_20261112.md)。
+
 固定128母来源/8批、七系统外部技能学习已完成**全部128来源初答、48次学习臂更新和42/42个固定DEV点**。formal_v5真实退出0；B8冻结、完整教师暴露资格核对和352个原生TEST输入容量预检均已通过，当前运行既定七系统冻结TEST。教师、技能更新与模型参数更新均关闭，不根据测试结果改方法。
 
 B8最终库：FreeEvolution5、LiftOnly2、CoRevOnly3、Full4、Lift+GenericJoint4、AllPorts+CoRev3。103次原始create、6次revise、0次Lift，接纳21 create与3 revise；全部技能依赖端口、共同修订模式及跨来源模式移植仍0。B8 Full接纳单项OE修订，加入Arizona/Federal and Arizona分支，在一个同案TRAIN来源回放由0到.75，推理程序已改变，不属于保持原过程的Lift。CoRevOnly新增的是中美商务舱行李费程序，不能按臂名计成CoRev成功。
@@ -36,7 +40,7 @@ B7更新前Full有35个原生视图：12个核心执行完成、0个核心全对
 
 已结束的学习入口为 `python -m experiments.legal_skill_evolution_formal run`，配置 `configs/legal_skill_evolution_formal_v5_20261111.json`，原PID1382062/start_ticks641058649、session38824已真实退出0，完整收据为`formal_v5/training_DEV_completed.json`。formal_v1/v2均已终态并保留持有文件，v3在B5教师输入传输检查失败后退出1；v4为路由修复在请求边界退出75。全部旧命名空间均不能重启。Goal始终active，工程请求边界持有不是用户暂停。
 
-顺序接续器PID1487538/start_ticks641433352、session72926继续运行；状态与完整脚本/哈希保存在`artifacts/legal_skill_evolution_20261111/fixed_pipeline_v1/`。已核实原formal退出、B8/42点完整、绑定哈希及在途0，顺序完成freeze prepare与preflight。当前唯一生成子进程为PID1572906/start_ticks641752043，入口`python -m experiments.legal_skill_evolution_frozen run`，配置`configs/legal_skill_evolution_frozen_v1_20261111.json`。之后由同一接续器运行注册迁移，不另起客户端。排他锁防止重复接续，任一阶段失败保存日志待定位，不自动重试或标记Goal完成。恢复必须核对接续器、child_pid和SQLite在途，不能只看状态文件。
+原接续器PID1487538/start_ticks641433352、旧冻结子进程1572906/start_ticks641752043在本次工程请求边界持有后均退出75，已终态，不能重复启动。原77/129项绑定在持有及恢复时全部一致，原在途已结算；隔离诊断与格式复验均终态且在途0后恢复既定冻结run，未重跑prepare/preflight。当前接续器为PID1765016/start_ticks642498467、session79159，操作入口`/tmp/lsg_resume_fixed_after_activation_20261112.py`；当前唯一生成子进程PID1765024/start_ticks642498475，原`experiments.legal_skill_evolution_frozen run`及配置不变。后续运行原注册迁移，全部旧来源缓存保留。真实动态状态仍为`artifacts/legal_skill_evolution_20261111/fixed_pipeline_v1/status.json`，恢复须核对PID、start_ticks、原绑定及SQLite；Goal始终active，未完成。
 
 正式学习及DEV总计3304E/48T，全部物理请求均已结算，TEST单独累计。冻结前核对2759份教师请求文件、2703个去重提示输入，合格160个TEST身份在这些记录和连续账本中的访问均0；原CNLI537按预定规则由555补位。352个测试输入最大11126 tokens，加固定8192输出额度后满足32768上下文，无裁切。冻结前准备/容量核验新增生成调用0，全部冻结代码/数据哈希及thinking OFF、teacher disabled、library/model updates false已再次核实。原测试标签只在该门控后用于既定评分。
 
@@ -60,7 +64,7 @@ v4在途结算、原冻结文件不变核实后，5327个文件逐字接至v5，
 
 固定20来源首遍16更新和29项受影响集中复验均已完成，分别新增492E/16T、237E/0T。旧结果、失败及两机制未触发的否定证据保留，不重做旧构造实验、不导入小试库。unknown未到达分支、无绑定死读取、唯一未安装草稿及引文转录/失败原程序可见性修复的原始回归见[执行报告](../reports/legal_skill_evolution_run_20261111/README.md)及各修复收据。
 
-下一项实际工作：监护当前冻结TEST子进程完成七系统×160母来源固定矩阵，再由既有接续器执行 `python -m experiments.legal_skill_evolution_transfer`，随后按原要求做完整结果与双贡献复核。保留全部失败/回退分母，不重发成功请求、不补来源、种子、调参数或测试追分。迁移掩码已在首个测试生成前按接纳版本来源冻结；此前B0–B2真实库及8项离线/恢复检查不算迁移效果。完整测试尚未完成，不用正在生成的测试结果指导修复或方法变更。
+下一项实际工作：沿既有TRAIN规则、真实输出及版本证据查找正确前提确实变化的Lift机会和两项已有依赖技能的自然共同错误，先离线反证；不能将修接口、创建依赖或标签偶合当作双贡献。真实见证成立才安排对应验证，若没有则集中提出机制设计调整，而不重复当前小试或无限补实验。原冻结矩阵和注册迁移独立继续、保持原B8及掩码，不用于修复选择，也不能靠矩阵完成替代方法验收。保持法律规则获取—更新—复用问题及同信息强对照，不脱离主线另开工程框架。
 
 最终费用归因入口已补齐：矩阵及迁移完成后运行 `python -m reports.legal_skill_evolution_run_20261111.frozen_cost_footprints`，沿实际响应ID去重，分别报告矩阵实际物理支出、各臂消费的响应、排除DEV的获取＋推理足迹及迁移新增物理请求。共用既有归因函数，不将先访问缓存的差异当作方法费用优势。4项隔离记账回归通过，覆盖共享/失败、DEV剔除、迁移分账与冻结教师禁用；真实矩阵未完成时入口立即等待、不读取部分测试预测。回归仅验证统计实现，不算方法实证，当前未新增模型调用或改变冻结文件。[回归收据](../reports/legal_skill_evolution_run_20261111/frozen_cost_footprints_regression.json)。
 
