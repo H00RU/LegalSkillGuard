@@ -1,0 +1,19 @@
+{"source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d", "arm": "LocalBindings", "records": 0, "core": 0, "correct": 0, "grade": 0.75}
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/yndx/hhy/legal-skill-current/experiments/legal_skill_evolution_neural_span_compiler.py", line 139, in <module>
+    else:run(root)
+         ^^^^^^^^^
+  File "/home/yndx/hhy/legal-skill-current/experiments/legal_skill_evolution_neural_span_compiler.py", line 101, in run
+    raw, event = joint_control(reads, source, spec, frames, TASKS)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yndx/hhy/legal-skill-current/legal_skill_guard/skill_evolution/neural_span_compiler.py", line 83, in joint_control
+    response, event = reads.generate(source, source['views'][0],
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yndx/hhy/legal-skill-current/legal_skill_guard/skill_evolution/runtime.py", line 176, in generate
+    result = self.executor.generate(call_id, source=source['key'], purpose=purpose,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/yndx/hhy/legal-skill-current/legal_skill_guard/skill_evolution/clients.py", line 54, in generate
+    raise GenerationHold('Held before the next physical request; in-flight calls were allowed to settle')
+legal_skill_guard.skill_evolution.clients.GenerationHold: Held before the next physical request; in-flight calls were allowed to settle

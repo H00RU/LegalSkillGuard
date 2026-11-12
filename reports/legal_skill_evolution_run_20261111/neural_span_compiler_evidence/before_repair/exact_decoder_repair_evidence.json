@@ -1,0 +1,65 @@
+{
+  "actual_acquired_frame_id": "63f8a2ba2a63124ca7e7cbf621d63f6cc3735c55819b78bd6d67b04c3ae29a9f",
+  "actual_value": {
+    "records": [
+      {
+        "frame_id": "63f8a2ba2a63124ca7e7cbf621d63f6cc3735c55819b78bd6d67b04c3ae29a9f",
+        "quote": "provided however that the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\"Representatives\") who have a need to know the Confidential Information for the Purpose provided that the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential and at all times in a manner consistent with this Agreement and the Receiving Party shall be liable for any loss or damage resulting from any Representative failing to do so.",
+        "slots": [
+          {
+            "name": "actor",
+            "quote": "the Receiving Party"
+          },
+          {
+            "name": "object",
+            "quote": "the Confidential Information"
+          },
+          {
+            "name": "recipient_classes",
+            "quote": "directors, officers and employees"
+          },
+          {
+            "name": "condition",
+            "quote": "who have a need to know the Confidential Information for the Purpose provided that the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential and at all times in a manner consistent with this Agreement and the Receiving Party shall be liable for any loss or damage resulting from any Representative failing to do so"
+          }
+        ]
+      }
+    ]
+  },
+  "original_host_schema_valid": true,
+  "original_host_length_checks_retained": true,
+  "prompt_schema_unchanged": true,
+  "deferred_host_checks": [
+    "/properties/records/items/properties/quote/minLength",
+    "/properties/records/items/properties/quote/maxLength",
+    "/properties/records/items/properties/slots/items/properties/quote/minLength",
+    "/properties/records/items/properties/slots/items/properties/quote/maxLength"
+  ],
+  "new_model_calls": 0,
+  "results": {
+    "original": {
+      "all_content_tokens_accepted": false,
+      "EOS_accepted": false,
+      "content_tokens": 283,
+      "processed_tokens": 94,
+      "compile_seconds": 0.14507110137492418,
+      "fill_seconds": 3.5699989357963204,
+      "accept_seconds": 0.000311470590531826,
+      "failed_at": {
+        "token_index": 93,
+        "token": "\\\"",
+        "context": " of its directors, officers and employees (\\\"Representatives\\\") who have a need"
+      }
+    },
+    "repaired_decoder": {
+      "all_content_tokens_accepted": true,
+      "EOS_accepted": true,
+      "content_tokens": 283,
+      "processed_tokens": 283,
+      "compile_seconds": 0.041834441013634205,
+      "fill_seconds": 0.004751172848045826,
+      "accept_seconds": 0.00023869052529335022,
+      "failed_at": null
+    }
+  }
+}

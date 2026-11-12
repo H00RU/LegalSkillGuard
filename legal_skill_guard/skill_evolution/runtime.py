@@ -36,17 +36,27 @@ def render_messages(system, content, schema):
 
 
 def decoder_schema(schema):
-    """Keep array uniqueness as a strict host check on this serving backend.
+    """Keep unsupported/miscompiled constraints as strict host checks.
 
     The installed vLLM validator rejects uniqueItems before generation. Its
     xgrammar conversion ignores that keyword, so removing it changes neither
     the generated grammar nor the final host-validated output language.
+
+    Bounded string conversion on this installed xgrammar rejects otherwise
+    valid JSON escaped quotes and makes source quotation masks expensive.
+    Keep minLength/maxLength in the original model prompt and host schema,
+    but use its correct unbounded JSON string grammar during decoding.
     """
     wire, host_checks = deepcopy(schema), []
     def visit(node, path):
         if not isinstance(node, dict):return
         if 'uniqueItems' in node:
             host_checks.append(path + '/uniqueItems');node.pop('uniqueItems')
+        types = node.get('type', [])
+        if types == 'string' or (isinstance(types, list) and 'string' in types):
+            for constraint in ('minLength', 'maxLength'):
+                if constraint in node:
+                    host_checks.append(path + '/' + constraint);node.pop(constraint)
         for key in ('properties', '$defs', 'definitions'):
             for name, child in node.get(key, {}).items():visit(child, path + '/' + key + '/' + name)
         for key in ('items', 'additionalProperties', 'not'):

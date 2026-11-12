@@ -20,6 +20,16 @@ def fixture():
 
 
 class SourceSchemaChecks(unittest.TestCase):
+    def test_bounded_quoted_source_strings_keep_original_prompt_and_host_checks(self):
+        schema = {'type': 'string', 'minLength': 1, 'maxLength': 12}
+        wire, paths = decoder_schema(schema)
+        self.assertEqual(wire, {'type': 'string'})
+        self.assertEqual(paths, ['/minLength', '/maxLength'])
+        self.assertEqual(schema, {'type': 'string', 'minLength': 1, 'maxLength': 12})
+        jsonschema.validate('a "quoted" b', schema)
+        for value in ['', 'x' * 13]:
+            with self.assertRaises(jsonschema.ValidationError):jsonschema.validate(value, schema)
+
     def test_decoder_preserves_literal_values_and_host_uniqueness(self):
         schema = {'type': 'object', 'properties': {
             'uniqueItems': {'type': 'boolean'},

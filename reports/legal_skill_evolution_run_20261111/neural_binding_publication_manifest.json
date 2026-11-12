@@ -1,0 +1,936 @@
+{
+  "actual_request_seconds_sum": 435.2743094358593,
+  "all7_actual_requests_thinking_OFF_normal_stop_empty_reasoning": true,
+  "all_views_per_arm": 12,
+  "branch": "research/legal-skill-evolution-20261111",
+  "captured_utc": "2026-11-12T16:18:18.904253+00:00",
+  "completion_tokens": 7676,
+  "contributions_established": 0,
+  "cumulative_physical_requests": {
+    "executor": 9294,
+    "teacher": 172
+  },
+  "current_TRAIN_native_views": 280,
+  "current_TRAIN_parents": 128,
+  "decoder_real_example_original_rejected_at_token": 94,
+  "decoder_real_example_repaired_tokens": 283,
+  "files": [
+    {
+      "bytes": 1741,
+      "path": "GITHUB_LATEST.md",
+      "sha256": "dd1b374ab62733a101daf2488821a1590e929dea79f3547e3f7f3c65cbe0bb6e"
+    },
+    {
+      "bytes": 1741,
+      "path": "README.md",
+      "sha256": "dd1b374ab62733a101daf2488821a1590e929dea79f3547e3f7f3c65cbe0bb6e"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 6883,
+      "local_sha256": "39290bd121d9264a218b4bb491574ce7bea9de3ffa10d2f74ac00372fa0e390c",
+      "path": "docs/CURRENT_GOAL.md",
+      "sha256": "39290bd121d9264a218b4bb491574ce7bea9de3ffa10d2f74ac00372fa0e390c"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 11298,
+      "local_sha256": "4e6ac09509c3b6ece7f8c445389493579a87888c76db69d17d3ac05acf688c80",
+      "path": "docs/METHOD_REDESIGN_CURRENT.md",
+      "sha256": "4e6ac09509c3b6ece7f8c445389493579a87888c76db69d17d3ac05acf688c80"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3867,
+      "local_sha256": "65e1479a7e1f341acd3a096d1ad820c8180bc55b917cc5cada4656fecbdff07b",
+      "path": "experiments/legal_skill_evolution_binding_decoder_check.py",
+      "sha256": "65e1479a7e1f341acd3a096d1ad820c8180bc55b917cc5cada4656fecbdff07b"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 11346,
+      "local_sha256": "3dbead369aa3d86cedee493a9bfc4d83796958b1b9714aaeb69f8a286965c5d6",
+      "path": "experiments/legal_skill_evolution_neural_span_compiler.py",
+      "sha256": "3dbead369aa3d86cedee493a9bfc4d83796958b1b9714aaeb69f8a286965c5d6"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 7146,
+      "local_sha256": "52c35a68409aa3deba0752b94b46753a2712889224229fd334328afb56d48537",
+      "path": "legal_skill_guard/skill_evolution/neural_span_compiler.py",
+      "sha256": "52c35a68409aa3deba0752b94b46753a2712889224229fd334328afb56d48537"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 34871,
+      "local_sha256": "a08711e6aa0f79bd4ba96db7509d5864f08904a346c5e204d770532560f8be17",
+      "path": "legal_skill_guard/skill_evolution/runtime.py",
+      "sha256": "a08711e6aa0f79bd4ba96db7509d5864f08904a346c5e204d770532560f8be17"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 7311,
+      "local_sha256": "6256c86f52a0c05f1aa63801339a9b7d1187894f222a59f54b0a35f8de9da4f4",
+      "path": "reports/legal_skill_evolution_run_20261111/METHOD_EVIDENCE_AND_TRAIN_FIT.md",
+      "sha256": "6256c86f52a0c05f1aa63801339a9b7d1187894f222a59f54b0a35f8de9da4f4"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 9159,
+      "local_sha256": "73ad5e0bce9a5903ec01bbc48e9cdb01bb33c3480085737a16f9a5a753befe4e",
+      "path": "reports/legal_skill_evolution_run_20261111/NEURAL_BINDING_RESULT.md",
+      "sha256": "73ad5e0bce9a5903ec01bbc48e9cdb01bb33c3480085737a16f9a5a753befe4e"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 18421,
+      "local_sha256": "ab373374da875ea57ddb29de470ba53814a1d56cf9b1b176d7a8caa6b54fb1fa",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/LocalBindings/ContractNLI_4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40.json",
+      "sha256": "ab373374da875ea57ddb29de470ba53814a1d56cf9b1b176d7a8caa6b54fb1fa"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 12901,
+      "local_sha256": "13502c04a543d847582158815494f99cf3dd2ec704c80c7a1159e6a5c22b5866",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/LocalBindings/ContractNLI_d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d.json",
+      "sha256": "13502c04a543d847582158815494f99cf3dd2ec704c80c7a1159e6a5c22b5866"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 9005,
+      "local_sha256": "d40a749c789c6d5d5dc0261a7ad0e9b78f44e7ceba86aae2c33b0ecefcc229ba",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/LocalBindings/ContractNLI_e671a984356facb0c0666809e219fa44fa18d30e4f6252bbb33d8869fc43b1c9.json",
+      "sha256": "d40a749c789c6d5d5dc0261a7ad0e9b78f44e7ceba86aae2c33b0ecefcc229ba"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 6764,
+      "local_sha256": "5173d87386f63618183075e7e87dd82de6e866949018c8683cd6249e04294db1",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/SameInformationJoint/ContractNLI_4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40.json",
+      "sha256": "5173d87386f63618183075e7e87dd82de6e866949018c8683cd6249e04294db1"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 5077,
+      "local_sha256": "6eac48b25380968490540daf8229d89369bcb5777fb4bf8c8026f770d68c30e2",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/SameInformationJoint/ContractNLI_d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d.json",
+      "sha256": "6eac48b25380968490540daf8229d89369bcb5777fb4bf8c8026f770d68c30e2"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4307,
+      "local_sha256": "c0bc6ce79e2bb0e758fd25ae4fe893c43109bea723e26d66cc7afaa3b5b5161c",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/SameInformationJoint/ContractNLI_e671a984356facb0c0666809e219fa44fa18d30e4f6252bbb33d8869fc43b1c9.json",
+      "sha256": "c0bc6ce79e2bb0e758fd25ae4fe893c43109bea723e26d66cc7afaa3b5b5161c"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 59887,
+      "local_sha256": "c56f7e8ee4794b73cf578917d7ee523f266d3d1fd15360fc2eaaf6754f5cef1c",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/01013b08e0e3a28aa58ff9432a69f072932e12659d2bad6d260240e6a594724e/request.json",
+      "sha256": "c56f7e8ee4794b73cf578917d7ee523f266d3d1fd15360fc2eaaf6754f5cef1c"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 7929,
+      "local_sha256": "0702e9952104a7251036538c4fc86ba93b2af5d05d6b329144bc0fb44c524f0e",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/01013b08e0e3a28aa58ff9432a69f072932e12659d2bad6d260240e6a594724e/result.json",
+      "sha256": "0702e9952104a7251036538c4fc86ba93b2af5d05d6b329144bc0fb44c524f0e"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 40680,
+      "local_sha256": "3b31867e3772cadc5b431e96b44775b601690eb997fd75b2ad394b65247b91a9",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/01013b08e0e3a28aa58ff9432a69f072932e12659d2bad6d260240e6a594724e/wire_request.json",
+      "sha256": "3b31867e3772cadc5b431e96b44775b601690eb997fd75b2ad394b65247b91a9"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 10180,
+      "local_sha256": "2af2e38593a12f51589fb67fa963fc6154bb349097ef4ee02e7b316bf724130d",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/01013b08e0e3a28aa58ff9432a69f072932e12659d2bad6d260240e6a594724e/wire_response.json",
+      "sha256": "2af2e38593a12f51589fb67fa963fc6154bb349097ef4ee02e7b316bf724130d"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 71857,
+      "local_sha256": "9c131d7fe7e876b6504ce2717ccab8ff3e6b328b6c6ee289550a724cbdf0d5e7",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/2d72fc8259c272bce87721be252c54a748026ea98fa99d440e5591b31761c106/request.json",
+      "sha256": "9c131d7fe7e876b6504ce2717ccab8ff3e6b328b6c6ee289550a724cbdf0d5e7"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3344,
+      "local_sha256": "71cbbd2fab4540b856363dc48a3377f91275713fb1d746242518c9dbc536dc96",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/2d72fc8259c272bce87721be252c54a748026ea98fa99d440e5591b31761c106/result.json",
+      "sha256": "71cbbd2fab4540b856363dc48a3377f91275713fb1d746242518c9dbc536dc96"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 48856,
+      "local_sha256": "61bff2a05584576b254441fb0181f3c16e398cf79b49bc69ba2bf5cf649350b6",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/2d72fc8259c272bce87721be252c54a748026ea98fa99d440e5591b31761c106/wire_request.json",
+      "sha256": "61bff2a05584576b254441fb0181f3c16e398cf79b49bc69ba2bf5cf649350b6"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4073,
+      "local_sha256": "d8b343a0f03f219a3a93990e170379b3c3298899097687419473473f78992f39",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/2d72fc8259c272bce87721be252c54a748026ea98fa99d440e5591b31761c106/wire_response.json",
+      "sha256": "d8b343a0f03f219a3a93990e170379b3c3298899097687419473473f78992f39"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 49050,
+      "local_sha256": "b4c63440b265addaffa64b19abd7aadc9448ac4f3f29c1480dd220493a28810f",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/356555a0933e9ab34d26c3f2efb908de189604e00804a98ecc738a0989f59802/request.json",
+      "sha256": "b4c63440b265addaffa64b19abd7aadc9448ac4f3f29c1480dd220493a28810f"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4180,
+      "local_sha256": "60022b527ca1ca492be62f3f2fba7262ca5ccf51db28e66552894f965a711c3b",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/356555a0933e9ab34d26c3f2efb908de189604e00804a98ecc738a0989f59802/result.json",
+      "sha256": "60022b527ca1ca492be62f3f2fba7262ca5ccf51db28e66552894f965a711c3b"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 32744,
+      "local_sha256": "f2f5f18cdb9055ee094cb0fee64c5b4be83f2ab26cb55f5400228f8115974331",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/356555a0933e9ab34d26c3f2efb908de189604e00804a98ecc738a0989f59802/wire_request.json",
+      "sha256": "f2f5f18cdb9055ee094cb0fee64c5b4be83f2ab26cb55f5400228f8115974331"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 5181,
+      "local_sha256": "1875e5649ebb754aab37745139823211571be13383cba32e169d8f4a6b0dda6e",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/356555a0933e9ab34d26c3f2efb908de189604e00804a98ecc738a0989f59802/wire_response.json",
+      "sha256": "1875e5649ebb754aab37745139823211571be13383cba32e169d8f4a6b0dda6e"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 53882,
+      "local_sha256": "6fe40c63456c14b81f8310a1d0f35f510c45ceb15660ed9dfb7ef60610e5b81a",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/42cb54313c577714798a347efbf05fa8aca10710699f1f190169c71f232d8b0f/request.json",
+      "sha256": "6fe40c63456c14b81f8310a1d0f35f510c45ceb15660ed9dfb7ef60610e5b81a"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2186,
+      "local_sha256": "01e6d41b74e74161a3a220a4833b301043753ac2317831cdaaf7bc05a08753f4",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/42cb54313c577714798a347efbf05fa8aca10710699f1f190169c71f232d8b0f/result.json",
+      "sha256": "01e6d41b74e74161a3a220a4833b301043753ac2317831cdaaf7bc05a08753f4"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 36360,
+      "local_sha256": "c474c536bd017bfe18c57ce810d5ce96c26a8eacb1275e43a9164cb12b70da51",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/42cb54313c577714798a347efbf05fa8aca10710699f1f190169c71f232d8b0f/wire_request.json",
+      "sha256": "c474c536bd017bfe18c57ce810d5ce96c26a8eacb1275e43a9164cb12b70da51"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2532,
+      "local_sha256": "94dd5b4e73d22252310af2c6bacab072cc4375eee5b875d2b85b9670743879b6",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/42cb54313c577714798a347efbf05fa8aca10710699f1f190169c71f232d8b0f/wire_response.json",
+      "sha256": "94dd5b4e73d22252310af2c6bacab072cc4375eee5b875d2b85b9670743879b6"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 64719,
+      "local_sha256": "6b436f1569ff1dcac5a1f3be1697d6db5c0ba8f172186cda060cf79a7b9e11ef",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/8e53a4bacc1abcc18ee71c45fc55a2bea61a992c84cd3565753f50eaa9e36272/request.json",
+      "sha256": "6b436f1569ff1dcac5a1f3be1697d6db5c0ba8f172186cda060cf79a7b9e11ef"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2550,
+      "local_sha256": "8ac7b70bcc209c9f1b2fcf1ea7d27f4581173f106573c55b4c2094c90ed575f2",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/8e53a4bacc1abcc18ee71c45fc55a2bea61a992c84cd3565753f50eaa9e36272/result.json",
+      "sha256": "8ac7b70bcc209c9f1b2fcf1ea7d27f4581173f106573c55b4c2094c90ed575f2"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 44296,
+      "local_sha256": "804c08a22cd18fe65878f718f7d57811bd898c5f8f5e28d84127eae88278be57",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/8e53a4bacc1abcc18ee71c45fc55a2bea61a992c84cd3565753f50eaa9e36272/wire_request.json",
+      "sha256": "804c08a22cd18fe65878f718f7d57811bd898c5f8f5e28d84127eae88278be57"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3016,
+      "local_sha256": "f090d14c64e758308907c272f58dc8350e31294a4247b897554f86b8676081ff",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/8e53a4bacc1abcc18ee71c45fc55a2bea61a992c84cd3565753f50eaa9e36272/wire_response.json",
+      "sha256": "f090d14c64e758308907c272f58dc8350e31294a4247b897554f86b8676081ff"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 67025,
+      "local_sha256": "b23dd646c8f70e80e56a6efcd48236b73f0ac3961ad5679cd4935cc54e544ddf",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/e9f2b565a0ee4bc8464bd4c8925e9288b973aeea8ffc4529fa849f6397021e97/request.json",
+      "sha256": "b23dd646c8f70e80e56a6efcd48236b73f0ac3961ad5679cd4935cc54e544ddf"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 9023,
+      "local_sha256": "d9028fd985d80bb2f1d2250568f626c3199f0a7dc6947592ea7525825ddf901d",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/e9f2b565a0ee4bc8464bd4c8925e9288b973aeea8ffc4529fa849f6397021e97/result.json",
+      "sha256": "d9028fd985d80bb2f1d2250568f626c3199f0a7dc6947592ea7525825ddf901d"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 45240,
+      "local_sha256": "ee0a95b2a4cce983dbb1627b633ebf0a0fecd386fcd16261205233480dfb74b5",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/e9f2b565a0ee4bc8464bd4c8925e9288b973aeea8ffc4529fa849f6397021e97/wire_request.json",
+      "sha256": "ee0a95b2a4cce983dbb1627b633ebf0a0fecd386fcd16261205233480dfb74b5"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 11636,
+      "local_sha256": "1ac2d0e10bb9c9ad950da37f874b069e7c4e41a7cb6b3e05684559125eb355c3",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/calls/e9f2b565a0ee4bc8464bd4c8925e9288b973aeea8ffc4529fa849f6397021e97/wire_response.json",
+      "sha256": "1ac2d0e10bb9c9ad950da37f874b069e7c4e41a7cb6b3e05684559125eb355c3"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 45968,
+      "local_sha256": "1fd8b7fd8a174dafeda9ee7a99990fc3af85dba5127e397ace90a51fd65318ec",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/cost_and_integrity.json",
+      "sha256": "1fd8b7fd8a174dafeda9ee7a99990fc3af85dba5127e397ace90a51fd65318ec"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 7746,
+      "local_sha256": "dc3e97dd3e602a3e166db595aa31b4fa0c5589bcfa08fbb6d5d1f26f581b2ea8",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/protocol.json",
+      "sha256": "dc3e97dd3e602a3e166db595aa31b4fa0c5589bcfa08fbb6d5d1f26f581b2ea8"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1034,
+      "local_sha256": "fabfb4c345e2319c8ab892c76506db99f959c494a81abdb2edce4ec45667b06c",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/run.log",
+      "sha256": "fabfb4c345e2319c8ab892c76506db99f959c494a81abdb2edce4ec45667b06c"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 31307,
+      "local_sha256": "6150c7d01c5ec70f00e16e70f1c69cb6adb1554fde593d2e7022d41e13ffd4d1",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/shared_asset.json",
+      "sha256": "6150c7d01c5ec70f00e16e70f1c69cb6adb1554fde593d2e7022d41e13ffd4d1"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 56898,
+      "local_sha256": "5d95d56679baf0b57a865fb8f2c5ebd4bc791a4d1d8336a50e17fe2b1917868f",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_binding_failure_boundary.json",
+      "sha256": "5d95d56679baf0b57a865fb8f2c5ebd4bc791a4d1d8336a50e17fe2b1917868f"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 5111,
+      "local_sha256": "48542701abee71ed9d7e7f8d336bc0157fdb40953b91bbb7a01ede0233a9d904",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_semantic_review.json",
+      "sha256": "48542701abee71ed9d7e7f8d336bc0157fdb40953b91bbb7a01ede0233a9d904"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3867,
+      "local_sha256": "65e1479a7e1f341acd3a096d1ad820c8180bc55b917cc5cada4656fecbdff07b",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/experiments/legal_skill_evolution_binding_decoder_check.py",
+      "sha256": "65e1479a7e1f341acd3a096d1ad820c8180bc55b917cc5cada4656fecbdff07b"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 11346,
+      "local_sha256": "3dbead369aa3d86cedee493a9bfc4d83796958b1b9714aaeb69f8a286965c5d6",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/experiments/legal_skill_evolution_neural_span_compiler.py",
+      "sha256": "3dbead369aa3d86cedee493a9bfc4d83796958b1b9714aaeb69f8a286965c5d6"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 79,
+      "local_sha256": "c5ac97c0b7bfc6bfeb68c34c3ef582424f49304fdf60ab4a0b499478b55c6adc",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/__init__.py",
+      "sha256": "c5ac97c0b7bfc6bfeb68c34c3ef582424f49304fdf60ab4a0b499478b55c6adc"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3239,
+      "local_sha256": "7ca341c6ecde67dd0e5a11ed75357cef3018ca7c31b1169610bbbf0e63543ca1",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/answer_domain.py",
+      "sha256": "7ca341c6ecde67dd0e5a11ed75357cef3018ca7c31b1169610bbbf0e63543ca1"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4210,
+      "local_sha256": "4b28ecb76d57495858e573e14de39c34bd80e656174b48d3c2a72a9d3fc2bada",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/claim_scope.py",
+      "sha256": "4b28ecb76d57495858e573e14de39c34bd80e656174b48d3c2a72a9d3fc2bada"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 8029,
+      "local_sha256": "6f01719b8a9c2e1cb8ebb21ac7241695c51516585f68204ba48a3e3e4e1f87fd",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/clients.py",
+      "sha256": "6f01719b8a9c2e1cb8ebb21ac7241695c51516585f68204ba48a3e3e4e1f87fd"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 11985,
+      "local_sha256": "f7b7b0fc68d979829aa82fac3d3704ec82152d495e4ffd81347d3a8e6fd99368",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/compositional_compiler.py",
+      "sha256": "f7b7b0fc68d979829aa82fac3d3704ec82152d495e4ffd81347d3a8e6fd99368"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3832,
+      "local_sha256": "b2558aa68dfdd1f59f55020d29691a9d82a23e459c13338d63695f67f03550fc",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/controlled.py",
+      "sha256": "b2558aa68dfdd1f59f55020d29691a9d82a23e459c13338d63695f67f03550fc"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2915,
+      "local_sha256": "6ab4dff7757ee52b1e967bc393c6f236834450c921eb87281ccbfcfe78793830",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/coupling.py",
+      "sha256": "6ab4dff7757ee52b1e967bc393c6f236834450c921eb87281ccbfcfe78793830"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 12616,
+      "local_sha256": "e3b9d0b259a83b0cc271955b0936a3e3ccedb4e090665619f0e7105e52845fb5",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/data.py",
+      "sha256": "e3b9d0b259a83b0cc271955b0936a3e3ccedb4e090665619f0e7105e52845fb5"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 395,
+      "local_sha256": "de9b7cd33359ccc9e65ff67ec2730b6a31f3f09a8d272ce7c8bf848188c70da7",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/grade_worker.py",
+      "sha256": "de9b7cd33359ccc9e65ff67ec2730b6a31f3f09a8d272ce7c8bf848188c70da7"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3274,
+      "local_sha256": "11540ed9212a76badff320e6a148c91f3dba44b76880ac9f16914d3852a12c73",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/grounding.py",
+      "sha256": "11540ed9212a76badff320e6a148c91f3dba44b76880ac9f16914d3852a12c73"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 5664,
+      "local_sha256": "a2997de1c6e94a7382ebbd8073ed8fc3267c9d3f82bff905503c4f69d520bcf1",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/ledger.py",
+      "sha256": "a2997de1c6e94a7382ebbd8073ed8fc3267c9d3f82bff905503c4f69d520bcf1"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3886,
+      "local_sha256": "d77a18deddd8929f54b15074de9f8a76783e70d6d459974bd358c1021286d53a",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/lift_proposals.py",
+      "sha256": "d77a18deddd8929f54b15074de9f8a76783e70d6d459974bd358c1021286d53a"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2534,
+      "local_sha256": "a5fa0e374e72cbb5117957fce79b59a2b427ac530b5f57ee5ea27f827e9768d8",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/literal_facts.py",
+      "sha256": "a5fa0e374e72cbb5117957fce79b59a2b427ac530b5f57ee5ea27f827e9768d8"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 8716,
+      "local_sha256": "2a7d56ffeebac7bceef85066a410d324cfdebae46a7c1ad26a08f76234aac457",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/native.py",
+      "sha256": "2a7d56ffeebac7bceef85066a410d324cfdebae46a7c1ad26a08f76234aac457"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 7146,
+      "local_sha256": "52c35a68409aa3deba0752b94b46753a2712889224229fd334328afb56d48537",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/neural_span_compiler.py",
+      "sha256": "52c35a68409aa3deba0752b94b46753a2712889224229fd334328afb56d48537"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3897,
+      "local_sha256": "ad7f929e74d34ae5352892d406e440892cd326f5905c76d26dab403c5d932954",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/nqg_indexed_splits.py",
+      "sha256": "ad7f929e74d34ae5352892d406e440892cd326f5905c76d26dab403c5d932954"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 14417,
+      "local_sha256": "8f0eb0ab590d67a9f5c3c9bae994c5438508c1a0468ae5490ca632331a5bc0fd",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/objects.py",
+      "sha256": "8f0eb0ab590d67a9f5c3c9bae994c5438508c1a0468ae5490ca632331a5bc0fd"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 16593,
+      "local_sha256": "5340415199ce737739432c1f08067e0d58a63a738f7ddaf267621a08b26959be",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/patterns.py",
+      "sha256": "5340415199ce737739432c1f08067e0d58a63a738f7ddaf267621a08b26959be"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 8041,
+      "local_sha256": "277d3bd02eb6c4138421aa3e994e8e2321a3a8dff7d6456ab5ed105430de618b",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/proposal_batch.py",
+      "sha256": "277d3bd02eb6c4138421aa3e994e8e2321a3a8dff7d6456ab5ed105430de618b"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 12137,
+      "local_sha256": "c5dc63318ab1b200994216d1061b16de27033f89f4ceb5f8283873d8444464f0",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/responsibilities.py",
+      "sha256": "c5dc63318ab1b200994216d1061b16de27033f89f4ceb5f8283873d8444464f0"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 8051,
+      "local_sha256": "8f209831cf8e9695708b40b124f99db950660408b1b6bab7d8e073efec3352ff",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/revisions.py",
+      "sha256": "8f209831cf8e9695708b40b124f99db950660408b1b6bab7d8e073efec3352ff"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 34871,
+      "local_sha256": "a08711e6aa0f79bd4ba96db7509d5864f08904a346c5e204d770532560f8be17",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/runtime.py",
+      "sha256": "a08711e6aa0f79bd4ba96db7509d5864f08904a346c5e204d770532560f8be17"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1053,
+      "local_sha256": "014689ec3ccc0624e4d2608017ee495072c2abcb725c9846d70c6a1099b38d92",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/source_fragments.py",
+      "sha256": "014689ec3ccc0624e4d2608017ee495072c2abcb725c9846d70c6a1099b38d92"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 12437,
+      "local_sha256": "2629b61a4877869ea42c7739510c944cd8a53b3cab50c111fd8bfcb0861b2140",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/source_schema.py",
+      "sha256": "2629b61a4877869ea42c7739510c944cd8a53b3cab50c111fd8bfcb0861b2140"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 18759,
+      "local_sha256": "55640e25aeafe584103bb848a6e65640bfb12a64b36ca976cb512a3183d4a1c9",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/span_compiler.py",
+      "sha256": "55640e25aeafe584103bb848a6e65640bfb12a64b36ca976cb512a3183d4a1c9"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1109,
+      "local_sha256": "0570e3c808408ecb9993c972ceec40c99c13ce5edbe30f783a81d9dcdb37f002",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/span_compiler_worker.py",
+      "sha256": "0570e3c808408ecb9993c972ceec40c99c13ce5edbe30f783a81d9dcdb37f002"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 18364,
+      "local_sha256": "f95bf2eea132d672c454495002363e9cba7699d5cf36599fd5df144dc0c6e669",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/study.py",
+      "sha256": "f95bf2eea132d672c454495002363e9cba7699d5cf36599fd5df144dc0c6e669"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 984,
+      "local_sha256": "64755313cdec12434e079fc0c621a95ed12c9b383150375cc3b5481e52390d55",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/task_roles.py",
+      "sha256": "64755313cdec12434e079fc0c621a95ed12c9b383150375cc3b5481e52390d55"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 36153,
+      "local_sha256": "52731a4c5f542af2bdf583a049827f27e567263e7981cd932da66563005e9e5c",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/teacher.py",
+      "sha256": "52731a4c5f542af2bdf583a049827f27e567263e7981cd932da66563005e9e5c"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2552,
+      "local_sha256": "678e7bc8f51bf5bff0c3c7066973df8f81ce0ae2722e9908e3c50105908c4b13",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/teacher_transport.py",
+      "sha256": "678e7bc8f51bf5bff0c3c7066973df8f81ce0ae2722e9908e3c50105908c4b13"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1055,
+      "local_sha256": "04b87baa9b147cecf3370a5734d6314f100b08e5e43d4c6e5305e028e06f6177",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/legal_skill_guard/skill_evolution/worker.py",
+      "sha256": "04b87baa9b147cecf3370a5734d6314f100b08e5e43d4c6e5305e028e06f6177"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4017,
+      "local_sha256": "4ed0ffb45feb31efb0785cfcef663c32630ddeef6165d9538893b6fc72f993d6",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/tests/test_skill_evolution_neural_span_compiler.py",
+      "sha256": "4ed0ffb45feb31efb0785cfcef663c32630ddeef6165d9538893b6fc72f993d6"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 7861,
+      "local_sha256": "c53223e497bcb760f4b9f91ef5588680dd4bf2634f3a8c5d74e83896a5948c8a",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/after_repair/source_snapshot/tests/test_skill_evolution_source_schema.py",
+      "sha256": "c53223e497bcb760f4b9f91ef5588680dd4bf2634f3a8c5d74e83896a5948c8a"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 23363,
+      "local_sha256": "f9ddc7ee03ea110e1496f76e23b2b49edc5ec9892303a6aeb3d2b971e8fe2569",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/LocalBindings/ContractNLI_d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d.json",
+      "sha256": "f9ddc7ee03ea110e1496f76e23b2b49edc5ec9892303a6aeb3d2b971e8fe2569"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 59561,
+      "local_sha256": "f804653f3639f3444cf86e86442df9eed6154ee018fdd72f295b5f334ff41fe5",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/calls/5c6139386cb5d76d3d0dba4f98b308f2422840f4806cb73c95819861ef54b8e3/request.json",
+      "sha256": "f804653f3639f3444cf86e86442df9eed6154ee018fdd72f295b5f334ff41fe5"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 11682,
+      "local_sha256": "e06ee827f7b152515df8cb1f2fd038364c18c7f03fb12495e3c839b346164daa",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/calls/5c6139386cb5d76d3d0dba4f98b308f2422840f4806cb73c95819861ef54b8e3/result.json",
+      "sha256": "e06ee827f7b152515df8cb1f2fd038364c18c7f03fb12495e3c839b346164daa"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 40516,
+      "local_sha256": "deee6721d6962e697a0b1bf0f2c9f481d00f258d295332973807be2718c5ecc6",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/calls/5c6139386cb5d76d3d0dba4f98b308f2422840f4806cb73c95819861ef54b8e3/wire_request.json",
+      "sha256": "deee6721d6962e697a0b1bf0f2c9f481d00f258d295332973807be2718c5ecc6"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 15184,
+      "local_sha256": "7d9bc47ece3ebc04d998036fcb30787ea02befbc010537a3b35bee1467f325f0",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/calls/5c6139386cb5d76d3d0dba4f98b308f2422840f4806cb73c95819861ef54b8e3/wire_response.json",
+      "sha256": "7d9bc47ece3ebc04d998036fcb30787ea02befbc010537a3b35bee1467f325f0"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 153,
+      "local_sha256": "8d8c4ca112a3eaeaecfd6e0a46742b24cc18c58d8f54979257d51abbc79a7468",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/decoder_length_check.json",
+      "sha256": "8d8c4ca112a3eaeaecfd6e0a46742b24cc18c58d8f54979257d51abbc79a7468"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2886,
+      "local_sha256": "ea93a57d0150f311dfbf0ecc078e33f0774efe81bf7c8552b90605a48795f30a",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/exact_decoder_repair_evidence.json",
+      "sha256": "ea93a57d0150f311dfbf0ecc078e33f0774efe81bf7c8552b90605a48795f30a"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 626,
+      "local_sha256": "074d712e8c86a1dc73880c347bb8167e33910175ac1aab0aad6c613e24779c23",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/offline_decoder_benchmark.json",
+      "sha256": "074d712e8c86a1dc73880c347bb8167e33910175ac1aab0aad6c613e24779c23"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 6953,
+      "local_sha256": "1b69f03be72ce0e1398d12973550c862a49cccbcdc68eedd5422fb35b7495800",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/protocol.json",
+      "sha256": "1b69f03be72ce0e1398d12973550c862a49cccbcdc68eedd5422fb35b7495800"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1618,
+      "local_sha256": "d9a1ba699e33f8c80fd218babaa6258039a519bd2bf8b084c2e618226688fc2f",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/run.log",
+      "sha256": "d9a1ba699e33f8c80fd218babaa6258039a519bd2bf8b084c2e618226688fc2f"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 31307,
+      "local_sha256": "6150c7d01c5ec70f00e16e70f1c69cb6adb1554fde593d2e7022d41e13ffd4d1",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/shared_asset.json",
+      "sha256": "6150c7d01c5ec70f00e16e70f1c69cb6adb1554fde593d2e7022d41e13ffd4d1"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 10018,
+      "local_sha256": "78a3909b39f2f59c4958346774b70369cb8150e2cc4ccd8542ce3fdc01ccd7c1",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/experiments/legal_skill_evolution_neural_span_compiler.py",
+      "sha256": "78a3909b39f2f59c4958346774b70369cb8150e2cc4ccd8542ce3fdc01ccd7c1"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 79,
+      "local_sha256": "c5ac97c0b7bfc6bfeb68c34c3ef582424f49304fdf60ab4a0b499478b55c6adc",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/__init__.py",
+      "sha256": "c5ac97c0b7bfc6bfeb68c34c3ef582424f49304fdf60ab4a0b499478b55c6adc"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3239,
+      "local_sha256": "7ca341c6ecde67dd0e5a11ed75357cef3018ca7c31b1169610bbbf0e63543ca1",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/answer_domain.py",
+      "sha256": "7ca341c6ecde67dd0e5a11ed75357cef3018ca7c31b1169610bbbf0e63543ca1"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4210,
+      "local_sha256": "4b28ecb76d57495858e573e14de39c34bd80e656174b48d3c2a72a9d3fc2bada",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/claim_scope.py",
+      "sha256": "4b28ecb76d57495858e573e14de39c34bd80e656174b48d3c2a72a9d3fc2bada"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 8029,
+      "local_sha256": "6f01719b8a9c2e1cb8ebb21ac7241695c51516585f68204ba48a3e3e4e1f87fd",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/clients.py",
+      "sha256": "6f01719b8a9c2e1cb8ebb21ac7241695c51516585f68204ba48a3e3e4e1f87fd"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 11985,
+      "local_sha256": "f7b7b0fc68d979829aa82fac3d3704ec82152d495e4ffd81347d3a8e6fd99368",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/compositional_compiler.py",
+      "sha256": "f7b7b0fc68d979829aa82fac3d3704ec82152d495e4ffd81347d3a8e6fd99368"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3832,
+      "local_sha256": "b2558aa68dfdd1f59f55020d29691a9d82a23e459c13338d63695f67f03550fc",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/controlled.py",
+      "sha256": "b2558aa68dfdd1f59f55020d29691a9d82a23e459c13338d63695f67f03550fc"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2915,
+      "local_sha256": "6ab4dff7757ee52b1e967bc393c6f236834450c921eb87281ccbfcfe78793830",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/coupling.py",
+      "sha256": "6ab4dff7757ee52b1e967bc393c6f236834450c921eb87281ccbfcfe78793830"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 12616,
+      "local_sha256": "e3b9d0b259a83b0cc271955b0936a3e3ccedb4e090665619f0e7105e52845fb5",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/data.py",
+      "sha256": "e3b9d0b259a83b0cc271955b0936a3e3ccedb4e090665619f0e7105e52845fb5"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 395,
+      "local_sha256": "de9b7cd33359ccc9e65ff67ec2730b6a31f3f09a8d272ce7c8bf848188c70da7",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/grade_worker.py",
+      "sha256": "de9b7cd33359ccc9e65ff67ec2730b6a31f3f09a8d272ce7c8bf848188c70da7"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3274,
+      "local_sha256": "11540ed9212a76badff320e6a148c91f3dba44b76880ac9f16914d3852a12c73",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/grounding.py",
+      "sha256": "11540ed9212a76badff320e6a148c91f3dba44b76880ac9f16914d3852a12c73"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 5664,
+      "local_sha256": "a2997de1c6e94a7382ebbd8073ed8fc3267c9d3f82bff905503c4f69d520bcf1",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/ledger.py",
+      "sha256": "a2997de1c6e94a7382ebbd8073ed8fc3267c9d3f82bff905503c4f69d520bcf1"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3886,
+      "local_sha256": "d77a18deddd8929f54b15074de9f8a76783e70d6d459974bd358c1021286d53a",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/lift_proposals.py",
+      "sha256": "d77a18deddd8929f54b15074de9f8a76783e70d6d459974bd358c1021286d53a"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2534,
+      "local_sha256": "a5fa0e374e72cbb5117957fce79b59a2b427ac530b5f57ee5ea27f827e9768d8",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/literal_facts.py",
+      "sha256": "a5fa0e374e72cbb5117957fce79b59a2b427ac530b5f57ee5ea27f827e9768d8"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 8716,
+      "local_sha256": "2a7d56ffeebac7bceef85066a410d324cfdebae46a7c1ad26a08f76234aac457",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/native.py",
+      "sha256": "2a7d56ffeebac7bceef85066a410d324cfdebae46a7c1ad26a08f76234aac457"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 6942,
+      "local_sha256": "ec8f19e59deaeec7d6ff8f04802e44cfe1d7906c825175571c22f2ae74b42cea",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/neural_span_compiler.py",
+      "sha256": "ec8f19e59deaeec7d6ff8f04802e44cfe1d7906c825175571c22f2ae74b42cea"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 3897,
+      "local_sha256": "ad7f929e74d34ae5352892d406e440892cd326f5905c76d26dab403c5d932954",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/nqg_indexed_splits.py",
+      "sha256": "ad7f929e74d34ae5352892d406e440892cd326f5905c76d26dab403c5d932954"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 14417,
+      "local_sha256": "8f0eb0ab590d67a9f5c3c9bae994c5438508c1a0468ae5490ca632331a5bc0fd",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/objects.py",
+      "sha256": "8f0eb0ab590d67a9f5c3c9bae994c5438508c1a0468ae5490ca632331a5bc0fd"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 16593,
+      "local_sha256": "5340415199ce737739432c1f08067e0d58a63a738f7ddaf267621a08b26959be",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/patterns.py",
+      "sha256": "5340415199ce737739432c1f08067e0d58a63a738f7ddaf267621a08b26959be"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 8041,
+      "local_sha256": "277d3bd02eb6c4138421aa3e994e8e2321a3a8dff7d6456ab5ed105430de618b",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/proposal_batch.py",
+      "sha256": "277d3bd02eb6c4138421aa3e994e8e2321a3a8dff7d6456ab5ed105430de618b"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 12137,
+      "local_sha256": "c5dc63318ab1b200994216d1061b16de27033f89f4ceb5f8283873d8444464f0",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/responsibilities.py",
+      "sha256": "c5dc63318ab1b200994216d1061b16de27033f89f4ceb5f8283873d8444464f0"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 8051,
+      "local_sha256": "8f209831cf8e9695708b40b124f99db950660408b1b6bab7d8e073efec3352ff",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/revisions.py",
+      "sha256": "8f209831cf8e9695708b40b124f99db950660408b1b6bab7d8e073efec3352ff"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 34281,
+      "local_sha256": "4d55268e73d40b7de61e267e44ea4f5136cd011bdf55cad2a7d8bf9a3a140d34",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/runtime.py",
+      "sha256": "4d55268e73d40b7de61e267e44ea4f5136cd011bdf55cad2a7d8bf9a3a140d34"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1053,
+      "local_sha256": "014689ec3ccc0624e4d2608017ee495072c2abcb725c9846d70c6a1099b38d92",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/source_fragments.py",
+      "sha256": "014689ec3ccc0624e4d2608017ee495072c2abcb725c9846d70c6a1099b38d92"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 12437,
+      "local_sha256": "2629b61a4877869ea42c7739510c944cd8a53b3cab50c111fd8bfcb0861b2140",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/source_schema.py",
+      "sha256": "2629b61a4877869ea42c7739510c944cd8a53b3cab50c111fd8bfcb0861b2140"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 18759,
+      "local_sha256": "55640e25aeafe584103bb848a6e65640bfb12a64b36ca976cb512a3183d4a1c9",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/span_compiler.py",
+      "sha256": "55640e25aeafe584103bb848a6e65640bfb12a64b36ca976cb512a3183d4a1c9"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1109,
+      "local_sha256": "0570e3c808408ecb9993c972ceec40c99c13ce5edbe30f783a81d9dcdb37f002",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/span_compiler_worker.py",
+      "sha256": "0570e3c808408ecb9993c972ceec40c99c13ce5edbe30f783a81d9dcdb37f002"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 18364,
+      "local_sha256": "f95bf2eea132d672c454495002363e9cba7699d5cf36599fd5df144dc0c6e669",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/study.py",
+      "sha256": "f95bf2eea132d672c454495002363e9cba7699d5cf36599fd5df144dc0c6e669"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 984,
+      "local_sha256": "64755313cdec12434e079fc0c621a95ed12c9b383150375cc3b5481e52390d55",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/task_roles.py",
+      "sha256": "64755313cdec12434e079fc0c621a95ed12c9b383150375cc3b5481e52390d55"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 36153,
+      "local_sha256": "52731a4c5f542af2bdf583a049827f27e567263e7981cd932da66563005e9e5c",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/teacher.py",
+      "sha256": "52731a4c5f542af2bdf583a049827f27e567263e7981cd932da66563005e9e5c"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 2552,
+      "local_sha256": "678e7bc8f51bf5bff0c3c7066973df8f81ce0ae2722e9908e3c50105908c4b13",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/teacher_transport.py",
+      "sha256": "678e7bc8f51bf5bff0c3c7066973df8f81ce0ae2722e9908e3c50105908c4b13"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 1055,
+      "local_sha256": "04b87baa9b147cecf3370a5734d6314f100b08e5e43d4c6e5305e028e06f6177",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/legal_skill_guard/skill_evolution/worker.py",
+      "sha256": "04b87baa9b147cecf3370a5734d6314f100b08e5e43d4c6e5305e028e06f6177"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4017,
+      "local_sha256": "4ed0ffb45feb31efb0785cfcef663c32630ddeef6165d9538893b6fc72f993d6",
+      "path": "reports/legal_skill_evolution_run_20261111/neural_span_compiler_evidence/before_repair/source_snapshot/tests/test_skill_evolution_neural_span_compiler.py",
+      "sha256": "4ed0ffb45feb31efb0785cfcef663c32630ddeef6165d9538893b6fc72f993d6"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 4017,
+      "local_sha256": "4ed0ffb45feb31efb0785cfcef663c32630ddeef6165d9538893b6fc72f993d6",
+      "path": "tests/test_skill_evolution_neural_span_compiler.py",
+      "sha256": "4ed0ffb45feb31efb0785cfcef663c32630ddeef6165d9538893b6fc72f993d6"
+    },
+    {
+      "byte_identical": true,
+      "bytes": 7861,
+      "local_sha256": "c53223e497bcb760f4b9f91ef5588680dd4bf2634f3a8c5d74e83896a5948c8a",
+      "path": "tests/test_skill_evolution_source_schema.py",
+      "sha256": "c53223e497bcb760f4b9f91ef5588680dd4bf2634f3a8c5d74e83896a5948c8a"
+    }
+  ],
+  "goal_complete": false,
+  "goal_status": "active",
+  "implementation_commit": "e8ea563ae536a0c1977e9935af4bd88c60b3729d",
+  "joint_core_native_correct": 5,
+  "joint_core_views": 6,
+  "joint_correct_with_corresponding_source_semantics": 4,
+  "joint_fallback_views": 6,
+  "local_core_native_correct": 3,
+  "local_core_views": 3,
+  "local_fallback_views": 9,
+  "main_unchanged": true,
+  "new_contract_local_core_views": 0,
+  "new_physical_requests": {
+    "executor": 7,
+    "teacher": 0
+  },
+  "no_new_full_training_DEV_TEST_or_paper": true,
+  "old_ledger_call_rows_unchanged": 9459,
+  "original_frozen_entries_unchanged": 206,
+  "original_prompt_host_length_checks_retained": true,
+  "paired_TRAIN_parents": 3,
+  "pending": 0,
+  "prespecified_fourth_not_dispatched": true,
+  "private_local_ancestry_uploaded": false,
+  "prompt_tokens": 46313,
+  "public_parent": "12c49545e7a1ed22eb9cae044a458578b717618b",
+  "public_variants": {
+    "GITHUB_LATEST.md": "Portable navigation; original frozen root README retained locally.",
+    "README.md": "Portable navigation; original frozen root README retained locally."
+  },
+  "regressions_passed": 149,
+  "two_contributions_established": false
+}
