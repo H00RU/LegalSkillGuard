@@ -49,34 +49,53 @@ CALLS = {'min', 'max', 'sum', 'len', 'abs', 'round', 'sorted', 'all', 'any', 'in
     'zip', 'isinstance', 'ValueError', 'KeyError', 'TypeError'}
 
 
-def validate_procedure(code):
+def validate_procedure(code, *, allow_helpers=False):
     tree = ast.parse(code)
-    if (len(tree.body) != 1 or not isinstance(tree.body[0], ast.FunctionDef)
-            or tree.body[0].name != 'apply'):
+    functions = [n for n in tree.body if isinstance(n, ast.FunctionDef)]
+    if not allow_helpers and (len(tree.body) != 1 or len(functions) != 1):
         raise ValueError('One apply(inputs, premises) function required')
-    f = tree.body[0]
+    if len(functions) != len(tree.body) or sum(f.name == 'apply' for f in functions) != 1:
+        raise ValueError('Pure top-level functions with one apply entry required')
+    if len({f.name for f in functions}) != len(functions):raise ValueError('Duplicate source helper')
+    f = next(f for f in functions if f.name == 'apply')
     if (f.decorator_list or f.args.vararg or f.args.kwarg or f.args.kwonlyargs
             or f.args.defaults or [a.arg for a in f.args.args] != ['inputs', 'premises']):
         raise ValueError('Explicit JSON input bindings required')
     forbidden = (ast.Import, ast.ImportFrom, ast.Global, ast.Nonlocal, ast.ClassDef,
         ast.Lambda, ast.With, ast.AsyncFunctionDef)
     if any(isinstance(n, forbidden) for n in ast.walk(tree)):raise ValueError('Effectful code forbidden')
-    if sum(isinstance(n, ast.FunctionDef) for n in ast.walk(tree)) != 1:raise ValueError('No nested functions')
+    if sum(isinstance(n, ast.FunctionDef) for n in ast.walk(tree)) != len(functions):raise ValueError('No nested functions')
+    if any(f.decorator_list for f in functions):raise ValueError('No function decorators')
+    local_calls = {f.name for f in functions} if allow_helpers else set()
     for n in ast.walk(tree):
         if isinstance(n, ast.Name) and n.id.startswith('__'):raise ValueError('No introspection')
         if isinstance(n, ast.Attribute) and n.attr not in METHODS:raise ValueError('Unsupported attribute: ' + n.attr)
-        if isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id not in CALLS:
+        if isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id not in CALLS | local_calls:
             raise ValueError('Unsupported call: ' + n.func.id)
+    graph = {f.name: {n.func.id for n in ast.walk(f) if isinstance(n, ast.Call)
+        and isinstance(n.func, ast.Name) and n.func.id in local_calls} for f in functions}
+    visited = set()
+    def visit(name, stack):
+        if name in stack:raise ValueError('Recursive source helper')
+        if name in visited:return
+        for target in graph[name]:visit(target, stack | {name})
+        visited.add(name)
+    for name in graph:visit(name, set())
     return code
 
 
-def execute(code, inputs, premises):
-    validate_procedure(code)
+def execute_json(code, inputs, premises, *, allow_helpers=False):
+    validate_procedure(code, allow_helpers=allow_helpers)
     out = subprocess.run([sys.executable, '-I', '-S', str(Path(__file__).with_name('span_compiler_worker.py'))],
         input=json.dumps({'procedure': code, 'inputs': inputs, 'premises': premises}, ensure_ascii=False),
         capture_output=True, text=True, timeout=4, cwd='/tmp', env={'LANG': 'C.UTF-8'}, close_fds=True)
     if out.returncode:raise ValueError('Learned source procedure failed: ' + out.stderr[-1000:])
-    value = json.loads(out.stdout);jsonschema.validate(value, RESULT_SCHEMA)
+    return json.loads(out.stdout)
+
+
+def execute(code, inputs, premises):
+    value = execute_json(code, inputs, premises)
+    jsonschema.validate(value, RESULT_SCHEMA)
     if 'records' in premises:
         if any(i >= len(premises['records']) for i in value['used_records']):raise ValueError('Missing record proof reference')
         if value['handled'] and not value['used_records']:raise ValueError('No grounded record for handled result')
