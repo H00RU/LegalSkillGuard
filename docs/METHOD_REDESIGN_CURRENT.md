@@ -84,6 +84,8 @@ TRAIN异常成本引用已离线补齐：28条原生视图禁网精确回放找�
 
 原生局部联动并不等于语义通过：接收人/场景数组混入材料与活动，d50返回完整句子而程序要求类别原子。当前中间表示仍不可靠。原首个Lift案例另用真实字段做零调用反证，最小变化只有permitted_representative_classes，不再重跑该例追求耦合增益。新调用11E/0T，累计9218E/162T、在途0；模型OFF、采样和输出上限不变。原请求、失败、oracle及206项原绑定保留，原各阶段源码快照齐备。
 
-CoRev进一步核对出两个明确实现差距：现有关系字段只有preliminary/terminal、类型和USE，无法区分实际消费者对False由Contradiction改为NotMentioned；原方案4.6的职责变化、使用方式和源关系未充分表达。当前模板仅存P，真实提议会改READ前提和绑定，连对自身旧程序的移植都失败。该缺口不替当前未通过的版本表免责，不把拒绝包加入模式库。[代码与实际程序反证](../reports/legal_skill_evolution_run_20261111/source_rule_CoRev_implementation_audit.json)。
+CoRev此前核对出两个实现差距。READ/前提编辑移植已在隔离工程树实现：模式保存完整前后Skill，当前候选同时携带P、READ、类型和绑定，依赖ID重绑定；Full/Generic共享编译。实际拒绝提议的2个技能完整重建，7组实际缓存执行输出一致，101项回归通过，新增0E/0T，累计9218E/162T、在途0。原拒绝包仍不入库，正向学习/候选路径只用隔离合成fixture检查，不计研究成功。[完整编辑回归](../reports/legal_skill_evolution_run_20261111/source_rule_full_edit_regression.json)。
 
-下一项实际工作：实现有界、保持语义的完整READ/前提编辑模板及绑定校验，向Generic开放相同编辑能力；先用已有真实提议离线编译，不猜造新源常量，不绕过原生/历史准入。随后补充由实际程序、读写事件与源定位支持的职责差分，未核实的源关系保留unknown；不把粗声明当已验证语义。不追加教师请求、完整训练/矩阵或旧TEST；有明确实现和离线证据后才作必要定点验证。仍须真实可接受共同修订及另一母来源实际使用，不能以原生局部改善或工程补齐完成Goal。
+仍未充分实现的是职责关系：粗粒度preliminary/terminal、类型和USE不能表示实际消费者对False由Contradiction改为NotMentioned。原方案4.6要求的职责变化、使用方式和源关系绑定须落实到可核对证据，不能仅凭声明匹配。[修复前程序审计](../reports/legal_skill_evolution_run_20261111/source_rule_CoRev_implementation_audit.json)保留。
+
+下一项实际工作：针对已有真实程序/轨迹构建有界责任差分与关系匹配，核对哪些字段来自代码行为、哪些来自明确源关系，未知保持unknown；与原Generic信息及可执行编辑能力公平比较。先完成离线实现与实际记录反证，不追加教师、完整训练/矩阵或旧TEST。之后才按明确问题作必要定点验证；仍须真实可接受共同修订与另一母来源实际模式使用。不得把本轮编译、合成fixture或原生局部改善当作两项贡献成立。

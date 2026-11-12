@@ -4,11 +4,11 @@ from copy import deepcopy
 from dataclasses import asdict, replace
 import difflib
 
-from .objects import digest, dependency_arguments
+from .objects import Skill, digest, dependency_arguments
 from .revisions import rank_patterns, observe_transfer
 
 
-def instantiate_edit(before, after, target):
+def instantiate_edit(before, after, target, *, declared_ports=None, allow_query_predicates=False):
     """Alpha-match old code and transplant its measured edit, without new law.
 
     Source literals present in the old helper must bind consistently to the
@@ -21,6 +21,7 @@ def instantiate_edit(before, after, target):
         if type(a) is not type(b):
             return False
         if isinstance(a, ast.Name):
+            if a.id in ('inputs', 'premises'):return a.id == b.id
             prior = names.setdefault(a.id, b.id)
             return prior == b.id
         if isinstance(a, ast.Constant):
@@ -29,6 +30,9 @@ def instantiate_edit(before, after, target):
             prior = constants.setdefault(key, b.value)
             return prior == b.value
         if isinstance(a, ast.AST):
+            if (isinstance(a, ast.Call) and isinstance(a.func, ast.Name)
+                    and isinstance(b.func, ast.Name) and a.func.id != b.func.id):
+                return False  # min/max and other primitives are operations, not local variables.
             return all(match(getattr(a, k), getattr(b, k)) for k in a._fields)
         if isinstance(a, list):
             return len(a) == len(b) and all(match(x, y) for x, y in zip(a, b))
@@ -36,6 +40,40 @@ def instantiate_edit(before, after, target):
 
     if not match(old, current):
         return None
+
+    new_locals = {n.id for n in ast.walk(new) if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Store)} - set(names)
+    occupied = set(names.values()) | new_locals | {'inputs', 'premises'}
+    for local in sorted(new_locals & set(names.values())):
+        index = 0
+        while '_edit_local_' + str(index) in occupied:index += 1
+        replacement = '_edit_local_' + str(index)
+        names[local] = replacement;occupied.add(replacement)
+
+    parents = {id(child): node for node in ast.walk(new) for child in ast.iter_child_nodes(node)}
+    stores = {}
+    for node in ast.walk(new):
+        if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store):
+            stores[node.id] = stores.get(node.id, 0) + 1
+    query_names = set()
+    for node in ast.walk(new):
+        if (isinstance(node, ast.Assign) and len(node.targets) == 1
+                and isinstance(node.targets[0], ast.Name) and stores[node.targets[0].id] == 1
+                and isinstance(node.value, ast.Subscript)
+                and isinstance(node.value.value, ast.Name) and node.value.value.id == 'inputs'
+                and isinstance(node.value.slice, ast.Constant) and node.value.slice.value == 'current_question'):
+            query_names.add(node.targets[0].id)
+
+    def declared_literal(node):
+        parent = parents.get(id(node))
+        if (isinstance(parent, ast.Subscript) and parent.slice is node
+                and isinstance(parent.value, ast.Name)
+                and node.value in (declared_ports or {}).get(parent.value.id, ())):
+            return True  # The complete template supplies its type and binding.
+        return (allow_query_predicates and isinstance(parent, ast.Compare)
+                and parent.left is node and len(parent.ops) == 1
+                and isinstance(parent.ops[0], (ast.In, ast.NotIn))
+                and isinstance(parent.comparators[0], ast.Name)
+                and parent.comparators[0].id in query_names)
 
     class Transplant(ast.NodeTransformer):
         def visit_Name(self, node):
@@ -45,12 +83,70 @@ def instantiate_edit(before, after, target):
         def visit_Constant(self, node):
             key = (type(node.value).__name__, repr(node.value))
             if key in constants:return ast.copy_location(ast.Constant(value=constants[key]), node)
-            if node.value not in (None, True, False, 0, 1, 'answer'):
+            if node.value not in (None, True, False, 0, 1, 'answer') and not declared_literal(node):
                 raise ValueError('Edit requires an unbound new source literal')
             return node
 
     try:
         return ast.unparse(ast.fix_missing_locations(Transplant().visit(new))) + '\n'
+    except ValueError:
+        return None
+
+
+def instantiate_skill_edit(before, after, target, *, skill_ids=None):
+    """Transplant measured code plus its explicit acquisition bindings.
+
+    New law values are never filled from a witness. Unchanged constant ports
+    retain the target's actual value/provenance; changed/new ports must READ.
+    Unsupported interface or source-constant edits remain uninstantiable.
+    """
+    before.validate();after.validate();target.validate()
+    for attribute in ('inputs', 'outputs', 'premises'):
+        old_ports, current_ports = getattr(before, attribute), getattr(target, attribute)
+        if set(old_ports) != set(current_ports):return None
+        for name in old_ports:
+            if old_ports[name]['type'] != current_ports[name]['type']:return None
+            if attribute != 'outputs' and old_ports[name]['mode'] != current_ports[name]['mode']:return None
+    if set(before.inputs) != set(after.inputs) or set(before.outputs) != set(after.outputs):return None
+    if any(before.inputs[n]['type'] != after.inputs[n]['type'] or
+           before.inputs[n]['mode'] != after.inputs[n]['mode'] for n in before.inputs):return None
+    if any(before.outputs[n]['type'] != after.outputs[n]['type'] for n in before.outputs):return None
+    for name in before.outputs:
+        if any(before.outputs[name].get(k) != target.outputs[name].get(k)
+               for k in ('public_tasks', 'query_clauses')):
+            return None  # A different applicability identity needs an explicit binding.
+    premises = {}
+    readers = {r['id']: r for r in after.reads}
+    for name, port in after.premises.items():
+        previous = before.premises.get(name)
+        if port['mode'] == 'constant':
+            if (not previous or previous['mode'] != 'constant' or port['type'] != previous['type']
+                    or port['value'] != previous['value']):
+                return None
+            premises[name] = deepcopy(target.premises[name])
+        else:
+            reader = readers[port['read_id']]
+            if (reader.get('bindings', {}).get(name) != port['field']
+                    or reader.get('fields', {}).get(port['field'], {}).get('type') != port['type']):
+                return None
+            premises[name] = deepcopy(port)
+    query = after.inputs.get('current_question', {})
+    program = instantiate_edit(before.procedure, after.procedure, target.procedure,
+        declared_ports={'inputs': set(after.inputs), 'premises': set(after.premises)},
+        allow_query_predicates=query.get('type') == 'string' and query.get('mode') == 'argument')
+    if program is None:return None
+    identifiers = {before.id: target.id, **(skill_ids or {})}
+    inputs = deepcopy(after.inputs)
+    for name, port in inputs.items():
+        if port['mode'] == 'skill':
+            expected = identifiers.get(port['skill_id'])
+            if expected is None:return None
+            if expected != target.inputs[name].get('skill_id'):return None
+            port['skill_id'] = expected
+    provenance = {digest(o): deepcopy(o) for o in (*target.source_provenance, *after.source_provenance)}
+    try:
+        return replace(after, id=target.id, procedure=program, inputs=inputs, premises=premises,
+            source_provenance=tuple(provenance.values()), version=target.version + 1).validate()
     except ValueError:
         return None
 
@@ -125,9 +221,11 @@ def learn(library, old_library, revisions, table, selected_mask, *, generic=Fals
         edits = []
         for identity, target in ((producer, 'producer'), (consumer, 'consumer')):
             old, new = old_library.skills[identity], library.skills[identity]
-            if old.procedure == new.procedure:
+            if all(getattr(old, a) == getattr(new, a) for a in
+                   ('procedure', 'inputs', 'outputs', 'premises', 'reads')):
                 continue
             edits.append({'target': target, 'before': old.procedure, 'after': new.procedure,
+                'before_skill': asdict(old), 'after_skill': asdict(new),
                 'old_role': role(old, field if target == 'producer' else 'answer'),
                 'new_role': role(new, field if target == 'producer' else 'answer'),
                 'diff': ''.join(difflib.unified_diff(old.procedure.splitlines(True), new.procedure.splitlines(True)))})
@@ -165,18 +263,13 @@ def candidates(library, current_traces, *, generic=False):
         for identity in ordered:
             pattern = next(x for x in patterns if x['id'] == identity)
             revisions = []
+            skill_ids = {e['before_skill']['id']: p.id if e['target'] == 'producer' else c.id
+                         for e in pattern['edits']}
             for edit in pattern['edits']:
                 old = p if edit['target'] == 'producer' else c
-                program = instantiate_edit(edit['before'], edit['after'], old.procedure)
-                if program is None:break
-                obligations = deepcopy(old.source_obligations)
-                for obligation in obligations:
-                    if obligation['port'] == (field if edit['target'] == 'producer' else 'answer'):
-                        obligation['role'] = edit['new_role']
-                try:
-                    new = replace(old, procedure=program, source_obligations=obligations,
-                                  version=old.version + 1).validate()
-                except ValueError:break
+                new = instantiate_skill_edit(Skill.from_dict(edit['before_skill']),
+                    Skill.from_dict(edit['after_skill']), old, skill_ids=skill_ids)
+                if new is None:break
                 revisions.append({'skill_id': old.id, 'old_hash': old.hash, 'new_hash': new.hash,
                                   'new': asdict(new), 'operation': 'learned_pattern'})
             if len(revisions) == 2:

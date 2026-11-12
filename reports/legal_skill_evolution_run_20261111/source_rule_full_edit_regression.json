@@ -1,0 +1,429 @@
+{
+  "new_model_calls": 0,
+  "goal_complete": false,
+  "actual_rejected_package_still_selected_mask": null,
+  "actual_research_patterns_created": 0,
+  "reconstructed_skills": {
+    "nda_representative_exception_applicability": {
+      "old_hash": "b982414c6b8a29fc758b5850bae9ccb939b1760646facf1961cd662f0bb2d045",
+      "witness_new_hash": "6b16766696498c867f67ec121c7c17baef683b51cee187fd650caa57ca8fcd2d",
+      "compiled": {
+        "id": "nda_representative_exception_applicability",
+        "intent": "Determine whether at least one recipient category stated in a disclosure-permission query falls within an express recipient class or disclosure context permitted by the current agreement.",
+        "procedure": "def apply(inputs, premises):\n    question = inputs['current_question']\n    permitted_terms = premises['permitted_recipient_classes_and_disclosure_contexts']\n    exception_applies = False\n    for permitted_term in permitted_terms:\n        if permitted_term in question:\n            exception_applies = True\n    if 'professional advisors' in question:\n        if 'legal advisors' in permitted_terms or 'financial advisors' in permitted_terms or 'accountants' in permitted_terms:\n            exception_applies = True\n    return {'exception_applies': exception_applies}\n",
+        "inputs": {
+          "current_question": {
+            "arguments": {},
+            "field": "current_question",
+            "mode": "argument",
+            "question": "What is the caller-supplied disclosure-permission question whose stated recipient categories must be tested against the current agreement's express disclosure permissions?",
+            "skill_id": null,
+            "type": "string"
+          }
+        },
+        "outputs": {
+          "exception_applies": {
+            "description": "Whether a recipient category stated in the query is covered by an express recipient class or disclosure context permitted by the current agreement.",
+            "public_tasks": [],
+            "query_clauses": [],
+            "type": "boolean"
+          }
+        },
+        "premises": {
+          "permitted_recipient_classes_and_disclosure_contexts": {
+            "field": "permitted_recipient_classes_and_disclosure_contexts",
+            "mode": "read",
+            "origin": {
+              "quote": "not misuse, misappropriate, or disclose in writing, orally or by electronic means, any Confidential Information, directly or indirectly, to any other person or use them in any way, either during the term of this Agreement or at any other time thereafter, except as is required in the course of service to the CCPDT",
+              "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+              "view_id": "nda-7"
+            },
+            "question": "Which recipient classes or disclosure contexts does the current agreement expressly permit as exceptions to confidentiality or nondisclosure? Return only literal lower-case class or context strings in a flat array; return unknown if the agreement states no disclosure permission or exception.",
+            "read_id": "current_disclosure_permission_record",
+            "type": "array"
+          }
+        },
+        "reads": [
+          {
+            "bindings": {
+              "permitted_recipient_classes_and_disclosure_contexts": "permitted_recipient_classes_and_disclosure_contexts"
+            },
+            "fields": {
+              "permitted_recipient_classes_and_disclosure_contexts": {
+                "question": "List the literal lower-case recipient classes and permitted disclosure contexts stated in the current agreement, including purpose- or service-limited disclosure exceptions.",
+                "type": "array"
+              }
+            },
+            "id": "current_disclosure_permission_record",
+            "question": "What express recipient classes or disclosure contexts are permitted as exceptions to the current agreement's confidentiality or nondisclosure obligation? Return unknown if the current agreement contains no such permission or exception.",
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "permitted_recipient_classes_and_disclosure_contexts": {
+                  "type": "array"
+                }
+              },
+              "required": [
+                "permitted_recipient_classes_and_disclosure_contexts"
+              ],
+              "type": "object"
+            },
+            "source_locator": "current_source"
+          }
+        ],
+        "semantic_records": [
+          {
+            "id": "current_disclosure_permission_scope",
+            "neighbors": [],
+            "ports": [
+              "current_question",
+              "permitted_recipient_classes_and_disclosure_contexts"
+            ]
+          }
+        ],
+        "source_obligations": [
+          {
+            "id": "match_current_disclosure_permission",
+            "origin": {
+              "quote": "except as is required in the course of service to the CCPDT",
+              "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+              "view_id": "nda-7"
+            },
+            "port": "exception_applies",
+            "role": "preliminary",
+            "statement": "Match the query's recipient category only against recipient classes or disclosure contexts expressly permitted by the current agreement."
+          }
+        ],
+        "source_provenance": [
+          {
+            "quote": "the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\"Representatives\") who have a need to know the Confidential Information for the Purpose provided that the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential and at all times in a manner consistent with this Agreement",
+            "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+            "view_id": "nda-7"
+          },
+          {
+            "quote": "each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose",
+            "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+            "view_id": "nda-7"
+          },
+          {
+            "quote": "except as is required in the course of service to the CCPDT",
+            "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+            "view_id": "nda-7"
+          },
+          {
+            "quote": "each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants",
+            "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+            "view_id": "nda-7"
+          },
+          {
+            "quote": "the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\"Representatives\")",
+            "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+            "view_id": "nda-7"
+          }
+        ],
+        "version": 3
+      },
+      "procedure_AST_matches_witness": true,
+      "reader_and_premise_bindings_match_witness": true
+    },
+    "nda_disclosure_permission_consequence": {
+      "old_hash": "cdc1617416748514ba06a78dc4d007986774c024413062c786e59160e37888c8",
+      "witness_new_hash": "3208b4350a663e43ec02d9f4ddec43b3ccb8afdedfb21a7a08ce45d9d8b6cb5d",
+      "compiled": {
+        "id": "nda_disclosure_permission_consequence",
+        "intent": "Classify a Receiving Party disclosure-permission query using an expressly applicable disclosure permission and the current agreement's general third-party nondisclosure rule without extending a third-party prohibition to unaddressed internal employees.",
+        "procedure": "def apply(inputs, premises):\n    question = inputs['current_question']\n    is_disclosure_permission_query = 'Receiving Party' in question and 'may share some Confidential Information' in question\n    if not is_disclosure_permission_query:\n        answer = 'NotMentioned'\n    elif inputs['representative_exception_applies']:\n        answer = 'Entailment'\n    elif premises['general_third_party_nondisclosure_rule']:\n        if 'employees' in question and (not 'third-part' in question):\n            answer = 'NotMentioned'\n        else:\n            answer = 'Contradiction'\n    else:\n        answer = 'NotMentioned'\n    return {'answer': answer}\n",
+        "inputs": {
+          "current_question": {
+            "arguments": {},
+            "field": "current_question",
+            "mode": "argument",
+            "question": "What is the caller-supplied native disclosure-permission question to classify?",
+            "skill_id": null,
+            "type": "string"
+          },
+          "representative_exception_applies": {
+            "arguments": {
+              "current_question": {
+                "namespace": "inputs",
+                "port": "current_question"
+              }
+            },
+            "field": "exception_applies",
+            "mode": "skill",
+            "question": "Does an express recipient class or disclosure context in the current agreement apply to at least one recipient category stated in this query?",
+            "skill_id": "nda_representative_exception_applicability",
+            "type": "boolean"
+          }
+        },
+        "outputs": {
+          "answer": {
+            "description": "Native ContractNLI classification of the disclosure-permission statement.",
+            "public_tasks": [
+              "nda-5",
+              "nda-7"
+            ],
+            "query_clauses": [
+              "heading:Non-Disclosure",
+              "3(c)",
+              "4(a)"
+            ],
+            "type": "string"
+          }
+        },
+        "premises": {
+          "general_third_party_nondisclosure_rule": {
+            "field": "general_third_party_nondisclosure_rule",
+            "mode": "read",
+            "origin": {
+              "quote": "Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties",
+              "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+              "view_id": "nda-7"
+            },
+            "question": "Does the current agreement generally prohibit disclosure of Confidential Information to third parties without prior authorization or consent?",
+            "read_id": "current_general_third_party_nondisclosure_rule",
+            "type": "boolean"
+          }
+        },
+        "reads": [
+          {
+            "bindings": {
+              "general_third_party_nondisclosure_rule": "general_third_party_nondisclosure_rule"
+            },
+            "fields": {
+              "general_third_party_nondisclosure_rule": {
+                "question": "Does the current agreement prohibit disclosure of Confidential Information to third parties without prior authorization or consent?",
+                "type": "boolean"
+              }
+            },
+            "id": "current_general_third_party_nondisclosure_rule",
+            "question": "What general third-party nondisclosure rule is stated in the current agreement? Return unknown if the current agreement states no such rule.",
+            "schema": {
+              "additionalProperties": false,
+              "properties": {
+                "general_third_party_nondisclosure_rule": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "general_third_party_nondisclosure_rule"
+              ],
+              "type": "object"
+            },
+            "source_locator": "current_source"
+          }
+        ],
+        "semantic_records": [
+          {
+            "id": "current_disclosure_permission_consequence",
+            "neighbors": [
+              "nda_representative_exception_applicability"
+            ],
+            "ports": [
+              "current_question",
+              "representative_exception_applies",
+              "general_third_party_nondisclosure_rule"
+            ]
+          }
+        ],
+        "source_obligations": [
+          {
+            "id": "apply_permission_or_third_party_prohibition",
+            "origin": {
+              "quote": "Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties",
+              "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+              "view_id": "nda-7"
+            },
+            "port": "answer",
+            "role": "terminal",
+            "statement": "Give effect to an express disclosure permission when it covers the queried recipient; otherwise apply the general nondisclosure rule to a third-party query without treating the word employees alone as establishing a third-party recipient."
+          }
+        ],
+        "source_provenance": [
+          {
+            "quote": "not to disclose such Confidential Information to third parties (including, without limitation, any clients, affiliates, independent contractors and consultants) without the prior, written consent of the Disclosing Party except as expressly permitted under Paragraph 4",
+            "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+            "view_id": "nda-7"
+          },
+          {
+            "quote": "each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose",
+            "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+            "view_id": "nda-7"
+          },
+          {
+            "quote": "Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties",
+            "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+            "view_id": "nda-7"
+          },
+          {
+            "quote": "The Receiving Party shall not disclose, allow access to, transmit or transfer the Confidential Information to any third party without the Disclosing Party’s prior written consent",
+            "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+            "view_id": "nda-7"
+          }
+        ],
+        "version": 2
+      },
+      "procedure_AST_matches_witness": true,
+      "reader_and_premise_bindings_match_witness": true
+    }
+  },
+  "real_cached_execution_rows_checked": 7,
+  "real_cached_execution_rows": [
+    {
+      "skill_id": "nda_representative_exception_applicability",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "view": "nda-5",
+      "inputs": {
+        "current_question": "Receiving Party may share some Confidential Information with some of Receiving Party's employees."
+      },
+      "premises": {
+        "permitted_recipient_classes_and_disclosure_contexts": [
+          "required in the course of service to the CCPDT",
+          "to the Certification Council for Professional Dog Trainers",
+          "to the President of the Certification Council for Professional Dog Trainers (or the Vice President if the Volunteer is the President)",
+          "to the Certification Council for Professional Dog Trainers’ e-mail distribution list(s)",
+          "to the Certification Council for Professional Dog Trainers’ human resources data and information about employees, contractors and other volunteers",
+          "to the Certification Council for Professional Dog Trainers’ cost and other financial data",
+          "to the Certification Council for Professional Dog Trainers’ polling and focus group information",
+          "to the Certification Council for Professional Dog Trainers’ goods or services Volunteer provides to the Certification Council for Professional Dog Trainers under this Agreement",
+          "to the Certification Council for Professional Dog Trainers’ information to which Volunteer has access while involved in the Certification Council for Professional Dog Trainers’ activities",
+          "to the Certification Council for Professional Dog Trainers’ Committee Chair plus any two members of the Executive Committee"
+        ]
+      },
+      "output": {
+        "exception_applies": false
+      },
+      "matches_original_observed_output": true
+    },
+    {
+      "skill_id": "nda_representative_exception_applicability",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "view": "nda-7",
+      "inputs": {
+        "current_question": "Receiving Party may share some Confidential Information with some third-parties (including consultants, agents and professional advisors)."
+      },
+      "premises": {
+        "permitted_recipient_classes_and_disclosure_contexts": [
+          "required in the course of service to the CCPDT",
+          "to the Certification Council for Professional Dog Trainers",
+          "to the President of the Certification Council for Professional Dog Trainers (or the Vice President if the Volunteer is the President)",
+          "to the Certification Council for Professional Dog Trainers’ e-mail distribution list(s)",
+          "to the Certification Council for Professional Dog Trainers’ human resources data and information about employees, contractors and other volunteers",
+          "to the Certification Council for Professional Dog Trainers’ cost and other financial data",
+          "to the Certification Council for Professional Dog Trainers’ polling and focus group information",
+          "to the Certification Council for Professional Dog Trainers’ goods or services Volunteer provides to the Certification Council for Professional Dog Trainers under this Agreement",
+          "to the Certification Council for Professional Dog Trainers’ information to which Volunteer has access while involved in the Certification Council for Professional Dog Trainers’ activities",
+          "to the Certification Council for Professional Dog Trainers’ Committee Chair plus any two members of the Executive Committee"
+        ]
+      },
+      "output": {
+        "exception_applies": false
+      },
+      "matches_original_observed_output": true
+    },
+    {
+      "skill_id": "nda_representative_exception_applicability",
+      "source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+      "view": "nda-5",
+      "inputs": {
+        "current_question": "Receiving Party may share some Confidential Information with some of Receiving Party's employees."
+      },
+      "premises": {
+        "permitted_recipient_classes_and_disclosure_contexts": [
+          "the Receiving Party's directors, officers and employees (Representatives) who have a need to know the Confidential Information for the Purpose",
+          "the Receiving Party is required to disclose Confidential Information pursuant to any applicable law or an order from a court of competent jurisdiction",
+          "the Receiving Party is required to disclose Confidential Information to protect the Confidential Information from such disclosure"
+        ]
+      },
+      "output": {
+        "exception_applies": false
+      },
+      "matches_original_observed_output": true
+    },
+    {
+      "skill_id": "nda_representative_exception_applicability",
+      "source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+      "view": "nda-7",
+      "inputs": {
+        "current_question": "Receiving Party may share some Confidential Information with some third-parties (including consultants, agents and professional advisors)."
+      },
+      "premises": {
+        "permitted_recipient_classes_and_disclosure_contexts": [
+          "the Receiving Party's directors, officers and employees (Representatives) who have a need to know the Confidential Information for the Purpose",
+          "the Receiving Party is required to disclose Confidential Information pursuant to any applicable law or an order from a court of competent jurisdiction",
+          "the Receiving Party is required to disclose Confidential Information to protect the Confidential Information from such disclosure"
+        ]
+      },
+      "output": {
+        "exception_applies": false
+      },
+      "matches_original_observed_output": true
+    },
+    {
+      "skill_id": "nda_disclosure_permission_consequence",
+      "source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+      "view": "nda-5",
+      "inputs": {
+        "current_question": "Receiving Party may share some Confidential Information with some of Receiving Party's employees.",
+        "representative_exception_applies": true
+      },
+      "premises": {
+        "general_third_party_nondisclosure_rule": true
+      },
+      "output": {
+        "answer": "Entailment"
+      },
+      "matches_original_observed_output": true
+    },
+    {
+      "skill_id": "nda_disclosure_permission_consequence",
+      "source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+      "view": "nda-7",
+      "inputs": {
+        "current_question": "Receiving Party may share some Confidential Information with some third-parties (including consultants, agents and professional advisors).",
+        "representative_exception_applies": false
+      },
+      "premises": {
+        "general_third_party_nondisclosure_rule": true
+      },
+      "output": {
+        "answer": "Contradiction"
+      },
+      "matches_original_observed_output": true
+    },
+    {
+      "skill_id": "nda_disclosure_permission_consequence",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "view": "nda-5",
+      "inputs": {
+        "current_question": "Receiving Party may share some Confidential Information with some of Receiving Party's employees.",
+        "representative_exception_applies": false
+      },
+      "premises": {
+        "general_third_party_nondisclosure_rule": true
+      },
+      "output": {
+        "answer": "NotMentioned"
+      },
+      "matches_original_observed_output": true
+    }
+  ],
+  "scope": "Offline compilation/replay of an actual rejected proposal; no accepted pattern, new legal label or cross-source benefit claimed. Positive learning/queue routing is tested only with explicitly synthetic grades in the unit test.",
+  "remaining": [
+    "Source-bound responsibility/use/source-relation matching from METHOD_EVOLUTION 4.6 is still not fully implemented.",
+    "Target port names/types/scope must bind to the old interface; unsupported changed constants and missing READ bindings remain unknown.",
+    "The original native/history rejection is unchanged."
+  ],
+  "regressions_passed": 101,
+  "new_physical_requests": {
+    "executor": 0,
+    "teacher": 0
+  },
+  "cumulative_physical_requests": {
+    "executor": 9218,
+    "teacher": 162
+  },
+  "pending": 0,
+  "shared_compiler_for_Full_and_Generic": true,
+  "fixture_tests_not_research_results": true
+}
