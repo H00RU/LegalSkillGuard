@@ -1,0 +1,97 @@
+{
+  "new_model_calls": 0,
+  "accepted_pattern_created": false,
+  "actual_package_admission": null,
+  "interface_compatible_all_four": true,
+  "old_declared_relation_context": {
+    "declared_producer_role": "preliminary",
+    "declared_consumer_answer_role": "terminal",
+    "producer_port_type": "boolean",
+    "consumer_uses_actual_producer_output": true
+  },
+  "new_declared_relation_context": {
+    "declared_producer_role": "preliminary",
+    "declared_consumer_answer_role": "terminal",
+    "producer_port_type": "boolean",
+    "consumer_uses_actual_producer_output": true
+  },
+  "coarse_context_unchanged": true,
+  "actual_receiver_behavior_differences": [
+    {
+      "view": "nda-5",
+      "procedure_intervention_only_not_a_new_legal_label": true,
+      "same_explicit_prohibition_binding": true,
+      "outputs": {
+        "old": {
+          "False": {
+            "answer": "Contradiction"
+          },
+          "True": {
+            "answer": "Entailment"
+          }
+        },
+        "new": {
+          "False": {
+            "answer": "NotMentioned"
+          },
+          "True": {
+            "answer": "Entailment"
+          }
+        }
+      }
+    },
+    {
+      "view": "nda-7",
+      "procedure_intervention_only_not_a_new_legal_label": true,
+      "same_explicit_prohibition_binding": true,
+      "outputs": {
+        "old": {
+          "False": {
+            "answer": "Contradiction"
+          },
+          "True": {
+            "answer": "Entailment"
+          }
+        },
+        "new": {
+          "False": {
+            "answer": "Contradiction"
+          },
+          "True": {
+            "answer": "Entailment"
+          }
+        }
+      }
+    }
+  ],
+  "AST_only_transplant_to_its_own_old_program": {
+    "nda_representative_exception_applicability": {
+      "can_instantiate": false,
+      "old_premises": [
+        "permitted_representative_classes",
+        "representatives_must_be_confidentiality_bound",
+        "representatives_must_have_bona_fide_need_to_know",
+        "disclosure_limited_to_business_purpose"
+      ],
+      "new_premises": [
+        "permitted_recipient_classes_and_disclosure_contexts"
+      ]
+    },
+    "nda_disclosure_permission_consequence": {
+      "can_instantiate": false,
+      "old_premises": [
+        "general_third_party_nondisclosure_rule",
+        "prohibition_expressly_subject_to_paragraph4"
+      ],
+      "new_premises": [
+        "general_third_party_nondisclosure_rule"
+      ]
+    }
+  },
+  "implementation_findings": [
+    "Current relation_context uses only declared preliminary/terminal role, output type and USE; these do not encode the observed change in how an unsupported permission is interpreted. Original METHOD_EVOLUTION 4.6 requires responsibility/use/source-relation bindings.",
+    "Current pattern stores/transplants P only. Actual proposed edits add or rename source-reading ports and change their readers; P-only transplantation does not carry these bindings and rejects new unbound literals.",
+    "These gaps do not explain away the current rejected table: current/history admission really failed. No rejected block is promoted or counted as a learned pattern."
+  ],
+  "next_implementation": "Implement and regress bounded schema-aware transplantation of actual READ/premise changes before asking for more teacher proposals; supply the same complete edit capability to Generic. Then address concrete source-bound responsibility signatures, keeping unverifiable fields unknown."
+}

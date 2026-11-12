@@ -197,7 +197,16 @@ class FrozenReads:
                 'invocation_arguments': invocation_arguments or {},
                 'unresolved_fields': sorted(set(fields) - set(merged)),
                 'alignment': {'anchor': anchor, 'length': count, 'dependents': dependents}}
-        spans = source_spans(view['public'])
+        # Rule parameters belong to the supplied source, not to the truth of
+        # the current native hypothesis. Explicit entity/year arguments remain
+        # available for source selectors; the native question is not one.
+        read_public = {k: v for k, v in view['public'].items()
+                       if not (require_rule_support and k == 'question')}
+        excluded_arguments = [n for n in (invocation_arguments or {})
+                              if require_rule_support and n == 'current_question']
+        invocation_arguments = {n: v for n, v in (invocation_arguments or {}).items()
+                                if n not in excluded_arguments}
+        spans = source_spans(read_public)
         # Keep legal context available, including definitions of explicit GIVEN
         # intermediates. A legal rule's list of possible relatives is not
         # evidence that a person in the case has any one of those relatives.
@@ -228,9 +237,17 @@ class FrozenReads:
                 'The host binds these IDs to exact source text; do not rewrite or quote the source. '
                 'Citation fields use full literal citation strings in the headings; a legacy label-ID output sentence is only an encoding instruction. '
                 'Respect the question scope and roles. Never use old-source values. '
+                + ('Read source-rule parameters independently of any native answer. '
+                   'When a requested category names a defined group, use its explicit source definition and cite it; '
+                   'do not substitute an unexplained group name or a purpose for the requested member classes. '
+                   if require_rule_support else '') +
                 'Use status unknown with value null if the current material is insufficient. '
                 'Do not answer the entire task unless a requested field itself is that native label.'),
-            content={'dataset': source['dataset'], 'view_id': view['id'], 'source_spans': spans,
+            content={'dataset': source['dataset'],
+                     **({'view_id': view['id']} if not require_rule_support else {}),
+                     # Only the host's support_id namespace is model-visible.
+                     # Native sentence positions remain in the evidence trace.
+                     'source_spans': [{k: v for k, v in s.items() if k != 'public_sentence_id'} for s in spans],
                      'read_question': question, 'source_locator': locator, 'fields': fields,
                      **({'required_case_support_fields': sorted(case_fields),
                          'case_support_instruction': 'Each known factual/question value must select at least one supporting span from these fields. Legal source spans remain available as context, but a legal definition or list of possible conditions alone does not establish a fact about this case. Use unknown when the case does not supply the requested fact.'}
@@ -255,6 +272,10 @@ class FrozenReads:
             event['required_case_support_fields'] = sorted(case_fields)
         if rule_fields:
             event['required_rule_support_fields'] = sorted(rule_fields)
+            event['rule_context'] = {'separate_native_question_excluded': 'question' in view['public'],
+                'native_view_id_excluded': True,
+                'excluded_invocation_arguments': excluded_arguments,
+                'public_sentence_boundaries_used': 'sentence_spans' in view['public']}
         known = {}
         for name, item in value.items():
             if item['status'] == 'unknown' and item['value'] is None:

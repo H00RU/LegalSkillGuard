@@ -60,7 +60,7 @@ class ActualContractFailures(unittest.TestCase):
                                         {'public': {'question': 'Section 151(c) applies.'}})
         self.assertEqual(proof['queried_clause'], ['151', 'c'])
 
-    def test_actual_rule_read_cannot_treat_native_hypothesis_as_contract_evidence(self):
+    def test_actual_hypothesis_evidence_is_absent_from_new_rule_read_payload(self):
         root = Path(__file__).resolve().parents[1]
         recovery = root / 'reports/legal_skill_evolution_run_20261111/contract_TRAIN_evidence/legal_skill_evolution_contract_read_recovery_20261112'
         table = json.loads((recovery / 'FreeEvolution_B3/FreeEvolution/B3_candidates/0.json').read_text())['table']
@@ -69,15 +69,43 @@ class ActualContractFailures(unittest.TestCase):
         outcome = next(v for v in cell['trace']['views'] if v['view'] == 'nda-7')
         event = next(e for e in outcome['execution']['events'] if e.get('kind') == 'READ_LOCAL'
                      and 'general_third_party_nondisclosure_rule' in e['fields'])
-        fields = deepcopy(event['fields'])
-        self.assertEqual([s['field'] for s in fields['general_third_party_nondisclosure_rule']['support']], ['question'])
-        for field in fields.values():field.pop('support')
+        self.assertEqual([s['field'] for s in event['fields']['general_third_party_nondisclosure_rule']['support']], ['question'])
         reads = FrozenReads(None)
-        reads.generate = lambda *args, **kwargs: (deepcopy(fields), {})
-        with self.assertRaisesRegex(LocalReadError, 'not supplied rule material'):
-            reads.read(row, view, question=event['question'],
+        captured = []
+        def generate(*args, **kwargs):
+            captured.append(kwargs['content'])
+            return {'general_third_party_nondisclosure_rule':
+                {'status': 'unknown', 'value': None, 'support_ids': []}}, {}
+        reads.generate = generate
+        for v in [view, next(v for v in row['views'] if v['id'] == 'nda-5')]:
+            values, trace = reads.read(row, v, question=event['question'],
                 fields={'general_third_party_nondisclosure_rule': {'type': 'boolean', 'question': 'Read the general prohibition.'}},
-                locator=event['locator'], purpose='skill_replay', allow_unresolved=True, require_rule_support=True)
+                locator=event['locator'], purpose='skill_replay', allow_unresolved=True, require_rule_support=True,
+                invocation_arguments={'current_question': v['public']['question'], 'year': 2017})
+            self.assertEqual(values, {})
+            self.assertEqual(trace['rule_context']['excluded_invocation_arguments'], ['current_question'])
+            self.assertNotIn(v['public']['question'], json.dumps(captured[-1], ensure_ascii=False))
+            self.assertEqual(captured[-1]['invocation_arguments'], {'year': 2017})
+            self.assertNotIn('view_id', captured[-1])
+            self.assertFalse(any(s['field'] == 'question' for s in captured[-1]['source_spans']))
+            self.assertFalse(any('public_sentence_id' in s for s in captured[-1]['source_spans']))
+            self.assertEqual([s['id'] for s in captured[-1]['source_spans']],
+                             list(range(len(captured[-1]['source_spans']))))
+        self.assertEqual(captured[0], captured[1])
+
+    def test_public_sentence_positions_preserve_all_actual_TRAIN_source_text(self):
+        from legal_skill_guard.skill_evolution.native import source_spans
+        for row in self.rows.values():
+            public = row['views'][0]['public'];text = public['source_text']
+            spans = [s for s in source_spans(public) if s['field'] == 'source_text']
+            self.assertGreater(len(spans), 1)
+            self.assertEqual(''.join(''.join(s['text'] for s in spans).split()), ''.join(text.split()))
+            for s in spans:self.assertEqual(s['text'], text[s['start']:s['end']])
+            known = {s['public_sentence_id']: s for s in spans if 'public_sentence_id' in s}
+            for index, (a, b) in enumerate(public['sentence_spans']):
+                if text[a:b].strip():self.assertEqual(known[index]['text'], text[a:b])
+        bad = deepcopy(public);bad['sentence_spans'] = [[0, 8], [7, 12]]
+        with self.assertRaisesRegex(ValueError, 'overlap'):source_spans(bad)
 
 
 if __name__ == '__main__':unittest.main()

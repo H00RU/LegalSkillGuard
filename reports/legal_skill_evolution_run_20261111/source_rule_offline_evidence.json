@@ -1,0 +1,308 @@
+{
+  "new_model_calls": 0,
+  "purpose": "Separate one-field source change from coupling claims, and verify the repaired rule read is native-question independent.",
+  "Lift_actual_observations": [
+    {
+      "source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+      "view": "nda-5",
+      "inputs": {
+        "current_question": "Receiving Party may share some Confidential Information with some of Receiving Party's employees."
+      },
+      "old_values": {
+        "permitted_representative_classes": [
+          "directors",
+          "officers",
+          "employees",
+          "legal advisors",
+          "financial advisors",
+          "accountants"
+        ],
+        "representatives_must_be_confidentiality_bound": true,
+        "representatives_must_have_bona_fide_need_to_know": true,
+        "disclosure_limited_to_business_purpose": true
+      },
+      "actual_new_values": {
+        "disclosure_limited_to_business_purpose": true,
+        "permitted_representative_classes": [
+          "directors",
+          "officers",
+          "employees"
+        ],
+        "representatives_must_be_confidentiality_bound": true,
+        "representatives_must_have_bona_fide_need_to_know": true
+      },
+      "actual_new_output": {
+        "exception_applies": true
+      }
+    },
+    {
+      "source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+      "view": "nda-7",
+      "inputs": {
+        "current_question": "Receiving Party may share some Confidential Information with some third-parties (including consultants, agents and professional advisors)."
+      },
+      "old_values": {
+        "permitted_representative_classes": [
+          "directors",
+          "officers",
+          "employees",
+          "legal advisors",
+          "financial advisors",
+          "accountants"
+        ],
+        "representatives_must_be_confidentiality_bound": true,
+        "representatives_must_have_bona_fide_need_to_know": true,
+        "disclosure_limited_to_business_purpose": true
+      },
+      "actual_new_values": {
+        "disclosure_limited_to_business_purpose": true,
+        "permitted_representative_classes": [
+          "directors",
+          "officers",
+          "employees"
+        ],
+        "representatives_must_be_confidentiality_bound": true,
+        "representatives_must_have_bona_fide_need_to_know": true
+      },
+      "actual_new_output": {
+        "exception_applies": false
+      }
+    },
+    {
+      "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "view": "nda-5",
+      "inputs": {
+        "current_question": "Receiving Party may share some Confidential Information with some of Receiving Party's employees."
+      },
+      "old_values": {
+        "permitted_representative_classes": [
+          "directors",
+          "officers",
+          "employees",
+          "legal advisors",
+          "financial advisors",
+          "accountants"
+        ],
+        "representatives_must_be_confidentiality_bound": true,
+        "representatives_must_have_bona_fide_need_to_know": true,
+        "disclosure_limited_to_business_purpose": true
+      },
+      "actual_new_values": {
+        "disclosure_limited_to_business_purpose": true,
+        "permitted_representative_classes": [
+          "directors",
+          "officers",
+          "employees",
+          "legal advisors",
+          "financial advisors",
+          "accountants"
+        ],
+        "representatives_must_be_confidentiality_bound": true,
+        "representatives_must_have_bona_fide_need_to_know": true
+      },
+      "actual_new_output": {
+        "exception_applies": true
+      }
+    },
+    {
+      "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "view": "nda-7",
+      "inputs": {
+        "current_question": "Receiving Party may share some Confidential Information with some third-parties (including consultants, agents and professional advisors)."
+      },
+      "old_values": {
+        "permitted_representative_classes": [
+          "directors",
+          "officers",
+          "employees",
+          "legal advisors",
+          "financial advisors",
+          "accountants"
+        ],
+        "representatives_must_be_confidentiality_bound": true,
+        "representatives_must_have_bona_fide_need_to_know": true,
+        "disclosure_limited_to_business_purpose": true
+      },
+      "actual_new_values": {
+        "disclosure_limited_to_business_purpose": true,
+        "permitted_representative_classes": [
+          "directors",
+          "officers",
+          "employees",
+          "legal advisors",
+          "financial advisors",
+          "accountants"
+        ],
+        "representatives_must_be_confidentiality_bound": true,
+        "representatives_must_have_bona_fide_need_to_know": true
+      },
+      "actual_new_output": {
+        "exception_applies": true
+      }
+    }
+  ],
+  "offline_subset_results": [
+    {
+      "mask": 0,
+      "fields": [],
+      "reproduces_all_four_observed_outputs": false
+    },
+    {
+      "mask": 1,
+      "fields": [
+        "disclosure_limited_to_business_purpose"
+      ],
+      "reproduces_all_four_observed_outputs": false
+    },
+    {
+      "mask": 2,
+      "fields": [
+        "permitted_representative_classes"
+      ],
+      "reproduces_all_four_observed_outputs": true
+    },
+    {
+      "mask": 3,
+      "fields": [
+        "disclosure_limited_to_business_purpose",
+        "permitted_representative_classes"
+      ],
+      "reproduces_all_four_observed_outputs": true
+    },
+    {
+      "mask": 4,
+      "fields": [
+        "representatives_must_be_confidentiality_bound"
+      ],
+      "reproduces_all_four_observed_outputs": false
+    },
+    {
+      "mask": 5,
+      "fields": [
+        "disclosure_limited_to_business_purpose",
+        "representatives_must_be_confidentiality_bound"
+      ],
+      "reproduces_all_four_observed_outputs": false
+    },
+    {
+      "mask": 6,
+      "fields": [
+        "permitted_representative_classes",
+        "representatives_must_be_confidentiality_bound"
+      ],
+      "reproduces_all_four_observed_outputs": true
+    },
+    {
+      "mask": 7,
+      "fields": [
+        "disclosure_limited_to_business_purpose",
+        "permitted_representative_classes",
+        "representatives_must_be_confidentiality_bound"
+      ],
+      "reproduces_all_four_observed_outputs": true
+    },
+    {
+      "mask": 8,
+      "fields": [
+        "representatives_must_have_bona_fide_need_to_know"
+      ],
+      "reproduces_all_four_observed_outputs": false
+    },
+    {
+      "mask": 9,
+      "fields": [
+        "disclosure_limited_to_business_purpose",
+        "representatives_must_have_bona_fide_need_to_know"
+      ],
+      "reproduces_all_four_observed_outputs": false
+    },
+    {
+      "mask": 10,
+      "fields": [
+        "permitted_representative_classes",
+        "representatives_must_have_bona_fide_need_to_know"
+      ],
+      "reproduces_all_four_observed_outputs": true
+    },
+    {
+      "mask": 11,
+      "fields": [
+        "disclosure_limited_to_business_purpose",
+        "permitted_representative_classes",
+        "representatives_must_have_bona_fide_need_to_know"
+      ],
+      "reproduces_all_four_observed_outputs": true
+    },
+    {
+      "mask": 12,
+      "fields": [
+        "representatives_must_be_confidentiality_bound",
+        "representatives_must_have_bona_fide_need_to_know"
+      ],
+      "reproduces_all_four_observed_outputs": false
+    },
+    {
+      "mask": 13,
+      "fields": [
+        "disclosure_limited_to_business_purpose",
+        "representatives_must_be_confidentiality_bound",
+        "representatives_must_have_bona_fide_need_to_know"
+      ],
+      "reproduces_all_four_observed_outputs": false
+    },
+    {
+      "mask": 14,
+      "fields": [
+        "permitted_representative_classes",
+        "representatives_must_be_confidentiality_bound",
+        "representatives_must_have_bona_fide_need_to_know"
+      ],
+      "reproduces_all_four_observed_outputs": true
+    },
+    {
+      "mask": 15,
+      "fields": [
+        "disclosure_limited_to_business_purpose",
+        "permitted_representative_classes",
+        "representatives_must_be_confidentiality_bound",
+        "representatives_must_have_bona_fide_need_to_know"
+      ],
+      "reproduces_all_four_observed_outputs": true
+    }
+  ],
+  "minimal_masks_reproducing_observed_child_outputs": [
+    2
+  ],
+  "conclusion": "Only permitted_representative_classes needs to change on these two contracts. Better scheduling cannot turn this observed case into a coupling advantage. Offline substitution uses previously observed fields and does not claim single-field generation or token savings.",
+  "source_read_invariance": [
+    {
+      "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "two_native_views_identical_reader_wire_components": true,
+      "payload_sha256": "79ee214fc0960ba6cb7a5d5e17849ea217ffd32cb1963b2e77df47a7677bb4b3",
+      "source_spans": 147,
+      "contains_native_question": false
+    },
+    {
+      "source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+      "two_native_views_identical_reader_wire_components": true,
+      "payload_sha256": "8738eb919ec3a65830830df0f7f3814861647dc63764209331b18005f3e8bcbb",
+      "source_spans": 53,
+      "contains_native_question": false
+    },
+    {
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "two_native_views_identical_reader_wire_components": true,
+      "payload_sha256": "39b74fb112654039f7a10762b564157bc87f831b80a97bc43c16e4f75c354971",
+      "source_spans": 59,
+      "contains_native_question": false
+    },
+    {
+      "source": "ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54",
+      "two_native_views_identical_reader_wire_components": true,
+      "payload_sha256": "aa7522811bbd7302bdf4e7cf5113297d6693b120c71403529d2039d1f9b7b2c3",
+      "source_spans": 85,
+      "contains_native_question": false
+    }
+  ],
+  "models_and_labels_used_by_this_analysis": false
+}

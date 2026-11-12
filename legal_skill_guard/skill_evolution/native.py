@@ -133,12 +133,35 @@ def public_task(source, view):
 
 
 def source_spans(public):
-    """Number exact public paragraphs; structured facts retain their JSON text."""
+    """Use supplied sentence boundaries, otherwise exact public paragraphs.
+
+    Public segmentation supplies positions, never evidence labels. Nonempty
+    gaps are retained so segmentation cannot silently delete source material.
+    """
     result = []
     for field, value in public.items():
         if field == 'sentence_spans':
             continue
         text = value if isinstance(value, str) else json.dumps(value, ensure_ascii=False)
+        if field == 'source_text' and 'sentence_spans' in public:
+            cursor = 0
+            for index, pair in enumerate(public['sentence_spans']):
+                if (not isinstance(pair, (list, tuple)) or len(pair) != 2
+                        or any(type(x) is not int for x in pair)):
+                    raise ValueError('Public sentence boundaries need integer start/end pairs')
+                start, end = pair
+                if not cursor <= start < end <= len(text):
+                    raise ValueError('Public sentence boundaries overlap or leave the source range')
+                for a, b, sentence in ((cursor, start, None), (start, end, index)):
+                    if text[a:b].strip():
+                        result.append({'id': len(result), 'field': field, 'start': a,
+                            'end': b, 'text': text[a:b],
+                            **({'public_sentence_id': sentence} if sentence is not None else {})})
+                cursor = end
+            if text[cursor:].strip():
+                result.append({'id': len(result), 'field': field, 'start': cursor,
+                    'end': len(text), 'text': text[cursor:]})
+            continue
         for match in re.finditer(r'\S.*?(?=\n\s*\n|\Z)', text, re.S):
             result.append({'id': len(result), 'field': field, 'start': match.start(),
                            'end': match.end(), 'text': match.group(0)})
