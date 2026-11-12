@@ -1,0 +1,252 @@
+"""Learn reusable text-to-record productions from aligned source examples.
+
+No legal rule or native decision is implemented by this module. Teachers learn
+the lexicons, source annotations and consequence procedure. The host induces
+and compresses span transducers, checking native feedback before each merge.
+"""
+import ast
+from copy import deepcopy
+from difflib import SequenceMatcher
+import json
+from pathlib import Path
+import re
+import subprocess
+import sys
+
+import jsonschema
+
+from .native import record_schema
+from .objects import digest
+from .source_schema import LABELS, TASKS
+
+PAIR = record_schema({'name': {'type': 'string'}, 'value': {'type': 'string'}})
+SLOT = record_schema({'name': {'type': 'string'}, 'quote': {'type': 'string'},
+    'lexicon': {'type': ['string', 'null']}})
+SEED = record_schema({'source': {'type': 'string'}, 'quote': {'type': 'string', 'maxLength': 1800},
+    'kind': {'type': 'string'}, 'slots': {'type': 'array', 'maxItems': 5, 'items': SLOT},
+    'constants': {'type': 'array', 'maxItems': 8, 'items': PAIR}})
+LEXICON = record_schema({'name': {'type': 'string'}, 'entries': {'type': 'array', 'items':
+    record_schema({'symbol': {'type': 'string'}, 'forms': {'type': 'array', 'items': {'type': 'string'}}})}})
+SCHEMA = record_schema({'kind': {'type': 'string', 'enum': ['compiler', 'program', 'text_policy']},
+    'rationale': {'type': 'string'}, 'protected_tokens': {'type': 'array', 'items': {'type': 'string'}},
+    'glue_words': {'type': 'array', 'items': {'type': 'string'}},
+    'lexicons': {'type': 'array', 'maxItems': 6, 'items': LEXICON},
+    'seeds': {'type': 'array', 'maxItems': 12, 'items': SEED},
+    'procedure': {'type': ['string', 'null']}, 'policy_text': {'type': ['string', 'null']}})
+RESULT_SCHEMA = record_schema({'handled': {'type': 'boolean'},
+    'answer': {'type': 'string', 'enum': list(LABELS)},
+    'used_records': {'type': 'array', 'uniqueItems': True, 'items': {'type': 'integer', 'minimum': 0}}})
+METHODS = {'lower', 'upper', 'casefold', 'strip', 'lstrip', 'rstrip', 'split', 'rsplit',
+    'splitlines', 'replace', 'find', 'index', 'startswith', 'endswith', 'join', 'count',
+    'get', 'keys', 'values', 'items', 'append', 'extend', 'add', 'update', 'pop',
+    'compile', 'search', 'match', 'fullmatch', 'findall', 'finditer', 'escape', 'sub', 'group',
+    'groups', 'groupdict', 'start', 'end', 'span', 'I', 'IGNORECASE', 'S', 'DOTALL',
+    'M', 'MULTILINE', 'UNICODE', 'isalnum', 'isalpha', 'isdigit'}
+CALLS = {'min', 'max', 'sum', 'len', 'abs', 'round', 'sorted', 'all', 'any', 'int',
+    'float', 'bool', 'str', 'list', 'dict', 'set', 'tuple', 'range', 'enumerate',
+    'zip', 'isinstance', 'ValueError', 'KeyError', 'TypeError'}
+
+
+def validate_procedure(code):
+    tree = ast.parse(code)
+    if (len(tree.body) != 1 or not isinstance(tree.body[0], ast.FunctionDef)
+            or tree.body[0].name != 'apply'):
+        raise ValueError('One apply(inputs, premises) function required')
+    f = tree.body[0]
+    if (f.decorator_list or f.args.vararg or f.args.kwarg or f.args.kwonlyargs
+            or f.args.defaults or [a.arg for a in f.args.args] != ['inputs', 'premises']):
+        raise ValueError('Explicit JSON input bindings required')
+    forbidden = (ast.Import, ast.ImportFrom, ast.Global, ast.Nonlocal, ast.ClassDef,
+        ast.Lambda, ast.With, ast.AsyncFunctionDef)
+    if any(isinstance(n, forbidden) for n in ast.walk(tree)):raise ValueError('Effectful code forbidden')
+    if sum(isinstance(n, ast.FunctionDef) for n in ast.walk(tree)) != 1:raise ValueError('No nested functions')
+    for n in ast.walk(tree):
+        if isinstance(n, ast.Name) and n.id.startswith('__'):raise ValueError('No introspection')
+        if isinstance(n, ast.Attribute) and n.attr not in METHODS:raise ValueError('Unsupported attribute: ' + n.attr)
+        if isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id not in CALLS:
+            raise ValueError('Unsupported call: ' + n.func.id)
+    return code
+
+
+def execute(code, inputs, premises):
+    validate_procedure(code)
+    out = subprocess.run([sys.executable, '-I', '-S', str(Path(__file__).with_name('span_compiler_worker.py'))],
+        input=json.dumps({'procedure': code, 'inputs': inputs, 'premises': premises}, ensure_ascii=False),
+        capture_output=True, text=True, timeout=4, cwd='/tmp', env={'LANG': 'C.UTF-8'}, close_fds=True)
+    if out.returncode:raise ValueError('Learned source procedure failed: ' + out.stderr[-1000:])
+    value = json.loads(out.stdout);jsonschema.validate(value, RESULT_SCHEMA)
+    if 'records' in premises:
+        if any(i >= len(premises['records']) for i in value['used_records']):raise ValueError('Missing record proof reference')
+        if value['handled'] and not value['used_records']:raise ValueError('No grounded record for handled result')
+    return value
+
+
+def token_spans(text):return [(m.group(), m.start(), m.end()) for m in re.finditer(r'\w+|[^\w\s]', text)]
+
+
+def locate(text, quote):
+    """Only whitespace changes are ignored; words, case and punctuation agree."""
+    source, target = token_spans(text), token_spans(quote)
+    tokens = [t[0] for t in target]
+    if not tokens:raise ValueError('Empty source quote')
+    hits = [(source[i][1], source[i + len(tokens) - 1][2]) for i in range(len(source) - len(tokens) + 1)
+            if [t[0] for t in source[i:i + len(tokens)]] == tokens]
+    if len(hits) != 1:raise ValueError('Source quote requires one exact token occurrence')
+    return hits[0]
+
+
+def token_regex(tokens):
+    pieces = []
+    for token in tokens:
+        if token is None:pieces.append(r'[\s\S]{0,160}?')
+        else:pieces.append((r'\b' + re.escape(token) + r'\b') if re.fullmatch(r'\w+', token) else re.escape(token))
+    return r'\s*'.join(pieces)
+
+
+def pattern(rule):
+    parts = []
+    for i, literal in enumerate(rule['literals']):
+        parts.append(token_regex(literal))
+        if i < len(rule['slots']):parts.append(r'(?P<' + rule['slots'][i]['name'] + r'>[\s\S]{1,500}?)')
+    return re.compile(''.join(parts), re.IGNORECASE)
+
+
+def compile_annotations(spec, materials):
+    jsonschema.validate(spec, SCHEMA)
+    if spec['kind'] == 'text_policy':
+        if not spec['policy_text'] or spec['procedure'] is not None or spec['seeds'] or spec['lexicons']:
+            raise ValueError('One explicit learned text policy')
+        return []
+    validate_procedure(spec['procedure'])
+    if spec['policy_text'] is not None:raise ValueError('No hidden alternate policy')
+    if spec['kind'] == 'program':
+        if spec['seeds'] or spec['lexicons']:raise ValueError('A free raw program has no hidden compiler acquisition')
+        return []
+    if not spec['seeds']:raise ValueError('The compiler needs acquired source examples')
+    lexicons = {x['name']: x for x in spec['lexicons']}
+    if len(lexicons) != len(spec['lexicons']):raise ValueError('Duplicate lexicon')
+    for lexicon in lexicons.values():
+        if len({x['symbol'] for x in lexicon['entries']}) != len(lexicon['entries']):raise ValueError('Duplicate symbol')
+        for entry in lexicon['entries']:
+            if entry['symbol'] in LABELS or not entry['forms']:raise ValueError('Lexical concepts, not labels')
+            for form in entry['forms']:
+                if not form.strip() or not any(re.search(r'(?<!\w)' + re.escape(form) + r'(?!\w)', text, re.I)
+                        for text in materials.values()):raise ValueError('Lexical form not acquired from TRAIN: ' + form)
+    rules = []
+    for seed in spec['seeds']:
+        if seed['source'] not in materials:raise ValueError('Non-TRAIN annotation')
+        begin, end = locate(materials[seed['source']], seed['quote'])
+        text = materials[seed['source']][begin:end]
+        slots = []
+        for slot in seed['slots']:
+            if not slot['name'].isidentifier() or slot['name'].startswith('_'):raise ValueError('Literal slot identifier required')
+            if slot['lexicon'] is not None and slot['lexicon'] not in lexicons:raise ValueError('Unknown lexical type')
+            a, b = locate(text, slot['quote']);slots.append((a, b, slot))
+        slots.sort(key=lambda x: x[0])
+        names = [s[2]['name'] for s in slots]
+        constants = {c['name']: c['value'] for c in seed['constants']}
+        if len(set(names)) != len(names) or set(names) & set(constants) or len(constants) != len(seed['constants']):raise ValueError('Duplicate binding')
+        if seed['kind'] in LABELS or any(v in LABELS for v in constants.values()):raise ValueError('No source answer labels')
+        literals, cursor = [], 0
+        for a, b, slot in slots:
+            if a < cursor:raise ValueError('Overlapping source bindings')
+            literals.append([t[0] for t in token_spans(text[cursor:a])]);cursor = b
+        literals.append([t[0] for t in token_spans(text[cursor:])])
+        if slots and not literals[-1]:raise ValueError('The last source capture requires literal right context')
+        if sum(len(t) for t in literals) < 2:raise ValueError('Source context cannot consist only of holes')
+        rule = {'kind': seed['kind'], 'constants': constants, 'slots': [s[2] for s in slots],
+            'literals': literals, 'seed_sources': [seed['source']], 'seed_quotes': [text], 'merged_from': []}
+        rule['id'] = digest(rule);pattern(rule);rules.append(rule)
+    if len({r['id'] for r in rules}) != len(rules):raise ValueError('Duplicate source annotations')
+    return rules
+
+
+def recognize_terms(text, lexicon, glue):
+    hits = []
+    for entry in lexicon['entries']:
+        for form in entry['forms']:
+            hits += [(m.start(), m.end(), entry['symbol']) for m in
+                     re.finditer(r'(?<!\w)' + re.escape(form) + r'(?!\w)', text, re.I)]
+    # Nested aliases may agree, but competing meanings remain unresolved.
+    ambiguous = any(a < d and c < b and x != y for a, b, x in hits for c, d, y in hits)
+    occupied = {i for a, b, _ in hits for i in range(a, b)}
+    unresolved = [word for word, a, b in token_spans(text)
+                  if re.fullmatch(r'\w+', word) and word.lower() not in glue and not all(i in occupied for i in range(a, b))]
+    return {'symbols': sorted({x for _, _, x in hits}), 'complete': not unresolved and not ambiguous,
+            'unresolved_surface': unresolved, 'ambiguous': ambiguous}
+
+
+def parse_source(spec, rules, text):
+    lexicons = {x['name']: x for x in spec['lexicons']};glue = {x.lower() for x in spec['glue_words']}
+    records = []
+    for rule in rules:
+        for match in pattern(rule).finditer(text):
+            values = dict(rule['constants']);surface = {};lexical = {}
+            for slot in rule['slots']:
+                raw = match.group(slot['name']);surface[slot['name']] = raw
+                if slot['lexicon'] is None:values[slot['name']] = raw
+                else:
+                    lex = recognize_terms(raw, lexicons[slot['lexicon']], glue)
+                    lexical[slot['name']] = lex
+                    # No matches is unresolved, never a known-empty role set.
+                    values[slot['name']] = lex['symbols'] if lex['symbols'] else None
+            record = {'kind': rule['kind'], 'values': values, 'surface': surface,
+                'lexical': lexical, 'span': [match.start(), match.end()], 'production': rule['id']}
+            if record not in records:records.append(record)
+    return sorted(records, key=lambda r: (r['span'], r['production']))
+
+
+def merge_rules(a, b, protected):
+    if (a['kind'] != b['kind'] or a['constants'] != b['constants'] or
+            [(x['name'], x['lexicon']) for x in a['slots']] != [(x['name'], x['lexicon']) for x in b['slots']]):return None
+    literals = []
+    for left, right in zip(a['literals'], b['literals']):
+        if None in left or None in right:return None  # One finite merge pass, no unconstrained wildcard growth.
+        protected_left = [x.lower() for x in left if x.lower() in protected or x.isnumeric()]
+        protected_right = [x.lower() for x in right if x.lower() in protected or x.isnumeric()]
+        if protected_left != protected_right:return None
+        result, li, ri = [], 0, 0
+        for block in SequenceMatcher(None, [x.lower() for x in left], [x.lower() for x in right], autojunk=False).get_matching_blocks():
+            if block.a > li or block.b > ri:result.append(None)
+            result.extend(left[block.a:block.a + block.size]);li, ri = block.a + block.size, block.b + block.size
+        kept = [x.lower() for x in result if x is not None and (x.lower() in protected or x.isnumeric())]
+        if kept != protected_left:return None
+        literals.append(result)
+    if sum(x is not None for part in literals for x in part) < 4:return None
+    merged = {**deepcopy(a), 'literals': literals,
+        'seed_sources': sorted(set(a['seed_sources'] + b['seed_sources'])),
+        'seed_quotes': sorted(set(a['seed_quotes'] + b['seed_quotes'])), 'merged_from': [a['id'], b['id']]}
+    merged['id'] = digest({k: v for k, v in merged.items() if k != 'id'})
+    pattern(merged)
+    return merged
+
+
+def grammar_cost(rules):
+    return sum(1 + sum(4 if x is None else len(x) + 1 for part in r['literals'] for x in part)
+               + 8 * len(r['slots']) for r in rules)
+
+
+def learn_grammar(spec, seeds, evaluate, *, native_feedback):
+    """Finite typed anti-unification with whole-source feedback before commit."""
+    current = deepcopy(seeds);scores = evaluate(current);history = []
+    protected = {x.lower() for x in spec['protected_tokens']}
+    candidates = []
+    for i, a in enumerate(seeds):
+        for b in seeds[i + 1:]:
+            merged = merge_rules(a, b, protected)
+            if merged is not None:candidates.append((a['id'], b['id'], merged))
+    # Descending compression is fixed from source annotations, not probe labels.
+    candidates.sort(key=lambda c: (grammar_cost([c[2]]) - grammar_cost([next(s for s in seeds if s['id'] == c[0]), next(s for s in seeds if s['id'] == c[1])]), c[2]['id']))
+    for a, b, merged in candidates:
+        ids = {r['id'] for r in current}
+        if not {a, b} <= ids:continue
+        trial = [r for r in current if r['id'] not in (a, b)] + [merged]
+        if grammar_cost(trial) >= grammar_cost(current):continue
+        after = evaluate(trial)
+        retained = all(after[k] >= v for k, v in scores.items())
+        accepted = retained or not native_feedback
+        history.append({'parents': [a, b], 'merged': merged['id'], 'before': scores,
+            'after': after, 'native_nonregression': retained, 'accepted': accepted,
+            'cost_before': grammar_cost(current), 'cost_after': grammar_cost(trial)})
+        if accepted:current, scores = trial, after
+    return current, history
