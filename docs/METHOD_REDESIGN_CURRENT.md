@@ -86,6 +86,6 @@ TRAIN异常成本引用已离线补齐：28条原生视图禁网精确回放找�
 
 CoRev此前核对出两个实现差距。READ/前提编辑移植已在隔离工程树实现：模式保存完整前后Skill，当前候选同时携带P、READ、类型和绑定，依赖ID重绑定；Full/Generic共享编译。实际拒绝提议的2个技能完整重建，7组实际缓存执行输出一致，101项回归通过，新增0E/0T，累计9218E/162T、在途0。原拒绝包仍不入库，正向学习/候选路径只用隔离合成fixture检查，不计研究成功。[完整编辑回归](../reports/legal_skill_evolution_run_20261111/source_rule_full_edit_regression.json)。
 
-仍未充分实现的是职责关系：粗粒度preliminary/terminal、类型和USE不能表示实际消费者对False由Contradiction改为NotMentioned。原方案4.6要求的职责变化、使用方式和源关系绑定须落实到可核对证据，不能仅凭声明匹配。[修复前程序审计](../reports/legal_skill_evolution_run_20261111/source_rule_CoRev_implementation_audit.json)保留。
+有界职责差分与关系匹配现已接入：实际USE/APPLY及端口访问位置定位代码责任，在固定其余绑定时探测Boolean依赖的True/False后果；源关系仅绑定当前材料中明确、唯一的例外引用，未知不参与匹配。4条真实调用上下文能区分同一修订对nda-5与nda-7的不同解释。种子引用在4份既有合同中1份绑定、3份unknown，这不是总体语义覆盖。Full和Generic共享全部证据与完整编辑能力，Generic仍可尝试整个编辑；原真实拒绝表在两者均0模式。106项离线回归通过，新增0E/0T，累计9218E/162T、在途0。[职责、源绑定与成本回归](../reports/legal_skill_evolution_run_20261111/source_rule_responsibility_regression.json)。
 
-下一项实际工作：针对已有真实程序/轨迹构建有界责任差分与关系匹配，核对哪些字段来自代码行为、哪些来自明确源关系，未知保持unknown；与原Generic信息及可执行编辑能力公平比较。先完成离线实现与实际记录反证，不追加教师、完整训练/矩阵或旧TEST。之后才按明确问题作必要定点验证；仍须真实可接受共同修订与另一母来源实际模式使用。不得把本轮编译、合成fixture或原生局部改善当作两项贡献成立。
+两机制仍无独立实证，工程接通不等于研究成功。下一项实际工作：离线拆清当前读取中接收人类别、许可场景及附带条件的职责，定位字符串数组与法律计算之间的具体语义错配；有明确修正及反例后再作有限原TRAIN验证。不再为已证单字段足够的Lift案例或原样错误表示追加请求，不重新运行完整矩阵、旧TEST或论文。Goal active、未完成；没有新的资源阻断或暂停。

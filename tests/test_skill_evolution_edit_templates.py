@@ -52,12 +52,23 @@ class CompleteEditTemplates(unittest.TestCase):
         for generic in (False, True):
             library = Library(skills=deepcopy(self.new))
             table = VersionTable(tuple(exported['revision_hashes']), ('fixture_only_parent',), ())
-            for mask in range(4):table.observe(mask, 'fixture_only_parent', float(mask == 3), witness)
+            fixture = deepcopy(witness);fixture['source'] = 'fixture_only_parent'
+            for view in fixture['views']:
+                for event in view['execution']['events']:
+                    if 'source' in event:event['source'] = fixture['source']
+            for mask in range(4):
+                trace = deepcopy(fixture)
+                for view in trace['views']:
+                    view['score']['grade'] = float(mask == 3)
+                    view['score']['correct'] = mask == 3
+                trace['native_grade'] = trace['selection_grade'] = float(mask == 3)
+                table.observe(mask, 'fixture_only_parent', float(mask == 3), trace)
             learned = learn(library, self.old, self.candidate['revisions'], table, 3, generic=generic)
-            self.assertEqual(len(learned), 1)
+            self.assertEqual(len(learned), 2)  # Two distinct measured receiver interpretations.
             # Only this isolated fixture receives that artificial pattern.
             target = Library(skills=deepcopy(self.old.skills), revision_patterns=deepcopy(library.revision_patterns))
-            proposed = candidates(target, [witness], generic=generic)
+            current = deepcopy(table.traces[0, 'fixture_only_parent'])
+            proposed = candidates(target, [current], generic=generic)
             self.assertEqual(len(proposed), 1)
             self.assertTrue(proposed[0]['generated_before_teacher'])
             self.assertEqual(len(proposed[0]['revisions']), 2)
@@ -66,6 +77,14 @@ class CompleteEditTemplates(unittest.TestCase):
                 after = self.new[skill.id]
                 self.assertEqual(skill.reads, after.reads)
                 self.assertEqual(skill.premises, after.premises)
+            employee_pattern = next(p for p in library.revision_patterns
+                if p['responsibility_evidence']['consumer_after_effects']['false'].get('output') == {'answer': 'NotMentioned'})
+            thirdparty = deepcopy(current)
+            thirdparty['views'] = [v for v in thirdparty['views'] if v['view'] == 'nda-7']
+            target = Library(skills=deepcopy(self.old.skills), revision_patterns=[deepcopy(employee_pattern)])
+            # A known different receiver interpretation blocks the legal prior;
+            # the strong Generic memory may still try the whole measured edit.
+            self.assertEqual(len(candidates(target, [thirdparty], generic=generic)), int(generic))
             identifiers = {sid: 'other_' + sid for sid in self.old.skills}
             renamed = {}
             for sid, skill in self.old.skills.items():
@@ -73,7 +92,7 @@ class CompleteEditTemplates(unittest.TestCase):
                 for port in inputs.values():
                     if port['mode'] == 'skill':port['skill_id'] = identifiers[port['skill_id']]
                 renamed[identifiers[sid]] = replace(skill, id=identifiers[sid], inputs=inputs).validate()
-            changed_trace = deepcopy(witness)
+            changed_trace = deepcopy(current)
             for v in changed_trace['views']:
                 for event in v['execution']['events']:
                     for key in ('skill_id', 'producer', 'consumer'):
@@ -85,6 +104,14 @@ class CompleteEditTemplates(unittest.TestCase):
                 skill = Skill.from_dict(rev['new'])
                 for port in skill.inputs.values():
                     if port['mode'] == 'skill':self.assertIn(port['skill_id'], renamed)
+            fallback_table = VersionTable(tuple(exported['revision_hashes']), ('fixture_only_parent',), ())
+            for mask in range(4):
+                trace = deepcopy(table.traces[mask, 'fixture_only_parent'])
+                if mask == 3:
+                    for view in trace['views']:view['execution']['core_executed'] = False
+                fallback_table.observe(mask, 'fixture_only_parent', float(mask == 3), trace)
+            empty = Library(skills=deepcopy(self.new))
+            self.assertEqual(learn(empty, self.old, self.candidate['revisions'], fallback_table, 3, generic=generic), [])
         self.assertEqual(self.old.revision_patterns, [])
 
     def test_unchanged_constant_uses_target_value_and_provenance(self):

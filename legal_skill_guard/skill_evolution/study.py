@@ -258,7 +258,8 @@ class Study:
             new = apply_revision_package(old, [r for i, r in enumerate(best['revisions'])
                 if best['mask'] & (1 << i)], old.hash)
             if arm in ('Full', 'CoRevOnly', 'AllPorts+CoRev', 'Lift+GenericJoint'):
-                learned = patterns.learn(new, old, best['revisions'], best['table'], best['mask'], generic=generic)
+                learned = patterns.learn(new, old, best['revisions'], best['table'], best['mask'], generic=generic,
+                    source_records={k: self.records[k] for k in cohort})
         for receipt in tables:
             if receipt.get('pattern_id') and 'table' in receipt:
                 memory = next(p for p in new.revision_patterns if p['id'] == receipt['pattern_id'])

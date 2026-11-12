@@ -1,0 +1,1166 @@
+{
+  "captured_utc": "2026-11-12T10:34:15.685863+00:00",
+  "scope": "Actual rejected TRAIN response and cached executions only; no new model response or legal gold.",
+  "code_sha256": {
+    "legal_skill_guard/skill_evolution/responsibilities.py": "c5dc63318ab1b200994216d1061b16de27033f89f4ceb5f8283873d8444464f0",
+    "legal_skill_guard/skill_evolution/patterns.py": "727259ba64ca21e9ca697b137832a8c59cac48abf584c131a1aec3f252633b7a",
+    "legal_skill_guard/skill_evolution/revisions.py": "8f209831cf8e9695708b40b124f99db950660408b1b6bab7d8e073efec3352ff",
+    "legal_skill_guard/skill_evolution/proposal_batch.py": "277d3bd02eb6c4138421aa3e994e8e2321a3a8dff7d6456ab5ed105430de618b",
+    "legal_skill_guard/skill_evolution/study.py": "f95bf2eea132d672c454495002363e9cba7699d5cf36599fd5df144dc0c6e669"
+  },
+  "coarse_role_context_unchanged_despite_code_effect_change": true,
+  "actual_code_observations": [
+    {
+      "fields": {
+        "producer_port_type": "boolean",
+        "consumer_uses_actual_producer_output": true,
+        "producer_before_checks": [
+          {
+            "namespace": "inputs",
+            "port": "current_question",
+            "type": "string",
+            "acquisition": "argument"
+          },
+          {
+            "namespace": "premises",
+            "port": "disclosure_limited_to_business_purpose",
+            "type": "boolean",
+            "acquisition": "read"
+          },
+          {
+            "namespace": "premises",
+            "port": "permitted_representative_classes",
+            "type": "array",
+            "acquisition": "read"
+          },
+          {
+            "namespace": "premises",
+            "port": "representatives_must_be_confidentiality_bound",
+            "type": "boolean",
+            "acquisition": "read"
+          },
+          {
+            "namespace": "premises",
+            "port": "representatives_must_have_bona_fide_need_to_know",
+            "type": "boolean",
+            "acquisition": "read"
+          }
+        ],
+        "producer_after_checks": [
+          {
+            "namespace": "inputs",
+            "port": "current_question",
+            "type": "string",
+            "acquisition": "argument"
+          },
+          {
+            "namespace": "premises",
+            "port": "permitted_recipient_classes_and_disclosure_contexts",
+            "type": "array",
+            "acquisition": "read"
+          }
+        ],
+        "dependency_arguments": {
+          "current_question": {
+            "namespace": "inputs",
+            "port": "current_question"
+          }
+        },
+        "consumer_before_false_output": {
+          "answer": "Contradiction"
+        },
+        "consumer_before_true_output": {
+          "answer": "Entailment"
+        },
+        "consumer_after_false_output": {
+          "answer": "NotMentioned"
+        },
+        "consumer_after_true_output": {
+          "answer": "Entailment"
+        }
+      },
+      "unknown": [
+        "source_relation"
+      ],
+      "evidence": {
+        "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+        "view": "nda-5",
+        "actual_USE": {
+          "argument_bindings": {
+            "current_question": {
+              "namespace": "inputs",
+              "port": "current_question"
+            }
+          },
+          "consumer": "nda_disclosure_permission_consequence",
+          "consumer_arguments": {
+            "current_question": "Receiving Party may share some Confidential Information with some of Receiving Party's employees."
+          },
+          "field": "exception_applies",
+          "input": "representative_exception_applies",
+          "kind": "USE",
+          "producer": "nda_representative_exception_applicability",
+          "producer_arguments": {
+            "current_question": "Receiving Party may share some Confidential Information with some of Receiving Party's employees."
+          },
+          "value": false
+        },
+        "consumer_before_effects": {
+          "false": {
+            "status": "known",
+            "output": {
+              "answer": "Contradiction"
+            }
+          },
+          "true": {
+            "status": "known",
+            "output": {
+              "answer": "Entailment"
+            }
+          }
+        },
+        "consumer_after_effects": {
+          "false": {
+            "status": "known",
+            "output": {
+              "answer": "NotMentioned"
+            }
+          },
+          "true": {
+            "status": "known",
+            "output": {
+              "answer": "Entailment"
+            }
+          }
+        },
+        "reference_premises": {
+          "general_third_party_nondisclosure_rule": true,
+          "prohibition_expressly_subject_to_paragraph4": true
+        },
+        "probe_scope": "Boolean dependency interventions under fixed pre-edit reference bindings; not fresh READ values or new legal labels.",
+        "producer_checks_scope": "Declared actual-use inventory and acquisition modes; not independent legal condition gold.",
+        "code_bindings": {
+          "producer_before": {
+            "skill_id": "nda_representative_exception_applicability",
+            "skill_hash": "b982414c6b8a29fc758b5850bae9ccb939b1760646facf1961cd662f0bb2d045",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "premises",
+                "port": "permitted_representative_classes",
+                "line": 3,
+                "column": 24
+              },
+              {
+                "namespace": "premises",
+                "port": "representatives_must_be_confidentiality_bound",
+                "line": 11,
+                "column": 40
+              },
+              {
+                "namespace": "premises",
+                "port": "representatives_must_have_bona_fide_need_to_know",
+                "line": 11,
+                "column": 102
+              },
+              {
+                "namespace": "premises",
+                "port": "disclosure_limited_to_business_purpose",
+                "line": 11,
+                "column": 167
+              }
+            ],
+            "dependency_binding_sites": []
+          },
+          "producer_after": {
+            "skill_id": "nda_representative_exception_applicability",
+            "skill_hash": "6b16766696498c867f67ec121c7c17baef683b51cee187fd650caa57ca8fcd2d",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "premises",
+                "port": "permitted_recipient_classes_and_disclosure_contexts",
+                "line": 3,
+                "column": 22
+              }
+            ],
+            "dependency_binding_sites": []
+          },
+          "consumer_before": {
+            "skill_id": "nda_disclosure_permission_consequence",
+            "skill_hash": "cdc1617416748514ba06a78dc4d007986774c024413062c786e59160e37888c8",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "premises",
+                "port": "general_third_party_nondisclosure_rule",
+                "line": 6,
+                "column": 9
+              },
+              {
+                "namespace": "premises",
+                "port": "prohibition_expressly_subject_to_paragraph4",
+                "line": 6,
+                "column": 64
+              },
+              {
+                "namespace": "inputs",
+                "port": "representative_exception_applies",
+                "line": 7,
+                "column": 11
+              }
+            ],
+            "dependency_binding_sites": [
+              {
+                "input": "representative_exception_applies",
+                "parameter": "current_question",
+                "namespace": "inputs",
+                "port": "current_question"
+              }
+            ]
+          },
+          "consumer_after": {
+            "skill_id": "nda_disclosure_permission_consequence",
+            "skill_hash": "3208b4350a663e43ec02d9f4ddec43b3ccb8afdedfb21a7a08ce45d9d8b6cb5d",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "inputs",
+                "port": "representative_exception_applies",
+                "line": 6,
+                "column": 9
+              },
+              {
+                "namespace": "premises",
+                "port": "general_third_party_nondisclosure_rule",
+                "line": 8,
+                "column": 9
+              }
+            ],
+            "dependency_binding_sites": [
+              {
+                "input": "representative_exception_applies",
+                "parameter": "current_question",
+                "namespace": "inputs",
+                "port": "current_question"
+              }
+            ]
+          }
+        },
+        "source_relation": {
+          "status": "unknown",
+          "reason": "No unique literal exception-reference binding"
+        },
+        "declared_roles_are_not_matching_evidence": true
+      }
+    },
+    {
+      "fields": {
+        "producer_port_type": "boolean",
+        "consumer_uses_actual_producer_output": true,
+        "producer_before_checks": [
+          {
+            "namespace": "inputs",
+            "port": "current_question",
+            "type": "string",
+            "acquisition": "argument"
+          },
+          {
+            "namespace": "premises",
+            "port": "disclosure_limited_to_business_purpose",
+            "type": "boolean",
+            "acquisition": "read"
+          },
+          {
+            "namespace": "premises",
+            "port": "permitted_representative_classes",
+            "type": "array",
+            "acquisition": "read"
+          },
+          {
+            "namespace": "premises",
+            "port": "representatives_must_be_confidentiality_bound",
+            "type": "boolean",
+            "acquisition": "read"
+          },
+          {
+            "namespace": "premises",
+            "port": "representatives_must_have_bona_fide_need_to_know",
+            "type": "boolean",
+            "acquisition": "read"
+          }
+        ],
+        "producer_after_checks": [
+          {
+            "namespace": "inputs",
+            "port": "current_question",
+            "type": "string",
+            "acquisition": "argument"
+          },
+          {
+            "namespace": "premises",
+            "port": "permitted_recipient_classes_and_disclosure_contexts",
+            "type": "array",
+            "acquisition": "read"
+          }
+        ],
+        "dependency_arguments": {
+          "current_question": {
+            "namespace": "inputs",
+            "port": "current_question"
+          }
+        },
+        "consumer_before_false_output": {
+          "answer": "Contradiction"
+        },
+        "consumer_before_true_output": {
+          "answer": "Entailment"
+        },
+        "consumer_after_false_output": {
+          "answer": "Contradiction"
+        },
+        "consumer_after_true_output": {
+          "answer": "Entailment"
+        }
+      },
+      "unknown": [
+        "source_relation"
+      ],
+      "evidence": {
+        "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+        "view": "nda-7",
+        "actual_USE": {
+          "argument_bindings": {
+            "current_question": {
+              "namespace": "inputs",
+              "port": "current_question"
+            }
+          },
+          "consumer": "nda_disclosure_permission_consequence",
+          "consumer_arguments": {
+            "current_question": "Receiving Party may share some Confidential Information with some third-parties (including consultants, agents and professional advisors)."
+          },
+          "field": "exception_applies",
+          "input": "representative_exception_applies",
+          "kind": "USE",
+          "producer": "nda_representative_exception_applicability",
+          "producer_arguments": {
+            "current_question": "Receiving Party may share some Confidential Information with some third-parties (including consultants, agents and professional advisors)."
+          },
+          "value": false
+        },
+        "consumer_before_effects": {
+          "false": {
+            "status": "known",
+            "output": {
+              "answer": "Contradiction"
+            }
+          },
+          "true": {
+            "status": "known",
+            "output": {
+              "answer": "Entailment"
+            }
+          }
+        },
+        "consumer_after_effects": {
+          "false": {
+            "status": "known",
+            "output": {
+              "answer": "Contradiction"
+            }
+          },
+          "true": {
+            "status": "known",
+            "output": {
+              "answer": "Entailment"
+            }
+          }
+        },
+        "reference_premises": {
+          "general_third_party_nondisclosure_rule": true,
+          "prohibition_expressly_subject_to_paragraph4": true
+        },
+        "probe_scope": "Boolean dependency interventions under fixed pre-edit reference bindings; not fresh READ values or new legal labels.",
+        "producer_checks_scope": "Declared actual-use inventory and acquisition modes; not independent legal condition gold.",
+        "code_bindings": {
+          "producer_before": {
+            "skill_id": "nda_representative_exception_applicability",
+            "skill_hash": "b982414c6b8a29fc758b5850bae9ccb939b1760646facf1961cd662f0bb2d045",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "premises",
+                "port": "permitted_representative_classes",
+                "line": 3,
+                "column": 24
+              },
+              {
+                "namespace": "premises",
+                "port": "representatives_must_be_confidentiality_bound",
+                "line": 11,
+                "column": 40
+              },
+              {
+                "namespace": "premises",
+                "port": "representatives_must_have_bona_fide_need_to_know",
+                "line": 11,
+                "column": 102
+              },
+              {
+                "namespace": "premises",
+                "port": "disclosure_limited_to_business_purpose",
+                "line": 11,
+                "column": 167
+              }
+            ],
+            "dependency_binding_sites": []
+          },
+          "producer_after": {
+            "skill_id": "nda_representative_exception_applicability",
+            "skill_hash": "6b16766696498c867f67ec121c7c17baef683b51cee187fd650caa57ca8fcd2d",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "premises",
+                "port": "permitted_recipient_classes_and_disclosure_contexts",
+                "line": 3,
+                "column": 22
+              }
+            ],
+            "dependency_binding_sites": []
+          },
+          "consumer_before": {
+            "skill_id": "nda_disclosure_permission_consequence",
+            "skill_hash": "cdc1617416748514ba06a78dc4d007986774c024413062c786e59160e37888c8",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "premises",
+                "port": "general_third_party_nondisclosure_rule",
+                "line": 6,
+                "column": 9
+              },
+              {
+                "namespace": "premises",
+                "port": "prohibition_expressly_subject_to_paragraph4",
+                "line": 6,
+                "column": 64
+              },
+              {
+                "namespace": "inputs",
+                "port": "representative_exception_applies",
+                "line": 7,
+                "column": 11
+              }
+            ],
+            "dependency_binding_sites": [
+              {
+                "input": "representative_exception_applies",
+                "parameter": "current_question",
+                "namespace": "inputs",
+                "port": "current_question"
+              }
+            ]
+          },
+          "consumer_after": {
+            "skill_id": "nda_disclosure_permission_consequence",
+            "skill_hash": "3208b4350a663e43ec02d9f4ddec43b3ccb8afdedfb21a7a08ce45d9d8b6cb5d",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "inputs",
+                "port": "representative_exception_applies",
+                "line": 6,
+                "column": 9
+              },
+              {
+                "namespace": "premises",
+                "port": "general_third_party_nondisclosure_rule",
+                "line": 8,
+                "column": 9
+              }
+            ],
+            "dependency_binding_sites": [
+              {
+                "input": "representative_exception_applies",
+                "parameter": "current_question",
+                "namespace": "inputs",
+                "port": "current_question"
+              }
+            ]
+          }
+        },
+        "source_relation": {
+          "status": "unknown",
+          "reason": "No unique literal exception-reference binding"
+        },
+        "declared_roles_are_not_matching_evidence": true
+      }
+    },
+    {
+      "fields": {
+        "producer_port_type": "boolean",
+        "consumer_uses_actual_producer_output": true,
+        "producer_before_checks": [
+          {
+            "namespace": "inputs",
+            "port": "current_question",
+            "type": "string",
+            "acquisition": "argument"
+          },
+          {
+            "namespace": "premises",
+            "port": "disclosure_limited_to_business_purpose",
+            "type": "boolean",
+            "acquisition": "read"
+          },
+          {
+            "namespace": "premises",
+            "port": "permitted_representative_classes",
+            "type": "array",
+            "acquisition": "read"
+          },
+          {
+            "namespace": "premises",
+            "port": "representatives_must_be_confidentiality_bound",
+            "type": "boolean",
+            "acquisition": "read"
+          },
+          {
+            "namespace": "premises",
+            "port": "representatives_must_have_bona_fide_need_to_know",
+            "type": "boolean",
+            "acquisition": "read"
+          }
+        ],
+        "producer_after_checks": [
+          {
+            "namespace": "inputs",
+            "port": "current_question",
+            "type": "string",
+            "acquisition": "argument"
+          },
+          {
+            "namespace": "premises",
+            "port": "permitted_recipient_classes_and_disclosure_contexts",
+            "type": "array",
+            "acquisition": "read"
+          }
+        ],
+        "dependency_arguments": {
+          "current_question": {
+            "namespace": "inputs",
+            "port": "current_question"
+          }
+        },
+        "consumer_before_false_output": {
+          "answer": "Contradiction"
+        },
+        "consumer_before_true_output": {
+          "answer": "Entailment"
+        },
+        "consumer_after_false_output": {
+          "answer": "NotMentioned"
+        },
+        "consumer_after_true_output": {
+          "answer": "Entailment"
+        }
+      },
+      "unknown": [
+        "source_relation"
+      ],
+      "evidence": {
+        "source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+        "view": "nda-5",
+        "actual_USE": {
+          "argument_bindings": {
+            "current_question": {
+              "namespace": "inputs",
+              "port": "current_question"
+            }
+          },
+          "consumer": "nda_disclosure_permission_consequence",
+          "consumer_arguments": {
+            "current_question": "Receiving Party may share some Confidential Information with some of Receiving Party's employees."
+          },
+          "field": "exception_applies",
+          "input": "representative_exception_applies",
+          "kind": "USE",
+          "producer": "nda_representative_exception_applicability",
+          "producer_arguments": {
+            "current_question": "Receiving Party may share some Confidential Information with some of Receiving Party's employees."
+          },
+          "value": false
+        },
+        "consumer_before_effects": {
+          "false": {
+            "status": "known",
+            "output": {
+              "answer": "Contradiction"
+            }
+          },
+          "true": {
+            "status": "known",
+            "output": {
+              "answer": "Entailment"
+            }
+          }
+        },
+        "consumer_after_effects": {
+          "false": {
+            "status": "known",
+            "output": {
+              "answer": "NotMentioned"
+            }
+          },
+          "true": {
+            "status": "known",
+            "output": {
+              "answer": "Entailment"
+            }
+          }
+        },
+        "reference_premises": {
+          "general_third_party_nondisclosure_rule": true,
+          "prohibition_expressly_subject_to_paragraph4": true
+        },
+        "probe_scope": "Boolean dependency interventions under fixed pre-edit reference bindings; not fresh READ values or new legal labels.",
+        "producer_checks_scope": "Declared actual-use inventory and acquisition modes; not independent legal condition gold.",
+        "code_bindings": {
+          "producer_before": {
+            "skill_id": "nda_representative_exception_applicability",
+            "skill_hash": "b982414c6b8a29fc758b5850bae9ccb939b1760646facf1961cd662f0bb2d045",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "premises",
+                "port": "permitted_representative_classes",
+                "line": 3,
+                "column": 24
+              },
+              {
+                "namespace": "premises",
+                "port": "representatives_must_be_confidentiality_bound",
+                "line": 11,
+                "column": 40
+              },
+              {
+                "namespace": "premises",
+                "port": "representatives_must_have_bona_fide_need_to_know",
+                "line": 11,
+                "column": 102
+              },
+              {
+                "namespace": "premises",
+                "port": "disclosure_limited_to_business_purpose",
+                "line": 11,
+                "column": 167
+              }
+            ],
+            "dependency_binding_sites": []
+          },
+          "producer_after": {
+            "skill_id": "nda_representative_exception_applicability",
+            "skill_hash": "6b16766696498c867f67ec121c7c17baef683b51cee187fd650caa57ca8fcd2d",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "premises",
+                "port": "permitted_recipient_classes_and_disclosure_contexts",
+                "line": 3,
+                "column": 22
+              }
+            ],
+            "dependency_binding_sites": []
+          },
+          "consumer_before": {
+            "skill_id": "nda_disclosure_permission_consequence",
+            "skill_hash": "cdc1617416748514ba06a78dc4d007986774c024413062c786e59160e37888c8",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "premises",
+                "port": "general_third_party_nondisclosure_rule",
+                "line": 6,
+                "column": 9
+              },
+              {
+                "namespace": "premises",
+                "port": "prohibition_expressly_subject_to_paragraph4",
+                "line": 6,
+                "column": 64
+              },
+              {
+                "namespace": "inputs",
+                "port": "representative_exception_applies",
+                "line": 7,
+                "column": 11
+              }
+            ],
+            "dependency_binding_sites": [
+              {
+                "input": "representative_exception_applies",
+                "parameter": "current_question",
+                "namespace": "inputs",
+                "port": "current_question"
+              }
+            ]
+          },
+          "consumer_after": {
+            "skill_id": "nda_disclosure_permission_consequence",
+            "skill_hash": "3208b4350a663e43ec02d9f4ddec43b3ccb8afdedfb21a7a08ce45d9d8b6cb5d",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "inputs",
+                "port": "representative_exception_applies",
+                "line": 6,
+                "column": 9
+              },
+              {
+                "namespace": "premises",
+                "port": "general_third_party_nondisclosure_rule",
+                "line": 8,
+                "column": 9
+              }
+            ],
+            "dependency_binding_sites": [
+              {
+                "input": "representative_exception_applies",
+                "parameter": "current_question",
+                "namespace": "inputs",
+                "port": "current_question"
+              }
+            ]
+          }
+        },
+        "source_relation": {
+          "status": "unknown",
+          "reason": "No unique literal exception-reference binding"
+        },
+        "declared_roles_are_not_matching_evidence": true
+      }
+    },
+    {
+      "fields": {
+        "producer_port_type": "boolean",
+        "consumer_uses_actual_producer_output": true,
+        "producer_before_checks": [
+          {
+            "namespace": "inputs",
+            "port": "current_question",
+            "type": "string",
+            "acquisition": "argument"
+          },
+          {
+            "namespace": "premises",
+            "port": "disclosure_limited_to_business_purpose",
+            "type": "boolean",
+            "acquisition": "read"
+          },
+          {
+            "namespace": "premises",
+            "port": "permitted_representative_classes",
+            "type": "array",
+            "acquisition": "read"
+          },
+          {
+            "namespace": "premises",
+            "port": "representatives_must_be_confidentiality_bound",
+            "type": "boolean",
+            "acquisition": "read"
+          },
+          {
+            "namespace": "premises",
+            "port": "representatives_must_have_bona_fide_need_to_know",
+            "type": "boolean",
+            "acquisition": "read"
+          }
+        ],
+        "producer_after_checks": [
+          {
+            "namespace": "inputs",
+            "port": "current_question",
+            "type": "string",
+            "acquisition": "argument"
+          },
+          {
+            "namespace": "premises",
+            "port": "permitted_recipient_classes_and_disclosure_contexts",
+            "type": "array",
+            "acquisition": "read"
+          }
+        ],
+        "dependency_arguments": {
+          "current_question": {
+            "namespace": "inputs",
+            "port": "current_question"
+          }
+        },
+        "consumer_before_false_output": {
+          "answer": "Contradiction"
+        },
+        "consumer_before_true_output": {
+          "answer": "Entailment"
+        },
+        "consumer_after_false_output": {
+          "answer": "Contradiction"
+        },
+        "consumer_after_true_output": {
+          "answer": "Entailment"
+        }
+      },
+      "unknown": [
+        "source_relation"
+      ],
+      "evidence": {
+        "source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+        "view": "nda-7",
+        "actual_USE": {
+          "argument_bindings": {
+            "current_question": {
+              "namespace": "inputs",
+              "port": "current_question"
+            }
+          },
+          "consumer": "nda_disclosure_permission_consequence",
+          "consumer_arguments": {
+            "current_question": "Receiving Party may share some Confidential Information with some third-parties (including consultants, agents and professional advisors)."
+          },
+          "field": "exception_applies",
+          "input": "representative_exception_applies",
+          "kind": "USE",
+          "producer": "nda_representative_exception_applicability",
+          "producer_arguments": {
+            "current_question": "Receiving Party may share some Confidential Information with some third-parties (including consultants, agents and professional advisors)."
+          },
+          "value": false
+        },
+        "consumer_before_effects": {
+          "false": {
+            "status": "known",
+            "output": {
+              "answer": "Contradiction"
+            }
+          },
+          "true": {
+            "status": "known",
+            "output": {
+              "answer": "Entailment"
+            }
+          }
+        },
+        "consumer_after_effects": {
+          "false": {
+            "status": "known",
+            "output": {
+              "answer": "Contradiction"
+            }
+          },
+          "true": {
+            "status": "known",
+            "output": {
+              "answer": "Entailment"
+            }
+          }
+        },
+        "reference_premises": {
+          "general_third_party_nondisclosure_rule": true,
+          "prohibition_expressly_subject_to_paragraph4": true
+        },
+        "probe_scope": "Boolean dependency interventions under fixed pre-edit reference bindings; not fresh READ values or new legal labels.",
+        "producer_checks_scope": "Declared actual-use inventory and acquisition modes; not independent legal condition gold.",
+        "code_bindings": {
+          "producer_before": {
+            "skill_id": "nda_representative_exception_applicability",
+            "skill_hash": "b982414c6b8a29fc758b5850bae9ccb939b1760646facf1961cd662f0bb2d045",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "premises",
+                "port": "permitted_representative_classes",
+                "line": 3,
+                "column": 24
+              },
+              {
+                "namespace": "premises",
+                "port": "representatives_must_be_confidentiality_bound",
+                "line": 11,
+                "column": 40
+              },
+              {
+                "namespace": "premises",
+                "port": "representatives_must_have_bona_fide_need_to_know",
+                "line": 11,
+                "column": 102
+              },
+              {
+                "namespace": "premises",
+                "port": "disclosure_limited_to_business_purpose",
+                "line": 11,
+                "column": 167
+              }
+            ],
+            "dependency_binding_sites": []
+          },
+          "producer_after": {
+            "skill_id": "nda_representative_exception_applicability",
+            "skill_hash": "6b16766696498c867f67ec121c7c17baef683b51cee187fd650caa57ca8fcd2d",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "premises",
+                "port": "permitted_recipient_classes_and_disclosure_contexts",
+                "line": 3,
+                "column": 22
+              }
+            ],
+            "dependency_binding_sites": []
+          },
+          "consumer_before": {
+            "skill_id": "nda_disclosure_permission_consequence",
+            "skill_hash": "cdc1617416748514ba06a78dc4d007986774c024413062c786e59160e37888c8",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "premises",
+                "port": "general_third_party_nondisclosure_rule",
+                "line": 6,
+                "column": 9
+              },
+              {
+                "namespace": "premises",
+                "port": "prohibition_expressly_subject_to_paragraph4",
+                "line": 6,
+                "column": 64
+              },
+              {
+                "namespace": "inputs",
+                "port": "representative_exception_applies",
+                "line": 7,
+                "column": 11
+              }
+            ],
+            "dependency_binding_sites": [
+              {
+                "input": "representative_exception_applies",
+                "parameter": "current_question",
+                "namespace": "inputs",
+                "port": "current_question"
+              }
+            ]
+          },
+          "consumer_after": {
+            "skill_id": "nda_disclosure_permission_consequence",
+            "skill_hash": "3208b4350a663e43ec02d9f4ddec43b3ccb8afdedfb21a7a08ce45d9d8b6cb5d",
+            "literal_port_accesses": [
+              {
+                "namespace": "inputs",
+                "port": "current_question",
+                "line": 2,
+                "column": 15
+              },
+              {
+                "namespace": "inputs",
+                "port": "representative_exception_applies",
+                "line": 6,
+                "column": 9
+              },
+              {
+                "namespace": "premises",
+                "port": "general_third_party_nondisclosure_rule",
+                "line": 8,
+                "column": 9
+              }
+            ],
+            "dependency_binding_sites": [
+              {
+                "input": "representative_exception_applies",
+                "parameter": "current_question",
+                "namespace": "inputs",
+                "port": "current_question"
+              }
+            ]
+          }
+        },
+        "source_relation": {
+          "status": "unknown",
+          "reason": "No unique literal exception-reference binding"
+        },
+        "declared_roles_are_not_matching_evidence": true
+      }
+    }
+  ],
+  "seed_provenance_literal_source_bindings": {
+    "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078": {
+      "status": "known",
+      "kind": "literal_express_exception_reference",
+      "direction": "consumer_reference_to_producer_scope",
+      "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "producer_scope": "4",
+      "consumer_scope": "3",
+      "view_id": null,
+      "binding_policy": "Exact unique quote in current material; learning-origin source IDs are not applicability IDs.",
+      "producer_anchor": {
+        "start": 5241,
+        "end": 5597,
+        "quote": "each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose"
+      },
+      "consumer_anchor": {
+        "start": 4663,
+        "end": 4930,
+        "quote": "not to disclose such Confidential Information to third parties (including, without limitation, any clients, affiliates, independent contractors and consultants) without the prior, written consent of the Disclosing Party except as expressly permitted under Paragraph 4"
+      },
+      "reference": {
+        "start": 4883,
+        "end": 4930,
+        "text": "except as expressly permitted under Paragraph 4"
+      },
+      "legal_truth_or_universal_implication_inferred": false
+    },
+    "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d": {
+      "status": "unknown",
+      "reason": "No unique literal exception-reference binding"
+    },
+    "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450": {
+      "status": "unknown",
+      "reason": "No unique literal exception-reference binding"
+    },
+    "ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54": {
+      "status": "unknown",
+      "reason": "No unique literal exception-reference binding"
+    }
+  },
+  "literal_relation_coverage": {
+    "known_parent_materials": 1,
+    "checked_parent_materials": 4,
+    "interpretation": "Coverage of these literal seed-quote bindings, not overall legal or method coverage."
+  },
+  "read_consumption_footprints_by_mask": {
+    "0": {
+      "traced_tokens": 22575,
+      "unique_read_origins": 3,
+      "complete": false,
+      "kind": "unique referenced READ consumption footprint, not incremental physical billing"
+    },
+    "1": {
+      "traced_tokens": 9949,
+      "unique_read_origins": 2,
+      "complete": false,
+      "kind": "unique referenced READ consumption footprint, not incremental physical billing"
+    },
+    "2": {
+      "traced_tokens": 20353,
+      "unique_read_origins": 4,
+      "complete": false,
+      "kind": "unique referenced READ consumption footprint, not incremental physical billing"
+    },
+    "3": {
+      "traced_tokens": 19470,
+      "unique_read_origins": 4,
+      "complete": false,
+      "kind": "unique referenced READ consumption footprint, not incremental physical billing"
+    }
+  },
+  "original_selected_mask": null,
+  "real_patterns_created_by_Full_or_Generic": {
+    "False": [],
+    "True": []
+  },
+  "synthetic_fixture_grades_are_not_native_results": true,
+  "new_physical_requests": {
+    "executor": 0,
+    "teacher": 0
+  },
+  "cumulative_physical_requests": {
+    "executor": 9218,
+    "teacher": 162
+  },
+  "pending": 0,
+  "independent_Lift_evidence": false,
+  "independent_CoRev_evidence": false,
+  "goal_complete": false,
+  "limitations": [
+    "Finite code effects under fixed observed bindings are not legal correctness labels.",
+    "Only uniquely bound literal express-exception references are recognized; unsupported syntax stays unknown.",
+    "No new accepted co-revision or real cross-parent pattern use has been demonstrated."
+  ],
+  "regressions_passed": 106,
+  "original_formal_and_frozen_hash_entries_verified": 206
+}

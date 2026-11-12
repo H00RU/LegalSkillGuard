@@ -6,6 +6,7 @@ import difflib
 
 from .objects import Skill, digest, dependency_arguments
 from .revisions import rank_patterns, observe_transfer
+from .responsibilities import context as responsibility_context, improved_invocations, invocations, read_cost
 
 
 def instantiate_edit(before, after, target, *, declared_ports=None, allow_query_predicates=False):
@@ -193,7 +194,7 @@ def compatible_dependency_versions(old_p, new_p, old_c, new_c, field):
     return True
 
 
-def learn(library, old_library, revisions, table, selected_mask, *, generic=False):
+def learn(library, old_library, revisions, table, selected_mask, *, generic=False, source_records=None):
     """Compile actual accepted edits; joint necessity stays local to its table."""
     if not table.complete or selected_mask is None:
         return []
@@ -215,9 +216,6 @@ def learn(library, old_library, revisions, table, selected_mask, *, generic=Fals
         if not compatible_dependency_versions(old_p, library.skills[producer],
                 old_c, library.skills[consumer], field):
             continue
-        context = relation_context(old_p, old_c, field)
-        if not generic and any(v == 'unknown' for v in context.values()):
-            continue
         edits = []
         for identity, target in ((producer, 'producer'), (consumer, 'consumer')):
             old, new = old_library.skills[identity], library.skills[identity]
@@ -231,24 +229,32 @@ def learn(library, old_library, revisions, table, selected_mask, *, generic=Fals
                 'diff': ''.join(difflib.unified_diff(old.procedure.splitlines(True), new.procedure.splitlines(True)))})
         if len(edits) != 2:
             continue
-        key = digest({'context': context, 'edits': edits, 'generic': generic})
-        pattern = {'id': key, 'kind': 'generic_multi_edit' if generic else 'legal_corevision',
-            'verified_relation_fields': context if not generic else {
-                'producer_port_type': context['producer_port_type'], 'consumer_uses_actual_producer_output': True},
-            'relation_evidence_kind': 'source_anchored_role_declarations_and_actual_USE; not_independent_role_gold',
-            'edits': edits, 'counts_by_context': {}, 'observed_read_tokens': 0,
-            'training_sources': list(table.trigger + table.history),
-            'exact_version_table': table.export(), 'actual_source_field': field,
-            'new_responsibility': role(library.skills[producer], field)}
-        if any(p['id'] == key for p in library.revision_patterns):
-            continue
-        observe_transfer(pattern, context, table)
-        library.revision_patterns.append(pattern)
-        created.append(key)
+        for unit in improved_invocations(table, selected_mask, producer, field, consumer):
+            observed = responsibility_context(old_p, old_c, library.skills[producer],
+                library.skills[consumer], field, unit, (source_records or {}).get(unit['source']))
+            context = observed['fields']
+            if not context:continue
+            key = digest({'context': context, 'edits': edits, 'generic': generic})
+            if any(p['id'] == key for p in library.revision_patterns):continue
+            pattern = {'id': key, 'kind': 'generic_multi_edit' if generic else 'legal_corevision',
+                'verified_relation_fields': context if not generic else {
+                    'producer_port_type': context['producer_port_type'], 'consumer_uses_actual_producer_output': True},
+                'relation_evidence_kind': 'finite_code_probes_and_literal_source_bindings; not_independent_legal_gold',
+                'responsibility_evidence': observed['evidence'],
+                'unknown_relation_fields': observed['unknown'],
+                'declared_roles_for_interpretation_only': relation_context(old_p, old_c, field),
+                'edits': edits, 'counts_by_context': {},
+                'read_cost': {'before': read_cost(table, 0), 'after': read_cost(table, selected_mask)},
+                'training_sources': list(table.trigger + table.history),
+                'exact_version_table': table.export(), 'actual_source_field': field}
+            pattern['observed_read_tokens'] = pattern['read_cost']['after']['traced_tokens']
+            observe_transfer(pattern, context, table)
+            library.revision_patterns.append(pattern)
+            created.append(key)
     return created
 
 
-def candidates(library, current_traces, *, generic=False):
+def candidates(library, current_traces, *, generic=False, source_records=None):
     """Instantiate edits before teacher generation; replay still decides admission."""
     found = []
     for producer, field, consumer in actual_links(current_traces):
@@ -256,12 +262,11 @@ def candidates(library, current_traces, *, generic=False):
             continue
         p, c = library.skills[producer], library.skills[consumer]
         if field not in p.outputs:continue
-        context = relation_context(p, c, field)
         patterns = [x for x in library.revision_patterns
                     if x['kind'] == ('generic_multi_edit' if generic else 'legal_corevision')]
-        ordered = (sorted((x['id'] for x in patterns)) if generic else rank_patterns(patterns, context))
-        for identity in ordered:
-            pattern = next(x for x in patterns if x['id'] == identity)
+        units = [unit for trace in current_traces for unit in invocations(trace, producer, field, consumer)
+                 if unit['score']['grade'] is None or unit['score']['grade'] < 1]
+        for pattern in sorted(patterns, key=lambda x: x['id']):
             revisions = []
             skill_ids = {e['before_skill']['id']: p.id if e['target'] == 'producer' else c.id
                          for e in pattern['edits']}
@@ -273,9 +278,25 @@ def candidates(library, current_traces, *, generic=False):
                 revisions.append({'skill_id': old.id, 'old_hash': old.hash, 'new_hash': new.hash,
                                   'new': asdict(new), 'operation': 'learned_pattern'})
             if len(revisions) == 2:
-                found.append({'revisions': revisions, 'pattern_id': identity,
-                    'verified_context': context, 'current_bindings': {'producer': producer,
-                        'field': field, 'consumer': consumer}, 'generated_before_teacher': True})
-    # Fixed lexical ordering after the method-specific pattern ranking.
+                after = {r['skill_id']: Skill.from_dict(r['new']) for r in revisions}
+                for unit in units:
+                    observed = responsibility_context(p, c, after[producer], after[consumer], field,
+                        unit, (source_records or {}).get(unit['source']))
+                    context = observed['fields']
+                    if not context:continue
+                    if not generic and not rank_patterns([pattern], context):continue
+                    counts = pattern['counts_by_context'].get(digest(context),
+                        {'joint_needed': 0, 'single_sufficient': 0, 'harmful_or_unresolved': 0})
+                    rank = (len(pattern['verified_relation_fields']),
+                        (counts['joint_needed'] + 1) / (sum(counts.values()) + 3),
+                        -pattern['observed_read_tokens'] if pattern['read_cost']['after']['complete'] else -float('inf'), pattern['id'])
+                    found.append({'revisions': revisions, 'pattern_id': pattern['id'],
+                        'verified_context': context, 'responsibility_evidence': observed['evidence'],
+                        'unknown_relation_fields': observed['unknown'],
+                        'current_bindings': {'producer': producer, 'field': field, 'consumer': consumer},
+                        'generated_before_teacher': True, '_rank': rank})
+                    break
+    found.sort(key=(lambda x: x['pattern_id']) if generic else (lambda x: x['_rank']), reverse=not generic)
+    for value in found:value.pop('_rank')
     seen = set()
     return [x for x in found if not (digest(x['revisions']) in seen or seen.add(digest(x['revisions'])))]

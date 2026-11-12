@@ -35,7 +35,8 @@ def prepare_context(study, arm, batch):
     else:
         for key in history:current[key] = study.parent(key, old)
         immutable_json(path, {'old_library_hash': old.hash, 'cohort': cohort, 'current': current})
-    generated = patterns.candidates(old, [current[k] for k in trigger], generic=arm == 'Lift+GenericJoint') if (
+    generated = patterns.candidates(old, [current[k] for k in trigger], generic=arm == 'Lift+GenericJoint',
+        source_records={k: study.records[k] for k in trigger}) if (
         arm in ('Full', 'CoRevOnly', 'AllPorts+CoRev', 'Lift+GenericJoint')) else []
     planned_lift = schedule_lift(old, [current[k] for k in trigger], arm)
     queue = generated[:1]

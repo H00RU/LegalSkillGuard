@@ -149,7 +149,8 @@ def rank_patterns(patterns, verified_context):
         counts = pattern['counts_by_context'].get(digest(verified_context), {'joint_needed': 0,
             'single_sufficient': 0, 'harmful_or_unresolved': 0})
         rate = (counts['joint_needed'] + 1) / (sum(counts.values()) + 3)
-        ranked.append((len(required), rate, -pattern['observed_read_tokens'], pattern['id']))
+        known_cost = pattern.get('read_cost', {}).get('after', {}).get('complete', True)
+        ranked.append((len(required), rate, -pattern['observed_read_tokens'] if known_cost else -math.inf, pattern['id']))
     return [identity for _, _, _, identity in sorted(ranked, reverse=True)]
 
 
