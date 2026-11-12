@@ -1,0 +1,224 @@
+{
+  "provenance": {
+    "actual_run": "legal_skill_evolution_fragment_program_update_20261112",
+    "protocol_hash": "e4e800aadd90bc0f8e145d25faa1d150d288374ebafe618761e2fbd8e3f7ab62",
+    "old_seed_hash": "4fbaea6ae0f9b0cf380af28740cdfd88785e5ae7f0edd5985b2600ef42198c0a",
+    "native_tables_preserved": true
+  },
+  "old": {
+    "nda_disclosure_permission_consequence": {
+      "id": "nda_disclosure_permission_consequence",
+      "inputs": {
+        "current_question": {
+          "arguments": {},
+          "field": "current_question",
+          "mode": "argument",
+          "question": "What is the caller-supplied native disclosure-permission question to classify?",
+          "skill_id": null,
+          "type": "string"
+        },
+        "representative_exception_applies": {
+          "arguments": {
+            "current_question": {
+              "namespace": "inputs",
+              "port": "current_question"
+            }
+          },
+          "field": "exception_applies",
+          "mode": "skill",
+          "question": "Does Paragraph 4(a)'s Representatives exception apply to at least one recipient category stated in this disclosure query?",
+          "skill_id": "nda_representative_exception_applicability",
+          "type": "boolean"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "description": "Native ContractNLI classification of the disclosure-permission statement.",
+          "public_tasks": [
+            "nda-5",
+            "nda-7"
+          ],
+          "query_clauses": [
+            "3(c)",
+            "4(a)"
+          ],
+          "type": "string"
+        }
+      }
+    },
+    "nda_representative_exception_applicability": {
+      "id": "nda_representative_exception_applicability",
+      "inputs": {
+        "current_question": {
+          "arguments": {},
+          "field": "current_question",
+          "mode": "argument",
+          "question": "What is the caller-supplied disclosure-permission question whose stated recipient categories must be tested against the current agreement's Representatives permission?",
+          "skill_id": null,
+          "type": "string"
+        }
+      },
+      "outputs": {
+        "exception_applies": {
+          "description": "Whether at least one recipient category stated in the query falls within the current agreement's express Representatives permission and the agreement supplies its confidentiality, need-to-know, and purpose limitations.",
+          "public_tasks": [],
+          "query_clauses": [],
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "new": {
+    "Full": {
+      "nda_representative_exception_applicability": {
+        "id": "nda_representative_exception_applicability",
+        "inputs": {
+          "current_question": {
+            "arguments": {},
+            "field": "current_question",
+            "mode": "argument",
+            "question": "What is the caller-supplied disclosure-permission question whose stated recipient category must be tested against the current agreement’s literal clauses?",
+            "skill_id": null,
+            "type": "string"
+          }
+        },
+        "outputs": {
+          "exception_applies": {
+            "description": "Whether at least one recipient category stated in the query is covered by an express disclosure permission carrying confidentiality, need-to-know, and purpose limitations.",
+            "public_tasks": [],
+            "query_clauses": [],
+            "type": "boolean"
+          },
+          "general_third_party_prohibition": {
+            "description": "Whether the current agreement states a general prohibition on disclosure of Confidential Information to third parties without consent.",
+            "public_tasks": [],
+            "query_clauses": [],
+            "type": "boolean"
+          }
+        }
+      },
+      "nda_disclosure_permission_consequence": {
+        "id": "nda_disclosure_permission_consequence",
+        "inputs": {
+          "current_question": {
+            "arguments": {},
+            "field": "current_question",
+            "mode": "argument",
+            "question": "What is the caller-supplied native disclosure-permission question to classify?",
+            "skill_id": null,
+            "type": "string"
+          },
+          "general_third_party_prohibition": {
+            "arguments": {
+              "current_question": {
+                "namespace": "inputs",
+                "port": "current_question"
+              }
+            },
+            "field": "general_third_party_prohibition",
+            "mode": "skill",
+            "question": "Does the current agreement state a general prohibition on disclosure of Confidential Information to third parties without consent?",
+            "skill_id": "nda_representative_exception_applicability",
+            "type": "boolean"
+          },
+          "representative_exception_applies": {
+            "arguments": {
+              "current_question": {
+                "namespace": "inputs",
+                "port": "current_question"
+              }
+            },
+            "field": "exception_applies",
+            "mode": "skill",
+            "question": "Does the current agreement expressly permit disclosure to at least one recipient category stated in this query, subject to the permission’s attached safeguards?",
+            "skill_id": "nda_representative_exception_applicability",
+            "type": "boolean"
+          }
+        },
+        "outputs": {
+          "answer": {
+            "description": "Native ContractNLI classification of the disclosure-permission statement.",
+            "public_tasks": [
+              "nda-5",
+              "nda-7"
+            ],
+            "query_clauses": [
+              "heading:Non-Disclosure",
+              "3",
+              "3(c)",
+              "4(a)"
+            ],
+            "type": "string"
+          }
+        }
+      },
+      "actual_selected_mask": 3
+    },
+    "Lift+GenericJoint": {
+      "nda_representative_exception_applicability": {
+        "id": "nda_representative_exception_applicability",
+        "inputs": {
+          "current_question": {
+            "arguments": {},
+            "field": "current_question",
+            "mode": "argument",
+            "question": "What is the caller-supplied disclosure-permission question whose stated recipient category must be tested against the current agreement's literal disclosure clauses?",
+            "skill_id": null,
+            "type": "string"
+          }
+        },
+        "outputs": {
+          "exception_applies": {
+            "description": "Whether the query names at least one recipient category expressly permitted by the current agreement subject to stated confidentiality, need-to-know, and purpose restrictions.",
+            "public_tasks": [],
+            "query_clauses": [],
+            "type": "boolean"
+          }
+        }
+      },
+      "nda_disclosure_permission_consequence": {
+        "id": "nda_disclosure_permission_consequence",
+        "inputs": {
+          "current_question": {
+            "arguments": {},
+            "field": "current_question",
+            "mode": "argument",
+            "question": "What is the caller-supplied native disclosure-permission question to classify?",
+            "skill_id": null,
+            "type": "string"
+          },
+          "representative_exception_applies": {
+            "arguments": {
+              "current_question": {
+                "namespace": "inputs",
+                "port": "current_question"
+              }
+            },
+            "field": "exception_applies",
+            "mode": "skill",
+            "question": "Does an express Representatives permission, with its attached restrictions, cover a recipient category stated in this query?",
+            "skill_id": "nda_representative_exception_applicability",
+            "type": "boolean"
+          }
+        },
+        "outputs": {
+          "answer": {
+            "description": "Native ContractNLI classification of the disclosure-permission statement.",
+            "public_tasks": [
+              "nda-5",
+              "nda-7"
+            ],
+            "query_clauses": [
+              "heading:Non-Disclosure",
+              "3",
+              "3(c)",
+              "4(a)"
+            ],
+            "type": "string"
+          }
+        }
+      },
+      "actual_selected_mask": 3
+    }
+  }
+}

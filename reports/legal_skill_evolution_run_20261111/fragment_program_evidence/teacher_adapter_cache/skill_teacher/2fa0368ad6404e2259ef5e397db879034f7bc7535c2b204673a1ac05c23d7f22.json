@@ -1,0 +1,328 @@
+{
+  "schema_version": 1,
+  "request_sha256": "2fa0368ad6404e2259ef5e397db879034f7bc7535c2b204673a1ac05c23d7f22",
+  "response_sha256": "809e045b488f358f98e7f8410fe7ab84373cd2383ef0a201749ded979e72f7d7",
+  "model": "gpt-5.6-sol",
+  "purpose": "skill_teacher",
+  "value": {
+    "lift_reader": null,
+    "blocks": [
+      {
+        "rationale": "Jointly revise the actual exception producer and terminal consumer to consume the measured literal-clause bundle. The producer now derives representative coverage and attached safeguards from source text, avoiding unresolved synthesized fields. The consumer distinguishes an express representative permission, a broad third-party prohibition, and an employee query not addressed by the volunteer agreement. This improves the trigger's nda-5 result while preserving its nda-7 result and the historical disclosure classifications; nda-16 and nda-20 remain on ordinary fallback.",
+        "revisions": [
+          {
+            "operation": "revise",
+            "skill": {
+              "id": "nda_representative_exception_applicability",
+              "intent": "Determine from literal current-agreement clauses whether a disclosure-permission query names a recipient class covered by an express Representatives permission with its confidentiality, need-to-know, and purpose limitations.",
+              "procedure": "def apply(inputs, premises):\n    question = inputs[\"current_question\"]\n    clauses = premises[\"nondisclosure_clauses\"]\n    definitions = premises[\"party_and_recipient_definitions\"]\n    role_supported = False\n    for definition in definitions:\n        if \"Receiving Party\" in definition or \"Party\" in definition or \"Volunteer\" in definition:\n            role_supported = True\n    employees_permitted = False\n    advisors_permitted = False\n    confidentiality_required = False\n    need_to_know_required = False\n    purpose_limited = False\n    for clause in clauses:\n        if \"Receiving Party\" in clause or \"each Party\" in clause or \"Each Party\" in clause or \"Volunteer\" in clause:\n            role_supported = True\n        permission_clause = \"may disclose\" in clause and \"Confidential Information\" in clause\n        if permission_clause:\n            if \"employees\" in clause:\n                employees_permitted = True\n            if \"legal advisors\" in clause or \"financial advisors\" in clause or \"accountants\" in clause:\n                advisors_permitted = True\n            if \"confidentiality\" in clause or \"confidential\" in clause:\n                confidentiality_required = True\n            if \"need to know\" in clause or \"bona fide need to know\" in clause:\n                need_to_know_required = True\n            if \"Business Purpose\" in clause or \"the Purpose\" in clause or \"for the Purpose\" in clause:\n                purpose_limited = True\n    employee_query = \"Receiving Party's employees\" in question\n    advisor_query = \"professional advisors\" in question\n    class_permitted = False\n    if employee_query and employees_permitted:\n        class_permitted = True\n    if advisor_query and advisors_permitted:\n        class_permitted = True\n    exception_applies = role_supported and class_permitted and confidentiality_required and need_to_know_required and purpose_limited\n    return {\"exception_applies\": exception_applies}",
+              "inputs": [
+                {
+                  "name": "current_question",
+                  "type": "string",
+                  "mode": "argument",
+                  "question": "What is the caller-supplied disclosure-permission question whose stated recipient category must be tested against the current agreement's literal disclosure clauses?",
+                  "skill_id": null,
+                  "field": "current_question",
+                  "arguments": []
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "exception_applies",
+                  "type": "boolean",
+                  "description": "Whether the query names at least one recipient category expressly permitted by the current agreement subject to stated confidentiality, need-to-know, and purpose restrictions.",
+                  "query_clauses": [],
+                  "public_tasks": []
+                }
+              ],
+              "premises": [
+                {
+                  "name": "nondisclosure_clauses",
+                  "type": "array",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Which literal current-source spans state the nondisclosure obligations and any express disclosure permissions or exceptions, including attached qualifications?",
+                  "origin": {
+                    "source_id": "",
+                    "view_id": "",
+                    "quote": ""
+                  },
+                  "read_id": "current_literal_nondisclosure_bundle",
+                  "field": "nondisclosure_clauses"
+                },
+                {
+                  "name": "party_and_recipient_definitions",
+                  "type": "array",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Which literal current-source spans define the parties, obligated roles, or recipient groups used by the nondisclosure clauses?",
+                  "origin": {
+                    "source_id": "",
+                    "view_id": "",
+                    "quote": ""
+                  },
+                  "read_id": "current_literal_nondisclosure_bundle",
+                  "field": "party_and_recipient_definitions"
+                }
+              ],
+              "reads": [
+                {
+                  "id": "current_literal_nondisclosure_bundle",
+                  "question": "Locate the source text governing confidentiality/nondisclosure, its express disclosure permissions or exceptions, and the definitions needed to interpret those clauses. Select source spans only; do not decide any native hypothesis.",
+                  "source_locator": "Complete supplied current source, including operative clauses, attached qualifications and definitions.",
+                  "fields": [
+                    {
+                      "name": "nondisclosure_clauses",
+                      "type": "array",
+                      "question": "Select the literal nondisclosure obligations and any expressly stated disclosure permissions/exceptions, preserving their attached qualifications and references. Select a governing clause even when it does not name Representatives. Do not select unrelated protected-information lists or notification duties as permissions.",
+                      "representation": "source_spans"
+                    },
+                    {
+                      "name": "party_and_recipient_definitions",
+                      "type": "array",
+                      "question": "Select literal source definitions identifying the parties/roles and recipient groups used by the nondisclosure clauses. Definitions may be embedded in the operative clause. Select text, not a legal role-equivalence conclusion or an invented list. Use unknown if no relevant defining text can be located.",
+                      "representation": "source_spans"
+                    }
+                  ],
+                  "bindings": [
+                    {
+                      "premise": "nondisclosure_clauses",
+                      "field": "nondisclosure_clauses"
+                    },
+                    {
+                      "premise": "party_and_recipient_definitions",
+                      "field": "party_and_recipient_definitions"
+                    }
+                  ]
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "literal_representative_permission_record",
+                  "ports": [
+                    "current_question",
+                    "nondisclosure_clauses",
+                    "party_and_recipient_definitions"
+                  ],
+                  "neighbors": []
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "derive_express_representative_exception",
+                  "statement": "Recognize a Representatives exception only for recipient classes expressly permitted by the operative clause and preserve its confidentiality, need-to-know, and purpose qualifications.",
+                  "role": "preliminary",
+                  "port": "exception_applies",
+                  "origin": {
+                    "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                    "view_id": "nda-7",
+                    "quote": "(a) Subject to the restrictions set forth below in this Section 4, each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose. "
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                  "view_id": "nda-7",
+                  "quote": "(a) Subject to the restrictions set forth below in this Section 4, each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose. "
+                },
+                {
+                  "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+                  "view_id": "nda-7",
+                  "quote": "The Receiving Party shall not disclose, allow access to, transmit or transfer the Confidential Information to any third party without the Disclosing Party’s prior written consent, provided however that the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\"Representatives\") who have a need to know the Confidential Information for the Purpose provided that the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential and at all times in a manner consistent with this Agreement and the Receiving Party shall be liable for any loss or damage resulting from any Representative failing to do so."
+                }
+              ],
+              "version": 3
+            }
+          },
+          {
+            "operation": "revise",
+            "skill": {
+              "id": "nda_disclosure_permission_consequence",
+              "intent": "Classify a disclosure-permission query from the current agreement's literal nondisclosure clauses and the separately computed express Representatives exception.",
+              "procedure": "def apply(inputs, premises):\n    question = inputs[\"current_question\"]\n    clauses = premises[\"nondisclosure_clauses\"]\n    definitions = premises[\"party_and_recipient_definitions\"]\n    receiving_party_role = False\n    for definition in definitions:\n        if \"Receiving Party\" in definition:\n            receiving_party_role = True\n    general_third_party_prohibition = False\n    employee_specific_prohibition = False\n    for clause in clauses:\n        if \"Receiving Party\" in clause:\n            receiving_party_role = True\n        prohibition_clause = \"not to disclose\" in clause or \"shall not disclose\" in clause or (\"agrees not to\" in clause and \"divulge\" in clause)\n        if prohibition_clause and \"third part\" in clause:\n            general_third_party_prohibition = True\n        if prohibition_clause and \"employees\" in clause:\n            employee_specific_prohibition = True\n    disclosure_query = \"Receiving Party\" in question and \"may share some Confidential Information\" in question\n    employee_query = \"Receiving Party's employees\" in question\n    third_party_query = \"third-parties\" in question or \"third parties\" in question\n    if not disclosure_query:\n        answer = \"NotMentioned\"\n    elif inputs[\"representative_exception_applies\"]:\n        answer = \"Entailment\"\n    elif third_party_query and general_third_party_prohibition:\n        answer = \"Contradiction\"\n    elif employee_query and receiving_party_role and employee_specific_prohibition:\n        answer = \"Contradiction\"\n    else:\n        answer = \"NotMentioned\"\n    return {\"answer\": answer}",
+              "inputs": [
+                {
+                  "name": "current_question",
+                  "type": "string",
+                  "mode": "argument",
+                  "question": "What is the caller-supplied native disclosure-permission question to classify?",
+                  "skill_id": null,
+                  "field": "current_question",
+                  "arguments": []
+                },
+                {
+                  "name": "representative_exception_applies",
+                  "type": "boolean",
+                  "mode": "skill",
+                  "question": "Does an express Representatives permission, with its attached restrictions, cover a recipient category stated in this query?",
+                  "skill_id": "nda_representative_exception_applicability",
+                  "field": "exception_applies",
+                  "arguments": [
+                    {
+                      "parameter": "current_question",
+                      "namespace": "inputs",
+                      "port": "current_question"
+                    }
+                  ]
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "answer",
+                  "type": "string",
+                  "description": "Native ContractNLI classification of the disclosure-permission statement.",
+                  "query_clauses": [
+                    "heading:Non-Disclosure",
+                    "3",
+                    "3(c)",
+                    "4(a)"
+                  ],
+                  "public_tasks": [
+                    "nda-5",
+                    "nda-7"
+                  ]
+                }
+              ],
+              "premises": [
+                {
+                  "name": "nondisclosure_clauses",
+                  "type": "array",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Which literal current-source spans state the nondisclosure obligations and any express disclosure permissions or exceptions, including attached qualifications?",
+                  "origin": {
+                    "source_id": "",
+                    "view_id": "",
+                    "quote": ""
+                  },
+                  "read_id": "current_literal_nondisclosure_bundle",
+                  "field": "nondisclosure_clauses"
+                },
+                {
+                  "name": "party_and_recipient_definitions",
+                  "type": "array",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Which literal current-source spans define the parties, obligated roles, or recipient groups used by the nondisclosure clauses?",
+                  "origin": {
+                    "source_id": "",
+                    "view_id": "",
+                    "quote": ""
+                  },
+                  "read_id": "current_literal_nondisclosure_bundle",
+                  "field": "party_and_recipient_definitions"
+                }
+              ],
+              "reads": [
+                {
+                  "id": "current_literal_nondisclosure_bundle",
+                  "question": "Locate the source text governing confidentiality/nondisclosure, its express disclosure permissions or exceptions, and the definitions needed to interpret those clauses. Select source spans only; do not decide any native hypothesis.",
+                  "source_locator": "Complete supplied current source, including operative clauses, attached qualifications and definitions.",
+                  "fields": [
+                    {
+                      "name": "nondisclosure_clauses",
+                      "type": "array",
+                      "question": "Select the literal nondisclosure obligations and any expressly stated disclosure permissions/exceptions, preserving their attached qualifications and references. Select a governing clause even when it does not name Representatives. Do not select unrelated protected-information lists or notification duties as permissions.",
+                      "representation": "source_spans"
+                    },
+                    {
+                      "name": "party_and_recipient_definitions",
+                      "type": "array",
+                      "question": "Select literal source definitions identifying the parties/roles and recipient groups used by the nondisclosure clauses. Definitions may be embedded in the operative clause. Select text, not a legal role-equivalence conclusion or an invented list. Use unknown if no relevant defining text can be located.",
+                      "representation": "source_spans"
+                    }
+                  ],
+                  "bindings": [
+                    {
+                      "premise": "nondisclosure_clauses",
+                      "field": "nondisclosure_clauses"
+                    },
+                    {
+                      "premise": "party_and_recipient_definitions",
+                      "field": "party_and_recipient_definitions"
+                    }
+                  ]
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "literal_nondisclosure_consequence_record",
+                  "ports": [
+                    "current_question",
+                    "representative_exception_applies",
+                    "nondisclosure_clauses",
+                    "party_and_recipient_definitions"
+                  ],
+                  "neighbors": [
+                    "literal_representative_permission_record"
+                  ]
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "apply_literal_third_party_prohibition",
+                  "statement": "When no express recipient exception applies, treat a literal prohibition on disclosure to third parties as contradicting the broad third-party disclosure-permission query.",
+                  "role": "terminal",
+                  "port": "answer",
+                  "origin": {
+                    "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                    "view_id": "nda-7",
+                    "quote": " Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information. "
+                  }
+                },
+                {
+                  "id": "require_express_employee_coverage",
+                  "statement": "Treat an employee-disclosure query as permitted only when the operative clause expressly includes employees within a qualified disclosure permission; a general third-party prohibition alone does not manufacture that employee-specific conclusion.",
+                  "role": "constraint",
+                  "port": "answer",
+                  "origin": {
+                    "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+                    "view_id": "nda-5",
+                    "quote": "The Receiving Party shall not disclose, allow access to, transmit or transfer the Confidential Information to any third party without the Disclosing Party’s prior written consent, provided however that the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\"Representatives\") who have a need to know the Confidential Information for the Purpose provided that the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential and at all times in a manner consistent with this Agreement and the Receiving Party shall be liable for any loss or damage resulting from any Representative failing to do so."
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                  "view_id": "nda-7",
+                  "quote": " Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information. "
+                },
+                {
+                  "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                  "view_id": "nda-7",
+                  "quote": "(a) Subject to the restrictions set forth below in this Section 4, each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose. "
+                },
+                {
+                  "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+                  "view_id": "nda-7",
+                  "quote": "The Receiving Party shall not disclose, allow access to, transmit or transfer the Confidential Information to any third party without the Disclosing Party’s prior written consent, provided however that the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\"Representatives\") who have a need to know the Confidential Information for the Purpose provided that the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential and at all times in a manner consistent with this Agreement and the Receiving Party shall be liable for any loss or damage resulting from any Representative failing to do so."
+                }
+              ],
+              "version": 2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-12T12:30:55.131463+00:00",
+    "finished_at": "2026-11-12T12:33:41.186690+00:00",
+    "elapsed_seconds": 166.055,
+    "returncode": 0,
+    "event_log_sha256": "1cf888cf9ecc66eeef92cb6defca6828f43b71c50aad72ed0ab566e7a8137931",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 56553,
+      "cached_input_tokens": 0,
+      "output_tokens": 7807,
+      "reasoning_output_tokens": 4237
+    },
+    "estimated_credits": null
+  }
+}

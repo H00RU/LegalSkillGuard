@@ -217,6 +217,14 @@ class FrozenReads:
                        {'original_input'} if 'original_input' in view['public'] else set()) if require_rule_support else set()
         if require_rule_support and not rule_fields:
             raise ValueError('A source-rule read requires supplied rule material')
+        if fields and all(fragment_field(spec) for spec in fields.values()):
+            # Teacher transport and direct acquisition can order identical
+            # metadata differently. Keep one wire for literal text selectors;
+            # ordinary semantic requests remain byte-for-byte unchanged.
+            fields = {name: {k: spec[k] for k in
+                [k for k in ('type', 'question', 'representation') if k in spec] +
+                sorted(set(spec) - {'type', 'representation', 'question'})}
+                for name, spec in sorted(fields.items())}
         properties = {}
         fragments = {n for n, spec in fields.items() if fragment_field(spec)}
         if fragments and not require_rule_support:
@@ -236,6 +244,13 @@ class FrozenReads:
                 **({'value': value} if name not in fragments else {}),
                 'support_ids': {'type': 'array', 'maxItems': len(spans),
                     'items': {'type': 'integer', 'minimum': 0, 'maximum': len(spans) - 1}}})
+        # A pure source-text selection is a TRAIN source acquisition, shared by
+        # actor/replay uses of the same literal request. Validate the caller
+        # first; DEV/TEST and ordinary semantic reads retain their own purpose.
+        generation_purpose = purpose
+        if fragments and fragments == set(fields) and purpose == 'skill_actor':
+            self.executor.validate_scope(source['key'], purpose, False)
+            generation_purpose = 'skill_replay'
         value, event = self.generate(source, view,
             system=('Read only the requested local fields from the current supplied text. '
                 'For each known field select the supplied span IDs that support its value. '
@@ -274,7 +289,9 @@ class FrozenReads:
                          'required_array_lengths': array_lengths,
                          'alignment_instruction': 'One value per supplied anchor entry, in that exact order; no additional entries.'}
                         if anchor_values is not None else {})},
-            schema=record_schema(properties), purpose=purpose)
+            schema=record_schema(properties), purpose=generation_purpose)
+        if generation_purpose != purpose:
+            event = {**event, 'caller_purpose': purpose, 'generation_purpose': generation_purpose}
         for name, item in value.items():
             if name in fragments and item['status'] == 'known':
                 try:

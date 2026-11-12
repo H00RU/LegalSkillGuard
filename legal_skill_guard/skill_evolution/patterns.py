@@ -182,8 +182,8 @@ def compatible_dependency_versions(old_p, new_p, old_c, new_c, field):
     """Interface breakage cannot establish semantic joint-repair necessity."""
     for consumer in (old_c, new_c):
         ports = [p for p in consumer.inputs.values() if p['mode'] == 'skill'
-                 and p['skill_id'] == old_p.id and p['field'] == field]
-        if not ports:
+                 and p['skill_id'] == old_p.id]
+        if not any(p['field'] == field for p in ports):
             return False
         for producer in (old_p, new_p):
             for port in ports:

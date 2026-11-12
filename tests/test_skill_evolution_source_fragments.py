@@ -142,5 +142,48 @@ class SourceFragmentReads(unittest.TestCase):
             return
         self.fail('No retained actual semantic READ request found')
 
+    def test_pure_TRAIN_fragment_acquisition_shares_purpose_after_caller_scope_check(self):
+        checked, generated = [], []
+        class Executor:
+            def validate_scope(self, source, purpose, thinking):
+                checked.append((source, purpose, thinking))
+                if source != self_source:raise ValueError('Outside authorized TRAIN')
+        self_source = self.source['key']
+        reads = FrozenReads(Executor())
+        def generate(*args, **kwargs):
+            generated.append(kwargs['purpose'])
+            return {'clauses': {'status': 'known', 'support_ids': [0]}}, {'call_id': 'cached'}
+        reads.generate = generate
+        args = dict(question='Select text.', fields={'clauses': SPEC}, locator='source',
+                    require_rule_support=True, allow_unresolved=True)
+        values, event = reads.read(self.source, self.view, purpose='skill_actor', **args)
+        self.assertEqual(checked, [(self_source, 'skill_actor', False)])
+        self.assertEqual(generated, ['skill_replay'])
+        self.assertEqual(event['caller_purpose'], 'skill_actor')
+        self.assertEqual(event['generation_purpose'], 'skill_replay')
+        self.assertTrue(values['clauses'])
+        reads.read(self.source, self.view, purpose='skill_dev', **args)
+        reads.read(self.source, self.view, purpose='skill_test', **args)
+        self.assertEqual(generated, ['skill_replay', 'skill_dev', 'skill_test'])
+        with self.assertRaisesRegex(ValueError, 'Outside authorized TRAIN'):
+            reads.read({**self.source, 'key': 'unapproved'}, self.view, purpose='skill_actor', **args)
+        self.assertEqual(len(generated), 3)
+
+    def test_literal_metadata_order_does_not_repeat_the_same_source_request(self):
+        response = {'clauses': {'status': 'known', 'support_ids': [0]}}
+        _, first = self.request(response)
+        reversed_spec = dict(reversed(list(SPEC.items())))
+        captured = []
+        reads = FrozenReads(None)
+        def generate(*args, **kwargs):
+            captured.append(kwargs)
+            return deepcopy(response), {'call_id': 'fixture'}
+        reads.generate = generate
+        reads.read(self.source, self.view, question='Select the actual nondisclosure clauses.',
+            fields={'clauses': reversed_spec}, locator='current source', purpose='fixture',
+            require_rule_support=True, allow_unresolved=True)
+        self.assertEqual(render_messages(first[0]['system'], first[0]['content'], first[0]['schema']),
+                         render_messages(captured[0]['system'], captured[0]['content'], captured[0]['schema']))
+
 
 if __name__ == '__main__':unittest.main()
