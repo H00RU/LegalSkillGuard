@@ -1,0 +1,8 @@
+{
+  "stage": "first offline implementation validation",
+  "exception": "KeyError: source_text",
+  "cause": "Materials lookup wrongly assumed every public TRAIN adapter has source_text in its first view.",
+  "fix": "Only read the current acquired bundle source_examples, using the real CNLI source adapter. No fields manufactured for other datasets.",
+  "model_requests": 0,
+  "old_outputs_or_ledger_rewritten": false
+}

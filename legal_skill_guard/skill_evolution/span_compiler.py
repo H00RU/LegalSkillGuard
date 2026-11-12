@@ -84,10 +84,10 @@ def validate_procedure(code, *, allow_helpers=False):
     return code
 
 
-def execute_json(code, inputs, premises, *, allow_helpers=False):
+def execute_json(code, inputs, premises, *, allow_helpers=False, trace=False):
     validate_procedure(code, allow_helpers=allow_helpers)
     out = subprocess.run([sys.executable, '-I', '-S', str(Path(__file__).with_name('span_compiler_worker.py'))],
-        input=json.dumps({'procedure': code, 'inputs': inputs, 'premises': premises}, ensure_ascii=False),
+        input=json.dumps({'procedure': code, 'inputs': inputs, 'premises': premises, 'trace': trace}, ensure_ascii=False),
         capture_output=True, text=True, timeout=4, cwd='/tmp', env={'LANG': 'C.UTF-8'}, close_fds=True)
     if out.returncode:raise ValueError('Learned source procedure failed: ' + out.stderr[-1000:])
     return json.loads(out.stdout)
