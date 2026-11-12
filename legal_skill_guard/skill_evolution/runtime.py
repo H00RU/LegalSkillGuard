@@ -1,5 +1,6 @@
 """Frozen local reads, actual helper dataflow and the common direct fallback."""
 from dataclasses import asdict
+from copy import deepcopy
 import ast
 import json
 from pathlib import Path
@@ -32,6 +33,28 @@ def render_messages(system, content, schema):
     # Guided decoding alone does not tell the model the requested field layout.
     return [{'role': 'system', 'content': system}, {'role': 'user', 'content': json.dumps(
         {'task': content, 'output_schema': schema}, ensure_ascii=False)}]
+
+
+def decoder_schema(schema):
+    """Keep array uniqueness as a strict host check on this serving backend.
+
+    The installed vLLM validator rejects uniqueItems before generation. Its
+    xgrammar conversion ignores that keyword, so removing it changes neither
+    the generated grammar nor the final host-validated output language.
+    """
+    wire, host_checks = deepcopy(schema), []
+    def visit(node, path):
+        if not isinstance(node, dict):return
+        if 'uniqueItems' in node:
+            host_checks.append(path + '/uniqueItems');node.pop('uniqueItems')
+        for key in ('properties', '$defs', 'definitions'):
+            for name, child in node.get(key, {}).items():visit(child, path + '/' + key + '/' + name)
+        for key in ('items', 'additionalProperties', 'not'):
+            visit(node.get(key), path + '/' + key)
+        for key in ('allOf', 'anyOf', 'oneOf', 'prefixItems'):
+            for i, child in enumerate(node.get(key, [])):visit(child, path + '/' + key + '/' + str(i))
+    visit(wire, '')
+    return wire, host_checks
 
 
 def typed(value, kind):
@@ -146,11 +169,12 @@ class FrozenReads:
 
     def generate(self, source, view, *, system, content, schema, purpose):
         messages = render_messages(system, content, schema)
-        payload = self.executor.payload(messages=messages, thinking=False, schema=schema)
+        wire_schema, host_checks = decoder_schema(schema)
+        payload = self.executor.payload(messages=messages, thinking=False, schema=wire_schema)
         call_id = self.executor.ledger.run_id + ':' + digest({
             'source': source['key'], 'purpose': purpose, 'payload': payload})
         result = self.executor.generate(call_id, source=source['key'], purpose=purpose,
-            messages=messages, thinking=False, schema=schema)
+            messages=messages, thinking=False, schema=wire_schema)
         if result['finish_reason'] != 'stop':
             raise ValueError('Incomplete model response retained: ' + str(result['finish_reason']))
         value = json.loads(result['content'])
@@ -158,7 +182,7 @@ class FrozenReads:
         jsonschema.validate(value, schema)
         return value, {'call_id': call_id, 'cache_hit': result.get('cache_hit', False),
                        'physical_call_id': result.get('reused_physical_call_id', call_id),
-                       'transport_adaptations': adaptations,
+                       'transport_adaptations': adaptations, 'host_validated_schema_checks': host_checks,
                        'usage': result['usage'], 'elapsed_seconds': result['elapsed_seconds'],
                        'response_hash': digest(value)}
 
