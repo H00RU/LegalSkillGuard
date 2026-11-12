@@ -1,0 +1,265 @@
+"""Finite scope-binding learning test on original TRAIN, with open controls.
+
+A common acquired local fragment decoder supplies meanings to every system.
+The method learns a source-structural binding program from grounded examples.
+This isolates binding learning; it is not independent end-to-end acquisition.
+"""
+import argparse
+import ast
+from copy import deepcopy
+import fcntl
+import hashlib
+import json
+from pathlib import Path
+import sqlite3
+
+import jsonschema
+
+from legal_skill_guard.rr.checkpoint import immutable_json
+from legal_skill_guard.skill_evolution.binding_learning import learn,resolve,validate_fragments,family,required_slots
+from legal_skill_guard.skill_evolution.clients import FrozenTeacher
+from legal_skill_guard.skill_evolution.ledger import EvolutionLedger
+from legal_skill_guard.skill_evolution.native import record_schema,source_spans,grade_view
+from legal_skill_guard.skill_evolution.objects import digest
+from legal_skill_guard.skill_evolution.runtime import decoder_schema
+from legal_skill_guard.skill_evolution.scoped_grammar import CONSTRUCTOR,constructors,material_public,term_sort
+from legal_skill_guard.skill_evolution.scoped_reader import apply_current
+from legal_skill_guard.skill_evolution.source_effect_update import function_update
+from legal_skill_guard.skill_evolution.span_compiler import execute_json,execution_source_units,expand_unit_support,occurrences,validate_procedure
+from legal_skill_guard.skill_evolution.teacher_transport import INSTRUCTION,pack
+from experiments.legal_skill_evolution_role_TRAIN import physical_snapshot
+from experiments.legal_skill_evolution_span_compiler import warm_base
+
+RUN='legal_skill_evolution_binding_TRAIN_20261113'
+read=lambda p:json.loads(p.read_text())
+SELECTOR=record_schema({'quote':{'type':'string'},'term_json':{'type':'string'}})
+PROVIDER=record_schema({'slot':{'type':'string'},'quote':{'type':'string'},'term_json':{'type':'string'}})
+DEMO=record_schema({'source':{'type':'string'},'positive':{'type':'boolean'},'claim':SELECTOR,
+    'providers':{'type':'array','items':PROVIDER}})
+FRONT=record_schema({'rationale':{'type':'string'},'extra_constructors':{'type':'array','items':CONSTRUCTOR},
+    'source_functions':{'type':'array','items':{'type':'string'}},
+    'binding_examples':{'type':'array','items':DEMO}})
+REQUIRE=record_schema({'slot':{'type':'string'},'sort':{'type':'string'},'equals':{'type':['array','string']}})
+FRAGMENT=record_schema({'kind':{'type':'string','enum':['value','claim']},'quote':{'type':'string'},
+    'support_ids':{'type':'array','minItems':1,'uniqueItems':True,'items':{'type':'integer','minimum':0}},
+    'term':{'type':['array','object','string']},'requires':{'type':'array','items':REQUIRE}})
+OUTPUT=record_schema({'fragments':{'type':'array','items':FRAGMENT},
+    'unresolved':{'type':'array','items':{'type':'string'}}})
+FREE=record_schema({'rationale':{'type':'string'},'program':{'type':'string'}})
+RESOLVED=record_schema({'statements':{'type':'array','items':record_schema({
+    'term':{'type':'array'},'support_ids':{'type':'array','minItems':1,'uniqueItems':True,
+    'items':{'type':'integer','minimum':0}}})},'unresolved':{'type':'array','items':{'type':'string'}}})
+
+COMMON='''Learn a reusable external legal source-reading component from the original TRAIN only. All model weights stay frozen. Raw original source, native annotations, the actual common59-constructor compiler and the earlier TRAIN-only source review are supplied. Do not use source IDs/company names as applicability keys or encode native answer labels in source facts. Do not fabricate norms or erase actual qualifications to fit labels. Missing/unresolved remains unknown. Every claimed semantic term needs its actual source quote. No held-out reuse material is supplied. This is a finite binding-learning experiment, not a claim of novelty or full training.
+The experiment separates acquired local semantic fragments from the algorithm that binds them. A common host only grounds exact source quotes, checks acquired types and exposes textual relations. It does not supply legal rules. It learns a DNF over complete provider assignments; attributes can share a provider. Structural features are same unit, before/after, previous/next unit, most recent colon-ended unit and pairwise same-unit/colon context. Source identity, native labels and fixed source offsets are not learned features. A strong nearest-unit/colon baseline and unary-only relation learning receive exactly the same fragments/examples; an unrestricted independent program can also use the full original source. If simple controls absorb the effect, this candidate will be closed.
+The source input is {source_text,source_spans:[{id,text,start,end,...}]}. Common punctuation-based units fold whitespace and preserve original provenance. IDs are original anchors, not dense. No imports, global state, recursion, nested functions or filesystem/network; ordinary pure helper functions are allowed. The prebound re module and ordinary supported Python string/list/set/dict methods are available. Unchanged functions of the common actual source program can be inherited. Native answer labels are forbidden in the source program. The common actual consumer P remains unchanged, so returned final Norm/Definition terms must use its acquired constructor meanings. You may add explicit typed cue constructors for source-binding requirements, but do not change old meanings.'''
+FRONT_RULES='''
+Return an executable local-fragment decoder as complete pure function definitions in source_functions; define apply(inputs,premises). It returns {fragments:[...],unresolved:[string]}. Each fragment is {kind:value|claim, quote:exact CURRENT source words (whitespace folding permitted), support_ids:[current UNIT IDs], term:actual JSON-compatible constructor list or typed-hole object, requires:[{slot,sort,equals:closed actual constructor term}]}. Quotes must be exact and inside cited current units. Do not create answers or use current hypotheses in the source decoder. Read the actual complete source.
+A value fragment supplies a closed acquired semantic term. A claim fragment supplies a complete source norm/definition or a partial term. A hole is {"slot":"actor","sort":"Participant"}, repeated names share a value. Ordinary acquired constructor lists retain their meanings/types. Additional requirements are typed evidence holes that are required to close a claim even if they are not arguments of its term. For example, an acquired operative-duty cue from an actual governing introductory clause can be a requirement on a following action clause. The host never invents such cues or defaults. A claim can reuse the same provider as another claim. Legal actors/actions/triggers/conditions/exceptions are decoded from actual words, not supplied by host rules.
+Keep a genuine distinction between local observations and nonlocal binding: where a normative header supplies an actor/modality or another clause supplies a condition, emit source-grounded values there and a typed hole/requirement on the action claim. Do not resolve all nonlocal roles inside the decoder or merely reproduce closed existing norms; the experiment needs actual binding examples. Equally, do not manufacture ambiguity or strip a genuinely local explicit qualification to give the learner work. Preserve real actor/owner, trigger and exception scope. A return heading is not a return action; continued confidentiality notwithstanding return is not a new return duty. A request/demand alone is not Agreement termination.
+Return grounded binding_examples on the supplied TRAIN sources. Each identifies {source,positive:boolean,claim:{quote,term_json},providers:[{slot,quote,term_json}]}. Set positive=true only for an actually valid source binding. Include explicit negative assignments only when actual source semantics refutes that complete binding. An unlisted assignment is unknown, never automatically a negative; different providers with identical values need separate witness review. Do not invent wrong alternatives or ambiguity when the real source offers none. Quotes identify actual fragments generated by your decoder; a selector's quote can be a unique substring of that fragment's grounded quote. The term_json must match its actual decoded term, including holes on a claim. Include all holes/requirements of that claim. Use examples with genuine nonlocal binding and local controls from these sources; never invent a new contract or use an answer as a binding. Examples are acquired semantic supervision shared with all controls and charged in full, not native evidence relabeled as full semantic gold.
+Closed source claims that the old program already handles may be retained without holes. Keep the delta compact. Return no extra fields.'''
+
+
+def prepare(root):
+    folder=root/'artifacts'/RUN
+    if (folder/'protocol.json').exists():return folder,read(folder/'protocol.json')
+    old=read(root/'artifacts/legal_skill_evolution_open_effect_acquisition_20261113/protocol.json')
+    excluded=set(old['excluded_mechanism_parents']+old['teacher_sources']+old['reuse_sources'])
+    sources=read(root/'artifacts/legal_skill_evolution_20261111/prepared/train/public.json')
+    reuse=[s['key'] for s in sources if s['dataset']=='ContractNLI' and s['key'] not in excluded][:2]
+    train=[old['teacher_sources'][i] for i in (2,4,6,7)]
+    paths=[*sorted((root/'legal_skill_guard/skill_evolution').glob('*.py')),
+        *sorted((root/'tests').glob('test_skill_evolution*.py')),Path(__file__).resolve(),
+        root/'experiments/legal_skill_evolution_role_TRAIN.py',root/'experiments/legal_skill_evolution_span_compiler.py']
+    basepath=root/'artifacts/legal_skill_evolution_open_effect_acquisition_20261113/SourceEffect/compiled.json'
+    reviewpath=root/'reports/legal_skill_evolution_run_20261111/open_effect_evidence/source_semantic_review.json'
+    data=[root/'artifacts/legal_skill_evolution_20261111/prepared/train/public.json',
+        root/'artifacts/legal_skill_evolution_20261111/prepared/train/grading.json',basepath,reviewpath,
+        root/'artifacts/legal_skill_evolution_fragment_program_update_20261112/completed.json',
+        *[root/f'artifacts/legal_skill_evolution_20261111/formal_v5/NoSkill/initial_B{i}.json' for i in range(1,9)]]
+    counts=physical_snapshot(root/'artifacts/rr_v2_preflight/research_ledger.sqlite3')
+    if any(v.get('reserved',0) for v in counts.values()):raise ValueError('Reconcile existing requests before preparing')
+    p={'run_id':RUN,'same_goal':True,'goal_complete':False,'teacher_sources':train,'development_sources':old['teacher_sources'],
+        'reuse_sources':reuse,'excluded_parents':sorted(excluded),'teacher_profile':old['teacher_profile'],
+        'executor_profile':old['executor_profile'],'history':old['history'],'ledger_before':counts,
+        'reuse_selection':'First2 remaining original TRAIN parents in original order, before opening their material or grading. Prior original full-study exposure retained; not a new blind test.',
+        'workload':'Acquire one common local fragment decoder and grounded binding demos; learn joint and unary-only binding policies; acquire one unrestricted independent binder from the same actual fragments/demos/full source; deterministic8 development and2 frozen TRAIN reuse with nearest-context control. No executor reads or full study.',
+        'question':'Do learned joint source-binding constraints add source-supported reuse beyond nearest-context, unary-only relation learning and an unrestricted independently learned binder?',
+        'not_independent_end_to_end_acquisition':True,'shared_frontend_acquisition_cost_charged':True,
+        'no_native_evidence_as_full_source_semantic_gold':True,'no_new_mechanical_call_cap':True,
+        'source_snapshot':{str(f.relative_to(root)):hashlib.sha256(f.read_bytes()).hexdigest() for f in paths},
+        'data_sha256':{str(f.relative_to(root)):hashlib.sha256(f.read_bytes()).hexdigest() for f in data}}
+    immutable_json(folder/'base.json',read(basepath));immutable_json(folder/'protocol.json',p)
+    for path in p['source_snapshot']:
+        dst=folder/'source_snapshot'/path;dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes((root/path).read_bytes())
+    with sqlite3.connect(root/'artifacts/rr_v2_preflight/research_ledger.sqlite3') as conn:
+        immutable_json(folder/'ledger_rows_before.json',{'rows':conn.execute('select * from calls order by id').fetchall()})
+    return folder,p
+
+
+def setup(root):
+    folder,p=prepare(root)
+    for name,h in {**p['source_snapshot'],**p['data_sha256']}.items():
+        if hashlib.sha256((root/name).read_bytes()).hexdigest()!=h:raise ValueError('Bound source/data changed: '+name)
+    ledger=EvolutionLedger(root/'artifacts/rr_v2_preflight/research_ledger.sqlite3',run_id=RUN,
+        sources={'train':p['development_sources']+p['reuse_sources'],'dev':[],'test':[]},binding=digest(p),teacher_concurrency=2)
+    public={s['key']:s for s in read(root/'artifacts/legal_skill_evolution_20261111/prepared/train/public.json')}
+    return folder,p,ledger,public
+
+
+def packed_training(root,p,public):
+    grading=read(root/'artifacts/legal_skill_evolution_20261111/prepared/train/grading.json')
+    review=read(root/'reports/legal_skill_evolution_run_20261111/open_effect_evidence/source_semantic_review.json')
+    prefixes={k.split(':')[1][:6] for k in p['teacher_sources']}
+    return {'common_actual_library':read(root/'artifacts'/RUN/'base.json'),
+        'training':[{'source':k,'source_spans':source_spans(material_public(public[k]['views'][0]['public'])),
+            'tasks':{v['id']:{'question':v['public']['question'],'native_annotation':grading[k][v['id']]}
+                     for v in public[k]['views']}} for k in p['teacher_sources']],
+        'existing_TRAIN_only_source_review':[r for r in review['source_findings'] if r['source_prefix'] in prefixes],
+        'allowed_fragment_output':OUTPUT}
+
+
+def frontend(root):
+    folder,p,ledger,public=setup(root)
+    if (folder/'frontend_teacher.json').exists():return
+    wire,host=decoder_schema(FRONT);user=pack(packed_training(root,p,public))
+    request={'system':INSTRUCTION+COMMON+FRONT_RULES,'user':user,'logical_schema':FRONT,'wire_schema':wire,'host_constraints':host}
+    immutable_json(folder/'frontend_teacher_input.json',request)
+    value=FrozenTeacher(ledger,folder,p['teacher_profile']).propose(RUN+':frontend:'+digest(request),
+        source_ids=p['teacher_sources'],system_prompt=request['system'],user_prompt=user,output_schema=wire)
+    immutable_json(folder/'frontend_teacher.json',value)
+
+
+def bundle(folder):
+    proposal=read(folder/'frontend_teacher.json')['value'];jsonschema.validate(proposal,FRONT)
+    base=read(folder/'base.json');spec=deepcopy(base['grammar']);spec['constructors']+=proposal['extra_constructors']
+    constructors(spec)
+    parts=[]
+    for value in proposal['source_functions']:
+        tree=ast.parse(value)
+        if any(not isinstance(n,ast.FunctionDef) for n in tree.body):raise ValueError('Only pure function definitions')
+        parts.extend(ast.get_source_segment(value,n) for n in tree.body)
+    code=function_update(base['source_program'],parts)
+    if any(isinstance(n,ast.Constant) and n.value in ('Entailment','Contradiction','NotMentioned') for n in ast.walk(ast.parse(code))):
+        raise ValueError('Native labels in a source decoder')
+    value={'spec':spec,'program':code,'binding_examples':proposal['binding_examples']}
+    immutable_json(folder/'frontend_compiled.json',value)
+    return value
+
+
+def decode(b,source):
+    pub=source['views'][0]['public'];spans=source_spans(material_public(pub));units,supports=execution_source_units(pub['source_text'],spans)
+    raw=execute_json(b['program'],{'source_text':pub['source_text'],'source_spans':units},{},allow_helpers=True)
+    jsonschema.validate(raw,OUTPUT);schema=constructors(b['spec']);fragments=[];last_header=None
+    unit_info={}
+    for i,u in enumerate(units):
+        if u['text'].rstrip().endswith(':'):last_header=i
+        unit_info[u['id']]={'ordinal':i,'header':last_header}
+    for fragment in raw['fragments']:
+        ids=expand_unit_support(fragment['support_ids'],supports)
+        a=min(spans[i]['start'] for i in ids);z=max(spans[i]['end'] for i in ids)
+        hits=occurrences(pub['source_text'][a:z],fragment['quote'])
+        if len(hits)!=1:raise ValueError('Fragment quote must ground uniquely in actual cited source')
+        begin,end=hits[0];begin+=a;end+=a
+        term=fragment['term'];req=fragment['requires']
+        anchor=min((unit_info[i] for i in fragment['support_ids']),key=lambda u:u['ordinal'])
+        fragments.append({'id':len(fragments),'kind':fragment['kind'],'quote':fragment['quote'],
+            'start':begin,'end':end,'unit':anchor['ordinal'],'header':anchor['header'],
+            'term':term,'requires':req,'support_ids':ids})
+    validate_fragments(fragments,schema)
+    return {'source':source['key'],'fragments':fragments,'decoder_unresolved':raw['unresolved'],'raw_output':raw}
+
+
+def selector(fragment,choice,text):
+    return fragment['term']==json.loads(choice['term_json']) and bool(occurrences(text[fragment['start']:fragment['end']],choice['quote']))
+
+
+def fit(root):
+    folder,p,ledger,public=setup(root);b=bundle(folder);cases=[]
+    for key in p['teacher_sources']:
+        case=decode(b,public[key]);immutable_json(folder/'training_fragments'/(key.replace(':','_')+'.json'),case)
+        case['bindings']=[];text=public[key]['views'][0]['public']['source_text']
+        for example in b['binding_examples']:
+            if example['source']!=key:continue
+            claims=[f for f in case['fragments'] if f['kind']=='claim' and selector(f,example['claim'],text)]
+            if len(claims)!=1:raise ValueError('Acquired claim selector is absent or ambiguous')
+            providers={}
+            for item in example['providers']:
+                found=[f for f in case['fragments'] if f['kind']=='value' and selector(f,item,text)]
+                if len(found)!=1 or item['slot'] in providers:raise ValueError('Acquired provider is absent, ambiguous or duplicated')
+                providers[item['slot']]=found[0]['id']
+            case['bindings'].append({'claim':claims[0]['id'],'providers':providers,'positive':example['positive']})
+        cases.append(case)
+    if any(d['source'] not in p['teacher_sources'] for d in b['binding_examples']):raise ValueError('Non-TRAIN demonstration')
+    schema=constructors(b['spec']);models={'Joint':learn(cases,schema),'UnaryRelations':learn(cases,schema,cross_slot=False)}
+    for arm,model in models.items():immutable_json(folder/(arm+'_model.json'),model)
+    immutable_json(folder/'training_cases.json',{'cases':cases,'models':models,'goal_complete':False})
+    print(json.dumps({a:{'policies':len(m['policies']),'rejected':len(m['rejected_families'])} for a,m in models.items()}),flush=True)
+    return b,cases,models
+
+
+def acquire_free(root):
+    folder,p,ledger,public=setup(root);b,cases,models=fit(root)
+    if (folder/'free_teacher.json').exists():return
+    system=INSTRUCTION+COMMON+'''\nIndependently learn an unrestricted complete pure source/binding program, defining apply(inputs,premises). All unchanged source helpers may be included. Inputs={source_text,source_spans:common current units}; premises={fragments:actual acquired current fragments}. Return {statements:[{term:closed acquired constructor list,support_ids:[CURRENT UNIT IDs]}],unresolved:[string]}. You can choose an ordinary context/relational policy, any internal decomposition, independently learn a joint binding policy, or directly parse full original source. You are not restricted to nearest matching or to our model's rule language. All source labels, grounded binding examples, common decoder, ontology and consumer are available. The actual learned Joint policies and fixed reuse material are not supplied. No native answer labels/source answer tables or company/source applicability keys. Each statement needs actual current source support. Keep unresolved evidence explicit. Return rationale and complete program.'''
+    task={'training_material':packed_training(root,p,public),'common_decoder':b,
+        'actual_training_fragments_and_binding_supervision':cases}
+    wire,host=decoder_schema(FREE);request={'system':system,'user':pack(task),'wire_schema':wire,'logical_schema':FREE,'host_constraints':host}
+    immutable_json(folder/'free_teacher_input.json',request)
+    value=FrozenTeacher(ledger,folder,p['teacher_profile']).propose(RUN+':free:'+digest(request),source_ids=p['teacher_sources'],
+        system_prompt=system,user_prompt=request['user'],output_schema=wire)
+    immutable_json(folder/'free_teacher.json',value)
+
+
+def evaluate(root,reuse=False):
+    folder,p,ledger,public=setup(root)
+    if any(v.get('reserved',0) for v in physical_snapshot(ledger.path).values()):raise ValueError('Existing request still live')
+    b,cases,models=fit(root);free=read(folder/'free_teacher.json')['value'];jsonschema.validate(free,FREE)
+    validate_procedure(free['program'],allow_helpers=True)
+    if reuse:
+        if not (folder/'development/completed.json').exists():raise ValueError('Complete development first')
+        immutable_json(folder/'reuse_freeze.json',{'models':models,'free':free,'frontend_digest':digest(b),
+            'reuse_sources':p['reuse_sources'],'no_adaptive_reuse_repair':True})
+    stage='reuse' if reuse else 'development';keys=p['reuse_sources'] if reuse else p['development_sources']
+    grading=read(root/'artifacts/legal_skill_evolution_20261111/prepared/train/grading.json');base=warm_base(root,p);schema=constructors(b['spec'])
+    results={a:[] for a in ('Joint','UnaryRelations','NearestContext','FreeProgram')}
+    for key in keys:
+        source=public[key];case=decode(b,source);immutable_json(folder/stage/'fragments'/(key.replace(':','_')+'.json'),case)
+        spans=source_spans(material_public(source['views'][0]['public']));units,supports=execution_source_units(source['views'][0]['public']['source_text'],spans)
+        for arm in results:
+            path=folder/stage/arm/(key.replace(':','_')+'.json')
+            if path.exists():results[arm].append(read(path));continue
+            if arm=='FreeProgram':
+                out=execute_json(free['program'],{'source_text':source['views'][0]['public']['source_text'],'source_spans':units},{'fragments':case['fragments']},allow_helpers=True)
+                jsonschema.validate(out,RESOLVED)
+                for n in out['statements']:n['support_ids']=expand_unit_support(n['support_ids'],supports)
+            else:out=resolve(models.get(arm,models['Joint']),case['fragments'],schema,nearest=arm=='NearestContext')
+            nodes=[]
+            for n in out['statements']:
+                sort=term_sort(n['term'],schema)
+                if sort not in ('Norm','Definition','Description'):continue
+                nodes.append({'id':len(nodes),'sort':sort,'term':n['term'],'support_ids':n['support_ids'],'child_ids':[],'ambiguous':False})
+            interp={'nodes':nodes,'roots':[n['id'] for n in nodes]};history={v['view']:v for v in base[key]['views']};views=[]
+            for v in source['views']:
+                execution=apply_current(b['spec'],{'rules':[],'disabled_rules':[],'acquired_pairs':[]},interp,v);x=execution['value'];handled=x['handled'] and not case['decoder_unresolved'] and not out['unresolved']
+                ids=sorted({s for i in x['used_nodes'] for s in nodes[i]['support_ids']})
+                proof=sorted({spans[i]['public_sentence_id'] for i in ids if 'public_sentence_id' in spans[i]})
+                answer=x['answer'] if handled else history[v['id']]['execution']['answer']
+                score=grade_view('ContractNLI',v,grading[key][v['id']],answer,proof) if handled else history[v['id']]['score']
+                views.append({'view':v['id'],'core_executed':handled,'fallback':not handled,'answer':answer,'score':score,'proof_sentence_ids':proof,'execution':execution,'source_unresolved_gate':bool(case['decoder_unresolved'] or out['unresolved'])})
+            row={'source':key,'arm':arm,'interpretation':interp,'binding':out,'decoder_unresolved':case['decoder_unresolved'],'views':views,'source_semantic_review_pending':True,'goal_complete':False}
+            immutable_json(path,row);results[arm].append(row)
+            print(json.dumps({'stage':stage,'arm':arm,'source':key,'core':sum(v['core_executed'] for v in views),'native_correct':sum(v['core_executed'] and v['score']['correct'] for v in views)}),flush=True)
+    immutable_json(folder/stage/'completed.json',{'results':results,'ledger':physical_snapshot(ledger.path),'goal_complete':False})
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('stage',choices=['prepare','frontend','fit','free','evaluate']);parser.add_argument('--reuse',action='store_true');args=parser.parse_args();root=Path(__file__).resolve().parents[1]
+    with (root/'artifacts/rr_v2_preflight/current_binding_client.lock').open('a+') as lock:
+        fcntl.flock(lock.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB)
+        if args.stage=='prepare':print(prepare(root)[0])
+        elif args.stage=='frontend':frontend(root)
+        elif args.stage=='fit':fit(root)
+        elif args.stage=='free':acquire_free(root)
+        else:evaluate(root,args.reuse)

@@ -45,6 +45,26 @@
 
 恢复时不要重启本run、v2-v5、角色codec、旧源程序或原128完整研究；最新全部请求在途0，原78源码及11数据哈希保持。当前公共源单元适配已改变旧v5源码字节，旧73文件快照/c50b615e用于其历史复现，不从旧manifest启动当前代码。完整报告第11节同步成本、语义与研究判断；这两份文件为唯一执行入口。
 
+## 最新已执行学习原型：源绑定关系
+
+`binding_learning.py`和有限runner已完成真实获取、grounding、学习与8源确定性强对照。共同decoder/7份绑定示例来自原354/d936/442/4d4e四母TRAIN，61构造子（59原有＋2源cue）、18片段（11 values、7 claims，其中4开放）。host从明确正/负完整assignment学习最短一致DNF，未列举组合保持未知；alpha规范化不改重复变量或类型。当前程序确实消费已学策略，与旧NQG闭式规则投影不同；算法本身仍是成熟关系学习，不预先算贡献。
+
+真实结果揭示此实例没有独立cross-slot作用：4开放claim学习前可行assignment为4/4/4/1，但不同闭合term均为1；decoder的requires已经固定语义值。3项策略只有一项“provider是当前冒号上下文”，另两项是正例允许的无条件模式。cross-slot字面量0，Joint/Unary策略相同，因此对这些已拟合策略，任意后续输入都不会因删除cross-slot特征改变结果。没有为激活它造新负例、重开槽或改特征。
+
+|实际原8源、32原生视图|主路径执行|主路径native正确|回退|主路径证据F1均值（10项）|
+|---|---:|---:|---:|---:|
+|Joint|10|8|22|.595000|
+|同学习器去cross-slot关系|10|8|22|.595000|
+|强nearest单位/冒号上下文|10|8|22|.628333|
+
+Joint/Unary实际源解释和全部视图结果逐项相同。354/442的两个闭合保留规范真实执行，d936新decoder不再把51继续保密当返还；这些是共同获取资产，不能归于joint学习。442员工许可、4d第三方许可的遗漏使所有控制各错1个原生视图；绑定器不能补出未取得的源功能。其他4源无适用claim，回退单列，未把组件安装成生产库覆盖旧流程。
+
+[完整实际结果](../reports/legal_skill_evolution_run_20261111/binding_evidence/raw/development_controls/completed.json)、[逐候选机制审计](../reports/legal_skill_evolution_run_20261111/binding_evidence/raw/binding_opportunity_audit.json)、[源与机制复核](../reports/legal_skill_evolution_run_20261111/binding_evidence/source_and_mechanism_review.json)、[原始教师](../reports/legal_skill_evolution_run_20261111/binding_evidence/raw/frontend_teacher.json)。7原示例中，同锚点重叠派生均保留；实际已经局部闭合的3个正例不算学习，重复短quote未被任意择一。原程序/terms不变，适配证据另存。
+
+**决定：本候选降为公共绑定工具，不承担第一贡献。** 未派发计划的自由程序请求，也未打开原先固定的2份复用正文/标签。停止当前run，不重跑旧实验或按复用修补；这不是Goal完成或暂停。下一项集中到G中的源读取计算抽象如何学得并跨来源起作用，先用现有程序语料核对语义和计算依赖，再与LILO/Stitch压缩、完整helper库、简单函数提取/检索比较。只有取得明确增量才派发有限真实验证，不以常规hoist或更多模板改名替代贡献。
+
+[法律近邻/官方实现](../reports/legal_skill_evolution_run_20261111/binding_evidence/legal_algorithm_review.md)、[技能论文实际学习对象/消融及本原型复核](../reports/legal_skill_evolution_run_20261111/binding_evidence/skill_algorithm_review.md)、[实际条件删除反例](../reports/legal_skill_evolution_run_20261111/binding_evidence/native_evidence_identifiability.json)继续保留。当前215项相关检查通过；原79源码/13数据哈希保持。两个贡献仍未成立。
+
 ## 可复用资产与已完成反证
 
 - [源编译](../reports/legal_skill_evolution_run_20261111/SPAN_COMPILER_RESULT.md)：真实共享获取资产及12/12原合同主路径正确；方法教师超时，不能冒充独立获取；新合同0覆盖、实际合并0。
@@ -85,8 +105,8 @@ Full原管线漏看新伴随输出general_third_party_prohibition，误存1个�
 
 ## 当前运行、资源与恢复
 
-累计**9330E/184T**，在途0，共9514行。最新小试新增0E/3T：2成功、1超时；此前9511行逐条不变。两个成功调用已报告135771输入、22356输出token，其中reasoning13552已包含于输出；失败用量未知。请求耗时合计1018.41秒，含600.09秒失败，合计不等于并行墙钟。CLI实付发票与GPU现金分摊不可见，费用记未知，不以失败无usage记为免费。[实际成本与逐请求账本](../reports/legal_skill_evolution_run_20261111/open_effect_evidence/cost_and_request_ledger.json)。
+累计**9330E/185T**，在途0，共9515行。最新binding新增0E/1T成功，49249输入/11326输出token，其中reasoning7646已包含于输出，211.532秒。原9514行逐条不变；第一次transport类型错误发生在预算reservation/物理派发前，0物理请求，原协议、输入、metadata及修复往返回归都保留。教师CLI实付发票/GPU分摊不可见，记未知。[本轮请求和保全](../reports/legal_skill_evolution_run_20261111/binding_evidence/cost_and_preservation.json)。
 
-唯一账本`artifacts/rr_v2_preflight/research_ledger.sqlite3`不重置；原模型、thinking OFF、采样/8192上限、教师profile及数据隔离保持。无研究客户端运行，模型服务保留；本次没有新完整训练、DEV/TEST或论文。原实验、所有失败、源码和输出保持。最新报告与实现沿同一研究公开分支同步，main不改，公开核验收据随报告保存。
+唯一账本不重置；Qwen原快照、thinking OFF、采样/8192上限、教师profile及数据隔离保持。binding run`legal_skill_evolution_binding_TRAIN_v2_20261113`已关闭，无研究客户端在途；模型服务保留。本次没有新完整训练、DEV/TEST或论文。新结果和源码同步同一研究分支，main不改；公开核验收据随报告保存。
 
 项目归并和大替换复制归档规则见[PROJECT_LAYOUT.md](PROJECT_LAYOUT.md)，原保全收据workspace_unification_20261112.json保持。两份当前文件集中维护，旧执行说明只作历史参考；其历次原文均保留在Git提交与既有独立备份中。

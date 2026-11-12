@@ -1,0 +1,98 @@
+"""Ground the actual acquired annotations without changing decoder semantics.
+
+An annotation can identify one quoted claim with several overlapping decoder
+derivations. A local decoded claim can also already contain its demonstrated
+value; such a positive example needs no learned binding. Neither case is a
+license to create a norm, label an unlisted assignment, or reopen a filled slot.
+"""
+import argparse
+from copy import deepcopy
+import hashlib
+import json
+from pathlib import Path
+
+from experiments import legal_skill_evolution_binding_TRAIN as study
+from legal_skill_guard.rr.checkpoint import immutable_json
+from legal_skill_guard.skill_evolution.binding_learning import learn,resolve,substitute,required_slots,assignments,features,family,alpha_claim
+from legal_skill_guard.skill_evolution.scoped_grammar import constructors
+
+ROOT=Path(__file__).resolve().parents[3]
+
+
+def matching(fragments,choice,text,kind):
+    anchors=study.occurrences(text,choice['quote'])
+    if len(anchors)!=1:raise ValueError('An acquired selector needs one actual source occurrence')
+    a,b=anchors[0];term=json.loads(choice['term_json'])
+    return [f for f in fragments if f['kind']==kind and f['term']==term and f['start']<=a and b<=f['end']]
+
+
+def grounded_fit(root):
+    folder,p,ledger,public=study.setup(root);bundle=study.bundle(folder);cases=[];recoveries=[]
+    for key in p['teacher_sources']:
+        case=study.decode(bundle,public[key]);case['bindings']=[]
+        text=public[key]['views'][0]['public']['source_text']
+        for index,demo in enumerate(bundle['binding_examples']):
+            if demo['source']!=key:continue
+            providers={}
+            for choice in demo['providers']:
+                matches=matching(case['fragments'],choice,text,'value')
+                if len(matches)!=1:raise ValueError('Provider derivation remains ambiguous; no arbitrary choice')
+                providers[choice['slot']]=matches[0]['id']
+            claims=matching(case['fragments'],demo['claim'],text,'claim')
+            if len(claims)>1:
+                if any(c['requires']!=claims[0]['requires'] for c in claims):
+                    raise ValueError('Matching derivations have different source requirements')
+                recoveries.append({'demo':index,'kind':'same exact quoted source claim and term, multiple overlapping decoder derivations',
+                    'claim_ids':[c['id'] for c in claims],'all_derivations_retained':True,
+                    'no_unlisted_binding_verdict_inferred':True})
+            if not claims:
+                supplied={choice['slot']:json.loads(choice['term_json']) for choice in demo['providers']}
+                closed=deepcopy(demo['claim']);closed['term_json']=json.dumps(substitute(json.loads(closed['term_json']),supplied))
+                claims=matching(case['fragments'],closed,text,'claim')
+                if len(claims)!=1 or required_slots(claims[0]) or not demo['positive']:
+                    raise ValueError('Absent annotation is not a uniquely already-resolved positive claim')
+                if any(not set(case['fragments'][i]['support_ids'])<=set(claims[0]['support_ids']) for i in providers.values()):
+                    raise ValueError('The decoded local claim does not contain all demonstrated source witnesses')
+                recoveries.append({'demo':index,'kind':'actual decoder has already resolved this local claim',
+                    'claim_ids':[claims[0]['id']],'original_provider_ids':providers,
+                    'actual_decoded_term_unchanged':True,'no_slot_reopened':True,
+                    'not_counted_as_learned_binding_success':True})
+                providers={}
+            for claim in claims:
+                case['bindings'].append({'claim':claim['id'],'providers':providers,'positive':demo['positive']})
+        cases.append(case)
+    schema=constructors(bundle['spec'])
+    models={'Joint':learn(cases,schema),'UnaryRelations':learn(cases,schema,cross_slot=False)}
+    immutable_json(folder/'grounded_demo_recovery.json',{'recoveries':recoveries,
+        'raw_teacher_decoder_and_terms_unchanged':True,'new_physical_requests':0,
+        'unlisted_assignments_not_given_verdicts':True,'native_or_reuse_labels_not_used':True})
+    immutable_json(folder/'grounded_training_cases.json',{'cases':cases,'models':models,'goal_complete':False})
+    for arm,model in models.items():immutable_json(folder/(arm+'_model.json'),model)
+    audit=[]
+    for case in cases:
+        for original in case['fragments']:
+            if original['kind']!='claim' or not required_slots(original):continue
+            claim,names=alpha_claim(original);candidates=assignments(claim,case['fragments'],schema)
+            terms={study.digest(substitute(claim['term'],{k:v['term'] for k,v in a.items()})) for a in candidates}
+            policy=models['Joint']['policies'].get(family(claim))
+            audit.append({'source':case['source'],'claim':claim['id'],'typed_assignments':len(candidates),
+                'distinct_closed_terms_before_learning':len(terms),'learned_policy':policy,
+                'cross_slot_literals_used':sum('~' in key for clause in (policy or {}).get('clauses',[]) for key,value in clause)})
+    equal=models['Joint']['policies']==models['UnaryRelations']['policies']
+    immutable_json(folder/'binding_opportunity_audit.json',{'actual_open_claims':audit,
+        'joint_and_unary_policies_identical':equal,
+        'all_open_claims_have_at_most_one_semantic_value':all(a['distinct_closed_terms_before_learning']<=1 for a in audit),
+        'new_physical_requests':0,'no_held_reuse_material_opened':True,
+        'not_an_innovation_success':True,'goal_complete':False})
+    print(json.dumps({'policies':{a:len(m['policies']) for a,m in models.items()},'audit':audit,'joint_unary_identical':equal}),flush=True)
+    return bundle,cases,models
+
+
+if __name__=='__main__':
+    folder,p,ledger,public=study.setup(ROOT)
+    immutable_json(folder/'demo_recovery_execution_manifest.json',{
+        'base_protocol_sha256':hashlib.sha256((folder/'protocol.json').read_bytes()).hexdigest(),
+        'adapter_source':str(Path(__file__).relative_to(ROOT)),
+        'adapter_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'original_bound_source_and_data_unchanged':True,'no_model_retry':True,'goal_complete':False})
+    grounded_fit(ROOT)

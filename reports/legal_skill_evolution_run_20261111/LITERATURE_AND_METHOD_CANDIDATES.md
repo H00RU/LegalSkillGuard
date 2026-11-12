@@ -268,3 +268,37 @@ CAA、De Jure和Executable traces本次未定位到作者代码链接；这是�
 [本轮逐物理请求及成本](open_effect_evidence/cost_and_request_ledger.json)：新增0E/3T，其中2成功、1超时；累计9330E/184T、在途0、9514行，原9511行逐条不变。两个成功请求已知135771输入/22356输出token，reasoning13552已包含于输出，不重复加总。失败token用量未知。请求耗时合计1018.41秒，其中600.09秒失败；初次两臂并行，合计不是墙钟。方法实际2次、对照1次，失败成本未隐藏，不能宣称同实际成本下取得优势。教师CLI实付发票和GPU现金分摊不可见，均记未知，不能将无usage记为免费。已有初始库及历次获取成本继续保留，不以共同库复用归零。
 
 [保全收据](open_effect_evidence/preservation.json)核对原78份源码、11份数据绑定保持。先前206项实现检查保持原结论，本次两种适配的实际类型/AST回归及完整确定性执行均通过；这些不是创新效果。没有新完整训练、DEV/TEST或论文，main不改。
+
+## 12. 当前学习原型与识别信号
+
+[实际反例](binding_evidence/native_evidence_identifiability.json)删除d936实际开发IR中两处已取得保密条件，全部四个答案、handled/used_nodes、引文及native/evidence分数不变；两IR均通过原类型检查，账本不变。它是明确人为IR扰动，不是模型成绩。已有evidence仍有作用：[删去错误51消费根](binding_evidence/existing_evidence_constraint.json)使nda-16证据F1从.5到.6667，但四答案不变，也没有取得49的主体/模态。因此下一原型明确采用真实取得的绑定监督，不能把标签/evidence包装成完整源语义gold。
+
+[法律近邻与官方代码核对](binding_evidence/legal_algorithm_review.md)确认LLM2LAS实际checker边界、MetaAbd/ILP-CoT的事实与规则联合/重查能力，以及OblEx26已有非局部义务连接监督。原生监督不能识别中间关系不是新发现；“joint G/H”也不再列作新增机制。[技能演化精读](binding_evidence/skill_algorithm_review.md)给出MemRL/MemSkill/MASkills等实际学习对象、消融数字和固定代码SHA。当前原末态4技能不足以提供retrieval/utility图的真实机会，不为采用这些方法制造规模。
+
+实现了[源绑定关系学习器](../../legal_skill_guard/skill_evolution/binding_learning.py)和[有限真实runner](../../experiments/legal_skill_evolution_binding_TRAIN.py)：教师取得有出处的局部typed values、未闭合claims及明确正/负完整绑定；host以跨槽同单元/上下文关系合成最短一致DNF，在新源上实际选择provider并关闭槽。未列举组合保持未知；不同见证同值不自动认证，alpha规范化只改变量拼写，证据保持。215项相关检查通过，包括中性类型的实际纯函数→grounding→学习→复用集成；尚无本轮法律实证。
+
+这采用成熟的DNF/关系学习，不能声称“首次联合填槽”或新ILP算法。待检验假说是：法律源中共享规范上下文造成的跨角色约束，能否在相同源语义和监督下改善后续来源的绑定可靠性或获取成本。强控制为同学习器仅保留单槽位置关系、nearest单位/冒号上下文、相同信息独立自由程序。普通joint ILP若空间/目标相同即本学习器，不造等价第五臂。共同decoder不能提前解决要验证的绑定，decoder漏动作/触发也不能归给binder或由host补造。
+
+当前同一Goal的有限方案只在原四TRAIN母合同获取共同片段/绑定，原8开发及预先固定2原TRAIN复用，不开新来源池、DEV/TEST或完整研究。common decoder开销完整记账，共享初始资产不冒充独立端到端获取。两项贡献仍未成立；实际冻结协议、教师原输出和后续结果将接续本节，不以此设计/检查标Goal完成。
+
+### 12.1 真实获取、拟合及强简单控制已完成
+
+本原型已真实执行，不停在设计卡或构造示例。新增1T取得[完整decoder和7绑定示例](binding_evidence/raw/frontend_teacher.json)，四母来源得到18片段：11个value、7个claim，其中4个开放、3个已闭合；新增2个cue构造子，旧59构造子/P不改。程序经过原类型和纯函数执行，host实际学习3项持久化绑定策略，再对原8开发母来源32原生视图执行Joint、同学习器仅用单槽相对位置的UnaryRelations消融和强nearest上下文控制。冻结的2个新复用母合同正文和标签未打开。
+
+[实际机制审计](binding_evidence/raw/binding_opportunity_audit.json)给出决定性结果：4个开放claim各有4/4/4/1个typed assignment，却各只有1种可闭合term，requires已固定语义值；模型仍需要选择出处，但并无新的语义值绑定空间。拟合仅得到“v0是当前冒号上下文”一项条件策略与两个无条件模式，cross-slot字面量0。Joint和Unary政策字典完全相同且只读unary特征，因此对这两份已拟合模型，删除cross-slot特征在任何输入上都不起作用。这不是所有法律绑定任务的一般不可能证明，也不把相同term当作所有provider出处正确的认证。
+
+|共享实际decoder、8开发母源/32视图|主路径执行|主路径native正确|fallback|主路径evidence F1均值（10项）|
+|---|---:|---:|---:|---:|
+|Joint|10|8|22/32|.595000|
+|去cross-slot关系、其余相同|10|8|22/32|.595000|
+|NearestContext|10|8|22/32|.628333|
+
+[完整实际逐来源及逐视图](binding_evidence/raw/development_controls/completed.json)。Joint/Unary的源解释及全部原生结果逐项相同；nearest原生结果相同，部分出处更紧凑。d936的返还根现在含真正49主体/模态且不再误读51继续保密，但这是共同decoder及普通上下文匹配的效果，不能归于joint特征。442漏员工许可、4d漏第三方许可，导致三臂各有同样2项错误；四个非教师开发源未取得适用claim，走明确fallback。这个局部decoder未被安装为生产库来覆盖旧流程，fallback/闭式真实条款也不计绑定创新。[源与机制复核](binding_evidence/source_and_mechanism_review.json)区分共同解码遗漏、出处选择和下游原生判断；不以类型通过认证全部源语义。
+
+实际示例存在两类运行不兼容：d936相同引用锚点/term通过两个相邻窗口输出，两份真实派生都保留，未任意选择；442示例写开放actor，但实际decoder已在同单位内填好actor，且短provider quote在文中重复，故该局部闭合正例不用于binding学习，没有猜测provider或重开槽。另两份原正例也本已闭合。原响应、code和法律terms不动，未把未列举组合转负例。[适配记录](binding_evidence/raw/grounded_demo_recovery.json)和[独立执行适配](binding_evidence/ground_actual_demonstrations.py)明确这一边界。
+
+**集中决定：本轮joint-binding降为公共工具，不列第一贡献。** 当前新真实信息不需要额外cross-slot机制，强nearest已覆盖观察到的原生能力。由[已拟合机制的直接无作用证据](binding_evidence/raw/mechanism_audit_decision.json)，不再派发原计划的自由程序调用，也不消耗固定复用来源来追正例；不能声称未执行的自由控制已经被比较。没有人为删字段、造负例、重开槽或改算法强迫消融出现差异。Goal继续active、两项贡献未成立，完整训练/DEV/TEST和论文均未启动。
+
+下一项集中研究**源读取计算本身的可迁移抽象**：对象是G中的参数化读取操作，而非R闭式语义项；先核对现有程序语料的真实语义/依赖，并同LILO/Stitch压缩库、完整helper库、同信息函数提取/检索比较。常规hoist、反统一或模板调用均不预定为贡献；没有明确的额外作用时不追加同例模型调用。这里不是新建Goal或承诺新名称已能满足两项创新。
+
+[实际成本和原账本保全](binding_evidence/cost_and_preservation.json)：新增0E/1T，211.532秒，49249输入、11326输出token（reasoning7646包含在output中）；累计9330E/185T、9515行、在途0，原9514行逐条不变。CLI实付发票与GPU现金分摊不可见，费用记未知。第一次pack封装类型错误发生在budget reservation/物理派发前，0调用，原0调用协议/输入/metadata和修复证据保存；未重置账本或悄悄漏算物理失败。215项相关检查通过，79源码/13数据绑定保持；软件检查不是贡献成绩。
