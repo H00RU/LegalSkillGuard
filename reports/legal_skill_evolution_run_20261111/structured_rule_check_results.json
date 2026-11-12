@@ -1,0 +1,70 @@
+{
+  "new_physical_requests": {
+    "executor": 2,
+    "teacher": 0
+  },
+  "cumulative_physical_requests": {
+    "executor": 9220,
+    "teacher": 162
+  },
+  "pending": 0,
+  "goal_complete": false,
+  "records": [
+    {
+      "call_id": "legal_skill_evolution_structured_rule_check_20261112:a6507e3839a3b1184e79b36fac73189f675d8c4cd28fe52dbacb8ef458437d9b",
+      "source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+      "usage": {
+        "prompt_tokens": 4880,
+        "total_tokens": 5526,
+        "completion_tokens": 646,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 18.71000642888248,
+      "finish_reason": "stop",
+      "enable_thinking": false,
+      "content_prefix": "{\n  \"disclosure_permissions\": {\n    \"status\": \"known\",\n    \"value\": [\n      {\n        \"actor_terms\": [\"Receiving Party\"],\n        \"recipient_classes\": [\"Representatives\"],\n        \"conditions\": [\"who have a need to know the Confidential Information for the Purpose\", \"the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential and at all times in a manner consistent with this Agreement\"],\n        \"permission_context\": \"The Receiving Party may disc",
+      "content_suffix": "ereto so that the Disclosing Party may take appropriate steps to protect such Confidential Information from such disclosure\"],\n        \"permission_context\": \"The Receiving Party shall promptly notify the Disclosing Party of the required disclosure and any relevant information in respect thereto so that the Disclosing Party may take appropriate steps to protect such Confidential Information from such disclosure\",\n        \"scope\": \"Clause 6\"\n      }\n    ],\n    \"support_ids\": [14, 15, 16, 17]\n  }\n}"
+    },
+    {
+      "call_id": "legal_skill_evolution_structured_rule_check_20261112:952caaf0fcfaf92ad5784ea6b6507f69db4606317e821eb7f18d1f6069fa35df",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "usage": {
+        "prompt_tokens": 4660,
+        "total_tokens": 12852,
+        "completion_tokens": 8192,
+        "prompt_tokens_details": null
+      },
+      "elapsed_seconds": 234.81995333731174,
+      "finish_reason": "length",
+      "enable_thinking": false,
+      "content_prefix": "{\n  \"disclosure_permissions\": {\n    \"status\": \"known\",\n    \"value\": [\n      {\n        \"actor_terms\": [\"Volunteer\"],\n        \"recipient_classes\": [],\n        \"conditions\": [\"without prior written consent from the Certification Council for Professional Dog Trainers\"],\n        \"permission_context\": \"Non-Disclosure\",\n        \"scope\": \"Non-Disclosure\"\n      },\n      {\n        \"actor_terms\": [\"Volunteer\"],\n        \"recipient_classes\": [],\n        \"conditions\": [\"except as is required in the course of ",
+      "content_suffix": "\"actor_terms\": [\"Volunteer\"],\n        \"recipient_classes\": [],\n        \"conditions\": [\"not to be disclosed to any other person or use them in any way\"],\n        \"permission_context\": \"Non-Disclosure\",\n        \"scope\": \"Non-Disclosure\"\n      },\n      {\n        \"actor_terms\": [\"Volunteer\"],\n        \"recipient_classes\": [],\n        \"conditions\": [\"not to be disclosed to any other person or use them in any way\"],\n        \"permission_context\": \"Non-Disclosure\",\n        \"scope\": \"Non-Disclosure\"\n     "
+    }
+  ],
+  "total_executor_tokens": 18378,
+  "promoted_to_active_runtime": false,
+  "active_regressions_passed": 106,
+  "archived_candidate_regressions_passed": 111,
+  "semantic_findings": [
+    {
+      "source_prefix": "d50f9bcd",
+      "schema_complete": true,
+      "usable_source_semantics": false,
+      "observations": [
+        "Returned Representatives instead of the expressly defined class atoms.",
+        "Permission in source clause 3 is labeled Clause 4.",
+        "Notification obligations are misclassified as disclosure permissions and repeated."
+      ]
+    },
+    {
+      "source_prefix": "35462327",
+      "schema_complete": false,
+      "usable_source_semantics": false,
+      "observations": [
+        "Repeated generation reached the fixed 8192 output-token limit; no complete record admitted."
+      ]
+    }
+  ],
+  "adaptation": "No inferred class expansion, missing rule, permission or scope correction was inserted. Exact duplicate deletion alone would not repair the semantic failures.",
+  "decision": "Retain the failed interface as a reproducible archived attempt. The active path keeps primitives/flat arrays and an explicit role/qualification acquisition contract, followed by one changed Full/Generic update each on the fixed cohort."
+}

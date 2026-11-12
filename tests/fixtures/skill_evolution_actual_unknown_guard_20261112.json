@@ -1,0 +1,206 @@
+{
+  "scope": "Actual Generic proposal and actual mixed-table READ/APPLY bindings; no new label or modified legal program.",
+  "new_skill": {
+    "id": "nda_representative_exception_applicability",
+    "inputs": {
+      "current_question": {
+        "arguments": {},
+        "field": "current_question",
+        "mode": "argument",
+        "question": "What is the caller-supplied disclosure-permission question whose stated recipient categories must be tested against the current agreement's Representatives permission?",
+        "skill_id": null,
+        "type": "string"
+      }
+    },
+    "intent": "Determine whether a disclosure-permission query identifies at least one recipient category expressly covered by the current agreement's Representatives permission, while preserving its stated confidentiality, need-to-know, and purpose limitations and treating absent permission fields as unresolved rather than as an exception.",
+    "outputs": {
+      "exception_applies": {
+        "description": "Whether at least one recipient category stated in the query falls within an express Representatives permission carrying the required confidentiality, need-to-know, and purpose limitations.",
+        "public_tasks": [],
+        "query_clauses": [],
+        "type": "boolean"
+      }
+    },
+    "premises": {
+      "disclosure_limited_to_business_purpose": {
+        "field": "disclosure_limited_to_business_purpose",
+        "mode": "read",
+        "origin": {
+          "quote": "",
+          "source_id": "",
+          "view_id": ""
+        },
+        "question": "Does the current agreement limit disclosure to Representatives by reference to its stated Purpose or Business Purpose?",
+        "read_id": "current_representatives_permission",
+        "type": "boolean"
+      },
+      "permitted_representative_classes": {
+        "field": "permitted_representative_classes",
+        "mode": "read",
+        "origin": {
+          "quote": "",
+          "source_id": "",
+          "view_id": ""
+        },
+        "question": "Which recipient classes does the current agreement expressly permit to receive Confidential Information as Representatives? Return only literal class names as a flat array.",
+        "read_id": "current_representatives_permission",
+        "type": "array"
+      },
+      "representatives_must_be_confidentiality_bound": {
+        "field": "representatives_must_be_confidentiality_bound",
+        "mode": "read",
+        "origin": {
+          "quote": "",
+          "source_id": "",
+          "view_id": ""
+        },
+        "question": "Does the current agreement require permitted Representatives to preserve confidentiality or be bound by consistent confidentiality obligations?",
+        "read_id": "current_representatives_permission",
+        "type": "boolean"
+      },
+      "representatives_must_have_bona_fide_need_to_know": {
+        "field": "representatives_must_have_bona_fide_need_to_know",
+        "mode": "read",
+        "origin": {
+          "quote": "",
+          "source_id": "",
+          "view_id": ""
+        },
+        "question": "Does the current agreement require permitted Representatives to have a need to know?",
+        "read_id": "current_representatives_permission",
+        "type": "boolean"
+      }
+    },
+    "procedure": "def apply(inputs, premises):\n    question = inputs[\"current_question\"]\n    fields_available = \"permitted_representative_classes\" in premises and \"representatives_must_be_confidentiality_bound\" in premises and \"representatives_must_have_bona_fide_need_to_know\" in premises and \"disclosure_limited_to_business_purpose\" in premises\n    class_match = False\n    if fields_available:\n        permitted_classes = premises[\"permitted_representative_classes\"]\n        for recipient_class in permitted_classes:\n            if recipient_class in question:\n                class_match = True\n        if \"professional advisors\" in question:\n            if \"legal advisors\" in permitted_classes or \"financial advisors\" in permitted_classes or \"accountants\" in permitted_classes:\n                class_match = True\n    exception_applies = fields_available and class_match and premises[\"representatives_must_be_confidentiality_bound\"] and premises[\"representatives_must_have_bona_fide_need_to_know\"] and premises[\"disclosure_limited_to_business_purpose\"]\n    return {\"exception_applies\": exception_applies}",
+    "reads": [
+      {
+        "bindings": {
+          "disclosure_limited_to_business_purpose": "disclosure_limited_to_business_purpose",
+          "permitted_representative_classes": "permitted_representative_classes",
+          "representatives_must_be_confidentiality_bound": "representatives_must_be_confidentiality_bound",
+          "representatives_must_have_bona_fide_need_to_know": "representatives_must_have_bona_fide_need_to_know"
+        },
+        "fields": {
+          "disclosure_limited_to_business_purpose": {
+            "question": "Is disclosure to those Representatives limited to the stated Purpose or Business Purpose?",
+            "type": "boolean"
+          },
+          "permitted_representative_classes": {
+            "question": "List only the literal recipient-class names expressly included as Representatives.",
+            "type": "array"
+          },
+          "representatives_must_be_confidentiality_bound": {
+            "question": "Must those Representatives preserve confidentiality or have consistent confidentiality obligations?",
+            "type": "boolean"
+          },
+          "representatives_must_have_bona_fide_need_to_know": {
+            "question": "Must those Representatives have a need to know?",
+            "type": "boolean"
+          }
+        },
+        "id": "current_representatives_permission",
+        "question": "What recipient classes and express safeguards define any Representatives disclosure permission in the current agreement? Return unknown for every field not stated by the current source.",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "disclosure_limited_to_business_purpose": {
+              "type": "boolean"
+            },
+            "permitted_representative_classes": {
+              "type": "array"
+            },
+            "representatives_must_be_confidentiality_bound": {
+              "type": "boolean"
+            },
+            "representatives_must_have_bona_fide_need_to_know": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "permitted_representative_classes",
+            "representatives_must_be_confidentiality_bound",
+            "representatives_must_have_bona_fide_need_to_know",
+            "disclosure_limited_to_business_purpose"
+          ],
+          "type": "object"
+        },
+        "source_locator": "current_source"
+      }
+    ],
+    "semantic_records": [
+      {
+        "id": "current_representatives_permission_record",
+        "neighbors": [],
+        "ports": [
+          "permitted_representative_classes",
+          "representatives_must_be_confidentiality_bound",
+          "representatives_must_have_bona_fide_need_to_know",
+          "disclosure_limited_to_business_purpose"
+        ]
+      }
+    ],
+    "source_obligations": [
+      {
+        "id": "check_current_representative_exception_scope",
+        "origin": {
+          "quote": "the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\"Representatives\") who have a need to know the Confidential Information for the Purpose provided that the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential",
+          "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+          "view_id": "nda-7"
+        },
+        "port": "exception_applies",
+        "role": "preliminary",
+        "statement": "Check only recipient classes expressly included in the current source's Representatives permission and preserve its confidentiality, need-to-know, and purpose restrictions."
+      }
+    ],
+    "source_provenance": [
+      {
+        "quote": "the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\"Representatives\") who have a need to know the Confidential Information for the Purpose provided that the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential",
+        "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+        "view_id": "nda-7"
+      },
+      {
+        "quote": "each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose",
+        "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+        "view_id": "nda-7"
+      }
+    ],
+    "version": 3
+  },
+  "unknown_current": {
+    "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+    "view": "nda-5",
+    "inputs": {
+      "current_question": "Receiving Party may share some Confidential Information with some of Receiving Party's employees."
+    },
+    "premises": {
+      "disclosure_limited_to_business_purpose": true,
+      "representatives_must_be_confidentiality_bound": true
+    },
+    "unresolved_premises": [
+      "permitted_representative_classes",
+      "representatives_must_have_bona_fide_need_to_know"
+    ]
+  },
+  "known_history": {
+    "inputs": {
+      "current_question": "Receiving Party may share some Confidential Information with some of Receiving Party's employees."
+    },
+    "premises": {
+      "disclosure_limited_to_business_purpose": true,
+      "permitted_representative_classes": [
+        "directors",
+        "officers",
+        "employees",
+        "legal advisors",
+        "financial advisors",
+        "accountants"
+      ],
+      "representatives_must_be_confidentiality_bound": true,
+      "representatives_must_have_bona_fide_need_to_know": true
+    },
+    "observed_output": {
+      "exception_applies": true
+    }
+  },
+  "raw_program_unchanged": true
+}
