@@ -1,0 +1,72 @@
+{
+  "reviewed_utc": "2026-11-12T17:15:37.653343+00:00",
+  "coverage": "Targeted actual-source review, not complete source-semantic acceptance. Native correctness is separate from source-fact and used-proof fidelity. No generation or answer is rewritten.",
+  "entries": [
+    {
+      "arm": "ScopedAcquisition",
+      "source_prefix": "354623",
+      "tasks": [
+        "nda-5"
+      ],
+      "native_correct": false,
+      "issue": "Authorization record treats information-description/access language as an operative disclosure permission and copies unsupported role-domain values."
+    },
+    {
+      "arm": "ScopedAcquisition",
+      "source_prefix": "62fda7",
+      "tasks": [
+        "nda-5",
+        "nda-7"
+      ],
+      "native_correct": false,
+      "issue": "Authorization record supports Entailment for both questions using a broad copied role domain; actual restrictive/conditional source meaning is not preserved."
+    },
+    {
+      "arm": "ScopedAcquisition",
+      "source_prefix": "4d4e55",
+      "tasks": [
+        "nda-7"
+      ],
+      "native_correct": true,
+      "source_proof_supported": false,
+      "issue": "Used restriction record1 cites Samsung internal other-division scope but classifies it as general external-person restriction."
+    },
+    {
+      "arm": "ScopedAcquisition",
+      "source_prefix": "de427b",
+      "tasks": [
+        "nda-5"
+      ],
+      "native_correct": true,
+      "source_proof_has_employee_support": true,
+      "entire_record_semantically_verified": false,
+      "issue": "The actual source supports the actor employee permission, but the returned role list also asserts unsupported adviser categories. Three native-correct probe paths are not three fully verified IRs."
+    },
+    {
+      "arm": "ScopedAcquisition",
+      "source_prefix": "5cad3f",
+      "tasks": [
+        "nda-5"
+      ],
+      "native_correct": true,
+      "source_proof_has_employee_support": true,
+      "entire_record_semantically_verified": false,
+      "issue": "The source permits selected staff access, but the record adds the whole unrelated role domain."
+    },
+    {
+      "arm": "ScopedAcquisition",
+      "source_prefix": "5cad3f",
+      "tasks": [
+        "nda-7"
+      ],
+      "native_correct": true,
+      "source_proof_supported": false,
+      "issue": "Used restriction record1 cites exclusions from confidentiality/public-domain exceptions instead of the actual earlier third-party nondisclosure rule."
+    }
+  ],
+  "unresolved_cause": "Separate actual model over-enumeration/misreadings from possible constrained-decoding or prompt burden with offline replay of saved requests/responses. No decoder-array defect is presumed.",
+  "evidence_metric_note": "The generation experiment did not pass proof spans into grade_view, so stored evidence_f1=0 is not a measured proof-quality result. A later offline native evidence comparison must be separately recorded and cannot replace semantic source review.",
+  "first_candidate_task_fit": "Ownership/action/qualification errors occur in original TRAIN. Current implementation covers only CNLI nda-5/7; broad cross-task utility is unproved.",
+  "second_candidate_novelty": "Broad evidence-triggered revision is covered by RARR, EviSkill and De Jure; it is a research direction, not an established independent contribution or implemented update algorithm.",
+  "goal_complete": false
+}
