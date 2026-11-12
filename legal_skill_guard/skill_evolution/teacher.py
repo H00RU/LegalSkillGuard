@@ -9,6 +9,7 @@ from .objects import Skill, digest, lift, coupled_blocks, premise_uses, dependen
 from .native import record_schema, public_strings
 from .grounding import bind_transcribed_quotes
 from .teacher_transport import pack, serialized, INSTRUCTION
+from .literal_facts import literal_bindings
 
 STRING = {'type': 'string'}
 NULL_STRING = {'type': ['string', 'null']}
@@ -29,7 +30,8 @@ SKILL = record_schema({'id': STRING, 'intent': STRING, 'procedure': STRING,
     'inputs': array(record_schema({'name': STRING, 'type': TYPE,
         'mode': {'type': 'string', 'enum': ['read', 'skill', 'argument']}, 'question': STRING,
         'skill_id': NULL_STRING, 'field': STRING,
-        'arguments': array(record_schema({'parameter': STRING, 'input': STRING}))})),
+        'arguments': array(record_schema({'parameter': STRING,
+            'namespace': {'type': 'string', 'enum': ['inputs', 'premises']}, 'port': STRING}))})),
     'outputs': array(record_schema({'name': STRING, 'type': TYPE, 'description': STRING,
         'query_clauses': array(STRING)})),
     'premises': array(record_schema({'name': STRING, 'type': TYPE,
@@ -94,6 +96,8 @@ def prune_unobserved_premise_metadata(value):
     """
     result = deepcopy(value)
     used = set(premise_uses(result['procedure']))
+    used.update(b['port'] for p in result.get('inputs', []) if p['mode'] == 'skill'
+                for b in p.get('arguments', []) if b['namespace'] == 'premises')
     dead = {p['name'] for p in result['premises']} - used
     if not dead:
         return result, []
@@ -132,7 +136,8 @@ def skill_from_wire(value):
             bindings = port['arguments']
             if len({b['parameter'] for b in bindings}) != len(bindings):
                 raise ValueError('Duplicate dependency argument parameter')
-            port['arguments'] = {b['parameter']: b['input'] for b in bindings}
+            port['arguments'] = {b['parameter']: {'namespace': b['namespace'], 'port': b['port']}
+                                 for b in bindings}
     result['outputs'] = named(value['outputs'])
     result['premises'] = named(value['premises'])
     result['reads'] = tuple(reader_from_wire(r) for r in value['reads'])
@@ -181,6 +186,37 @@ def wrap_explicit_function_body(procedure):
                      'raw_procedure_sha256': digest(procedure)}
 
 
+def bind_declared_free_ports(procedure, inputs, premises):
+    """Resolve only unambiguous declared ports, never locals or missing rules."""
+    tree = ast.parse(procedure)
+    function = tree.body[0]
+    if not isinstance(function, ast.FunctionDef):
+        raise ValueError('Bind ports only after the exact apply wrapper')
+    if any(isinstance(n, (ast.FunctionDef, ast.Lambda, ast.ClassDef))
+           for statement in function.body for n in ast.walk(statement)):
+        return procedure, None  # No guessed lexical scopes.
+    stored = {n.id for n in ast.walk(function) if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Store)}
+    called = {n.func.id for n in ast.walk(function) if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)}
+    loaded = {n.id for n in ast.walk(function) if isinstance(n, ast.Name) and isinstance(n.ctx, ast.Load)}
+    free = loaded - stored - called - {'inputs', 'premises'}
+    input_names, premise_names = {p['name'] for p in inputs}, {p['name'] for p in premises}
+    if free & input_names & premise_names:
+        raise ValueError('Implicit port is ambiguous across inputs and premises')
+    bindings = {name: 'inputs' if name in input_names else 'premises'
+                for name in sorted(free & (input_names | premise_names))}
+    if not bindings:return procedure, None
+    class Bind(ast.NodeTransformer):
+        def visit_Name(self, node):
+            if isinstance(node.ctx, ast.Load) and node.id in bindings:
+                return ast.copy_location(ast.Subscript(value=ast.Name(id=bindings[node.id], ctx=ast.Load()),
+                    slice=ast.Constant(value=node.id), ctx=ast.Load()), node)
+            return node
+    rewritten = ast.fix_missing_locations(Bind().visit(tree))
+    return ast.unparse(rewritten) + '\n', {'kind': 'explicitly_declared_free_ports_only',
+        'bindings': bindings, 'raw_procedure_sha256': digest(procedure),
+        'conditions_operators_literals_and_existing_locals_preserved': True}
+
+
 def compile_block(block, library, sources, arm):
     if not 1 <= len(block['revisions']) <= 3:
         raise ValueError('A candidate block has one to three revisions')
@@ -188,6 +224,8 @@ def compile_block(block, library, sources, arm):
     for proposed in block['revisions']:
         normalized, quote_bindings = bind_transcribed_quotes(proposed['skill'], sources)
         normalized['procedure'], body_wrapper = wrap_explicit_function_body(normalized['procedure'])
+        normalized['procedure'], port_bindings = bind_declared_free_ports(normalized['procedure'],
+            normalized['inputs'], normalized['premises'])
         normalized, removed = prune_unobserved_premise_metadata(normalized)
         new = skill_from_wire(normalized)
         old = library.skills.get(new.id)
@@ -251,6 +289,8 @@ def compile_block(block, library, sources, arm):
             revisions[-1]['representation_adaptation']['source_quote_transcription_bindings'] = quote_bindings
         if body_wrapper:
             revisions[-1]['representation_adaptation']['function_body_wrapper'] = body_wrapper
+        if port_bindings:
+            revisions[-1]['representation_adaptation']['explicit_port_bindings'] = port_bindings
     if len({r['skill_id'] for r in revisions}) != len(revisions):
         raise ValueError('Duplicate skill revisions in one block')
     proposed_skills = {**library.skills, **{r['skill_id']: Skill.from_dict(r['new']) for r in revisions}}
@@ -275,7 +315,7 @@ Do not ask a local reader to decide an unprovided eligibility, statutory applica
 When a source rule actually invokes a distinct computed legal predicate, acquire/reuse its grounded producer and connect mode skill to its output.
 Keep a naturally single-rule program single. Do not add gratuitous helper chains or intentionally defective old versions to create CoRev events.
 For citation fields ask for literal citation strings, not legacy output label IDs. Retained read failures are actual model outputs, not proof that the source lacks the rule.
-For every input in mode read set field equal to name, skill_id null, arguments []. A reusable helper may declare mode argument for an explicit caller-supplied entity, role or period: set field equal to name, skill_id null, arguments [], and describe its meaning in question. Argument inputs are not read from the outer question. For mode skill name the actual producer skill_id and output field; arguments binds ALL producer argument ports by parameter name to caller read/argument input names. Do not guess, default or bind missing roles. A terminal called directly by the host must acquire its roles via read inputs, then bind them to its dependencies. Do not ask a reader to derive an unprovided legal conclusion.
+For every input in mode read set field equal to name, skill_id null, arguments []. A reusable helper may declare mode argument for an explicit caller-supplied entity, role or period: set field equal to name, skill_id null, arguments [], and describe its meaning in question. A root terminal may use the exact available names in literal_argument_context, including current_question, explicit employment roles and case_family_relations when actually provided. case_family_relations contains [owner, literal_kinship_word, relative] from an affirmative surface mention; it never supplies an inverted relation or negative fact. For example [X, father, Y] means X has father Y. Apply the source legal rule in the program, not in the literal binder. Missing arguments stay unresolved. For mode skill name the actual producer skill_id and output field; arguments binds ALL producer argument ports to explicit {namespace, port} sources: caller read/argument inputs, or constant/current-source premises. Source-rule call parameters such as the group named by a permission clause belong to premises, not factual READ inputs. The host reads these premises before invoking the dependent legal helper. Do not guess, default or bind missing roles. Do not ask a reader to derive an unprovided legal conclusion.
 Semantic records name ports from the declared inputs and/or source premises; already-read ports are not counted as newly Lifted premises.
 Read questions must describe the current-source concept rather than tell the reader an old value. The host separately binds supplied source-span IDs for read evidence.
 Declare only premises actually used in the procedure. Do not add unused rule_quotes or other evidence-only ports; source_provenance carries literal evidence.
@@ -357,6 +397,8 @@ def propose(teacher, *, arm, batch, library, source_records, feedback, learned_p
     memory = [{k: deepcopy(v) for k, v in p.items() if k not in ('evidence', 'exact_version_table')}
               | {'exact_version_table': compact_table(p['exact_version_table'])} for p in learned_patterns]
     user = json.dumps({'arm': arm, 'batch': batch, 'sources': source_records,
+        'literal_argument_context': {r['key']: {v['id']: literal_bindings(v) for v in r['views']}
+                                     for r in source_records},
         'source_premise_block_candidates': {s.id: [list(b) for b in coupled_blocks(s)
             if all(s.premises[n]['mode'] == 'constant' for n in b)] for s in library.skills.values()},
         'update_objective': {'trigger_parents': list(trigger), 'history_parents': list(history),

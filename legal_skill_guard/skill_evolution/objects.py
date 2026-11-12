@@ -62,6 +62,12 @@ class Skill:
         if not self.id or not self.intent or type(self.version) is not int or self.version < 1:
             raise ValueError('A skill requires identity, intent and a positive version')
         uses = premise_uses(self.procedure)
+        for name, port in self.inputs.items():
+            if port.get('mode') == 'skill':
+                for parameter, binding in port.get('arguments', {}).items():
+                    bound_port(self, binding)
+                    if binding['namespace'] == 'premises':
+                        uses.setdefault(binding['port'], []).append(['dependency', name, parameter])
         if set(uses) != set(self.premises):
             raise ValueError('Declared premises must match the complete actual use inventory')
         read_ids = {r['id'] for r in self.reads}
@@ -85,11 +91,10 @@ class Skill:
             if mode == 'skill':
                 if not port.get('skill_id') or not port.get('field'):
                     raise ValueError('Actual producer and output field required')
-                for parameter, local in bindings.items():
-                    if (not isinstance(parameter, str) or not isinstance(local, str)
-                            or local not in self.inputs
-                            or self.inputs[local].get('mode') not in ('read', 'argument')):
-                        raise ValueError('Dependency argument must bind a caller read or argument input')
+                for parameter, binding in bindings.items():
+                    if not isinstance(parameter, str):
+                        raise ValueError('Dependency parameter names must be strings')
+                    bound_port(self, binding)
             elif bindings or port.get('skill_id') is not None:
                 raise ValueError('Only skill inputs may declare dependency bindings')
             elif mode == 'read' and not port.get('question'):
@@ -125,6 +130,20 @@ class Skill:
         return cls(**value).validate()
 
 
+def bound_port(skill, binding):
+    if not isinstance(binding, dict) or set(binding) != {'namespace', 'port'}:
+        raise ValueError('Dependency argument needs an explicit namespace and port')
+    namespace, name = binding['namespace'], binding['port']
+    if namespace not in ('inputs', 'premises') or not isinstance(name, str):
+        raise ValueError('Unknown dependency argument source')
+    ports = getattr(skill, namespace)
+    if name not in ports:
+        raise ValueError('Dependency argument source port is absent')
+    if namespace == 'inputs' and ports[name].get('mode') not in ('read', 'argument'):
+        raise ValueError('Dependency argument must bind a caller read or argument input')
+    return ports[name]
+
+
 def dependency_arguments(skill, port, skills):
     """Check the actual callee signature, without guessing roles or values."""
     producer = skills.get(port['skill_id'])
@@ -137,8 +156,8 @@ def dependency_arguments(skill, port, skills):
     bindings = port.get('arguments', {})
     if set(bindings) != set(required):
         raise ValueError('Dependency arguments must match all and only callee parameters')
-    for name, local in bindings.items():
-        if skill.inputs[local]['type'] != required[name]['type']:
+    for name, binding in bindings.items():
+        if bound_port(skill, binding)['type'] != required[name]['type']:
             raise ValueError('Dependency argument type differs')
     return bindings
 
@@ -169,6 +188,12 @@ def coupled_blocks(skill):
     skill.validate()
     records = {r['id']: r for r in skill.semantic_records}
     candidates = set()
+    for port in skill.inputs.values():
+        if port['mode'] == 'skill':
+            names = tuple(sorted({b['port'] for b in port.get('arguments', {}).values()
+                                  if b['namespace'] == 'premises'}))
+            if 1 < len(names) <= 3:
+                candidates.add(names)  # An actual local call record, never the final RETURN.
     candidates.update(tuple(r['ports']) for r in local_record_blocks(skill.procedure,
         {n for n, p in skill.premises.items() if p['mode'] == 'constant'}))
     for key, record in records.items():

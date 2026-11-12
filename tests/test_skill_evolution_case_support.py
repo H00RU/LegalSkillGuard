@@ -41,7 +41,7 @@ class CaseSupportTests(unittest.TestCase):
         result = SkillRuntime(SimpleNamespace(read=forbidden)).run(fixture['source'], fixture['view'],
             Library(skills={skill.id: skill}), retrieved=[skill.id], fallback=False)
         self.assertTrue(result['unresolved'])
-        self.assertTrue(all(e['kind'] == 'BIND_TASK_ROLES' for e in result['events']))
+        self.assertTrue(all(e['kind'] in ('BIND_TASK_ROLES', 'BIND_LITERAL_FACTS') for e in result['events']))
         for question in ('Section 3306(c)(5) applies.', 'Section 3306(c)(5)(A) applies.'):
             self.assertIsNone(declared_claim_mismatch(skill, {'public': {'question': question}}))
         with self.assertRaises(ValueError):

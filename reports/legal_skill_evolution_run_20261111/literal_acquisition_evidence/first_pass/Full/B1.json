@@ -1,0 +1,523 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+  "skills": {},
+  "revision_patterns": [],
+  "provisional_edits": [
+    {
+      "batch": 1,
+      "candidate_index": 0,
+      "raw_block": {
+        "rationale": "Create a grounded terminal rule for §3306(c)(5)(A). It recognizes both direct relations and the inverse of an affirmative father/mother relation, so the supplied fact that Alice has father Bob establishes that Bob works for his child Alice.",
+        "revisions": [
+          {
+            "operation": "create",
+            "skill": {
+              "id": "section_3306_c_5_a_family_employment",
+              "inputs": [
+                {
+                  "arguments": [],
+                  "field": "employer",
+                  "mode": "argument",
+                  "name": "employer",
+                  "question": "Who is the person employing the individual in the employment relationship at issue?",
+                  "skill_id": null,
+                  "type": "string"
+                },
+                {
+                  "arguments": [],
+                  "field": "employee",
+                  "mode": "argument",
+                  "name": "employee",
+                  "question": "Who is the individual performing the service in the employment relationship at issue?",
+                  "skill_id": null,
+                  "type": "string"
+                },
+                {
+                  "arguments": [],
+                  "field": "case_family_relations",
+                  "mode": "argument",
+                  "name": "case_family_relations",
+                  "question": "What affirmative family-relation mentions are supplied as [owner, literal kinship word, relative] triples?",
+                  "skill_id": null,
+                  "type": "array"
+                }
+              ],
+              "intent": "Determine whether §3306(c)(5)(A) applies because an individual performs service in the employ of that individual's son, daughter, or spouse.",
+              "outputs": [
+                {
+                  "description": "Entailment if an affirmative family relation establishes that the employee performs service in the employ of the employee's son, daughter, or spouse; otherwise Contradiction.",
+                  "name": "answer",
+                  "query_clauses": [
+                    "3306(c)(5)"
+                  ],
+                  "type": "string"
+                }
+              ],
+              "premises": [
+                {
+                  "field": null,
+                  "mode": "constant",
+                  "name": "excluded_employer_relations_to_employee",
+                  "origin": {
+                    "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+                    "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+                    "view_id": "native"
+                  },
+                  "question": "Which relationships of the employer to the individual trigger the family-employment exclusion in §3306(c)(5)(A)?",
+                  "read_id": null,
+                  "type": "array",
+                  "value": [
+                    "son",
+                    "daughter",
+                    "spouse"
+                  ]
+                }
+              ],
+              "procedure": "applies = False\nfor relation in case_family_relations:\n    if len(relation) == 3:\n        owner = relation[0]\n        kinship = relation[1]\n        relative = relation[2]\n        if owner == employee and relative == employer and kinship in excluded_employer_relations_to_employee:\n            applies = True\n        if owner == employer and relative == employee and kinship == \"spouse\" and \"spouse\" in excluded_employer_relations_to_employee:\n            applies = True\n        if owner == employer and relative == employee and (kinship == \"father\" or kinship == \"mother\") and (\"son\" in excluded_employer_relations_to_employee or \"daughter\" in excluded_employer_relations_to_employee):\n            applies = True\nanswer = \"Entailment\" if applies else \"Contradiction\"\nreturn {\"answer\": answer}",
+              "reads": [],
+              "semantic_records": [
+                {
+                  "id": "family_employment_relationship",
+                  "neighbors": [],
+                  "ports": [
+                    "employer",
+                    "employee",
+                    "case_family_relations",
+                    "excluded_employer_relations_to_employee"
+                  ]
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "identify_excluded_family_employment",
+                  "origin": {
+                    "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+                    "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+                    "view_id": "native"
+                  },
+                  "port": "case_family_relations",
+                  "role": "preliminary",
+                  "statement": "Check whether an affirmative family relation establishes that the employer is the employee's son, daughter, or spouse, including by inverting a supplied father or mother relation."
+                },
+                {
+                  "id": "classify_section_3306_c_5_a",
+                  "origin": {
+                    "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+                    "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+                    "view_id": "native"
+                  },
+                  "port": "answer",
+                  "role": "terminal",
+                  "statement": "Treat service performed by an individual in the employ of that individual's son, daughter, or spouse as within §3306(c)(5)(A)."
+                }
+              ],
+              "source_provenance": [
+                {
+                  "quote": "(A) service performed by an individual in the employ of his son, daughter, or spouse;",
+                  "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+                  "view_id": "native"
+                }
+              ],
+              "version": 1
+            }
+          }
+        ]
+      },
+      "planned_lift": null,
+      "lift_reader": null,
+      "revisions": [
+        {
+          "skill_id": "section_3306_c_5_a_family_employment",
+          "old_hash": null,
+          "new_hash": "b045bce674f6c5a8748ce54fe48cc53f5c1ff4688f0790eb46d65687b2470657",
+          "new": {
+            "id": "section_3306_c_5_a_family_employment",
+            "intent": "Determine whether §3306(c)(5)(A) applies because an individual performs service in the employ of that individual's son, daughter, or spouse.",
+            "procedure": "def apply(inputs, premises):\n    applies = False\n    for relation in case_family_relations:\n        if len(relation) == 3:\n            owner = relation[0]\n            kinship = relation[1]\n            relative = relation[2]\n            if owner == employee and relative == employer and (kinship in excluded_employer_relations_to_employee):\n                applies = True\n            if owner == employer and relative == employee and (kinship == 'spouse') and ('spouse' in excluded_employer_relations_to_employee):\n                applies = True\n            if owner == employer and relative == employee and (kinship == 'father' or kinship == 'mother') and ('son' in excluded_employer_relations_to_employee or 'daughter' in excluded_employer_relations_to_employee):\n                applies = True\n    answer = 'Entailment' if applies else 'Contradiction'\n    return {'answer': answer}\n",
+            "inputs": {
+              "employer": {
+                "arguments": {},
+                "field": "employer",
+                "mode": "argument",
+                "question": "Who is the person employing the individual in the employment relationship at issue?",
+                "skill_id": null,
+                "type": "string"
+              },
+              "employee": {
+                "arguments": {},
+                "field": "employee",
+                "mode": "argument",
+                "question": "Who is the individual performing the service in the employment relationship at issue?",
+                "skill_id": null,
+                "type": "string"
+              },
+              "case_family_relations": {
+                "arguments": {},
+                "field": "case_family_relations",
+                "mode": "argument",
+                "question": "What affirmative family-relation mentions are supplied as [owner, literal kinship word, relative] triples?",
+                "skill_id": null,
+                "type": "array"
+              }
+            },
+            "outputs": {
+              "answer": {
+                "description": "Entailment if an affirmative family relation establishes that the employee performs service in the employ of the employee's son, daughter, or spouse; otherwise Contradiction.",
+                "query_clauses": [
+                  "3306(c)(5)"
+                ],
+                "type": "string"
+              }
+            },
+            "premises": {},
+            "reads": [],
+            "semantic_records": [
+              {
+                "id": "family_employment_relationship",
+                "neighbors": [],
+                "ports": [
+                  "employer",
+                  "employee",
+                  "case_family_relations"
+                ]
+              }
+            ],
+            "source_obligations": [
+              {
+                "id": "identify_excluded_family_employment",
+                "origin": {
+                  "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+                  "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+                  "view_id": "native"
+                },
+                "port": "case_family_relations",
+                "role": "preliminary",
+                "statement": "Check whether an affirmative family relation establishes that the employer is the employee's son, daughter, or spouse, including by inverting a supplied father or mother relation."
+              },
+              {
+                "id": "classify_section_3306_c_5_a",
+                "origin": {
+                  "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+                  "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+                  "view_id": "native"
+                },
+                "port": "answer",
+                "role": "terminal",
+                "statement": "Treat service performed by an individual in the employ of that individual's son, daughter, or spouse as within §3306(c)(5)(A)."
+              }
+            ],
+            "source_provenance": [
+              {
+                "quote": "(A) service performed by an individual in the employ of his son, daughter, or spouse;",
+                "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+                "view_id": "native"
+              }
+            ],
+            "version": 1
+          },
+          "operation": "create",
+          "representation_adaptation": {
+            "removed_unobserved_declarations": [
+              {
+                "field": null,
+                "mode": "constant",
+                "name": "excluded_employer_relations_to_employee",
+                "origin": {
+                  "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+                  "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+                  "view_id": "native"
+                },
+                "question": "Which relationships of the employer to the individual trigger the family-employment exclusion in §3306(c)(5)(A)?",
+                "read_id": null,
+                "type": "array",
+                "value": [
+                  "son",
+                  "daughter",
+                  "spouse"
+                ]
+              }
+            ],
+            "retained_draft_installation": null,
+            "procedure_unchanged": false,
+            "used_premise_values_unchanged": true,
+            "function_body_wrapper": {
+              "kind": "fixed_apply_signature_only",
+              "body_AST_unchanged": true,
+              "raw_procedure_sha256": "bb74860903f3fa64e9752fb2d69d95cd2bbce395c74ee40fbbae85f27e41a179"
+            }
+          }
+        }
+      ],
+      "table": {
+        "revision_hashes": [
+          "b045bce674f6c5a8748ce54fe48cc53f5c1ff4688f0790eb46d65687b2470657"
+        ],
+        "trigger": [
+          "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0"
+        ],
+        "history": [],
+        "mixed_version_table": [
+          {
+            "mask": 0,
+            "source": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Contradiction",
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "kind": "BIND_LITERAL_FACTS",
+                        "values": {
+                          "current_question": "Section 3306(c)(5) applies to Alice employing Bob for the year 2017.",
+                          "employer": "Alice",
+                          "employee": "Bob",
+                          "year": 2017,
+                          "case_family_relations": [
+                            [
+                              "Alice",
+                              "father",
+                              "Bob"
+                            ]
+                          ]
+                        },
+                        "evidence": [
+                          {
+                            "argument": "current_question",
+                            "field": "question",
+                            "start": 0,
+                            "end": 68,
+                            "text": "Section 3306(c)(5) applies to Alice employing Bob for the year 2017."
+                          },
+                          {
+                            "arguments": [
+                              "employee",
+                              "employer",
+                              "year"
+                            ],
+                            "field": "question",
+                            "start": 19,
+                            "end": 68,
+                            "text": "applies to Alice employing Bob for the year 2017."
+                          },
+                          {
+                            "argument": "case_family_relations",
+                            "value": [
+                              "Alice",
+                              "father",
+                              "Bob"
+                            ],
+                            "field": "facts",
+                            "start": 0,
+                            "end": 38,
+                            "text": "Alice has paid $3200 to her father Bob"
+                          }
+                        ],
+                        "family_relation_semantics": "has_relative(owner, literal_kinship_word, relative); positive observed mentions only; absence is not a negative fact",
+                        "legal_conclusions_derived": false
+                      },
+                      {
+                        "kind": "BIND_TASK_ROLES",
+                        "arguments": {
+                          "employer": "Alice",
+                          "employee": "Bob",
+                          "year": 2017
+                        },
+                        "source_field": "question",
+                        "literal_text": "applies to Alice employing Bob for the year 2017.",
+                        "character_range": [
+                          19,
+                          68
+                        ],
+                        "inferred_legal_or_family_facts": false
+                      },
+                      {
+                        "cache_hit": true,
+                        "call_id": "legal_skill_evolution_literal_acquisition_20261112:00a0add837dfb7a5a8f3237b58fe30aaec57cb904556cfe5288b61d737986bab",
+                        "elapsed_seconds": 0.7314278744161129,
+                        "physical_call_id": "legal_skill_evolution_formal_v4_20261111:00a0add837dfb7a5a8f3237b58fe30aaec57cb904556cfe5288b61d737986bab",
+                        "response_hash": "693c1c1424fcbbf16d31663015a86a13c00807da05aa7f90a284ab26694d0c7f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 17,
+                          "prompt_tokens": 1949,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 1966
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "section_3306_c_5_a_family_employment"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "section_3306_c_5_a_family_employment",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 1,
+            "source": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "e21d8387f494dc978bbe00237d741e28a2bae358ac5bf934d91a39e71636e42f",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Contradiction",
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "kind": "BIND_LITERAL_FACTS",
+                        "values": {
+                          "current_question": "Section 3306(c)(5) applies to Alice employing Bob for the year 2017.",
+                          "employer": "Alice",
+                          "employee": "Bob",
+                          "year": 2017,
+                          "case_family_relations": [
+                            [
+                              "Alice",
+                              "father",
+                              "Bob"
+                            ]
+                          ]
+                        },
+                        "evidence": [
+                          {
+                            "argument": "current_question",
+                            "field": "question",
+                            "start": 0,
+                            "end": 68,
+                            "text": "Section 3306(c)(5) applies to Alice employing Bob for the year 2017."
+                          },
+                          {
+                            "arguments": [
+                              "employee",
+                              "employer",
+                              "year"
+                            ],
+                            "field": "question",
+                            "start": 19,
+                            "end": 68,
+                            "text": "applies to Alice employing Bob for the year 2017."
+                          },
+                          {
+                            "argument": "case_family_relations",
+                            "value": [
+                              "Alice",
+                              "father",
+                              "Bob"
+                            ],
+                            "field": "facts",
+                            "start": 0,
+                            "end": 38,
+                            "text": "Alice has paid $3200 to her father Bob"
+                          }
+                        ],
+                        "family_relation_semantics": "has_relative(owner, literal_kinship_word, relative); positive observed mentions only; absence is not a negative fact",
+                        "legal_conclusions_derived": false
+                      },
+                      {
+                        "kind": "BIND_TASK_ROLES",
+                        "arguments": {
+                          "employer": "Alice",
+                          "employee": "Bob",
+                          "year": 2017
+                        },
+                        "source_field": "question",
+                        "literal_text": "applies to Alice employing Bob for the year 2017.",
+                        "character_range": [
+                          19,
+                          68
+                        ],
+                        "inferred_legal_or_family_facts": false
+                      },
+                      {
+                        "cache_hit": true,
+                        "call_id": "legal_skill_evolution_literal_acquisition_20261112:00a0add837dfb7a5a8f3237b58fe30aaec57cb904556cfe5288b61d737986bab",
+                        "elapsed_seconds": 0.7314278744161129,
+                        "physical_call_id": "legal_skill_evolution_formal_v4_20261111:00a0add837dfb7a5a8f3237b58fe30aaec57cb904556cfe5288b61d737986bab",
+                        "response_hash": "693c1c1424fcbbf16d31663015a86a13c00807da05aa7f90a284ab26694d0c7f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 17,
+                          "prompt_tokens": 1949,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 1966
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "section_3306_c_5_a_family_employment"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "section_3306_c_5_a_family_employment",
+                        "error": "ValueError: Learned helper failed: Traceback (most recent call last):\n  File \"/media/sangfor/vdb/legal-skill-runtime/engineering/lift-corev-activation-20261112/legal_skill_guard/skill_evolution/worker.py\", line 26, in <module>\n    main()\n  File \"/media/sangfor/vdb/legal-skill-runtime/engineering/lift-corev-activation-20261112/legal_skill_guard/skill_evolution/worker.py\", line 18, in main\n    value = scope['apply'](request['inputs'], request['premises'])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<learned-skill>\", line 3, in apply\nNameError: name 'case_family_relations' is not defined\n"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          }
+        ],
+        "complete": true,
+        "minimal_blocks": [],
+        "classification": "harmful_or_unresolved",
+        "unmeasured_assignments": "unknown",
+        "hash": "1441b93a8bea32a961baf8b201f9b28020d5072fabb0da826fb58f2fc9469f74"
+      },
+      "error": null,
+      "selection_exclusion": null
+    }
+  ],
+  "execution_events": []
+}

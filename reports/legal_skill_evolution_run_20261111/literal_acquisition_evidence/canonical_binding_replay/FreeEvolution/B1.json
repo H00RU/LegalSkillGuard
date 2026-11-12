@@ -1,0 +1,116 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "6ffa15c2a6f6d10fff46e721688094fbd4927cc888a2009a1806cf05dae6a4b3",
+  "skills": {
+    "section_3306_c_5_family_employment_exclusion": {
+      "id": "section_3306_c_5_family_employment_exclusion",
+      "intent": "Determine whether §3306(c)(5)(A) applies to an identified employee-employer relationship using affirmative literal family-relation mentions.",
+      "procedure": "def apply(inputs, premises):\n    employer = inputs[\"employer\"]\n    employee = inputs[\"employee\"]\n    relations = inputs[\"case_family_relations\"]\n    applies = False\n    for relation in relations:\n        if len(relation) == 3:\n            owner = relation[0]\n            word = relation[1]\n            relative = relation[2]\n            if owner == employee and relative == employer and word in premises[\"employee_has_employer_as_relative_words\"]:\n                applies = True\n            if owner == employer and relative == employee and word in premises[\"employer_has_employee_as_relative_words\"]:\n                applies = True\n    if applies:\n        answer = \"Entailment\"\n    else:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+      "inputs": {
+        "employer": {
+          "arguments": {},
+          "field": "employer",
+          "mode": "argument",
+          "question": "Who is the employer identified in the current question?",
+          "skill_id": null,
+          "type": "string"
+        },
+        "employee": {
+          "arguments": {},
+          "field": "employee",
+          "mode": "argument",
+          "question": "Who is the employee identified in the current question?",
+          "skill_id": null,
+          "type": "string"
+        },
+        "case_family_relations": {
+          "arguments": {},
+          "field": "case_family_relations",
+          "mode": "argument",
+          "question": "What affirmative family relations are literally stated, represented as [owner, literal kinship word, relative]?",
+          "skill_id": null,
+          "type": "array"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "description": "The native binary answer: Entailment when §3306(c)(5)(A) applies to the identified employment relationship, otherwise Contradiction.",
+          "query_clauses": [
+            "3306(c)(5)"
+          ],
+          "type": "string"
+        }
+      },
+      "premises": {
+        "employee_has_employer_as_relative_words": {
+          "mode": "constant",
+          "origin": {
+            "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+            "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+            "view_id": "native"
+          },
+          "question": "Which literal relations directly show that the employer is the employee's son, daughter, or spouse?",
+          "type": "array",
+          "value": [
+            "son",
+            "daughter",
+            "spouse"
+          ]
+        },
+        "employer_has_employee_as_relative_words": {
+          "mode": "constant",
+          "origin": {
+            "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+            "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+            "view_id": "native"
+          },
+          "question": "Which literal relations stated from the employer's perspective establish that the employee is the employer's parent or spouse, making the employer the employee's child or spouse?",
+          "type": "array",
+          "value": [
+            "father",
+            "mother",
+            "spouse"
+          ]
+        }
+      },
+      "reads": [],
+      "semantic_records": [
+        {
+          "id": "family_employment_relationship",
+          "neighbors": [],
+          "ports": [
+            "employer",
+            "employee",
+            "case_family_relations",
+            "employee_has_employer_as_relative_words",
+            "employer_has_employee_as_relative_words"
+          ]
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "section_3306_c_5_a_exclusion",
+          "origin": {
+            "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+            "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+            "view_id": "native"
+          },
+          "port": "answer",
+          "role": "terminal",
+          "statement": "Check whether the employee performs service in the employ of the employee's son, daughter, or spouse, including an equivalent affirmative kinship statement expressed from the employer's perspective."
+        }
+      ],
+      "source_provenance": [
+        {
+          "quote": "(A) service performed by an individual in the employ of his son, daughter, or spouse;",
+          "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+          "view_id": "native"
+        }
+      ],
+      "version": 1
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [],
+  "execution_events": []
+}

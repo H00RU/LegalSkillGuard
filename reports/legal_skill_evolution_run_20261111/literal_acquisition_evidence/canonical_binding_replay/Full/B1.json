@@ -1,0 +1,111 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "38c64dadd564a1af1df279ec57a12d54f2d3704a59830805b8a3b26ab1bd69d0",
+  "skills": {
+    "section_3306_c_5_a_family_employment": {
+      "id": "section_3306_c_5_a_family_employment",
+      "intent": "Determine whether §3306(c)(5)(A) applies because an individual performs service in the employ of that individual's son, daughter, or spouse.",
+      "procedure": "def apply(inputs, premises):\n    applies = False\n    for relation in inputs['case_family_relations']:\n        if len(relation) == 3:\n            owner = relation[0]\n            kinship = relation[1]\n            relative = relation[2]\n            if owner == inputs['employee'] and relative == inputs['employer'] and (kinship in premises['excluded_employer_relations_to_employee']):\n                applies = True\n            if owner == inputs['employer'] and relative == inputs['employee'] and (kinship == 'spouse') and ('spouse' in premises['excluded_employer_relations_to_employee']):\n                applies = True\n            if owner == inputs['employer'] and relative == inputs['employee'] and (kinship == 'father' or kinship == 'mother') and ('son' in premises['excluded_employer_relations_to_employee'] or 'daughter' in premises['excluded_employer_relations_to_employee']):\n                applies = True\n    answer = 'Entailment' if applies else 'Contradiction'\n    return {'answer': answer}\n",
+      "inputs": {
+        "employer": {
+          "arguments": {},
+          "field": "employer",
+          "mode": "argument",
+          "question": "Who is the person employing the individual in the employment relationship at issue?",
+          "skill_id": null,
+          "type": "string"
+        },
+        "employee": {
+          "arguments": {},
+          "field": "employee",
+          "mode": "argument",
+          "question": "Who is the individual performing the service in the employment relationship at issue?",
+          "skill_id": null,
+          "type": "string"
+        },
+        "case_family_relations": {
+          "arguments": {},
+          "field": "case_family_relations",
+          "mode": "argument",
+          "question": "What affirmative family-relation mentions are supplied as [owner, literal kinship word, relative] triples?",
+          "skill_id": null,
+          "type": "array"
+        }
+      },
+      "outputs": {
+        "answer": {
+          "description": "Entailment if an affirmative family relation establishes that the employee performs service in the employ of the employee's son, daughter, or spouse; otherwise Contradiction.",
+          "query_clauses": [
+            "3306(c)(5)"
+          ],
+          "type": "string"
+        }
+      },
+      "premises": {
+        "excluded_employer_relations_to_employee": {
+          "mode": "constant",
+          "origin": {
+            "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+            "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+            "view_id": "native"
+          },
+          "question": "Which relationships of the employer to the individual trigger the family-employment exclusion in §3306(c)(5)(A)?",
+          "type": "array",
+          "value": [
+            "son",
+            "daughter",
+            "spouse"
+          ]
+        }
+      },
+      "reads": [],
+      "semantic_records": [
+        {
+          "id": "family_employment_relationship",
+          "neighbors": [],
+          "ports": [
+            "employer",
+            "employee",
+            "case_family_relations",
+            "excluded_employer_relations_to_employee"
+          ]
+        }
+      ],
+      "source_obligations": [
+        {
+          "id": "identify_excluded_family_employment",
+          "origin": {
+            "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+            "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+            "view_id": "native"
+          },
+          "port": "case_family_relations",
+          "role": "preliminary",
+          "statement": "Check whether an affirmative family relation establishes that the employer is the employee's son, daughter, or spouse, including by inverting a supplied father or mother relation."
+        },
+        {
+          "id": "classify_section_3306_c_5_a",
+          "origin": {
+            "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+            "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+            "view_id": "native"
+          },
+          "port": "answer",
+          "role": "terminal",
+          "statement": "Treat service performed by an individual in the employ of that individual's son, daughter, or spouse as within §3306(c)(5)(A)."
+        }
+      ],
+      "source_provenance": [
+        {
+          "quote": "(A) service performed by an individual in the employ of his son, daughter, or spouse;",
+          "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+          "view_id": "native"
+        }
+      ],
+      "version": 1
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [],
+  "execution_events": []
+}

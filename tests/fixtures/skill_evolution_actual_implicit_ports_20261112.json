@@ -1,0 +1,138 @@
+{
+  "response_sha256": "37dba099336a4d058260cd85e9c37b85fb4dae8153f97d2d037ebf75b92a840e",
+  "raw_skill": {
+    "id": "section_3306_c_5_a_family_employment",
+    "inputs": [
+      {
+        "arguments": [],
+        "field": "employer",
+        "mode": "argument",
+        "name": "employer",
+        "question": "Who is the person employing the individual in the employment relationship at issue?",
+        "skill_id": null,
+        "type": "string"
+      },
+      {
+        "arguments": [],
+        "field": "employee",
+        "mode": "argument",
+        "name": "employee",
+        "question": "Who is the individual performing the service in the employment relationship at issue?",
+        "skill_id": null,
+        "type": "string"
+      },
+      {
+        "arguments": [],
+        "field": "case_family_relations",
+        "mode": "argument",
+        "name": "case_family_relations",
+        "question": "What affirmative family-relation mentions are supplied as [owner, literal kinship word, relative] triples?",
+        "skill_id": null,
+        "type": "array"
+      }
+    ],
+    "intent": "Determine whether §3306(c)(5)(A) applies because an individual performs service in the employ of that individual's son, daughter, or spouse.",
+    "outputs": [
+      {
+        "description": "Entailment if an affirmative family relation establishes that the employee performs service in the employ of the employee's son, daughter, or spouse; otherwise Contradiction.",
+        "name": "answer",
+        "query_clauses": [
+          "3306(c)(5)"
+        ],
+        "type": "string"
+      }
+    ],
+    "premises": [
+      {
+        "field": null,
+        "mode": "constant",
+        "name": "excluded_employer_relations_to_employee",
+        "origin": {
+          "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+          "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+          "view_id": "native"
+        },
+        "question": "Which relationships of the employer to the individual trigger the family-employment exclusion in §3306(c)(5)(A)?",
+        "read_id": null,
+        "type": "array",
+        "value": [
+          "son",
+          "daughter",
+          "spouse"
+        ]
+      }
+    ],
+    "procedure": "applies = False\nfor relation in case_family_relations:\n    if len(relation) == 3:\n        owner = relation[0]\n        kinship = relation[1]\n        relative = relation[2]\n        if owner == employee and relative == employer and kinship in excluded_employer_relations_to_employee:\n            applies = True\n        if owner == employer and relative == employee and kinship == \"spouse\" and \"spouse\" in excluded_employer_relations_to_employee:\n            applies = True\n        if owner == employer and relative == employee and (kinship == \"father\" or kinship == \"mother\") and (\"son\" in excluded_employer_relations_to_employee or \"daughter\" in excluded_employer_relations_to_employee):\n            applies = True\nanswer = \"Entailment\" if applies else \"Contradiction\"\nreturn {\"answer\": answer}",
+    "reads": [],
+    "semantic_records": [
+      {
+        "id": "family_employment_relationship",
+        "neighbors": [],
+        "ports": [
+          "employer",
+          "employee",
+          "case_family_relations",
+          "excluded_employer_relations_to_employee"
+        ]
+      }
+    ],
+    "source_obligations": [
+      {
+        "id": "identify_excluded_family_employment",
+        "origin": {
+          "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+          "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+          "view_id": "native"
+        },
+        "port": "case_family_relations",
+        "role": "preliminary",
+        "statement": "Check whether an affirmative family relation establishes that the employer is the employee's son, daughter, or spouse, including by inverting a supplied father or mother relation."
+      },
+      {
+        "id": "classify_section_3306_c_5_a",
+        "origin": {
+          "quote": "service performed by an individual in the employ of his son, daughter, or spouse;",
+          "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+          "view_id": "native"
+        },
+        "port": "answer",
+        "role": "terminal",
+        "statement": "Treat service performed by an individual in the employ of that individual's son, daughter, or spouse as within §3306(c)(5)(A)."
+      }
+    ],
+    "source_provenance": [
+      {
+        "quote": "(A) service performed by an individual in the employ of his son, daughter, or spouse;",
+        "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+        "view_id": "native"
+      }
+    ],
+    "version": 1
+  },
+  "source": {
+    "key": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+    "dataset": "SARA_v2_Binary",
+    "split": "train",
+    "parent_id": "096e5606c0bfccc646a0b94ab4bd301ca3465f05e2e228b8e771bf19f6864737",
+    "original_public_content_hash": "b78961223c2bcfc292ad2566a1eebfb2b88815966a52def371d54ede1c4ba829",
+    "runtime_actor_views_sha256": "e44471b0b179d395a1cb45f4f37d3d50bcc90ba6c81e488cc533473ca564cf83",
+    "views": [
+      {
+        "id": "native",
+        "public": {
+          "source_text": "§3306. Definitions\n\n(a) Employer\n\n    (1) In general\n\n    The term \"employer\" means, with respect to any calendar year, any person who-\n\n        (A) during the calendar year or the preceding calendar year paid wages of $1,500 or more, or\n\n        (B) on each of some 10 days during the calendar year or during the preceding calendar year, each day being in a different calendar week, employed at least one individual in employment for some portion of the day.\n\n    For purposes of this paragraph, there shall not be taken into account any wages paid to, or employment of, an employee performing domestic services referred to in paragraph (3).\n\n    (2) Agricultural labor\n\n    In the case of agricultural labor, the term \"employer\" means, with respect to any calendar year, any person who-\n\n        (A) during the calendar year or the preceding calendar year paid wages of $20,000 or more for agricultural labor, or\n\n        (B) on each of some 10 days during the calendar year or during the preceding calendar year, each day being in a different calendar week, employed at least 5 individuals in employment in agricultural labor for some portion of the day.\n\n    (3) Domestic service\n\n    In the case of domestic service in a private home, local college club, or local chapter of a college fraternity or sorority, the term \"employer\" means, with respect to any calendar year, any person who during the calendar year or the preceding calendar year paid wages in cash of $1,000 or more for such service.\n\n    (4) Special rule\n\n    A person treated as an employer under paragraph (3) shall not be treated as an employer with respect to wages paid for any service other than domestic service referred to in paragraph (3) unless such person is treated as an employer under paragraph (1) or (2) with respect to such other service.\n\n(b) Wages\n\nFor purposes of this chapter, the term \"wages\" means all remuneration for employment, including the cash value of all remuneration (including benefits) paid in any medium other than cash; except that such term shall not include-\n\n    (1) that part of the remuneration which, after remuneration (other than remuneration referred to in the succeeding paragraphs of this subsection) equal to $7,000 with respect to employment has been paid to an individual by an employer during any calendar year, is paid to such individual by such employer during such calendar year;\n\n    (2) the amount of any payment (including any amount paid by an employer for insurance or annuities, or into a fund, to provide for any such payment) made to, or on behalf of, an employee or any of his dependents under a plan or system established by an employer which makes provision for his employees generally (or for his employees generally and their dependents) or for a class or classes of his employees (or for a class or classes of his employees and their dependents), on account of-\n\n        (A) sickness or accident disability, or\n\n        (C) death;\n\n    (7) remuneration paid in any medium other than cash to an employee for service not in the course of the employer's trade or business;\n\n    (10) any payment or series of payments by an employer to an employee or any of his dependents which is paid-\n\n        (A) upon or after the termination of an employee's employment relationship because of (i) death, or (ii) retirement for disability, and\n\n        (B) under a plan established by the employer which makes provision for his employees generally or a class or classes of his employees (or for such employees or class or classes of employees and their dependents),\n\n    other than any such payment or series of payments which would have been paid if the employee's employment relationship had not been so terminated;\n\n    (11) remuneration for agricultural labor paid in any medium other than cash;\n\n    (15) any payment made by an employer to a survivor or the estate of a former employee after the calendar year in which such employee died;\n\n(c) Employment\n\nFor purposes of this chapter, the term \"employment\" means any service, of whatever nature,\n\n    (A) performed by an employee for the person employing him, irrespective of the citizenship or residence of either, within the United States, and\n\n    (B) performed outside the United States (except in a contiguous country with which the United States has an agreement relating to unemployment compensation) by a citizen of the United States as an employee of an American employer, except-\n\n    (1) agricultural labor unless-\n\n        (A) such labor is performed for a person who-\n\n            (i) during the calendar year or the preceding calendar year paid remuneration in cash of $20,000 or more to individuals employed in agricultural labor (including labor performed by an alien referred to in subparagraph (B)), or\n\n            (ii) on each of some 10 days during the calendar year or the preceding calendar year, each day being in a different calendar week, employed in agricultural labor (including labor performed by an alien referred to in subparagraph (B)) for some portion of the day (whether or not at the same moment of time) 5 or more individuals; and\n\n        (B) such labor is not agricultural labor performed by an individual who is an alien admitted to the United States to perform agricultural labor pursuant to sections 214(c) and 101(a)(15)(H) of the Immigration and Nationality Act.\n\n    (2) domestic service in a private home, local college club, or local chapter of a college fraternity or sorority unless performed for a person who paid cash remuneration of $1,000 or more to individuals employed in such domestic service in the calendar year or the preceding calendar year;\n\n    (5) \n\n        (A) service performed by an individual in the employ of his son, daughter, or spouse;\n\n        (B) service performed by a child under the age of 21 in the employ of his father or mother;\n\n    (6) service performed in the employ of the United States Government\n\n    (7) service performed in the employ of a State, or any political subdivision thereof.\n\n    (10)\n\n        (A) service performed in the employ of a school, college, or university, if such service is performed\n\n            (i) by a student who is enrolled and is regularly attending classes at such school, college, or university, or\n\n            (ii) by the spouse of such a student, or\n\n        (B) service performed in the employ of a hospital, if such service is performed by a patient of such hospital;\n\n    (11) service performed in the employ of a foreign government (including service as a consular or other officer or employee or a nondiplomatic representative);\n\n    (13) service performed as a student nurse in the employ of a hospital or a nurses' training school by an individual who is enrolled and is regularly attending classes in a nurses' training school;\n\n    (16) service performed in the employ of an international organization;\n\n    (21) service performed by a person committed to a penal institution.\n",
+          "referenced_public_sections": {},
+          "facts": "Alice has paid $3200 to her father Bob for work done from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.",
+          "question": "Section 3306(c)(5) applies to Alice employing Bob for the year 2017."
+        },
+        "answer_schema": {
+          "type": "string",
+          "enum": [
+            "Entailment",
+            "Contradiction"
+          ]
+        }
+      }
+    ]
+  }
+}

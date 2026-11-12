@@ -13,6 +13,7 @@ from .objects import Skill, digest, dependency_arguments
 from .answer_domain import incompatible_native_enum
 from .claim_scope import declared_claim_mismatch
 from .task_roles import explicit_task_roles
+from .literal_facts import literal_bindings
 from legal_skill_guard.rr.checkpoint import immutable_json
 from .native import (record_schema, answer_wire_schema, decode_answer,
                      public_task, public_strings, DIRECT_SYSTEM, restore_enum_transport, source_spans)
@@ -299,6 +300,9 @@ class SkillRuntime:
     def run(self, source, view, library, *, purpose='skill_actor', retrieved=None, fallback=True):
         selected = retrieve(library, source, view) if retrieved is None else list(retrieved)
         events, completed, visiting, failures = [], {}, set(), []
+        context = literal_bindings(view)
+        if context['values']:
+            events.append({'kind': 'BIND_LITERAL_FACTS', **context})
         task_roles = explicit_task_roles(view)
         if task_roles:
             events.append({'kind': 'BIND_TASK_ROLES', **task_roles})
@@ -345,15 +349,6 @@ class SkillRuntime:
                     **({'invocation_arguments': read_arguments} if read_arguments else {}),
                     **({'alignment': alignment} if alignment else {}))
                 inputs.update(values); events.append(event)
-            for name, bindings in dependency_bindings.items():
-                port = skill.inputs[name]
-                bound = {parameter: inputs[local] for parameter, local in bindings.items()}
-                producer = apply(port['skill_id'], bound)
-                inputs[name] = producer[port['field']]
-                events.append({'kind': 'USE', 'producer': port['skill_id'], 'field': port['field'],
-                    'consumer': identity, 'input': name, 'value': inputs[name],
-                    'producer_arguments': bound, 'argument_bindings': bindings,
-                    'consumer_arguments': arguments})
             premises = {n: p['value'] for n, p in skill.premises.items() if p['mode'] == 'constant'}
             for reader in skill.reads:
                 ports = {n: p['field'] for n, p in skill.premises.items()
@@ -370,6 +365,17 @@ class SkillRuntime:
                 for name, port in skill.premises.items():
                     if port['mode'] == 'read' and port['read_id'] == reader['id']:
                         if port['field'] in values:premises[name] = values[port['field']]
+            for name, bindings in dependency_bindings.items():
+                port = skill.inputs[name]
+                namespaces = {'inputs': inputs, 'premises': premises}
+                bound = {parameter: namespaces[b['namespace']][b['port']]
+                         for parameter, b in bindings.items()}
+                producer = apply(port['skill_id'], bound)
+                inputs[name] = producer[port['field']]
+                events.append({'kind': 'USE', 'producer': port['skill_id'], 'field': port['field'],
+                    'consumer': identity, 'input': name, 'value': inputs[name],
+                    'producer_arguments': bound, 'argument_bindings': bindings,
+                    'consumer_arguments': arguments})
             missing_inputs, missing_premises = set(skill.inputs) - set(inputs), set(skill.premises) - set(premises)
             value = execute_helper(skill, inputs, premises,
                 unresolved_inputs=missing_inputs, unresolved_premises=missing_premises)
@@ -396,7 +402,10 @@ class SkillRuntime:
                         'static_proof': proof})
                     continue
             try:
-                value = apply(identity)
+                root = library.skills.get(identity)
+                arguments = {n: context['values'][n] for n, p in root.inputs.items()
+                    if p['mode'] == 'argument' and n in context['values']} if root else {}
+                value = apply(identity, arguments)
                 jsonschema.validate(value['answer'], view['answer_schema'])
                 return {'answer': value['answer'], 'evidence_sentence_ids': [], 'fallback': False,
                     'core_executed': True, 'terminal_skill': identity, 'retrieved': selected,

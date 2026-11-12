@@ -22,7 +22,7 @@ def graph():
     inputs = {n: {'type': 'string', 'mode': 'read', 'question': n} for n in ('first', 'second')}
     for name, local in [('a', 'first'), ('b', 'second'), ('again', 'first')]:
         inputs[name] = {'type': 'boolean', 'mode': 'skill', 'skill_id': 'predicate',
-                        'field': 'eligible', 'arguments': {'person': local}}
+                        'field': 'eligible', 'arguments': {'person': {'namespace': 'inputs', 'port': local}}}
     terminal = replace(producer, id='terminal', inputs=inputs,
         outputs={'answer': {'type': 'boolean'}}, procedure=(
             'def apply(inputs, premises):\n'
@@ -40,7 +40,7 @@ class ArgumentTests(unittest.TestCase):
         # Changing who is bound remains a semantic edit when all four
         # combinations still have the same valid interface.
         inputs = deepcopy(c.inputs)
-        inputs['a']['arguments']['person'] = 'second'
+        inputs['a']['arguments']['person'] = {'namespace': 'inputs', 'port': 'second'}
         other = replace(c, inputs=inputs)
         self.assertTrue(compatible_dependency_versions(p, p, c, other, 'eligible'))
 
@@ -67,7 +67,7 @@ class ArgumentTests(unittest.TestCase):
                          [{'person': 'Alice'}, {'person': 'Bob'}])
         uses = [e for e in result['events'] if e['kind'] == 'USE']
         self.assertEqual([e['value'] for e in uses], [True, False, True])
-        self.assertEqual(uses[1]['argument_bindings'], {'person': 'second'})
+        self.assertEqual(uses[1]['argument_bindings'], {'person': {'namespace': 'inputs', 'port': 'second'}})
         applies = [e for e in result['events'] if e['kind'] == 'APPLY' and e['skill_id'] == 'predicate']
         self.assertEqual(len(applies), 2)
         self.assertEqual(applies[1]['invocation_arguments'], {'person': 'Bob'})
@@ -127,7 +127,7 @@ class ArgumentTests(unittest.TestCase):
         raw = {'id': 'terminal', 'intent': 'fixture', 'procedure': library.skills['terminal'].procedure,
             'inputs': [{'name': n, 'type': p['type'], 'mode': p['mode'], 'question': p.get('question', ''),
                        'skill_id': p.get('skill_id'), 'field': p.get('field', n),
-                       'arguments': [{'parameter': k, 'input': v} for k, v in p.get('arguments', {}).items()]}
+                       'arguments': [{'parameter': k, **v} for k, v in p.get('arguments', {}).items()]}
                       for n, p in library.skills['terminal'].inputs.items()],
             'outputs': [{'name': 'answer', 'type': 'boolean', 'description': 'fixture', 'query_clauses': []}],
             'premises': [], 'reads': [], 'semantic_records': [], 'source_obligations': [],
@@ -135,8 +135,8 @@ class ArgumentTests(unittest.TestCase):
         self.assertEqual(strict_output_schema_issues(SKILL), [])
         jsonschema.validate(raw, SKILL)
         skill = skill_from_wire(raw)
-        self.assertEqual(dependency_arguments(skill, skill.inputs['a'], library.skills), {'person': 'first'})
-        raw['inputs'][2]['arguments'].append({'parameter': 'person', 'input': 'second'})
+        self.assertEqual(dependency_arguments(skill, skill.inputs['a'], library.skills), {'person': {'namespace': 'inputs', 'port': 'first'}})
+        raw['inputs'][2]['arguments'].append({'parameter': 'person', 'namespace': 'inputs', 'port': 'second'})
         with self.assertRaisesRegex(ValueError, 'Duplicate dependency argument'):
             skill_from_wire(raw)
 
