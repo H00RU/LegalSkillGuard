@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 from .coupling import local_record_blocks
 from .claim_scope import clause_identifier
+from .source_fragments import fragment_field
 
 
 def digest(value):
@@ -73,6 +74,9 @@ class Skill:
         read_ids = {r['id'] for r in self.reads}
         if len(read_ids) != len(self.reads):
             raise ValueError('Duplicate local reader identity')
+        for reader in self.reads:
+            for specification in reader['fields'].values():
+                if 'representation' in specification:fragment_field(specification)
         for port in self.outputs.values():
             if 'public_tasks' in port and (not isinstance(port['public_tasks'], list)
                     or any(not isinstance(x, str) or not x for x in port['public_tasks'])

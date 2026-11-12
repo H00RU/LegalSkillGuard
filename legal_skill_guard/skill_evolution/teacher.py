@@ -11,6 +11,7 @@ from .native import record_schema, public_strings
 from .grounding import bind_transcribed_quotes
 from .teacher_transport import pack, serialized, INSTRUCTION
 from .literal_facts import literal_bindings
+from .source_fragments import fragment_field
 
 STRING = {'type': 'string'}
 NULL_STRING = {'type': ['string', 'null']}
@@ -24,7 +25,9 @@ def array(item):
 
 
 ORIGIN = record_schema({'source_id': STRING, 'view_id': STRING, 'quote': STRING})
-READ_FIELD = record_schema({'name': STRING, 'type': TYPE, 'question': STRING})
+READ_FIELD = {'anyOf': [record_schema({'name': STRING, 'type': TYPE, 'question': STRING}),
+    record_schema({'name': STRING, 'type': {'type': 'string', 'enum': ['array']},
+        'question': STRING, 'representation': {'type': 'string', 'enum': ['source_spans']}})]}
 READER = record_schema({'id': STRING, 'question': STRING, 'source_locator': STRING,
     'fields': array(READ_FIELD), 'bindings': array(record_schema({'premise': STRING, 'field': STRING}))})
 SKILL = record_schema({'id': STRING, 'intent': STRING, 'procedure': STRING,
@@ -45,7 +48,9 @@ SKILL = record_schema({'id': STRING, 'intent': STRING, 'procedure': STRING,
         'port': STRING, 'origin': ORIGIN})),
     'source_provenance': array(ORIGIN), 'version': {'type': 'integer', 'minimum': 1}})
 LIFT_READER = record_schema({'question': STRING, 'source_locator': STRING,
-    'fields': array(record_schema({'name': STRING, 'question': STRING}))})
+    'fields': array({'anyOf': [record_schema({'name': STRING, 'question': STRING}),
+        record_schema({'name': STRING, 'question': STRING,
+            'representation': {'type': 'string', 'enum': ['source_spans']}})]})})
 PROPOSAL_SCHEMA = record_schema({'lift_reader': {'type': 'null'},
     'blocks': array(record_schema({'rationale': STRING,
     'revisions': array(record_schema({'operation': {'type': 'string', 'enum': ['create', 'revise']},
@@ -62,7 +67,8 @@ def proposal_schema(planned_lift, max_blocks):
         reader = deepcopy(LIFT_READER)
         names = planned_lift['premises']
         reader['properties']['fields'].update(minItems=len(names), maxItems=len(names))
-        reader['properties']['fields']['items']['properties']['name'] = {'type': 'string', 'enum': names}
+        for item in reader['properties']['fields']['items']['anyOf']:
+            item['properties']['name'] = {'type': 'string', 'enum': names}
         schema['properties']['lift_reader'] = reader
     if strict_output_schema_issues(schema):
         raise ValueError('Invalid strict proposal output schema')
@@ -86,7 +92,9 @@ def reader_from_wire(reader):
         raise ValueError('Duplicate reader binding')
     return {'id': reader['id'], 'question': reader['question'],
         'source_locator': reader['source_locator'], 'fields': fields, 'bindings': bindings,
-        'schema': record_schema({name: {'type': field['type']} for name, field in fields.items()})}
+        'schema': record_schema({name: {'type': field['type'],
+            **({'items': {'type': 'string'}} if fragment_field(field) else {})}
+            for name, field in fields.items()})}
 
 
 def prune_unobserved_premise_metadata(value):
@@ -355,6 +363,7 @@ For citation fields ask for literal citation strings, not legacy output label ID
 For every input in mode read set field equal to name, skill_id null, arguments []. A reusable helper may declare mode argument for an explicit caller-supplied entity, role or period: set field equal to name, skill_id null, arguments [], and describe its meaning in question. A root terminal may use the exact available names in literal_argument_context, including current_question, explicit employment roles and case_family_relations when actually provided. case_family_relations contains [owner, literal_kinship_word, relative] from an affirmative surface mention; it never supplies an inverted relation or negative fact. For example [X, father, Y] means X has father Y. Apply the source legal rule in the program, not in the literal binder. Missing arguments stay unresolved. For mode skill name the actual producer skill_id and output field; arguments binds ALL producer argument ports to explicit {namespace, port} sources: caller read/argument inputs, or constant/current-source premises. Source-rule call parameters such as the group named by a permission clause belong to premises, not factual READ inputs. The host reads these premises before invoking the dependent legal helper. Do not guess, default or bind missing roles. Do not ask a reader to derive an unprovided legal conclusion.
 Semantic records name ports from the declared inputs and/or source premises; already-read ports are not counted as newly Lifted premises.
 Read questions must describe the current-source concept rather than tell the reader an old value. The host separately binds supplied source-span IDs for read evidence. Constants require a literal origin. For a current-source premise read with no ancestral constant, origin may have source_id, view_id and quote all empty; this supplies no evidence or default, and its actual known value must have runtime current-source support. Nonempty lineage and source obligations remain literal and checked.
+For literal rule-text parameters, a reader field may declare type array and representation source_spans. The reader then selects only span IDs; the host supplies the complete exact source text strings in source order. This is text location, not a recipient-class array, a permission decision or a proof of absence. Keep legal role/condition calculations in apply. Ordinary primitive/flat-array semantic reads remain available. Do not silently replace a semantic class/value port by clause text; the program and declared meaning must consume literal fragments. For a scheduled Lift, this representation is valid only for an existing array premise whose unchanged program already consumes literal rule text.
 Unknown READ values are omitted and remain unresolved, never None, False or an empty list. Under partial unresolved bindings, the host permits only read-only literal inputs["name"] and premises["name"] access; execution may short-circuit before a missing value. Whole-map inspection, including "name" in premises, len(premises), map aliases or dynamic indexing, is rejected. Do not guard an absent READ with dictionary membership or convert extraction uncertainty into a negative legal fact. If the full source explicitly establishes a structural absence needed by the rule, acquire that source-supported fact separately and reason with it; an unknown is not proof of absence.
 All provenance quotes must be contiguous verbatim substrings of the stated source/view, including intervening parentheticals. Do not shorten a quotation by removing qualifications, replace words or join separate spans. The host can bind observed whitespace/typographic transcription, not reconstruct omitted legal text.
 Declare only premises actually used in the procedure. Do not add unused rule_quotes or other evidence-only ports; source_provenance carries literal evidence.

@@ -8,6 +8,7 @@ from dataclasses import asdict
 
 from .objects import coupled_blocks, digest, lift
 from .native import record_schema
+from .source_fragments import fragment_field
 
 
 LIFT_ARMS = {'LiftOnly', 'Full', 'Lift+GenericJoint'}
@@ -57,12 +58,14 @@ def compile_scheduled_lift(plan, wire, library):
     if any(not value.strip() for value in (wire['question'], wire['source_locator'],
                                           *(f['question'] for f in fields))):
         raise ValueError('Lift reader instructions must be nonempty')
-    typed = {f['name']: {'type': old.premises[f['name']]['type'], 'question': f['question']}
+    typed = {f['name']: {'type': old.premises[f['name']]['type'], 'question': f['question'],
+             **({'representation': f['representation']} if 'representation' in f else {})}
              for f in fields}
     reader = {'id': 'lift_' + digest({'old': old.hash, 'block': names, 'reader': wire})[:20],
               'question': wire['question'], 'source_locator': wire['source_locator'],
               'fields': typed, 'bindings': {n: n for n in names},
-              'schema': record_schema({n: {'type': typed[n]['type']} for n in names})}
+              'schema': record_schema({n: {'type': typed[n]['type'],
+                  **({'items': {'type': 'string'}} if fragment_field(typed[n]) else {})} for n in names})}
     new = lift(old, names, reader)
     return [{'skill_id': old.id, 'old_hash': old.hash, 'new_hash': new.hash,
              'new': asdict(new), 'operation': 'lift',

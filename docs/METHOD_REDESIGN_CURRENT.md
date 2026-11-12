@@ -1,6 +1,6 @@
 # 当前证据与下一项实际工作
 
-Goal **active、未完成**；用户已Resume并明确授权同Goal内协议调整，原范围阻断已解除，旧计数不再适用。目标、验收与边界唯一见[CURRENT_GOAL.md](CURRENT_GOAL.md)。执行目录`/home/yndx/hhy/legal-skill-redesign-20261109`、分支`research/legal-skill-evolution-20261111`；main不改。旧A/B、旧M1/M2、参数训练及历史暂停不构成行动队列。
+Goal **active、未完成**；用户已Resume并明确授权同Goal内协议调整，原范围阻断已解除，旧计数不再适用。目标、验收与边界唯一见[CURRENT_GOAL.md](CURRENT_GOAL.md)。当前唯一执行目录`/home/yndx/hhy/legal-skill-current`、本地开发分支`repair/lift-corev-activation-20261112`；main不改。旧A/B、旧M1/M2、参数训练及历史暂停不构成行动队列。
 
 ## 实际运行与恢复
 
@@ -33,7 +33,7 @@ Full对空库+.1119574，对AllPorts+.1117261；Full17个核心执行视图、4�
 
 ## 根因定位与已实施修复
 
-隔离工程树`/media/sangfor/vdb/legal-skill-runtime/engineering/lift-corev-activation-20261112`、分支`repair/lift-corev-activation-20261112`，不向原冻结目录注入科学改动。最新公开实现及逐字核验见`reports/legal_skill_evolution_run_20261111/activation_publication_manifest.json`与对应verified收据。
+当前主目录`/home/yndx/hhy/legal-skill-current`、分支`repair/lift-corev-activation-20261112`（原工程树已复制归档），不向原冻结目录注入科学改动。最新公开实现及逐字核验见`reports/legal_skill_evolution_run_20261111/activation_publication_manifest.json`与对应verified收据。
 
 1. Lift原先只显示候选，且教师必须重写整份Skill再被要求P不变。现有小型reader提议、确定性编译及真实失败视图排队，保留原P/输入输出/旧版本，仍按原完整回放准入。
 2. 3个固定教师任务已完成，累计15E/3T全结算。真实航空Lift新旧尺寸相同、得分前后0/1，未接纳；未补入缺失国际航线分支。Full/Free各自从空库获取§152(a)→§152(b)(1)两技能，均在原§152题0→1；属于创建，不是旧技能共同修订。Free只漏函数壳，保留body AST适配后复用原响应，教师未重调。
@@ -96,4 +96,10 @@ CoRev此前核对出两个实现差距。READ/前提编辑移植已在隔离工�
 
 累计9254E/166T、在途0，本轮客户端及会话已终止，不重启。三项本次后续工作共36E/4T、242155 executor tokens；每请求、原始失败和精确源码快照均保留。两机制仍无独立实证，不能把接口修复、少量合法执行或回退当作成功。
 
-下一项实际工作：只用既有TRAIN原始响应与support IDs，离线核对能否无歧义恢复源文片段，将读取接口简化为定位和逐字绑定，把法律角色/规则计算保留在学得程序。已有语义字段不猜测、不补造；先完成实际记录的接口与反例检查，再按明确问题作必要验证。公共底座公平开放给强对照，避免再以同一失败的语义字段/复杂记录方式追加请求。不增加来源或种子，不重开完整训练/矩阵、旧TEST或论文，不恢复旧修复轮次/调用上限。授权继续有效，Goal active、未完成。
+下一项实际工作已实现为显式`representation: source_spans`读取：执行模型只生成status与片段ID，主机按源顺序绑定完整逐字文本，unknown保持未解决；不从旧语义值推断新类别、权限或角色。普通语义读取保持现有请求逐字相同，真实旧请求回归通过，五库输入适配和强对照共用接口保持。教师schema、完整编辑移植和字面数组Lift已接通此表示；Lift仍保留原程序和类型，不把语义类别数组偷换成文本。115项相关回归通过。真实旧引用可准确恢复成片段，只证明文本绑定，不是新生成或法律判断成功。
+
+片段选择预检`artifacts/legal_skill_evolution_fragment_preflight_20261112/protocol.json`已完成，新增2E/0T、9469 executor tokens，累计9256E/166T、在途0。两个固定TRAIN材料均正常stop，选中d50的Representatives许可及条件、354的服务限度例外；主机逐字绑定，无角色/许可值生成。选择存在多余片段，354定义字段还包括保密信息和救济文字；这些是原文候选，不能当作已确认的类别或权限，也不算核心法律执行成功。
+
+用户明确要求唯一最新项目本体回到`legal-skill-current`。已先独立复制最新工作树并逐项核对42,520文件，再将最新分支切入原主目录；旧主目录的全部未提交、暂存和未跟踪状态保存在`history/legacy_workspace_20261112`，其他旧hhy工作树收拢至history。唯一账本及完整固定研究数据已接回主目录，保持同一账本文件、所有行和原206项绑定；目录整理期间新增模型调用0，模型服务PID保持。归并副本和操作校验见`docs/workspace_unification_20261112.json`及`docs/PROJECT_LAYOUT.md`。同一Goal、授权和进度保持，不启动新研究或旧队列。
+
+下一项实际工作：在当前主目录内将已验证的片段选择接入学得程序，先完成现有TRAIN的离线接口/反例检查，再按明确问题作必要有限真实验证，强对照使用同一基础接口和资源。片段定位不替代法义计算；不增加来源、种子、完整训练/矩阵、旧TEST或论文，不恢复旧轮次、调用上限或逐轮授权。大换内容先复制归档，再修改当前项目，不另建同级“最新”副本。Goal active、未完成。

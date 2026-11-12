@@ -14,6 +14,7 @@ from .answer_domain import incompatible_native_enum
 from .claim_scope import declared_claim_mismatch
 from .task_roles import explicit_task_roles
 from .literal_facts import literal_bindings
+from .source_fragments import fragment_field, bind_fragment_value
 from legal_skill_guard.rr.checkpoint import immutable_json
 from .native import (record_schema, answer_wire_schema, decode_answer,
                      public_task, public_strings, DIRECT_SYSTEM, restore_enum_transport, source_spans)
@@ -217,6 +218,9 @@ class FrozenReads:
         if require_rule_support and not rule_fields:
             raise ValueError('A source-rule read requires supplied rule material')
         properties = {}
+        fragments = {n for n, spec in fields.items() if fragment_field(spec)}
+        if fragments and not require_rule_support:
+            raise ValueError('Source-fragment reads require the explicit source-rule context')
         for name, specification in fields.items():
             kind = specification['type']
             if kind not in TYPES:
@@ -229,7 +233,8 @@ class FrozenReads:
             if kind == 'object':
                 raise ValueError('Local reads use explicit primitive or array fields')
             properties[name] = record_schema({'status': {'type': 'string', 'enum': ['known', 'unknown']},
-                'value': value, 'support_ids': {'type': 'array', 'maxItems': len(spans),
+                **({'value': value} if name not in fragments else {}),
+                'support_ids': {'type': 'array', 'maxItems': len(spans),
                     'items': {'type': 'integer', 'minimum': 0, 'maximum': len(spans) - 1}}})
         value, event = self.generate(source, view,
             system=('Read only the requested local fields from the current supplied text. '
@@ -241,7 +246,14 @@ class FrozenReads:
                    'When a requested category names a defined group, use its explicit source definition and cite it; '
                    'do not substitute an unexplained group name or a purpose for the requested member classes. '
                    if require_rule_support else '') +
-                'Use status unknown with value null if the current material is insufficient. '
+                ('Fields with representation source_spans request a set of exact source fragments, not semantic values. '
+                 'For these fields return only status and support_ids; the host binds the complete literal spans in source order. '
+                 'Select the governing clause and attached qualifications/definitions needed by the requested scope. '
+                 'Selecting a clause does not assert that a condition is satisfied or a permission applies. '
+                 'A different party name or absent named recipient group does not prevent selecting the governing text. '
+                 'Use unknown with empty support_ids only when the requested text cannot be located. '
+                 'For ordinary semantic-value fields use unknown with value null when insufficient. '
+                 if fragments else 'Use status unknown with value null if the current material is insufficient. ') +
                 'Do not answer the entire task unless a requested field itself is that native label.'),
             content={'dataset': source['dataset'],
                      **({'view_id': view['id']} if not require_rule_support else {}),
@@ -263,8 +275,17 @@ class FrozenReads:
                          'alignment_instruction': 'One value per supplied anchor entry, in that exact order; no additional entries.'}
                         if anchor_values is not None else {})},
             schema=record_schema(properties), purpose=purpose)
-        for item in value.values():
-            item['support'] = [spans[i] for i in item['support_ids']]
+        for name, item in value.items():
+            if name in fragments and item['status'] == 'known':
+                try:
+                    item['value'], item['support'], item['source_binding'] = bind_fragment_value(item['support_ids'], spans)
+                except ValueError as error:
+                    raise LocalReadError('Invalid source-fragment selection for ' + name + ': ' + str(error),
+                        {**event, 'kind': 'READ_LOCAL', 'fields': value, 'question': question,
+                         'locator': locator, 'source': source['key'], 'view': view['id']}) from error
+            else:
+                if name in fragments:item['value'] = None
+                item['support'] = [spans[i] for i in item['support_ids']]
         event = {**event, 'kind': 'READ_LOCAL', 'question': question, 'locator': locator,
                  'fields': value, 'source': source['key'], 'view': view['id'],
                  'invocation_arguments': invocation_arguments or {}}
@@ -278,6 +299,8 @@ class FrozenReads:
                 'public_sentence_boundaries_used': 'sentence_spans' in view['public']}
         known = {}
         for name, item in value.items():
+            if name in fragments and item['status'] == 'unknown' and item['support_ids']:
+                raise LocalReadError('Unknown fragment selection must not supply selected IDs: ' + name, event)
             if item['status'] == 'unknown' and item['value'] is None:
                 if allow_unresolved:continue
                 raise LocalReadError('Current-source read unresolved: ' + name, event)
@@ -289,6 +312,10 @@ class FrozenReads:
                 raise LocalReadError('Factual input is supported only by rule text, not case facts/question: ' + name, event)
             if rule_fields and not any(s['field'] in rule_fields for s in item['support']):
                 raise LocalReadError('Source-rule parameter is supported only by the hypothesis/question, not supplied rule material: ' + name, event)
+            if name in fragments and any(s['field'] not in rule_fields for s in item['support']):
+                raise LocalReadError('Source fragments must all come from supplied rule material: ' + name, event)
+            if name in fragments and name in (array_lengths or {}) and len(item['value']) != array_lengths[name]:
+                raise LocalReadError('Fragment selection does not satisfy the declared array alignment: ' + name, event)
             typed(item['value'], fields[name]['type'])
             known[name] = item['value']
         event['unresolved_fields'] = sorted(set(fields) - set(known))
