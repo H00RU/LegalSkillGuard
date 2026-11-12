@@ -24,13 +24,26 @@
 
 [报告第10节](../reports/legal_skill_evolution_run_20261111/LITERATURE_AND_METHOD_CANDIDATES.md)、[62f修复前后](../reports/legal_skill_evolution_run_20261111/source_compiler_followup/whitespace_regression.json)、[实际修订计划和普通切片](../reports/legal_skill_evolution_run_20261111/source_compiler_followup/local_plan_audit.json)、[定向近邻](../reports/legal_skill_evolution_run_20261111/source_compiler_followup/focused_prior_art.json)。202项实现检查通过；它们不是方法效果。原轨迹有整体截断标志，目标producer实参/返回完整，未称整轨迹完备。
 
-## 下一项实际工作与恢复边界
+## 最新真实交付、决定与下一项实际工作
 
-集中研究**源约束下的开放法律效果获取**，优先复用现有四个原生合同视图及源文，明确现有披露表示无法取得什么效果、实际更新算法是什么。与同源反馈的自由程序、正确规则缓存、ADVENT式开放获取作同信息比较；“谓词发明”“反例指导”或稀疏字段本身不构成差异。四视图用于确定获取对象，不追加所有视图必须主路径通过的门槛。先把具体算法和可运行最小实现落实，再决定必要真实小试；没有新来源池、参数扫描或完整实验队列。若仍不能形成具体差异，集中给出研究调整决定，不继续相同正则/文法接口请求。
+开放法律效果更新已实现并完成固定比较：`source_effect_update.py`拼接并验证真实外部库函数差分，学习新的有类型法律效果、G/P和原文示例；同8份TRAIN向双方提供相同完整原文与4原生视图监督。IndependentOpen自由选择了同样的compiler架构，初始库共享，因此是独立更新比较，不是新的独立端到端获取。执行全程新增0E，thinking OFF及全部配置不变。
 
-第一项先建立完整作用，再建立第二个独立瓶颈上的方法。旧两项机制的否定证据不丢，源条件缺失不因native正确而放过，也不把所有普通程序都能表达当作获取贡献不存在的证明。当前未标完成或blocked，不需要用户代做工程诊断。
+|范围与新增nda-16/20目标|SourceEffect主路径native正确/全部|IndependentOpen主路径native正确/全部|共享规则缓存主路径正确/全部|
+|---|---:|---:|---:|
+|8母来源开发|12/16，回退4|11/16，回退5|12/16，回退4|
+|评分前固定2母来源复用|1/4，回退2|1/4，回退3|0/4，回退4|
 
-v2-v5获取/评估/复用全部结算，**不要重新acquire/evaluate**。当前公共空白修复已改变原v5的部分源码字节；原73文件快照及c50b615e仍保留，重现旧比较使用该版本，不用当前代码修改旧绑定。旧源程序8+2、角色codec、四臂、原128完整研究同样不是待跑队列。恢复以唯一账本和/proc真实进程为准，不据旧PID/暂停消息重复启动。
+原nda-5/7开发两臂均16/16主路径正确，复用均0/4正确（各执行2、回退2）。方法/对照开发全32视图分别28/27主路径正确，含fallback都30/32；复用全8视图均1个主路径正确，含fallback均4/8。缓存复用含fallback6/8却主路径0，直接说明fallback分数不能替代核心验证。母合同、不同视图分母和旧暴露均保留；未查看新DEV/TEST。
+
+[实际逐来源/逐视图](../reports/legal_skill_evolution_run_20261111/open_effect_evidence/stage_result.json)、[原始教师与已学库](../reports/legal_skill_evolution_run_20261111/open_effect_evidence/raw/)、[源语义核查](../reports/legal_skill_evolution_run_20261111/open_effect_evidence/source_semantic_review.json)、[实际失败定位](../reports/legal_skill_evolution_run_20261111/open_effect_evidence/actual_failure_localization.json)。方法17个新构造子、2原文示例；自由对照16个原声明加1个唯一可恢复容器声明、6示例；双方总构造子均59。它们是实际生成和执行产物，不是构造程序。
+
+关键科学结果：当前普通开放更新能学会开发源上的新效果，但自由对照吸收了该能力；固定复用没有来源可靠性优势。SourceEffect在bbb390只引用75–77的返还标题＋You shall upon request，动作在78、保留例外在79–83，故其唯一原生答对的复用nda-16也不能计为有效语义证明。d936的51是继续保密条款，却被学得parse_disposal生成返还义务。4607c的真实upon demand单位32在原函数中返回trigger=null。已用原函数对实际输入零调用精确复现，不按复用结果修补。当前G仍不加载premises；声明和诊断文法不是额外学习算法。
+
+工程恢复也完成：对照漏声明的information_union由自身函数及5处一致类型约束唯一恢复，G/P/示例不动；方法将多函数放在一个数组字符串，按原AST拆分后可编译，AST完全相同，不补法律规则。第一方法请求600秒无输出超时；调整为紧凑差分的真实重试212.33秒完成。原失败和两版输入都留存；没有证据归因8192截断。
+
+**集中决定：关闭本轮普通开放效果获取小试，不把它列为第一贡献，不扩充相同提示或按这2份复用修补。** 保留工作G/P、59构造子、共同源单元重组及新效果作为研究底座。下一项必须先明确一个实际源获取/更新算法，其增量针对非局部规范的主体、动作、触发、例外绑定，并能区分于已经核查的文法归纳、ADVENT式开放获取、AutoSpec式修订和同信息自由程序。当前这项算法仍是实质缺口，不能用换名称补齐；先建立一项完整贡献，再建立第二项，Goal继续active、未完成。
+
+恢复时不要重启本run、v2-v5、角色codec、旧源程序或原128完整研究；最新全部请求在途0，原78源码及11数据哈希保持。当前公共源单元适配已改变旧v5源码字节，旧73文件快照/c50b615e用于其历史复现，不从旧manifest启动当前代码。完整报告第11节同步成本、语义与研究判断；这两份文件为唯一执行入口。
 
 ## 可复用资产与已完成反证
 
@@ -72,8 +85,8 @@ Full原管线漏看新伴随输出general_third_party_prohibition，误存1个�
 
 ## 当前运行、资源与恢复
 
-累计**9330E/181T**，在途0，共9511行，本次0新增调用且全部旧行保持。上一有限比较4E/4T：执行45665输入/12675输出token、387.02秒；教师209683输入/50534输出token，944.57秒，reasoning已包含在output中。GPU实付分摊和教师CLI实付发票不可见，记未知；本地执行增量API现金0不代表整个研究免费。
+累计**9330E/184T**，在途0，共9514行。最新小试新增0E/3T：2成功、1超时；此前9511行逐条不变。两个成功调用已报告135771输入、22356输出token，其中reasoning13552已包含于输出；失败用量未知。请求耗时合计1018.41秒，含600.09秒失败，合计不等于并行墙钟。CLI实付发票与GPU现金分摊不可见，费用记未知，不以失败无usage记为免费。[实际成本与逐请求账本](../reports/legal_skill_evolution_run_20261111/open_effect_evidence/cost_and_request_ledger.json)。
 
-唯一账本`artifacts/rr_v2_preflight/research_ledger.sqlite3`不重置；thinking OFF、原采样/8192上限、授权教师及原数据隔离保持。无研究客户端运行，模型服务保留；没有完整训练、DEV/TEST或论文。前一完整实证及本次修复的所有失败、源码和输出保留。最新已公开比较为be1ef4d（67文件独立核验）；本次离线增量将在同一研究分支同步，main不改。
+唯一账本`artifacts/rr_v2_preflight/research_ledger.sqlite3`不重置；原模型、thinking OFF、采样/8192上限、教师profile及数据隔离保持。无研究客户端运行，模型服务保留；本次没有新完整训练、DEV/TEST或论文。原实验、所有失败、源码和输出保持。最新报告与实现沿同一研究公开分支同步，main不改，公开核验收据随报告保存。
 
 项目归并和大替换复制归档规则见[PROJECT_LAYOUT.md](PROJECT_LAYOUT.md)，原保全收据workspace_unification_20261112.json保持。两份当前文件集中维护，旧执行说明只作历史参考；其历次原文均保留在Git提交与既有独立备份中。

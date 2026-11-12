@@ -212,3 +212,59 @@ CAA、De Jure和Executable traces本次未定位到作者代码链接；这是�
 下一项集中到**源约束下的开放法律效果获取**：现有披露模板不能代表原合同任务全部法律效果，不能用给G接模板或补已知条件冒充新获取。先用已有四个原生视图及原文明确要学什么，给出与ADVENT式开放获取、同源反馈自由程序、正确规则缓存的具体算法差异；不追加来源、种子、模型或测试暴露。若不能形成这种差异，直接作研究调整决定，不能再开一个同词正则/文法小试。这是对当前候选的集中校正，不新建Goal、不把两项创新名称当成成果；第二贡献也仍未形成独立实现与证据。
 
 本次0E/0T；累计9330E/181T、在途0，9511行账本逐字节等价于前一阶段行序列，哈希c7aaaa0d…f248。两个真实回归均未读取native标签或DEV/TEST，未扩大完整训练和论文，Goal保持active、未完成。
+
+## 11. 开放法律效果真实更新、固定复用与决定
+
+**实际新增能力已取得，但本轮不建立第一贡献。** 两个教师分别从同一实际旧库学习并保存了新的源语义构造子、源程序G/消费者P函数差分和真实原文示例。返还、销毁、保留现在都有可运行产物；独立自由强对照也取得了这些能力。固定新来源上的正确项数没有方法优势，且源核查检出了原生答对背后的错误证明。因此不扩大这条普通开放更新路线，不把两种法律效果当成两项创新。
+
+### 学习对象、实现与比较
+
+已实现[开放更新物化器](../../legal_skill_guard/skill_evolution/source_effect_update.py)和[有限真实runner](../../experiments/legal_skill_evolution_open_effect_acquisition.py)。物化器拼接教师实际函数差分、检查类型与纯函数、更新外部版本化库；不更新模型权重，不由host补法律规则。共同[源单元重组](../../legal_skill_guard/skill_evolution/span_compiler.py)只按真实相邻原文及标点连接物理碎片，保留原始span、范围及完整证据映射。原8合同开发披露结果不变，d936完整保密条件恢复；旧P的16个返还/保留视图仍全部未实现，这构成本次新增获取问题。这个输入修复是公共组件，不算方法贡献。
+
+同8原TRAIN母合同、每份四个原有原生视图、相同完整原文和相同实际初始库输入双方。新增nda-16/20监督同样提供，未引入新题或数据池。SourceEffect必须学习compiler更新；IndependentOpen可选完整直接程序或相同开放compiler，实际自行选择后者。双方可增加构造子、辅助函数和新获取规则；不是限制对照只能用旧逻辑。方法取得17新构造子、2新示例，自由对照取得16原声明＋1可唯一恢复声明、6新示例；两库均59构造子，诊断规则21/25。**这是共同旧库上的独立更新比较，初始获取资产共享，不能冒称新的端到端独立获取。**
+
+评分前按原TRAIN顺序固定bbb390、4607c两母合同，排除已有12个机制开发/复用来源。二者在原完整研究曾暴露，不是新盲测；本次在两臂编译完成、更新冻结后才打开其原文和原生标签。复用后未改G/P。第三控制保存SourceEffect在8开发源实际生成的全部规则根与对应原文，由字面匹配取得同规则，再用相同P；不给它少量代表例而故意漏规则。该缓存共享已学资产，只隔离执行，不是独立获取，也不自动认证规则真值。
+
+[完整协议与78源码/11数据绑定](open_effect_evidence/raw/protocol.json)、[冻结库](open_effect_evidence/raw/reuse_freeze.json)、[所有已学开发根的缓存](open_effect_evidence/raw/shared_rule_bank.json)。本次源读、开发、复用和缓存执行新增执行模型请求0；Qwen thinking OFF和所有模型配置保持。
+
+### 实际结果与分母
+
+|新增nda-16/20目标|SourceEffect主路径native正确/全部|IndependentOpen主路径native正确/全部|共享规则缓存主路径native正确/全部|
+|---|---:|---:|---:|
+|8母合同开发|12/16，执行12、回退4|11/16，执行11、回退5|12/16，执行12、回退4|
+|固定2母合同复用|1/4，执行2、回退2|1/4，执行1、回退3|0/4，执行0、回退4|
+
+原nda-5/7开发，两臂均16/16主路径native正确；固定复用均0/4正确，各执行2、回退2。方法/对照全部32开发视图分别28/27个主路径正确，含历史fallback同为30/32；复用全部8视图两臂均1个主路径正确，含fallback同为4/8。共享规则缓存开发全部原生结果精确回放，复用主路径0/8，含fallback却6/8。**缓存的fallback总分不能用来证明它或核心方法取得规则复用。**
+
+[完整结果与fallback比例](open_effect_evidence/stage_result.json)、[方法实际开发](open_effect_evidence/results/development/SourceEffect.json)、[自由对照实际开发](open_effect_evidence/results/development/IndependentOpen.json)、[方法固定复用](open_effect_evidence/results/reuse/SourceEffect.json)、[自由对照固定复用](open_effect_evidence/results/reuse/IndependentOpen.json)。母合同为独立来源，四视图不计四个来源。正确项数是实际原生结果，没有将类型通过升级成语义认证。
+
+### 已解决的具体兼容问题
+
+自由对照实际使用了`information_union`，漏掉声明，但其原函数和原文示例已经明确给出容器含义，5处类型约束唯一给出`Information × Information → Information`。只补声明，原G/P、示例与全部法律项不变。[原错误](open_effect_evidence/raw/IndependentOpen/offline_compile_error.json)、[唯一推断证据](open_effect_evidence/raw/IndependentOpen/metadata_recovery.json)、[原始响应](open_effect_evidence/raw/IndependentOpen/teacher.json)均保留。
+
+方法把多份完整函数写在同一个函数数组元素中，原host拒绝“One complete function per update”。[确定性适配](open_effect_evidence/evaluate_structural_adapter.py)按原顶层AST函数边界拆分，函数顺序、名称、代码体、构造子和示例保持，拼接前后可执行AST相同。[实际结构恢复](open_effect_evidence/raw/SourceEffect/structural_recovery.json)、[原始响应](open_effect_evidence/raw/SourceEffect/teacher.json)与两版执行manifest均保留。两种适配均不新增模型请求、不补源规则、不放宽类型/正确性要求。
+
+第一方法调用600秒无提议超时，只有启动事件，无可恢复程序；没有证据归因输出token截断。原[完整失败记录](open_effect_evidence/raw/first_SourceEffect_timeout.json)计入账本。重试有明确变化：保持同一源输入、监督、模型和超时，要求紧凑函数差分、继承不变函数及两个代表源例，212.33秒返回；不是原样重试。原请求、紧凑请求、对照请求和所有原响应均在raw目录。
+
+### 源语义与原生答对分开复核
+
+[逐来源审查](open_effect_evidence/source_semantic_review.json)与[全部实际用根及原文](open_effect_evidence/actual_effect_proofs.json)记录了支持与缺口。354的实际服务终止返还和禁止保留、442的法律要求记录副本、4d4e的终止/请求及存档例外，都有真实源程序执行，不能说本次没有工作产物；同信息自由获取也取得了这些效果。
+
+但关键错误仍存在：
+
+- **bbb390的原生正确没有有效动作证明。** 方法所用返还根只引用75–77，即返还标题和“You shall, upon request by us at any time:”；真正动作在78，保留例外在79–83。方法未连起这些规范关系，却根据标题生成无例外返还义务。它答对nda-16的NotMentioned仍不能计作经源语义验证的机制成功；nda-20答错。自由对照抓到了79–83的实际保留许可，答对nda-20，但其抽象也没有完整保留三类例外与附加限制。
+- **d936的继续保密被误读成返还义务。** 51实际是“notwithstanding completion ... or return ... continue to be bound ...”；方法生成第二个返还义务并用于nda-16证明。49才提供“Each party shall”，方法的另一个真实动作根只引50。自由对照支持范围47–50含主体/义务上下文。正确的原生终止标签不能证明方法的所有用根正确。
+- **4607c是获取覆盖错误。** 32的“upon demand”真实返还/授权删除条款被两臂漏掉；方法原`disposal_trigger`在精确实际输入上返回null。28的“only to disclose”许可也被两臂漏掉，导致原披露两标签错误。没有schema、类型或执行异常，也不是没收到全文。
+- **范围与限定尚有损失。** 8af保留许可实际限于法律部门/外部律师的单份副本；两臂有不同的主体/条件抽象。442、4d4e的基本目标效果虽支持正确，备份、选择权、通知/期限和继续保密等约束没有全部连接到规范。报告不以正确的存在性目标声称完整合同语义等价。
+
+[原函数在实际输入上的失败定位](open_effect_evidence/actual_failure_localization.json)零模型调用精确复现上述三个目标输出，未加载原生或DEV/TEST标签，只替换探针入口调用不变的已学helper；不是修补后的反事实评分。方法G仍不加载premises，诊断文法没有成为额外的获取算法。服务终止/Purpose完成在源表示中保持不同；原native口径按其标签评分，不据局部结果发明通用法律等价或修改评分。
+
+62f与e671未取得相关效果时主动不处理，是方案允许的fallback，不是要求零回退。问题来自已经处理的源规范失真和新表述漏读，不能靠默认输出、扩大字段或提高回退正确率解决。
+
+### 研究决定与完整费用
+
+当前实现取得了工作的新效果库，更新过程依然是教师生成普通程序差分，没有已证实的额外源获取/更新算法。**关闭本轮普通开放效果小试；不据两份复用继续修补、不追加相同提示变体或完整矩阵。** 新G/P、类型和源证据资产保留。下一项工作先针对非局部规范主体、动作、触发与例外的绑定，形成可执行的获取/更新算法并核实其与既读近邻和自由程序的具体差异；在该差异尚不明确时，不继续用新的效果清单替代创新。第一项贡献未成立，第二项未实现，Goal active、未完成。
+
+[本轮逐物理请求及成本](open_effect_evidence/cost_and_request_ledger.json)：新增0E/3T，其中2成功、1超时；累计9330E/184T、在途0、9514行，原9511行逐条不变。两个成功请求已知135771输入/22356输出token，reasoning13552已包含于输出，不重复加总。失败token用量未知。请求耗时合计1018.41秒，其中600.09秒失败；初次两臂并行，合计不是墙钟。方法实际2次、对照1次，失败成本未隐藏，不能宣称同实际成本下取得优势。教师CLI实付发票和GPU现金分摊不可见，均记未知，不能将无usage记为免费。已有初始库及历次获取成本继续保留，不以共同库复用归零。
+
+[保全收据](open_effect_evidence/preservation.json)核对原78份源码、11份数据绑定保持。先前206项实现检查保持原结论，本次两种适配的实际类型/AST回归及完整确定性执行均通过；这些不是创新效果。没有新完整训练、DEV/TEST或论文，main不改。

@@ -94,6 +94,43 @@ def execution_source_spans(spans):
     return [{**span, 'text': ' '.join(span['text'].split())} for span in spans]
 
 
+def execution_source_units(text, spans):
+    """Join physical fragments, preserving every original evidence identity.
+
+    This is a common execution view, not a learned legal scope classifier.
+    Sentence/clause punctuation closes a unit; an omitted nonwhite gap or a
+    field change also closes it. Generated witnesses cite unit anchors and are
+    expanded back to the original spans before semantic checks or scoring.
+    """
+    units, supports, pending = [], {}, []
+    def flush():
+        if pending:
+            first, last = pending[0], pending[-1]
+            units.append({**first, 'end': last['end'],
+                          'text': ' '.join(text[first['start']:last['end']].split())})
+            supports[first['id']] = [s['id'] for s in pending]
+            pending.clear()
+    for span in spans:
+        if span['field'] != 'source_text':
+            raise ValueError('Execution units require source material only')
+        if not 0 <= span['start'] < span['end'] <= len(text):
+            raise ValueError('Execution unit lies outside the current source')
+        if pending and (pending[-1]['end'] > span['start']
+                        or text[pending[-1]['end']:span['start']].strip()):
+            flush()
+        pending.append(span)
+        if re.search(r'[.;:!?][\"”\')]*(?:\s+(?:and|or))?$', span['text'].strip(), re.I):
+            flush()
+    flush()
+    return units, supports
+
+
+def expand_unit_support(ids, supports):
+    if any(i not in supports for i in ids):
+        raise ValueError('Generated witness cites an absent current source unit')
+    return sorted({j for i in ids for j in supports[i]})
+
+
 def execute_json(code, inputs, premises, *, allow_helpers=False, trace=False):
     validate_procedure(code, allow_helpers=allow_helpers)
     out = subprocess.run([sys.executable, '-I', '-S', str(Path(__file__).with_name('span_compiler_worker.py'))],
