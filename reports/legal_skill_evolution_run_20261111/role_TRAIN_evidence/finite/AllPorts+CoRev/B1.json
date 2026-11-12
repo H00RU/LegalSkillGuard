@@ -1,0 +1,174 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+  "skills": {},
+  "revision_patterns": [],
+  "provisional_edits": [
+    {
+      "batch": 1,
+      "candidate_index": 0,
+      "raw_block": {
+        "rationale": "Create a grounded terminal rule for §3306(c)(2). It treats the domestic-service exclusion as applying only when the service is in a listed place and the employing person does not meet the $1,000 payment threshold in either the queried or preceding calendar year. This directly addresses the failed 2017 example, where the stated $3,200 domestic-service payment defeats the exclusion.",
+        "revisions": [
+          {
+            "operation": "create",
+            "skill": {
+              "id": "section_3306_c2_domestic_service_exclusion",
+              "inputs": [
+                {
+                  "arguments": [],
+                  "field": "service_type",
+                  "mode": "read",
+                  "name": "service_type",
+                  "question": "What type of service does the worker perform in the current facts?",
+                  "skill_id": null,
+                  "type": "string"
+                },
+                {
+                  "arguments": [],
+                  "field": "service_place",
+                  "mode": "read",
+                  "name": "service_place",
+                  "question": "What ordinary place category describes where the service is performed, such as a private home?",
+                  "skill_id": null,
+                  "type": "string"
+                },
+                {
+                  "arguments": [],
+                  "field": "query_year",
+                  "mode": "read",
+                  "name": "query_year",
+                  "question": "For which calendar year does the current question ask whether §3306(c)(2) applies?",
+                  "skill_id": null,
+                  "type": "integer"
+                },
+                {
+                  "arguments": [],
+                  "field": "domestic_service_payment_amounts",
+                  "mode": "read",
+                  "name": "domestic_service_payment_amounts",
+                  "question": "List the dollar-denominated amounts the questioned employing person is stated to have paid to individuals for the described domestic service, including amounts described as wages or cash remuneration, in the queried or preceding calendar year.",
+                  "skill_id": null,
+                  "type": "array"
+                },
+                {
+                  "arguments": [],
+                  "field": "payment_years",
+                  "mode": "read",
+                  "name": "payment_years",
+                  "question": "List the calendar year corresponding to each domestic-service payment amount, in the same order.",
+                  "skill_id": null,
+                  "type": "array"
+                }
+              ],
+              "intent": "Determine whether 26 U.S.C. §3306(c)(2)'s domestic-service exclusion applies and return the current task's native entailment label.",
+              "outputs": [
+                {
+                  "description": "The native label Entailment if the §3306(c)(2) domestic-service exclusion applies, otherwise Contradiction.",
+                  "name": "answer",
+                  "type": "string"
+                }
+              ],
+              "premises": [
+                {
+                  "field": null,
+                  "mode": "constant",
+                  "name": "covered_service_type",
+                  "origin": {
+                    "quote": "domestic service in a private home, local college club, or local chapter of a college fraternity or sorority",
+                    "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                    "view_id": "native"
+                  },
+                  "question": "",
+                  "read_id": null,
+                  "type": "string",
+                  "value": "domestic service"
+                },
+                {
+                  "field": null,
+                  "mode": "constant",
+                  "name": "covered_places",
+                  "origin": {
+                    "quote": "domestic service in a private home, local college club, or local chapter of a college fraternity or sorority",
+                    "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                    "view_id": "native"
+                  },
+                  "question": "",
+                  "read_id": null,
+                  "type": "array",
+                  "value": [
+                    "private home",
+                    "local college club",
+                    "local chapter of a college fraternity or sorority"
+                  ]
+                },
+                {
+                  "field": null,
+                  "mode": "constant",
+                  "name": "cash_payment_threshold",
+                  "origin": {
+                    "quote": "unless performed for a person who paid cash remuneration of $1,000 or more",
+                    "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                    "view_id": "native"
+                  },
+                  "question": "",
+                  "read_id": null,
+                  "type": "number",
+                  "value": 1000
+                },
+                {
+                  "field": null,
+                  "mode": "constant",
+                  "name": "year_offsets",
+                  "origin": {
+                    "quote": "in the calendar year or the preceding calendar year",
+                    "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                    "view_id": "native"
+                  },
+                  "question": "",
+                  "read_id": null,
+                  "type": "array",
+                  "value": [
+                    0,
+                    1
+                  ]
+                }
+              ],
+              "procedure": "def apply(inputs, premises):\n    service_covered = inputs[\"service_type\"] == premises[\"covered_service_type\"] and inputs[\"service_place\"] in premises[\"covered_places\"]\n    threshold_met = False\n    for amount, year in zip(inputs[\"domestic_service_payment_amounts\"], inputs[\"payment_years\"]):\n        for offset in premises[\"year_offsets\"]:\n            if year == inputs[\"query_year\"] - offset and amount >= premises[\"cash_payment_threshold\"]:\n                threshold_met = True\n    section_applies = service_covered and not threshold_met\n    if section_applies:\n        answer = \"Entailment\"\n    else:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+              "reads": [],
+              "semantic_records": [],
+              "source_obligations": [
+                {
+                  "id": "section_3306_c2_exclusion_test",
+                  "origin": {
+                    "quote": "domestic service in a private home, local college club, or local chapter of a college fraternity or sorority unless performed for a person who paid cash remuneration of $1,000 or more to individuals employed in such domestic service in the calendar year or the preceding calendar year",
+                    "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                    "view_id": "native"
+                  },
+                  "port": "answer",
+                  "role": "terminal",
+                  "statement": "Check whether the service is domestic service in a listed place and whether the employing person's relevant-year payment remains below the statutory threshold that would negate the exclusion."
+                }
+              ],
+              "source_provenance": [
+                {
+                  "quote": "(2) domestic service in a private home, local college club, or local chapter of a college fraternity or sorority unless performed for a person who paid cash remuneration of $1,000 or more to individuals employed in such domestic service in the calendar year or the preceding calendar year;",
+                  "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                  "view_id": "native"
+                }
+              ],
+              "version": 1
+            }
+          }
+        ]
+      },
+      "planned_lift": null,
+      "lift_reader": null,
+      "revisions": null,
+      "table": null,
+      "error": "ValueError: AllPorts acquisition must parameterize all related source-premise ports",
+      "selection_exclusion": null
+    }
+  ],
+  "execution_events": []
+}

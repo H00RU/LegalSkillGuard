@@ -8,6 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 from .coupling import local_record_blocks
+from .claim_scope import clause_identifier
 
 
 def digest(value):
@@ -66,6 +67,33 @@ class Skill:
         read_ids = {r['id'] for r in self.reads}
         if len(read_ids) != len(self.reads):
             raise ValueError('Duplicate local reader identity')
+        for port in self.outputs.values():
+            if 'query_clauses' in port:
+                if not isinstance(port['query_clauses'], list):
+                    raise ValueError('Query clause contract must be a list')
+                for clause in port['query_clauses']:
+                    clause_identifier(clause)
+        for name, port in self.inputs.items():
+            if port.get('type') not in ('boolean', 'integer', 'number', 'string', 'array', 'object'):
+                raise ValueError('Explicit input type required')
+            mode = port.get('mode')
+            if mode not in ('read', 'skill', 'argument'):
+                raise ValueError('Unknown input acquisition mode')
+            bindings = port.get('arguments', {})
+            if not isinstance(bindings, dict):
+                raise ValueError('Dependency arguments must map parameter names to caller inputs')
+            if mode == 'skill':
+                if not port.get('skill_id') or not port.get('field'):
+                    raise ValueError('Actual producer and output field required')
+                for parameter, local in bindings.items():
+                    if (not isinstance(parameter, str) or not isinstance(local, str)
+                            or local not in self.inputs
+                            or self.inputs[local].get('mode') not in ('read', 'argument')):
+                        raise ValueError('Dependency argument must bind a caller read or argument input')
+            elif bindings or port.get('skill_id') is not None:
+                raise ValueError('Only skill inputs may declare dependency bindings')
+            elif mode == 'read' and not port.get('question'):
+                raise ValueError('Current factual input needs a question')
         for name, value in self.premises.items():
             if value.get('type') not in ('boolean', 'integer', 'number', 'string', 'array'):
                 raise ValueError('Explicit premise type required')
@@ -95,6 +123,24 @@ class Skill:
         for key in ('reads', 'semantic_records', 'source_obligations', 'source_provenance'):
             value[key] = tuple(value[key])
         return cls(**value).validate()
+
+
+def dependency_arguments(skill, port, skills):
+    """Check the actual callee signature, without guessing roles or values."""
+    producer = skills.get(port['skill_id'])
+    if producer is None:
+        raise ValueError('Missing skill dependency')
+    if (port['field'] not in producer.outputs
+            or producer.outputs[port['field']]['type'] != port['type']):
+        raise ValueError('Dependency output type or field differs')
+    required = {n: p for n, p in producer.inputs.items() if p['mode'] == 'argument'}
+    bindings = port.get('arguments', {})
+    if set(bindings) != set(required):
+        raise ValueError('Dependency arguments must match all and only callee parameters')
+    for name, local in bindings.items():
+        if skill.inputs[local]['type'] != required[name]['type']:
+            raise ValueError('Dependency argument type differs')
+    return bindings
 
 
 def lift(skill, names, reader, *, all_ports=False):

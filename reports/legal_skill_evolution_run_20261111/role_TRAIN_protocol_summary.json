@@ -1,0 +1,272 @@
+{
+  "run_id": "legal_skill_evolution_role_TRAIN_20261112",
+  "question": "Can explicit role-bound acquisition learn reusable grounded employment/wage predicates and support subsequent legal-rule updates, rather than delegating a native answer to READ?",
+  "legal_bottleneck": "Separate payer/employer from employee and distinguish wages, statutory employment exclusions, and general versus agricultural employer tests under the supplied section 3306.",
+  "arms": [
+    "Full",
+    "FreeEvolution",
+    "AllPorts+CoRev",
+    "Lift+GenericJoint"
+  ],
+  "start": "Independent empty libraries; identical common role-binding foundation, source text and native TRAIN supervision. No imported skills.",
+  "learning_batches": [
+    [
+      "SARA_v2_Binary:6939fedab07c7376be4079ed2905a46da129282bd71c44a0b5d6d6d305079ee4",
+      "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba"
+    ],
+    [
+      "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0"
+    ]
+  ],
+  "reuse_parents": [
+    "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+    "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1"
+  ],
+  "all_six_are_original_TRAIN_not_blind": true,
+  "selection_basis": "Original native text and actual statutory dependencies. No TEST failure or new scores used to select sources.",
+  "eight_teacher_tasks": "Four independent arms at two acquisition/update steps, existing three-block/three-revision/eight-parent limits unchanged. No unchanged retry.",
+  "candidate_selection": "Existing complete mixed-version tables: strict trigger improvement, every history parent nondecreasing; no relaxed acceptance.",
+  "reuse_policy": "After B2 freezes, two other original TRAIN parents execute once per arm with no teacher or update. Their annotations are used only for native grading.",
+  "mechanism_credit": {
+    "CoRev": "Revisions of already-installed distinct legal responsibilities, real USE, complete compatible-interface version table, joint necessity, and actual later pattern use. Creation, interface-break effects and rendering edges do not count.",
+    "Lift": "Actual measured premise rebinding with unchanged P; distinct parent application and comparison to AllPorts/ordinary acquisition required.",
+    "semantic_review": "Inspect real argument/read/procedure/source trace. Format success, support-span selection, native coincidence and fallback alone are insufficient."
+  },
+  "decision": "Retain strong-control absorption and natural single-rule results. Diagnose a missing mechanism prerequisite from this finite pass; do not launch a full matrix or invent defects to trigger it.",
+  "no_DEV_TEST_or_paper": true,
+  "automatic_retries": 0,
+  "code_sha256": {
+    "experiments/legal_skill_evolution_role_TRAIN.py": "043066dfc95bcfc7940bdac895ac26bc70a0119a611e4b4b609c0916653617cb",
+    "legal_skill_guard/skill_evolution/__init__.py": "c5ac97c0b7bfc6bfeb68c34c3ef582424f49304fdf60ab4a0b499478b55c6adc",
+    "legal_skill_guard/skill_evolution/answer_domain.py": "7ca341c6ecde67dd0e5a11ed75357cef3018ca7c31b1169610bbbf0e63543ca1",
+    "legal_skill_guard/skill_evolution/claim_scope.py": "bb11c2cbf4d6c848725ba89983431eb64e2a22d6525ec4a2617f1fda5d7d5d86",
+    "legal_skill_guard/skill_evolution/clients.py": "6f01719b8a9c2e1cb8ebb21ac7241695c51516585f68204ba48a3e3e4e1f87fd",
+    "legal_skill_guard/skill_evolution/controlled.py": "b2558aa68dfdd1f59f55020d29691a9d82a23e459c13338d63695f67f03550fc",
+    "legal_skill_guard/skill_evolution/coupling.py": "6ab4dff7757ee52b1e967bc393c6f236834450c921eb87281ccbfcfe78793830",
+    "legal_skill_guard/skill_evolution/data.py": "e3b9d0b259a83b0cc271955b0936a3e3ccedb4e090665619f0e7105e52845fb5",
+    "legal_skill_guard/skill_evolution/grade_worker.py": "de9b7cd33359ccc9e65ff67ec2730b6a31f3f09a8d272ce7c8bf848188c70da7",
+    "legal_skill_guard/skill_evolution/grounding.py": "11540ed9212a76badff320e6a148c91f3dba44b76880ac9f16914d3852a12c73",
+    "legal_skill_guard/skill_evolution/ledger.py": "a2997de1c6e94a7382ebbd8073ed8fc3267c9d3f82bff905503c4f69d520bcf1",
+    "legal_skill_guard/skill_evolution/lift_proposals.py": "25f169a2a39abebbec59da7895e446c9fb11da70652fc34693d028ddc9e567af",
+    "legal_skill_guard/skill_evolution/native.py": "34d0b917a7a2c254af8bce088e3ea5c910c1331080cf02532d7bb59686e63979",
+    "legal_skill_guard/skill_evolution/objects.py": "143cab34f605a4f8cc2e7cd2e84bd0eebe483883bd56903447ebfacf03f15e62",
+    "legal_skill_guard/skill_evolution/patterns.py": "9539abe5eb979883f1412b2a1ee70ad0d0284c57486bfd536a703d0a75d31609",
+    "legal_skill_guard/skill_evolution/proposal_batch.py": "a69de1ad3a82af9310984c36c9090aebd20df6d50a1eea147ace54358c2cfcdd",
+    "legal_skill_guard/skill_evolution/revisions.py": "55233243b108c6264402bc442928d202cbb39a97d0cc23ba27bf99a4a79ec204",
+    "legal_skill_guard/skill_evolution/runtime.py": "495d9dea94984b7e78af090295598dc4500f03a193334a64e7a566199a3631a8",
+    "legal_skill_guard/skill_evolution/study.py": "db87a251200d3dc4a335ede010a9bfa9aa5cbf9922744059c3d91bf317c31447",
+    "legal_skill_guard/skill_evolution/teacher.py": "55be0432275119570ab9c9965a2c840b656d5e79076fd87253bae2e68d1b6b22",
+    "legal_skill_guard/skill_evolution/teacher_transport.py": "678e7bc8f51bf5bff0c3c7066973df8f81ce0ae2722e9908e3c50105908c4b13",
+    "legal_skill_guard/skill_evolution/worker.py": "04b87baa9b147cecf3370a5734d6314f100b08e5e43d4c6e5305e028e06f6177",
+    "tests/test_skill_evolution_answer_domain.py": "1ca0f05996cf3374a4d5fcfe0f111f7301743cf59f75d5f9726c492dcaf2be48",
+    "tests/test_skill_evolution_arguments.py": "1782620cff6d3ce3c7c3a46e2bd2ba59d8e28954b8f0980b6578ffe61c475ab8",
+    "tests/test_skill_evolution_arm_routing.py": "59696f8916f135488f6a4cc99277d2dcc4239aee448bb9d043ae36dcabd10e81",
+    "tests/test_skill_evolution_claim_scope.py": "73a6954faff7bc8cd50d63139376d3b861bafbb6bf1bd627fa2dc1c87db4b49a",
+    "tests/test_skill_evolution_coupling.py": "22a69202bfa6df2daa944b2e568dea9542c07097752435a3cfafa37d28c5c763",
+    "tests/test_skill_evolution_failure_focus.py": "af198d546801f7e3b0e0ce3f584d4ffdbb528e09b7e362070091ccd714c32f30",
+    "tests/test_skill_evolution_formal.py": "cbb58da5dfd262eeef0696495975e4a391adbcf2ca7b67067a3158809eb4e749",
+    "tests/test_skill_evolution_function_body.py": "d8ba61609e361c9bca17f91f492cfa54e0354f429201027d5fda71d146884345",
+    "tests/test_skill_evolution_grounding.py": "6d8154bf6942408836e99f0eed21cfd201f1c3cee760311afaa7aef2be6ccf61",
+    "tests/test_skill_evolution_lift_proposals.py": "144fda102e64b97d9869d5f6b246641759ea98dcbdf7f89826cef3d2c685cb7a",
+    "tests/test_skill_evolution_runtime.py": "4e01381e50ffe6f320d44fdde678a635c9efdf06f76f5fb56dfba1210853837c",
+    "tests/test_skill_evolution_teacher_batch.py": "8b787a85f4391b737061723e79ecc2932ce5f76e3f709f5ec4d59e5ecc8e63ee",
+    "tests/test_skill_evolution_teacher_transport.py": "0d1ab22588393a7e54716a79a8b3744d10e156239472ec1bbbdc18bdd9948c83"
+  },
+  "public_TRAIN_sha256": "41b323aa09e91145ba575bde17ea3aca947b8f5d3fead88519f1d7b9f64a5d91",
+  "protocol_hash": "39a2177b7a6bb4a0612b44c88a2a1a230f7726fe5e86e4f53f62a9e86e8d755c",
+  "new_model_calls_at_freeze": 0,
+  "regression": {
+    "command": "python -m unittest discover -s tests -p test_skill_evolution_*.py",
+    "passed": 70
+  },
+  "cohort_metadata": [
+    {
+      "source": "SARA_v2_Binary:6939fedab07c7376be4079ed2905a46da129282bd71c44a0b5d6d6d305079ee4",
+      "dataset": "SARA_v2_Binary",
+      "mother_group": "24194d8391483b540b3977f04716202ddd3d5bcdcbecc48ca8daada62e122c0c",
+      "fulltext_cluster_members": [
+        "24194d8391483b540b3977f04716202ddd3d5bcdcbecc48ca8daada62e122c0c"
+      ],
+      "original_document_id": null,
+      "prior_study_teacher_receipt_exposure": false,
+      "all_original_TRAIN_parents_already_had_executor_initial_attempts": true,
+      "views": [
+        {
+          "view": "native",
+          "question": "Alice is an employer under section 3306(a)(1) for the year 2018.",
+          "public_fields": [
+            "facts",
+            "question",
+            "referenced_public_sections",
+            "source_text"
+          ],
+          "separate_case_facts_supplied": true,
+          "explicit_question_section_numbers": [
+            "3306(a)(1)"
+          ],
+          "referenced_public_section_keys": [],
+          "source_text_sha256": "cf05cdf1f27dc8d8a848bb7d41db413875b0358ceb30c63754dc08296c73c654"
+        }
+      ]
+    },
+    {
+      "source": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+      "dataset": "SARA_v2_Binary",
+      "mother_group": "4acab8cd6cb2c2ed2555fa53bb5b241d4abb2a489092d24d23990c8dbf0248f1",
+      "fulltext_cluster_members": [
+        "4acab8cd6cb2c2ed2555fa53bb5b241d4abb2a489092d24d23990c8dbf0248f1"
+      ],
+      "original_document_id": null,
+      "prior_study_teacher_receipt_exposure": true,
+      "all_original_TRAIN_parents_already_had_executor_initial_attempts": true,
+      "views": [
+        {
+          "view": "native",
+          "question": "Section 3306(c)(2) applies to Alice employing Bob for the year 2017.",
+          "public_fields": [
+            "facts",
+            "question",
+            "referenced_public_sections",
+            "source_text"
+          ],
+          "separate_case_facts_supplied": true,
+          "explicit_question_section_numbers": [
+            "3306(c)(2)"
+          ],
+          "referenced_public_section_keys": [],
+          "source_text_sha256": "cf05cdf1f27dc8d8a848bb7d41db413875b0358ceb30c63754dc08296c73c654"
+        }
+      ]
+    },
+    {
+      "source": "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "dataset": "SARA_v2_Binary",
+      "mother_group": "21fb48b61c605ec69fb243ca1b07194ba47ce914a8f1e4c47f4407b51e54a94e",
+      "fulltext_cluster_members": [
+        "21fb48b61c605ec69fb243ca1b07194ba47ce914a8f1e4c47f4407b51e54a94e"
+      ],
+      "original_document_id": null,
+      "prior_study_teacher_receipt_exposure": false,
+      "all_original_TRAIN_parents_already_had_executor_initial_attempts": true,
+      "views": [
+        {
+          "view": "native",
+          "question": "Under section 3306(a)(2)(A), Alice is an employer for the year 2017.",
+          "public_fields": [
+            "facts",
+            "question",
+            "referenced_public_sections",
+            "source_text"
+          ],
+          "separate_case_facts_supplied": true,
+          "explicit_question_section_numbers": [
+            "3306(a)(2)(A)"
+          ],
+          "referenced_public_section_keys": [],
+          "source_text_sha256": "cf05cdf1f27dc8d8a848bb7d41db413875b0358ceb30c63754dc08296c73c654"
+        }
+      ]
+    },
+    {
+      "source": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+      "dataset": "SARA_v2_Binary",
+      "mother_group": "096e5606c0bfccc646a0b94ab4bd301ca3465f05e2e228b8e771bf19f6864737",
+      "fulltext_cluster_members": [
+        "096e5606c0bfccc646a0b94ab4bd301ca3465f05e2e228b8e771bf19f6864737"
+      ],
+      "original_document_id": null,
+      "prior_study_teacher_receipt_exposure": true,
+      "all_original_TRAIN_parents_already_had_executor_initial_attempts": true,
+      "views": [
+        {
+          "view": "native",
+          "question": "Section 3306(c)(5) applies to Alice employing Bob for the year 2017.",
+          "public_fields": [
+            "facts",
+            "question",
+            "referenced_public_sections",
+            "source_text"
+          ],
+          "separate_case_facts_supplied": true,
+          "explicit_question_section_numbers": [
+            "3306(c)(5)"
+          ],
+          "referenced_public_section_keys": [],
+          "source_text_sha256": "cf05cdf1f27dc8d8a848bb7d41db413875b0358ceb30c63754dc08296c73c654"
+        }
+      ]
+    },
+    {
+      "source": "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+      "dataset": "SARA_v2_Binary",
+      "mother_group": "27e0ab191dc3881a75dfec8489219d59a10160031ef3de7cc8094f1491b5e5e9",
+      "fulltext_cluster_members": [
+        "27e0ab191dc3881a75dfec8489219d59a10160031ef3de7cc8094f1491b5e5e9"
+      ],
+      "original_document_id": null,
+      "prior_study_teacher_receipt_exposure": true,
+      "all_original_TRAIN_parents_already_had_executor_initial_attempts": true,
+      "views": [
+        {
+          "view": "native",
+          "question": "Section 3306(c)(1) applies to Alice employing Bob for the year 2017.",
+          "public_fields": [
+            "facts",
+            "question",
+            "referenced_public_sections",
+            "source_text"
+          ],
+          "separate_case_facts_supplied": true,
+          "explicit_question_section_numbers": [
+            "3306(c)(1)"
+          ],
+          "referenced_public_section_keys": [],
+          "source_text_sha256": "cf05cdf1f27dc8d8a848bb7d41db413875b0358ceb30c63754dc08296c73c654"
+        }
+      ]
+    },
+    {
+      "source": "SARA_v2_Binary:d5e1138c0c20b18a5686df8fa16808f0f6be6bbbc38e48b8ef6fd3489a64eee1",
+      "dataset": "SARA_v2_Binary",
+      "mother_group": "c6e3dcabbccfb88a1cf49a70ecb8c2f55dec42129eddc0d633759fa977cc40fb",
+      "fulltext_cluster_members": [
+        "c6e3dcabbccfb88a1cf49a70ecb8c2f55dec42129eddc0d633759fa977cc40fb"
+      ],
+      "original_document_id": null,
+      "prior_study_teacher_receipt_exposure": true,
+      "all_original_TRAIN_parents_already_had_executor_initial_attempts": true,
+      "views": [
+        {
+          "view": "native",
+          "question": "Section 3306(b) applies to the payment in hay made by Alice to Bob for the year 2018.",
+          "public_fields": [
+            "facts",
+            "question",
+            "referenced_public_sections",
+            "source_text"
+          ],
+          "separate_case_facts_supplied": true,
+          "explicit_question_section_numbers": [
+            "3306(b)"
+          ],
+          "referenced_public_section_keys": [],
+          "source_text_sha256": "cf05cdf1f27dc8d8a848bb7d41db413875b0358ceb30c63754dc08296c73c654"
+        }
+      ]
+    }
+  ],
+  "ledger_before": {
+    "executor": {
+      "completed": 9072,
+      "failed": 10,
+      "total": 9082
+    },
+    "teacher": {
+      "completed": 137,
+      "failed": 4,
+      "total": 141
+    }
+  },
+  "semantic_and_mechanism_results_pending": true
+}

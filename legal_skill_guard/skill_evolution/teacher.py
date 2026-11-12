@@ -5,7 +5,7 @@ import ast
 import json
 
 from legal_skill_guard.inference.codex_cli_client import strict_output_schema_issues
-from .objects import Skill, digest, lift, coupled_blocks, premise_uses
+from .objects import Skill, digest, lift, coupled_blocks, premise_uses, dependency_arguments
 from .native import record_schema, public_strings
 from .grounding import bind_transcribed_quotes
 from .teacher_transport import pack, serialized, INSTRUCTION
@@ -27,9 +27,11 @@ READER = record_schema({'id': STRING, 'question': STRING, 'source_locator': STRI
     'fields': array(READ_FIELD), 'bindings': array(record_schema({'premise': STRING, 'field': STRING}))})
 SKILL = record_schema({'id': STRING, 'intent': STRING, 'procedure': STRING,
     'inputs': array(record_schema({'name': STRING, 'type': TYPE,
-        'mode': {'type': 'string', 'enum': ['read', 'skill']}, 'question': STRING,
-        'skill_id': NULL_STRING, 'field': STRING})),
-    'outputs': array(record_schema({'name': STRING, 'type': TYPE, 'description': STRING})),
+        'mode': {'type': 'string', 'enum': ['read', 'skill', 'argument']}, 'question': STRING,
+        'skill_id': NULL_STRING, 'field': STRING,
+        'arguments': array(record_schema({'parameter': STRING, 'input': STRING}))})),
+    'outputs': array(record_schema({'name': STRING, 'type': TYPE, 'description': STRING,
+        'query_clauses': array(STRING)})),
     'premises': array(record_schema({'name': STRING, 'type': TYPE,
         'mode': {'type': 'string', 'enum': ['constant', 'read']}, 'value': VALUE,
         'question': STRING, 'origin': ORIGIN, 'read_id': NULL_STRING, 'field': NULL_STRING})),
@@ -125,6 +127,12 @@ def prune_unobserved_premise_metadata(value):
 def skill_from_wire(value):
     result = deepcopy(value)
     result['inputs'] = named(value['inputs'])
+    for port in result['inputs'].values():
+        if 'arguments' in port:
+            bindings = port['arguments']
+            if len({b['parameter'] for b in bindings}) != len(bindings):
+                raise ValueError('Duplicate dependency argument parameter')
+            port['arguments'] = {b['parameter']: b['input'] for b in bindings}
     result['outputs'] = named(value['outputs'])
     result['premises'] = named(value['premises'])
     result['reads'] = tuple(reader_from_wire(r) for r in value['reads'])
@@ -171,13 +179,6 @@ def wrap_explicit_function_body(procedure):
         raise ValueError('Function wrapper changed body semantics')
     return wrapped, {'kind': 'fixed_apply_signature_only', 'body_AST_unchanged': True,
                      'raw_procedure_sha256': digest(procedure)}
-    if not skill.source_provenance:
-        raise ValueError('A learned skill needs actual source provenance')
-    for name, port in skill.inputs.items():
-        if port['mode'] == 'read' and (not port['question'] or port['skill_id'] is not None or port['field'] != name):
-            raise ValueError('Current factual input needs a question and no hidden dependency')
-        if port['mode'] == 'skill' and (not port['skill_id'] or not port['field']):
-            raise ValueError('Actual producer and output field required')
 
 
 def compile_block(block, library, sources, arm):
@@ -252,6 +253,12 @@ def compile_block(block, library, sources, arm):
             revisions[-1]['representation_adaptation']['function_body_wrapper'] = body_wrapper
     if len({r['skill_id'] for r in revisions}) != len(revisions):
         raise ValueError('Duplicate skill revisions in one block')
+    proposed_skills = {**library.skills, **{r['skill_id']: Skill.from_dict(r['new']) for r in revisions}}
+    for revision in revisions:
+        skill = proposed_skills[revision['skill_id']]
+        for port in skill.inputs.values():
+            if port['mode'] == 'skill':
+                dependency_arguments(skill, port, proposed_skills)
     return revisions
 
 
@@ -260,7 +267,7 @@ Both models are frozen. Produce at most THREE candidate blocks with at most THRE
 Each skill is one small Python def apply(inputs, premises) returning a dict with exactly its declared output fields.
 Use ordinary Python expressions/assignments/if/for and min,max,sum,len,abs,round,sorted,all,any,int,float,bool,str,list,dict,range,enumerate,zip.
 No imports, attributes/method calls, network, files, globals, recursion or other calls. Do not generate a full-document IR.
-Read inputs are current facts/question fields; source-premise constants carry literal provenance. Reader fields are primitive or flat arrays.
+Read inputs are current facts/question fields, including explicitly GIVEN legal intermediate facts; source-premise constants carry literal provenance. Keep the complete source available to interpret given facts. Reader fields are primitive or flat arrays.
 Separate literal case facts, expressly GIVEN solved legal intermediates, literal rule parameters, and legal inferences.
 Reading an expressly given intermediate is allowed; do not recompute it just to manufacture a dependency.
 Put literal rule parameters in premise ports (constant with source evidence, or explicit current-source reads), not case-input ports.
@@ -268,13 +275,14 @@ Do not ask a local reader to decide an unprovided eligibility, statutory applica
 When a source rule actually invokes a distinct computed legal predicate, acquire/reuse its grounded producer and connect mode skill to its output.
 Keep a naturally single-rule program single. Do not add gratuitous helper chains or intentionally defective old versions to create CoRev events.
 For citation fields ask for literal citation strings, not legacy output label IDs. Retained read failures are actual model outputs, not proof that the source lacks the rule.
-For every input in mode read set field equal to name and skill_id null; in mode skill name the actual producer skill_id and its output field.
+For every input in mode read set field equal to name, skill_id null, arguments []. A reusable helper may declare mode argument for an explicit caller-supplied entity, role or period: set field equal to name, skill_id null, arguments [], and describe its meaning in question. Argument inputs are not read from the outer question. For mode skill name the actual producer skill_id and output field; arguments binds ALL producer argument ports by parameter name to caller read/argument input names. Do not guess, default or bind missing roles. A terminal called directly by the host must acquire its roles via read inputs, then bind them to its dependencies. Do not ask a reader to derive an unprovided legal conclusion.
 Semantic records name ports from the declared inputs and/or source premises; already-read ports are not counted as newly Lifted premises.
 Read questions must describe the current-source concept rather than tell the reader an old value. The host separately binds supplied source-span IDs for read evidence.
 Declare only premises actually used in the procedure. Do not add unused rule_quotes or other evidence-only ports; source_provenance carries literal evidence.
 Use semantic_records only for local legal records with genuine coupling; a common final return does not couple everything.
 For a dependent helper, input mode skill names its real producer and field. Do not split fields of one source record into artificial skills.
 A terminal helper returns answer in the exact current native type/labels; dependencies may return intermediate records.
+Declare each terminal answer's statutory query_clauses explicitly, for example ["3306(c)(2)"]. This is a host-enforced applicability contract, not a claim of rule correctness. Use [] for intermediate outputs or a genuinely non-clause-specific terminal. Do not claim unrelated clauses merely to broaden retrieval. Case input reads with a supplied facts field must cite supporting facts/question spans; legal text remains available as context but cannot by itself establish a person's family relationship or other case fact.
 Scope-sensitive source obligations describe what the helper checks, with a supported source quote; unknown roles stay unknown.
 You may create helpers, revise multiple existing helpers jointly, preserve a useful reasoning skeleton or fix a process error.
 Only skills in library are installed. retained_edits are rejected or historical proposals, not current skills.

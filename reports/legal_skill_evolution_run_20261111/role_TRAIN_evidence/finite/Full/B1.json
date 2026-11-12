@@ -1,0 +1,938 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+  "skills": {},
+  "revision_patterns": [],
+  "provisional_edits": [
+    {
+      "batch": 1,
+      "candidate_index": 0,
+      "raw_block": {
+        "rationale": "Create a narrowly scoped terminal rule for affirmative §3306(c)(2) claims. It fixes the trigger false positive by preserving the statutory distinction between generic wages and expressly cash remuneration; the separate §3306(a)(1) parent is outside this skill's scope.",
+        "revisions": [
+          {
+            "operation": "create",
+            "skill": {
+              "id": "irc_3306_c2_domestic_service_cash_exception",
+              "inputs": [
+                {
+                  "arguments": [],
+                  "field": "claim_year",
+                  "mode": "read",
+                  "name": "claim_year",
+                  "question": "What calendar year does the current affirmative §3306(c)(2) claim concern?",
+                  "skill_id": null,
+                  "type": "integer"
+                },
+                {
+                  "arguments": [],
+                  "field": "service_is_domestic",
+                  "mode": "read",
+                  "name": "service_is_domestic",
+                  "question": "Do the current facts expressly describe the worker's service as domestic service?",
+                  "skill_id": null,
+                  "type": "boolean"
+                },
+                {
+                  "arguments": [],
+                  "field": "service_setting",
+                  "mode": "read",
+                  "name": "service_setting",
+                  "question": "Which setting do the current facts describe for the domestic service: private_home, local_college_club, local_college_fraternity_or_sorority_chapter, or other?",
+                  "skill_id": null,
+                  "type": "string"
+                },
+                {
+                  "arguments": [],
+                  "field": "remuneration_is_expressly_cash",
+                  "mode": "read",
+                  "name": "remuneration_is_expressly_cash",
+                  "question": "Do the current facts expressly characterize the remuneration paid for this domestic service as cash, rather than merely as wages, remuneration, or payment?",
+                  "skill_id": null,
+                  "type": "boolean"
+                },
+                {
+                  "arguments": [],
+                  "field": "remuneration_amount",
+                  "mode": "read",
+                  "name": "remuneration_amount",
+                  "question": "What amount of remuneration do the current facts state that the employing person paid for the domestic service?",
+                  "skill_id": null,
+                  "type": "number"
+                },
+                {
+                  "arguments": [],
+                  "field": "remuneration_years",
+                  "mode": "read",
+                  "name": "remuneration_years",
+                  "question": "Which calendar years are expressly connected by the current facts to the stated remuneration or the described domestic-service period? Return a flat array of integer years.",
+                  "skill_id": null,
+                  "type": "array"
+                }
+              ],
+              "intent": "Determine whether an affirmative claim that 26 U.S.C. §3306(c)(2) applies is entailed because covered domestic service satisfies the expressly cash-remuneration threshold in the claim year or preceding calendar year.",
+              "outputs": [
+                {
+                  "description": "The native answer label, either Entailment or Contradiction.",
+                  "name": "answer",
+                  "type": "string"
+                }
+              ],
+              "premises": [
+                {
+                  "field": null,
+                  "mode": "constant",
+                  "name": "cash_remuneration_threshold",
+                  "origin": {
+                    "quote": "paid cash remuneration of $1,000 or more",
+                    "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                    "view_id": "native"
+                  },
+                  "question": "What cash-remuneration threshold does §3306(c)(2) specify?",
+                  "read_id": null,
+                  "type": "number",
+                  "value": 1000
+                },
+                {
+                  "field": null,
+                  "mode": "constant",
+                  "name": "preceding_year_offset",
+                  "origin": {
+                    "quote": "in the calendar year or the preceding calendar year",
+                    "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                    "view_id": "native"
+                  },
+                  "question": "How many calendar years before the claim year does §3306(c)(2) include?",
+                  "read_id": null,
+                  "type": "integer",
+                  "value": 1
+                },
+                {
+                  "field": null,
+                  "mode": "constant",
+                  "name": "covered_settings",
+                  "origin": {
+                    "quote": "domestic service in a private home, local college club, or local chapter of a college fraternity or sorority",
+                    "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                    "view_id": "native"
+                  },
+                  "question": "Which domestic-service settings are enumerated by §3306(c)(2)?",
+                  "read_id": null,
+                  "type": "array",
+                  "value": [
+                    "private_home",
+                    "local_college_club",
+                    "local_college_fraternity_or_sorority_chapter"
+                  ]
+                }
+              ],
+              "procedure": "def apply(inputs, premises):\n    setting_ok = inputs[\"service_setting\"] in premises[\"covered_settings\"]\n    year_ok = False\n    for payment_year in inputs[\"remuneration_years\"]:\n        if int(payment_year) == inputs[\"claim_year\"] or int(payment_year) == inputs[\"claim_year\"] - premises[\"preceding_year_offset\"]:\n            year_ok = True\n    threshold_ok = inputs[\"remuneration_is_expressly_cash\"] and inputs[\"remuneration_amount\"] >= premises[\"cash_remuneration_threshold\"]\n    if inputs[\"service_is_domestic\"] and setting_ok and year_ok and threshold_ok:\n        return {\"answer\": \"Entailment\"}\n    return {\"answer\": \"Contradiction\"}",
+              "reads": [
+                {
+                  "bindings": [],
+                  "fields": [
+                    {
+                      "name": "claim_year",
+                      "question": "What calendar year does the current affirmative §3306(c)(2) claim concern?",
+                      "type": "integer"
+                    },
+                    {
+                      "name": "service_is_domestic",
+                      "question": "Do the facts expressly describe the service as domestic service?",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "service_setting",
+                      "question": "Normalize the factually stated setting as private_home, local_college_club, local_college_fraternity_or_sorority_chapter, or other.",
+                      "type": "string"
+                    },
+                    {
+                      "name": "remuneration_is_expressly_cash",
+                      "question": "Is the remuneration expressly described as cash? The word wages alone does not state that it was cash.",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "remuneration_amount",
+                      "question": "What amount is stated as paid for the domestic service?",
+                      "type": "number"
+                    },
+                    {
+                      "name": "remuneration_years",
+                      "question": "Return the integer calendar years expressly connected to the remuneration or described service period.",
+                      "type": "array"
+                    }
+                  ],
+                  "id": "current_domestic_service_claim_facts",
+                  "question": "Extract the literal service, setting, remuneration wording, amount, relevant years, and claim year needed to evaluate the current affirmative §3306(c)(2) claim.",
+                  "source_locator": "current source facts and question"
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "domestic_service_remuneration_record",
+                  "neighbors": [],
+                  "ports": [
+                    "service_is_domestic",
+                    "service_setting",
+                    "remuneration_is_expressly_cash",
+                    "remuneration_amount",
+                    "remuneration_years",
+                    "claim_year"
+                  ]
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "section_3306_c2_cash_exception",
+                  "origin": {
+                    "quote": "domestic service in a private home, local college club, or local chapter of a college fraternity or sorority unless performed for a person who paid cash remuneration of $1,000 or more to individuals employed in such domestic service in the calendar year or the preceding calendar year",
+                    "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                    "view_id": "native"
+                  },
+                  "port": "answer",
+                  "role": "terminal",
+                  "statement": "Check whether covered domestic service was performed for a person who expressly paid at least $1,000 in cash remuneration for such service in the claim year or preceding calendar year."
+                }
+              ],
+              "source_provenance": [
+                {
+                  "quote": "(2) domestic service in a private home, local college club, or local chapter of a college fraternity or sorority unless performed for a person who paid cash remuneration of $1,000 or more to individuals employed in such domestic service in the calendar year or the preceding calendar year;",
+                  "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                  "view_id": "native"
+                }
+              ],
+              "version": 1
+            }
+          }
+        ]
+      },
+      "planned_lift": null,
+      "lift_reader": null,
+      "revisions": [
+        {
+          "skill_id": "irc_3306_c2_domestic_service_cash_exception",
+          "old_hash": null,
+          "new_hash": "45dd3e46d155ea88c8c26d130fb51a72401a96db89abde42ca9dafcc353fbbcb",
+          "new": {
+            "id": "irc_3306_c2_domestic_service_cash_exception",
+            "intent": "Determine whether an affirmative claim that 26 U.S.C. §3306(c)(2) applies is entailed because covered domestic service satisfies the expressly cash-remuneration threshold in the claim year or preceding calendar year.",
+            "procedure": "def apply(inputs, premises):\n    setting_ok = inputs[\"service_setting\"] in premises[\"covered_settings\"]\n    year_ok = False\n    for payment_year in inputs[\"remuneration_years\"]:\n        if int(payment_year) == inputs[\"claim_year\"] or int(payment_year) == inputs[\"claim_year\"] - premises[\"preceding_year_offset\"]:\n            year_ok = True\n    threshold_ok = inputs[\"remuneration_is_expressly_cash\"] and inputs[\"remuneration_amount\"] >= premises[\"cash_remuneration_threshold\"]\n    if inputs[\"service_is_domestic\"] and setting_ok and year_ok and threshold_ok:\n        return {\"answer\": \"Entailment\"}\n    return {\"answer\": \"Contradiction\"}",
+            "inputs": {
+              "claim_year": {
+                "arguments": {},
+                "field": "claim_year",
+                "mode": "read",
+                "question": "What calendar year does the current affirmative §3306(c)(2) claim concern?",
+                "skill_id": null,
+                "type": "integer"
+              },
+              "service_is_domestic": {
+                "arguments": {},
+                "field": "service_is_domestic",
+                "mode": "read",
+                "question": "Do the current facts expressly describe the worker's service as domestic service?",
+                "skill_id": null,
+                "type": "boolean"
+              },
+              "service_setting": {
+                "arguments": {},
+                "field": "service_setting",
+                "mode": "read",
+                "question": "Which setting do the current facts describe for the domestic service: private_home, local_college_club, local_college_fraternity_or_sorority_chapter, or other?",
+                "skill_id": null,
+                "type": "string"
+              },
+              "remuneration_is_expressly_cash": {
+                "arguments": {},
+                "field": "remuneration_is_expressly_cash",
+                "mode": "read",
+                "question": "Do the current facts expressly characterize the remuneration paid for this domestic service as cash, rather than merely as wages, remuneration, or payment?",
+                "skill_id": null,
+                "type": "boolean"
+              },
+              "remuneration_amount": {
+                "arguments": {},
+                "field": "remuneration_amount",
+                "mode": "read",
+                "question": "What amount of remuneration do the current facts state that the employing person paid for the domestic service?",
+                "skill_id": null,
+                "type": "number"
+              },
+              "remuneration_years": {
+                "arguments": {},
+                "field": "remuneration_years",
+                "mode": "read",
+                "question": "Which calendar years are expressly connected by the current facts to the stated remuneration or the described domestic-service period? Return a flat array of integer years.",
+                "skill_id": null,
+                "type": "array"
+              }
+            },
+            "outputs": {
+              "answer": {
+                "description": "The native answer label, either Entailment or Contradiction.",
+                "type": "string"
+              }
+            },
+            "premises": {
+              "cash_remuneration_threshold": {
+                "mode": "constant",
+                "origin": {
+                  "quote": "paid cash remuneration of $1,000 or more",
+                  "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                  "view_id": "native"
+                },
+                "question": "What cash-remuneration threshold does §3306(c)(2) specify?",
+                "type": "number",
+                "value": 1000
+              },
+              "preceding_year_offset": {
+                "mode": "constant",
+                "origin": {
+                  "quote": "in the calendar year or the preceding calendar year",
+                  "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                  "view_id": "native"
+                },
+                "question": "How many calendar years before the claim year does §3306(c)(2) include?",
+                "type": "integer",
+                "value": 1
+              },
+              "covered_settings": {
+                "mode": "constant",
+                "origin": {
+                  "quote": "domestic service in a private home, local college club, or local chapter of a college fraternity or sorority",
+                  "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                  "view_id": "native"
+                },
+                "question": "Which domestic-service settings are enumerated by §3306(c)(2)?",
+                "type": "array",
+                "value": [
+                  "private_home",
+                  "local_college_club",
+                  "local_college_fraternity_or_sorority_chapter"
+                ]
+              }
+            },
+            "reads": [
+              {
+                "id": "current_domestic_service_claim_facts",
+                "question": "Extract the literal service, setting, remuneration wording, amount, relevant years, and claim year needed to evaluate the current affirmative §3306(c)(2) claim.",
+                "source_locator": "current source facts and question",
+                "fields": {
+                  "claim_year": {
+                    "question": "What calendar year does the current affirmative §3306(c)(2) claim concern?",
+                    "type": "integer"
+                  },
+                  "service_is_domestic": {
+                    "question": "Do the facts expressly describe the service as domestic service?",
+                    "type": "boolean"
+                  },
+                  "service_setting": {
+                    "question": "Normalize the factually stated setting as private_home, local_college_club, local_college_fraternity_or_sorority_chapter, or other.",
+                    "type": "string"
+                  },
+                  "remuneration_is_expressly_cash": {
+                    "question": "Is the remuneration expressly described as cash? The word wages alone does not state that it was cash.",
+                    "type": "boolean"
+                  },
+                  "remuneration_amount": {
+                    "question": "What amount is stated as paid for the domestic service?",
+                    "type": "number"
+                  },
+                  "remuneration_years": {
+                    "question": "Return the integer calendar years expressly connected to the remuneration or described service period.",
+                    "type": "array"
+                  }
+                },
+                "bindings": {},
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "claim_year": {
+                      "type": "integer"
+                    },
+                    "service_is_domestic": {
+                      "type": "boolean"
+                    },
+                    "service_setting": {
+                      "type": "string"
+                    },
+                    "remuneration_is_expressly_cash": {
+                      "type": "boolean"
+                    },
+                    "remuneration_amount": {
+                      "type": "number"
+                    },
+                    "remuneration_years": {
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "claim_year",
+                    "service_is_domestic",
+                    "service_setting",
+                    "remuneration_is_expressly_cash",
+                    "remuneration_amount",
+                    "remuneration_years"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            ],
+            "semantic_records": [
+              {
+                "id": "domestic_service_remuneration_record",
+                "neighbors": [],
+                "ports": [
+                  "service_is_domestic",
+                  "service_setting",
+                  "remuneration_is_expressly_cash",
+                  "remuneration_amount",
+                  "remuneration_years",
+                  "claim_year"
+                ]
+              }
+            ],
+            "source_obligations": [
+              {
+                "id": "section_3306_c2_cash_exception",
+                "origin": {
+                  "quote": "domestic service in a private home, local college club, or local chapter of a college fraternity or sorority unless performed for a person who paid cash remuneration of $1,000 or more to individuals employed in such domestic service in the calendar year or the preceding calendar year",
+                  "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                  "view_id": "native"
+                },
+                "port": "answer",
+                "role": "terminal",
+                "statement": "Check whether covered domestic service was performed for a person who expressly paid at least $1,000 in cash remuneration for such service in the claim year or preceding calendar year."
+              }
+            ],
+            "source_provenance": [
+              {
+                "quote": "(2) domestic service in a private home, local college club, or local chapter of a college fraternity or sorority unless performed for a person who paid cash remuneration of $1,000 or more to individuals employed in such domestic service in the calendar year or the preceding calendar year;",
+                "source_id": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                "view_id": "native"
+              }
+            ],
+            "version": 1
+          },
+          "operation": "create",
+          "representation_adaptation": {
+            "removed_unobserved_declarations": [],
+            "retained_draft_installation": null,
+            "procedure_unchanged": true,
+            "used_premise_values_unchanged": true
+          }
+        }
+      ],
+      "table": {
+        "revision_hashes": [
+          "45dd3e46d155ea88c8c26d130fb51a72401a96db89abde42ca9dafcc353fbbcb"
+        ],
+        "trigger": [
+          "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+          "SARA_v2_Binary:6939fedab07c7376be4079ed2905a46da129282bd71c44a0b5d6d6d305079ee4"
+        ],
+        "history": [],
+        "mixed_version_table": [
+          {
+            "mask": 0,
+            "source": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Entailment",
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": true,
+                        "call_id": "legal_skill_evolution_role_TRAIN_20261112:02513ee01c1a6784c1d79ddbfc43f095170c3356e4374dc0393842e9f76f8885",
+                        "elapsed_seconds": 0.7882052734494209,
+                        "physical_call_id": "legal_skill_evolution_formal_v3_20261111:02513ee01c1a6784c1d79ddbfc43f095170c3356e4374dc0393842e9f76f8885",
+                        "response_hash": "4a75cd1186ecf5a79a716887aebb13ed17743bb471d7b12cfc2c3a5b84ae5f38",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 19,
+                          "prompt_tokens": 1953,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 1972
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "irc_3306_c2_domestic_service_cash_exception"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "irc_3306_c2_domestic_service_cash_exception",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 0,
+            "source": "SARA_v2_Binary:6939fedab07c7376be4079ed2905a46da129282bd71c44a0b5d6d6d305079ee4",
+            "native_parent_grade": 1.0,
+            "trace": {
+              "source": "SARA_v2_Binary:6939fedab07c7376be4079ed2905a46da129282bd71c44a0b5d6d6d305079ee4",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "6b3cab3881bb8849e8043334bcf70e8e8f8bde6e2ff95ee0c3eb912c7c6e3961",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Contradiction",
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "cache_hit": true,
+                        "call_id": "legal_skill_evolution_role_TRAIN_20261112:ecd261cf4212c08e77337b3487b33245770e1e8b5d4c520d573b13a60bab22a4",
+                        "elapsed_seconds": 0.73834362719208,
+                        "physical_call_id": "legal_skill_evolution_formal_v2_20261111:ecd261cf4212c08e77337b3487b33245770e1e8b5d4c520d573b13a60bab22a4",
+                        "response_hash": "693c1c1424fcbbf16d31663015a86a13c00807da05aa7f90a284ab26694d0c7f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 17,
+                          "prompt_tokens": 1977,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 1994
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "irc_3306_c2_domestic_service_cash_exception"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "irc_3306_c2_domestic_service_cash_exception",
+                        "error": "ValueError: Missing or cyclic skill dependency"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": true,
+                    "metric": "native_exact_match",
+                    "grade": 1.0
+                  }
+                }
+              ],
+              "native_grade": 1.0,
+              "selection_grade": 1.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 1,
+            "source": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+            "native_parent_grade": 0.0,
+            "trace": {
+              "source": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "88ae7d56085956d805863ac2d8d99390b165cbe9dd51e01228ddc134b36d5b19",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Entailment",
+                    "evidence_sentence_ids": [],
+                    "fallback": false,
+                    "core_executed": true,
+                    "terminal_skill": "irc_3306_c2_domestic_service_cash_exception",
+                    "retrieved": [
+                      "irc_3306_c2_domestic_service_cash_exception"
+                    ],
+                    "events": [
+                      {
+                        "call_id": "legal_skill_evolution_role_TRAIN_20261112:8be1fac130dc37956bea34d6e5d8bef5079953c12d265f6db5baf5e5172e0c7a",
+                        "cache_hit": false,
+                        "physical_call_id": "legal_skill_evolution_role_TRAIN_20261112:8be1fac130dc37956bea34d6e5d8bef5079953c12d265f6db5baf5e5172e0c7a",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "prompt_tokens": 4623,
+                          "total_tokens": 4789,
+                          "completion_tokens": 166,
+                          "prompt_tokens_details": null
+                        },
+                        "elapsed_seconds": 5.317954659461975,
+                        "response_hash": "4bd31106ec4198715296e02dba0495578554f5ab69841b84f3452575774b2902",
+                        "kind": "READ_LOCAL",
+                        "question": "Read the current task input fields.",
+                        "locator": "current supplied source, facts and question, according to each requested field",
+                        "fields": {
+                          "claim_year": {
+                            "status": "known",
+                            "value": 2017,
+                            "support_ids": [
+                              54
+                            ],
+                            "support": [
+                              {
+                                "id": 54,
+                                "field": "question",
+                                "start": 0,
+                                "end": 68,
+                                "text": "Section 3306(c)(2) applies to Alice employing Bob for the year 2017."
+                              }
+                            ]
+                          },
+                          "service_is_domestic": {
+                            "status": "known",
+                            "value": true,
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 140,
+                                "text": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+                              }
+                            ]
+                          },
+                          "service_setting": {
+                            "status": "known",
+                            "value": "private_home",
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 140,
+                                "text": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+                              }
+                            ]
+                          },
+                          "remuneration_is_expressly_cash": {
+                            "status": "known",
+                            "value": true,
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 140,
+                                "text": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+                              }
+                            ]
+                          },
+                          "remuneration_amount": {
+                            "status": "known",
+                            "value": 3200,
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 140,
+                                "text": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+                              }
+                            ]
+                          },
+                          "remuneration_years": {
+                            "status": "known",
+                            "value": [
+                              2017
+                            ],
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 140,
+                                "text": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+                              }
+                            ]
+                          }
+                        },
+                        "source": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                        "view": "native",
+                        "invocation_arguments": {},
+                        "unresolved_fields": []
+                      },
+                      {
+                        "kind": "APPLY",
+                        "skill_id": "irc_3306_c2_domestic_service_cash_exception",
+                        "skill_hash": "45dd3e46d155ea88c8c26d130fb51a72401a96db89abde42ca9dafcc353fbbcb",
+                        "version": 1,
+                        "inputs": {
+                          "claim_year": 2017,
+                          "service_is_domestic": true,
+                          "service_setting": "private_home",
+                          "remuneration_is_expressly_cash": true,
+                          "remuneration_amount": 3200,
+                          "remuneration_years": [
+                            2017
+                          ]
+                        },
+                        "premises": {
+                          "cash_remuneration_threshold": 1000,
+                          "preceding_year_offset": 1,
+                          "covered_settings": [
+                            "private_home",
+                            "local_college_club",
+                            "local_college_fraternity_or_sorority_chapter"
+                          ]
+                        },
+                        "outputs": {
+                          "answer": "Entailment"
+                        },
+                        "invocation_arguments": {},
+                        "unresolved_inputs": [],
+                        "unresolved_premises": [],
+                        "source": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+                        "view": "native"
+                      }
+                    ],
+                    "failed_candidates": []
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": false,
+                    "metric": "native_exact_match",
+                    "grade": 0.0
+                  }
+                }
+              ],
+              "native_grade": 0.0,
+              "selection_grade": 0.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 0
+            },
+            "measured": true,
+            "attempt_recorded": true
+          },
+          {
+            "mask": 1,
+            "source": "SARA_v2_Binary:6939fedab07c7376be4079ed2905a46da129282bd71c44a0b5d6d6d305079ee4",
+            "native_parent_grade": 1.0,
+            "trace": {
+              "source": "SARA_v2_Binary:6939fedab07c7376be4079ed2905a46da129282bd71c44a0b5d6d6d305079ee4",
+              "dataset": "SARA_v2_Binary",
+              "library_hash": "88ae7d56085956d805863ac2d8d99390b165cbe9dd51e01228ddc134b36d5b19",
+              "views": [
+                {
+                  "view": "native",
+                  "controlled": false,
+                  "execution": {
+                    "answer": "Contradiction",
+                    "core_executed": false,
+                    "events": [
+                      {
+                        "call_id": "legal_skill_evolution_role_TRAIN_20261112:0d6f1cc2c76ae396f7d5bd7702dee1bb5e8529eee155359b60fe586dfc12c7f4",
+                        "cache_hit": false,
+                        "physical_call_id": "legal_skill_evolution_role_TRAIN_20261112:0d6f1cc2c76ae396f7d5bd7702dee1bb5e8529eee155359b60fe586dfc12c7f4",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "prompt_tokens": 4647,
+                          "total_tokens": 4815,
+                          "completion_tokens": 168,
+                          "prompt_tokens_details": null
+                        },
+                        "elapsed_seconds": 5.356905190274119,
+                        "response_hash": "d8d12791aa9a97e3bc52bce9d9704125caec1c39c9ad9166832078101ff596ab",
+                        "kind": "READ_LOCAL",
+                        "question": "Read the current task input fields.",
+                        "locator": "current supplied source, facts and question, according to each requested field",
+                        "fields": {
+                          "claim_year": {
+                            "status": "known",
+                            "value": 2018,
+                            "support_ids": [
+                              54
+                            ],
+                            "support": [
+                              {
+                                "id": 54,
+                                "field": "question",
+                                "start": 0,
+                                "end": 64,
+                                "text": "Alice is an employer under section 3306(a)(1) for the year 2018."
+                              }
+                            ]
+                          },
+                          "service_is_domestic": {
+                            "status": "known",
+                            "value": true,
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 169,
+                                "text": "Alice has paid $3200 to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017. Bob has paid $4500 to Alice for work done from Apr 1st, 2017 to Sep 2nd, 2018."
+                              }
+                            ]
+                          },
+                          "service_setting": {
+                            "status": "unknown",
+                            "value": null,
+                            "support_ids": [],
+                            "support": []
+                          },
+                          "remuneration_is_expressly_cash": {
+                            "status": "known",
+                            "value": true,
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 169,
+                                "text": "Alice has paid $3200 to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017. Bob has paid $4500 to Alice for work done from Apr 1st, 2017 to Sep 2nd, 2018."
+                              }
+                            ]
+                          },
+                          "remuneration_amount": {
+                            "status": "known",
+                            "value": 3200,
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 169,
+                                "text": "Alice has paid $3200 to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017. Bob has paid $4500 to Alice for work done from Apr 1st, 2017 to Sep 2nd, 2018."
+                              }
+                            ]
+                          },
+                          "remuneration_years": {
+                            "status": "known",
+                            "value": [
+                              2017,
+                              2018
+                            ],
+                            "support_ids": [
+                              53
+                            ],
+                            "support": [
+                              {
+                                "id": 53,
+                                "field": "facts",
+                                "start": 0,
+                                "end": 169,
+                                "text": "Alice has paid $3200 to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017. Bob has paid $4500 to Alice for work done from Apr 1st, 2017 to Sep 2nd, 2018."
+                              }
+                            ]
+                          }
+                        },
+                        "source": "SARA_v2_Binary:6939fedab07c7376be4079ed2905a46da129282bd71c44a0b5d6d6d305079ee4",
+                        "view": "native",
+                        "invocation_arguments": {},
+                        "unresolved_fields": [
+                          "service_setting"
+                        ]
+                      },
+                      {
+                        "cache_hit": true,
+                        "call_id": "legal_skill_evolution_role_TRAIN_20261112:ecd261cf4212c08e77337b3487b33245770e1e8b5d4c520d573b13a60bab22a4",
+                        "elapsed_seconds": 0.73834362719208,
+                        "physical_call_id": "legal_skill_evolution_formal_v2_20261111:ecd261cf4212c08e77337b3487b33245770e1e8b5d4c520d573b13a60bab22a4",
+                        "response_hash": "693c1c1424fcbbf16d31663015a86a13c00807da05aa7f90a284ab26694d0c7f",
+                        "transport_adaptations": [],
+                        "usage": {
+                          "completion_tokens": 17,
+                          "prompt_tokens": 1977,
+                          "prompt_tokens_details": null,
+                          "total_tokens": 1994
+                        }
+                      }
+                    ],
+                    "evidence_sentence_ids": [],
+                    "fallback": true,
+                    "retrieved": [
+                      "irc_3306_c2_domestic_service_cash_exception"
+                    ],
+                    "failed_candidates": [
+                      {
+                        "skill_id": "irc_3306_c2_domestic_service_cash_exception",
+                        "error": "ValueError: Learned helper failed: Traceback (most recent call last):\n  File \"/media/sangfor/vdb/legal-skill-runtime/engineering/lift-corev-activation-20261112/legal_skill_guard/skill_evolution/worker.py\", line 26, in <module>\n    main()\n  File \"/media/sangfor/vdb/legal-skill-runtime/engineering/lift-corev-activation-20261112/legal_skill_guard/skill_evolution/worker.py\", line 18, in main\n    value = scope['apply'](request['inputs'], request['premises'])\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<learned-skill>\", line 2, in apply\nKeyError: 'service_setting'\n"
+                      }
+                    ]
+                  },
+                  "score": {
+                    "valid": true,
+                    "correct": true,
+                    "metric": "native_exact_match",
+                    "grade": 1.0
+                  }
+                }
+              ],
+              "native_grade": 1.0,
+              "selection_grade": 1.0,
+              "selection_protocol": "native_views_mean_within_parent",
+              "native_core_correct": 0,
+              "native_fallback_views": 1
+            },
+            "measured": true,
+            "attempt_recorded": true
+          }
+        ],
+        "complete": true,
+        "minimal_blocks": [],
+        "classification": "harmful_or_unresolved",
+        "unmeasured_assignments": "unknown",
+        "hash": "065092d23700b488c39b0adc3e86897ddc9f83980340a22e7cbca8d5971a6184"
+      },
+      "error": null,
+      "selection_exclusion": null
+    }
+  ],
+  "execution_events": []
+}

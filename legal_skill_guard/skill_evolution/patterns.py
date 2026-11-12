@@ -4,7 +4,7 @@ from copy import deepcopy
 from dataclasses import asdict, replace
 import difflib
 
-from .objects import digest
+from .objects import digest, dependency_arguments
 from .revisions import rank_patterns, observe_transfer
 
 
@@ -81,6 +81,22 @@ def actual_links(traces):
                         yield key
 
 
+def compatible_dependency_versions(old_p, new_p, old_c, new_c, field):
+    """Interface breakage cannot establish semantic joint-repair necessity."""
+    for consumer in (old_c, new_c):
+        ports = [p for p in consumer.inputs.values() if p['mode'] == 'skill'
+                 and p['skill_id'] == old_p.id and p['field'] == field]
+        if not ports:
+            return False
+        for producer in (old_p, new_p):
+            for port in ports:
+                try:
+                    dependency_arguments(consumer, port, {producer.id: producer})
+                except (KeyError, ValueError):
+                    return False
+    return True
+
+
 def learn(library, old_library, revisions, table, selected_mask, *, generic=False):
     """Compile actual accepted edits; joint necessity stays local to its table."""
     if not table.complete or selected_mask is None:
@@ -99,6 +115,9 @@ def learn(library, old_library, revisions, table, selected_mask, *, generic=Fals
             continue  # Creating two helpers is not an old-skill co-revision.
         old_p, old_c = old_library.skills[producer], old_library.skills[consumer]
         if field not in old_p.outputs:
+            continue
+        if not compatible_dependency_versions(old_p, library.skills[producer],
+                old_c, library.skills[consumer], field):
             continue
         context = relation_context(old_p, old_c, field)
         if not generic and any(v == 'unknown' for v in context.values()):

@@ -9,9 +9,10 @@ import sys
 
 import jsonschema
 
-from .objects import Skill, digest
+from .objects import Skill, digest, dependency_arguments
 from .answer_domain import incompatible_native_enum
 from .claim_scope import declared_claim_mismatch
+from .task_roles import explicit_task_roles
 from legal_skill_guard.rr.checkpoint import immutable_json
 from .native import (record_schema, answer_wire_schema, decode_answer,
                      public_task, public_strings, DIRECT_SYSTEM, restore_enum_transport, source_spans)
@@ -160,12 +161,14 @@ class FrozenReads:
                        'response_hash': digest(value)}
 
     def read(self, source, view, *, question, fields, locator, purpose,
-             alignment=None, array_lengths=None, anchor_values=None, allow_unresolved=False):
+             alignment=None, array_lengths=None, anchor_values=None, allow_unresolved=False,
+             invocation_arguments=None, require_case_support=False):
         if alignment:
             anchor, dependents = alignment
             remaining = {n: spec for n, spec in fields.items() if n not in dependents}
             values, first = self.read(source, view, question=question, fields=remaining,
-                locator=locator, purpose=purpose, allow_unresolved=allow_unresolved)
+                locator=locator, purpose=purpose, allow_unresolved=allow_unresolved,
+                invocation_arguments=invocation_arguments, require_case_support=require_case_support)
             if anchor not in values:
                 raise LocalReadError('Array alignment anchor is unresolved: ' + anchor, first)
             count = len(values[anchor])
@@ -173,7 +176,8 @@ class FrozenReads:
                 extra, second = self.read(source, view, question=question,
                     fields={n: fields[n] for n in dependents}, locator=locator, purpose=purpose,
                     array_lengths={n: count for n in dependents}, anchor_values={anchor: values[anchor]},
-                    allow_unresolved=allow_unresolved)
+                    allow_unresolved=allow_unresolved, invocation_arguments=invocation_arguments,
+                    require_case_support=require_case_support)
             except LocalReadError as error:
                 event = {**error.event, 'fields': {**first['fields'], **error.event['fields']},
                     'subreads': [first, error.event],
@@ -188,9 +192,15 @@ class FrozenReads:
                 'usage': {k: sum((e.get('usage') or {}).get(k, 0) or 0 for e in events)
                           for k in ('prompt_tokens', 'completion_tokens', 'total_tokens')},
                 'fields': {**first['fields'], **second['fields']}, 'subreads': events,
+                'invocation_arguments': invocation_arguments or {},
                 'unresolved_fields': sorted(set(fields) - set(merged)),
                 'alignment': {'anchor': anchor, 'length': count, 'dependents': dependents}}
         spans = source_spans(view['public'])
+        # Keep legal context available, including definitions of explicit GIVEN
+        # intermediates. A legal rule's list of possible relatives is not
+        # evidence that a person in the case has any one of those relatives.
+        case_fields = ({'facts', 'question'} & set(view['public'])
+                       if require_case_support and 'facts' in view['public'] else set())
         properties = {}
         for name, specification in fields.items():
             kind = specification['type']
@@ -216,6 +226,12 @@ class FrozenReads:
                 'Do not answer the entire task unless a requested field itself is that native label.'),
             content={'dataset': source['dataset'], 'view_id': view['id'], 'source_spans': spans,
                      'read_question': question, 'source_locator': locator, 'fields': fields,
+                     **({'required_case_support_fields': sorted(case_fields),
+                         'case_support_instruction': 'Each known factual/question value must select at least one supporting span from these fields. Legal source spans remain available as context, but a legal definition or list of possible conditions alone does not establish a fact about this case. Use unknown when the case does not supply the requested fact.'}
+                        if case_fields else {}),
+                     **({'invocation_arguments': invocation_arguments,
+                         'role_instruction': 'Read for these explicitly bound entities and period. The outer question does not override these arguments. Use the complete supplied source to interpret explicit given facts; do not infer a missing legal conclusion.'}
+                        if invocation_arguments else {}),
                      **({'alignment_anchor_values': anchor_values,
                          'required_array_lengths': array_lengths,
                          'alignment_instruction': 'One value per supplied anchor entry, in that exact order; no additional entries.'}
@@ -224,7 +240,10 @@ class FrozenReads:
         for item in value.values():
             item['support'] = [spans[i] for i in item['support_ids']]
         event = {**event, 'kind': 'READ_LOCAL', 'question': question, 'locator': locator,
-                 'fields': value, 'source': source['key'], 'view': view['id']}
+                 'fields': value, 'source': source['key'], 'view': view['id'],
+                 'invocation_arguments': invocation_arguments or {}}
+        if case_fields:
+            event['required_case_support_fields'] = sorted(case_fields)
         known = {}
         for name, item in value.items():
             if item['status'] == 'unknown' and item['value'] is None:
@@ -234,6 +253,8 @@ class FrozenReads:
                 raise LocalReadError('Inconsistent local field status/value: ' + name, event)
             if not item['support_ids']:
                 raise LocalReadError('Local field has no selected current-source support: ' + name, event)
+            if case_fields and not any(s['field'] in case_fields for s in item['support']):
+                raise LocalReadError('Factual input is supported only by rule text, not case facts/question: ' + name, event)
             typed(item['value'], fields[name]['type'])
             known[name] = item['value']
         event['unresolved_fields'] = sorted(set(fields) - set(known))
@@ -278,14 +299,27 @@ class SkillRuntime:
     def run(self, source, view, library, *, purpose='skill_actor', retrieved=None, fallback=True):
         selected = retrieve(library, source, view) if retrieved is None else list(retrieved)
         events, completed, visiting, failures = [], {}, set(), []
+        task_roles = explicit_task_roles(view)
+        if task_roles:
+            events.append({'kind': 'BIND_TASK_ROLES', **task_roles})
 
-        def apply(identity):
-            if identity in completed:
-                return completed[identity]
+        def apply(identity, arguments=None):
+            arguments = {} if arguments is None else arguments
+            invocation = (identity, digest(arguments))
+            if invocation in completed:
+                return completed[invocation]
             if identity in visiting or identity not in library.skills:
                 raise ValueError('Missing or cyclic skill dependency')
-            visiting.add(identity)
             skill = library.skills[identity]
+            skill.validate()
+            required = {n: p for n, p in skill.inputs.items() if p['mode'] == 'argument'}
+            if set(arguments) != set(required):
+                raise ValueError('Invocation arguments must match all and only declared parameters')
+            for name, value in arguments.items():
+                typed(value, required[name]['type'])
+            dependency_bindings = {n: dependency_arguments(skill, p, library.skills)
+                for n, p in skill.inputs.items() if p['mode'] == 'skill'}
+            visiting.add(identity)
             contracts = aligned_array_ports(skill)
 
             def alignment_for(mode, ports, current_fields):
@@ -297,24 +331,29 @@ class SkillRuntime:
                         return ports[anchor[1]], names
                 return None
 
-            inputs, fields = {}, {}
+            inputs, fields = dict(arguments), {}
             for name, port in skill.inputs.items():
-                if port['mode'] == 'skill':
-                    producer = apply(port['skill_id'])
-                    inputs[name] = producer[port['field']]
-                    events.append({'kind': 'USE', 'producer': port['skill_id'], 'field': port['field'],
-                        'consumer': identity, 'input': name, 'value': inputs[name]})
-                elif port['mode'] == 'read':
+                if port['mode'] == 'read':
                     fields[name] = {'type': port['type'], 'question': port['question']}
-                else:
-                    raise ValueError('Unknown input acquisition mode')
             if fields:
                 alignment = alignment_for('inputs', {n: n for n in fields}, fields)
+                read_arguments = arguments or (task_roles['arguments'] if task_roles else {})
                 values, event = self.reads.read(source, view, question='Read the current task input fields.',
                     fields=fields, locator='current supplied source, facts and question, according to each requested field', purpose=purpose,
                     allow_unresolved=True,
+                    require_case_support=True,
+                    **({'invocation_arguments': read_arguments} if read_arguments else {}),
                     **({'alignment': alignment} if alignment else {}))
                 inputs.update(values); events.append(event)
+            for name, bindings in dependency_bindings.items():
+                port = skill.inputs[name]
+                bound = {parameter: inputs[local] for parameter, local in bindings.items()}
+                producer = apply(port['skill_id'], bound)
+                inputs[name] = producer[port['field']]
+                events.append({'kind': 'USE', 'producer': port['skill_id'], 'field': port['field'],
+                    'consumer': identity, 'input': name, 'value': inputs[name],
+                    'producer_arguments': bound, 'argument_bindings': bindings,
+                    'consumer_arguments': arguments})
             premises = {n: p['value'] for n, p in skill.premises.items() if p['mode'] == 'constant'}
             for reader in skill.reads:
                 ports = {n: p['field'] for n, p in skill.premises.items()
@@ -325,6 +364,7 @@ class SkillRuntime:
                 values, event = self.reads.read(source, view, question=reader['question'],
                     fields=reader['fields'], locator=reader['source_locator'], purpose=purpose,
                     allow_unresolved=True,
+                    **({'invocation_arguments': arguments} if arguments else {}),
                     **({'alignment': alignment} if alignment else {}))
                 events.append(event)
                 for name, port in skill.premises.items():
@@ -335,9 +375,10 @@ class SkillRuntime:
                 unresolved_inputs=missing_inputs, unresolved_premises=missing_premises)
             events.append({'kind': 'APPLY', 'skill_id': identity, 'skill_hash': skill.hash,
                 'version': skill.version, 'inputs': inputs, 'premises': premises, 'outputs': value,
+                'invocation_arguments': arguments,
                 'unresolved_inputs': sorted(missing_inputs), 'unresolved_premises': sorted(missing_premises),
                 'source': source['key'], 'view': view['id']})
-            completed[identity] = value; visiting.remove(identity)
+            completed[invocation] = value; visiting.remove(identity)
             return value
 
         for identity in selected:

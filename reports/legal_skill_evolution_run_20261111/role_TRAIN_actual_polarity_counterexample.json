@@ -1,0 +1,37 @@
+{
+  "run_id": "legal_skill_evolution_role_TRAIN_20261112",
+  "new_model_calls": 0,
+  "new_benchmark_sources": 0,
+  "grading_labels_used_to_change_program": false,
+  "kind": "offline_counterexample_to_actual_proposal_not_a_real_model_case",
+  "proposal_sha256": "4ede2b7fc865cf8dffc9c9f90f6db8b5ad9009085d8728b4108a9e580bafa076",
+  "skill_hash": "45dd3e46d155ea88c8c26d130fb51a72401a96db89abde42ca9dafcc353fbbcb",
+  "actual_procedure": "def apply(inputs, premises):\n    setting_ok = inputs[\"service_setting\"] in premises[\"covered_settings\"]\n    year_ok = False\n    for payment_year in inputs[\"remuneration_years\"]:\n        if int(payment_year) == inputs[\"claim_year\"] or int(payment_year) == inputs[\"claim_year\"] - premises[\"preceding_year_offset\"]:\n            year_ok = True\n    threshold_ok = inputs[\"remuneration_is_expressly_cash\"] and inputs[\"remuneration_amount\"] >= premises[\"cash_remuneration_threshold\"]\n    if inputs[\"service_is_domestic\"] and setting_ok and year_ok and threshold_ok:\n        return {\"answer\": \"Entailment\"}\n    return {\"answer\": \"Contradiction\"}",
+  "fixture_input_values": {
+    "claim_year": 2017,
+    "service_is_domestic": true,
+    "service_setting": "private_home",
+    "remuneration_is_expressly_cash": true,
+    "remuneration_amount": 1000,
+    "remuneration_years": [
+      2017
+    ]
+  },
+  "actual_premise_values": {
+    "cash_remuneration_threshold": 1000,
+    "preceding_year_offset": 1,
+    "covered_settings": [
+      "private_home",
+      "local_college_club",
+      "local_college_fraternity_or_sorority_chapter"
+    ]
+  },
+  "actual_result": {
+    "answer": "Entailment"
+  },
+  "expected_under_the_source_exclusion": "Contradiction",
+  "source_basis": "The current source defines employment except domestic service unless paid cash remuneration of $1,000 or more in the current or preceding year. When the unless condition holds, the domestic-service exclusion does not apply.",
+  "classification": "model_procedure_exception_polarity_error",
+  "proves": "A concrete source-semantics failure exists even if one native training answer is correct.",
+  "does_not_prove": "No model execution or independent Lift/CoRev effect is established by this offline fixture."
+}

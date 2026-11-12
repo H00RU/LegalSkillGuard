@@ -1,0 +1,117 @@
+{
+  "schema": "LSG-LegalSkill-20261111",
+  "hash": "653d40cc14aac2065454613f0a1e8ea17de4ecdf205dd95fd7afc7443b925931",
+  "skills": {
+    "section_3306_c_5_a_family_employment_applies": {
+      "id": "section_3306_c_5_a_family_employment_applies",
+      "intent": "Determine whether 26 U.S.C. §3306(c)(5)(A) applies to service performed for an employer who is the employee's son, daughter, or spouse.",
+      "procedure": "def apply(inputs, premises):\n    applies = inputs['service_performed_in_employ'] and inputs['employer_relationship_to_employee'] in premises['excluded_employer_relationships']\n    if applies:\n        answer = 'Entailment'\n    else:\n        answer = 'Contradiction'\n    return {'answer': answer}",
+      "inputs": {
+        "service_performed_in_employ": {
+          "type": "boolean",
+          "mode": "read",
+          "question": "Do the current facts or question state that the individual performed service in the employ of the identified employer?",
+          "skill_id": null,
+          "field": "service_performed_in_employ",
+          "arguments": {}
+        },
+        "employer_relationship_to_employee": {
+          "type": "string",
+          "mode": "read",
+          "question": "What literal family relationship does the employer bear to the employee, such as son, daughter, spouse, father, mother, or other?",
+          "skill_id": null,
+          "field": "employer_relationship_to_employee",
+          "arguments": {}
+        }
+      },
+      "outputs": {
+        "answer": {
+          "type": "string",
+          "description": "Whether §3306(c)(5)(A) applies, using the native Entailment or Contradiction label.",
+          "query_clauses": [
+            "3306(c)(5)"
+          ]
+        }
+      },
+      "premises": {
+        "excluded_employer_relationships": {
+          "type": "array",
+          "mode": "constant",
+          "value": [
+            "son",
+            "daughter",
+            "spouse"
+          ],
+          "question": "Which employer relationships trigger the family-employment exclusion under §3306(c)(5)(A)?",
+          "origin": {
+            "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+            "view_id": "native",
+            "quote": "service performed by an individual in the employ of his son, daughter, or spouse;"
+          }
+        }
+      },
+      "reads": [
+        {
+          "id": "read_family_employment_facts",
+          "question": "Identify the service relationship and the employer's literal family relationship to the employee from the current facts and question.",
+          "source_locator": "current facts and question",
+          "fields": {
+            "service_performed_in_employ": {
+              "type": "boolean",
+              "question": "Do the current facts or question state that the individual performed service in the employ of the identified employer?"
+            },
+            "employer_relationship_to_employee": {
+              "type": "string",
+              "question": "What literal family relationship does the employer bear to the employee?"
+            }
+          },
+          "bindings": {
+            "service_performed_in_employ": "service_performed_in_employ",
+            "employer_relationship_to_employee": "employer_relationship_to_employee"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "service_performed_in_employ": {
+                "type": "boolean"
+              },
+              "employer_relationship_to_employee": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "service_performed_in_employ",
+              "employer_relationship_to_employee"
+            ],
+            "additionalProperties": false
+          }
+        }
+      ],
+      "semantic_records": [],
+      "source_obligations": [
+        {
+          "id": "section_3306_c_5_a_exclusion",
+          "statement": "Check whether the service was performed by an individual in the employ of that individual's son, daughter, or spouse.",
+          "role": "terminal",
+          "port": "employer_relationship_to_employee",
+          "origin": {
+            "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+            "view_id": "native",
+            "quote": "service performed by an individual in the employ of his son, daughter, or spouse;"
+          }
+        }
+      ],
+      "source_provenance": [
+        {
+          "source_id": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+          "view_id": "native",
+          "quote": "(5) \n\n        (A) service performed by an individual in the employ of his son, daughter, or spouse;"
+        }
+      ],
+      "version": 1
+    }
+  },
+  "revision_patterns": [],
+  "provisional_edits": [],
+  "execution_events": []
+}

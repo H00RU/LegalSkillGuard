@@ -17,7 +17,32 @@ def parts(match):
     return (match['section'], *re.findall(r'\(([A-Za-z0-9]+)\)', match['path']))
 
 
+def clause_identifier(value):
+    match = re.fullmatch(CLAUSE, value) if isinstance(value, str) else None
+    if match is None:
+        raise ValueError('Query clauses use explicit identifiers such as 3306(c)(2)')
+    return parts(match)
+
+
 def declared_claim_mismatch(skill, view):
+    contract = skill.outputs.get('answer', {}).get('query_clauses')
+    if contract is not None:
+        declarations = {clause_identifier(c) for c in contract}
+        question = view['public'].get('question')
+        if not declarations or not isinstance(question, str):
+            return None
+        queries = {parts(m) for m in CITATION.finditer(question)}
+        if len(queries) != 1:
+            return None
+        queried = next(iter(queries))
+        if any(d[:len(queried)] == queried or queried[:len(d)] == d for d in declarations):
+            return None
+        return {'kind': 'explicit_query_clause_contract_mismatch',
+            'declared_clauses': [list(d) for d in sorted(declarations)],
+            'queried_clause': list(queried), 'current_question': question,
+            'legal_rule_truth_inferred': False, 'source_ids_labels_or_dataset_gate_used': False}
+    # Preserve the previously measured explicit old declaration checks for
+    # existing immutable libraries. New generated contracts use query_clauses.
     description = skill.outputs.get('answer', {}).get('description')
     if not isinstance(description, str):
         return None
