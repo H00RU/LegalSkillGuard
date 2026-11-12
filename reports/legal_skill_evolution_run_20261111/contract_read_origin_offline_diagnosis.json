@@ -1,0 +1,47 @@
+{
+  "offline_only": true,
+  "new_model_calls": 0,
+  "production_source_changed": false,
+  "actual_AllPorts_raw_response": "artifacts/legal_skill_evolution_contract_updates_20261112/AllPorts+CoRev/teacher_B2.json",
+  "before": "Teacher provenance outside its already-seen TRAIN context",
+  "counterfactual_after": {
+    "compiles": true,
+    "ids": [
+      "nda_representative_exception_applicability",
+      "nda_disclosure_permission_consequence"
+    ],
+    "read_fields": [
+      [
+        [
+          "permitted_representative_classes",
+          "read"
+        ],
+        [
+          "representatives_must_be_confidentiality_bound",
+          "read"
+        ],
+        [
+          "representatives_must_have_need_to_know",
+          "read"
+        ],
+        [
+          "disclosure_limited_to_stated_purpose",
+          "read"
+        ]
+      ],
+      [
+        [
+          "general_third_party_nondisclosure_rule",
+          "read"
+        ],
+        [
+          "representative_exception_expressly_modifies_general_rule",
+          "read"
+        ]
+      ]
+    ]
+  },
+  "finding": "Prompt requires literal provenance for constants; compiler also demands a literal value-origin for not-yet-read parameters. Actual read values independently require current-source supporting spans. Source obligation and overall provenance are still fully checked.",
+  "no_quotes_or_values_synthesized": true,
+  "needs_terminal_run_before_production_change": true
+}

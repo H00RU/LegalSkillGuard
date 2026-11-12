@@ -1,0 +1,344 @@
+{
+  "schema_version": 1,
+  "request_sha256": "620cd13a4db2982045e1bb1ba5701201456c6fff8d74fedf6ff71bea47a677af",
+  "response_sha256": "af18587be3fc0885d9c6304515b51548485527be2123bfa37be36b5e0162cf4f",
+  "model": "gpt-5.6-sol",
+  "purpose": "skill_teacher",
+  "value": {
+    "lift_reader": null,
+    "blocks": [
+      {
+        "rationale": "Jointly replace the prior agreement’s fixed Paragraph 4 parameters with current-source disclosure rules. The producer now recognizes only recipient classes expressly permitted by the current agreement, while the terminal distinguishes a broad third-party prohibition from an unsupported employee-specific permission. This yields NotMentioned for the trigger’s employee query and Contradiction for its broad third-party query while preserving the historical agreements’ differing exceptions.",
+        "revisions": [
+          {
+            "operation": "revise",
+            "skill": {
+              "id": "nda_representative_exception_applicability",
+              "intent": "Determine whether the current agreement expressly permits disclosure to a recipient category stated in the query, subject to that permission’s confidentiality, need-to-know, and purpose restrictions.",
+              "procedure": "def apply(inputs, premises):\n    question = inputs[\"current_question\"]\n    class_match = False\n    for recipient_class in premises[\"permitted_representative_classes\"]:\n        if recipient_class in question:\n            class_match = True\n    if \"professional advisors\" in question:\n        if \"legal advisors\" in premises[\"permitted_representative_classes\"] or \"financial advisors\" in premises[\"permitted_representative_classes\"] or \"accountants\" in premises[\"permitted_representative_classes\"]:\n            class_match = True\n    exception_applies = class_match and premises[\"representatives_must_be_confidentiality_bound\"] and premises[\"representatives_must_have_need_to_know\"] and premises[\"disclosure_limited_to_stated_purpose\"]\n    return {\"exception_applies\": exception_applies}",
+              "inputs": [
+                {
+                  "name": "current_question",
+                  "type": "string",
+                  "mode": "argument",
+                  "question": "What is the caller-supplied disclosure-permission question whose stated recipient category must be tested against the current agreement?",
+                  "skill_id": null,
+                  "field": "current_question",
+                  "arguments": []
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "exception_applies",
+                  "type": "boolean",
+                  "description": "Whether the current agreement expressly permits disclosure to at least one recipient category stated in the query under its required safeguards.",
+                  "query_clauses": [],
+                  "public_tasks": []
+                }
+              ],
+              "premises": [
+                {
+                  "name": "permitted_representative_classes",
+                  "type": "array",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Which recipient classes, if any, does the current agreement’s disclosure rule expressly permit to receive Confidential Information?",
+                  "origin": {
+                    "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                    "view_id": "nda-7",
+                    "quote": "except as is required in the course of service to the CCPDT"
+                  },
+                  "read_id": "read_current_recipient_permission",
+                  "field": "permitted_representative_classes"
+                },
+                {
+                  "name": "representatives_must_be_confidentiality_bound",
+                  "type": "boolean",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Within the current agreement’s disclosure rule, does any recipient-class permission require those recipients to be bound by or maintain confidentiality? Return false when the disclosure rule exists but contains no recipient-class permission, and unknown when the disclosure rule itself is absent.",
+                  "origin": {
+                    "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                    "view_id": "nda-7",
+                    "quote": "except as is required in the course of service to the CCPDT"
+                  },
+                  "read_id": "read_current_recipient_permission",
+                  "field": "representatives_must_be_confidentiality_bound"
+                },
+                {
+                  "name": "representatives_must_have_need_to_know",
+                  "type": "boolean",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Within the current agreement’s disclosure rule, does any recipient-class permission require the recipients to have a need to know? Return false when the disclosure rule exists but contains no recipient-class permission, and unknown when the disclosure rule itself is absent.",
+                  "origin": {
+                    "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                    "view_id": "nda-7",
+                    "quote": "except as is required in the course of service to the CCPDT"
+                  },
+                  "read_id": "read_current_recipient_permission",
+                  "field": "representatives_must_have_need_to_know"
+                },
+                {
+                  "name": "disclosure_limited_to_stated_purpose",
+                  "type": "boolean",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Within the current agreement’s disclosure rule, does any recipient-class permission limit disclosure to the agreement’s stated purpose or required service? Return false when the disclosure rule exists but contains no recipient-class permission, and unknown when the disclosure rule itself is absent.",
+                  "origin": {
+                    "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                    "view_id": "nda-7",
+                    "quote": "except as is required in the course of service to the CCPDT"
+                  },
+                  "read_id": "read_current_recipient_permission",
+                  "field": "disclosure_limited_to_stated_purpose"
+                }
+              ],
+              "reads": [
+                {
+                  "id": "read_current_recipient_permission",
+                  "question": "Read the current agreement’s disclosure rule and extract any express recipient-class permission and its confidentiality, need-to-know, and purpose restrictions. Return unknown for all fields if the source supplies no disclosure rule.",
+                  "source_locator": "current_source",
+                  "fields": [
+                    {
+                      "name": "permitted_representative_classes",
+                      "type": "array",
+                      "question": "Return a flat array of lower-case recipient-class phrases expressly permitted by the current disclosure rule; return an empty array when that rule exists but identifies no permitted recipient class."
+                    },
+                    {
+                      "name": "representatives_must_be_confidentiality_bound",
+                      "type": "boolean",
+                      "question": "Does an express recipient-class permission require the recipients to be bound by or maintain confidentiality?"
+                    },
+                    {
+                      "name": "representatives_must_have_need_to_know",
+                      "type": "boolean",
+                      "question": "Does an express recipient-class permission require the recipients to have a need to know?"
+                    },
+                    {
+                      "name": "disclosure_limited_to_stated_purpose",
+                      "type": "boolean",
+                      "question": "Does an express recipient-class permission restrict disclosure to the agreement’s stated purpose or required service?"
+                    }
+                  ],
+                  "bindings": [
+                    {
+                      "premise": "permitted_representative_classes",
+                      "field": "permitted_representative_classes"
+                    },
+                    {
+                      "premise": "representatives_must_be_confidentiality_bound",
+                      "field": "representatives_must_be_confidentiality_bound"
+                    },
+                    {
+                      "premise": "representatives_must_have_need_to_know",
+                      "field": "representatives_must_have_need_to_know"
+                    },
+                    {
+                      "premise": "disclosure_limited_to_stated_purpose",
+                      "field": "disclosure_limited_to_stated_purpose"
+                    }
+                  ]
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "current_recipient_disclosure_permission",
+                  "ports": [
+                    "current_question",
+                    "permitted_representative_classes",
+                    "representatives_must_be_confidentiality_bound",
+                    "representatives_must_have_need_to_know",
+                    "disclosure_limited_to_stated_purpose"
+                  ],
+                  "neighbors": []
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "check_current_recipient_permission_scope",
+                  "statement": "Apply only recipient categories expressly permitted by the current agreement’s disclosure rule and preserve every stated confidentiality, need-to-know, and purpose restriction; a service-only exception does not itself create an employee or professional-advisor class permission.",
+                  "role": "preliminary",
+                  "port": "exception_applies",
+                  "origin": {
+                    "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                    "view_id": "nda-7",
+                    "quote": "Volunteer agrees to maintain the confidentiality of all Confidential Information and not misuse, misappropriate, or disclose in writing, orally or by electronic means, any Confidential Information, directly or indirectly, to any other person or use them in any way, either during the term of this Agreement or at any other time thereafter, except as is required in the course of service to the CCPDT."
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                  "view_id": "nda-7",
+                  "quote": "Volunteer agrees to maintain the confidentiality of all Confidential Information and not misuse, misappropriate, or disclose in writing, orally or by electronic means, any Confidential Information, directly or indirectly, to any other person or use them in any way, either during the term of this Agreement or at any other time thereafter, except as is required in the course of service to the CCPDT."
+                }
+              ],
+              "version": 2
+            }
+          },
+          {
+            "operation": "revise",
+            "skill": {
+              "id": "nda_disclosure_permission_consequence",
+              "intent": "Classify a disclosure-permission query using the current agreement’s general third-party prohibition and its separately computed recipient-class exception.",
+              "procedure": "def apply(inputs, premises):\n    question = inputs[\"current_question\"]\n    is_disclosure_permission_query = \"Receiving Party\" in question and \"may share some Confidential Information\" in question\n    if not is_disclosure_permission_query:\n        answer = \"NotMentioned\"\n    elif not premises[\"general_third_party_nondisclosure_rule\"]:\n        answer = \"NotMentioned\"\n    elif inputs[\"representative_exception_applies\"]:\n        answer = \"Entailment\"\n    elif \"third-parties\" in question:\n        answer = \"Contradiction\"\n    elif premises[\"recipient_exception_expressly_modifies_general_rule\"]:\n        answer = \"Contradiction\"\n    else:\n        answer = \"NotMentioned\"\n    return {\"answer\": answer}",
+              "inputs": [
+                {
+                  "name": "current_question",
+                  "type": "string",
+                  "mode": "argument",
+                  "question": "What is the caller-supplied native disclosure-permission question to classify?",
+                  "skill_id": null,
+                  "field": "current_question",
+                  "arguments": []
+                },
+                {
+                  "name": "representative_exception_applies",
+                  "type": "boolean",
+                  "mode": "skill",
+                  "question": "Does the current agreement expressly permit disclosure to at least one recipient category stated in this query?",
+                  "skill_id": "nda_representative_exception_applicability",
+                  "field": "exception_applies",
+                  "arguments": [
+                    {
+                      "parameter": "current_question",
+                      "namespace": "inputs",
+                      "port": "current_question"
+                    }
+                  ]
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "answer",
+                  "type": "string",
+                  "description": "Native ContractNLI classification of the disclosure-permission statement.",
+                  "query_clauses": [],
+                  "public_tasks": [
+                    "nda-5",
+                    "nda-7"
+                  ]
+                }
+              ],
+              "premises": [
+                {
+                  "name": "general_third_party_nondisclosure_rule",
+                  "type": "boolean",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Does the current agreement generally prohibit disclosure of Confidential Information to third parties or other persons without authorization?",
+                  "origin": {
+                    "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                    "view_id": "nda-7",
+                    "quote": "Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties"
+                  },
+                  "read_id": "read_current_disclosure_rule_structure",
+                  "field": "general_third_party_nondisclosure_rule"
+                },
+                {
+                  "name": "recipient_exception_expressly_modifies_general_rule",
+                  "type": "boolean",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Does the current agreement’s general nondisclosure rule expressly contain or incorporate an exception permitting disclosure to identified recipient classes? Return false when the general rule exists without such a recipient-class exception, and unknown when the general disclosure rule is absent.",
+                  "origin": {
+                    "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                    "view_id": "nda-7",
+                    "quote": "Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information."
+                  },
+                  "read_id": "read_current_disclosure_rule_structure",
+                  "field": "recipient_exception_expressly_modifies_general_rule"
+                }
+              ],
+              "reads": [
+                {
+                  "id": "read_current_disclosure_rule_structure",
+                  "question": "Read the current agreement’s general nondisclosure rule and determine whether that rule contains or incorporates an express recipient-class disclosure exception. Return unknown for both fields if the source supplies no general disclosure rule.",
+                  "source_locator": "current_source",
+                  "fields": [
+                    {
+                      "name": "general_third_party_nondisclosure_rule",
+                      "type": "boolean",
+                      "question": "Does the current agreement generally prohibit disclosure of Confidential Information to third parties or other persons without authorization?"
+                    },
+                    {
+                      "name": "recipient_exception_expressly_modifies_general_rule",
+                      "type": "boolean",
+                      "question": "Does that general prohibition expressly contain or incorporate an exception permitting disclosure to identified recipient classes?"
+                    }
+                  ],
+                  "bindings": [
+                    {
+                      "premise": "general_third_party_nondisclosure_rule",
+                      "field": "general_third_party_nondisclosure_rule"
+                    },
+                    {
+                      "premise": "recipient_exception_expressly_modifies_general_rule",
+                      "field": "recipient_exception_expressly_modifies_general_rule"
+                    }
+                  ]
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "current_nondisclosure_rule_and_recipient_exception",
+                  "ports": [
+                    "current_question",
+                    "representative_exception_applies",
+                    "general_third_party_nondisclosure_rule",
+                    "recipient_exception_expressly_modifies_general_rule"
+                  ],
+                  "neighbors": []
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "apply_current_nondisclosure_consequence",
+                  "statement": "A broad query permitting disclosure to third parties contradicts an express general third-party prohibition unless an applicable recipient-class exception permits it; a narrower employee permission remains unmentioned when the agreement states no recipient-class exception covering that role.",
+                  "role": "terminal",
+                  "port": "answer",
+                  "origin": {
+                    "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                    "view_id": "nda-7",
+                    "quote": "Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information."
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                  "view_id": "nda-7",
+                  "quote": "Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information."
+                },
+                {
+                  "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                  "view_id": "nda-7",
+                  "quote": "Volunteer agrees to maintain the confidentiality of all Confidential Information and not misuse, misappropriate, or disclose in writing, orally or by electronic means, any Confidential Information, directly or indirectly, to any other person or use them in any way, either during the term of this Agreement or at any other time thereafter, except as is required in the course of service to the CCPDT."
+                }
+              ],
+              "version": 2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-12T08:59:55.131201+00:00",
+    "finished_at": "2026-11-12T09:03:26.868028+00:00",
+    "elapsed_seconds": 211.737,
+    "returncode": 0,
+    "event_log_sha256": "f2ff6564aeb0acdbfe624c843bf8c5ee728dd7388032e0a225798b67ee25f973",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 41630,
+      "cached_input_tokens": 0,
+      "output_tokens": 10639,
+      "reasoning_output_tokens": 7441
+    },
+    "estimated_credits": null
+  }
+}

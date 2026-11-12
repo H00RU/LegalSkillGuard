@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "request_sha256": "f5666ac4099bf13aafb2c552062d8b6d13742505d493e3247245cf889d2c2d09",
+  "response_sha256": "0bfa4212d9ca559dd9689780607f33f92e7442c292ce1b8e1c1c6e7cc426d1ce",
+  "model": "gpt-5.6-sol",
+  "purpose": "skill_teacher",
+  "value": {
+    "lift_reader": {
+      "question": "Read the current NDA’s third-party nondisclosure rule together with any express representative-disclosure exception, using the current document’s own clause structure rather than assuming the legacy Paragraph 4 numbering.",
+      "source_locator": "Current NDA provisions governing disclosure of Confidential Information to third parties and permitted representatives, especially clause 3.",
+      "fields": [
+        {
+          "name": "general_third_party_nondisclosure_rule",
+          "question": "Does the current NDA generally prohibit the Receiving Party from disclosing, allowing access to, transmitting, or transferring Confidential Information to a third party without the Disclosing Party’s prior written consent?"
+        },
+        {
+          "name": "prohibition_expressly_subject_to_paragraph4",
+          "question": "Does the current NDA expressly qualify its general third-party prohibition with a permission to disclose Confidential Information to specified representatives, regardless of the clause number containing that exception?"
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "rationale": "The trigger contract permits disclosure only to directors, officers, and employees, whereas the installed helper retained the prior contract’s broader advisor classes. Reading the representative classes and safeguards from each current source preserves the history parent while making consultants, agents, and professional advisors fall outside the trigger contract’s exception.",
+        "revisions": [
+          {
+            "operation": "revise",
+            "skill": {
+              "id": "nda_representative_exception_applicability",
+              "intent": "Determine whether a disclosure-permission query identifies at least one recipient category covered by the current contract’s Representatives exception, subject to the exception’s confidentiality, need-to-know, and purpose limitations.",
+              "procedure": "def apply(inputs, premises):\n    question = inputs[\"current_question\"]\n    permitted_classes = premises[\"permitted_representative_classes\"]\n    class_match = False\n    for recipient_class in permitted_classes:\n        if recipient_class in question:\n            class_match = True\n    if \"professional advisors\" in question:\n        if \"legal advisors\" in permitted_classes or \"financial advisors\" in permitted_classes or \"accountants\" in permitted_classes:\n            class_match = True\n    exception_applies = class_match and premises[\"representatives_must_be_confidentiality_bound\"] and premises[\"representatives_must_have_bona_fide_need_to_know\"] and premises[\"disclosure_limited_to_business_purpose\"]\n    return {\"exception_applies\": exception_applies}",
+              "inputs": [
+                {
+                  "name": "current_question",
+                  "type": "string",
+                  "mode": "argument",
+                  "question": "What is the caller-supplied disclosure-permission question whose stated recipient category must be tested against the current contract’s Representatives exception?",
+                  "skill_id": null,
+                  "field": "current_question",
+                  "arguments": []
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "exception_applies",
+                  "type": "boolean",
+                  "description": "Whether at least one recipient category stated in the query is expressly covered by the current contract’s representative permission and the permission carries its required confidentiality, need-to-know, and purpose safeguards.",
+                  "query_clauses": [],
+                  "public_tasks": []
+                }
+              ],
+              "premises": [
+                {
+                  "name": "permitted_representative_classes",
+                  "type": "array",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Which recipient classes does the current NDA expressly permit to receive Confidential Information as representatives?",
+                  "origin": {
+                    "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+                    "view_id": "nda-7",
+                    "quote": "the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\"Representatives\")"
+                  },
+                  "read_id": "read_current_representative_exception",
+                  "field": "permitted_representative_classes"
+                },
+                {
+                  "name": "representatives_must_be_confidentiality_bound",
+                  "type": "boolean",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Does the current NDA require permitted representatives to treat the disclosed Confidential Information confidentially in a manner consistent with the agreement?",
+                  "origin": {
+                    "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+                    "view_id": "nda-7",
+                    "quote": "the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential and at all times in a manner consistent with this Agreement"
+                  },
+                  "read_id": "read_current_representative_exception",
+                  "field": "representatives_must_be_confidentiality_bound"
+                },
+                {
+                  "name": "representatives_must_have_bona_fide_need_to_know",
+                  "type": "boolean",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Does the current NDA restrict permitted representatives to those who need to know the Confidential Information?",
+                  "origin": {
+                    "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+                    "view_id": "nda-7",
+                    "quote": "who have a need to know the Confidential Information for the Purpose"
+                  },
+                  "read_id": "read_current_representative_exception",
+                  "field": "representatives_must_have_bona_fide_need_to_know"
+                },
+                {
+                  "name": "disclosure_limited_to_business_purpose",
+                  "type": "boolean",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Does the current NDA limit disclosure to representatives by reference to the agreement’s stated purpose?",
+                  "origin": {
+                    "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+                    "view_id": "nda-7",
+                    "quote": "who have a need to know the Confidential Information for the Purpose"
+                  },
+                  "read_id": "read_current_representative_exception",
+                  "field": "disclosure_limited_to_business_purpose"
+                }
+              ],
+              "reads": [
+                {
+                  "id": "read_current_representative_exception",
+                  "question": "From the current NDA’s representative-disclosure provision, extract the expressly permitted recipient classes and whether the provision imposes confidentiality, need-to-know, and stated-purpose limitations. Return unknown for any condition absent from the current source.",
+                  "source_locator": "Current NDA provision permitting disclosure of Confidential Information to representatives, including its recipient list and attached safeguards.",
+                  "fields": [
+                    {
+                      "name": "permitted_representative_classes",
+                      "type": "array",
+                      "question": "What recipient classes are expressly listed as permitted representatives?"
+                    },
+                    {
+                      "name": "representatives_must_be_confidentiality_bound",
+                      "type": "boolean",
+                      "question": "Must those representatives treat the information confidentially under obligations consistent with the agreement?"
+                    },
+                    {
+                      "name": "representatives_must_have_bona_fide_need_to_know",
+                      "type": "boolean",
+                      "question": "Must those representatives have a need to know the information?"
+                    },
+                    {
+                      "name": "disclosure_limited_to_business_purpose",
+                      "type": "boolean",
+                      "question": "Is disclosure to those representatives limited to the agreement’s stated purpose?"
+                    }
+                  ],
+                  "bindings": [
+                    {
+                      "premise": "permitted_representative_classes",
+                      "field": "permitted_representative_classes"
+                    },
+                    {
+                      "premise": "representatives_must_be_confidentiality_bound",
+                      "field": "representatives_must_be_confidentiality_bound"
+                    },
+                    {
+                      "premise": "representatives_must_have_bona_fide_need_to_know",
+                      "field": "representatives_must_have_bona_fide_need_to_know"
+                    },
+                    {
+                      "premise": "disclosure_limited_to_business_purpose",
+                      "field": "disclosure_limited_to_business_purpose"
+                    }
+                  ]
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "current_representative_permission",
+                  "ports": [
+                    "current_question",
+                    "permitted_representative_classes",
+                    "representatives_must_be_confidentiality_bound",
+                    "representatives_must_have_bona_fide_need_to_know",
+                    "disclosure_limited_to_business_purpose"
+                  ],
+                  "neighbors": []
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "check_current_representative_exception_scope",
+                  "statement": "Check the query’s stated recipient categories against the current NDA’s express representative list while enforcing its confidentiality, need-to-know, and purpose qualifications.",
+                  "role": "preliminary",
+                  "port": "exception_applies",
+                  "origin": {
+                    "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+                    "view_id": "nda-7",
+                    "quote": "the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\"Representatives\") who have a need to know the Confidential Information for the Purpose provided that the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential"
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+                  "view_id": "nda-7",
+                  "quote": "the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\"Representatives\") who have a need to know the Confidential Information for the Purpose provided that the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential"
+                }
+              ],
+              "version": 2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-12T08:52:34.960364+00:00",
+    "finished_at": "2026-11-12T08:54:02.425714+00:00",
+    "elapsed_seconds": 87.465,
+    "returncode": 0,
+    "event_log_sha256": "11524be076e9891743e7d6c83707f2d16bee13d985356810cac2ac3423d821d7",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 35464,
+      "cached_input_tokens": 0,
+      "output_tokens": 3843,
+      "reasoning_output_tokens": 2004
+    },
+    "estimated_credits": null
+  }
+}

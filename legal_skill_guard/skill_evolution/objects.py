@@ -74,6 +74,10 @@ class Skill:
         if len(read_ids) != len(self.reads):
             raise ValueError('Duplicate local reader identity')
         for port in self.outputs.values():
+            if 'public_tasks' in port and (not isinstance(port['public_tasks'], list)
+                    or any(not isinstance(x, str) or not x for x in port['public_tasks'])
+                    or len(set(port['public_tasks'])) != len(port['public_tasks'])):
+                raise ValueError('Public task scope must list distinct nonempty view IDs')
             if 'query_clauses' in port:
                 if not isinstance(port['query_clauses'], list):
                     raise ValueError('Query clause contract must be a list')
@@ -184,10 +188,15 @@ def lift(skill, names, reader, *, all_ports=False):
 
 
 def coupled_blocks(skill):
-    """Same-record and at-most-two-hop closures, never the common RETURN."""
+    """Used singleton premises plus local closures, never the common RETURN.
+
+    A directly used source constant remains eligible even when its enclosing
+    record exceeds the three-premise bound. That does not establish coupling.
+    """
     skill.validate()
     records = {r['id']: r for r in skill.semantic_records}
-    candidates = set()
+    candidates = {(name,) for name, port in skill.premises.items()
+                  if port['mode'] == 'constant'}
     for port in skill.inputs.values():
         if port['mode'] == 'skill':
             names = tuple(sorted({b['port'] for b in port.get('arguments', {}).values()

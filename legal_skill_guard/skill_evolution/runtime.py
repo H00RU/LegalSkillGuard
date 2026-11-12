@@ -163,13 +163,14 @@ class FrozenReads:
 
     def read(self, source, view, *, question, fields, locator, purpose,
              alignment=None, array_lengths=None, anchor_values=None, allow_unresolved=False,
-             invocation_arguments=None, require_case_support=False):
+             invocation_arguments=None, require_case_support=False, require_rule_support=False):
         if alignment:
             anchor, dependents = alignment
             remaining = {n: spec for n, spec in fields.items() if n not in dependents}
             values, first = self.read(source, view, question=question, fields=remaining,
                 locator=locator, purpose=purpose, allow_unresolved=allow_unresolved,
-                invocation_arguments=invocation_arguments, require_case_support=require_case_support)
+                invocation_arguments=invocation_arguments, require_case_support=require_case_support,
+                require_rule_support=require_rule_support)
             if anchor not in values:
                 raise LocalReadError('Array alignment anchor is unresolved: ' + anchor, first)
             count = len(values[anchor])
@@ -178,7 +179,7 @@ class FrozenReads:
                     fields={n: fields[n] for n in dependents}, locator=locator, purpose=purpose,
                     array_lengths={n: count for n in dependents}, anchor_values={anchor: values[anchor]},
                     allow_unresolved=allow_unresolved, invocation_arguments=invocation_arguments,
-                    require_case_support=require_case_support)
+                    require_case_support=require_case_support, require_rule_support=require_rule_support)
             except LocalReadError as error:
                 event = {**error.event, 'fields': {**first['fields'], **error.event['fields']},
                     'subreads': [first, error.event],
@@ -202,6 +203,10 @@ class FrozenReads:
         # evidence that a person in the case has any one of those relatives.
         case_fields = ({'facts', 'question'} & set(view['public'])
                        if require_case_support and 'facts' in view['public'] else set())
+        rule_fields = ({'source_text'} if 'source_text' in view['public'] else
+                       {'original_input'} if 'original_input' in view['public'] else set()) if require_rule_support else set()
+        if require_rule_support and not rule_fields:
+            raise ValueError('A source-rule read requires supplied rule material')
         properties = {}
         for name, specification in fields.items():
             kind = specification['type']
@@ -230,6 +235,9 @@ class FrozenReads:
                      **({'required_case_support_fields': sorted(case_fields),
                          'case_support_instruction': 'Each known factual/question value must select at least one supporting span from these fields. Legal source spans remain available as context, but a legal definition or list of possible conditions alone does not establish a fact about this case. Use unknown when the case does not supply the requested fact.'}
                         if case_fields else {}),
+                     **({'required_rule_support_fields': sorted(rule_fields),
+                         'rule_support_instruction': 'These fields are source-rule parameters. Each known value must cite the supplied rule material; the native hypothesis/question alone is not evidence of a contractual or statutory rule. Keep the full source and explicit invocation arguments available. Use unknown when the source does not supply the parameter.'}
+                        if rule_fields else {}),
                      **({'invocation_arguments': invocation_arguments,
                          'role_instruction': 'Read for these explicitly bound entities and period. The outer question does not override these arguments. Use the complete supplied source to interpret explicit given facts; do not infer a missing legal conclusion.'}
                         if invocation_arguments else {}),
@@ -245,6 +253,8 @@ class FrozenReads:
                  'invocation_arguments': invocation_arguments or {}}
         if case_fields:
             event['required_case_support_fields'] = sorted(case_fields)
+        if rule_fields:
+            event['required_rule_support_fields'] = sorted(rule_fields)
         known = {}
         for name, item in value.items():
             if item['status'] == 'unknown' and item['value'] is None:
@@ -256,6 +266,8 @@ class FrozenReads:
                 raise LocalReadError('Local field has no selected current-source support: ' + name, event)
             if case_fields and not any(s['field'] in case_fields for s in item['support']):
                 raise LocalReadError('Factual input is supported only by rule text, not case facts/question: ' + name, event)
+            if rule_fields and not any(s['field'] in rule_fields for s in item['support']):
+                raise LocalReadError('Source-rule parameter is supported only by the hypothesis/question, not supplied rule material: ' + name, event)
             typed(item['value'], fields[name]['type'])
             known[name] = item['value']
         event['unresolved_fields'] = sorted(set(fields) - set(known))
@@ -358,7 +370,7 @@ class SkillRuntime:
                 alignment = alignment_for('premises', ports, reader['fields'])
                 values, event = self.reads.read(source, view, question=reader['question'],
                     fields=reader['fields'], locator=reader['source_locator'], purpose=purpose,
-                    allow_unresolved=True,
+                    allow_unresolved=True, require_rule_support=True,
                     **({'invocation_arguments': arguments} if arguments else {}),
                     **({'alignment': alignment} if alignment else {}))
                 events.append(event)
@@ -389,6 +401,11 @@ class SkillRuntime:
 
         for identity in selected:
             if identity in library.skills:
+                tasks = library.skills[identity].outputs.get('answer', {}).get('public_tasks', [])
+                if tasks and view['id'] not in tasks:
+                    failures.append({'skill_id': identity, 'error': 'StaticPublicTaskScopeMismatch',
+                        'public_tasks': tasks, 'current_public_task': view['id']})
+                    continue
                 scope = declared_claim_mismatch(library.skills[identity], view)
                 if scope:
                     failures.append({'skill_id': identity,

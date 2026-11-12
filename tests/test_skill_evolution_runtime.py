@@ -248,7 +248,7 @@ class RuntimeTests(unittest.TestCase):
             semantic_records=({'id': 'read_record', 'ports': ['a']},),
             source_provenance=(origin,)).validate()
         validate_grounding(current, {'fixture': {'views': [{'id': 'v', 'public': {'source_text': 'literal source'}}]}})
-        self.assertEqual(coupled_blocks(current), [])
+        self.assertEqual(coupled_blocks(current), [('p',)])
         self.assertEqual(current.procedure, old.procedure)
     def test_observed_enum_encoding_recovery_cannot_choose_a_new_citation(self):
         schema = {'type': 'array', 'items': {'type': 'string', 'enum': ['11 U.S.C. § 522(d)(9)']}}

@@ -1,0 +1,274 @@
+{
+  "schema_version": 1,
+  "request_sha256": "bc4c8e6c3b6fe33f1853f7d66a38b43b6df47bfb8116d77b3390ac3cef5d6c8e",
+  "response_sha256": "f44838ad49c6810612eaa7d77d0011d32a9d1431e710175543ead19dafd995df",
+  "model": "gpt-5.6-sol",
+  "purpose": "skill_teacher",
+  "value": {
+    "lift_reader": null,
+    "blocks": [
+      {
+        "rationale": "Create the requested two-rule graph: a nonnative helper determines whether Paragraph 4(a)'s representative exception overlaps the recipient category described by the current disclosure query, and a terminal helper applies Paragraph 3(c)'s general prohibition subject to that exception. This directly corrects nda-7 while retaining nda-5.",
+        "revisions": [
+          {
+            "operation": "create",
+            "skill": {
+              "id": "contract_representative_disclosure_exception",
+              "intent": "Determine whether a disclosure query concerns at least one recipient class permitted by the contractual Representatives exception.",
+              "procedure": "def apply(inputs, premises):\n    current_question = inputs[\"current_question\"]\n    allowed_recipient_classes = premises[\"allowed_recipient_classes\"]\n    permitted_nonemployee_classes = premises[\"permitted_nonemployee_classes\"]\n    representative_permission = premises[\"representative_permission\"]\n    exception_applies = False\n    if representative_permission:\n        if \"employees\" in current_question and \"employees\" in allowed_recipient_classes:\n            exception_applies = True\n        if \"third-parties\" in current_question or \"third parties\" in current_question:\n            if len(permitted_nonemployee_classes) > 0:\n                exception_applies = True\n    return {\"exception_applies\": exception_applies}",
+              "inputs": [
+                {
+                  "name": "current_question",
+                  "type": "string",
+                  "mode": "argument",
+                  "question": "What is the current disclosure-permission proposition whose recipient category must be tested against the Representatives exception?",
+                  "skill_id": null,
+                  "field": "current_question",
+                  "arguments": []
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "exception_applies",
+                  "type": "boolean",
+                  "description": "Whether Paragraph 4(a) permits disclosure to at least one recipient category encompassed by the current proposition.",
+                  "query_clauses": [],
+                  "public_tasks": []
+                }
+              ],
+              "premises": [
+                {
+                  "name": "allowed_recipient_classes",
+                  "type": "array",
+                  "mode": "constant",
+                  "value": [
+                    "directors",
+                    "officers",
+                    "employees",
+                    "legal advisors",
+                    "financial advisors",
+                    "accountants"
+                  ],
+                  "question": "Which recipient classes does Paragraph 4(a) identify as Representatives eligible to receive Confidential Information subject to its safeguards?",
+                  "origin": {
+                    "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                    "view_id": "nda-7",
+                    "quote": "each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants"
+                  },
+                  "read_id": null,
+                  "field": null
+                },
+                {
+                  "name": "permitted_nonemployee_classes",
+                  "type": "array",
+                  "mode": "constant",
+                  "value": [
+                    "legal advisors",
+                    "financial advisors",
+                    "accountants"
+                  ],
+                  "question": "Which expressly permitted representative classes establish that the exception reaches some recipients outside the Receiving Party's employees?",
+                  "origin": {
+                    "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                    "view_id": "nda-7",
+                    "quote": "legal advisors, financial advisors and accountants"
+                  },
+                  "read_id": null,
+                  "field": null
+                },
+                {
+                  "name": "representative_permission",
+                  "type": "boolean",
+                  "mode": "constant",
+                  "value": true,
+                  "question": "Does Paragraph 4(a) grant a qualified permission to disclose Confidential Information to the listed Representatives?",
+                  "origin": {
+                    "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                    "view_id": "nda-7",
+                    "quote": "Subject to the restrictions set forth below in this Section 4, each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants"
+                  },
+                  "read_id": null,
+                  "field": null
+                }
+              ],
+              "reads": [],
+              "semantic_records": [
+                {
+                  "id": "paragraph_4_representative_permission",
+                  "ports": [
+                    "representative_permission",
+                    "allowed_recipient_classes",
+                    "permitted_nonemployee_classes"
+                  ],
+                  "neighbors": []
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "representative_recipient_scope",
+                  "statement": "Check whether the query's recipient category overlaps at least one class to whom Paragraph 4(a) permits disclosure.",
+                  "role": "constraint",
+                  "port": "allowed_recipient_classes",
+                  "origin": {
+                    "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                    "view_id": "nda-7",
+                    "quote": "each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants"
+                  }
+                },
+                {
+                  "id": "qualified_exception_exists",
+                  "statement": "Treat Paragraph 4(a) as a qualified exception to the nondisclosure rule, rather than as an unrestricted authorization for every third party.",
+                  "role": "constraint",
+                  "port": "representative_permission",
+                  "origin": {
+                    "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                    "view_id": "nda-7",
+                    "quote": "Subject to the restrictions set forth below in this Section 4"
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                  "view_id": "nda-7",
+                  "quote": "each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”)"
+                }
+              ],
+              "version": 1
+            }
+          },
+          {
+            "operation": "create",
+            "skill": {
+              "id": "contract_disclosure_permission_consequence",
+              "intent": "Classify a disclosure-permission proposition by applying the general third-party nondisclosure rule together with the Paragraph 4 Representatives exception.",
+              "procedure": "def apply(inputs, premises):\n    exception_applies = inputs[\"exception_applies\"]\n    general_non_disclosure_rule = premises[\"general_non_disclosure_rule\"]\n    answer = \"NotMentioned\"\n    if exception_applies:\n        answer = \"Entailment\"\n    elif general_non_disclosure_rule:\n        answer = \"Contradiction\"\n    return {\"answer\": answer}",
+              "inputs": [
+                {
+                  "name": "current_question",
+                  "type": "string",
+                  "mode": "argument",
+                  "question": "What is the current disclosure-permission proposition being classified?",
+                  "skill_id": null,
+                  "field": "current_question",
+                  "arguments": []
+                },
+                {
+                  "name": "exception_applies",
+                  "type": "boolean",
+                  "mode": "skill",
+                  "question": "Does the Paragraph 4(a) Representatives exception cover at least one recipient category in the current proposition?",
+                  "skill_id": "contract_representative_disclosure_exception",
+                  "field": "exception_applies",
+                  "arguments": [
+                    {
+                      "parameter": "current_question",
+                      "namespace": "inputs",
+                      "port": "current_question"
+                    }
+                  ]
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "answer",
+                  "type": "string",
+                  "description": "The native ContractNLI classification of the current disclosure-permission proposition.",
+                  "query_clauses": [
+                    "3(c)",
+                    "4(a)"
+                  ],
+                  "public_tasks": [
+                    "nda-5",
+                    "nda-7"
+                  ]
+                }
+              ],
+              "premises": [
+                {
+                  "name": "general_non_disclosure_rule",
+                  "type": "boolean",
+                  "mode": "constant",
+                  "value": true,
+                  "question": "Does Paragraph 3(c) generally prohibit disclosure to third parties without prior written consent except as Paragraph 4 permits?",
+                  "origin": {
+                    "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                    "view_id": "nda-7",
+                    "quote": "not to disclose such Confidential Information to third parties (including, without limitation, any clients, affiliates, independent contractors and consultants) without the prior, written consent of the Disclosing Party except as expressly permitted under Paragraph 4"
+                  },
+                  "read_id": null,
+                  "field": null
+                }
+              ],
+              "reads": [],
+              "semantic_records": [
+                {
+                  "id": "prohibition_subject_to_exception",
+                  "ports": [
+                    "general_non_disclosure_rule",
+                    "exception_applies"
+                  ],
+                  "neighbors": []
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "apply_express_paragraph_4_exception",
+                  "statement": "The general nondisclosure rule must yield when the disclosure is expressly permitted under Paragraph 4.",
+                  "role": "constraint",
+                  "port": "exception_applies",
+                  "origin": {
+                    "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                    "view_id": "nda-7",
+                    "quote": "except as expressly permitted under Paragraph 4"
+                  }
+                },
+                {
+                  "id": "apply_general_third_party_prohibition",
+                  "statement": "If no Paragraph 4 exception applies, classify a claimed permission to disclose to third parties against Paragraph 3(c)'s prohibition.",
+                  "role": "terminal",
+                  "port": "general_non_disclosure_rule",
+                  "origin": {
+                    "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                    "view_id": "nda-7",
+                    "quote": "not to disclose such Confidential Information to third parties"
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                  "view_id": "nda-7",
+                  "quote": "not to disclose such Confidential Information to third parties (including, without limitation, any clients, affiliates, independent contractors and consultants) without the prior, written consent of the Disclosing Party except as expressly permitted under Paragraph 4"
+                },
+                {
+                  "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                  "view_id": "nda-5",
+                  "quote": "each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants"
+                }
+              ],
+              "version": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-12T08:37:38.889469+00:00",
+    "finished_at": "2026-11-12T08:39:18.210057+00:00",
+    "elapsed_seconds": 99.321,
+    "returncode": 0,
+    "event_log_sha256": "1c7848d70e954c35de44046ffee290a5b8e1066fd8d6f6be6b2ca285e76a043c",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 24981,
+      "cached_input_tokens": 0,
+      "output_tokens": 4269,
+      "reasoning_output_tokens": 2139
+    },
+    "estimated_credits": null
+  }
+}

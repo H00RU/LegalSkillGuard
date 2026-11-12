@@ -18,6 +18,11 @@ def parts(match):
 
 
 def clause_identifier(value):
+    if isinstance(value, str) and value.startswith('heading:'):
+        name = value[len('heading:'):]
+        if name and name == name.strip() and '\n' not in name and '\r' not in name:
+            return ('heading', name)
+        raise ValueError('A named clause uses one exact nonempty source heading')
     match = re.fullmatch(CLAUSE, value) if isinstance(value, str) else None
     if match is None:
         raise ValueError('Query clauses use explicit identifiers such as 3306(c)(2)')
@@ -28,6 +33,9 @@ def declared_claim_mismatch(skill, view):
     contract = skill.outputs.get('answer', {}).get('query_clauses')
     if contract is not None:
         declarations = {clause_identifier(c) for c in contract}
+        # Named source sections are a different namespace. They cannot erase
+        # or satisfy an incompatible explicit statutory declaration.
+        declarations = {d for d in declarations if d[0] != 'heading'}
         question = view['public'].get('question')
         if not declarations or not isinstance(question, str):
             return None

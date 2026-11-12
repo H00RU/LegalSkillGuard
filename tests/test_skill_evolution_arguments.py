@@ -129,7 +129,7 @@ class ArgumentTests(unittest.TestCase):
                        'skill_id': p.get('skill_id'), 'field': p.get('field', n),
                        'arguments': [{'parameter': k, **v} for k, v in p.get('arguments', {}).items()]}
                       for n, p in library.skills['terminal'].inputs.items()],
-            'outputs': [{'name': 'answer', 'type': 'boolean', 'description': 'fixture', 'query_clauses': []}],
+            'outputs': [{'name': 'answer', 'type': 'boolean', 'description': 'fixture', 'query_clauses': [], 'public_tasks': []}],
             'premises': [], 'reads': [], 'semantic_records': [], 'source_obligations': [],
             'source_provenance': [origin], 'version': 1}
         self.assertEqual(strict_output_schema_issues(SKILL), [])

@@ -1,0 +1,313 @@
+{
+  "schema_version": 1,
+  "request_sha256": "fbdec36720f98b95f944c9fc8d11ed856ed82e0cef39c7d00eecc8f7a65f14f1",
+  "response_sha256": "65e0aee42a7b139a07465c8949507e4da23cc3ff33db7646af13b0047a6c6715",
+  "model": "gpt-5.6-sol",
+  "purpose": "skill_teacher",
+  "value": {
+    "lift_reader": {
+      "question": "Read the current NDA’s general restriction on disclosure of Confidential Information to third parties and determine whether that restriction expressly defers to a separately stated representative-disclosure permission. Return unknown when either rule is absent from the current source.",
+      "source_locator": "Current NDA provisions governing third-party nondisclosure and any expressly linked representative-disclosure exception.",
+      "fields": [
+        {
+          "name": "general_third_party_nondisclosure_rule",
+          "question": "Does the current NDA generally prohibit disclosure of Confidential Information to third parties without the disclosing party’s prior written consent?"
+        },
+        {
+          "name": "prohibition_expressly_subject_to_paragraph4",
+          "question": "Does the current NDA expressly make that general prohibition subject to a separately stated permission to disclose Confidential Information to specified representatives?"
+        }
+      ]
+    },
+    "blocks": [
+      {
+        "rationale": "Create a narrowly scoped terminal for the failed employee-disclosure view. It distinguishes an express employee or representative permission from an employee-specific prohibition and returns NotMentioned when the current NDA states neither, preserving the two history parents’ express employee permissions.",
+        "revisions": [
+          {
+            "operation": "create",
+            "skill": {
+              "id": "nda_employee_disclosure_permission",
+              "intent": "Classify whether the current NDA permits a Receiving Party to share Confidential Information with some of its employees.",
+              "procedure": "def apply(inputs, premises):\n    question = inputs[\"current_question\"]\n    is_employee_query = \"Receiving Party may share some Confidential Information\" in question and \"employees\" in question\n    permission = False\n    prohibition = False\n    if \"employee_disclosure_expressly_permitted\" in premises:\n        permission = premises[\"employee_disclosure_expressly_permitted\"]\n    if \"employee_disclosure_expressly_prohibited\" in premises:\n        prohibition = premises[\"employee_disclosure_expressly_prohibited\"]\n    if not is_employee_query:\n        answer = \"NotMentioned\"\n    elif permission:\n        answer = \"Entailment\"\n    elif prohibition:\n        answer = \"Contradiction\"\n    else:\n        answer = \"NotMentioned\"\n    return {\"answer\": answer}",
+              "inputs": [
+                {
+                  "name": "current_question",
+                  "type": "string",
+                  "mode": "argument",
+                  "question": "What is the caller-supplied employee-disclosure permission question to classify?",
+                  "skill_id": null,
+                  "field": "current_question",
+                  "arguments": []
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "answer",
+                  "type": "string",
+                  "description": "Native ContractNLI classification of the employee-disclosure permission statement.",
+                  "query_clauses": [
+                    "employee or representative disclosure provision"
+                  ],
+                  "public_tasks": [
+                    "nda-5"
+                  ]
+                }
+              ],
+              "premises": [
+                {
+                  "name": "employee_disclosure_expressly_permitted",
+                  "type": "boolean",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Does the current NDA expressly permit disclosure of Confidential Information to employees or an employee-containing representative class, subject to any stated safeguards?",
+                  "origin": {
+                    "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                    "view_id": "nda-5",
+                    "quote": "each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants"
+                  },
+                  "read_id": "read_current_employee_disclosure_rule",
+                  "field": "employee_disclosure_expressly_permitted"
+                },
+                {
+                  "name": "employee_disclosure_expressly_prohibited",
+                  "type": "boolean",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Does the current NDA expressly prohibit disclosure of Confidential Information to the Receiving Party’s employees as such, without an applicable employee or representative permission?",
+                  "origin": {
+                    "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                    "view_id": "nda-5",
+                    "quote": "Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties"
+                  },
+                  "read_id": "read_current_employee_disclosure_rule",
+                  "field": "employee_disclosure_expressly_prohibited"
+                }
+              ],
+              "reads": [
+                {
+                  "id": "read_current_employee_disclosure_rule",
+                  "question": "Extract whether the current NDA expressly permits disclosure to employees or an employee-containing representative class, and whether it separately and expressly prohibits disclosure to employees as such. Return unknown for a rule absent from the current source.",
+                  "source_locator": "Current NDA provisions governing disclosure of Confidential Information to employees, representatives, or internal personnel.",
+                  "fields": [
+                    {
+                      "name": "employee_disclosure_expressly_permitted",
+                      "type": "boolean",
+                      "question": "Does the current NDA expressly permit disclosure to employees or an employee-containing representative class, subject to any stated conditions?"
+                    },
+                    {
+                      "name": "employee_disclosure_expressly_prohibited",
+                      "type": "boolean",
+                      "question": "Does the current NDA expressly prohibit disclosure to employees as such when no employee or representative permission applies?"
+                    }
+                  ],
+                  "bindings": [
+                    {
+                      "premise": "employee_disclosure_expressly_permitted",
+                      "field": "employee_disclosure_expressly_permitted"
+                    },
+                    {
+                      "premise": "employee_disclosure_expressly_prohibited",
+                      "field": "employee_disclosure_expressly_prohibited"
+                    }
+                  ]
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "current_employee_disclosure_rule",
+                  "ports": [
+                    "current_question",
+                    "employee_disclosure_expressly_permitted",
+                    "employee_disclosure_expressly_prohibited"
+                  ],
+                  "neighbors": []
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "classify_employee_disclosure_permission",
+                  "statement": "Treat an express employee or employee-containing representative permission as entailing the queried permission; otherwise apply an express employee-specific prohibition, and leave the proposition unmentioned when neither rule exists.",
+                  "role": "terminal",
+                  "port": "answer",
+                  "origin": {
+                    "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                    "view_id": "nda-5",
+                    "quote": "each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know"
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                  "view_id": "nda-5",
+                  "quote": "each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know"
+                },
+                {
+                  "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+                  "view_id": "nda-5",
+                  "quote": "the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\"Representatives\") who have a need to know the Confidential Information for the Purpose"
+                }
+              ],
+              "version": 1
+            }
+          }
+        ]
+      },
+      {
+        "rationale": "Create a source-parameterized terminal for the failed post-return retention view. It gives priority to an express archival-copy permission and otherwise treats an express no-retention requirement as contradicting the query.",
+        "revisions": [
+          {
+            "operation": "create",
+            "skill": {
+              "id": "nda_post_return_retention_consequence",
+              "intent": "Classify whether the current NDA permits retention of some Confidential Information after the applicable return or destruction process.",
+              "procedure": "def apply(inputs, premises):\n    question = inputs[\"current_question\"]\n    is_retention_query = \"may retain some Confidential Information\" in question and \"return or destruction\" in question\n    retention_permission = False\n    no_retention_requirement = False\n    if \"post_return_retention_expressly_permitted\" in premises:\n        retention_permission = premises[\"post_return_retention_expressly_permitted\"]\n    if \"no_retention_after_return_or_destruction_required\" in premises:\n        no_retention_requirement = premises[\"no_retention_after_return_or_destruction_required\"]\n    if not is_retention_query:\n        answer = \"NotMentioned\"\n    elif retention_permission:\n        answer = \"Entailment\"\n    elif no_retention_requirement:\n        answer = \"Contradiction\"\n    else:\n        answer = \"NotMentioned\"\n    return {\"answer\": answer}",
+              "inputs": [
+                {
+                  "name": "current_question",
+                  "type": "string",
+                  "mode": "argument",
+                  "question": "What is the caller-supplied post-return or post-destruction retention question to classify?",
+                  "skill_id": null,
+                  "field": "current_question",
+                  "arguments": []
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "answer",
+                  "type": "string",
+                  "description": "Native ContractNLI classification of the post-return retention statement.",
+                  "query_clauses": [
+                    "return or destruction of Confidential Information"
+                  ],
+                  "public_tasks": [
+                    "nda-20"
+                  ]
+                }
+              ],
+              "premises": [
+                {
+                  "name": "post_return_retention_expressly_permitted",
+                  "type": "boolean",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Does the current NDA expressly permit retention of any archival, legal, regulatory, backup, or other copy after the return or destruction obligation is performed?",
+                  "origin": {
+                    "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                    "view_id": "nda-20",
+                    "quote": "Receiving Party’s legal department or outside legal counsel may maintain a single copy of Disclosing Party’s Confidential Information for purposes of regulatory compliance and compliance with the terms and conditions of this Agreement"
+                  },
+                  "read_id": "read_current_post_return_retention_rule",
+                  "field": "post_return_retention_expressly_permitted"
+                },
+                {
+                  "name": "no_retention_after_return_or_destruction_required",
+                  "type": "boolean",
+                  "mode": "read",
+                  "value": null,
+                  "question": "Does the current NDA expressly require that no copies, notes, abstracts, or other embodiments be retained after the applicable return or destruction process, without a retention carveout?",
+                  "origin": {
+                    "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                    "view_id": "nda-20",
+                    "quote": "no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed"
+                  },
+                  "read_id": "read_current_post_return_retention_rule",
+                  "field": "no_retention_after_return_or_destruction_required"
+                }
+              ],
+              "reads": [
+                {
+                  "id": "read_current_post_return_retention_rule",
+                  "question": "Extract any express permission to retain a copy after return or destruction and any express requirement that no copies or derivatives remain. Return unknown for a rule absent from the current source.",
+                  "source_locator": "Current NDA provisions governing return, destruction, archival copies, legal or regulatory copies, and prohibited retention of Confidential Information.",
+                  "fields": [
+                    {
+                      "name": "post_return_retention_expressly_permitted",
+                      "type": "boolean",
+                      "question": "Does the current NDA expressly permit any copy to be retained after the return or destruction obligation?"
+                    },
+                    {
+                      "name": "no_retention_after_return_or_destruction_required",
+                      "type": "boolean",
+                      "question": "Does the current NDA expressly require that no copies, notes, abstracts, or other embodiments remain after return or destruction, without an applicable retention carveout?"
+                    }
+                  ],
+                  "bindings": [
+                    {
+                      "premise": "post_return_retention_expressly_permitted",
+                      "field": "post_return_retention_expressly_permitted"
+                    },
+                    {
+                      "premise": "no_retention_after_return_or_destruction_required",
+                      "field": "no_retention_after_return_or_destruction_required"
+                    }
+                  ]
+                }
+              ],
+              "semantic_records": [
+                {
+                  "id": "current_post_return_retention_rule",
+                  "ports": [
+                    "current_question",
+                    "post_return_retention_expressly_permitted",
+                    "no_retention_after_return_or_destruction_required"
+                  ],
+                  "neighbors": []
+                }
+              ],
+              "source_obligations": [
+                {
+                  "id": "apply_post_return_retention_rule",
+                  "statement": "Honor an express retained-copy exception; absent such an exception, treat an express direction that no copies or derivatives be retained as contradicting the queried permission.",
+                  "role": "terminal",
+                  "port": "answer",
+                  "origin": {
+                    "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                    "view_id": "nda-20",
+                    "quote": "Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed."
+                  }
+                }
+              ],
+              "source_provenance": [
+                {
+                  "source_id": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                  "view_id": "nda-20",
+                  "quote": "Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed."
+                },
+                {
+                  "source_id": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                  "view_id": "nda-20",
+                  "quote": "Receiving Party’s legal department or outside legal counsel may maintain a single copy of Disclosing Party’s Confidential Information for purposes of regulatory compliance and compliance with the terms and conditions of this Agreement."
+                },
+                {
+                  "source_id": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+                  "view_id": "nda-20",
+                  "quote": "The Receiving Party shall upon request immediately return to the Disclosing Party or destroy, as directed by the Disclosing Party, the Confidential Information and all copies thereof in any form whatsoever under the power or control of the Receiving Party or its Representatives"
+                }
+              ],
+              "version": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "invocation": {
+    "attempt": 1,
+    "started_at": "2026-11-12T08:57:56.502549+00:00",
+    "finished_at": "2026-11-12T09:00:25.114274+00:00",
+    "elapsed_seconds": 148.612,
+    "returncode": 0,
+    "event_log_sha256": "8987add07eec051a074fe72d268882495080057354c21665ee1d2dec3c1ce73a",
+    "tool_events_detected": false,
+    "budget_reservation": null,
+    "usage": {
+      "input_tokens": 49435,
+      "cached_input_tokens": 0,
+      "output_tokens": 6984,
+      "reasoning_output_tokens": 4078
+    },
+    "estimated_credits": null
+  }
+}

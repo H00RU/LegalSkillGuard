@@ -54,7 +54,8 @@ def propose_context(study, context, teacher=None):
     return propose(teacher or study.teacher, arm=context['arm'], batch=context['batch'], library=old,
         source_records=[study.records[k] for k in cohort], feedback=study.feedback(cohort, context['current']),
         learned_patterns=old.revision_patterns, trigger=context['trigger'], history=context['history'],
-        max_blocks=3 - len(context['queue']), planned_lift=context['planned_lift'])
+        max_blocks=3 - len(context['queue']), planned_lift=context['planned_lift'],
+        acquisition_contract=study.profile.get('acquisition_contract'))
 
 
 def prefetch_teachers(study, batch):

@@ -11,7 +11,7 @@ from unittest.mock import patch
 import jsonschema
 
 from legal_skill_guard.skill_evolution.lift_proposals import schedule_lift, compile_scheduled_lift
-from legal_skill_guard.skill_evolution.objects import Library, Skill
+from legal_skill_guard.skill_evolution.objects import Library, Skill, coupled_blocks
 from legal_skill_guard.skill_evolution.proposal_batch import prepare_context
 from legal_skill_guard.skill_evolution.teacher import proposal_schema
 from legal_skill_guard.rr.checkpoint import immutable_json
@@ -41,6 +41,21 @@ def row():
 
 
 class LiftProposalTests(unittest.TestCase):
+    def test_directly_used_constant_needs_no_invented_coupling_record(self):
+        from dataclasses import replace
+        old = replace(old_skill(), semantic_records=(), procedure=(
+            'def apply(inputs, premises):\n'
+            '    return {"answer": "Entailment" if premises["limit"] > 0 and '
+            'premises["scope"] else "Contradiction"}\n')).validate()
+        self.assertEqual(coupled_blocks(old), [('limit',), ('scope',)])
+        lib = Library(skills={old.id: old})
+        plan = schedule_lift(lib, [row()], 'Full')
+        self.assertEqual(plan['premises'], ['limit'])
+        wire = reader();wire['fields'] = wire['fields'][:1]
+        new = Skill.from_dict(compile_scheduled_lift(plan, wire, lib)[0]['new'])
+        self.assertEqual(new.procedure, old.procedure)
+        self.assertEqual(new.premises['scope'], old.premises['scope'])
+
     def test_schedules_only_actual_attempt_and_dedicated_arms(self):
         lib = Library(skills={'bound': old_skill()})
         for arm in ('LiftOnly', 'Full', 'Lift+GenericJoint'):

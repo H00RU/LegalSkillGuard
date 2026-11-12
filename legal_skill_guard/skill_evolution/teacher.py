@@ -6,6 +6,7 @@ import json
 
 from legal_skill_guard.inference.codex_cli_client import strict_output_schema_issues
 from .objects import Skill, digest, lift, coupled_blocks, premise_uses, dependency_arguments
+from .claim_scope import clause_identifier
 from .native import record_schema, public_strings
 from .grounding import bind_transcribed_quotes
 from .teacher_transport import pack, serialized, INSTRUCTION
@@ -33,7 +34,7 @@ SKILL = record_schema({'id': STRING, 'intent': STRING, 'procedure': STRING,
         'arguments': array(record_schema({'parameter': STRING,
             'namespace': {'type': 'string', 'enum': ['inputs', 'premises']}, 'port': STRING}))})),
     'outputs': array(record_schema({'name': STRING, 'type': TYPE, 'description': STRING,
-        'query_clauses': array(STRING)})),
+        'query_clauses': array(STRING), 'public_tasks': array(STRING)})),
     'premises': array(record_schema({'name': STRING, 'type': TYPE,
         'mode': {'type': 'string', 'enum': ['constant', 'read']}, 'value': VALUE,
         'question': STRING, 'origin': ORIGIN, 'read_id': NULL_STRING, 'field': NULL_STRING})),
@@ -152,7 +153,12 @@ def skill_from_wire(value):
 
 
 def validate_grounding(skill, sources):
-    for origin in list(skill.source_provenance) + [p['origin'] for p in skill.premises.values()] + [
+    # A current READ declares a parameter, not a value supplied by the teacher.
+    # Its actual value is checked against current-source spans at execution.
+    # Empty lineage supplies no evidence; nonempty lineage remains checked.
+    origins = [p['origin'] for p in skill.premises.values() if not (
+        p['mode'] == 'read' and p.get('origin') == {'source_id': '', 'view_id': '', 'quote': ''})]
+    for origin in list(skill.source_provenance) + origins + [
         p['origin'] for p in skill.source_obligations]:
         if origin['source_id'] not in sources:
             raise ValueError('Teacher provenance outside its already-seen TRAIN context')
@@ -160,6 +166,35 @@ def validate_grounding(skill, sources):
         view = next((v for v in row['views'] if v['id'] == origin['view_id']), None)
         if not view or not origin['quote'] or not any(origin['quote'] in s for s in public_strings(view['public'])):
             raise ValueError('Teacher provenance is not a literal supplied TRAIN-source quote')
+    for port in skill.outputs.values():
+        for clause in port.get('query_clauses', []):
+            identity = clause_identifier(clause)
+            if identity[0] == 'heading' and not source_heading_matches(identity[1], sources):
+                raise ValueError('Named query clause is not an exact supplied source heading')
+
+
+def source_heading_matches(name, sources):
+    return [{'source_id': row['key'], 'view_id': view['id'], 'heading': name}
+            for row in sources.values() for view in row['views']
+            if name in [line.strip() for line in view['public'].get('source_text', '').splitlines()]]
+
+
+def bind_source_headings(value, sources):
+    """Encode only an already supplied literal section identity; infer nothing."""
+    result, changes = deepcopy(value), []
+    for port in result['outputs']:
+        for i, clause in enumerate(port.get('query_clauses', [])):
+            try:clause_identifier(clause)
+            except ValueError:
+                if not isinstance(clause, str) or not clause or '\n' in clause or '\r' in clause:
+                    raise
+                matches = source_heading_matches(clause, sources)
+                if not matches:raise ValueError('Query clause is neither an explicit numeric ID nor an exact source heading')
+                port['query_clauses'][i] = 'heading:' + clause
+                changes.append({'port': port['name'], 'literal_heading': clause,
+                    'canonical_identity': 'heading:' + clause, 'source_matches': matches,
+                    'literal_scope_preserved': True})
+    return result, changes
 
 
 def wrap_explicit_function_body(procedure):
@@ -223,6 +258,7 @@ def compile_block(block, library, sources, arm):
     revisions = []
     for proposed in block['revisions']:
         normalized, quote_bindings = bind_transcribed_quotes(proposed['skill'], sources)
+        normalized, heading_bindings = bind_source_headings(normalized, sources)
         normalized['procedure'], body_wrapper = wrap_explicit_function_body(normalized['procedure'])
         normalized['procedure'], port_bindings = bind_declared_free_ports(normalized['procedure'],
             normalized['inputs'], normalized['premises'])
@@ -282,6 +318,7 @@ def compile_block(block, library, sources, arm):
         revisions.append({'skill_id': new.id, 'old_hash': old.hash if old else None,
                           'new_hash': new.hash, 'new': asdict(new), 'operation': operation,
                           'representation_adaptation': {'removed_unobserved_declarations': removed,
+                              'source_heading_bindings': heading_bindings,
                               'retained_draft_installation': draft_installation,
                               'procedure_unchanged': new.procedure == proposed['skill']['procedure'],
                               'used_premise_values_unchanged': True}})
@@ -317,12 +354,13 @@ Keep a naturally single-rule program single. Do not add gratuitous helper chains
 For citation fields ask for literal citation strings, not legacy output label IDs. Retained read failures are actual model outputs, not proof that the source lacks the rule.
 For every input in mode read set field equal to name, skill_id null, arguments []. A reusable helper may declare mode argument for an explicit caller-supplied entity, role or period: set field equal to name, skill_id null, arguments [], and describe its meaning in question. A root terminal may use the exact available names in literal_argument_context, including current_question, explicit employment roles and case_family_relations when actually provided. case_family_relations contains [owner, literal_kinship_word, relative] from an affirmative surface mention; it never supplies an inverted relation or negative fact. For example [X, father, Y] means X has father Y. Apply the source legal rule in the program, not in the literal binder. Missing arguments stay unresolved. For mode skill name the actual producer skill_id and output field; arguments binds ALL producer argument ports to explicit {namespace, port} sources: caller read/argument inputs, or constant/current-source premises. Source-rule call parameters such as the group named by a permission clause belong to premises, not factual READ inputs. The host reads these premises before invoking the dependent legal helper. Do not guess, default or bind missing roles. Do not ask a reader to derive an unprovided legal conclusion.
 Semantic records name ports from the declared inputs and/or source premises; already-read ports are not counted as newly Lifted premises.
-Read questions must describe the current-source concept rather than tell the reader an old value. The host separately binds supplied source-span IDs for read evidence.
+Read questions must describe the current-source concept rather than tell the reader an old value. The host separately binds supplied source-span IDs for read evidence. Constants require a literal origin. For a current-source premise read with no ancestral constant, origin may have source_id, view_id and quote all empty; this supplies no evidence or default, and its actual known value must have runtime current-source support. Nonempty lineage and source obligations remain literal and checked.
 Declare only premises actually used in the procedure. Do not add unused rule_quotes or other evidence-only ports; source_provenance carries literal evidence.
 Use semantic_records only for local legal records with genuine coupling; a common final return does not couple everything.
 For a dependent helper, input mode skill names its real producer and field. Do not split fields of one source record into artificial skills.
 A terminal helper returns answer in the exact current native type/labels; dependencies may return intermediate records.
-Declare each terminal answer's statutory query_clauses explicitly, for example ["3306(c)(2)"]. This is a host-enforced applicability contract, not a claim of rule correctness. Use [] for intermediate outputs or a genuinely non-clause-specific terminal. Do not claim unrelated clauses merely to broaden retrieval. Case input reads with a supplied facts field must cite supporting facts/question spans; legal text remains available as context but cannot by itself establish a person's family relationship or other case fact.
+Set answer.public_tasks to the supplied public view IDs this terminal actually handles, such as ["nda-5", "nda-7"] or ["EC"]. Other view types retain their ordinary direct fallback. This is public task projection shared by all arms, not a learned semantic router. Intermediate outputs use public_tasks []. Do not claim unrelated tasks to broaden coverage.
+Declare each terminal answer's statutory query_clauses explicitly, for example ["3306(c)(2)"]. A genuinely named source section uses its exact standalone source heading prefixed by heading:, for example "heading:Non-Disclosure"; a descriptive paraphrase is not a section identity. This is a host-enforced applicability contract, not a claim of rule correctness. Use [] for intermediate outputs or a genuinely non-clause-specific terminal. Do not claim unrelated clauses merely to broaden retrieval. Case input reads with a supplied facts field must cite supporting facts/question spans; legal text remains available as context but cannot by itself establish a person's family relationship or other case fact.
 Scope-sensitive source obligations describe what the helper checks, with a supported source quote; unknown roles stay unknown.
 You may create helpers, revise multiple existing helpers jointly, preserve a useful reasoning skeleton or fix a process error.
 Only skills in library are installed. retained_edits are rejected or historical proposals, not current skills.
@@ -368,7 +406,7 @@ def trigger_failure_views(feedback, trigger):
 
 
 def propose(teacher, *, arm, batch, library, source_records, feedback, learned_patterns,
-            trigger, history, max_blocks=3, planned_lift=None):
+            trigger, history, max_blocks=3, planned_lift=None, acquisition_contract=None):
     source_ids = [r['key'] for r in source_records]
     if set(trigger) & set(history) or set(trigger) | set(history) != set(source_ids):
         raise ValueError('Teacher objective must identify the complete disjoint replay cohort')
@@ -397,6 +435,7 @@ def propose(teacher, *, arm, batch, library, source_records, feedback, learned_p
     memory = [{k: deepcopy(v) for k, v in p.items() if k not in ('evidence', 'exact_version_table')}
               | {'exact_version_table': compact_table(p['exact_version_table'])} for p in learned_patterns]
     user = json.dumps({'arm': arm, 'batch': batch, 'sources': source_records,
+        **({'acquisition_contract': acquisition_contract} if acquisition_contract is not None else {}),
         'literal_argument_context': {r['key']: {v['id']: literal_bindings(v) for v in r['views']}
                                      for r in source_records},
         'source_premise_block_candidates': {s.id: [list(b) for b in coupled_blocks(s)
