@@ -84,6 +84,16 @@ def validate_procedure(code, *, allow_helpers=False):
     return code
 
 
+def execution_source_spans(spans):
+    """Canonical whitespace for learned readers; retain raw provenance outside.
+
+    Dataset span boundaries, IDs and character offsets are unchanged. Only the
+    execution view of each span's text is folded, so a physical newline cannot
+    split an otherwise identical phrase when the reader joins adjacent spans.
+    """
+    return [{**span, 'text': ' '.join(span['text'].split())} for span in spans]
+
+
 def execute_json(code, inputs, premises, *, allow_helpers=False, trace=False):
     validate_procedure(code, allow_helpers=allow_helpers)
     out = subprocess.run([sys.executable, '-I', '-S', str(Path(__file__).with_name('span_compiler_worker.py'))],

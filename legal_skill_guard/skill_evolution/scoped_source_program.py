@@ -4,7 +4,7 @@ import jsonschema
 from .native import source_spans, record_schema
 from .scoped_grammar import material_public, parse, current_scope_nodes, constructors, term_sort, subterms
 from .scoped_reader import match_template
-from .span_compiler import execute_json, occurrences
+from .span_compiler import execute_json, occurrences, execution_source_spans
 
 
 OUTPUT = record_schema({'statements': {'type':'array','items':record_schema({
@@ -20,7 +20,7 @@ def run_source(program, spec, grammar, source):
     matched=parse(grammar,text)
     scoped={(n['start'],n['end'],n['sort']) for n in scope_nodes}
     grounded=[n for n in matched if not n['ambiguous'] and (n['start'],n['end'],n['sort']) not in scoped]
-    raw=execute_json(program, {'source_text':text,'source_spans':spans},
+    raw=execute_json(program, {'source_text':text,'source_spans':execution_source_spans(spans)},
         {'grammar_nodes':grounded,'scope_nodes':scope_nodes,'scope_patterns':grammar.get('scope_patterns',[])},
         allow_helpers=True)
     jsonschema.validate(raw,OUTPUT)

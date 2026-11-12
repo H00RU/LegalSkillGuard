@@ -22,7 +22,7 @@ from legal_skill_guard.skill_evolution.scoped_grammar import GRAMMAR, induce, ma
 from legal_skill_guard.skill_evolution.scoped_reader import apply_current
 from legal_skill_guard.skill_evolution.scoped_source_program import run_source
 from legal_skill_guard.skill_evolution.source_schema import TASKS, LABELS
-from legal_skill_guard.skill_evolution.span_compiler import execute_json, validate_procedure, METHODS
+from legal_skill_guard.skill_evolution.span_compiler import execute_json, validate_procedure, METHODS, execution_source_spans
 from legal_skill_guard.skill_evolution.teacher_transport import INSTRUCTION, pack
 from experiments.legal_skill_evolution_role_TRAIN import physical_snapshot
 from experiments.legal_skill_evolution_span_compiler import warm_base
@@ -246,7 +246,7 @@ def evaluate(root, phase, *, smoke=False, reuse=False, nofactor=False):
                             proof_ids = sorted({s for i in result['value']['used_nodes'] for s in interpretation['nodes'][i]['support_ids']})
                         else:
                             value = execute_json(proposal['program'], {'task_id': view['id'], 'question': view['public']['question']},
-                                {'source_text': source['views'][0]['public']['source_text'], 'source_spans': spans}, allow_helpers=True)
+                                {'source_text': source['views'][0]['public']['source_text'], 'source_spans': execution_source_spans(spans)}, allow_helpers=True)
                             jsonschema.validate(value, PROGRAM_RESULT)
                             if any(i >= len(spans) for i in value['used_span_ids']):
                                 raise ValueError('Program proof cites absent source span')
