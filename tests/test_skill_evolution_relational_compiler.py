@@ -32,6 +32,19 @@ class RelationalCompilerChecks(unittest.TestCase):
         spec=fixture();spec['procedure']=spec['procedure'].replace('["owner"]','["exception_recipient_relation"]')
         with self.assertRaisesRegex(ValueError,'undeclared source field'):compile_skill(spec,{},restricted=True)
 
+    def test_independently_acquired_helpers_keep_field_and_unknown_checks(self):
+        spec=fixture()
+        code='def owner(record):\n    return record["values"]["owner"]\ndef apply(inputs, premises):\n    return {"handled": owner(premises["records"][0]) == "same_actor", "answer": "Entailment", "used_records": [0]}\n'
+        spec['procedure']=code
+        compile_skill(spec,{},restricted=True,allow_helpers=True)
+        self.assertTrue(execute(code,{}, {'records':[{'values':{'owner':'same_actor'},
+            'unresolved_fields':[]}]},allow_helpers=True)['handled'])
+        with self.assertRaises(ValueError):execute(code,{}, {'records':[{'values':{},
+            'unresolved_fields':['owner']}]},allow_helpers=True)
+        spec['procedure']=code.replace('["owner"]','["unacquired_field"]')
+        with self.assertRaisesRegex(ValueError,'undeclared source field'):
+            compile_skill(spec,{},restricted=True,allow_helpers=True)
+
     def test_fields_cannot_take_evidence_from_an_unrelated_action(self):
         spans=[{'id':0,'text':'Actor passes data to its workers.'},
                {'id':1,'text':'Other actor owns partners.'}]

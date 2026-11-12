@@ -23,7 +23,7 @@ SCHEMA = record_schema({'kind': {'type': 'string', 'enum': ['relational_rule', '
     'procedure': {'type': ['string', 'null']}, 'policy_text': {'type': ['string', 'null']}})
 
 
-def compile_skill(spec, materials, restricted=False):
+def compile_skill(spec, materials, restricted=False, *, allow_helpers=False):
     from .span_compiler import locate
     jsonschema.validate(spec, SCHEMA)
     if restricted and spec['kind'] != 'relational_rule':raise ValueError('Acquire a source-neutral relational skill')
@@ -33,7 +33,7 @@ def compile_skill(spec, materials, restricted=False):
     if spec['kind'] == 'text_policy':
         if not spec['policy_text'] or spec['procedure'] is not None or spec['frames']:raise ValueError('One text policy')
         return spec
-    validate_procedure(spec['procedure'])
+    validate_procedure(spec['procedure'], allow_helpers=allow_helpers)
     if spec['policy_text'] is not None:raise ValueError('No alternate hidden policy')
     if spec['kind'] == 'program':
         if spec['frames']:raise ValueError('Raw programs receive source_text directly')
@@ -130,9 +130,10 @@ def read_records(reads, source, spec):
         'source_examples_exposed_at_runtime': False}
 
 
-def apply(spec, source, view, records):
+def apply(spec, source, view, records, *, allow_helpers=False):
     premises = {'records': records} if spec['kind'] == 'relational_rule' else {'source_text': source['views'][0]['public']['source_text']}
-    return execute(spec['procedure'], {'task_id': view['id'], 'question': view['public']['question']}, premises)
+    return execute(spec['procedure'], {'task_id': view['id'], 'question': view['public']['question']}, premises,
+        allow_helpers=allow_helpers)
 
 
 def text_policy(reads, source, spec):

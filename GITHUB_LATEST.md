@@ -1,11 +1,11 @@
-# LegalSkillGuard: learned source recognition and actual strong-control review
+# LegalSkillGuard: focused literature and candidate algorithms
 
-[Current Goal](docs/CURRENT_GOAL.md) · [Current evidence and next work](docs/METHOD_REDESIGN_CURRENT.md) · [Programs, mechanism interventions and costs](reports/legal_skill_evolution_run_20261111/RELATIONAL_ACQUISITION_RESULT.md)
+[Current Goal](docs/CURRENT_GOAL.md) · [Current evidence and next work](docs/METHOD_REDESIGN_CURRENT.md) · [Primary papers, component gains and two candidate algorithms](reports/legal_skill_evolution_run_20261111/LITERATURE_AND_METHOD_CANDIDATES.md) · [Previous real programs and strong controls](reports/legal_skill_evolution_run_20261111/RELATIONAL_ACQUISITION_RESULT.md)
 
-The same Goal remains active and incomplete. No new Goal, reset or pause. Preserve the five datasets/splits/native scoring and later user-authorized method redesign. Two substantive contributions are still unestablished.
+The same Goal remains active and incomplete. Both contributions remain unestablished. Preserve the five datasets/splits, original task meanings and thinking OFF.
 
-Two real independent teacher acquisitions produced runnable source recognizers on the same8 original TRAIN contracts, with2 fixed TRAIN reuse contracts. Both chose the same prior relation/consumer architecture. Candidate10 actual core judgments/10 native-correct, free10/9; both whole-source native means.825 with30/40 fallback. The current ten used candidate judgments have corresponding source support; this is not formal verification of every unused field.
+Focused reading of legal rule acquisition, program-library induction and skill evolution makes two hypotheses concrete: learning source-semantic constrained compiler productions, and learning source-conditioned revision programs. These are algorithm drafts, not validated contributions. The latter still needs actual repeated revision/transfer opportunities. Rule generation, code reuse, evidence replay and contextual patch learning already have close precedents; their names alone are not novelty.
 
-Ablating exception-local binding reduces candidate core correctness10 to9. A shared simple version of that operation gives the free compiler10/10 and mean.850 with original history preservation. It absorbs the observed local scope effect. This is a shared-asset execution control, not a new independent acquisition or a proved research contribution. Preserve the acquired programs as usable assets and stop patching the same contracts for a novelty claim.
+Shared simple exception binding absorbs the observed local execution effect, but does not refute independently acquiring a complete method more reliably or cheaply. Correct that distinction before the next finite comparison. Current work checks existing TRAIN derivations and real revisions before implementation and validation, without restarting a settled run.
 
-Latest increment2 executor/2 teacher; cumulative9326 executor/177 teacher, pending0.163 regressions pass;206 original frozen entries and9499 old call rows remain unchanged. Raw earlier role-pointer rejection, decoder audits, both teacher proposals, programs, source proofs and interventions are preserved. No new full training, DEV/TEST matrix or paper. Main unchanged.
+This checkpoint adds 0 executor / 0 teacher requests. Cumulative9326/177, pending0; all9503 call rows unchanged.24 official-code snapshots recorded and20 related helper execution regressions pass. No new full training, DEV/TEST, paper or experiment queue. Main unchanged.

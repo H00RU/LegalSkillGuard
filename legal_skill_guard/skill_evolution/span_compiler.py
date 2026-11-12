@@ -93,8 +93,8 @@ def execute_json(code, inputs, premises, *, allow_helpers=False):
     return json.loads(out.stdout)
 
 
-def execute(code, inputs, premises):
-    value = execute_json(code, inputs, premises)
+def execute(code, inputs, premises, *, allow_helpers=False):
+    value = execute_json(code, inputs, premises, allow_helpers=allow_helpers)
     jsonschema.validate(value, RESULT_SCHEMA)
     if 'records' in premises:
         if any(i >= len(premises['records']) for i in value['used_records']):raise ValueError('Missing record proof reference')
