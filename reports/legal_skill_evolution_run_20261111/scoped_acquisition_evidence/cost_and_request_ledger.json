@@ -1,0 +1,1344 @@
+{
+  "new_physical_requests": {
+    "executor": 4,
+    "teacher": 4
+  },
+  "cumulative": {
+    "executor": 9330,
+    "teacher": 181
+  },
+  "pending": 0,
+  "old_ledger_rows_unchanged": 9503,
+  "ledger_rows_total": 9511,
+  "ledger_sha256": "c7aaaa0d912bafa2198abbc4cc0c056af1d39320640b357be5bedb5d7724f248",
+  "executor_prompt_tokens": 45665,
+  "executor_completion_tokens": 12675,
+  "executor_request_seconds_sum": 387.01864842139184,
+  "teacher_request_seconds_sum": 944.5722981346771,
+  "executor_incremental_api_cash_usd": 0,
+  "executor_gpu_cost_usd_fields": [
+    null,
+    null,
+    null,
+    null
+  ],
+  "teacher_actual_cash_invoice_available": false,
+  "teacher_cash_usd": null,
+  "cash_zero_not_inferred_from_missing_invoice": true,
+  "requests": [
+    {
+      "id": "legal_skill_evolution_scoped_acquisition_v2_20261113:teacher:aa79395bcec2cf7fc2b998057ac34233aff751e47ad46023eed95ccde03704c5",
+      "role": "teacher",
+      "purpose": "skill_teacher",
+      "status": "completed",
+      "request_hash": "c9c31e63ce126380f33f9f9efac829b72a93350cfdfe43c8422dbdcf201c6e8c",
+      "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "result": {
+        "value": {
+          "architecture": "program",
+          "rationale": "选择完整直接程序。它能在原始合同中独立识别操作性披露许可、受限收件人类别、代表定义、收件人归属、第三方禁令及其目的性例外；同时避免把定义、背景描述或单纯出现的角色误当作许可。对于未被明确许可或禁止的类别返回 NotMentioned，而不把证据缺失当作 Contradiction。",
+          "grammar": null,
+          "program": "def norm(x):\n    return re.sub(r'\\s+', ' ', str(x).lower()).strip()\n\ndef add_ids(dst, src):\n    for x in src:\n        if x not in dst:\n            dst.append(x)\n    return dst\n\ndef make_windows(spans):\n    out = []\n    n = len(spans)\n    for size in range(1, 4):\n        for i in range(0, n - size + 1):\n            ids = []\n            parts = []\n            for j in range(i, i + size):\n                ids.append(spans[j].get('id'))\n                parts.append(norm(spans[j].get('text', '')))\n            out.append((ids, ' '.join(parts)))\n    return out\n\ndef role_flags(t):\n    employee = bool(re.search(r'\\b(?:employees?|staff|personnel)\\b', t))\n    external = bool(re.search(r'\\b(?:third[- ]part(?:y|ies)|consultants?|agents?|advis(?:e|o)rs?|accountants?|attorneys?|lawyers?|legal counsel|outside counsel|auditors?|contractors?|lenders?|financing sources?|professional advisers?|affiliates?)\\b', t))\n    representative = bool(re.search(r'\\brepresentatives?\\b', t))\n    return employee, external, representative\n\ndef is_rep_definition(t):\n    if not re.search(r'\\brepresentatives?\\b', t):\n        return False\n    return bool(re.search(r'\\brepresentatives?\\b.{0,28}\\b(?:means?|shall mean|includes?|refer(?:s|red)? to)\\b', t) or re.search(r'\\([\\s\\\"\\']*representatives?[\\s\\\"\\']*\\)', t))\n\ndef actor_ok(t, pos, tail):\n    p = t[max(0, pos - 240):pos]\n    good = max(p.rfind('receiving party'), p.rfind('recipient'), p.rfind('each party'), p.rfind('either party'), p.rfind('volunteer'), p.rfind('neither it nor its representatives'))\n    bad = max(p.rfind('disclosing party'), p.rfind('originating party'))\n    if bad >= 0 and bad > good:\n        return False\n    if good >= 0:\n        return True\n    if re.search(r'\\b(?:the|a) party\\s+(?:hereby\\s+)?$', p):\n        return True\n    if re.search(r'\\bby\\s+(?:the\\s+)?(?:receiving party|recipient)\\b', tail[:160]):\n        return True\n    return False\n\ndef target_cut(s):\n    end = min(len(s), 450)\n    for d in [' provided that ', ' provided, however', ' subject to ', ' on condition ', ', each ', ' who have ', ' who need ', ' but only ', ';', '.']:\n        p = s.find(d)\n        if p >= 20 and p < end:\n            end = p\n    return s[:end]\n\ndef permission_targets(t):\n    out = []\n    pats = [\n        r'\\b(?:may|can)\\s+(?:be\\s+)?(?:disclose|disclosed|share|shared|provide|provided|release|released|transmit|transmitted|give|given|make available|allow access)\\b',\n        r'\\b(?:is|are|shall be|will be)\\s+(?:expressly\\s+)?(?:permitted|authorized|allowed)\\s+to\\s+(?:disclose|share|provide|release|transmit|give|make available|allow access)\\b'\n    ]\n    for pat in pats:\n        for m in re.finditer(pat, t):\n            tail = t[m.end():]\n            near = t[max(0, m.start() - 140):m.end() + 260]\n            if not re.search(r'\\b(?:confidential information|confidential materials?|such information|such confidential information)\\b', near):\n                continue\n            if actor_ok(t, m.start(), tail):\n                out.append(target_cut(tail))\n    epat = r'\\b(?:shall|will|must)\\s+not\\b[^.;]{0,240}\\b(?:disclose|share|provide|divulge|communicate|release|transmit)\\b[^.;]{0,240}\\bexcept\\s+to\\b'\n    for m in re.finditer(epat, t):\n        tail = t[m.end():]\n        near = t[max(0, m.start() - 100):m.end()]\n        if re.search(r'\\b(?:confidential information|confidential materials?|such information)\\b', near) and actor_ok(t, m.start(), tail):\n            out.append(target_cut(tail))\n    return out\n\ndef wrong_employee_owner(t):\n    return bool(re.search(r'\\b(?:disclosing|originating|other)\\s+party[\\'’]?s\\s+(?:directors?[, ]+|officers?[, ]+|representatives?[, ]+)*employees?\\b', t) or re.search(r'\\bemployees?\\s+of\\s+(?:the\\s+)?(?:disclosing|originating|other)\\s+party\\b', t))\n\ndef wrong_rep_owner(t):\n    return bool(re.search(r'\\b(?:disclosing|originating|other)\\s+party[\\'’]?s\\s+representatives?\\b', t) or re.search(r'\\brepresentatives?\\s+of\\s+(?:the\\s+)?(?:disclosing|originating|other)\\s+party\\b', t))\n\ndef prohibition_actor_ok(t, pos):\n    p = t[max(0, pos - 220):pos]\n    if 'neither it nor its representatives' in p:\n        return True\n    good = max(p.rfind('receiving party'), p.rfind('recipient'), p.rfind('each party'), p.rfind('either party'), p.rfind('volunteer'))\n    bad = max(p.rfind('disclosing party'), p.rfind('originating party'))\n    rep = p.rfind('representative')\n    if bad >= 0 and bad > good:\n        return False\n    if rep > good:\n        return False\n    return good >= 0\n\ndef functional_exception(t):\n    return bool(re.search(r'\\bexcept\\b[^.;]{0,150}\\b(?:required|necessary)\\b[^.;]{0,110}\\b(?:purpose|business relationship|obligations?|service)\\b', t))\n\ndef contradiction_proof(windows, task_id):\n    if task_id == 'nda-7':\n        pats = [\n            r'\\b(?:shall|will|must|may)\\s+not\\b[^.;]{0,150}\\b(?:disclose|share|divulge|communicate|provide|release|transmit)\\b[^.;]{0,210}\\b(?:third[- ]part(?:y|ies)|any other person|any other organization)\\b',\n            r'\\b(?:agrees?\\s+not\\s+to|prohibited\\s+from)\\b[^.;]{0,190}\\b(?:disclose|share|divulge|communicate|provide|release|transmit)\\b[^.;]{0,210}\\b(?:third[- ]part(?:y|ies)|any other person|any other organization)\\b',\n            r'\\bneither\\b[^.;]{0,120}\\bwill\\b[^.;]{0,210}\\b(?:disclose|divulge|communicate)\\b[^.;]{0,210}\\b(?:third[- ]part(?:y|ies)|any other person|any other organization)\\b'\n        ]\n    else:\n        pats = [\n            r'\\b(?:shall|will|must|may)\\s+not\\b[^.;]{0,150}\\b(?:disclose|share|divulge|communicate|provide|release|transmit)\\b[^.;]{0,210}\\b(?:its|their|the receiving party[\\'’]?s)?\\s*employees?\\b',\n            r'\\b(?:agrees?\\s+not\\s+to|prohibited\\s+from)\\b[^.;]{0,190}\\b(?:disclose|share|divulge|communicate|provide|release|transmit)\\b[^.;]{0,210}\\b(?:its|their|the receiving party[\\'’]?s)?\\s*employees?\\b'\n        ]\n    for ids, t in windows:\n        if not re.search(r'\\b(?:confidential information|confidential materials?|such information)\\b', t):\n            continue\n        for pat in pats:\n            for m in re.finditer(pat, t):\n                area = t[m.start():m.end() + 260]\n                if prohibition_actor_ok(t, m.start()) and not functional_exception(area):\n                    return ids\n    return []\n\ndef relevant_ids(spans, task_id):\n    out = []\n    for s in spans:\n        t = norm(s.get('text', ''))\n        emp, ext, rep = role_flags(t)\n        verb = bool(re.search(r'\\b(?:disclose|share|divulge|communicate|provide|release|transmit|allow access)\\b', t))\n        specific = emp or rep if task_id == 'nda-5' else ext or rep\n        if (specific and (verb or is_rep_definition(t))) or (verb and 'confidential' in t):\n            add_ids(out, [s.get('id')])\n            if len(out) >= 12:\n                break\n    if not out:\n        for s in spans:\n            add_ids(out, [s.get('id')])\n    return out\n\ndef apply(inputs, premises):\n    task_id = inputs.get('task_id') if isinstance(inputs, dict) else None\n    if task_id not in ['nda-5', 'nda-7'] or not isinstance(premises, dict):\n        return {'handled': False, 'answer': None, 'used_span_ids': []}\n    spans = premises.get('source_spans')\n    if not isinstance(spans, list):\n        return {'handled': False, 'answer': None, 'used_span_ids': []}\n    windows = make_windows(spans)\n    definitions = []\n    for s in spans:\n        t = norm(s.get('text', ''))\n        if is_rep_definition(t):\n            emp, ext, rep = role_flags(t)\n            definitions.append((s.get('id'), emp, ext))\n    ent5 = []\n    ent7 = []\n    for ids, t in windows:\n        targets = permission_targets(t)\n        for target in targets:\n            emp, ext, rep = role_flags(target)\n            wrong_emp = wrong_employee_owner(target)\n            wrong_rep = wrong_rep_owner(target)\n            proof5 = list(ids)\n            proof7 = list(ids)\n            employee_ok = emp and not wrong_emp\n            external_ok = ext or wrong_emp or wrong_rep\n            if rep:\n                for did, demp, dext in definitions:\n                    if not employee_ok and not wrong_rep and demp:\n                        employee_ok = True\n                        add_ids(proof5, [did])\n                    if not external_ok and dext:\n                        external_ok = True\n                        add_ids(proof7, [did])\n            if employee_ok and not ent5:\n                ent5 = proof5\n            if external_ok and not ent7:\n                ent7 = proof7\n    if task_id == 'nda-5' and ent5:\n        return {'handled': True, 'answer': 'Entailment', 'used_span_ids': ent5}\n    if task_id == 'nda-7' and ent7:\n        return {'handled': True, 'answer': 'Entailment', 'used_span_ids': ent7}\n    contra = contradiction_proof(windows, task_id)\n    if contra:\n        return {'handled': True, 'answer': 'Contradiction', 'used_span_ids': contra}\n    return {'handled': True, 'answer': 'NotMentioned', 'used_span_ids': relevant_ids(spans, task_id)}"
+        },
+        "model": "gpt-5.6-sol",
+        "request_sha256": "194be081c93237bafc10a1132c359e73432198eef40d9016cd6f71709e84d198",
+        "response_sha256": "98856a37d9d18a118c5f34a985f3f51eb9d5d89e62725c040dee886f4894872d",
+        "cache_hit": false,
+        "invocation": {
+          "attempt": 1,
+          "started_at": "2026-11-12T19:32:56.578066+00:00",
+          "finished_at": "2026-11-12T19:36:59.178947+00:00",
+          "elapsed_seconds": 242.601,
+          "returncode": 0,
+          "event_log_sha256": "2e0ca6e2491cc1f5cbe4dcda353b4a2840102ab48bd739364544d31dc4aec10b",
+          "tool_events_detected": false,
+          "budget_reservation": null,
+          "usage": {
+            "input_tokens": 38516,
+            "cached_input_tokens": 0,
+            "output_tokens": 12929,
+            "reasoning_output_tokens": 9932
+          },
+          "estimated_credits": null
+        },
+        "source_ids": [
+          "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+          "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+          "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+          "ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54"
+        ],
+        "elapsed_seconds": 242.60202881880105,
+        "billing_basis": "existing_authorized_Codex_CLI",
+        "actual_cash_invoice_available": false
+      }
+    },
+    {
+      "id": "legal_skill_evolution_scoped_acquisition_v2_20261113:teacher:cc0b5994933a3401b0b57f2a4d6037624dc9b7fc7d39128ddec40fed6b4c1178",
+      "role": "teacher",
+      "purpose": "skill_teacher",
+      "status": "completed",
+      "request_hash": "87e47dc7fc3c131b32cada548891693dc8f393ecc61d7a1631921f4d76544e32",
+      "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "result": {
+        "value": {
+          "architecture": "grammar",
+          "rationale": "The grammar separates operative disclosure permissions and prohibitions from recitals and role definitions. It preserves recipient ownership, bounded exceptions, conditions, and the distinction between all third parties and persons outside a recipient-plus-representative group. The consumer proves the two fixed hypotheses only from relevant root norms; descriptions and definitions can interpret a norm but never create permission by themselves.",
+          "grammar": {
+            "rationale": "Permissions may be direct or embedded as class-specific exceptions to prohibitions. Representative definitions are owner-relative and expand only an operative reference to representatives. Consent and purpose exceptions are preserved but do not become unrestricted class permissions. An outsider prohibition does not contradict sharing with representatives because representatives are outside its recipient scope. Relevant norms that leave a hypothesis open support NotMentioned; absence of any relevant root remains unhandled.",
+            "constructors": [
+              {
+                "name": "receiving_party",
+                "meaning": "The participant holding or receiving the protected information under the operative norm.",
+                "sort": "Participant",
+                "arguments": []
+              },
+              {
+                "name": "disclosing_party",
+                "meaning": "The participant supplying or owning the protected information under the operative norm.",
+                "sort": "Participant",
+                "arguments": []
+              },
+              {
+                "name": "party",
+                "meaning": "A generic agreement party, instantiated relative to its enclosing definition or norm.",
+                "sort": "Participant",
+                "arguments": []
+              },
+              {
+                "name": "named_recipient",
+                "meaning": "A contract-designated recipient or holder whose source name is retained as text.",
+                "sort": "Participant",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "participant_union",
+                "meaning": "The union of two participant classes.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant",
+                  "Participant"
+                ]
+              },
+              {
+                "name": "other_party_of",
+                "meaning": "The counterparty relative to the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "representatives_of",
+                "meaning": "Representatives possessed by the enclosed participant; membership comes only from a matching definition or explicit source list.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "directors_of",
+                "meaning": "Directors of the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "officers_of",
+                "meaning": "Officers of the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "employees_of",
+                "meaning": "Employees of the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "legal_advisors_of",
+                "meaning": "Legal advisers or attorneys serving the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "financial_advisors_of",
+                "meaning": "Financial advisers serving the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "professional_advisors_of",
+                "meaning": "Professional advisers serving the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "accountants_of",
+                "meaning": "Accountants serving the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "consultants_of",
+                "meaning": "Consultants serving the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "agents_of",
+                "meaning": "Agents of the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "independent_contractors_of",
+                "meaning": "Independent contractors of the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "lenders_of",
+                "meaning": "Lenders of funds to the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "third_parties",
+                "meaning": "The unrestricted class of third-party disclosure recipients.",
+                "sort": "Participant",
+                "arguments": []
+              },
+              {
+                "name": "outsiders_to",
+                "meaning": "Persons or organizations other than every member of the enclosed participant group; unlike third_parties, this excludes that group from the prohibition's recipient scope.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "confidential_information",
+                "meaning": "Information protected as Confidential Information by the enclosing agreement.",
+                "sort": "Information",
+                "arguments": []
+              },
+              {
+                "name": "disclose",
+                "meaning": "Disclosure of the enclosed information to the enclosed recipient class.",
+                "sort": "Action",
+                "arguments": [
+                  "Information",
+                  "Participant"
+                ]
+              },
+              {
+                "name": "no_condition",
+                "meaning": "No additional applicability condition beyond the enclosing norm.",
+                "sort": "Condition",
+                "arguments": []
+              },
+              {
+                "name": "need_to_know",
+                "meaning": "The recipient must have a bona fide need to know for the stated purpose.",
+                "sort": "Condition",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "confidentiality_bound",
+                "meaning": "The recipient must be bound by the stated confidentiality standard.",
+                "sort": "Condition",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "extent_necessary",
+                "meaning": "Disclosure is limited to the extent necessary for the stated purpose.",
+                "sort": "Condition",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "and_condition",
+                "meaning": "Both enclosed conditions apply.",
+                "sort": "Condition",
+                "arguments": [
+                  "Condition",
+                  "Condition"
+                ]
+              },
+              {
+                "name": "authorization_exception",
+                "meaning": "The prohibition does not apply when the stated authorization is obtained; this is not an unrestricted recipient-class permission.",
+                "sort": "Exception",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "purpose_exception",
+                "meaning": "The prohibition does not apply when disclosure is required for the stated activity or obligation.",
+                "sort": "Exception",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "cross_reference_exception",
+                "meaning": "The exception is governed by operative norms at the stated cross-reference and creates no permission until those norms are resolved.",
+                "sort": "Exception",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "permission_exception",
+                "meaning": "An express class-specific permission embedded within an enclosing prohibition.",
+                "sort": "Exception",
+                "arguments": [
+                  "Norm"
+                ]
+              },
+              {
+                "name": "exception_set",
+                "meaning": "A singleton exception set.",
+                "sort": "ExceptionSet",
+                "arguments": [
+                  "Exception"
+                ]
+              },
+              {
+                "name": "add_exception",
+                "meaning": "Adds one exception while preserving the scope of the existing exception set.",
+                "sort": "ExceptionSet",
+                "arguments": [
+                  "ExceptionSet",
+                  "Exception"
+                ]
+              },
+              {
+                "name": "no_exceptions",
+                "meaning": "An empty exception set.",
+                "sort": "ExceptionSet",
+                "arguments": []
+              },
+              {
+                "name": "permission",
+                "meaning": "An operative permission for the actor to perform the action subject to the condition.",
+                "sort": "Norm",
+                "arguments": [
+                  "Participant",
+                  "Action",
+                  "Condition"
+                ]
+              },
+              {
+                "name": "prohibition",
+                "meaning": "An operative prohibition for the actor and action, limited by its applicability condition and precisely scoped exceptions.",
+                "sort": "Norm",
+                "arguments": [
+                  "Participant",
+                  "Action",
+                  "Condition",
+                  "ExceptionSet"
+                ]
+              },
+              {
+                "name": "define_representative",
+                "meaning": "A descriptive, owner-relative definition of representatives; it can interpret representatives_of but cannot independently authorize disclosure.",
+                "sort": "Definition",
+                "arguments": [
+                  "Participant",
+                  "Participant"
+                ]
+              },
+              {
+                "name": "define_receiving_party",
+                "meaning": "A descriptive definition of who counts as the receiving party; it is not an operative permission.",
+                "sort": "Definition",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "possible_disclosure_description",
+                "meaning": "A recital or factual description that disclosure may occur; it imposes no permission or prohibition.",
+                "sort": "Description",
+                "arguments": [
+                  "Participant",
+                  "Information",
+                  "Participant"
+                ]
+              }
+            ],
+            "seeds": [
+              {
+                "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                "source_span_ids": [
+                  30
+                ],
+                "occurrence": 0,
+                "quote": "employees",
+                "term_json": "[\"employees_of\",[\"receiving_party\"]]"
+              },
+              {
+                "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                "source_span_ids": [
+                  30
+                ],
+                "occurrence": 0,
+                "quote": "legal advisors, financial advisors and accountants",
+                "term_json": "[\"participant_union\",[\"legal_advisors_of\",[\"receiving_party\"]],[\"participant_union\",[\"financial_advisors_of\",[\"receiving_party\"]],[\"accountants_of\",[\"receiving_party\"]]]]"
+              },
+              {
+                "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                "source_span_ids": [
+                  30
+                ],
+                "occurrence": 0,
+                "quote": "each bound by obligations of confidentiality consistent with this Agreement",
+                "term_json": "[\"confidentiality_bound\",\"consistent with this Agreement\"]"
+              },
+              {
+                "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                "source_span_ids": [
+                  30
+                ],
+                "occurrence": 0,
+                "quote": "who have a bona fide need to know",
+                "term_json": "[\"need_to_know\",\"Business Purpose\"]"
+              },
+              {
+                "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                "source_span_ids": [
+                  30
+                ],
+                "occurrence": 0,
+                "quote": "(a) Subject to the restrictions set forth below in this Section 4, each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose. ",
+                "term_json": "[\"permission\",[\"receiving_party\"],[\"disclose\",[\"confidential_information\"],[\"participant_union\",[\"directors_of\",[\"receiving_party\"]],[\"participant_union\",[\"officers_of\",[\"receiving_party\"]],[\"participant_union\",[\"employees_of\",[\"receiving_party\"]],[\"participant_union\",[\"legal_advisors_of\",[\"receiving_party\"]],[\"participant_union\",[\"financial_advisors_of\",[\"receiving_party\"]],[\"accountants_of\",[\"receiving_party\"]]]]]]]],[\"and_condition\",[\"confidentiality_bound\",\"consistent with this Agreement\"],[\"and_condition\",[\"need_to_know\",\"Business Purpose\"],[\"extent_necessary\",\"Business Purpose\"]]]]"
+              },
+              {
+                "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                "source_span_ids": [
+                  27
+                ],
+                "occurrence": 0,
+                "quote": "except as expressly permitted under Paragraph 4",
+                "term_json": "[\"cross_reference_exception\",\"Paragraph 4\"]"
+              },
+              {
+                "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                "source_span_ids": [
+                  27
+                ],
+                "occurrence": 0,
+                "quote": "(c) not to disclose such Confidential Information to third parties (including, without limitation, any clients, affiliates, independent contractors and consultants) without the prior, written consent of the Disclosing Party except as expressly permitted under Paragraph 4; and",
+                "term_json": "[\"prohibition\",[\"receiving_party\"],[\"disclose\",[\"confidential_information\"],[\"third_parties\"]],[\"no_condition\"],[\"add_exception\",[\"exception_set\",[\"authorization_exception\",\"prior written consent of the Disclosing Party\"]],[\"cross_reference_exception\",\"Paragraph 4\"]]]"
+              },
+              {
+                "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                "source_span_ids": [
+                  8
+                ],
+                "occurrence": 0,
+                "quote": "WHEREAS the Parties recognize that in the course of their discussions to further the Business Purpose, it may become necessary for either NEW RIVER or SHIRE or both Parties to disclose Confidential Information (as defined below) to a Receiving Party, whether orally, in writing, graphically, electronically or by visual inspection of the premises of the Disclosing Party, and",
+                "term_json": "[\"possible_disclosure_description\",[\"disclosing_party\"],[\"confidential_information\"],[\"receiving_party\"]]"
+              },
+              {
+                "source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+                "source_span_ids": [
+                  14
+                ],
+                "occurrence": 0,
+                "quote": "The Receiving Party shall not disclose, allow access to, transmit or transfer the Confidential Information to any third party without the Disclosing Party’s prior written consent, provided however that the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\"Representatives\") who have a need to know the Confidential Information for the Purpose provided that the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential and at all times in a manner consistent with this Agreement and the Receiving Party shall be liable for any loss or damage resulting from any Representative failing to do so.",
+                "term_json": "[\"prohibition\",[\"receiving_party\"],[\"disclose\",[\"confidential_information\"],[\"third_parties\"]],[\"no_condition\"],[\"add_exception\",[\"exception_set\",[\"authorization_exception\",\"prior written consent of the Disclosing Party\"]],[\"permission_exception\",[\"permission\",[\"receiving_party\"],[\"disclose\",[\"confidential_information\"],[\"participant_union\",[\"directors_of\",[\"receiving_party\"]],[\"participant_union\",[\"officers_of\",[\"receiving_party\"]],[\"employees_of\",[\"receiving_party\"]]]]],[\"and_condition\",[\"need_to_know\",\"Purpose\"],[\"confidentiality_bound\",\"consistent with this Agreement\"]]]]]]"
+              },
+              {
+                "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                "source_span_ids": [
+                  25
+                ],
+                "occurrence": 0,
+                "quote": " Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information. ",
+                "term_json": "[\"prohibition\",[\"named_recipient\",\"Volunteer\"],[\"disclose\",[\"confidential_information\"],[\"third_parties\"]],[\"no_condition\"],[\"exception_set\",[\"authorization_exception\",\"prior written consent from the Certification Council for Professional Dog Trainers\"]]]"
+              },
+              {
+                "source": "ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54",
+                "source_span_ids": [
+                  28
+                ],
+                "occurrence": 0,
+                "quote": "E. “Representative” means directors, officers, employees, accountants, attorneys, lenders of funds and agents of a party or its affiliates.",
+                "term_json": "[\"define_representative\",[\"receiving_party\"],[\"participant_union\",[\"directors_of\",[\"receiving_party\"]],[\"participant_union\",[\"officers_of\",[\"receiving_party\"]],[\"participant_union\",[\"employees_of\",[\"receiving_party\"]],[\"participant_union\",[\"accountants_of\",[\"receiving_party\"]],[\"participant_union\",[\"legal_advisors_of\",[\"receiving_party\"]],[\"participant_union\",[\"lenders_of\",[\"receiving_party\"]],[\"agents_of\",[\"receiving_party\"]]]]]]]]]"
+              },
+              {
+                "source": "ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54",
+                "source_span_ids": [
+                  31,
+                  32
+                ],
+                "occurrence": 0,
+                "quote": "Receiving Party therefore agrees that neither it nor its Representatives will at any time make any independent business or personal use of, retain, copy, divulge, disclose, reveal or communicate to any other person or organization (except as expressly authorized in writing by Originating Party, as required to analyze the Business Relationship or as required to fulfill Receiving Party’s obligations to Originating Party) any Confidential Information. ",
+                "term_json": "[\"prohibition\",[\"participant_union\",[\"receiving_party\"],[\"representatives_of\",[\"receiving_party\"]]],[\"disclose\",[\"confidential_information\"],[\"outsiders_to\",[\"participant_union\",[\"receiving_party\"],[\"representatives_of\",[\"receiving_party\"]]]]],[\"no_condition\"],[\"add_exception\",[\"exception_set\",[\"authorization_exception\",\"expressly authorized in writing by Originating Party\"]],[\"purpose_exception\",\"required to analyze the Business Relationship or fulfill Receiving Party obligations\"]]]"
+              }
+            ],
+            "decision_program": "def subterms(x):\n    out=[]\n    stack=[x]\n    while stack:\n        y=stack.pop()\n        if isinstance(y,list) and y:\n            out.append(y)\n            i=1\n            while i<len(y):\n                if isinstance(y[i],list):\n                    stack.append(y[i])\n                i+=1\n    return out\n\ndef has_tag(x,name):\n    for y in subterms(x):\n        if y[0]==name:\n            return True\n    return False\n\ndef participant_tags(x,defs):\n    tags=set()\n    stack=[x]\n    expanded=set()\n    while stack:\n        y=stack.pop()\n        if not isinstance(y,list) or not y:\n            continue\n        n=y[0]\n        tags.add(n)\n        if n=='representatives_of' and len(y)>1:\n            k=str(y[1])\n            if k not in expanded:\n                expanded.add(k)\n                for d in defs:\n                    if str(d[0])==k:\n                        stack.append(d[1])\n            continue\n        i=1\n        while i<len(y):\n            if isinstance(y[i],list):\n                stack.append(y[i])\n            i+=1\n    return tags\n\ndef unresolved_representative(x,defs):\n    for y in subterms(x):\n        if y[0]=='representatives_of' and len(y)>1:\n            k=str(y[1])\n            found=False\n            for d in defs:\n                if str(d[0])==k:\n                    found=True\n            if not found:\n                return True\n    return False\n\ndef unique(xs):\n    out=[]\n    for x in xs:\n        if x not in out:\n            out.append(x)\n    return out\n\ndef apply(inputs,premises):\n    task=inputs.get('task_id')\n    if task not in ('nda-5','nda-7'):\n        return {'handled':False,'answer':None,'used_nodes':[]}\n    nodes=premises.get('nodes',[])\n    roots=premises.get('roots',[])\n    byid={}\n    for n in nodes:\n        byid[n.get('id')]=n\n    entries=[]\n    for root in roots:\n        todo=[root]\n        seen=set()\n        while todo:\n            nid=todo.pop()\n            if nid in seen or nid not in byid:\n                continue\n            seen.add(nid)\n            node=byid[nid]\n            for t in subterms(node.get('term')):\n                entries.append((t,root))\n            for c in node.get('child_ids',[]):\n                if c not in seen:\n                    todo.append(c)\n    defs=[]\n    def_roots=[]\n    for t,r in entries:\n        if t[0]=='define_representative' and len(t)>=3:\n            defs.append((t[1],t[2]))\n            def_roots.append(r)\n    perms=[]\n    prohibs=[]\n    relevant=[]\n    for t,r in entries:\n        if t[0] not in ('permission','prohibition') or len(t)<3:\n            continue\n        a=t[2]\n        if not isinstance(a,list) or len(a)<3 or a[0]!='disclose':\n            continue\n        if not has_tag(a[1],'confidential_information'):\n            continue\n        relevant.append(r)\n        tags=participant_tags(a[2],defs)\n        if t[0]=='permission':\n            perms.append((r,tags,t,a[2]))\n        else:\n            prohibs.append((r,tags,t,a[2]))\n    relevant=unique(relevant)\n    if not relevant:\n        return {'handled':False,'answer':None,'used_nodes':[]}\n    employee={'employees_of'}\n    external={'third_parties','consultants_of','agents_of','legal_advisors_of','financial_advisors_of','professional_advisors_of','accountants_of','independent_contractors_of'}\n    wanted=employee if task=='nda-5' else external\n    for r,tags,t,recipient in perms:\n        if tags.intersection(wanted):\n            used=[r]\n            if has_tag(recipient,'representatives_of'):\n                used+=def_roots\n            return {'handled':True,'answer':'Entailment','used_nodes':unique(used)}\n    if task=='nda-5':\n        for r,tags,t,recipient in prohibs:\n            if 'employees_of' in tags:\n                return {'handled':True,'answer':'Contradiction','used_nodes':[r]}\n        return {'handled':True,'answer':'NotMentioned','used_nodes':relevant}\n    for r,tags,t,recipient in prohibs:\n        if 'third_parties' not in tags or 'outsiders_to' in tags:\n            continue\n        if has_tag(t,'cross_reference_exception'):\n            continue\n        if unresolved_representative(t,defs):\n            continue\n        return {'handled':True,'answer':'Contradiction','used_nodes':[r]}\n    return {'handled':True,'answer':'NotMentioned','used_nodes':unique(relevant+def_roots)}"
+          },
+          "program": null
+        },
+        "model": "gpt-5.6-sol",
+        "request_sha256": "2342ca1c6a8b7b71dfbf4cfa5923d0e7a29d52c70c2ebe67616c08db748e6c34",
+        "response_sha256": "778ff2417448fb758eb93a6442b627e9577f4232690bf4a93f508bb47e134b62",
+        "cache_hit": false,
+        "invocation": {
+          "attempt": 1,
+          "started_at": "2026-11-12T19:32:56.589562+00:00",
+          "finished_at": "2026-11-12T19:36:50.628936+00:00",
+          "elapsed_seconds": 234.039,
+          "returncode": 0,
+          "event_log_sha256": "ac393c77d45016e6dcf60ae5102d8642f2199ecf977cf343be33ac30993f20ca",
+          "tool_events_detected": false,
+          "budget_reservation": null,
+          "usage": {
+            "input_tokens": 38501,
+            "cached_input_tokens": 0,
+            "output_tokens": 12401,
+            "reasoning_output_tokens": 7812
+          },
+          "estimated_credits": null
+        },
+        "source_ids": [
+          "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+          "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+          "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+          "ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54"
+        ],
+        "elapsed_seconds": 234.04136732872576,
+        "billing_basis": "existing_authorized_Codex_CLI",
+        "actual_cash_invoice_available": false
+      }
+    },
+    {
+      "id": "legal_skill_evolution_scoped_acquisition_v3_20261113:0287671dfe06d1256b1152ce6a676ade5bef29eb6fe1fdd406bd0b515384d2b5",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "status": "completed",
+      "request_hash": "ec314fd7f7eb9f6a9c241df309ea2676a9e597ae0605df5bd58f39005b24c391",
+      "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "result": {
+        "content": "{\n  \"nodes\": [\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Exhibit (d)(6)\",\n      \"support_ids\": [1]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"NON- DISCLOSURE & CONFIDENTIALITY AGREEMENT\",\n      \"support_ids\": [2]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"THIS NON-DISCLOSURE & CONFIDENTIALITY AGREEMENT (hereinafter this “Agreement”) is made and entered into as of the 28th day of November, 2006 (hereinafter “Effective Date”), by and between Shire Pharmaceuticals, Inc., a Delaware corporation having a principal place of business at 725 Chesterbrook Boulevard, Wayne, PA 19087 (“SHIRE”), L.E.K. Consulting LLC, 28 State Street, 16th Floor, Boston, Massachusetts 02109 (“L.E.K.”), and New River Pharmaceuticals Inc., a Virginia corporation with offices located at The Governor Tyler, 1881 Grove Avenue, Radford, Virginia 24141 (“NEW RIVER”) (each individually hereinafter referred to as a “Party” and collectively referred to as “Parties”).\",\n      \"support_ids\": [3]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Recitals\",\n      \"support_ids\": [5]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"WHEREAS the Parties intend to engage in discussions and evaluations concerning one or more potential arrangements by which SHIRE and NEW RIVER may enter into a business relationship or may enter into one or more business transactions related to “Project Night” (hereinafter collectively referred to as the “Business Purpose”);\",\n      \"support_ids\": [6]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"WHEREAS SHIRE has engaged L.E.K. to assist SHIRE in its discussions and evaluations in connection with the Business Purpose;\",\n      \"support_ids\": [7]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"WHEREAS the Parties recognize that in the course of their discussions to further the Business Purpose, it may become necessary for either NEW RIVER or SHIRE or both Parties to disclose Confidential Information (as defined below) to a Receiving Party, whether orally, in writing, graphically, electronically or by visual inspection of the premises of the Disclosing Party, and\",\n      \"support_ids\": [8]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"WHEREAS the Parties intend that any Confidential Information disclosed by either NEW RIVER or SHIRE shall be used by any other Party only to further the Business Purpose and that any Confidential Information disclosed shall be protected from further disclosure to unauthorized parties by the terms of this Agreement.\",\n      \"support_ids\": [9]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"NOW, THEREFORE, in consideration of the discussions and the sharing of information between the Parties, and the premises, conditions, covenants and warranties herein contained, the Parties agree as follows:\",\n      \"support_ids\": [10]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"1. Definitions. \",\n      \"support_ids\": [11]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"For purposes of this Agreement, the terms below shall have the following meanings:\",\n      \"support_ids\": [12]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(a) “Confidential Information” shall mean commercial, corporate, scientific, regulatory and technical information, including, without limitation, data, materials, documents, agreements, lists, financial information, investments, information concerning current or proposed products, technologies, applications, service or methods of operation and/or business plans, customers, suppliers, and any copies or versions of the information disclosed, relating to NEW RIVER or SHIRE, that NEW RIVER or SHIRE, respectively, regards as its highly valuable trade secrets, confidential information, and proprietary property. \",\n      \"support_ids\": [13]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Where any Confidential Information is derived from the synthesis in a unique manner, or into a unique concept, of various elements that may be contained in the public domain, no part of the Confidential Information shall be deemed to be in the public domain or to be in the Receiving Party’s possession or to be thereafter acquired by the Receiving Party merely because it embraces information in the public domain or general information that the Receiving Party may thereafter acquire.\",\n      \"support_ids\": [16]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(b) “Disclosing Party” shall mean the Party disclosing Confidential Information.\",\n      \"support_ids\": [17]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(c) “Receiving Party” Shall mean the Party receiving disclosure of the Confidential Information.\",\n      \"support_ids\": [18]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(d) It is specifically understood and agreed that Confidential Information shall include the existence of this Agreement and its terms and the fact that the Parties are discussing and evaluating the Business Purpose.\",\n      \"support_ids\": [19]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"2. Applicability. \",\n      \"support_ids\": [20]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"This Agreement shall apply to all Confidential Information disclosed by the Disclosing Party to the Receiving Party, and Confidential Information shall include extracts, analyses, compilations, studies or other documents or records prepared by or for the Receiving Party or any of Receiving Party’s Representatives (defined in Paragraph 4) to the extent that such extracts, analyses, compilations, studies, documents or records contain or otherwise reflect or are generated from the Disclosing Party’s Confidential Information.\",\n      \"support_ids\": [21]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"3. Non-Disclosure Obligation. \",\n      \"support_ids\": [22]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Each Party agrees:\",\n      \"support_ids\": [24]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(a) to hold the other Party’s Confidential Information in strict confidence in accordance with this Agreement;\",\n      \"support_ids\": [25]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(b) to exercise at least the same care in protecting the other Party’s Confidential Information from disclosure as the Party uses with regard to its own Confidential Information (but in no event less than reasonable care);\",\n      \"support_ids\": [26]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(c) not to disclose such Confidential Information to third parties (including, without limitation, any clients, affiliates, independent contractors and consultants) without the prior, written consent of the Disclosing Party except as expressly permitted under Paragraph 4; and\",\n      \"support_ids\": [27]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(d) not to use any Confidential Information for any purpose except for the Business Purpose without the prior written consent of the Disclosing Party.\",\n      \"support_ids\": [28]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"4. Disclosure to Representatives, Conduct of Activities, and Prohibited Activities.\",\n      \"support_ids\": [29]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(a) Subject to the restrictions set forth below in this Section 4, each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose. \",\n      \"support_ids\": [30]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Each Party agrees to instruct all such Representatives\",\n      \"support_ids\": [31]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(i) of the identities of the Party’s other permitted Representatives, and\",\n      \"support_ids\": [32]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(ii) not to disclose such Confidential Information to any third parties (including, without limitation, any clients, affiliates, subsidiaries, independent contractors, and consultants) other than the identified Representatives without the prior written permission of the Disclosing Party. \",\n      \"support_ids\": [33]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"The Receiving Party shall be responsible for the conduct and compliance of its Representatives under this Agreement.\",\n      \"support_ids\": [34]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(b) SHIRE shall not disclose the existence of this Agreement or the related discussions except to its Representatives identified on Exhibit A hereto, the L.E.K. Representatives identified on Exhibit B hereto, or to the NEW RIVER Representatives identified on Exhibit C hereto.\",\n      \"support_ids\": [35]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(c) L.E.K. shall not disclose the existence of this Agreement or the related discussions except to its Representatives identified on Exhibit B hereto, the SHIRE Representatives identified on Exhibit A hereto, or to the NEW RIVER Representatives identified on Exhibit C hereto.\",\n      \"support_ids\": [37]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(d) NEW RIVER shall not disclose the existence of this Agreement or the related discussions except to its Representatives identified on Exhibit C hereto, the SHIRE Representatives identified on Exhibit A hereto, or to the L.E.K. Representatives identified on Exhibit B hereto.\",\n      \"support_ids\": [38]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(e) In assisting SHIRE in discussions and evaluations in connection with the Business Purpose, L.E.K. may be communicating with NEW RIVER employees, consultants, or contractors not identified as NEW RIVER Representatives on Exhibit C hereto. \",\n      \"support_ids\": [40]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"In all such communications, L.E.K. shall not disclose the name of its client or otherwise permit any communication or disclosure that could result in such NEW RIVER employees, consultants, or contractors identifying SHIRE as having any involvement in the work being performed by L.E.K.\",\n      \"support_ids\": [43]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"5. Non-Confidential Information. \",\n      \"support_ids\": [44]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"The confidentiality and non-use provisions of this Agreement shall not include information that the Receiving Party is able to demonstrate by competent proof:\",\n      \"support_ids\": [45]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(a) is now or hereafter becomes, through no act or omission on the part of the Receiving Party, generally known or available within the industry without restriction as to its use or disclosure, or is now or later enters the public domain through no act or omission on the part of the Receiving Party;\",\n      \"support_ids\": [46]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(b) was acquired or known by the Receiving Party before receiving such information from the Disclosing Party as shown by the Receiving Party’s written records;\",\n      \"support_ids\": [47]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(c) is hereafter rightfully furnished to the Receiving Party by a third party having a right to disclose it, without restriction as to use or disclosure;\",\n      \"support_ids\": [48]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(d) is information that the Receiving Party can document was independently developed by or for the Receiving Party without reference to Confidential Information acquired from the Disclosing Party;\",\n      \"support_ids\": [49]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(e) is required by a court or other governmental authority of competent jurisdiction to be disclosed by the Receiving Party, provided that\",\n      \"support_ids\": [50]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(i) the Receiving Party shall have used reasonable efforts to give the Disclosing Party prompt notice of any required disclosure, and\",\n      \"support_ids\": [51]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(ii) Receiving Party shall have informed the requesting authority of the confidential nature of the information and used reasonable efforts to obtain confidential treatment for the information required to be disclosed; or\",\n      \"support_ids\": [52]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(f) is disclosed with the prior, written consent of the Disclosing Party specifically authorizing such disclosure by the Receiving Party.\",\n      \"support_ids\": [53]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"6. Removal of Confidential Materials. \",\n      \"support_ids\": [54]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Each Party agrees not to remove any materials or tangible items containing any of the other Party’s Confidential Information from the premises of the Disclosing Party without the Disclosing Party’s consent. \",\n      \"support_ids\": [55]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Each Party agrees to comply with any and all terms and conditions that the Disclosing Party imposes upon approved removal of such materials or items, including, without limitation, that the removed materials or items must be returned by a certain date, and that no copies of the removed materials or items are to be made without the consent of the Disclosing Party.\",\n      \"support_ids\": [56]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"7. Return of Confidential Information. \",\n      \"support_ids\": [57]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Upon the Disclosing Party’s request, the Receiving Party will promptly return to the Disclosing Party all materials or tangible items containing the Disclosing Party’s Confidential Information and all copies thereof; provided, however, Receiving Party’s legal department or outside legal counsel may maintain a single copy of Disclosing Party’s Confidential Information for purposes of regulatory compliance and compliance with the terms and conditions of this Agreement.\",\n      \"support_ids\": [58]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"8. Notification. \",\n      \"support_ids\": [59]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"The Receiving Party shall notify the Disclosing Party immediately upon discovery of any unauthorized use or disclosure of the Disclosing Party’s Confidential Information, or any breach of the Agreement by the Receiving Party or its Representative, and will cooperate with the Disclosing Party in any reasonable fashion in order to assist the Disclosing Party to regain possession of the Confidential Information and prevent its further unauthorized use or disclosure.\",\n      \"support_ids\": [60]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"9. No Grant of Rights. \",\n      \"support_ids\": [61]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Each Party recognizes and agrees that nothing contained in this Agreement will be construed as granting any rights to the Receiving Party, by license or otherwise, to use any of the Disclosing Party’s Confidential Information except for the Business Purpose.\",\n      \"support_ids\": [62]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"10. Limitation As To Effect. \",\n      \"support_ids\": [63]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Nothing contained in this Agreement shall be construed, by implication or otherwise, as an obligation to enter into any further agreement, and nothing contained in this Agreement shall be construed, by implication or otherwise, as a grant, option, or license under any patent, trade secret, copyright, trademark, or other proprietary rights of either Party.\",\n      \"support_ids\": [64]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"11. Equitable and Legal Relief. \",\n      \"support_ids\": [65]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Each Party acknowledges that all of the Disclosing Party’s Confidential Information is owned solely by the Disclosing Party (and/or its licensors) and that the unauthorized disclosure or use of such Confidential Information may cause irreparable harm and significant injury, the degree of which may be difficult to ascertain and for which monetary damages would provide an insufficient remedy. \",\n      \"support_ids\": [66]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Accordingly, each Party agrees that the Disclosing Party shall have the right to seek an immediate injunction from any court of competent jurisdiction enjoining actual or threatened breach of this Agreement and/or actual or threatened disclosure of the Confidential Information without the necessity of posting a bond or other security. \",\n      \"support_ids\": [67]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Each Party shall also have the right to pursue any other rights or remedies available at law or equity for such a breach.\",\n      \"support_ids\": [68]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"12. Term. \",\n      \"support_ids\": [69]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"This Agreement shall become effective upon the effective Date and shall remain in effect for five (5) years from the Effective Date unless extended by the written consent of the Parties.\",\n      \"support_ids\": [70]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"13. Notice. \",\n      \"support_ids\": [71]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"All notices under this Agreement shall be in writing and shall be deemed duly given if sent by fax copy as directed below and followed by hard copy, dispatched on the same day (a) by a nationally reputable delivery service, prepaid and addressed as set forth below, or (b) by certified or registered mail, return receipt requested, postage prepaid, and addressed as follows.\",\n      \"support_ids\": [72]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"If to NEW RIVER:\",\n      \"support_ids\": [75]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"New River Pharmaceuticals Inc.\",\n      \"support_ids\": [76]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"The Governor Tyler\",\n      \"support_ids\": [77]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"1881 Grove Ave\",\n      \"support_ids\": [78]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Radford, VA 24141\",\n      \"support_ids\": [79]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Attention: Legal Department\",\n      \"support_ids\": [80]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Fax No.: (540) 633-7939\",\n      \"support_ids\": [82]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"If to SHIRE:\",\n      \"support_ids\": [83]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Shire Pharmaceuticals, Inc.\",\n      \"support_ids\": [84]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"725 Chesterbrook Boulevard\",\n      \"support_ids\": [85]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Wayne, PA 19087\",\n      \"support_ids\": [86]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Attention: Legal Department\",\n      \"support_ids\": [87]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Fax No.: 484-595-8163\",\n      \"support_ids\": [88]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"If to L.E.K.:\",\n      \"support_ids\": [89]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"L.E.K. Consulting LLC\",\n      \"support_ids\": [91]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"28 State Street\",\n      \"support_ids\": [92]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"16th Floor\",\n      \"support_ids\": [93]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Boston, MA 02109\",\n      \"support_ids\": [94]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Attention: Mike Clabault\",\n      \"support_ids\": [95]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Fax No.: 617-951-9392\",\n      \"support_ids\": [96]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Any party may change its address for notices by giving the other party notice of such change in the manner provided above.\",\n      \"support_ids\": [97]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"14. Integration. \",\n      \"support_ids\": [98]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"This Agreement, subject to the terms and conditions imposed on the removal of Confidential Information under Paragraph 6, sets forth the entire agreement between the Parties with respect to the subject matter hereof, and it may not be modified or amended except by a written agreement executed by the parties hereto; provided, however, (a) each existing confidentiality agreement between some or all of the Parties shall survive the execution of this Agreement and continue in full force and effect in accordance with its stated terms and conditions, and (b) the confidentiality obligations arising under the United States Collaboration Agreement, dated March 31, 2005, by and among Shire LLC, Shire Pharmaceuticals Group PLC, and New River Pharmaceuticals Inc., or under the ROW Territory License Agreement, dated March 31, 2005, by and among Shire Pharmaceuticals Ireland Limited, Shire Pharmaceuticals Group PLC, and New River Pharmaceuticals Inc., shall survive the execution of this Agreement and continue in full force and effect in accordance with the stated terms and conditions of each.\",\n      \"support_ids\": [101]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"15. Severability. \",\n      \"support_ids\": [102]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"If any provision of this Agreement is declared to be invalid, void or unenforceable, (a) the remaining provisions of this Agreement shall continue in full force and effect, and (b) the invalid or unenforceable provision shall be replaced by mutual agreement of the Parties in writing by a term or provision that is valid and enforceable and that comes closest to expressing the intention of such invalid or unenforceable term or provision.\",\n      \"support_ids\": [105]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"16. Governing Law. \",\n      \"support_ids\": [106]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"The validity and interpretation of this Agreement shall be governed by, construed and enforced in accordance with, the laws of the State of New York applicable to agreements made and to be fully performed therein (excluding conflicts of laws provisions thereof).\",\n      \"support_ids\": [107]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"17. Waiver. \",\n      \"support_ids\": [108]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"No waiver by either Party of any provision of this Agreement shall constitute a continuing waiver of such provision or a waiver of any other provision of this Agreement. No waiver by either Party of any breach or default by the other Party, shall constitute a waiver of any other breach or default of the same or any other provision of this Agreement. No waiver of any provision, breach or default shall be effective unless made in writing and signed by an authorized representative of the Party against whom waiver is sought.\",\n      \"support_ids\": [111]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"18. Binding Authority. \",\n      \"support_ids\": [112]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Each Party represents and warrants that (a) it has the power and authority to enter into this Agreement; (b) it has the right to permit the other Party to evaluate the Confidential Information in accordance herewith; and (c) the terms of this Agreement are not inconsistent with any other contractual or legal obligation it may have.\",\n      \"support_ids\": [116]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"19. Multiple Counterparts. \",\n      \"support_ids\": [117]\n    }\n  ],\n  \"roots\": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]\n}",
+        "reasoning_content": null,
+        "finish_reason": "stop",
+        "raw_id": "chatcmpl-f739e44083ce4232a86c5d0888c66dce",
+        "usage": {
+          "prompt_tokens": 15038,
+          "total_tokens": 21214,
+          "completion_tokens": 6176,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "654b12ff4e82864aa0a8fc2c3771b1e653ec9b6e2462e031e8757fde0ac42379",
+        "serving_template_suffix_tokens": [
+          330,
+          6279,
+          788,
+          4383,
+          20008,
+          497,
+          330,
+          37165,
+          7914,
+          330,
+          35499,
+          7903,
+          788,
+          895,
+          3417,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 192.38554036151618,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "ec314fd7f7eb9f6a9c241df309ea2676a9e597ae0605df5bd58f39005b24c391",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_scoped_acquisition_v3_20261113/calls/513a013eb26f0e4158eba66da584bf2da727e3529aded3a53da62deab09985f2"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_scoped_acquisition_v3_20261113:c0ff9e4f27c490e32a22249c389312db8d66adcca9353399b1d526dd797e0d30",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "status": "completed",
+      "request_hash": "6223345560b9608f36f2937a54bb5e591f12649d5b2f6ce6ce798cf33e8dc311",
+      "source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+      "result": {
+        "content": "{\n  \"nodes\": [\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"NON-DISCLOSURE AGREEMENT\",\n      \"support_ids\": [0]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"This Agreement is made effective as of the ____ day of ___________, 20__, by and between:\",\n      \"support_ids\": [1]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"JUST BIOFIBER STRUCTURAL SOLUTIONS CORP., an Alberta Corporation, with offices in Calgary, Alberta (\\\"JUST BIOFIBER\\\");\",\n      \"support_ids\": [2]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"And \",\n      \"support_ids\": [3]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"_______________________________________________________________, having an office in \",\n      \"support_ids\": [4]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"________________________________________________________________________ (\\\"RECIPIENT\\\"), hereinafter collectively referred to as the “Parties” and severally as the “Party”.\",\n      \"support_ids\": [5]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"WHEREAS both Parties (acting as the Receiving Party) desire to receive and the both Parties (acting as the Disclosing Party) are prepared to supply certain Confidential Information (defined below) on the terms and conditions set out herein and solely for the purpose of aiding the other Party in evaluating whether the Parties wish to enter into a commercial relationship with each other (the \\\"Purpose\\\"); AND WHEREAS each Party has, in part, acquired the Confidential Information through the expenditure of time, effort and money and wish to protect the Confidential Information as the use or disclosure of the Confidential Information by or to anyone, but particularly to the general public or a competitor of Disclosing Party, could be highly detrimental to, and not in the best interests of, such Party; NOW THEREFORE in consideration of the premises, the mutual promises herein, and other good and valuable consideration, the Parties hereto agree as follows:\",\n      \"support_ids\": [6]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"1. For the purposes of this Agreement, \\\"Confidential Information\\\" shall mean any and all information provided by, or on behalf of, the Disclosing Party to the Receiving Party prior to or following the execution of this Agreement and in any way relating to the Purpose (including, without limitation, any and all intellectual property, business secrets, business information, business plans, financial and pricing information, business practices, financial statements and reports, project specifications, projections, schematics and drawings, trade secrets, processes, materials, customer lists, supplier lists, sales volume, territories, markets, current, future or potential acquisitions, technical, production, operational, marketing or sales information disclosed hereunder) provided in connection therewith, regardless of form or format, provided however that Confidential Information shall not include information which the Receiving Party can establish through written records: \",\n      \"support_ids\": [7]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(a) is, at the time of disclosure, readily available to the trade or the public through no fault of the Receiving Party, provided however that that where any part of such information is readily available to the trade or the public but a compilation of information which includes such part is not so available then such compilation shall be treated as Confidential Information hereunder; or \",\n      \"support_ids\": [8]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"(b) was rightfully in its possession prior to the disclosure of such Confidential Information to the Receiving Party by, or on behalf of, the Disclosing Party.\",\n      \"support_ids\": [9]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"2. The Receiving Party shall use the Confidential Information solely for the Purpose and shall not use the Confidential Information in any manner except as reasonably required for the Purpose. \",\n      \"support_ids\": [10]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Nothing in this Agreement obligates the Disclosing Party to make any particular disclosure of Confidential Information. \",\n      \"support_ids\": [11]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"This Agreement shall apply to all Confidential Information regardless of its form or medium, whether conveyed orally, visually, electronically or in writing, and whether or not it is designated as \\\"confidential\\\".\",\n      \"support_ids\": [12]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"3. The Receiving Party shall protect the Disclosing Party’s interest in the Confidential Information and shall keep the Confidential Information confidential. \",\n      \"support_ids\": [13]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"The Receiving Party shall not disclose, allow access to, transmit or transfer the Confidential Information to any third party without the Disclosing Party’s prior written consent, provided however that the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\\\"Representatives\\\") who have a need to know the Confidential Information for the Purpose provided that the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential and at all times in a manner consistent with this Agreement and the Receiving Party shall be liable for any loss or damage resulting from any Representative failing to do so.\",\n      \"support_ids\": [14]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"4. The Receiving Party shall notify the Disclosing Party promptly of any unauthorized use or possession of the Confidential Information that comes to the Receiving Party’s attention.\",\n      \"support_ids\": [15]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"5. In the event that the Receiving Party is required to disclose Confidential Information pursuant to any applicable law or an order from a court of competent jurisdiction, the Receiving Party shall only disclose such portion of the Confidential Information that it is legally required to disclose, and shall use all reasonable efforts to obtain confidential treatment for any Confidential Information so disclosed. \",\n      \"support_ids\": [16]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"The Receiving Party shall promptly notify the Disclosing Party of the required disclosure and any relevant information in respect thereto so that the Disclosing Party may take appropriate steps to protect such Confidential Information from such disclosure.\",\n      \"support_ids\": [17]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"6. The Confidential Information shall not be copied or reproduced in any form or stored in a retrieval system or database by the Receiving Party without the prior consent of the Disclosing Party except for such copies and storage as may reasonably be required internally by the Receiving Party for the Purpose. \",\n      \"support_ids\": [18]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"All copies of the Confidential Information shall contain the same proprietary notices which may appear on the original.\",\n      \"support_ids\": [19]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"7. The Receiving Party shall upon request immediately return to the Disclosing Party or destroy, as directed by the Disclosing Party, the Confidential Information and all copies thereof in any form whatsoever under the power or control of the Receiving Party or its Representatives and immediately destroy all compilations, analysis or derivative work relating to the Confidential Information. \",\n      \"support_ids\": [20]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Where the Receiving Party satisfies its obligation to return or destroy the embodiments of the Confidential Information by destroying such embodiments, the Receiving Party will deliver to the Disclosing Party a certificate signed by an officer of the Receiving Party certifying such destruction of such embodiments. \",\n      \"support_ids\": [21]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"8. All right, title and interest in and to the Confidential Information, including, without limitation, all patent rights, trade secret and confidential information rights, copyrights and other intellectual property, industrial, proprietary and other rights of any kind or nature, shall remain the exclusive property of the Disclosing Party, and the Confidential Information shall be held in trust and confidence by the Receiving Party for the Disclosing Party. \",\n      \"support_ids\": [22]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"The Disclosing Party shall retain title to all tangible media on which Confidential Information resides, including documentation, discs, and all copies thereof. \",\n      \"support_ids\": [23]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"No interest, license or any other right in, or to, the Confidential Information, other than expressly set out herein, is granted to the Receiving Party under this Agreement by implication or otherwise. \",\n      \"support_ids\": [24]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Although the Confidential Information is obtained from sources believed to be reliable, the Confidential Information is provided hereunder on a strictly \\\"as is\\\", \\\"where is\\\", \\\"with all faults\\\" basis, and without warranties, conditions or representations of any kind, express or implied, and this Agreement, and the provision of Confidential Information, shall not constitute any representation, warranty or guarantee to the Receiving Party by the Disclosing Party whatsoever, including without limitation any representation, warranty or guarantee with respect to the Confidential Information infringing, violating, misappropriating or otherwise interfering with any rights of third parties. \",\n      \"support_ids\": [25]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"The Disclosing Party shall not be held liable for any errors or omissions in the Confidential Information or the use, or the results of the use of, the Confidential Information. \",\n      \"support_ids\": [26]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"The Disclosing Party shall have no responsibility for updating or correcting any Confidential Information provided hereunder.\",\n      \"support_ids\": [27]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"9. The Receiving Party understands and agrees that the Confidential Information is information of a confidential nature of the Disclosing Party, is consistently treated as such by the Disclosing Party and that the public release of this information shall cause irreparable damage to the Disclosing Party. \",\n      \"support_ids\": [28]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"The Confidential Information is being disclosed by the Disclosing Party in specific reliance on the commitments and representations of the Receiving Party in this Agreement. \",\n      \"support_ids\": [29]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"It is accordingly agreed that the Disclosing Party shall be entitled to injunctive relief to prevent breaches of this Agreement and to specifically enforce the terms and provisions hereof, in addition to any other remedy to which the Disclosing Party may be entitled at law or in equity.\",\n      \"support_ids\": [30]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"10. This Agreement constitutes the entire agreement between the parties hereto with respect to the subject matter hereof and restates and super cedes any prior understandings and agreements between the parties hereto with respect thereto. \",\n      \"support_ids\": [31]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"No failure or delay by either party in exercising any right under this Agreement shall operate as a waiver thereof or preclude any other or further exercise of such right or the exercise of any other right under this Agreement.\",\n      \"support_ids\": [32]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"11. This Agreement shall be binding during the Purpose and shall remain in effect for a period or 2 years after the Purpose is completed.\",\n      \"support_ids\": [33]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"12. This Agreement shall be governed by and construed in accordance with the laws of the Province of Alberta and the federal laws of Canada applicable therein, without reference to conflicts of law principles. \",\n      \"support_ids\": [34]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"No Party may assign this Agreement.\",\n      \"support_ids\": [35]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"13. If any provision of this Agreement is declared invalid, illegal or unenforceable by a court of competent jurisdiction such provision shall be severed from the Agreement and all other provisions of the Agreement shall remain in full force and effect.\",\n      \"support_ids\": [36]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"14. This Agreement may be executed in counterparts. \",\n      \"support_ids\": [37]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Each shall be deemed an original, but together shall constitute one and the same instrument.\",\n      \"support_ids\": [38]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"IN WITNESS WHEREOF, duly authorized representatives of the parties hereto, each after having had the opportunity to discuss this Agreement with their respective legal advisors, have executed this Agreement.\",\n      \"support_ids\": [39]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"JUST BIOFIBER STRUCTURAL SOLUTIONS CORP.\",\n      \"support_ids\": [40]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Sign: \",\n      \"support_ids\": [41]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"_______________________________\",\n      \"support_ids\": [42]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Name: \",\n      \"support_ids\": [43]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"_______________________________\",\n      \"support_ids\": [44]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Title: \",\n      \"support_ids\": [45]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"_______________________________\",\n      \"support_ids\": [46]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Recipient Name\",\n      \"support_ids\": [47]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"______________________________________\",\n      \"support_ids\": [48]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Sign: \",\n      \"support_ids\": [49]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"_______________________________\",\n      \"support_ids\": [50]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"Name: \",\n      \"support_ids\": [51]\n    },\n    {\n      \"op\": \"literal\",\n      \"args\": [],\n      \"text\": \"_______________________________\",\n      \"support_ids\": [52]\n    }\n  ],\n  \"roots\": [0]\n}",
+        "reasoning_content": null,
+        "finish_reason": "stop",
+        "raw_id": "chatcmpl-2c8ee76291ec498fba087812517e387d",
+        "usage": {
+          "prompt_tokens": 9702,
+          "total_tokens": 13242,
+          "completion_tokens": 3540,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "ab834fa9c4c3f542f3b179836e342c8755c640149e71eb8ce4c68ec755f4acdf",
+        "serving_template_suffix_tokens": [
+          330,
+          6279,
+          788,
+          4383,
+          20008,
+          497,
+          330,
+          37165,
+          7914,
+          330,
+          35499,
+          7903,
+          788,
+          895,
+          3417,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 105.17526506911963,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "6223345560b9608f36f2937a54bb5e591f12649d5b2f6ce6ce798cf33e8dc311",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_scoped_acquisition_v3_20261113/calls/e2c320d9b32edaf562268eb75f00edf5188134a17691336e20969ae979b8a1f1"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_scoped_acquisition_v4_20261113:3aae0a94dc76ff89d40c93ee762a5afd2b95abea0877551400f25010d91348a0",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "status": "completed",
+      "request_hash": "83f45f6d20cf50e252e0c32bb577c41dab9effdc4a51b69b152e52a0250ac2da",
+      "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "result": {
+        "content": "{\n  \"statements\": [\n    {\n      \"expression\": \"permission(receiving_party(),disclose(confidential_information(),participant_union(directors_of(receiving_party()),participant_union(officers_of(receiving_party()),participant_union(employees_of(receiving_party()),participant_union(legal_advisors_of(receiving_party()),participant_union(financial_advisors_of(receiving_party()),accountants_of(receiving_party()))))))),and_condition(confidentiality_bound(\\\"consistent with this Agreement\\\"),and_condition(need_to_know(\\\"Business Purpose\\\"),extent_necessary(\\\"Business Purpose\\\"))))\",\n      \"support_ids\": [30]\n    },\n    {\n      \"expression\": \"prohibition(receiving_party(),disclose(confidential_information(),third_parties()),no_condition(),add_exception(exception_set(authorization_exception(\\\"prior written consent of the Disclosing Party\\\")),cross_reference_exception(\\\"Paragraph 4\\\")))\",\n      \"support_ids\": [27]\n    },\n    {\n      \"expression\": \"prohibition(receiving_party(),disclose(confidential_information(),third_parties()),no_condition(),add_exception(exception_set(authorization_exception(\\\"prior written consent of the Disclosing Party\\\")),permission_exception(permission(receiving_party(),disclose(confidential_information(),participant_union(directors_of(receiving_party()),participant_union(officers_of(receiving_party()),employees_of(receiving_party())))),and_condition(need_to_know(\\\"Purpose\\\"),confidentiality_bound(\\\"consistent with this Agreement\\\"))))))\",\n      \"support_ids\": [12]\n    },\n    {\n      \"expression\": \"prohibition(participant_union(receiving_party(),representatives_of(receiving_party())),disclose(confidential_information(),outsiders_to(participant_union(receiving_party(),representatives_of(receiving_party())))),no_condition(),add_exception(exception_set(authorization_exception(\\\"expressly authorized in writing by Originating Party\\\")),purpose_exception(\\\"required to analyze the Business Relationship or fulfill Receiving Party obligations\\\")))\",\n      \"support_ids\": [12]\n    },\n    {\n      \"expression\": \"define_representative(receiving_party(),participant_union(directors_of(receiving_party()),participant_union(officers_of(receiving_party()),participant_union(employees_of(receiving_party()),participant_union(accountants_of(receiving_party()),participant_union(legal_advisors_of(receiving_party()),participant_union(lenders_of(receiving_party()),agents_of(receiving_party())))))))\",\n      \"support_ids\": [30]\n    },\n    {\n      \"expression\": \"define_representative(receiving_party(),participant_union(directors_of(receiving_party()),participant_union(officers_of(receiving_party()),participant_union(ARG0,participant_union(accountants_of(receiving_party()),participant_union(legal_advisors_of(receiving_party()),participant_union(lenders_of(receiving_party()),agents_of(receiving_party())))))))\",\n      \"support_ids\": [30]\n    },\n    {\n      \"expression\": \"prohibition(named_recipient(\\\"Volunteer\\\"),disclose(confidential_information(),third_parties()),no_condition(),exception_set(authorization_exception(\\\"prior written consent from the Certification Council for Professional Dog Trainers\\\")))\",\n      \"support_ids\": [12]\n    },\n    {\n      \"expression\": \"possible_disclosure_description(disclosing_party(),confidential_information(),receiving_party())\",\n      \"support_ids\": [8]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    },\n    {\n      \"expression\": \"define_receiving_party(\\\"Receiving Party\\\")\",\n      \"support_ids\": [18]\n    }\n  ]\n}",
+        "reasoning_content": null,
+        "finish_reason": "stop",
+        "raw_id": "chatcmpl-6e49e34f6ae94ffbb21e6aabc93db246",
+        "usage": {
+          "prompt_tokens": 13131,
+          "total_tokens": 14273,
+          "completion_tokens": 1142,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "4ef8f720675992d70a17ae6171069c525b3a2e55e921af47aeef84435edcd712",
+        "serving_template_suffix_tokens": [
+          895,
+          3417,
+          2137,
+          330,
+          6279,
+          788,
+          4383,
+          94587,
+          7914,
+          330,
+          35499,
+          7903,
+          788,
+          895,
+          3417,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 36.270875765010715,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "83f45f6d20cf50e252e0c32bb577c41dab9effdc4a51b69b152e52a0250ac2da",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_scoped_acquisition_v4_20261113/calls/52a4528be088ea0b336d424363ca38e047f4a74808519373fa1c1e32f69e3ee3"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_scoped_acquisition_v4_20261113:8631dac72a6c1fd245c8b4996a50035c2205b6b84e5136cdce4497bc590ceb03",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "status": "completed",
+      "request_hash": "f98c94985856bb3c57da5e31166742fd3b8ad762af94ced7661de8b47e077911",
+      "source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+      "result": {
+        "content": "{\n  \"statements\": [\n    {\n      \"expression\": \"permission(receiving_party(),disclose(confidential_information(),participant_union(directors_of(receiving_party()),participant_union(officers_of(receiving_party()),participant_union(employees_of(receiving_party()),participant_union(legal_advisors_of(receiving_party()),participant_union(financial_advisors_of(receiving_party()),accountants_of(receiving_party()))))))),and_condition(confidentiality_bound(\\\"consistent with this Agreement\\\"),and_condition(need_to_know(\\\"Business Purpose\\\"),extent_necessary(\\\"Business Purpose\\\"))))\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"prohibition(receiving_party(),disclose(confidential_information(),third_parties()),no_condition(),add_exception(exception_set(authorization_exception(\\\"prior written consent of the Disclosing Party\\\")),cross_reference_exception(\\\"Paragraph 4\\\")))\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"possible_disclosure_description(disclosing_party(),confidential_information(),receiving_party())\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"prohibition(receiving_party(),disclose(confidential_information(),third_parties()),no_condition(),add_exception(exception_set(authorization_exception(\\\"prior written consent of the Disclosing Party\\\")),permission_exception(permission(receiving_party(),disclose(confidential_information(),participant_union(directors_of(receiving_party()),participant_union(officers_of(receiving_party()),employees_of(receiving_party())))),and_condition(need_to_know(\\\"Purpose\\\"),confidentiality_bound(\\\"consistent with this Agreement\\\"))))))\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"prohibition(participant_union(receiving_party(),representatives_of(receiving_party())),disclose(confidential_information(),outsiders_to(participant_union(receiving_party(),representatives_of(receiving_party())))),no_condition(),add_exception(exception_set(authorization_exception(\\\"expressly authorized in writing by Originating Party\\\")),purpose_exception(\\\"required to analyze the Business Relationship or fulfill Receiving Party obligations\\\")))\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"prohibition(named_recipient(\\\"Volunteer\\\"),disclose(confidential_information(),third_parties()),no_condition(),exception_set(authorization_exception(\\\"prior written consent from the Certification Council for Professional Dog Trainers\\\")))\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"define_representative(receiving_party(),participant_union(directors_of(receiving_party()),participant_union(officers_of(receiving_party()),participant_union(employees_of(receiving_party()),participant_union(legal_advisors_of(receiving_party()),participant_union(financial_advisors_of(receiving_party()),accountants_of(receiving_party()))))))\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"define_representative(receiving_party(),participant_union(directors_of(receiving_party()),participant_union(officers_of(receiving_party()),participant_union(employees_of(receiving_party()),participant_union(legal_advisors_of(receiving_party()),participant_union(lenders_of(receiving_party()),agents_of(receiving_party()))))))\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"confidentiality_bound(\\\"consistent with this Agreement\\\")\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"need_to_know(\\\"Business Purpose\\\")\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"extent_necessary(\\\"Business Purpose\\\")\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"cross_reference_exception(\\\"Paragraph 4\\\")\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"authorization_exception(\\\"prior written consent of the Disclosing Party\\\")\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"authorization_exception(\\\"prior written consent from the Certification Council for Professional Dog Trainers\\\")\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"authorization_exception(\\\"expressly authorized in writing by Originating Party\\\")\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"purpose_exception(\\\"required to analyze the Business Relationship or fulfill Receiving Party obligations\\\")\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"permission_exception(permission(receiving_party(),disclose(confidential_information(),participant_union(directors_of(receiving_party()),participant_union(officers_of(receiving_party()),employees_of(receiving_party())))),and_condition(need_to_know(\\\"Purpose\\\"),confidentiality_bound(\\\"consistent with this Agreement\\\"))))\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"prohibition(receiving_party(),disclose(confidential_information(),third_parties()),no_condition(),add_exception(exception_set(authorization_exception(\\\"prior written consent of the Disclosing Party\\\")),permission_exception(permission(receiving_party(),disclose(confidential_information(),participant_union(directors_of(receiving_party()),participant_union(officers_of(receiving_party()),ARG0)),and_condition(need_to_know(\\\"Purpose\\\"),confidentiality_bound(\\\"consistent with this Agreement\\\"))))))\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"permission(receiving_party(),disclose(confidential_information(),participant_union(directors_of(receiving_party()),participant_union(officers_of(receiving_party()),participant_union(ARG0,ARG1)))),and_condition(ARG2,and_condition(ARG3,extent_necessary(\\\"Business Purpose\\\"))))\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"prohibition(receiving_party(),disclose(confidential_information(),third_parties()),no_condition(),add_exception(exception_set(authorization_exception(\\\"prior written consent of the Disclosing Party\\\")),ARG0))\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"prohibition(receiving_party(),disclose(confidential_information(),third_parties()),no_condition(),add_exception(exception_set(authorization_exception(\\\"prior written consent of the Disclosing Party\\\")),permission_exception(permission(receiving_party(),disclose(confidential_information(),participant_union(directors_of(receiving_party()),participant_union(officers_of(receiving_party()),employees_of(receiving_party())))),and_condition(need_to_know(\\\"Purpose\\\"),confidentiality_bound(\\\"consistent with this Agreement\\\"))))))\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"prohibition(receiving_party(),disclose(confidential_information(),third_parties()),no_condition(),add_exception(exception_set(authorization_exception(\\\"prior written consent of the Disclosing Party\\\")),permission_exception(permission(receiving_party(),disclose(confidential_information(),participant_union(directors_of(receiving_party()),participant_union(officers_of(receiving_party()),ARG0)),and_condition(need_to_know(\\\"Purpose\\\"),confidentiality_bound(\\\"consistent with this Agreement\\\"))))))\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"permission(receiving_party(),disclose(confidential_information(),participant_union(directors_of(receiving_party()),participant_union(officers_of(receiving_party()),participant_union(employees_of(receiving_party()),participant_union(legal_advisors_of(receiving_party()),participant_union(financial_advisors_of(receiving_party()),accountants_of(receiving_party()))))))),and_condition(confidentiality_bound(\\\"consistent with this Agreement\\\"),and_condition(need_to_know(\\\"Business Purpose\\\"),extent_necessary(\\\"Business Purpose\\\"))))\",\n      \"support_ids\": [4, 6, 14]\n    },\n    {\n      \"expression\": \"prohibition(receiving_party(),disclose(confidential_information(),third_parties()),no_condition(),add_exception(exception_set(authorization_exception(\\\"prior written consent of the Disclosing Party\\\")),cross_reference_exception(\\\"Paragraph 4\\\")))\",\n      \"support_ids\": [4, 6, 14]\n    }\n  ]\n}",
+        "reasoning_content": null,
+        "finish_reason": "stop",
+        "raw_id": "chatcmpl-f91ef87cc63840dfb455cc92bd8c800f",
+        "usage": {
+          "prompt_tokens": 7794,
+          "total_tokens": 9611,
+          "completion_tokens": 1817,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "a73624c90c408712369426233d618e6de9c875f09e82ef855a7ab06a97809988",
+        "serving_template_suffix_tokens": [
+          895,
+          3417,
+          2137,
+          330,
+          6279,
+          788,
+          4383,
+          94587,
+          7914,
+          330,
+          35499,
+          7903,
+          788,
+          895,
+          3417,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 53.18696722574532,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "f98c94985856bb3c57da5e31166742fd3b8ad762af94ced7661de8b47e077911",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_scoped_acquisition_v4_20261113/calls/ad7e7a4802a5e92394a291ca9875604562bb3a9c62277a4f7c3d49dacf4b1d77"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_scoped_acquisition_v5_20261113:teacher:b51b03aca157815b4675716f2baf7ddc7de58f73a5ffc8bcb06169e7354bf3b6",
+      "role": "teacher",
+      "purpose": "skill_teacher",
+      "status": "completed",
+      "request_hash": "e44131d500b0c0a2e92dc927b8ec61cc82b6707831391681da71487261a0b2b3",
+      "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "result": {
+        "value": {
+          "architecture": "program",
+          "rationale": "选择完整直接程序。修订后的可复用方法学习了两项核心语义：只有操作性披露或访问授权才能产生 Entailment；收件人类别必须按其所有者和例外范围解析，定义、背景描述及禁令中出现的角色本身不构成许可。程序分别抽取许可的目标短语与禁令的目标短语，因此“禁止向第三方披露，但允许向雇员披露”不会再被误读为第三方许可；受目的约束的功能性例外保持为未知，而不会被扩大成一般许可或一般禁止。它还支持代表定义、跨相邻 span 的指代以及从枚举子条款继承规范主体。实际学习是上述操作性规范、角色所有权和例外作用域的统一判定方法；普通修复则是把旧程序过宽的整句角色匹配改为许可目标的局部抽取。程序不含合同、公司或旧 source ID 分支。",
+          "grammar": null,
+          "program": "def norm(x):\n    return re.sub(r'\\s+', ' ', str(x).lower()).strip()\n\ndef add(dst, vals):\n    for v in vals:\n        if v not in dst:\n            dst.append(v)\n    return dst\n\ndef info_ref(t):\n    return bool(re.search(r'\\b(?:confidential information|confidential materials?|such confidential information|such information|the information)\\b', t))\n\ndef roles(t):\n    emp = bool(re.search(r'\\b(?:employees?|staff|personnel)\\b', t))\n    ext = bool(re.search(r'\\b(?:consultants?|contractors?|agents?|professional advisers?|professional advisors?|legal advisers?|legal advisors?|financial advisers?|financial advisors?|accountants?|attorneys?|lawyers?|outside counsel|legal counsel|auditors?|lenders?)\\b', t))\n    rep = bool(re.search(r'\\brepresentatives?\\b', t))\n    return emp, ext, rep\n\ndef rep_definition(t):\n    if not re.search(r'\\brepresentatives?\\b', t):\n        return False\n    return bool(re.search(r'\\brepresentatives?\\b.{0,35}\\b(?:means?|shall mean|includes?|refers? to)\\b', t) or re.search(r'\\([\\\"\\' ]*representatives?[\\\"\\' ]*\\)', t))\n\ndef cut_target(t):\n    end = min(len(t), 500)\n    stops = [' provided that ', ' provided, however', ' on the condition ', ' on condition ', ' but only ', ' who have ', ' who need ', ' who are ', ' each bound ', ' and that ', ';', '.']\n    for s in stops:\n        p = t.find(s)\n        if p >= 1 and p < end:\n            end = p\n    return t[:end]\n\ndef permission_segments(t):\n    out = []\n    pat = r'\\b(?:may|can)\\s+(?:use\\s+and\\s+)?(?:internally\\s+)?(?:disclose|share|provide|release|transmit|give|make available|allow access)\\b'\n    for m in re.finditer(pat, t):\n        phrase = m.group(0)\n        if 'internally share' in phrase:\n            out.append('__internal__')\n        else:\n            tail = t[m.end():m.end() + 650]\n            p = tail.find(' to ')\n            if p >= 0:\n                out.append(cut_target(tail[p + 4:]))\n    for m in re.finditer(r'\\brestrict(?:s|ed|ing)?\\s+access\\b[^.;]{0,90}\\bto\\b', t):\n        out.append(cut_target(t[m.end():m.end() + 500]))\n    ep = r'\\bnot\\b[^.;]{0,320}\\b(?:disclose|share|provide|release|transmit|divulge|communicate)\\b[^.;]{0,260}\\bexcept(?:\\s+in\\s+confidence)?\\s+to\\b'\n    for m in re.finditer(ep, t):\n        out.append(cut_target(t[m.end():m.end() + 500]))\n    op = r'\\bnot\\b[^.;]{0,320}\\b(?:disclose|share|provide|release|transmit|divulge|communicate)\\b[^.;]{0,260}\\bother\\s+than\\b'\n    for m in re.finditer(op, t):\n        out.append(cut_target(t[m.end():m.end() + 500]))\n    return out\n\ndef operative_permission(t):\n    if not info_ref(t):\n        return False\n    if not permission_segments(t):\n        return False\n    bad = re.search(r'\\b(?:disclosing|originating) party\\b[^.;]{0,90}\\bmay\\s+(?:disclose|share|provide)', t)\n    good = re.search(r'\\b(?:receiving party|recipient|each party|either party|participating entity|volunteer)\\b', t)\n    return not bool(bad and not good)\n\ndef wrong_employee_owner(t):\n    return bool(re.search(r'\\b(?:disclosing|originating|other)\\s+party[\\'’]?s\\b[^.;]{0,90}\\bemployees?\\b', t) or re.search(r'\\bemployees?\\s+of\\s+(?:the\\s+)?(?:disclosing|originating|other)\\s+party\\b', t) or re.search(r'\\baffiliates?[\\'’]\\s*[^.;]{0,80}\\bemployees?\\b', t))\n\ndef wrong_rep_owner(t):\n    return bool(re.search(r'\\b(?:disclosing|originating|other)\\s+party[\\'’]?s\\s+representatives?\\b', t) or re.search(r'\\brepresentatives?\\s+of\\s+(?:the\\s+)?(?:disclosing|originating|other)\\s+party\\b', t))\n\ndef context_ids(spans, i, ids):\n    out = list(ids)\n    for j in range(i - 1, max(-1, i - 9), -1):\n        t = norm(spans[j].get('text', ''))\n        if re.search(r'\\b(?:undertakes?\\s+in\\s+relation|further\\s+promises?\\s+and\\s+agrees?|each\\s+party\\s+agrees|entity\\s+agrees)\\b', t):\n            v = spans[j].get('id')\n            if v not in out:\n                out = [v] + out\n            break\n    return out\n\ndef functional_exception(t):\n    return bool(re.search(r'\\bexcept\\b[^.;]{0,220}\\brequired\\b[^.;]{0,180}\\b(?:purpose|business relationship|obligations?|service)\\b', t))\n\ndef prohibition_target(t, task_id):\n    if not info_ref(t):\n        return False\n    verb = r'(?:disclos(?:e|ed|ing)|shar(?:e|ed|ing)|provid(?:e|ed|ing)|releas(?:e|ed|ing)|transmit(?:ted|ting)?|divulg(?:e|ed|ing)|communicat(?:e|ed|ing)|transfer(?:red|ring)?)'\n    if task_id == 'nda-7':\n        target = r'(?:third[- ]part(?:y|ies)|any\\s+other\\s+person|any\\s+other\\s+organization)'\n    else:\n        target = r'(?:(?:its|their|receiving party[\\'’]s)\\s+)?employees?'\n    pat = r'\\b(?:shall\\s+|will\\s+|must\\s+|may\\s+)?not\\b[^.;]{0,280}\\b' + verb + r'\\b[^.;]{0,300}\\b' + target + r'\\b'\n    pat2 = r'\\b(?:agrees?\\s+not\\s+to|prohibited\\s+from)\\b[^.;]{0,260}\\b' + verb + r'\\b[^.;]{0,300}\\b' + target + r'\\b'\n    if not (re.search(pat, t) or re.search(pat2, t)):\n        return False\n    if functional_exception(t):\n        return False\n    p = t.find(' not ')\n    if p < 0:\n        p = t.find('prohibited')\n    pre = t[:p] if p >= 0 else t\n    bad = max(pre.rfind('disclosing party'), pre.rfind('originating party'))\n    good = max(pre.rfind('receiving party'), pre.rfind('recipient'), pre.rfind('each party'), pre.rfind('either party'), pre.rfind('volunteer'), pre.rfind('participating entity'), pre.rfind('representatives'))\n    return not (bad >= 0 and bad > good)\n\ndef relevant(spans, task_id):\n    out = []\n    for s in spans:\n        t = norm(s.get('text', ''))\n        emp, ext, rep = roles(t)\n        verb = bool(re.search(r'\\b(?:disclose|disclosed|disclosing|share|shared|divulge|communicate|provide|release|transmit|transfer|access)\\b', t))\n        role = emp or rep if task_id == 'nda-5' else ext or rep or bool(re.search(r'\\bthird[- ]part(?:y|ies)\\b', t))\n        if info_ref(t) and verb and role:\n            add(out, [s.get('id')])\n            if len(out) >= 8:\n                break\n    if not out:\n        for s in spans:\n            t = norm(s.get('text', ''))\n            if info_ref(t) and re.search(r'\\b(?:confidential|disclose|disclosure)\\b', t):\n                add(out, [s.get('id')])\n                if len(out) >= 4:\n                    break\n    return out\n\ndef apply(inputs, premises):\n    task_id = inputs.get('task_id') if isinstance(inputs, dict) else None\n    if task_id not in ['nda-5', 'nda-7'] or not isinstance(premises, dict):\n        return {'handled': False, 'answer': None, 'used_span_ids': []}\n    spans = premises.get('source_spans')\n    if not isinstance(spans, list) or not spans:\n        return {'handled': False, 'answer': None, 'used_span_ids': []}\n    defs = []\n    for s in spans:\n        t = norm(s.get('text', ''))\n        if rep_definition(t):\n            emp, ext, rep = roles(t)\n            defs.append((s.get('id'), emp, ext))\n    ent5 = []\n    ent7 = []\n    n = len(spans)\n    for size in [1, 2]:\n        for i in range(0, n - size + 1):\n            parts = []\n            ids = []\n            for j in range(i, i + size):\n                parts.append(norm(spans[j].get('text', '')))\n                ids.append(spans[j].get('id'))\n            t = ' '.join(parts)\n            if not operative_permission(t):\n                continue\n            for seg in permission_segments(t):\n                emp, ext, rep = roles(seg)\n                if seg == '__internal__':\n                    emp = True\n                if re.search(r'\\ball\\s+such\\s+employees?\\b', t):\n                    emp = True\n                if wrong_employee_owner(seg):\n                    emp = False\n                if wrong_rep_owner(seg):\n                    rep = False\n                p5 = context_ids(spans, i, ids)\n                p7 = context_ids(spans, i, ids)\n                if rep:\n                    for did, de, dx in defs:\n                        if de and not emp:\n                            emp = True\n                            add(p5, [did])\n                        if dx and not ext:\n                            ext = True\n                            add(p7, [did])\n                if emp and not ent5:\n                    ent5 = p5\n                if ext and not ent7:\n                    ent7 = p7\n    if task_id == 'nda-5' and ent5:\n        return {'handled': True, 'answer': 'Entailment', 'used_span_ids': ent5}\n    if task_id == 'nda-7' and ent7:\n        return {'handled': True, 'answer': 'Entailment', 'used_span_ids': ent7}\n    for i, s in enumerate(spans):\n        t = norm(s.get('text', ''))\n        if prohibition_target(t, task_id):\n            ids = context_ids(spans, i, [s.get('id')])\n            return {'handled': True, 'answer': 'Contradiction', 'used_span_ids': ids}\n    ids = relevant(spans, task_id)\n    if not ids:\n        return {'handled': False, 'answer': None, 'used_span_ids': []}\n    return {'handled': True, 'answer': 'NotMentioned', 'used_span_ids': ids}",
+          "source_program": null
+        },
+        "model": "gpt-5.6-sol",
+        "request_sha256": "c19bf79ed7dee04153de5a383d55a711d673d9c1407cc178703f049611677162",
+        "response_sha256": "5d927e1e51cc5e6d30c7ce02d614ebc36fbd745f05e9b6d22e34bf5838332bcf",
+        "cache_hit": false,
+        "invocation": {
+          "attempt": 1,
+          "started_at": "2026-11-12T20:35:21.038303+00:00",
+          "finished_at": "2026-11-12T20:37:58.018810+00:00",
+          "elapsed_seconds": 156.981,
+          "returncode": 0,
+          "event_log_sha256": "160ec1527f3e408040b13c847c265e26b55475571166ddde54e4bf639bf3f4b1",
+          "tool_events_detected": false,
+          "budget_reservation": null,
+          "usage": {
+            "input_tokens": 63606,
+            "cached_input_tokens": 0,
+            "output_tokens": 8329,
+            "reasoning_output_tokens": 5178
+          },
+          "estimated_credits": null
+        },
+        "source_ids": [
+          "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+          "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+          "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+          "ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54",
+          "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+          "ContractNLI:e671a984356facb0c0666809e219fa44fa18d30e4f6252bbb33d8869fc43b1c9",
+          "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+          "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40"
+        ],
+        "elapsed_seconds": 156.9821575731039,
+        "billing_basis": "existing_authorized_Codex_CLI",
+        "actual_cash_invoice_available": false
+      }
+    },
+    {
+      "id": "legal_skill_evolution_scoped_acquisition_v5_20261113:teacher:e6505f12da7e57f37a8d739f8fc563bc7929c17cf8ad29f33e1de9aa551a4424",
+      "role": "teacher",
+      "purpose": "skill_teacher",
+      "status": "completed",
+      "request_hash": "5f376549d2b6a2d079e6bbedece36e8bcf344c6c5a7334d84011e3298297596d",
+      "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+      "result": {
+        "value": {
+          "architecture": "grammar",
+          "rationale": "The revised skill learns a source-grounded distinction between operative permissions, operative prohibitions, descriptive disclosures, and owner-relative definitions. Its deterministic source reader replaces the failed neural IR generation: it emits only closed JSON terms supported by current spans, resolves representative definitions and cross-referenced permissions when possible, and reports unresolved scope instead of copying training terms or ARG placeholders. The substantive acquisition is the reusable treatment of bounded recipient classes, possessive ownership, embedded permission exceptions, outsider prohibitions, and descriptions that do not create permissions. The ordinary repair is limited to using syntactically valid term JSON and a pure reader/consumer pipeline.",
+          "grammar": {
+            "rationale": "Disclosure recipients are nested participant terms whose possessors remain explicit. The contextual party constructor permits a representative definition to be instantiated for the party acting as recipient, while descriptions and information definitions remain non-operative. Permissions may occur directly or as exceptions inside prohibitions. Authorization and purpose exceptions remain bounded exceptions rather than general disclosure permissions.",
+            "constructors": [
+              {
+                "name": "receiving_party",
+                "meaning": "The party holding the protected information in the operative disclosure context.",
+                "sort": "Participant",
+                "arguments": []
+              },
+              {
+                "name": "disclosing_party",
+                "meaning": "The party supplying or owning the protected information in the operative disclosure context.",
+                "sort": "Participant",
+                "arguments": []
+              },
+              {
+                "name": "party",
+                "meaning": "A contextual agreement party. In a generic definition its occurrences share one binding, which is supplied by the enclosing operative use.",
+                "sort": "Participant",
+                "arguments": []
+              },
+              {
+                "name": "named_recipient",
+                "meaning": "A source-designated recipient or information holder retained as text.",
+                "sort": "Participant",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "other_party_of",
+                "meaning": "The counterparty relative to the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "participant_union",
+                "meaning": "The union of two participant classes.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant",
+                  "Participant"
+                ]
+              },
+              {
+                "name": "representatives_of",
+                "meaning": "Representatives possessed by the enclosed participant, with membership supplied only by a matching definition or explicit list.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "affiliates_of",
+                "meaning": "Affiliates possessed or controlled by the enclosed participant; their personnel are not flattened into the participant's own employees.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "directors_of",
+                "meaning": "Directors of the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "officers_of",
+                "meaning": "Officers of the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "employees_of",
+                "meaning": "Employees of the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "internal_personnel_of",
+                "meaning": "The internal personnel through whom the enclosed participant can internally share information.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "legal_advisors_of",
+                "meaning": "Legal advisers or attorneys serving the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "financial_advisors_of",
+                "meaning": "Financial advisers serving the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "professional_advisors_of",
+                "meaning": "Professional advisers serving the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "accountants_of",
+                "meaning": "Accountants serving the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "consultants_of",
+                "meaning": "Consultants serving the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "agents_of",
+                "meaning": "Agents serving the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "independent_contractors_of",
+                "meaning": "Contractors serving the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "lenders_of",
+                "meaning": "Lenders of funds to the enclosed participant.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "third_parties",
+                "meaning": "The unrestricted class of third-party recipients.",
+                "sort": "Participant",
+                "arguments": []
+              },
+              {
+                "name": "outsiders_to",
+                "meaning": "Persons or organizations outside the enclosed participant group. A prohibition scoped this way does not itself prohibit disclosure among members of that group.",
+                "sort": "Participant",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "confidential_information",
+                "meaning": "Information protected as Confidential Information by the enclosing agreement.",
+                "sort": "Information",
+                "arguments": []
+              },
+              {
+                "name": "employee_information",
+                "meaning": "Information about the employees of the enclosed participant; this is information content, not a disclosure recipient.",
+                "sort": "Information",
+                "arguments": [
+                  "Participant"
+                ]
+              },
+              {
+                "name": "disclose",
+                "meaning": "Disclosure or provision of access to the enclosed information for the enclosed recipient class.",
+                "sort": "Action",
+                "arguments": [
+                  "Information",
+                  "Participant"
+                ]
+              },
+              {
+                "name": "no_condition",
+                "meaning": "No additional applicability condition beyond the enclosing norm.",
+                "sort": "Condition",
+                "arguments": []
+              },
+              {
+                "name": "need_to_know",
+                "meaning": "The recipient must have the stated need to know.",
+                "sort": "Condition",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "confidentiality_bound",
+                "meaning": "The recipient must be subject to the stated confidentiality protection.",
+                "sort": "Condition",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "extent_necessary",
+                "meaning": "Disclosure is limited to what is necessary for the stated purpose or activity.",
+                "sort": "Condition",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "and_condition",
+                "meaning": "Both enclosed conditions apply.",
+                "sort": "Condition",
+                "arguments": [
+                  "Condition",
+                  "Condition"
+                ]
+              },
+              {
+                "name": "authorization_exception",
+                "meaning": "The prohibition does not apply when the stated authorization is obtained; this does not create an unrestricted recipient-class permission.",
+                "sort": "Exception",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "purpose_exception",
+                "meaning": "The prohibition does not apply for the stated required purpose or obligation.",
+                "sort": "Exception",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "cross_reference_exception",
+                "meaning": "The exception is governed by the stated source cross-reference and remains unresolved until an operative norm at that reference is found.",
+                "sort": "Exception",
+                "arguments": [
+                  "text"
+                ]
+              },
+              {
+                "name": "permission_exception",
+                "meaning": "An express, class-specific permission embedded within an enclosing prohibition.",
+                "sort": "Exception",
+                "arguments": [
+                  "Norm"
+                ]
+              },
+              {
+                "name": "no_exceptions",
+                "meaning": "An empty exception set.",
+                "sort": "ExceptionSet",
+                "arguments": []
+              },
+              {
+                "name": "exception_set",
+                "meaning": "A singleton exception set.",
+                "sort": "ExceptionSet",
+                "arguments": [
+                  "Exception"
+                ]
+              },
+              {
+                "name": "add_exception",
+                "meaning": "Adds an exception while retaining the scope of the existing exception set.",
+                "sort": "ExceptionSet",
+                "arguments": [
+                  "ExceptionSet",
+                  "Exception"
+                ]
+              },
+              {
+                "name": "permission",
+                "meaning": "An operative permission for the actor to perform the action subject to the condition.",
+                "sort": "Norm",
+                "arguments": [
+                  "Participant",
+                  "Action",
+                  "Condition"
+                ]
+              },
+              {
+                "name": "prohibition",
+                "meaning": "An operative prohibition limited by its condition and precisely scoped exceptions.",
+                "sort": "Norm",
+                "arguments": [
+                  "Participant",
+                  "Action",
+                  "Condition",
+                  "ExceptionSet"
+                ]
+              },
+              {
+                "name": "define_representative",
+                "meaning": "An owner-relative definition of representatives. It interprets representatives_of but creates no disclosure permission by itself.",
+                "sort": "Definition",
+                "arguments": [
+                  "Participant",
+                  "Participant"
+                ]
+              },
+              {
+                "name": "confidential_information_includes",
+                "meaning": "A descriptive definition placing the enclosed information within Confidential Information; it creates no disclosure permission.",
+                "sort": "Definition",
+                "arguments": [
+                  "Information"
+                ]
+              },
+              {
+                "name": "possible_disclosure_description",
+                "meaning": "A recital or factual description that disclosure may occur. It is not an operative permission.",
+                "sort": "Description",
+                "arguments": [
+                  "Participant",
+                  "Information",
+                  "Participant"
+                ]
+              }
+            ],
+            "seeds": [
+              {
+                "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                "source_span_ids": [
+                  30
+                ],
+                "occurrence": 0,
+                "quote": "employees",
+                "term_json": "[\"employees_of\",[\"receiving_party\"]]"
+              },
+              {
+                "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                "source_span_ids": [
+                  30
+                ],
+                "occurrence": 0,
+                "quote": "(a) Subject to the restrictions set forth below in this Section 4, each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose. ",
+                "term_json": "[\"permission\",[\"receiving_party\"],[\"disclose\",[\"confidential_information\"],[\"participant_union\",[\"directors_of\",[\"receiving_party\"]],[\"participant_union\",[\"officers_of\",[\"receiving_party\"]],[\"participant_union\",[\"employees_of\",[\"receiving_party\"]],[\"participant_union\",[\"legal_advisors_of\",[\"receiving_party\"]],[\"participant_union\",[\"financial_advisors_of\",[\"receiving_party\"]],[\"accountants_of\",[\"receiving_party\"]]]]]]]],[\"and_condition\",[\"confidentiality_bound\",\"consistent with this Agreement\"],[\"and_condition\",[\"need_to_know\",\"Business Purpose\"],[\"extent_necessary\",\"Business Purpose\"]]]]"
+              },
+              {
+                "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+                "source_span_ids": [
+                  8
+                ],
+                "occurrence": 0,
+                "quote": "WHEREAS the Parties recognize that in the course of their discussions to further the Business Purpose, it may become necessary for either NEW RIVER or SHIRE or both Parties to disclose Confidential Information (as defined below) to a Receiving Party, whether orally, in writing, graphically, electronically or by visual inspection of the premises of the Disclosing Party, and",
+                "term_json": "[\"possible_disclosure_description\",[\"disclosing_party\"],[\"confidential_information\"],[\"receiving_party\"]]"
+              },
+              {
+                "source": "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+                "source_span_ids": [
+                  14
+                ],
+                "occurrence": 0,
+                "quote": "The Receiving Party shall not disclose, allow access to, transmit or transfer the Confidential Information to any third party without the Disclosing Party’s prior written consent, provided however that the Receiving Party may disclose the Confidential Information to those of its directors, officers and employees (\"Representatives\") who have a need to know the Confidential Information for the Purpose provided that the Receiving Party shall ensure that such Representatives treat the Confidential Information as confidential and at all times in a manner consistent with this Agreement and the Receiving Party shall be liable for any loss or damage resulting from any Representative failing to do so.",
+                "term_json": "[\"prohibition\",[\"receiving_party\"],[\"disclose\",[\"confidential_information\"],[\"third_parties\"]],[\"no_condition\"],[\"add_exception\",[\"exception_set\",[\"authorization_exception\",\"prior written consent of the Disclosing Party\"]],[\"permission_exception\",[\"permission\",[\"receiving_party\"],[\"disclose\",[\"confidential_information\"],[\"participant_union\",[\"directors_of\",[\"receiving_party\"]],[\"participant_union\",[\"officers_of\",[\"receiving_party\"]],[\"employees_of\",[\"receiving_party\"]]]]],[\"and_condition\",[\"need_to_know\",\"Purpose\"],[\"confidentiality_bound\",\"consistent with this Agreement\"]]]]]]"
+              },
+              {
+                "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                "source_span_ids": [
+                  19
+                ],
+                "occurrence": 0,
+                "quote": " Human resources data and information about employees, contractors and other volunteers;",
+                "term_json": "[\"confidential_information_includes\",[\"employee_information\",[\"named_recipient\",\"Certification Council for Professional Dog Trainers\"]]]"
+              },
+              {
+                "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                "source_span_ids": [
+                  25
+                ],
+                "occurrence": 0,
+                "quote": " Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information. ",
+                "term_json": "[\"prohibition\",[\"named_recipient\",\"Volunteer\"],[\"disclose\",[\"confidential_information\"],[\"third_parties\"]],[\"no_condition\"],[\"exception_set\",[\"authorization_exception\",\"prior written consent from the Certification Council for Professional Dog Trainers\"]]]"
+              },
+              {
+                "source": "ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54",
+                "source_span_ids": [
+                  28
+                ],
+                "occurrence": 0,
+                "quote": "employees",
+                "term_json": "[\"employees_of\",[\"party\"]]"
+              },
+              {
+                "source": "ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54",
+                "source_span_ids": [
+                  28
+                ],
+                "occurrence": 0,
+                "quote": "E. “Representative” means directors, officers, employees, accountants, attorneys, lenders of funds and agents of a party or its affiliates.",
+                "term_json": "[\"define_representative\",[\"party\"],[\"participant_union\",[\"directors_of\",[\"party\"]],[\"participant_union\",[\"officers_of\",[\"party\"]],[\"participant_union\",[\"employees_of\",[\"party\"]],[\"participant_union\",[\"accountants_of\",[\"party\"]],[\"participant_union\",[\"legal_advisors_of\",[\"party\"]],[\"participant_union\",[\"lenders_of\",[\"party\"]],[\"agents_of\",[\"party\"]]]]]]]]]"
+              },
+              {
+                "source": "ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54",
+                "source_span_ids": [
+                  31,
+                  32
+                ],
+                "occurrence": 0,
+                "quote": "Receiving Party therefore agrees that neither it nor its Representatives will at any time make any independent business or personal use of, retain, copy, divulge, disclose, reveal or communicate to any other person or organization (except as expressly authorized in writing by Originating Party, as required to analyze the Business Relationship or as required to fulfill Receiving Party’s obligations to Originating Party) any Confidential Information. ",
+                "term_json": "[\"prohibition\",[\"participant_union\",[\"receiving_party\"],[\"representatives_of\",[\"receiving_party\"]]],[\"disclose\",[\"confidential_information\"],[\"outsiders_to\",[\"participant_union\",[\"receiving_party\"],[\"representatives_of\",[\"receiving_party\"]]]]],[\"no_condition\"],[\"add_exception\",[\"exception_set\",[\"authorization_exception\",\"expressly authorized in writing by Originating Party\"]],[\"purpose_exception\",\"required to analyze the Business Relationship or fulfill Receiving Party obligations\"]]]"
+              },
+              {
+                "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+                "source_span_ids": [
+                  37,
+                  38,
+                  39
+                ],
+                "occurrence": 0,
+                "quote": "(c) not to disclose the same whether to its employees or to third parties except in confidence to such of its employees, directors or contractors who need to know the same for the Purpose and that (i) such employees, directors and contractors are obliged by their contracts of employment or services not to disclose the same, (ii) the receiving party shall enforce such obligations at its expense and at the request of the disclosing party in so far as breach thereof relates to the disclosing party's Confidential Information;",
+                "term_json": "[\"prohibition\",[\"receiving_party\"],[\"disclose\",[\"confidential_information\"],[\"third_parties\"]],[\"no_condition\"],[\"permission_exception\",[\"permission\",[\"receiving_party\"],[\"disclose\",[\"confidential_information\"],[\"participant_union\",[\"employees_of\",[\"receiving_party\"]],[\"participant_union\",[\"directors_of\",[\"receiving_party\"]],[\"independent_contractors_of\",[\"receiving_party\"]]]]],[\"and_condition\",[\"need_to_know\",\"Purpose\"],[\"confidentiality_bound\",\"contracts of employment or services\"]]]]]"
+              },
+              {
+                "source": "ContractNLI:e671a984356facb0c0666809e219fa44fa18d30e4f6252bbb33d8869fc43b1c9",
+                "source_span_ids": [
+                  10,
+                  11
+                ],
+                "occurrence": 0,
+                "quote": "The Receiving Party shall take all practical steps to keep the Disclosing Party’s Confidential Information confidential and shall restrict access to the Confidential Information to those agents and professional advisers to whom disclosure is necessary in pursuit of the Approved Purpose. Each Party shall inform all such employees, agents and professional advisers of the provisions of this Agreement and shall be responsible for ensuring compliance with the said provisions by all agents and professional advisers.",
+                "term_json": "[\"permission\",[\"receiving_party\"],[\"disclose\",[\"confidential_information\"],[\"participant_union\",[\"employees_of\",[\"receiving_party\"]],[\"participant_union\",[\"agents_of\",[\"receiving_party\"]],[\"professional_advisors_of\",[\"receiving_party\"]]]]],[\"extent_necessary\",\"Approved Purpose\"]]"
+              },
+              {
+                "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                "source_span_ids": [
+                  23
+                ],
+                "occurrence": 0,
+                "quote": "Notwithstanding the forgoing, a Participating Entity may use and internally share Confidential Information as deemed necessary to respond to an actual or threatened cyber emergency that places, or has the potential to place, the Participating Entity’s cyber systems at risk. ",
+                "term_json": "[\"permission\",[\"receiving_party\"],[\"disclose\",[\"confidential_information\"],[\"internal_personnel_of\",[\"receiving_party\"]]],[\"extent_necessary\",\"response to an actual or threatened cyber emergency\"]]"
+              },
+              {
+                "source": "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40",
+                "source_span_ids": [
+                  20
+                ],
+                "occurrence": 0,
+                "quote": "(c) to restrict access to Confidential Information to those of its officers, directors and employees who have a legitimate need-to-know to carry out the Purpose and who are obligated to protect such Confidential Information pursuant to terms and conditions no less protective of Discloser than those contained in this Agreement; and",
+                "term_json": "[\"permission\",[\"receiving_party\"],[\"disclose\",[\"confidential_information\"],[\"participant_union\",[\"officers_of\",[\"receiving_party\"]],[\"participant_union\",[\"directors_of\",[\"receiving_party\"]],[\"employees_of\",[\"receiving_party\"]]]]],[\"and_condition\",[\"need_to_know\",\"Purpose\"],[\"confidentiality_bound\",\"terms no less protective than this Agreement\"]]]"
+              },
+              {
+                "source": "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40",
+                "source_span_ids": [
+                  18
+                ],
+                "occurrence": 0,
+                "quote": "(a) not to, directly or indirectly, in any way, disclose, make accessible, reveal, report, publish, disseminate or transfer any Confidential Information to any third party;",
+                "term_json": "[\"prohibition\",[\"receiving_party\"],[\"disclose\",[\"confidential_information\"],[\"third_parties\"]],[\"no_condition\"],[\"no_exceptions\"]]"
+              }
+            ],
+            "decision_program": "def subterms(x):\n    out=[]\n    todo=[x]\n    while todo:\n        y=todo.pop()\n        if isinstance(y,list) and y:\n            out.append(y)\n            i=1\n            while i<len(y):\n                if isinstance(y[i],list):\n                    todo.append(y[i])\n                i+=1\n    return out\n\ndef has_tag(x,name):\n    for y in subterms(x):\n        if y[0]==name:\n            return True\n    return False\n\ndef owner_ok(x):\n    if not isinstance(x,list) or not x:\n        return False\n    return x[0] in ('receiving_party','party','named_recipient')\n\ndef class_tags(x,defs):\n    tags=set()\n    todo=[x]\n    seen=set()\n    while todo:\n        y=todo.pop()\n        if not isinstance(y,list) or not y:\n            continue\n        n=y[0]\n        if n=='representatives_of':\n            k=str(y[1]) if len(y)>1 else ''\n            if k not in seen:\n                seen.add(k)\n                for d in defs:\n                    if str(d[0])==k or (isinstance(d[0],list) and d[0] and d[0][0]=='party'):\n                        todo.append(d[1])\n            continue\n        if n=='internal_personnel_of' and len(y)>1 and owner_ok(y[1]):\n            tags.add('employees_of')\n        if n in ('employees_of','directors_of','officers_of','legal_advisors_of','financial_advisors_of','professional_advisors_of','accountants_of','consultants_of','agents_of','independent_contractors_of','lenders_of'):\n            if len(y)>1 and owner_ok(y[1]):\n                tags.add(n)\n            continue\n        if n=='third_parties':\n            tags.add(n)\n            continue\n        i=1\n        while i<len(y):\n            if isinstance(y[i],list):\n                todo.append(y[i])\n            i+=1\n    return tags\n\ndef unique(xs):\n    out=[]\n    for x in xs:\n        if x not in out:\n            out.append(x)\n    return out\n\ndef apply(inputs,premises):\n    task=inputs.get('task_id')\n    if task not in ('nda-5','nda-7'):\n        return {'handled':False,'answer':None,'used_nodes':[]}\n    nodes=premises.get('nodes',[])\n    roots=premises.get('roots',[])\n    byid={}\n    for n in nodes:\n        byid[n.get('id')]=n\n    entries=[]\n    for root in roots:\n        todo=[root]\n        seen=set()\n        while todo:\n            nid=todo.pop()\n            if nid in seen or nid not in byid:\n                continue\n            seen.add(nid)\n            node=byid[nid]\n            for t in subterms(node.get('term')):\n                entries.append((t,root))\n            for c in node.get('child_ids',[]):\n                todo.append(c)\n    defs=[]\n    def_roots=[]\n    for t,r in entries:\n        if t[0]=='define_representative' and len(t)==3:\n            defs.append((t[1],t[2]))\n            def_roots.append(r)\n    permissions=[]\n    prohibitions=[]\n    relevant=[]\n    for t,r in entries:\n        if t[0] not in ('permission','prohibition') or len(t)<3:\n            continue\n        action=t[2]\n        if not isinstance(action,list) or len(action)!=3 or action[0]!='disclose':\n            continue\n        if not has_tag(action[1],'confidential_information'):\n            continue\n        relevant.append(r)\n        tags=class_tags(action[2],defs)\n        item=(r,tags,action[2])\n        if t[0]=='permission':\n            permissions.append(item)\n        else:\n            prohibitions.append(item)\n    relevant=unique(relevant)\n    if not relevant:\n        return {'handled':False,'answer':None,'used_nodes':[]}\n    wanted={'employees_of'} if task=='nda-5' else {'third_parties','consultants_of','agents_of','legal_advisors_of','financial_advisors_of','professional_advisors_of','accountants_of','independent_contractors_of'}\n    for r,tags,recipient in permissions:\n        if tags.intersection(wanted):\n            used=[r]\n            if has_tag(recipient,'representatives_of'):\n                used.extend(def_roots)\n            return {'handled':True,'answer':'Entailment','used_nodes':unique(used)}\n    for r,tags,recipient in prohibitions:\n        if has_tag(recipient,'outsiders_to'):\n            continue\n        if tags.intersection(wanted):\n            return {'handled':True,'answer':'Contradiction','used_nodes':[r]}\n    return {'handled':True,'answer':'NotMentioned','used_nodes':unique(relevant+def_roots)}"
+          },
+          "program": null,
+          "source_program": "def any_phrase(t,xs):\n    for x in xs:\n        if x in t:\n            return True\n    return False\n\ndef has_word(t,p):\n    return re.search(p,t,re.I) is not None\n\ndef add_statement(out,term,ids):\n    for s in out:\n        if s.get('term')==term:\n            return\n    out.append({'term':term,'support_ids':ids})\n\ndef add_once(xs,x):\n    if x not in xs:\n        xs.append(x)\n\ndef make_union(xs):\n    if len(xs)==1:\n        return xs[0]\n    v=xs[len(xs)-1]\n    i=len(xs)-2\n    while i>=0:\n        v=['participant_union',xs[i],v]\n        i-=1\n    return v\n\ndef make_condition(t):\n    cs=[]\n    if 'need to know' in t or 'need-to-know' in t or 'need-to know' in t:\n        cs.append(['need_to_know','stated purpose'])\n    if any_phrase(t,['bound by obligations of confidentiality','treat the confidential information as confidential','obliged by their contracts','obligated to protect','terms and conditions no less protective']):\n        cs.append(['confidentiality_bound','source-stated confidentiality obligation'])\n    if any_phrase(t,['only to the extent necessary','disclosure is necessary','as deemed necessary','reasonably necessary']):\n        cs.append(['extent_necessary','source-stated purpose'])\n    if not cs:\n        return ['no_condition']\n    v=cs[0]\n    i=1\n    while i<len(cs):\n        v=['and_condition',v,cs[i]]\n        i+=1\n    return v\n\ndef permission_segment(t):\n    marks=['may disclose','may share','internally share','restrict access','except in confidence','except to such']\n    best=-1\n    for m in marks:\n        p=t.rfind(m)\n        if p>best:\n            best=p\n    if best<0 and 'not to disclose' in t and ' except ' in t:\n        best=t.rfind(' except ')\n    return t[best:] if best>=0 else t\n\ndef recipient_terms(t):\n    owner=['receiving_party']\n    if any_phrase(t,[\"affiliates' officers\",\"affiliates’ officers\",\"affiliate's officers\",\"affiliate’s officers\"]):\n        owner=['affiliates_of',['receiving_party']]\n    xs=[]\n    if has_word(t,r'\\bemployees?\\b'):\n        xs.append(['employees_of',owner])\n    if has_word(t,r'\\bdirectors?\\b'):\n        xs.append(['directors_of',owner])\n    if has_word(t,r'\\bofficers?\\b'):\n        xs.append(['officers_of',owner])\n    if any_phrase(t,['legal advisors','legal advisers','attorneys','legal counsel']):\n        xs.append(['legal_advisors_of',owner])\n    if any_phrase(t,['financial advisors','financial advisers']):\n        xs.append(['financial_advisors_of',owner])\n    if any_phrase(t,['professional advisors','professional advisers']):\n        xs.append(['professional_advisors_of',owner])\n    if has_word(t,r'\\baccountants?\\b'):\n        xs.append(['accountants_of',owner])\n    if has_word(t,r'\\bconsultants?\\b'):\n        xs.append(['consultants_of',owner])\n    if has_word(t,r'\\bagents?\\b'):\n        xs.append(['agents_of',owner])\n    if has_word(t,r'\\bcontractors?\\b'):\n        xs.append(['independent_contractors_of',owner])\n    if has_word(t,r'\\blenders?\\b'):\n        xs.append(['lenders_of',owner])\n    if 'internally share' in t and not xs:\n        xs.append(['internal_personnel_of',['receiving_party']])\n    if not xs and 'representatives' in t:\n        xs.append(['representatives_of',['receiving_party']])\n    if not xs and any_phrase(t,['third parties','third party']):\n        xs.append(['third_parties'])\n    return xs\n\ndef make_exceptions(t,perm):\n    es=[]\n    if any_phrase(t,['prior written consent','prior, written consent','prior written approval','prior written permission','expressly authorized in writing','express permission']):\n        es.append(['authorization_exception','source-stated written authorization'])\n    if any_phrase(t,['required to analyze','required to fulfil','required to fulfill']):\n        es.append(['purpose_exception','source-stated required activity'])\n    if any_phrase(t,['except as expressly permitted under','except as permitted under','except as provided in','except as provided under']):\n        es.append(['cross_reference_exception','source-stated disclosure cross-reference'])\n    if perm is not None:\n        es.append(['permission_exception',perm])\n    if not es:\n        return ['no_exceptions']\n    v=['exception_set',es[0]]\n    i=1\n    while i<len(es):\n        v=['add_exception',v,es[i]]\n        i+=1\n    return v\n\ndef parse_context(raw,ids,out,refs):\n    t=raw.casefold()\n    if not t:\n        return\n    if ('“representative” means' in t or '\"representative\" means' in t or 'representative means' in t) and any_phrase(t,['employee','director','officer','agent','accountant','attorney','contractor']):\n        cats=recipient_terms(t)\n        fixed=[]\n        for c in cats:\n            if len(c)>1:\n                c[1]=['party']\n            fixed.append(c)\n        if fixed:\n            add_statement(out,['define_representative',['party'],make_union(fixed)],ids)\n    if any_phrase(t,['information about employees','employee lists and records','human resources data']) and 'confidential' in t:\n        add_statement(out,['confidential_information_includes',['employee_information',['disclosing_party']]],ids)\n    if 'whereas' in t and 'may' in t and 'disclos' in t and 'confidential information' in t:\n        add_statement(out,['possible_disclosure_description',['disclosing_party'],['confidential_information'],['receiving_party']],ids)\n    if 'confidential information' not in t and 'such information' not in t and 'the same' not in t:\n        return\n    actor=['named_recipient','Volunteer'] if 'volunteer agrees' in t else ['receiving_party']\n    if 'neither it nor its representatives' in t and any_phrase(t,['any other person','any other organization','other person or organization']):\n        group=['participant_union',['receiving_party'],['representatives_of',['receiving_party']]]\n        ex=make_exceptions(t,None)\n        add_statement(out,['prohibition',group,['disclose',['confidential_information'],['outsiders_to',group]],['no_condition'],ex],ids)\n        return\n    pmark=any_phrase(t,['may disclose','may share','internally share','restrict access']) or ('not to disclose' in t and ' except ' in t)\n    perm=None\n    if pmark:\n        seg=permission_segment(t)\n        cats=recipient_terms(seg)\n        if cats:\n            perm=['permission',actor,['disclose',['confidential_information'],make_union(cats)],make_condition(t)]\n            add_statement(out,perm,ids)\n    third=any_phrase(t,['third parties','third party'])\n    neg=any_phrase(t,['shall not disclose','not to disclose','not to, without','not to, directly','not disclose, allow access','not to divulge'])\n    if third and neg:\n        ex=make_exceptions(t,perm)\n        add_statement(out,['prohibition',actor,['disclose',['confidential_information'],['third_parties']],['no_condition'],ex],ids)\n        if any_phrase(t,['except as expressly permitted under','except as permitted under','except as provided in','except as provided under']):\n            add_once(refs,'unresolved disclosure cross-reference')\n\ndef has_tag(term,name):\n    todo=[term]\n    while todo:\n        x=todo.pop()\n        if isinstance(x,list) and x:\n            if x[0]==name:\n                return True\n            i=1\n            while i<len(x):\n                if isinstance(x[i],list):\n                    todo.append(x[i])\n                i+=1\n    return False\n\ndef apply(inputs,premises):\n    spans=inputs.get('source_spans',[])\n    statements=[]\n    refs=[]\n    texts=[]\n    ids=[]\n    for s in spans:\n        raw=s.get('text','')\n        if not isinstance(raw,str):\n            raw=str(raw)\n        texts.append(raw)\n        ids.append(s.get('id'))\n        parse_context(raw,[s.get('id')],statements,refs)\n    i=0\n    while i+1<len(texts):\n        w=texts[i]+' '+texts[i+1]\n        lw=w.casefold()\n        if ('restrict access' in lw and 'such employees' in lw) or ('neither it nor its representatives' in lw and any_phrase(lw,['any other person','other person or organization'])):\n            parse_context(w,[ids[i],ids[i+1]],statements,refs)\n        i+=1\n    has_permission=False\n    has_definition=False\n    needs_definition=False\n    for s in statements:\n        term=s.get('term')\n        if isinstance(term,list) and term:\n            if term[0]=='permission' or has_tag(term,'permission_exception'):\n                has_permission=True\n            if term[0]=='define_representative':\n                has_definition=True\n            if term[0] in ('permission','prohibition') and has_tag(term,'representatives_of'):\n                needs_definition=True\n    unresolved=[]\n    if refs and not has_permission:\n        unresolved.append('A disclosure exception refers to another provision, but no operative recipient permission was resolved from the current source.')\n    if needs_definition and not has_definition:\n        unresolved.append('An operative norm uses Representatives, but their current-source membership or owner binding was not resolved.')\n    return {'statements':statements,'complete':not unresolved,'unresolved':unresolved}"
+        },
+        "model": "gpt-5.6-sol",
+        "request_sha256": "49c3ac124f46202e44177bbc6b08f8410cebf1146c1ae492146b5d7527dd958c",
+        "response_sha256": "c49cea6538b517065a76a10192ceab51d0a36eb6c3906d87d21be759731fb2e5",
+        "cache_hit": false,
+        "invocation": {
+          "attempt": 1,
+          "started_at": "2026-11-12T20:35:21.059693+00:00",
+          "finished_at": "2026-11-12T20:40:32.003688+00:00",
+          "elapsed_seconds": 310.944,
+          "returncode": 0,
+          "event_log_sha256": "a16e44e01418af52275e0d50d50f01ab1da91d7f34836fc12005df56c87aad42",
+          "tool_events_detected": false,
+          "budget_reservation": null,
+          "usage": {
+            "input_tokens": 69060,
+            "cached_input_tokens": 0,
+            "output_tokens": 16875,
+            "reasoning_output_tokens": 9093
+          },
+          "estimated_credits": null
+        },
+        "source_ids": [
+          "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078",
+          "ContractNLI:d50f9bcd50acafac903e6fa3d8b9cfc4174d08f927666051c2909acd1956991d",
+          "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+          "ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54",
+          "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+          "ContractNLI:e671a984356facb0c0666809e219fa44fa18d30e4f6252bbb33d8869fc43b1c9",
+          "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+          "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40"
+        ],
+        "elapsed_seconds": 310.9467444140464,
+        "billing_basis": "existing_authorized_Codex_CLI",
+        "actual_cash_invoice_available": false
+      }
+    }
+  ],
+  "teacher_usage_totals": {
+    "input_tokens": 209683,
+    "cached_input_tokens": 0,
+    "output_tokens": 50534,
+    "reasoning_output_tokens": 32015
+  },
+  "teacher_output_and_reasoning_not_double_counted": true
+}

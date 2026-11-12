@@ -1,0 +1,123 @@
+{
+  "raw_response": "phase2/ScopedGrammar/teacher.json",
+  "changed_path": [
+    "value",
+    "grammar",
+    "seeds",
+    9,
+    "term_json",
+    4
+  ],
+  "before": [
+    "permission_exception",
+    [
+      "permission",
+      [
+        "receiving_party"
+      ],
+      [
+        "disclose",
+        [
+          "confidential_information"
+        ],
+        [
+          "participant_union",
+          [
+            "employees_of",
+            [
+              "receiving_party"
+            ]
+          ],
+          [
+            "participant_union",
+            [
+              "directors_of",
+              [
+                "receiving_party"
+              ]
+            ],
+            [
+              "independent_contractors_of",
+              [
+                "receiving_party"
+              ]
+            ]
+          ]
+        ]
+      ],
+      [
+        "and_condition",
+        [
+          "need_to_know",
+          "Purpose"
+        ],
+        [
+          "confidentiality_bound",
+          "contracts of employment or services"
+        ]
+      ]
+    ]
+  ],
+  "after": [
+    "exception_set",
+    [
+      "permission_exception",
+      [
+        "permission",
+        [
+          "receiving_party"
+        ],
+        [
+          "disclose",
+          [
+            "confidential_information"
+          ],
+          [
+            "participant_union",
+            [
+              "employees_of",
+              [
+                "receiving_party"
+              ]
+            ],
+            [
+              "participant_union",
+              [
+                "directors_of",
+                [
+                  "receiving_party"
+                ]
+              ],
+              [
+                "independent_contractors_of",
+                [
+                  "receiving_party"
+                ]
+              ]
+            ]
+          ]
+        ],
+        [
+          "and_condition",
+          [
+            "need_to_know",
+            "Purpose"
+          ],
+          [
+            "confidentiality_bound",
+            "contracts of employment or services"
+          ]
+        ]
+      ]
+    ]
+  ],
+  "expected_type": "ExceptionSet",
+  "actual_type": "Exception",
+  "unique_unary_constructor": "exception_set",
+  "constructor_meaning": "A singleton exception set.",
+  "new_semantics": false,
+  "native_labels_used_for_adaptation": false,
+  "source_program_unchanged": true,
+  "decision_program_unchanged": true,
+  "new_physical_requests": 0
+}

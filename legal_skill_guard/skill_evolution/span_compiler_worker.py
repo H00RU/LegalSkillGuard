@@ -5,6 +5,20 @@ import resource
 import sys
 
 
+def bind_scope(template, bindings):
+    """Pure structural substitution; the source program supplies every value."""
+    if isinstance(template, dict):
+        if set(template) != {'$scope'}:
+            raise ValueError('Invalid inherited scope placeholder')
+        index=template['$scope']
+        if type(index) is not int or not 0 <= index < len(bindings):
+            raise ValueError('Unresolved inherited scope variable')
+        return bindings[index]
+    if isinstance(template, list):
+        return [bind_scope(t,bindings) for t in template]
+    return template
+
+
 def trace_functions(scope, code):
     """Host-owned diagnostics; generated code receives no new capabilities."""
     import ast
@@ -125,7 +139,7 @@ def main():
     names = ('min', 'max', 'sum', 'len', 'abs', 'round', 'sorted', 'all', 'any',
         'int', 'float', 'bool', 'str', 'list', 'dict', 'set', 'tuple', 'range',
         'enumerate', 'zip', 'isinstance', 'ValueError', 'KeyError', 'TypeError')
-    scope = {'__builtins__': {n: getattr(builtins, n) for n in names}, 're': re}
+    scope = {'__builtins__': {n: getattr(builtins, n) for n in names}, 're': re, 'bind_scope': bind_scope}
     exec(compile(request['procedure'], '<learned-source-procedure>', 'exec'), scope)
     if request.get('trace', False):
         calls, trace_budget = trace_functions(scope, request['procedure'])

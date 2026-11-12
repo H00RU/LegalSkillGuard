@@ -43,10 +43,10 @@ METHODS = {'lower', 'upper', 'casefold', 'strip', 'lstrip', 'rstrip', 'split', '
     'get', 'keys', 'values', 'items', 'append', 'extend', 'add', 'update', 'pop',
     'compile', 'search', 'match', 'fullmatch', 'findall', 'finditer', 'escape', 'sub', 'group',
     'groups', 'groupdict', 'start', 'end', 'span', 'I', 'IGNORECASE', 'S', 'DOTALL',
-    'M', 'MULTILINE', 'UNICODE', 'isalnum', 'isalpha', 'isdigit'}
+    'M', 'MULTILINE', 'UNICODE', 'isalnum', 'isalpha', 'isdigit', 'intersection', 'rfind'}
 CALLS = {'min', 'max', 'sum', 'len', 'abs', 'round', 'sorted', 'all', 'any', 'int',
     'float', 'bool', 'str', 'list', 'dict', 'set', 'tuple', 'range', 'enumerate',
-    'zip', 'isinstance', 'ValueError', 'KeyError', 'TypeError'}
+    'zip', 'isinstance', 'ValueError', 'KeyError', 'TypeError', 'bind_scope'}
 
 
 def validate_procedure(code, *, allow_helpers=False):

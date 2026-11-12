@@ -31,5 +31,13 @@ def apply(inputs, premises):
             code = 'def helper(inputs):\n    return ' + operation + '\ndef apply(inputs, premises):\n    return helper(inputs)\n'
             with self.assertRaises(ValueError):validate_procedure(code, allow_helpers=True)
 
+    def test_pure_methods_used_by_both_real_acquisitions(self):
+        code = '''def apply(inputs, premises):
+    return {"common": sorted(set(inputs["left"]).intersection(set(inputs["right"]))),
+            "last": inputs["text"].rfind("-")}
+'''
+        self.assertEqual(execute_json(code, {'left':['a','b'],'right':['b','c'],'text':'a-b-c'}, {}),
+                         {'common':['b'],'last':3})
+
 
 if __name__ == '__main__': unittest.main()
