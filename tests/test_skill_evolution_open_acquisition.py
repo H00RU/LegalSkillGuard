@@ -13,6 +13,14 @@ PLANNER='''def apply(inputs,premises):
 '''
 
 
+class FixtureClient:
+    """No-model fixtures exercise transport, not real token accounting."""
+    config = {'max_tokens': 8192, 'context_tokens': 32768}
+    def tokenize(self, messages, *, thinking):
+        assert thinking is False
+        return {'count': 0, 'tokens': []}
+
+
 class OpenAcquisitionTests(unittest.TestCase):
     def setUp(self):
         op={'name':'meaning','question':'Which asserted meaning?',
@@ -66,11 +74,33 @@ class OpenAcquisitionTests(unittest.TestCase):
         self.assertEqual(got['execution']['reused_query_ids'],['q'])
         self.assertEqual(got['visible_inputs']['answers'][0]['choice'],'unknown')
 
+    def test_actual_histories_from_both_arms_reuse_the_exact_matching_reading(self):
+        first=self.observation('one','Alpha.','first')
+        first['visible_inputs']['operations'][0]['question']='A genuinely different old meaning'
+        second=self.observation('one','Alpha.','unknown')
+        class NoCall:
+            def generate(self,*args,**kwargs):raise AssertionError('A paid exact reading was repeated')
+        got=observe(NoCall(),'fixture','one',self.library,source_text='Alpha.',
+            units=[{'id':4,'text':'Alpha.'}],source_output=second['visible_inputs']['source_output'],
+            previous_observations=[first,second])
+        self.assertEqual(got['visible_inputs']['answers'][0]['choice'],'unknown')
+        self.assertEqual(len(got['execution']['reuse_history_inputs_sha256']),2)
+        self.assertEqual(got['execution']['new_physical_requests'],0)
+
+    def test_conflicting_paid_readings_are_not_selected_using_training_answers(self):
+        first=self.observation('one','Alpha.','first');second=self.observation('one','Alpha.','second')
+        class NoCall:
+            def generate(self,*args,**kwargs):raise AssertionError('Conflicting old readings triggered a retry')
+        with self.assertRaisesRegex(ValueError,'Conflicting actual prior'):
+            observe(NoCall(),'fixture','one',self.library,source_text='Alpha.',
+                units=[{'id':4,'text':'Alpha.'}],source_output=first['visible_inputs']['source_output'],
+                previous_observations=[first,second])
+
     def test_changed_concept_requires_a_new_real_read_and_thinking_is_off(self):
         previous=self.observation('one','Alpha.','unknown');library=deepcopy(self.library)
         library['operations'][0]['question']='A changed meaning?'
         calls=[]
-        class RecordedClient:
+        class RecordedClient(FixtureClient):
             def generate(self,*args,**kwargs):
                 calls.append((args,kwargs))
                 return {'finish_reason':'stop','content':json.dumps({'answers':{'q':{'choice':'first',
@@ -84,7 +114,7 @@ class OpenAcquisitionTests(unittest.TestCase):
 
     def test_invalid_response_saved_before_failure_no_hidden_retry(self):
         saved=[];calls=[]
-        class Incomplete:
+        class Incomplete(FixtureClient):
             def generate(self,*args,**kwargs):
                 calls.append(args);return {'finish_reason':'length','content':'{"truncated":'}
         previous=self.observation('one','Alpha.','first')
@@ -117,7 +147,7 @@ class OpenAcquisitionTests(unittest.TestCase):
     return {'queries':[]}
 '''
         calls=[]
-        class RecordedClient:
+        class RecordedClient(FixtureClient):
             def generate(self,*args,**kwargs):
                 current=json.loads(kwargs['messages'][1]['content'])['current_queries'];calls.append(current)
                 return {'finish_reason':'stop','content':json.dumps({'answers':{q['id']:{'choice':'first',
@@ -144,7 +174,7 @@ class OpenAcquisitionTests(unittest.TestCase):
     return {'queries':[{'id':'q'+str(len(inputs.get('semantic_answers',[]))),'operation':'meaning','unit_ids':[4]}]}
 '''
         calls=[]
-        class Unknown:
+        class Unknown(FixtureClient):
             def generate(self,*args,**kwargs):
                 calls.append(args);return {'finish_reason':'stop','content':json.dumps({'answers':{'q0':{'choice':'unknown','evidence_unit_ids':[]}}})}
         old=self.observation('one','Alpha.','unknown')
@@ -171,7 +201,7 @@ class OpenAcquisitionTests(unittest.TestCase):
                        {'id':'d','operation':'meaning','unit_ids':[4,9]}]}
 '''
         calls=[]
-        class Client:
+        class Client(FixtureClient):
             def generate(self,*args,**kwargs):
                 calls.append(kwargs['messages']);current=json.loads(kwargs['messages'][1]['content'])['current_queries']
                 return {'finish_reason':'stop','content':json.dumps({'answers':{q['id']:{'choice':'first',
@@ -192,7 +222,7 @@ class OpenAcquisitionTests(unittest.TestCase):
         library['scope']='focus_last';library['operation_scopes']={'meaning':'window'}
         library['planner_program']="def apply(inputs,premises):\n    return {'queries':[{'id':'q','operation':'meaning','unit_ids':[4,9]}]}\n"
         calls=[]
-        class Client:
+        class Client(FixtureClient):
             def generate(self,*args,**kwargs):
                 calls.append(args)
                 return {'finish_reason':'stop','content':json.dumps({'answers':{'q':{'choice':'absent','evidence_unit_ids':[]}}})}
@@ -222,7 +252,7 @@ class OpenAcquisitionTests(unittest.TestCase):
     def test_changed_scope_cannot_reuse_a_different_previous_interpretation(self):
         old=self.observation('one','Alpha.','unknown');library=deepcopy(self.library)
         library['operation_scopes']={'meaning':'window'};calls=[]
-        class Client:
+        class Client(FixtureClient):
             def generate(self,*args,**kwargs):
                 calls.append(args);return {'finish_reason':'stop','content':json.dumps({'answers':{'q':{'choice':'unknown','evidence_unit_ids':[]}}})}
         result=observe(Client(),'fixture','one',library,source_text='Alpha.',units=[{'id':4,'text':'Alpha.'}],

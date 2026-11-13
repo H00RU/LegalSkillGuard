@@ -38,7 +38,9 @@ from experiments.legal_skill_evolution_open_acquisition_train import (
     C_SPEC, FREE_SPEC, SCHEMA as OLD_SCHEMA, functions, evaluate_source, source_material)
 
 ROOT = Path(__file__).resolve().parents[1]
-RUN = 'legal_skill_evolution_joint_acquisition_compiled_20261114'
+RUN = 'legal_skill_evolution_joint_acquisition_evidence_set_20261114'
+PREVIOUS_EXECUTION_RUN = ROOT / 'artifacts/legal_skill_evolution_joint_acquisition_context_20261114'
+LEARNING_RECOVERY = ROOT / 'artifacts/legal_skill_evolution_joint_acquisition_compiled_20261114/direct_profile_recovery'
 ACQUISITION_RUN = ROOT / 'artifacts/legal_skill_evolution_joint_acquisition_train_20261114'
 PARENT = ROOT / 'artifacts/legal_skill_evolution_open_acquisition_semantic_route_absence_encoded_20261113'
 LEDGER = ROOT / 'artifacts/rr_v2_preflight/research_ledger.sqlite3'
@@ -78,14 +80,18 @@ def prepare():
     before = rows()
     if any(r[6] == 'reserved' for r in before):
         raise ValueError('Reconcile current requests before a safe continuation')
-    boundary = read(ACQUISITION_RUN / 'TERMINAL_PRESERVATION.json')
+    boundary = read(PREVIOUS_EXECUTION_RUN / 'TERMINAL_PRESERVATION.json')
     if not boundary['run_boundary_terminal']:
         raise ValueError('Preserve the previous actual run before scientific changes')
-    old = read(ACQUISITION_RUN / 'protocol.json')
+    old = read(PREVIOUS_EXECUTION_RUN / 'protocol.json')
     files = [Path(__file__).resolve(), ROOT / 'experiments/legal_skill_evolution_open_acquisition_train.py',
              *sorted((ROOT / 'legal_skill_guard/skill_evolution').glob('*.py')),
              *sorted((ROOT / 'tests').glob('test_skill_evolution*.py'))]
-    data = [PUBLIC, GRADING, ACQUISITION_RUN / 'protocol.json', ACQUISITION_RUN / 'TERMINAL_PRESERVATION.json',
+    data = [PUBLIC, GRADING, PREVIOUS_EXECUTION_RUN / 'protocol.json', PREVIOUS_EXECUTION_RUN / 'TERMINAL_PRESERVATION.json',
+            PREVIOUS_EXECUTION_RUN / 'FreeUpdate/teacher.json', PREVIOUS_EXECUTION_RUN / 'FreeUpdate/compiled.json',
+            LEARNING_RECOVERY / 'learned.json', LEARNING_RECOVERY / 'summary.json',
+            *(PREVIOUS_EXECUTION_RUN / 'acquisition/ConstraintAcquire' / (k.replace(':', '_') + '.json') for k in old['acquisition_sources']),
+            ACQUISITION_RUN / 'protocol.json',
             ACQUISITION_RUN / 'base.json', ACQUISITION_RUN / 'grammar.json',
             ACQUISITION_RUN / 'ConstraintAcquire/teacher.json',
             ACQUISITION_RUN / 'ConstraintAcquire/teacher_input.json',
@@ -94,11 +100,18 @@ def prepare():
             ACQUISITION_RUN / 'shared/initial_library.json',
             *(ACQUISITION_RUN / 'initial' / (k.replace(':', '_') + '.json') for k in old['new_acquisition_sources']),
             *(PARENT / 'acquisition/ConstraintAcquire' / (k.replace(':', '_') + '.json') for k in old['historical_acquisition_sources'])]
+    completed_free = [path for path in sorted((PREVIOUS_EXECUTION_RUN / 'acquisition/FreeUpdate').glob('Contract*.json'))
+                      if read(path).get('status') != 'observation_rejected']
+    partial_path = PREVIOUS_EXECUTION_RUN / 'context_recovery/partial_observation.json'
+    data.extend([partial_path, PREVIOUS_EXECUTION_RUN / 'context_recovery/context_split_evidence.json', *completed_free])
     p = {**old, 'run_id': RUN, 'continuation_of': old['run_id'],
         'safe_boundary': boundary,
+        'context_batch_repair': 'Keep actual token-aware batching and8192 reserve. Reuse seven completed Free rows and38 actual bbb answers, including explicit idempotent evidence-ID set recovery; all40 pending queries remain unchanged.',
+        'C_learning_recovery': 'Reuse all eight actual C observations and exact reachable-profile optimum; relaxed representation timeout remains. No C model request repeated.',
+        'C_learning_recovery_summary': read(LEARNING_RECOVERY / 'summary.json'),
         'reused_paid_C_proposal': 'Exact original result; deterministic renderer punctuation recovery retained separately, no teacher reacquisition.',
-        'failed_Free_request_kept_charged': old['run_id'] + ':FreeUpdate:teacher',
-        'changed_Free_request': 'Remove redundant actual_reading_execution transport logs only. Original sources, supervision, canonical actual readings, source output, feedback and shared library remain identical; verify legal-task hash before dispatch.',
+        'failed_Free_request_kept_charged': ACQUISITION_RUN.name + ':FreeUpdate:teacher',
+                'changed_Free_request': 'Remove redundant actual_reading_execution transport logs only. Original sources, supervision, canonical actual readings, source output, feedback and shared library remain identical; verify legal-task hash before dispatch.',
         'necessary_public_fixes': ['Validate inherited TRAIN examples against exact seed quotes already supplied to both arms.',
             'Recover only the unique scalar-token-preserving renderer JSON value under existing constructor types.',
             'Reject new legal literal occurrences justified only by an equal value elsewhere in old code.'],
@@ -109,6 +122,24 @@ def prepare():
                  'ConstraintAcquire/teacher.json', 'ConstraintAcquire/canonical_proposal.json',
                  'ConstraintAcquire/renderer_recovery.json'):
         immutable_json(folder / name, read(ACQUISITION_RUN / name))
+    for name in ('FreeUpdate/teacher.json', 'FreeUpdate/canonical_proposal.json',
+                 'FreeUpdate/proposal_identity_receipt.json', 'FreeUpdate/compiled.json',
+                 'ConstraintAcquire/compiled.json'):
+        immutable_json(folder / name, read(PREVIOUS_EXECUTION_RUN / name))
+    for name in ('learned.json', 'fit.json', 'summary.json'):
+        immutable_json(folder / 'ConstraintAcquire' / name,
+                       read(LEARNING_RECOVERY / name))
+    for key in p['acquisition_sources']:
+        name = key.replace(':', '_') + '.json'
+        immutable_json(folder / 'acquisition/ConstraintAcquire' / name,
+                       read(PREVIOUS_EXECUTION_RUN / 'acquisition/ConstraintAcquire' / name))
+        immutable_json(folder / 'ConstraintAcquire/fitted_execution' / name,
+                       read(LEARNING_RECOVERY / 'fitted_execution' / name))
+        immutable_json(folder / 'upstream' / name, read(PREVIOUS_EXECUTION_RUN / 'upstream' / name))
+    for path in completed_free:
+        immutable_json(folder / 'acquisition/FreeUpdate' / path.name, read(path))
+    partial = read(partial_path)
+    immutable_json(folder / 'partial_observations/FreeUpdate' / (partial['context']['id'].replace(':', '_') + '.json'), partial)
     for key in p['new_acquisition_sources']:
         name = key.replace(':', '_') + '.json'
         immutable_json(folder / 'initial' / name, read(ACQUISITION_RUN / 'initial' / name))
@@ -289,6 +320,10 @@ def run_stage(reuse=False):
     if reuse and not (folder / 'library_freeze.json').exists(): raise ValueError('Freeze both arms first')
     grading = read(GRADING)
     for arm in ARMS:
+        if not reuse and (folder / arm / 'learned.json').exists():
+            print(json.dumps({'stage': stage, 'arm': arm, 'reused_completed_learning': True,
+                              'new_model_requests': 0}), flush=True)
+            continue
         library = read(folder / arm / ('learned.json' if reuse else 'compiled.json'))
         client = FrozenExecutor(ledger, folder, p['executor_profile']); successful = []
         for key in p['reuse_sources'] if reuse else p['acquisition_sources']:
@@ -301,7 +336,8 @@ def run_stage(reuse=False):
             prior = None
             if not reuse:
                 oldpath = (PARENT / 'acquisition/ConstraintAcquire' if key in p['historical_acquisition_sources'] else folder / 'initial') / dst.name
-                prior = read(oldpath).get('observation')
+                partial = folder / 'partial_observations' / arm / dst.name
+                prior = read(partial) if partial.exists() else read(oldpath).get('observation')
             try:
                 o = observe(client, RUN + ':' + stage + ':' + arm + ':' + key, key, library,
                     source_text=pub['source_text'], units=units, source_output=upstream, previous_observation=prior,

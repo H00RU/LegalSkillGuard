@@ -99,8 +99,10 @@ def encode_source_observations(source_id, *, source_text, units, source_output,
             if original['evidence_transport']!=TRANSPORT:
                 raise ValueError('Undeclared source evidence transport')
             reread=ground_selected_units(operations,[query],units,{'answers':{query['id']:{
-                'choice':answer['choice'],'evidence_unit_ids':original['selected_evidence_unit_ids']}}},
+                'choice':answer['choice'],'evidence_unit_ids':original.get('raw_selected_evidence_unit_ids',original['selected_evidence_unit_ids'])}}},
                 scope=actual_scope,complete_source_absence_choices=complete_source_absence_choices)
+            if reread[0]['selected_evidence_unit_ids']!=original['selected_evidence_unit_ids']:
+                raise ValueError('Raw selected IDs and canonical evidence set disagree')
             expected=[{k:w[k] for k in ('unit_id','quote')} for w in reread[0]['evidence']]
             if answer['evidence']!=expected:
                 raise ValueError('Selected-unit evidence must retain its actual whole current unit')

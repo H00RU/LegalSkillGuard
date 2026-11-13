@@ -6,7 +6,7 @@ import unittest
 import jsonschema
 
 from legal_skill_guard.skill_evolution.unit_evidence import (
-    TRANSPORT, answer_schema, decode_answers, reading_messages)
+    TRANSPORT, answer_schema, context_batches, decode_answers, reading_messages)
 from legal_skill_guard.skill_evolution.source_observations import (
     decode_visible_inputs, encode_source_observations)
 
@@ -25,6 +25,29 @@ def content(choice='first', ids=(4,)):
 
 
 class UnitEvidenceTests(unittest.TestCase):
+    def test_context_splitting_preserves_every_complete_query_and_output_reserve(self):
+        class TokenizerOnly:
+            config = {'max_tokens': 20, 'context_tokens': 100}
+            def tokenize(self, messages, *, thinking):
+                current = json.loads(messages[1]['content'])['current_queries']
+                return {'count': 30 * len(current)}
+        queries = [{**QUERIES[0], 'id': 'q' + str(i)} for i in range(7)]
+        checks = [];batches = context_batches(TokenizerOnly(), OPS, queries, UNITS, scope='window', checks=checks)
+        self.assertEqual([q for batch, _, _ in batches for q in batch], queries)
+        self.assertTrue(any(not row['fits'] for row in checks))
+        self.assertTrue(all(row['input_tokens'] + 20 <= 100 for _, _, row in batches))
+        for batch, prompt, _ in batches:
+            actual = json.loads(prompt[1]['content'])['current_queries']
+            self.assertEqual([q['unit_ids'] for q in actual], [q['unit_ids'] for q in batch])
+            self.assertTrue(all(q['current_units'] == UNITS for q in actual))
+
+    def test_one_oversized_query_is_never_truncated_or_dispatched(self):
+        class TokenizerOnly:
+            config = {'max_tokens': 20, 'context_tokens': 100}
+            def tokenize(self, messages, *, thinking):return {'count': 81}
+        with self.assertRaisesRegex(ValueError, 'without truncation'):
+            context_batches(TokenizerOnly(), OPS, QUERIES, UNITS, scope='window', checks=[])
+
     def test_actual_text_retrieved_without_word_or_quote_normalization(self):
         raw, answers = decode_answers(OPS, QUERIES, UNITS, content(), scope='focus_last')
         answer = answers[0]
@@ -37,7 +60,7 @@ class UnitEvidenceTests(unittest.TestCase):
         self.assertEqual(answer['choice'], 'first')
 
     def test_missing_answers_wrong_choices_and_noncurrent_or_duplicate_units_rejected(self):
-        for value in [content(ids=(100,)), content(ids=(4, 4)), content(choice='Entailment'),
+        for value in [content(ids=(100,)), content(choice='Entailment'),
                       '{"answers":{}}',
                       '{"answers":{"q":{"choice":"first","evidence_unit_ids":[4],"quote":"made up"}}}']:
             with self.subTest(value=value), self.assertRaises(jsonschema.ValidationError):
@@ -45,6 +68,24 @@ class UnitEvidenceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Duplicate JSON'):
             decode_answers(OPS, QUERIES, UNITS,
                 '{"answers":{"q":{"choice":"first","choice":"absent","evidence_unit_ids":[4]}}}', scope='window')
+
+    def test_identical_evidence_ID_repetition_is_idempotent_with_raw_error_preserved(self):
+        raw, answers = decode_answers(OPS, QUERIES, UNITS, content(ids=(4, 4, 9, 4)), scope='window')
+        self.assertEqual(raw['answers']['q']['evidence_unit_ids'], [4, 4, 9, 4])
+        answer = answers[0]
+        self.assertEqual(answer['selected_evidence_unit_ids'], [4, 9])
+        self.assertEqual(answer['raw_selected_evidence_unit_ids'], [4, 4, 9, 4])
+        self.assertFalse(answer['raw_wire_uniqueItems_valid'])
+        self.assertEqual(answer['choice'], 'first');self.assertFalse(answer['source_semantics_verified'])
+        encoded = encode_source_observations('fixture', source_text=' '.join(u['text'] for u in UNITS),
+            units=UNITS, source_output={'statements': [], 'complete': False, 'unresolved': []},
+            operations=OPS, queries=QUERIES, answers=answers, scope='window')
+        self.assertEqual(encoded['visible_inputs']['answers'], answers)
+        changed = deepcopy(answers);changed[0]['selected_evidence_unit_ids'] = [4]
+        with self.assertRaisesRegex(ValueError, 'canonical evidence set disagree'):
+            encode_source_observations('fixture', source_text=' '.join(u['text'] for u in UNITS),
+                units=UNITS, source_output={'statements': [], 'complete': False, 'unresolved': []},
+                operations=OPS, queries=QUERIES, answers=changed, scope='window')
 
     def test_no_automatic_quote_protocol_fallback_or_positive_without_evidence(self):
         old = json.dumps({'answers': {'q': {'choice': 'first',

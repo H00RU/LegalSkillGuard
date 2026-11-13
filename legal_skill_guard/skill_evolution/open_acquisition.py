@@ -11,7 +11,7 @@ from .objects import digest
 from .relational_learning import execute_composition, fit_composition
 from .relational_rules import validate_language
 from .semantic_execution import operation_groups
-from .unit_evidence import answer_schema, decode_answers, reading_messages, TRANSPORT
+from .unit_evidence import answer_schema, decode_answers, context_batches, TRANSPORT
 from .semantic_operations import prepare_queries, validate_operations
 from .source_composition import render_composition, validate_renderers
 from .scoped_grammar import constructors
@@ -78,7 +78,7 @@ def update_candidates(library, bundles, observation, training_texts, *, use_upda
 
 
 def observe(client,prefix,source_id,library,*,source_text,units,source_output,
-            previous_observation=None,save_event=None):
+            previous_observation=None,previous_observations=(),save_event=None):
     """Run actual new concepts; reuse only identical current-source observations.
 
     Previously answered unknown is terminal for an unchanged operation/window.
@@ -92,16 +92,21 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
             raise ValueError('Every acquired operation needs its explicit actual reading scope')
     def current_scope(query):
         return operation_scopes[query['operation']] if operation_scopes is not None else scope
-    if previous_observation:
-        previous=previous_observation['visible_inputs']
+    histories=([previous_observation] if previous_observation is not None else [])+list(previous_observations)
+    for historical in histories:
+        previous=historical['visible_inputs']
         if previous['source_text']!=source_text or previous['units']!=units:
             raise ValueError('Cannot reuse readings from different current material')
         by_id={a['id']:a for a in previous['answers']}
         for q in previous['queries']:
             if q['id'] in by_id:
                 actual_scope=previous.get('query_scopes',{}).get(q['id'],previous['scope'])
-                reusable[_read_identity(previous['operations'],q,units,actual_scope)]=by_id[q['id']]
-    answers={};reused=[];events=[];queries=[];by_id={};by_content={};rounds=[];new_logical=0
+                identity=_read_identity(previous['operations'],q,units,actual_scope)
+                value=by_id[q['id']]
+                if identity in reusable and any(reusable[identity][k]!=value[k] for k in ('choice','evidence')):
+                    raise ValueError('Conflicting actual prior readings require explicit diagnosis, not label-based selection')
+                reusable.setdefault(identity,value)
+    answers={};reused=[];events=[];queries=[];by_id={};by_content={};rounds=[];new_logical=0;batch_checks=[]
     while True:
         # A learned semantic scout may locate operative clauses first, then
         # request their roles/qualifiers using actual returned judgments. The
@@ -122,16 +127,20 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
             else:pending.append(q)
         if not added:break
         rounds.append(added);new_logical+=len(pending)
-        for batch in operation_groups(pending):
-            batch_scope=current_scope(batch[0])
-            if any(current_scope(q)!=batch_scope for q in batch):raise ValueError('Mixed actual query scopes in one operation batch')
-            prompt=reading_messages(library['operations'],batch,units,scope=batch_scope)
+        prepared=[]
+        for group in operation_groups(pending):
+            batch_scope=current_scope(group[0])
+            if any(current_scope(q)!=batch_scope for q in group):raise ValueError('Mixed actual query scopes in one operation batch')
+            prepared.extend((batch,prompt,check,batch_scope) for batch,prompt,check in context_batches(
+                client,library['operations'],group,units,scope=batch_scope,checks=batch_checks))
+        for batch,prompt,check,batch_scope in prepared:
             wire,_=decoder_schema(answer_schema(library['operations'],batch))
             call_id=prefix+':concept:'+digest(prompt)
             result=client.generate(call_id,source=source_id,purpose='skill_replay',
                 messages=prompt,thinking=False,schema=wire)
             event={'call_id':call_id,'query_ids':[q['id'] for q in batch],'result':result,
-                'scope':batch_scope,'library_sha256':digest(library),'evidence_transport':TRANSPORT}
+                'scope':batch_scope,'library_sha256':digest(library),'evidence_transport':TRANSPORT,
+                'context_preflight':check}
             # Preserve even truncated/type-invalid responses before raising.
             if save_event:save_event(event)
             events.append(event)
@@ -145,7 +154,9 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
         query_scopes={q['id']:current_scope(q) for q in queries},
         complete_source_absence_choices=library.get('complete_source_absence_choices'))
     encoded['execution']={'events':events,'reused_query_ids':reused,
+        'reuse_history_inputs_sha256':[digest(o['visible_inputs']) for o in histories],
         'planned_queries':len(queries),'new_logical_queries':new_logical,'planning_rounds':rounds,
+        'context_batch_checks':batch_checks,
         'new_physical_requests':sum(not e['result'].get('cache_hit',False) for e in events),
         'no_unchanged_unknown_retried':True}
     return encoded

@@ -6,6 +6,7 @@ The historical quote transport remains strict and is never silently accepted
 as this different wire protocol.
 """
 import jsonschema
+from copy import deepcopy
 
 from .native import record_schema
 from .semantic_execution import focused_messages, strict_json
@@ -52,9 +53,42 @@ def reading_messages(operations, queries, units, *, scope, examples=True):
                             examples=examples, system=SYSTEM)
 
 
+def context_batches(client, operations, queries, units, *, scope, checks):
+    """Split only before generation, using the actual serving tokenizer.
+
+    Every query keeps its exact meaning, units and order. Tokenization is the
+    existing non-generating utility endpoint; no generation is reserved here.
+    """
+    prompt = reading_messages(operations, queries, units, scope=scope)
+    count = client.tokenize(prompt, thinking=False)['count']
+    cfg = client.config
+    fits = count + cfg['max_tokens'] <= cfg['context_tokens']
+    checks.append({'query_ids': [q['id'] for q in queries], 'input_tokens': count,
+        'reserved_output_tokens': cfg['max_tokens'], 'context_tokens': cfg['context_tokens'],
+        'fits': fits, 'generation_requests_during_check': 0})
+    if fits:
+        return [(queries, prompt, checks[-1])]
+    if len(queries) == 1:
+        raise ValueError('Complete current query exceeds fixed context without truncation: ' + queries[0]['id'])
+    middle = len(queries) // 2
+    return (context_batches(client, operations, queries[:middle], units, scope=scope, checks=checks)
+            + context_batches(client, operations, queries[middle:], units, scope=scope, checks=checks))
+
+
 def ground_selected_units(operations, queries, units, value, *, scope,
                           complete_source_absence_choices=None):
-    jsonschema.validate(value, answer_schema(operations, queries))
+    schema = answer_schema(operations, queries)
+    # Evidence IDs denote a set, not vote counts or repeated legal assertions.
+    # Check every other wire requirement before the single idempotent recovery;
+    # the model still receives the strict uniqueItems schema.
+    raw_schema = deepcopy(schema)
+    for q in queries:
+        del raw_schema['properties']['answers']['properties'][q['id']]['properties']['evidence_unit_ids']['uniqueItems']
+    jsonschema.validate(value, raw_schema)
+    raw = value; value = deepcopy(value)
+    for row in value['answers'].values():
+        row['evidence_unit_ids'] = list(dict.fromkeys(row['evidence_unit_ids']))
+    jsonschema.validate(value, schema)
     by_unit = {u['id']: u for u in units}
     if len(by_unit) != len(units):
         raise ValueError('Distinct current source units required')
@@ -70,6 +104,11 @@ def ground_selected_units(operations, queries, units, value, *, scope,
     for answer in grounded:
         answer['evidence_transport'] = TRANSPORT
         answer['selected_evidence_unit_ids'] = list(value['answers'][answer['id']]['evidence_unit_ids'])
+        original_ids = raw['answers'][answer['id']]['evidence_unit_ids']
+        if original_ids != answer['selected_evidence_unit_ids']:
+            answer['raw_selected_evidence_unit_ids'] = list(original_ids)
+            answer['selection_adaptation'] = 'idempotent_identical_evidence_ID_set_only'
+            answer['raw_wire_uniqueItems_valid'] = False
         for witness in answer['evidence']:
             witness['quote_origin'] = 'host_retrieved_model_selected_current_unit'
     return grounded
