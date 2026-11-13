@@ -1,0 +1,1371 @@
+{
+  "new_physical_requests": {
+    "executor": 11,
+    "teacher": 3
+  },
+  "cumulative": {
+    "executor": 9341,
+    "teacher": 188
+  },
+  "requests": [
+    {
+      "id": "legal_skill_evolution_semantic_operations_20261113:teacher:LearnedOperations:ef1d06d5f82037077ad5e1f6a34d73589198fcf099418ca8c27f1a7c30c9df3f",
+      "role": "teacher",
+      "purpose": "skill_teacher",
+      "bucket": "external_skill_train",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "request_hash": "0f44997a39aeb1959fa889b2d5be364cf8b19124da483295946c1913fe88b89a",
+      "status": "completed",
+      "reserved_at": 1794527174.5640566,
+      "result": {
+        "value": {
+          "rationale": "The reusable update learns a recurring clause-role distinction that the prior lexical disposal parser could not make reliably: an operative disposal duty, an express post-disposal retention permission, a retention prohibition, a combined duty and permission, a linked effect that cannot safely be represented by the available constructors, or text with no such operative effect. This directly addresses the reviewed false disposal norm from a survival clause while preserving genuine return, destruction, archival-copy, legally-required-copy, and no-retention provisions. The operation does not encode native task answers, and the finisher uses its result only to gate source-grounded construction; unknown, missing, inconsistent, and unrepresentable results remain unresolved.",
+          "operations": [
+            {
+              "name": "disposal_retention_clause_role",
+              "question": "Considering the supplied source units together, what operative disposal/retention role do they express? Classify the source language itself, not any downstream task. Actor, information scope, action, trigger, allocation of choice, qualifications, and exceptions must still be taken from the quoted units. TRAIN examples (source, verbatim quote, choice): (ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0, \"(a) within one month of completion of the Purpose or receipt of a written request from the other party, return to the other party all documents and materials (and all copies thereof) containing the other party's Confidential Information and certify in writing to the other party that it has complied with the requirements of this sub-clause; and\", operative_disposal); (ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f, \"Notwithstanding anything in this paragraph 6 to the contrary, a Participating Entity may retain a record copy of any Confidential Information if required to do so by applicable law.\", operative_retention_permission); (ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450, \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\", operative_retention_prohibition); (ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40, \"Recipient shall, upon termination of this Agreement, or upon written request of Discloser, whichever is earlier, immediately, but not later than 10 days after any notice thereof by Discloser, return (or destroy at Discloser’s option) all copies of such Discloser’s Confidential Information and certify in writing its compliance with this requirement, except that Recipient may retain a copy of such Confidential Information solely for archival purpose.\", operative_disposal_and_retention_permission); (ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f, \"Notwithstanding the foregoing, if the Confidential Information is retained in the computer backup system of a Participating Entity, the Confidential Information will be destroyed in accordance with the regular ongoing records retention process of the Participating Entity.\", supplemental_linked_effect); (ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0, \"(b) notwithstanding completion of the Purpose or return of documents and materials as aforesaid, continue to be bound by the undertakings set out in clause 2.\", no_relevant_operative_effect).",
+              "choices": [
+                {
+                  "name": "operative_disposal",
+                  "meaning": "The units impose an operative return and/or destruction duty with its source-stated actor, information, trigger, choice allocation, and exceptions; they do not themselves grant post-disposal retention."
+                },
+                {
+                  "name": "operative_retention_permission",
+                  "meaning": "The units expressly permit or except retention after the relevant return or destruction process, limited by the source-stated information and condition, without themselves imposing the principal disposal duty."
+                },
+                {
+                  "name": "operative_retention_prohibition",
+                  "meaning": "The units operatively forbid retaining the specified information after the relevant disposal process, without themselves creating a new disposal duty merely because return or destruction is mentioned."
+                },
+                {
+                  "name": "operative_disposal_and_retention_permission",
+                  "meaning": "The same units both impose a return/destruction duty and expressly allow a limited post-disposal retention exception or permission."
+                },
+                {
+                  "name": "supplemental_linked_effect",
+                  "meaning": "The units express an operative disposal/retention effect linked to another clause, process, or unsupported trigger whose actual scope cannot safely be represented as one of the available standalone terms from these units."
+                },
+                {
+                  "name": "no_relevant_operative_effect",
+                  "meaning": "The units are a heading, survival statement, recital, reference, or other text that does not itself impose a disposal duty, grant retention, or prohibit retention."
+                }
+              ],
+              "examples": []
+            }
+          ],
+          "source_functions": [
+            "def _dr_candidate(text):\n    t=text.casefold()\n    return any_phrase(t,['return','destroy','retain','retention','no copies','no copy'])\n\ndef _dr_queries(spans):\n    qs=[]\n    i=0\n    while i<len(spans):\n        s=spans[i]\n        raw=s.get('text','')\n        if not isinstance(raw,str):\n            raw=str(raw)\n        if _dr_candidate(raw):\n            unit_ids=[]\n            if i>0:\n                prev=spans[i-1]\n                pr=prev.get('text','')\n                if not isinstance(pr,str):\n                    pr=str(pr)\n                if pr.strip().endswith(':'):\n                    unit_ids.append(prev.get('id'))\n            unit_ids.append(s.get('id'))\n            qs.append({'id':'disp_'+str(len(qs)),'operation':'disposal_retention_clause_role','unit_ids':unit_ids})\n        i+=1\n    return qs\n\ndef _dr_window(spans,unit_ids):\n    texts=[]\n    found=[]\n    for wanted in unit_ids:\n        for s in spans:\n            if s.get('id')==wanted:\n                raw=s.get('text','')\n                if not isinstance(raw,str):\n                    raw=str(raw)\n                texts.append(raw)\n                found.append(wanted)\n                break\n    return ' '.join(texts),found\n\ndef _dr_add_filtered(statements,temp,allowed):\n    found=[]\n    for s in temp:\n        term=s.get('term')\n        if isinstance(term,list) and term and term[0] in allowed:\n            add_statement(statements,term,s.get('support_ids',[]))\n            if term[0] not in found:\n                found.append(term[0])\n    return found\n\ndef apply(inputs,premises):\n    spans=inputs.get('source_spans',[])\n    queries=_dr_queries(spans)\n    if inputs.get('phase')=='plan':\n        return {'queries':queries}\n    statements=[]\n    refs=[]\n    texts=[]\n    ids=[]\n    for s in spans:\n        raw=s.get('text','')\n        if not isinstance(raw,str):\n            raw=str(raw)\n        texts.append(raw)\n        ids.append(s.get('id'))\n        parse_context(raw,[s.get('id')],statements,refs)\n    i=0\n    while i+1<len(texts):\n        w=texts[i]+' '+texts[i+1]\n        lw=w.casefold()\n        if ('restrict access' in lw and 'such employees' in lw) or ('neither it nor its representatives' in lw and any_phrase(lw,['any other person','other person or organization'])):\n            parse_context(w,[ids[i],ids[i+1]],statements,refs)\n        i+=1\n    unresolved=[]\n    answers={}\n    for a in inputs.get('semantic_answers',[]):\n        aid=a.get('id')\n        if aid not in answers:\n            answers[aid]=a\n        else:\n            unresolved.append('Duplicate semantic answer for '+str(aid)+'.')\n    for q in queries:\n        qid=q.get('id')\n        a=answers.get(qid)\n        if a is None:\n            unresolved.append('Missing disposal/retention source-role judgment for '+qid+'.')\n            continue\n        if a.get('operation')!='disposal_retention_clause_role':\n            unresolved.append('Mismatched semantic operation for '+qid+'.')\n            continue\n        choice=a.get('choice','unknown')\n        if choice=='unknown':\n            unresolved.append('The disposal/retention role remains unknown for '+qid+'.')\n            continue\n        if choice=='supplemental_linked_effect':\n            unresolved.append('A linked disposal or retention effect could not be represented safely from the queried units for '+qid+'.')\n            continue\n        if choice=='no_relevant_operative_effect':\n            continue\n        raw,window_ids=_dr_window(spans,q.get('unit_ids',[]))\n        temp=[]\n        parse_disposal(raw,window_ids,temp)\n        if choice=='operative_disposal':\n            found=_dr_add_filtered(statements,temp,['disposal_obligation'])\n            if 'disposal_obligation' not in found:\n                unresolved.append('An operative disposal judgment could not be mapped without inventing scope for '+qid+'.')\n        elif choice=='operative_retention_permission':\n            found=_dr_add_filtered(statements,temp,['retention_permission'])\n            if 'retention_permission' not in found:\n                unresolved.append('An operative retention permission could not be mapped without inventing scope for '+qid+'.')\n        elif choice=='operative_retention_prohibition':\n            found=_dr_add_filtered(statements,temp,['retention_prohibition'])\n            if 'retention_prohibition' not in found:\n                unresolved.append('An operative retention prohibition could not be mapped without inventing scope for '+qid+'.')\n        elif choice=='operative_disposal_and_retention_permission':\n            found=_dr_add_filtered(statements,temp,['disposal_obligation','retention_permission'])\n            if 'disposal_obligation' not in found or 'retention_permission' not in found:\n                unresolved.append('The combined disposal and retention judgment could not be mapped completely for '+qid+'.')\n        else:\n            unresolved.append('Unsupported disposal/retention source-role choice for '+qid+'.')\n    has_permission=False\n    has_definition=False\n    needs_definition=False\n    for s in statements:\n        term=s.get('term')\n        if isinstance(term,list) and term:\n            if term[0]=='permission' or has_tag(term,'permission_exception'):\n                has_permission=True\n            if term[0]=='define_representative':\n                has_definition=True\n            if term[0] in ('permission','prohibition') and has_tag(term,'representatives_of'):\n                needs_definition=True\n    if refs and not has_permission:\n        unresolved.append('A disclosure exception refers to another provision, but no operative recipient permission was resolved from the current source.')\n    if needs_definition and not has_definition:\n        unresolved.append('An operative norm uses Representatives, but their current-source membership or owner binding was not resolved.')\n    return {'statements':statements,'complete':not unresolved,'unresolved':unresolved}"
+          ]
+        },
+        "model": "gpt-5.6-sol",
+        "request_sha256": "c8bc14913fb036ab5262c6d0cb39af735cb4adb6ccf716ecf1ef3bebf05bcc99",
+        "response_sha256": "7c1757a4bc49b281c77384d92f1881431c8a9789c79310262233e5b1574218c9",
+        "cache_hit": false,
+        "invocation": {
+          "attempt": 1,
+          "started_at": "2026-11-12T23:46:14.573847+00:00",
+          "finished_at": "2026-11-12T23:48:40.486808+00:00",
+          "elapsed_seconds": 145.913,
+          "returncode": 0,
+          "event_log_sha256": "36c794f61c5e3cbc158fcbfe41731dfc955b99338857df33b1813aed1e63b292",
+          "tool_events_detected": false,
+          "budget_reservation": null,
+          "usage": {
+            "input_tokens": 45949,
+            "cached_input_tokens": 0,
+            "output_tokens": 7475,
+            "reasoning_output_tokens": 4930
+          },
+          "estimated_credits": null
+        },
+        "source_ids": [
+          "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+          "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+          "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+          "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40"
+        ],
+        "elapsed_seconds": 145.91436556354165,
+        "billing_basis": "existing_authorized_Codex_CLI",
+        "actual_cash_invoice_available": false
+      }
+    },
+    {
+      "id": "legal_skill_evolution_semantic_operations_v2_20261113:focus_scope_validation:f18d19b4c072f65f123386459529a133136908c824619be02b01f2ee52abaa1a",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "bucket": "external_skill_train",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "request_hash": "9c7b9de61bdd6c339b7bbae43e8f261f149264efae2ddfc3a9ae63b33fc4fc11",
+      "status": "completed",
+      "reserved_at": 1794529891.5581477,
+      "result": {
+        "content": "{\"answers\": [{\"id\": \"sr_3_retention_info\", \"choice\": \"all_copies_and_stated_derivatives\", \"evidence\": [{\"unit_id\": 30, \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}]}]}",
+        "reasoning_content": null,
+        "finish_reason": "stop",
+        "raw_id": "chatcmpl-d30c2bc8c1204ae6b47f00f4522eaa17",
+        "usage": {
+          "prompt_tokens": 1323,
+          "total_tokens": 1403,
+          "completion_tokens": 80,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "507e91954d2b8f5028601b629d7b4cd6c73a90cd19f71a082b4cbf032b77562f",
+        "serving_template_suffix_tokens": [
+          5927,
+          537,
+          14425,
+          1189,
+          72441,
+          330,
+          17414,
+          14832,
+          842,
+          788,
+          220,
+          18,
+          15,
+          92,
+          13989,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 2.3450782541185617,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "9c7b9de61bdd6c339b7bbae43e8f261f149264efae2ddfc3a9ae63b33fc4fc11",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_semantic_operations_v2_20261113/calls/77bcdd2e6d534e4a701e1b386de8bbc7b479260f2f0daf282600564726e47d7b"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_semantic_operations_v2_20261113:foregoing_context_repair:batch:0:0448741b7c478970a7e53d701ac8022b080d9d0089c6c9e770e042b3d4c7cba7",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "bucket": "external_skill_train",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "request_hash": "9f9141b9d1ce297efb0386e56eb2c47b7f7afad87115450c0560f4274c2d43f8",
+      "status": "completed",
+      "reserved_at": 1794529746.4020748,
+      "result": {
+        "content": "{\"answers\": [{\"id\": \"sr_3_retention_info\", \"choice\": \"no_retained_information_scope\", \"evidence\": [{\"unit_id\": 30, \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}]}]}",
+        "reasoning_content": null,
+        "finish_reason": "stop",
+        "raw_id": "chatcmpl-3164ec19ceaa4a839246e9d11f439e89",
+        "usage": {
+          "prompt_tokens": 1270,
+          "total_tokens": 1347,
+          "completion_tokens": 77,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "861585ce97074e83729ebcb6dd6105f8c4ed8e19fa1c0741dc03b183aade1d51",
+        "serving_template_suffix_tokens": [
+          387,
+          34263,
+          323,
+          429,
+          678,
+          1995,
+          686,
+          387,
+          5927,
+          537,
+          14425,
+          1189,
+          92,
+          13989,
+          13989,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 2.2190407356247306,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "9f9141b9d1ce297efb0386e56eb2c47b7f7afad87115450c0560f4274c2d43f8",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_semantic_operations_v2_20261113/calls/f5269d4b2f24e83f219b467d87c7d39d64fe65324dd3dccf6017cd2a9e485c1f"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_semantic_operations_v2_20261113:isolated_operation_repair:sr_3_actor:batch:0:833284f18452ad253e29f798eb60c489195b7f05f5326474a1ca4236c9d868bd",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "bucket": "external_skill_train",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "request_hash": "386c40ebb20dd56026174f763d87e9791e597bd1ecae245733a7f7ec153e10ae",
+      "status": "completed",
+      "reserved_at": 1794529044.2375832,
+      "result": {
+        "content": "{\"answers\": [{\"id\": \"sr_3_actor\", \"choice\": \"named_service_actor\", \"evidence\": [{\"unit_id\": 30, \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}]}]}",
+        "reasoning_content": null,
+        "finish_reason": "stop",
+        "raw_id": "chatcmpl-84947d8edd74414996e169edcc284318",
+        "usage": {
+          "prompt_tokens": 1236,
+          "total_tokens": 1309,
+          "completion_tokens": 73,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "0fbcd69953f8dcf54f473f4df62e687eba79681c4e067b350350a376d6e55529",
+        "serving_template_suffix_tokens": [
+          387,
+          34263,
+          323,
+          429,
+          678,
+          1995,
+          686,
+          387,
+          5927,
+          537,
+          14425,
+          1189,
+          92,
+          13989,
+          13989,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 2.1157913357019424,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "386c40ebb20dd56026174f763d87e9791e597bd1ecae245733a7f7ec153e10ae",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_semantic_operations_v2_20261113/calls/f2bfafc39f0b0206140a4bf1e7b1cef45214dcabdb66090b41108f341db95448"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_semantic_operations_v2_20261113:isolated_operation_repair:sr_3_retention_info:batch:0:dc64b2e899691a991175dc8cef47803420cc97a5b5aaf79c862adfed1428e38e",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "bucket": "external_skill_train",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "request_hash": "69f2ff625f4df5e58aaa7253dd8da3ddd6caaa06c208a65c9c91d0a09473455f",
+      "status": "completed",
+      "reserved_at": 1794529046.3946307,
+      "result": {
+        "content": "{\"answers\": [{\"id\": \"sr_3_retention_info\", \"choice\": \"all_copies_and_stated_derivatives\", \"evidence\": [{\"unit_id\": 30, \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}]}]}",
+        "reasoning_content": null,
+        "finish_reason": "stop",
+        "raw_id": "chatcmpl-b28f10a5e126460a852d66a8b9340a3f",
+        "usage": {
+          "prompt_tokens": 1176,
+          "total_tokens": 1256,
+          "completion_tokens": 80,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "989838fb26e8c86e35fe6298b5e980989509a6477eb89d0bebc490c855b0e196",
+        "serving_template_suffix_tokens": [
+          387,
+          34263,
+          323,
+          429,
+          678,
+          1995,
+          686,
+          387,
+          5927,
+          537,
+          14425,
+          1189,
+          92,
+          13989,
+          13989,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 2.2901329435408115,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "69f2ff625f4df5e58aaa7253dd8da3ddd6caaa06c208a65c9c91d0a09473455f",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_semantic_operations_v2_20261113/calls/994b127dc1c7a679a76be3ca2670a6d17b191620fcc24ec44838685a7e934224"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_semantic_operations_v2_20261113:joint_field_control:f8509884d1a55be30e307cfdc0bdd2ab08e83c86027dbe97664df54528be884f",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "bucket": "external_skill_train",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "request_hash": "f991230287864eaf908e561e153d5324aa40daf7bb027220827e351bf5e713b8",
+      "status": "completed",
+      "reserved_at": 1794529998.7577322,
+      "result": {
+        "content": "{\n  \"frame_0\": {\n    \"disposal_retention_clause_role\": {\n      \"choice\": \"operative_retention_prohibition\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        },\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"disposal_retention_actor_role\": {\n      \"choice\": \"designated_recipient_holder\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    },\n    \"principal_disposal_action\": {\n      \"choice\": \"return_to_information_supplier\",\n      \"evidence\": [\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"principal_disposal_trigger\": {\n      \"choice\": \"service_termination\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    },\n    \"principal_disposal_information_scope\": {\n      \"choice\": \"confidential_information_and_all_copies\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    },\n    \"retained_information_scope\": {\n      \"choice\": \"no_retained_information_scope\",\n      \"evidence\": [\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"disposal_retention_qualification\": {\n      \"choice\": \"express_no_retention\",\n      \"evidence\": [\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"disposal_temporal_qualification\": {\n      \"choice\": \"within_ten_business_days\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    }\n  },\n  \"frame_1\": {\n    \"disposal_retention_clause_role\": {\n      \"choice\": \"operative_retention_prohibition\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        },\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"disposal_retention_actor_role\": {\n      \"choice\": \"designated_recipient_holder\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    },\n    \"principal_disposal_action\": {\n      \"choice\": \"return_to_information_supplier\",\n      \"evidence\": [\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"principal_disposal_trigger\": {\n      \"choice\": \"service_termination\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    },\n    \"principal_disposal_information_scope\": {\n      \"choice\": \"confidential_information_and_all_copies\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    },\n    \"retained_information_scope\": {\n      \"choice\": \"no_retained_information_scope\",\n      \"evidence\": [\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"disposal_retention_qualification\": {\n      \"choice\": \"express_no_retention\",\n      \"evidence\": [\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"disposal_temporal_qualification\": {\n      \"choice\": \"within_ten_business_days\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    }\n  },\n  \"frame_2\": {\n    \"disposal_retention_clause_role\": {\n      \"choice\": \"operative_retention_prohibition\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        },\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"disposal_retention_actor_role\": {\n      \"choice\": \"designated_recipient_holder\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    },\n    \"principal_disposal_action\": {\n      \"choice\": \"return_to_information_supplier\",\n      \"evidence\": [\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"principal_disposal_trigger\": {\n      \"choice\": \"service_termination\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    },\n    \"principal_disposal_information_scope\": {\n      \"choice\": \"confidential_information_and_all_copies\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    },\n    \"retained_information_scope\": {\n      \"choice\": \"no_retained_information_scope\",\n      \"evidence\": [\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"disposal_retention_qualification\": {\n      \"choice\": \"express_no_retention\",\n      \"evidence\": [\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"disposal_temporal_qualification\": {\n      \"choice\": \"within_ten_business_days\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    }\n  },\n  \"frame_3\": {\n    \"disposal_retention_clause_role\": {\n      \"choice\": \"operative_disposal_and_retention_permission\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        },\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"disposal_retention_actor_role\": {\n      \"choice\": \"designated_recipient_holder\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    },\n    \"principal_disposal_action\": {\n      \"choice\": \"return_to_information_supplier\",\n      \"evidence\": [\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"principal_disposal_trigger\": {\n      \"choice\": \"service_termination\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    },\n    \"principal_disposal_information_scope\": {\n      \"choice\": \"confidential_information_and_all_copies\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    },\n    \"retained_information_scope\": {\n      \"choice\": \"no_retained_information_scope\",\n      \"evidence\": [\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"disposal_retention_qualification\": {\n      \"choice\": \"express_no_retention\",\n      \"evidence\": [\n        {\n          \"unit_id\": 30,\n          \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"\n        }\n      ]\n    },\n    \"disposal_temporal_qualification\": {\n      \"choice\": \"within_ten_business_days\",\n      \"evidence\": [\n        {\n          \"unit_id\": 29,\n          \"quote\": \"Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"\n        }\n      ]\n    }\n  }\n}",
+        "reasoning_content": null,
+        "finish_reason": "stop",
+        "raw_id": "chatcmpl-13305e76ebeb4a45ad3b4976a4194134",
+        "usage": {
+          "prompt_tokens": 11833,
+          "total_tokens": 15526,
+          "completion_tokens": 3693,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "fba257d9cbb1616e8c665e2dc4f96fe1f3497bddbcf9727dbe119643be1c03ee",
+        "serving_template_suffix_tokens": [
+          748,
+          3988,
+          320,
+          8994,
+          11583,
+          330,
+          888,
+          48332,
+          842,
+          788,
+          220,
+          20,
+          20,
+          92,
+          13989,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 111.82249207422137,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "f991230287864eaf908e561e153d5324aa40daf7bb027220827e351bf5e713b8",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_semantic_operations_v2_20261113/calls/35d0ba6319efeff1a9564cbc889c73c16cfc812299e806abff20b18eb884aaf3"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_semantic_operations_v2_20261113:smoke:LearnedOperations:ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450:batch:0:7d6e2fdae79d418288d66252c052b40f300f12cf848019fe025aaaf7c686af82",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "bucket": "external_skill_train",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "request_hash": "50e58c2b6973fa7ead0af73c853c51190e186212bae8c127b35e3e1be703c68f",
+      "status": "completed",
+      "reserved_at": 1794528466.336287,
+      "result": {
+        "content": "{\"answers\": [{\"id\": \"sr_0_role\", \"choice\": \"no_relevant_operative_effect\", \"evidence\": [{\"unit_id\": 24, \"quote\": \"Non-Disclosure  Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information.\"}]}, {\"id\": \"sr_0_actor\", \"choice\": \"no_disposal_retention_actor\", \"evidence\": [{\"unit_id\": 24, \"quote\": \"Non-Disclosure  Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information.\"}]}, {\"id\": \"sr_0_action\", \"choice\": \"no_principal_disposal_action\", \"evidence\": [{\"unit_id\": 24, \"quote\": \"Non-Disclosure  Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information.\"}]}, {\"id\": \"sr_0_trigger\", \"choice\": \"no_principal_disposal_trigger\", \"evidence\": [{\"unit_id\": 24, \"quote\": \"Non-Disclosure  Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information.\"}]}, {\"id\": \"sr_0_disposal_info\", \"choice\": \"no_principal_disposal_information\", \"evidence\": [{\"unit_id\": 24, \"quote\": \"Non-Disclosure  Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information.\"}]}, {\"id\": \"sr_0_retention_info\", \"choice\": \"no_retained_information_scope\", \"evidence\": [{\"unit_id\": 24, \"quote\": \"Non-Disclosure  Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information.\"}]}, {\"id\": \"sr_0_qualification\", \"choice\": \"no_disposal_retention_qualification\", \"evidence\": [{\"unit_id\": 24, \"quote\": \"Non-Disclosure  Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information.\"}]}, {\"id\": \"sr_0_timing\", \"choice\": \"no_additional_timing\", \"evidence\": [{\"unit_id\": 24, \"quote\": \"Non-Disclosure  Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information.\"}]}, {\"id\": \"sr_1_role\", \"choice\": \"no_relevant_operative_effect\", \"evidence\": [{\"unit_id\": 28, \"quote\": \" Volunteer acknowledges and agrees that all Confidential Information and similar items whether maintained in hard copy, electronically or on-line relating to CCPDT’s business shall remain exclusively the property of the Certification Council for Professional Dog Trainers and shall only be used by Volunteer for the purpose(s) permitted by the Certification Council for Professional Dog Trainers.\"}]}, {\"id\": \"sr_1_actor\", \"choice\": \"no_disposal_retention_actor\", \"evidence\": [{\"unit_id\": 28, \"quote\": \" Volunteer acknowledges and agrees that all Confidential Information and similar items whether maintained in hard copy, electronically or on-line relating to CCPDT’s business shall remain exclusively the property of the Certification Council for Professional Dog Trainers and shall only be used by Volunteer for the purpose(s) permitted by the Certification Council for Professional Dog Trainers.\"}]}, {\"id\": \"sr_1_action\", \"choice\": \"no_principal_disposal_action\", \"evidence\": [{\"unit_id\": 28, \"quote\": \" Volunteer acknowledges and agrees that all Confidential Information and similar items whether maintained in hard copy, electronically or on-line relating to CCPDT’s business shall remain exclusively the property of the Certification Council for Professional Dog Trainers and shall only be used by Volunteer for the purpose(s) permitted by the Certification Council for Professional Dog Trainers.\"}]}, {\"id\": \"sr_1_trigger\", \"choice\": \"no_principal_disposal_trigger\", \"evidence\": [{\"unit_id\": 28, \"quote\": \" Volunteer acknowledges and agrees that all Confidential Information and similar items whether maintained in hard copy, electronically or on-line relating to CCPDT’s business shall remain exclusively the property of the Certification Council for Professional Dog Trainers and shall only be used by Volunteer for the purpose(s) permitted by the Certification Council for Professional Dog Trainers.\"}]}]}",
+        "reasoning_content": null,
+        "finish_reason": "stop",
+        "raw_id": "chatcmpl-548f86f613754e75af1d5efc412baa98",
+        "usage": {
+          "prompt_tokens": 9171,
+          "total_tokens": 10221,
+          "completion_tokens": 1050,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "427b8c8cfdc0a9a407af72156439ce3d46e3b631ec93750203fa431b403430ef",
+        "serving_template_suffix_tokens": [
+          8,
+          15129,
+          553,
+          279,
+          50210,
+          9074,
+          369,
+          21237,
+          14254,
+          1163,
+          20568,
+          1189,
+          92,
+          13989,
+          13989,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 31.764260361902416,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "50e58c2b6973fa7ead0af73c853c51190e186212bae8c127b35e3e1be703c68f",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_semantic_operations_v2_20261113/calls/14a7e0e1550d4f8862b2b377cdd312622779448f5e3798d4b6d39b32cfe27501"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_semantic_operations_v2_20261113:smoke:LearnedOperations:ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450:batch:1:e2b6c27ea852e2b68f874060430c0524544a8cb6792bc210ab85e72c3c5d3fc5",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "bucket": "external_skill_train",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "request_hash": "0c7d0ceb3f7b964d56ac5e2cba44d021f581f078b33d2b019a46a3f17f70cd02",
+      "status": "completed",
+      "reserved_at": 1794528498.156405,
+      "result": {
+        "content": "{\"answers\": [{\"id\": \"sr_1_disposal_info\", \"choice\": \"no_principal_disposal_information\", \"evidence\": [{\"unit_id\": 28, \"quote\": \" Volunteer acknowledges and agrees that all Confidential Information and similar items whether maintained in hard copy, electronically or on-line relating to CCPDT’s business shall remain exclusively the property of the Certification Council for Professional Dog Trainers and shall only be used by Volunteer for the purpose(s) permitted by the Certification Council for Professional Dog Trainers.\"}]}, {\"id\": \"sr_1_retention_info\", \"choice\": \"no_retained_information_scope\", \"evidence\": [{\"unit_id\": 28, \"quote\": \" Volunteer acknowledges and agrees that all Confidential Information and similar items whether maintained in hard copy, electronically or on-line relating to CCPDT’s business shall remain exclusively the property of the Certification Council for Professional Dog Trainers and shall only be used by Volunteer for the purpose(s) permitted by the Certification Council for Professional Dog Trainers.\"}]}, {\"id\": \"sr_1_qualification\", \"choice\": \"no_disposal_retention_qualification\", \"evidence\": [{\"unit_id\": 28, \"quote\": \" Volunteer acknowledges and agrees that all Confidential Information and similar items whether maintained in hard copy, electronically or on-line relating to CCPDT’s business shall remain exclusively the property of the Certification Council for Professional Dog Trainers and shall only be used by Volunteer for the purpose(s) permitted by the Certification Council for Professional Dog Trainers.\"}]}, {\"id\": \"sr_1_timing\", \"choice\": \"no_disposal_timing_context\", \"evidence\": [{\"unit_id\": 28, \"quote\": \" Volunteer acknowledges and agrees that all Confidential Information and similar items whether maintained in hard copy, electronically or on-line relating to CCPDT’s business shall remain exclusively the property of the Certification Council for Professional Dog Trainers and shall only be used by Volunteer for the purpose(s) permitted by the Certification Council for Professional Dog Trainers.\"}]}, {\"id\": \"sr_2_role\", \"choice\": \"operative_disposal\", \"evidence\": [{\"unit_id\": 29, \"quote\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"}]}, {\"id\": \"sr_2_actor\", \"choice\": \"designated_recipient_holder\", \"evidence\": [{\"unit_id\": 29, \"quote\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"}]}, {\"id\": \"sr_2_action\", \"choice\": \"return_to_information_supplier\", \"evidence\": [{\"unit_id\": 29, \"quote\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"}]}, {\"id\": \"sr_2_trigger\", \"choice\": \"service_termination\", \"evidence\": [{\"unit_id\": 29, \"quote\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"}]}, {\"id\": \"sr_2_disposal_info\", \"choice\": \"confidential_information_and_all_copies\", \"evidence\": [{\"unit_id\": 29, \"quote\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"}]}, {\"id\": \"sr_2_retention_info\", \"choice\": \"no_retained_information_scope\", \"evidence\": [{\"unit_id\": 29, \"quote\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"}]}, {\"id\": \"sr_2_qualification\", \"choice\": \"no_disposal_retention_qualification\", \"evidence\": [{\"unit_id\": 29, \"quote\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"}]}, {\"id\": \"sr_2_timing\", \"choice\": \"within_ten_business_days\", \"evidence\": [{\"unit_id\": 29, \"quote\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"}]}] }",
+        "reasoning_content": null,
+        "finish_reason": "stop",
+        "raw_id": "chatcmpl-3819990e9e1e4d05857b6d295cc081d1",
+        "usage": {
+          "prompt_tokens": 9473,
+          "total_tokens": 10821,
+          "completion_tokens": 1348,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "e82b046f89fea577776ab8b2609b9c0afff78567586353b5f9a8835018581c53",
+        "serving_template_suffix_tokens": [
+          11,
+          476,
+          304,
+          894,
+          1616,
+          12180,
+          2337,
+          279,
+          3308,
+          315,
+          2473,
+          1189,
+          92,
+          13989,
+          13989,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 40.66964508034289,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "0c7d0ceb3f7b964d56ac5e2cba44d021f581f078b33d2b019a46a3f17f70cd02",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_semantic_operations_v2_20261113/calls/9c43648d58bb21c351e23d19304d1a037b1eda994663cdc4c393d0a586c8f82e"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_semantic_operations_v2_20261113:smoke:LearnedOperations:ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450:batch:2:5f15a5444de217121b1ebc3b8803156634c11cb8f88fa39bc20e446abcc0faec",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "bucket": "external_skill_train",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "request_hash": "e196dee96e0680c8aead335aa8d91540ef233ca2182ca731cffc6ac12618cb9d",
+      "status": "completed",
+      "reserved_at": 1794528538.8804445,
+      "result": {
+        "content": "{\"answers\": [{\"id\": \"sr_3_role\", \"choice\": \"operative_retention_prohibition\", \"evidence\": [{\"unit_id\": 30, \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}]}, {\"id\": \"sr_3_actor\", \"choice\": \"no_disposal_retention_actor\", \"evidence\": [{\"unit_id\": 30, \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}]}, {\"id\": \"sr_3_action\", \"choice\": \"no_principal_disposal_action\", \"evidence\": [{\"unit_id\": 30, \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}]}, {\"id\": \"sr_3_trigger\", \"choice\": \"no_principal_disposal_trigger\", \"evidence\": [{\"unit_id\": 30, \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}]}, {\"id\": \"sr_3_disposal_info\", \"choice\": \"no_principal_disposal_information\", \"evidence\": [{\"unit_id\": 30, \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}]}, {\"id\": \"sr_3_retention_info\", \"choice\": \"no_retained_information_scope\", \"evidence\": [{\"unit_id\": 30, \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}]}, {\"id\": \"sr_3_qualification\", \"choice\": \"express_no_retention\", \"evidence\": [{\"unit_id\": 30, \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}]}, {\"id\": \"sr_3_timing\", \"choice\": \"no_disposal_timing_context\", \"evidence\": [{\"unit_id\": 30, \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}]}] }",
+        "reasoning_content": null,
+        "finish_reason": "stop",
+        "raw_id": "chatcmpl-ca834fd332f44fa2b241837f30a9f60f",
+        "usage": {
+          "prompt_tokens": 8659,
+          "total_tokens": 9222,
+          "completion_tokens": 563,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "9fada9d0d7a74f0aacdd30c49b3292ec83c9d2147226799d12510ce7aece5764",
+        "serving_template_suffix_tokens": [
+          387,
+          34263,
+          323,
+          429,
+          678,
+          1995,
+          686,
+          387,
+          5927,
+          537,
+          14425,
+          1189,
+          92,
+          13989,
+          13989,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 17.601324286311865,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "e196dee96e0680c8aead335aa8d91540ef233ca2182ca731cffc6ac12618cb9d",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_semantic_operations_v2_20261113/calls/47311eaaa00b3ef3840efe2c8a0bcada2ac72a415cd9690cf486e4e9b32b10d0"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_semantic_operations_v2_20261113:smoke:SharedDirect:direct:6dea008cf2d0ce32351f9f027af0662e069d29e4ada94acdb8388f65f7521931",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "bucket": "external_skill_train",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "request_hash": "36067df5c566101a4d7c7a12ddb16c2e0c815d4b7ca1950a86072ed1419ae4bf",
+      "status": "completed",
+      "reserved_at": 1794528721.0908577,
+      "result": {
+        "content": "{\n  \"statements\": [\n    {\n      \"expression\": \"disposal_obligation\",\n      \"support_ids\": [\n        29\n      ]\n    },\n    {\n      \"expression\": \"retention_prohibition\",\n      \"support_ids\": [\n        30\n      ]\n    }\n  ],\n  \"unresolved\": []\n}",
+        "reasoning_content": null,
+        "finish_reason": "stop",
+        "raw_id": "chatcmpl-6ccacac4dbbb48cfaeed3a55d5a791a9",
+        "usage": {
+          "prompt_tokens": 23253,
+          "total_tokens": 23330,
+          "completion_tokens": 77,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "1fdcd20c36db7f75daed7fb46ec6716bbcb87aff358474d4d300f12da426bd8a",
+        "serving_template_suffix_tokens": [
+          748,
+          3988,
+          320,
+          8994,
+          11583,
+          330,
+          888,
+          48332,
+          842,
+          788,
+          220,
+          20,
+          20,
+          92,
+          13989,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 7.407938547432423,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "36067df5c566101a4d7c7a12ddb16c2e0c815d4b7ca1950a86072ed1419ae4bf",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_semantic_operations_v2_20261113/calls/c182fa3900e367bb07505440751c821898bdc3d8cba14e0e85e340fdba2395c1"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_semantic_operations_v2_20261113:smoke:SharedDirectV2:direct:7d9bd3504a82b562c7bf03ff1ae826b11b00793b579f190f779d4e3f5c41ccfa",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "bucket": "external_skill_train",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "request_hash": "698b5fa3f7d977399637664b3177b90a7fd72d7f55b4e0da65a55650af146136",
+      "status": "completed",
+      "reserved_at": 1794529116.0072892,
+      "result": {
+        "content": "{\n  \"statements\": [\n    {\n      \"expression\": \"disposal_obligation(named_recipient(\\\"Volunteer\\\"),return_to(information_bundle(confidential_information(),copies_of(confidential_information())),disclosing_party()),service_termination(),no_exceptions())\",\n      \"support_ids\": [29]\n    },\n    {\n      \"expression\": \"retention_prohibition(named_recipient(\\\"Volunteer\\\"),information_bundle(confidential_information(),copies_of(confidential_information())),after_disposal())\",\n      \"support_ids\": [30]\n    }\n  ],\n  \"complete\": true,\n  \"unresolved\": []\n} ✅\n\nThe current source units express the following operative disposal/retention roles:\n\n1. **Disposal Obligation**:  \n   - **Actor**: `named_recipient(\"Volunteer\")`  \n   - **Action**: `return_to(information_bundle(confidential_information(), copies_of(confidential_information())), disclosing_party())`  \n   - **Trigger**: `service_termination()`  \n   - **Exception**: `no_exceptions()`  \n   - **Source**: `ContractNLI:29`  \n   - **Meaning**: The Volunteer is obligated to return all Confidential Information and copies thereof to the Certification Council for Professional Dog Trainers upon termination of service. This duty is absolute, with no exceptions stated.\n\n2. **Retention Prohibition**:  \n   - **Actor**: `named_recipient(\"Volunteer\")`  \n   - **Scope**: `information_bundle(confidential_information(), copies_of(confidential_information()))`  \n   - **Trigger**: `after_disposal()`  \n   - **Meaning**: The Volunteer is prohibited from retaining any copies, electronic or otherwise, notes, or abstracts of the Confidential Information after the required return or destruction process. This is an absolute prohibition, with no exceptions or qualifications stated.  \n   - **Source**: `ContractNLI:30`  \n\nThese interpretations are directly supported by the source text and its constructors. No unresolved elements were found in the current source units. The disposal obligation and retention prohibition are distinct and fully represent the operative effects of the source. The source does not express any supplemental linked effects, retention permissions, or other unresolved conditions. The disposal obligation is tied to the termination of service, and the retention prohibition applies after the disposal process. The scope of the information covered includes all Confidential Information and its copies, with no exceptions or qualifications. The action is a return to the disclosing party, and the prohibition applies to all forms of retention after disposal. The source does not provide any alternative choices, and the duty is absolute. The timing of the disposal obligation is tied to the termination of service, with a specified deadline of ten (10) business days. The retention prohibition is unconditional, with no legal or other exceptions. The source does not express any other qualifications or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects, such as retention permissions or supplemental linked effects. The disposal obligation and retention prohibition are the only operative effects expressed in the current source units. The source does not express any other conditions, qualifications, or exceptions. The disposal obligation and retention prohibition are fully represented in the current source units. The source does not provide any other operative effects,",
+        "reasoning_content": null,
+        "finish_reason": "length",
+        "raw_id": "chatcmpl-73942a3044034688bba2497a0728736a",
+        "usage": {
+          "prompt_tokens": 23610,
+          "total_tokens": 31802,
+          "completion_tokens": 8192,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "8b11419498bac217b35e4f2021855ae93d8b127c8882768c0b71dde6f68fcd33",
+        "serving_template_suffix_tokens": [
+          748,
+          3988,
+          320,
+          8994,
+          11583,
+          330,
+          888,
+          48332,
+          842,
+          788,
+          220,
+          20,
+          20,
+          92,
+          13989,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 273.95490513090044,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "698b5fa3f7d977399637664b3177b90a7fd72d7f55b4e0da65a55650af146136",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_semantic_operations_v2_20261113/calls/2a382626e4e8534e5242b35ebc135a156460d48b9d8eebbf6bf67795bdb58fa5"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_semantic_operations_v2_20261113:smoke:SharedDirectV3:direct:e8d1128d3d97d8698498bba97dd6baf87a4c409421872453591ebce0d21cdd97",
+      "role": "executor",
+      "purpose": "skill_replay",
+      "bucket": "external_skill_train",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "request_hash": "7872987d13ab1e2270d19d4262e847a95b9c31cc8afb15e1d8a9d39520db69b1",
+      "status": "completed",
+      "reserved_at": 1794529700.558622,
+      "result": {
+        "content": "{\n  \"statements\": [\n    {\n      \"expression\": \"disposal_obligation(named_recipient(\\\"Volunteer\\\"),return_to(information_bundle(confidential_information(),copies_of(confidential_information())),disclosing_party()),service_termination(),no_exceptions())\",\n      \"support_ids\": [29]\n    },\n    {\n      \"expression\": \"retention_prohibition(named_recipient(\\\"Volunteer\\\"),information_bundle(confidential_information(),copies_of(confidential_information())),after_disposal())\",\n      \"support_ids\": [30]\n    }\n  ],\n  \"unresolved\": []\n}",
+        "reasoning_content": null,
+        "finish_reason": "stop",
+        "raw_id": "chatcmpl-add3947a7c4d48a9b9bfc5c06ca1a2d0",
+        "usage": {
+          "prompt_tokens": 23655,
+          "total_tokens": 23776,
+          "completion_tokens": 121,
+          "prompt_tokens_details": null
+        },
+        "thinking_requested": false,
+        "serving_template_tokens_sha256": "a627094fd4f8ec027bcbc5f1437d579379b1359d849e811925e24c8efe5b16cb",
+        "serving_template_suffix_tokens": [
+          748,
+          3988,
+          320,
+          8994,
+          11583,
+          330,
+          888,
+          48332,
+          842,
+          788,
+          220,
+          20,
+          20,
+          92,
+          13989,
+          151645,
+          198,
+          151644,
+          77091,
+          198,
+          151667,
+          271,
+          151668,
+          271
+        ],
+        "elapsed_seconds": 8.982612017542124,
+        "incremental_api_cash_usd": 0,
+        "gpu_cost_usd": null,
+        "billing_basis": "existing_local_service_no_per_request_API_invoice",
+        "request_hash": "7872987d13ab1e2270d19d4262e847a95b9c31cc8afb15e1d8a9d39520db69b1",
+        "artifact_directory": "/home/yndx/hhy/legal-skill-current/artifacts/legal_skill_evolution_semantic_operations_v2_20261113/calls/34bb3064ca5c6f0136440e260dd68367722997524c9772718f1ba0e9d09b50ba"
+      }
+    },
+    {
+      "id": "legal_skill_evolution_semantic_operations_v2_20261113:teacher:IndependentReader:741cc7063b2a7f668a8e3d217bae68469e7ed81d56367d5556ae08a59c254cb2",
+      "role": "teacher",
+      "purpose": "skill_teacher",
+      "bucket": "external_skill_train",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "request_hash": "e38f46b481dabd862836d58a66f0884ed732fd4e88aa5d599a2dcc1fb8a34c26",
+      "status": "failed",
+      "reserved_at": 1794527840.9894562,
+      "result": {
+        "error": "CodexInvocationError: Structured Codex call failed for skill_teacher after 1 attempts: TimeoutExpired: Command '['/home/yndx/.local/share/codex-npm/bin/codex', 'exec', '--model', 'gpt-5.6-sol', '--ephemeral', '--sandbox', 'read-only', '--skip-git-repo-check', '--ignore-rules', '--ignore-user-config', '--disable', 'apps', '--disable', 'plugins', '--disable', 'tool_suggest', '--json', '--output-schema', '/tmp/lsg-codex-rlvzku_x/output.schema.json', '--output-last-message', '/tmp/lsg-codex-rlvzku_x/response.json', '--cd', '/tmp/lsg-codex-rlvzku_x', '-c', 'model_reasoning_effort=\"high\"', '-']' timed out after 600 seconds",
+        "elapsed_seconds": 600.065162862651,
+        "reserved_and_charged": true
+      }
+    },
+    {
+      "id": "legal_skill_evolution_semantic_operations_v2_20261113:teacher:LearnedOperations:436a386da7db9df613bd0cb7b2d281b10bc1f50ce78c7da11be132f52dddf327",
+      "role": "teacher",
+      "purpose": "skill_teacher",
+      "bucket": "external_skill_train",
+      "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+      "request_hash": "891b1e54584cdcfa3138ffaba3638e21daf1d340446a27917ef2ac5938b1522e",
+      "status": "completed",
+      "reserved_at": 1794527485.106803,
+      "result": {
+        "value": {
+          "rationale": "The update keeps the common clause-role operation but replaces the former gate around parse_disposal with a compositional semantic reader. Separate learned judgments identify the operative actor, principal action and choice allocation, trigger, disposal information, retained information, exceptions or retention basis, and temporal qualification. The finisher constructs only common59 terms from those judgments. Unsupported deadlines, priority rules, certification duties, and linked backup or retention-expiry effects remain explicit unresolved items rather than being silently erased. Existing disclosure parsing is preserved, while the old lexical disposal parser is never called.",
+          "operations": [
+            {
+              "name": "disposal_retention_clause_role",
+              "question": "Considering the supplied source units together, what operative disposal/retention role do they express? Classify the source language itself, not any downstream task. Actor, information scope, action, trigger, allocation of choice, qualifications, and exceptions must still be taken from the quoted units.",
+              "choices": [
+                {
+                  "name": "operative_disposal",
+                  "meaning": "The units impose an operative return and/or destruction duty with its source-stated actor, information, trigger, choice allocation, and exceptions; they do not themselves grant post-disposal retention."
+                },
+                {
+                  "name": "operative_retention_permission",
+                  "meaning": "The units expressly permit or except retention after the relevant return or destruction process, limited by the source-stated information and condition, without themselves imposing the principal disposal duty."
+                },
+                {
+                  "name": "operative_retention_prohibition",
+                  "meaning": "The units operatively forbid retaining the specified information after the relevant disposal process, without themselves creating a new disposal duty merely because return or destruction is mentioned."
+                },
+                {
+                  "name": "operative_disposal_and_retention_permission",
+                  "meaning": "The same units both impose a return/destruction duty and expressly allow a limited post-disposal retention exception or permission."
+                },
+                {
+                  "name": "supplemental_linked_effect",
+                  "meaning": "The units express an operative disposal/retention effect linked to another clause, process, or unsupported trigger whose actual scope cannot safely be represented as one of the available standalone terms from these units."
+                },
+                {
+                  "name": "no_relevant_operative_effect",
+                  "meaning": "The units are a heading, survival statement, recital, reference, or other text that does not itself impose a disposal duty, grant retention, or prohibit retention."
+                }
+              ],
+              "examples": [
+                {
+                  "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+                  "quote": "(a) within one month of completion of the Purpose or receipt of a written request from the other party, return to the other party all documents and materials (and all copies thereof) containing the other party's Confidential Information and certify in writing to the other party that it has complied with the requirements of this sub-clause; and",
+                  "choice": "operative_disposal"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "Notwithstanding anything in this paragraph 6 to the contrary, a Participating Entity may retain a record copy of any Confidential Information if required to do so by applicable law.",
+                  "choice": "operative_retention_permission"
+                },
+                {
+                  "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                  "quote": "Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.",
+                  "choice": "operative_retention_prohibition"
+                },
+                {
+                  "source": "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40",
+                  "quote": "Recipient shall, upon termination of this Agreement, or upon written request of Discloser, whichever is earlier, immediately, but not later than 10 days after any notice thereof by Discloser, return (or destroy at Discloser’s option) all copies of such Discloser’s Confidential Information and certify in writing its compliance with this requirement, except that Recipient may retain a copy of such Confidential Information solely for archival purpose.",
+                  "choice": "operative_disposal_and_retention_permission"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "Notwithstanding the foregoing, if the Confidential Information is retained in the computer backup system of a Participating Entity, the Confidential Information will be destroyed in accordance with the regular ongoing records retention process of the Participating Entity.",
+                  "choice": "supplemental_linked_effect"
+                },
+                {
+                  "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+                  "quote": "(b) notwithstanding completion of the Purpose or return of documents and materials as aforesaid, continue to be bound by the undertakings set out in clause 2.",
+                  "choice": "no_relevant_operative_effect"
+                }
+              ]
+            },
+            {
+              "name": "disposal_retention_actor_role",
+              "question": "Which source-designated participant bears the operative disposal or retention effect in these units? Resolve the participant role without deciding the downstream legal task.",
+              "choices": [
+                {
+                  "name": "designated_recipient_holder",
+                  "meaning": "The operative actor is the source-designated recipient or receiving information holder."
+                },
+                {
+                  "name": "contextual_party_as_holder",
+                  "meaning": "The operative actor is each or either agreement party acting contextually as the holder of the other party's information."
+                },
+                {
+                  "name": "named_service_actor",
+                  "meaning": "The operative actor is a source-named individual or service provider whose exact designation must be copied from the current units."
+                },
+                {
+                  "name": "holder_and_its_representatives",
+                  "meaning": "The operative effect expressly reaches both the information-holding participant and that participant's representatives."
+                },
+                {
+                  "name": "no_disposal_retention_actor",
+                  "meaning": "The units do not supply an actor for an operative disposal or retention effect."
+                }
+              ],
+              "examples": [
+                {
+                  "source": "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40",
+                  "quote": "Recipient shall, upon termination of this Agreement, or upon written request of Discloser, whichever is earlier, immediately, but not later than 10 days after any notice thereof by Discloser, return (or destroy at Discloser’s option) all copies of such Discloser’s Confidential Information and certify in writing its compliance with this requirement, except that Recipient may retain a copy of such Confidential Information solely for archival purpose.",
+                  "choice": "designated_recipient_holder"
+                },
+                {
+                  "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+                  "quote": "3 Return of confidential information Each party shall: (a) within one month of completion of the Purpose or receipt of a written request from the other party, return to the other party all documents and materials (and all copies thereof) containing the other party's Confidential Information and certify in writing to the other party that it has complied with the requirements of this sub-clause; and",
+                  "choice": "contextual_party_as_holder"
+                },
+                {
+                  "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                  "quote": "Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.",
+                  "choice": "named_service_actor"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "Upon termination of this Agreement, all Confidential Information in the possession or control of a Participating Entity and its Representatives that received such information shall be returned to the Participating Entity that disclosed the information, including all copies of such information in any form whatsoever, unless otherwise instructed in writing by the Participating Entity that disclosed the information.",
+                  "choice": "holder_and_its_representatives"
+                },
+                {
+                  "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+                  "quote": "(b) notwithstanding completion of the Purpose or return of documents and materials as aforesaid, continue to be bound by the undertakings set out in clause 2.",
+                  "choice": "no_disposal_retention_actor"
+                }
+              ]
+            },
+            {
+              "name": "principal_disposal_action",
+              "question": "What principal return or destruction performance do these units require, including which participant controls an expressed alternative? Do not treat retention or a mere reference to disposal as the principal action.",
+              "choices": [
+                {
+                  "name": "return_to_information_supplier",
+                  "meaning": "The principal performance is return of the scoped information to its supplying or owning participant."
+                },
+                {
+                  "name": "destroy_only",
+                  "meaning": "The principal performance is destruction of the scoped information."
+                },
+                {
+                  "name": "return_or_destroy_holder_election",
+                  "meaning": "Return and destruction are alternatives whose election belongs to the information holder or is otherwise left with the performing holder."
+                },
+                {
+                  "name": "return_or_destroy_supplier_election",
+                  "meaning": "Return and destruction are alternatives, but the supplying participant expressly controls the election."
+                },
+                {
+                  "name": "destroy_in_lieu_with_certification",
+                  "meaning": "Destruction is offered in lieu of return and is accompanied by a source-stated certification requirement."
+                },
+                {
+                  "name": "no_principal_disposal_action",
+                  "meaning": "The units contain no principal return or destruction performance."
+                }
+              ],
+              "examples": [
+                {
+                  "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+                  "quote": "(a) within one month of completion of the Purpose or receipt of a written request from the other party, return to the other party all documents and materials (and all copies thereof) containing the other party's Confidential Information and certify in writing to the other party that it has complied with the requirements of this sub-clause; and",
+                  "choice": "return_to_information_supplier"
+                },
+                {
+                  "source": "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40",
+                  "quote": "Recipient shall, upon termination of this Agreement, or upon written request of Discloser, whichever is earlier, immediately, but not later than 10 days after any notice thereof by Discloser, return (or destroy at Discloser’s option) all copies of such Discloser’s Confidential Information and certify in writing its compliance with this requirement, except that Recipient may retain a copy of such Confidential Information solely for archival purpose.",
+                  "choice": "return_or_destroy_supplier_election"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "In lieu of return, a Participating Entity may certify to the other Participating Entities in writing that all such Confidential Information, in any form whatsoever, has been destroyed.",
+                  "choice": "destroy_in_lieu_with_certification"
+                },
+                {
+                  "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                  "quote": "Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.",
+                  "choice": "return_to_information_supplier"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "Notwithstanding anything in this paragraph 6 to the contrary, a Participating Entity may retain a record copy of any Confidential Information if required to do so by applicable law.",
+                  "choice": "no_principal_disposal_action"
+                }
+              ]
+            },
+            {
+              "name": "principal_disposal_trigger",
+              "question": "Which event activates the principal disposal performance in these units? Preserve distinct service termination, agreement termination, purpose completion, request, alternatives, and source-stated priority.",
+              "choices": [
+                {
+                  "name": "service_termination",
+                  "meaning": "Termination of the actor's service or service relationship activates disposal."
+                },
+                {
+                  "name": "agreement_termination",
+                  "meaning": "Termination of the agreement activates disposal."
+                },
+                {
+                  "name": "purpose_completion_or_supplier_request",
+                  "meaning": "Either completion of the stated purpose or a request from the counterparty supplying the information activates disposal."
+                },
+                {
+                  "name": "agreement_termination_or_supplier_request_earlier",
+                  "meaning": "Agreement termination or the supplier's written request activates disposal, with the source expressly selecting the earlier event."
+                },
+                {
+                  "name": "supplier_request",
+                  "meaning": "A request from the participant supplying the information activates disposal."
+                },
+                {
+                  "name": "linked_prior_disposal_trigger",
+                  "meaning": "The units describe a substitute or follow-up performance whose trigger is inherited from an identified governing disposal duty in the supplied window."
+                },
+                {
+                  "name": "no_principal_disposal_trigger",
+                  "meaning": "The units supply no trigger for a principal disposal performance."
+                }
+              ],
+              "examples": [
+                {
+                  "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                  "quote": "Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.",
+                  "choice": "service_termination"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "Upon termination of this Agreement, all Confidential Information in the possession or control of a Participating Entity and its Representatives that received such information shall be returned to the Participating Entity that disclosed the information, including all copies of such information in any form whatsoever, unless otherwise instructed in writing by the Participating Entity that disclosed the information.",
+                  "choice": "agreement_termination"
+                },
+                {
+                  "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+                  "quote": "(a) within one month of completion of the Purpose or receipt of a written request from the other party, return to the other party all documents and materials (and all copies thereof) containing the other party's Confidential Information and certify in writing to the other party that it has complied with the requirements of this sub-clause; and",
+                  "choice": "purpose_completion_or_supplier_request"
+                },
+                {
+                  "source": "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40",
+                  "quote": "Recipient shall, upon termination of this Agreement, or upon written request of Discloser, whichever is earlier, immediately, but not later than 10 days after any notice thereof by Discloser, return (or destroy at Discloser’s option) all copies of such Discloser’s Confidential Information and certify in writing its compliance with this requirement, except that Recipient may retain a copy of such Confidential Information solely for archival purpose.",
+                  "choice": "agreement_termination_or_supplier_request_earlier"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "Notwithstanding anything in this paragraph 6 to the contrary, a Participating Entity may retain a record copy of any Confidential Information if required to do so by applicable law.",
+                  "choice": "no_principal_disposal_trigger"
+                }
+              ]
+            },
+            {
+              "name": "principal_disposal_information_scope",
+              "question": "What information is covered by the principal return or destruction performance in these units? Distinguish protected information itself, copies, and source-stated derivatives.",
+              "choices": [
+                {
+                  "name": "confidential_information_only",
+                  "meaning": "The principal disposal performance covers Confidential Information without an additional express copy or derivative scope."
+                },
+                {
+                  "name": "confidential_information_and_all_copies",
+                  "meaning": "The principal disposal performance covers Confidential Information and all source-scoped copies."
+                },
+                {
+                  "name": "all_copies_of_confidential_information",
+                  "meaning": "The principal disposal performance is expressly directed to all copies of Confidential Information."
+                },
+                {
+                  "name": "confidential_information_copies_and_derivatives",
+                  "meaning": "The principal disposal performance covers Confidential Information, copies, and source-stated derivative materials such as notes or abstracts."
+                },
+                {
+                  "name": "no_principal_disposal_information",
+                  "meaning": "The units do not state information governed by a principal disposal performance."
+                }
+              ],
+              "examples": [
+                {
+                  "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+                  "quote": "(a) within one month of completion of the Purpose or receipt of a written request from the other party, return to the other party all documents and materials (and all copies thereof) containing the other party's Confidential Information and certify in writing to the other party that it has complied with the requirements of this sub-clause; and",
+                  "choice": "confidential_information_and_all_copies"
+                },
+                {
+                  "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                  "quote": "Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.",
+                  "choice": "confidential_information_and_all_copies"
+                },
+                {
+                  "source": "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40",
+                  "quote": "Recipient shall, upon termination of this Agreement, or upon written request of Discloser, whichever is earlier, immediately, but not later than 10 days after any notice thereof by Discloser, return (or destroy at Discloser’s option) all copies of such Discloser’s Confidential Information and certify in writing its compliance with this requirement, except that Recipient may retain a copy of such Confidential Information solely for archival purpose.",
+                  "choice": "all_copies_of_confidential_information"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "Notwithstanding anything in this paragraph 6 to the contrary, a Participating Entity may retain a record copy of any Confidential Information if required to do so by applicable law.",
+                  "choice": "no_principal_disposal_information"
+                }
+              ]
+            },
+            {
+              "name": "retained_information_scope",
+              "question": "What exact information is expressly permitted to be retained or forbidden from retention in these units? Interpret only the retention scope, not the principal disposal action.",
+              "choices": [
+                {
+                  "name": "single_archival_copy",
+                  "meaning": "The retention scope is one copy of Confidential Information solely for archival purposes."
+                },
+                {
+                  "name": "law_required_record_copy",
+                  "meaning": "The retention scope is a record copy of Confidential Information whose retention is required by applicable law."
+                },
+                {
+                  "name": "all_copies_and_stated_derivatives",
+                  "meaning": "The retention effect covers copies and source-stated derivatives such as notes or abstracts."
+                },
+                {
+                  "name": "backup_system_confidential_information",
+                  "meaning": "The retention-related scope is Confidential Information present in a computer backup system."
+                },
+                {
+                  "name": "confidential_information_generally",
+                  "meaning": "The retention effect covers Confidential Information generally without a narrower express container."
+                },
+                {
+                  "name": "no_retained_information_scope",
+                  "meaning": "The units do not express a retention permission, exception, or prohibition with an identifiable information scope."
+                }
+              ],
+              "examples": [
+                {
+                  "source": "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40",
+                  "quote": "Recipient shall, upon termination of this Agreement, or upon written request of Discloser, whichever is earlier, immediately, but not later than 10 days after any notice thereof by Discloser, return (or destroy at Discloser’s option) all copies of such Discloser’s Confidential Information and certify in writing its compliance with this requirement, except that Recipient may retain a copy of such Confidential Information solely for archival purpose.",
+                  "choice": "single_archival_copy"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "Notwithstanding anything in this paragraph 6 to the contrary, a Participating Entity may retain a record copy of any Confidential Information if required to do so by applicable law.",
+                  "choice": "law_required_record_copy"
+                },
+                {
+                  "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                  "quote": "Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.",
+                  "choice": "all_copies_and_stated_derivatives"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "Notwithstanding the foregoing, if the Confidential Information is retained in the computer backup system of a Participating Entity, the Confidential Information will be destroyed in accordance with the regular ongoing records retention process of the Participating Entity.",
+                  "choice": "backup_system_confidential_information"
+                },
+                {
+                  "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+                  "quote": "(a) within one month of completion of the Purpose or receipt of a written request from the other party, return to the other party all documents and materials (and all copies thereof) containing the other party's Confidential Information and certify in writing to the other party that it has complied with the requirements of this sub-clause; and",
+                  "choice": "no_retained_information_scope"
+                }
+              ]
+            },
+            {
+              "name": "disposal_retention_qualification",
+              "question": "What exception, retention basis, or other qualification limits the disposal or retention effect in these units? Keep authorization, archival retention, legally required retention, absolute non-retention, and linked backup handling distinct.",
+              "choices": [
+                {
+                  "name": "no_express_exception_or_retention",
+                  "meaning": "The principal disposal duty has no express exception or retained-information allowance in the supplied units."
+                },
+                {
+                  "name": "different_written_instructions_exception",
+                  "meaning": "The disposal duty is displaced or modified by different written instructions from the participant that supplied the information."
+                },
+                {
+                  "name": "archival_copy_retention",
+                  "meaning": "A copy may be retained solely for archival purposes."
+                },
+                {
+                  "name": "law_required_record_copy_retention",
+                  "meaning": "A record copy may be retained only because applicable law requires it."
+                },
+                {
+                  "name": "express_no_retention",
+                  "meaning": "The units expressly prohibit retention of the stated copies or derivatives."
+                },
+                {
+                  "name": "backup_regular_process",
+                  "meaning": "Information in a backup system is subject to destruction through the holder's regular records-retention process."
+                },
+                {
+                  "name": "no_disposal_retention_qualification",
+                  "meaning": "The units contain no qualification of a disposal or retention effect."
+                }
+              ],
+              "examples": [
+                {
+                  "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+                  "quote": "(a) within one month of completion of the Purpose or receipt of a written request from the other party, return to the other party all documents and materials (and all copies thereof) containing the other party's Confidential Information and certify in writing to the other party that it has complied with the requirements of this sub-clause; and",
+                  "choice": "no_express_exception_or_retention"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "Upon termination of this Agreement, all Confidential Information in the possession or control of a Participating Entity and its Representatives that received such information shall be returned to the Participating Entity that disclosed the information, including all copies of such information in any form whatsoever, unless otherwise instructed in writing by the Participating Entity that disclosed the information.",
+                  "choice": "different_written_instructions_exception"
+                },
+                {
+                  "source": "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40",
+                  "quote": "Recipient shall, upon termination of this Agreement, or upon written request of Discloser, whichever is earlier, immediately, but not later than 10 days after any notice thereof by Discloser, return (or destroy at Discloser’s option) all copies of such Discloser’s Confidential Information and certify in writing its compliance with this requirement, except that Recipient may retain a copy of such Confidential Information solely for archival purpose.",
+                  "choice": "archival_copy_retention"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "Notwithstanding anything in this paragraph 6 to the contrary, a Participating Entity may retain a record copy of any Confidential Information if required to do so by applicable law.",
+                  "choice": "law_required_record_copy_retention"
+                },
+                {
+                  "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                  "quote": "Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.",
+                  "choice": "express_no_retention"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "Notwithstanding the foregoing, if the Confidential Information is retained in the computer backup system of a Participating Entity, the Confidential Information will be destroyed in accordance with the regular ongoing records retention process of the Participating Entity.",
+                  "choice": "backup_regular_process"
+                }
+              ]
+            },
+            {
+              "name": "disposal_temporal_qualification",
+              "question": "What additional timing or event-priority qualification governs the disposal performance in these units, beyond identifying the basic trigger?",
+              "choices": [
+                {
+                  "name": "no_additional_timing",
+                  "meaning": "No additional deadline, delay, or priority rule is expressed beyond the basic trigger."
+                },
+                {
+                  "name": "within_one_month_after_trigger",
+                  "meaning": "Performance is required within one month after the stated completion-or-request trigger."
+                },
+                {
+                  "name": "within_ten_business_days",
+                  "meaning": "Performance is required within ten business days after the stated service-termination trigger."
+                },
+                {
+                  "name": "immediate_and_not_later_than_ten_days_earlier_event",
+                  "meaning": "Performance is immediate and no later than ten days after notice, and the source also gives priority to the earlier of its alternative triggers."
+                },
+                {
+                  "name": "regular_records_retention_schedule",
+                  "meaning": "Destruction occurs according to the actor's regular ongoing records-retention process."
+                },
+                {
+                  "name": "retention_until_legal_period_expires",
+                  "meaning": "Retained information remains held until the legally required retention period expires, after which return or destruction is required."
+                },
+                {
+                  "name": "no_disposal_timing_context",
+                  "meaning": "The units do not state a temporal qualification for a disposal performance."
+                }
+              ],
+              "examples": [
+                {
+                  "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+                  "quote": "(a) within one month of completion of the Purpose or receipt of a written request from the other party, return to the other party all documents and materials (and all copies thereof) containing the other party's Confidential Information and certify in writing to the other party that it has complied with the requirements of this sub-clause; and",
+                  "choice": "within_one_month_after_trigger"
+                },
+                {
+                  "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+                  "quote": "Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.",
+                  "choice": "within_ten_business_days"
+                },
+                {
+                  "source": "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40",
+                  "quote": "Recipient shall, upon termination of this Agreement, or upon written request of Discloser, whichever is earlier, immediately, but not later than 10 days after any notice thereof by Discloser, return (or destroy at Discloser’s option) all copies of such Discloser’s Confidential Information and certify in writing its compliance with this requirement, except that Recipient may retain a copy of such Confidential Information solely for archival purpose.",
+                  "choice": "immediate_and_not_later_than_ten_days_earlier_event"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "Notwithstanding the foregoing, if the Confidential Information is retained in the computer backup system of a Participating Entity, the Confidential Information will be destroyed in accordance with the regular ongoing records retention process of the Participating Entity.",
+                  "choice": "regular_records_retention_schedule"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "In such an instance, such Participating Entity shall identify in writing the specific Confidential Information retained, and shall provide the affected Participating Entity or Participating Entities with a written commitment to return or destroy the retained Confidential Information upon the expiration of the retention period required by law.",
+                  "choice": "retention_until_legal_period_expires"
+                },
+                {
+                  "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+                  "quote": "Upon termination of this Agreement, all Confidential Information in the possession or control of a Participating Entity and its Representatives that received such information shall be returned to the Participating Entity that disclosed the information, including all copies of such information in any form whatsoever, unless otherwise instructed in writing by the Participating Entity that disclosed the information.",
+                  "choice": "no_additional_timing"
+                }
+              ]
+            }
+          ],
+          "source_functions": [
+            "def _sr_add(out,term,ids):\n    for s in out:\n        if s.get('term')==term:\n            return\n    out.append({'term':term,'support_ids':ids})\n\ndef _sr_add_text(xs,x):\n    if x not in xs:\n        xs.append(x)\n\ndef _sr_has(term,name):\n    todo=[term]\n    while todo:\n        x=todo.pop()\n        if isinstance(x,list) and x:\n            if x[0]==name:\n                return True\n            i=1\n            while i<len(x):\n                if isinstance(x[i],list):\n                    todo.append(x[i])\n                i+=1\n    return False\n\ndef _sr_text(span):\n    x=span.get('text','')\n    if isinstance(x,str):\n        return x\n    return str(x)\n\ndef _sr_candidate(raw):\n    t=raw.casefold()\n    return re.search(r'\\b(return|returned|destroy|destroyed|retain|retained|retention|copies|copy)\\b',t,re.I) is not None\n\ndef _sr_heading(raw):\n    t=raw.casefold().strip()\n    return len(t)<120 and (('return' in t and 'confidential' in t) or ('destruction' in t and 'confidential' in t))\n\ndef _sr_principal(raw):\n    t=raw.casefold()\n    if re.search(r'\\b(shall|must|agrees|agree)\\b',t,re.I) is None:\n        return False\n    return re.search(r'\\b(return|returned|destroy|destroyed)\\b',t,re.I) is not None\n\ndef _sr_linked(raw):\n    t=raw.casefold().strip()\n    return t.startswith('in lieu of return') or 'may retain' in t or 'backup system' in t or 'retention period' in t or t.startswith('in such an instance')\n\ndef _sr_window_ids(spans,i):\n    ids=[]\n    raw=_sr_text(spans[i])\n    if i>0 and _sr_heading(_sr_text(spans[i-1])):\n        ids.append(spans[i-1].get('id'))\n    if _sr_linked(raw):\n        j=i-1\n        stop=i-5\n        while j>=0 and j>=stop:\n            if _sr_principal(_sr_text(spans[j])):\n                if j>0 and _sr_heading(_sr_text(spans[j-1])):\n                    x=spans[j-1].get('id')\n                    if x not in ids:\n                        ids.append(x)\n                x=spans[j].get('id')\n                if x not in ids:\n                    ids.append(x)\n                break\n            j-=1\n    x=spans[i].get('id')\n    if x not in ids:\n        ids.append(x)\n    return ids\n\ndef _sr_candidates(spans):\n    out=[]\n    i=0\n    while i<len(spans):\n        raw=_sr_text(spans[i])\n        if _sr_candidate(raw):\n            out.append(_sr_window_ids(spans,i))\n        i+=1\n    return out\n\ndef _sr_queries(spans):\n    ops=['disposal_retention_clause_role','disposal_retention_actor_role','principal_disposal_action','principal_disposal_trigger','principal_disposal_information_scope','retained_information_scope','disposal_retention_qualification','disposal_temporal_qualification']\n    suffix=['role','actor','action','trigger','disposal_info','retention_info','qualification','timing']\n    out=[]\n    cs=_sr_candidates(spans)\n    i=0\n    while i<len(cs):\n        j=0\n        while j<len(ops):\n            out.append({'id':'sr_'+str(i)+'_'+suffix[j],'operation':ops[j],'unit_ids':cs[i]})\n            j+=1\n        i+=1\n    return out\n\ndef _sr_answers(xs,unresolved):\n    out={}\n    for a in xs:\n        k=a.get('id')\n        if k in out:\n            unresolved.append('Duplicate semantic answer for '+str(k)+'.')\n        else:\n            out[k]=a\n    return out\n\ndef _sr_get(answers,qid,op,unresolved,required):\n    a=answers.get(qid)\n    if a is None:\n        if required:\n            unresolved.append('Missing semantic judgment for '+qid+'.')\n        return None\n    if a.get('operation')!=op:\n        if required:\n            unresolved.append('Mismatched semantic operation for '+qid+'.')\n        return None\n    c=a.get('choice','unknown')\n    if c=='unknown':\n        if required:\n            unresolved.append('The source judgment remains unknown for '+qid+'.')\n        return None\n    return c\n\ndef _sr_window(spans,ids):\n    texts=[]\n    found=[]\n    for wanted in ids:\n        for s in spans:\n            if s.get('id')==wanted:\n                texts.append(_sr_text(s))\n                found.append(wanted)\n                break\n    return ' '.join(texts),found\n\ndef _sr_named_actor(raw):\n    m=re.search(r'\\b([A-Z][A-Za-z0-9_-]{0,40})\\s+(?:further\\s+)?agrees\\b',raw)\n    if m is not None:\n        return m.group(1)\n    m=re.search(r'\\b([A-Z][A-Za-z0-9_-]{0,40})\\s+shall\\b',raw)\n    if m is not None:\n        return m.group(1)\n    return None\n\ndef _sr_actor(choice,raw,unresolved,qid):\n    if choice in ('designated_recipient_holder','contextual_party_as_holder'):\n        return ['receiving_party']\n    if choice=='holder_and_its_representatives':\n        return ['participant_union',['receiving_party'],['representatives_of',['receiving_party']]]\n    if choice=='named_service_actor':\n        x=_sr_named_actor(raw)\n        if x is not None:\n            return ['named_recipient',x]\n        unresolved.append('The named disposal actor could not be copied safely from '+qid+'.')\n        return None\n    unresolved.append('No representable operative actor was obtained for '+qid+'.')\n    return None\n\ndef _sr_disposal_info(choice):\n    ci=['confidential_information']\n    cp=['copies_of',['confidential_information']]\n    if choice=='confidential_information_only':\n        return ci\n    if choice=='confidential_information_and_all_copies':\n        return ['information_bundle',ci,cp]\n    if choice=='all_copies_of_confidential_information':\n        return cp\n    if choice=='confidential_information_copies_and_derivatives':\n        return ['information_bundle',ci,['information_bundle',cp,['derivative_materials_of',['confidential_information']]]]\n    return None\n\ndef _sr_retention_info(choice):\n    if choice in ('single_archival_copy','law_required_record_copy','backup_system_confidential_information'):\n        return ['copies_of',['confidential_information']]\n    if choice=='all_copies_and_stated_derivatives':\n        return ['information_bundle',['copies_of',['confidential_information']],['derivative_materials_of',['confidential_information']]]\n    if choice=='confidential_information_generally':\n        return ['confidential_information']\n    return None\n\ndef _sr_trigger(choice):\n    if choice=='service_termination':\n        return ['service_termination']\n    if choice=='agreement_termination':\n        return ['agreement_termination']\n    if choice=='purpose_completion_or_supplier_request':\n        return ['trigger_alternative',['purpose_completion'],['request_by',['disclosing_party']]]\n    if choice=='agreement_termination_or_supplier_request_earlier':\n        return ['trigger_alternative',['agreement_termination'],['request_by',['disclosing_party']]]\n    if choice=='supplier_request':\n        return ['request_by',['disclosing_party']]\n    return None\n\ndef _sr_action(choice,info,unresolved,qid):\n    ret=['return_to',info,['disclosing_party']]\n    des=['destroy',info]\n    if choice=='return_to_information_supplier':\n        return ret\n    if choice=='destroy_only':\n        return des\n    if choice=='return_or_destroy_holder_election':\n        return ['action_alternative',ret,des]\n    if choice=='return_or_destroy_supplier_election':\n        unresolved.append('The supplier-controlled election between return and destruction is preserved as unresolved choice allocation for '+qid+'.')\n        return ['action_alternative',ret,des]\n    if choice=='destroy_in_lieu_with_certification':\n        unresolved.append('The written certification accompanying destruction in lieu of return is not representable by the available constructors for '+qid+'.')\n        return ['action_alternative',ret,des]\n    return None\n\ndef _sr_retention_condition(qual):\n    if qual=='archival_copy_retention':\n        return ['retention_condition','one copy solely for archival purpose']\n    if qual=='law_required_record_copy_retention':\n        return ['retention_condition','record copy required by applicable law']\n    return None\n\ndef _sr_exceptions(qual,actor,rinfo):\n    if qual=='no_express_exception_or_retention':\n        return ['no_exceptions']\n    if qual=='different_written_instructions_exception':\n        return ['exception_set',['authorization_exception','different written instructions from the information-supplying participant']]\n    cond=_sr_retention_condition(qual)\n    if cond is not None and rinfo is not None:\n        return ['exception_set',['retention_exception',actor,rinfo,cond]]\n    return None\n\ndef _sr_support(ids):\n    out=[]\n    for x in ids:\n        if x is not None and x not in out:\n            out.append(x)\n    return out\n\ndef _sr_timing(choice,unresolved,qid):\n    if choice in ('no_additional_timing','no_disposal_timing_context'):\n        return\n    if choice=='within_one_month_after_trigger':\n        unresolved.append('The one-month disposal deadline is source-grounded but not representable by the available disposal constructor for '+qid+'.')\n    elif choice=='within_ten_business_days':\n        unresolved.append('The ten-business-day disposal deadline is source-grounded but not representable by the available disposal constructor for '+qid+'.')\n    elif choice=='immediate_and_not_later_than_ten_days_earlier_event':\n        unresolved.append('The immediate/ten-day deadline and earlier-event priority are source-grounded but not fully representable by the available constructors for '+qid+'.')\n    elif choice=='regular_records_retention_schedule':\n        unresolved.append('The regular records-retention destruction schedule requires a linked effect not representable as a standalone common59 norm for '+qid+'.')\n    elif choice=='retention_until_legal_period_expires':\n        unresolved.append('The retention-expiry return/destruction duty requires a linked temporal effect not representable as a standalone common59 norm for '+qid+'.')\n    else:\n        unresolved.append('Unsupported temporal qualification for '+qid+'.')\n\ndef apply(inputs,premises):\n    spans=inputs.get('source_spans',[])\n    queries=_sr_queries(spans)\n    if inputs.get('phase')=='plan':\n        return {'queries':queries}\n    statements=[]\n    refs=[]\n    texts=[]\n    ids=[]\n    for s in spans:\n        raw=_sr_text(s)\n        texts.append(raw)\n        ids.append(s.get('id'))\n        parse_context(raw,[s.get('id')],statements,refs)\n    i=0\n    while i+1<len(texts):\n        w=texts[i]+' '+texts[i+1]\n        lw=w.casefold()\n        if ('restrict access' in lw and 'such employees' in lw) or ('neither it nor its representatives' in lw and ('any other person' in lw or 'other person or organization' in lw)):\n            parse_context(w,[ids[i],ids[i+1]],statements,refs)\n        i+=1\n    unresolved=[]\n    answers=_sr_answers(inputs.get('semantic_answers',[]),unresolved)\n    cs=_sr_candidates(spans)\n    i=0\n    while i<len(cs):\n        base='sr_'+str(i)+'_'\n        role=_sr_get(answers,base+'role','disposal_retention_clause_role',unresolved,True)\n        if role is None:\n            i+=1\n            continue\n        if role=='no_relevant_operative_effect':\n            i+=1\n            continue\n        timing=_sr_get(answers,base+'timing','disposal_temporal_qualification',unresolved,role!='no_relevant_operative_effect')\n        if role=='supplemental_linked_effect':\n            if timing is not None:\n                _sr_timing(timing,unresolved,base+'timing')\n            unresolved.append('A linked disposal or retention effect could not be represented safely for '+base+'role.')\n            i+=1\n            continue\n        raw,support=_sr_window(spans,cs[i])\n        actor_choice=_sr_get(answers,base+'actor','disposal_retention_actor_role',unresolved,True)\n        actor=None\n        if actor_choice is not None:\n            actor=_sr_actor(actor_choice,raw,unresolved,base+'actor')\n        qual=_sr_get(answers,base+'qualification','disposal_retention_qualification',unresolved,True)\n        if timing is not None:\n            _sr_timing(timing,unresolved,base+'timing')\n        needs_disposal=role in ('operative_disposal','operative_disposal_and_retention_permission')\n        needs_retention=role in ('operative_retention_permission','operative_retention_prohibition','operative_disposal_and_retention_permission')\n        dinfo=None\n        rinfo=None\n        if needs_disposal:\n            dc=_sr_get(answers,base+'disposal_info','principal_disposal_information_scope',unresolved,True)\n            if dc is not None:\n                dinfo=_sr_disposal_info(dc)\n            if dinfo is None:\n                unresolved.append('The principal disposal information scope could not be represented for '+base+'disposal_info.')\n        if needs_retention:\n            rc=_sr_get(answers,base+'retention_info','retained_information_scope',unresolved,True)\n            if rc is not None:\n                rinfo=_sr_retention_info(rc)\n            if rinfo is None:\n                unresolved.append('The retained-information scope could not be represented for '+base+'retention_info.')\n        if needs_disposal and actor is not None and dinfo is not None:\n            ac=_sr_get(answers,base+'action','principal_disposal_action',unresolved,True)\n            tc=_sr_get(answers,base+'trigger','principal_disposal_trigger',unresolved,True)\n            action=None\n            trigger=None\n            if ac is not None:\n                action=_sr_action(ac,dinfo,unresolved,base+'action')\n            if tc is not None:\n                trigger=_sr_trigger(tc)\n                if tc=='linked_prior_disposal_trigger':\n                    unresolved.append('The principal trigger is linked to a governing duty and was not reconstructed by lexical fallback for '+base+'trigger.')\n            ex=None\n            if qual is not None:\n                ex=_sr_exceptions(qual,actor,rinfo)\n            if action is None:\n                unresolved.append('The principal disposal action could not be represented for '+base+'action.')\n            if trigger is None:\n                unresolved.append('The principal disposal trigger could not be represented for '+base+'trigger.')\n            if ex is None:\n                unresolved.append('The disposal exceptions could not be represented for '+base+'qualification.')\n            if action is not None and trigger is not None and ex is not None:\n                _sr_add(statements,['disposal_obligation',actor,action,trigger,ex],_sr_support(support))\n        if role in ('operative_retention_permission','operative_disposal_and_retention_permission') and actor is not None and rinfo is not None:\n            cond=None\n            if qual is not None:\n                cond=_sr_retention_condition(qual)\n            if cond is None:\n                unresolved.append('The retention permission condition could not be represented for '+base+'qualification.')\n            else:\n                _sr_add(statements,['retention_permission',actor,rinfo,['after_disposal'],cond],_sr_support(support))\n        if role=='operative_retention_prohibition' and actor is not None and rinfo is not None:\n            if qual!='express_no_retention':\n                unresolved.append('The retention prohibition qualification is inconsistent or unknown for '+base+'qualification.')\n            else:\n                _sr_add(statements,['retention_prohibition',actor,rinfo,['after_disposal']],_sr_support(support))\n        i+=1\n    has_permission=False\n    has_definition=False\n    needs_definition=False\n    for s in statements:\n        term=s.get('term')\n        if isinstance(term,list) and term:\n            if term[0]=='permission' or _sr_has(term,'permission_exception'):\n                has_permission=True\n            if term[0]=='define_representative':\n                has_definition=True\n            if term[0] in ('permission','prohibition') and _sr_has(term,'representatives_of'):\n                needs_definition=True\n    if refs and not has_permission:\n        unresolved.append('A disclosure exception refers to another provision, but no operative recipient permission was resolved from the current source.')\n    if needs_definition and not has_definition:\n        unresolved.append('An operative disclosure norm uses Representatives, but their current-source membership or owner binding was not resolved.')\n    return {'statements':statements,'complete':not unresolved,'unresolved':unresolved}\n"
+          ]
+        },
+        "model": "gpt-5.6-sol",
+        "request_sha256": "44c8d5d7f12f0d6dc2baa1945241cb48451b2df6773d90643de4596d1b40b453",
+        "response_sha256": "0d09dd56bc9d58665b416f193730dd6af3d1b3c5afbbe61fcfddcc610d06c509",
+        "cache_hit": false,
+        "invocation": {
+          "attempt": 1,
+          "started_at": "2026-11-12T23:51:25.116477+00:00",
+          "finished_at": "2026-11-12T23:56:55.923218+00:00",
+          "elapsed_seconds": 330.807,
+          "returncode": 0,
+          "event_log_sha256": "61b5468a08e70344d98fc915339781864188240519d38d084d0c8256195e5e79",
+          "tool_events_detected": false,
+          "budget_reservation": null,
+          "usage": {
+            "input_tokens": 48133,
+            "cached_input_tokens": 13440,
+            "output_tokens": 17567,
+            "reasoning_output_tokens": 6768
+          },
+          "estimated_credits": null
+        },
+        "source_ids": [
+          "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+          "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+          "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+          "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40"
+        ],
+        "elapsed_seconds": 330.80922202486545,
+        "billing_basis": "existing_authorized_Codex_CLI",
+        "actual_cash_invoice_available": false
+      }
+    }
+  ],
+  "pending": 0,
+  "old_rows_unchanged": 9515,
+  "total_rows": 9529,
+  "ledger_sha256": "e180858bde3d813f555215b0785859d68f50967527de4a1545a21b09378ef194",
+  "teacher_usage": [
+    {
+      "model": "gpt-5.6-sol",
+      "elapsed_seconds": 145.91436556354165,
+      "invocation": {
+        "attempt": 1,
+        "started_at": "2026-11-12T23:46:14.573847+00:00",
+        "finished_at": "2026-11-12T23:48:40.486808+00:00",
+        "elapsed_seconds": 145.913,
+        "returncode": 0,
+        "event_log_sha256": "36c794f61c5e3cbc158fcbfe41731dfc955b99338857df33b1813aed1e63b292",
+        "tool_events_detected": false,
+        "budget_reservation": null,
+        "usage": {
+          "input_tokens": 45949,
+          "cached_input_tokens": 0,
+          "output_tokens": 7475,
+          "reasoning_output_tokens": 4930
+        },
+        "estimated_credits": null
+      }
+    },
+    {
+      "model": null,
+      "elapsed_seconds": 600.065162862651,
+      "invocation": null
+    },
+    {
+      "model": "gpt-5.6-sol",
+      "elapsed_seconds": 330.80922202486545,
+      "invocation": {
+        "attempt": 1,
+        "started_at": "2026-11-12T23:51:25.116477+00:00",
+        "finished_at": "2026-11-12T23:56:55.923218+00:00",
+        "elapsed_seconds": 330.807,
+        "returncode": 0,
+        "event_log_sha256": "61b5468a08e70344d98fc915339781864188240519d38d084d0c8256195e5e79",
+        "tool_events_detected": false,
+        "budget_reservation": null,
+        "usage": {
+          "input_tokens": 48133,
+          "cached_input_tokens": 13440,
+          "output_tokens": 17567,
+          "reasoning_output_tokens": 6768
+        },
+        "estimated_credits": null
+      }
+    }
+  ],
+  "executor_usage": [
+    {
+      "prompt_tokens": 1323,
+      "total_tokens": 1403,
+      "completion_tokens": 80,
+      "prompt_tokens_details": null
+    },
+    {
+      "prompt_tokens": 1270,
+      "total_tokens": 1347,
+      "completion_tokens": 77,
+      "prompt_tokens_details": null
+    },
+    {
+      "prompt_tokens": 1236,
+      "total_tokens": 1309,
+      "completion_tokens": 73,
+      "prompt_tokens_details": null
+    },
+    {
+      "prompt_tokens": 1176,
+      "total_tokens": 1256,
+      "completion_tokens": 80,
+      "prompt_tokens_details": null
+    },
+    {
+      "prompt_tokens": 11833,
+      "total_tokens": 15526,
+      "completion_tokens": 3693,
+      "prompt_tokens_details": null
+    },
+    {
+      "prompt_tokens": 9171,
+      "total_tokens": 10221,
+      "completion_tokens": 1050,
+      "prompt_tokens_details": null
+    },
+    {
+      "prompt_tokens": 9473,
+      "total_tokens": 10821,
+      "completion_tokens": 1348,
+      "prompt_tokens_details": null
+    },
+    {
+      "prompt_tokens": 8659,
+      "total_tokens": 9222,
+      "completion_tokens": 563,
+      "prompt_tokens_details": null
+    },
+    {
+      "prompt_tokens": 23253,
+      "total_tokens": 23330,
+      "completion_tokens": 77,
+      "prompt_tokens_details": null
+    },
+    {
+      "prompt_tokens": 23610,
+      "total_tokens": 31802,
+      "completion_tokens": 8192,
+      "prompt_tokens_details": null
+    },
+    {
+      "prompt_tokens": 23655,
+      "total_tokens": 23776,
+      "completion_tokens": 121,
+      "prompt_tokens_details": null
+    }
+  ],
+  "local_executor_incremental_API_cash_usd": 0,
+  "teacher_actual_cash_usd": null,
+  "GPU_cash_allocation_usd": null,
+  "cash_invoice_unknown_not_zero": true,
+  "reasoning_tokens_included_in_output_not_added_twice": true,
+  "goal_complete": false
+}

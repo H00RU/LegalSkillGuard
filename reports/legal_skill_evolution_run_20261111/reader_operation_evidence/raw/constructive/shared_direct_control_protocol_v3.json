@@ -1,0 +1,11 @@
+{
+  "prior_sources_and_schemas_preserved": true,
+  "specific_fix": "Remove broad string regex that admits non-JSON text as an unfinished string in this xgrammar backend; keep ordinary JSON strings, actual constructor-expression examples and unchanged strict host arity/type checks.",
+  "offline_evidence": "actual_decoder_pattern_regression.json",
+  "offline_result": "Actual8192-token bad response is accepted as a nonterminal prefix with broad pattern; rejected without pattern. This is an implementation defect in the added decoding constraint, not evidence of model semantic inability.",
+  "not_an_unchanged_retry": true,
+  "source_sha256": "ee72c0fa1610fc31ef125aaed3eaf248ec1d6cc7dc48a1639af2b03f7ff269c8",
+  "goal_complete": false,
+  "format_clarification": "Ordinary string delimiters after JSON decoding; no second escaping. Existing bare-name rejection and original arity/type checks remain.",
+  "runner_sha256": "f4f6cf563097c89a826ef530d65ec0814e8c0bbd04939d31f13dc5c239ff840d"
+}

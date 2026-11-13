@@ -1,0 +1,74 @@
+{
+  "operations": [
+    {
+      "choices": [
+        {
+          "meaning": "The units impose an operative return and/or destruction duty with its source-stated actor, information, trigger, choice allocation, and exceptions; they do not themselves grant post-disposal retention.",
+          "name": "operative_disposal"
+        },
+        {
+          "meaning": "The units expressly permit or except retention after the relevant return or destruction process, limited by the source-stated information and condition, without themselves imposing the principal disposal duty.",
+          "name": "operative_retention_permission"
+        },
+        {
+          "meaning": "The units operatively forbid retaining the specified information after the relevant disposal process, without themselves creating a new disposal duty merely because return or destruction is mentioned.",
+          "name": "operative_retention_prohibition"
+        },
+        {
+          "meaning": "The same units both impose a return/destruction duty and expressly allow a limited post-disposal retention exception or permission.",
+          "name": "operative_disposal_and_retention_permission"
+        },
+        {
+          "meaning": "The units express an operative disposal/retention effect linked to another clause, process, or unsupported trigger whose actual scope cannot safely be represented as one of the available standalone terms from these units.",
+          "name": "supplemental_linked_effect"
+        },
+        {
+          "meaning": "The units are a heading, survival statement, recital, reference, or other text that does not itself impose a disposal duty, grant retention, or prohibit retention.",
+          "name": "no_relevant_operative_effect"
+        }
+      ],
+      "examples": [
+        {
+          "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+          "quote": "(a) within one month of completion of the Purpose or receipt of a written request from the other party, return to the other party all documents and materials (and all copies thereof) containing the other party's Confidential Information and certify in writing to the other party that it has complied with the requirements of this sub-clause; and",
+          "choice": "operative_disposal"
+        },
+        {
+          "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+          "quote": "Notwithstanding anything in this paragraph 6 to the contrary, a Participating Entity may retain a record copy of any Confidential Information if required to do so by applicable law.",
+          "choice": "operative_retention_permission"
+        },
+        {
+          "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+          "quote": "Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.",
+          "choice": "operative_retention_prohibition"
+        },
+        {
+          "source": "ContractNLI:4d4e550ac17660215ea791c0b3a37cbef136c2e7642e6cbeb3cc9a3df43eeb40",
+          "quote": "Recipient shall, upon termination of this Agreement, or upon written request of Discloser, whichever is earlier, immediately, but not later than 10 days after any notice thereof by Discloser, return (or destroy at Discloser’s option) all copies of such Discloser’s Confidential Information and certify in writing its compliance with this requirement, except that Recipient may retain a copy of such Confidential Information solely for archival purpose.",
+          "choice": "operative_disposal_and_retention_permission"
+        },
+        {
+          "source": "ContractNLI:442c36c12745965b79f777dedc7bc3dc249d80ca444c395ece6ec7953c15c07f",
+          "quote": "Notwithstanding the foregoing, if the Confidential Information is retained in the computer backup system of a Participating Entity, the Confidential Information will be destroyed in accordance with the regular ongoing records retention process of the Participating Entity.",
+          "choice": "supplemental_linked_effect"
+        },
+        {
+          "source": "ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0",
+          "quote": "(b) notwithstanding completion of the Purpose or return of documents and materials as aforesaid, continue to be bound by the undertakings set out in clause 2.",
+          "choice": "no_relevant_operative_effect"
+        }
+      ],
+      "name": "disposal_retention_clause_role",
+      "question": "Considering the supplied source units together, what operative disposal/retention role do they express? Classify the source language itself, not any downstream task. Actor, information scope, action, trigger, allocation of choice, qualifications, and exceptions must still be taken from the quoted units."
+    }
+  ],
+  "rationale": "The reusable update learns a recurring clause-role distinction that the prior lexical disposal parser could not make reliably: an operative disposal duty, an express post-disposal retention permission, a retention prohibition, a combined duty and permission, a linked effect that cannot safely be represented by the available constructors, or text with no such operative effect. This directly addresses the reviewed false disposal norm from a survival clause while preserving genuine return, destruction, archival-copy, legally-required-copy, and no-retention provisions. The operation does not encode native task answers, and the finisher uses its result only to gate source-grounded construction; unknown, missing, inconsistent, and unrepresentable results remain unresolved.",
+  "source_functions": [
+    "def _dr_candidate(text):\n    t=text.casefold()\n    return any_phrase(t,['return','destroy','retain','retention','no copies','no copy'])",
+    "def _dr_queries(spans):\n    qs=[]\n    i=0\n    while i<len(spans):\n        s=spans[i]\n        raw=s.get('text','')\n        if not isinstance(raw,str):\n            raw=str(raw)\n        if _dr_candidate(raw):\n            unit_ids=[]\n            if i>0:\n                prev=spans[i-1]\n                pr=prev.get('text','')\n                if not isinstance(pr,str):\n                    pr=str(pr)\n                if pr.strip().endswith(':'):\n                    unit_ids.append(prev.get('id'))\n            unit_ids.append(s.get('id'))\n            qs.append({'id':'disp_'+str(len(qs)),'operation':'disposal_retention_clause_role','unit_ids':unit_ids})\n        i+=1\n    return qs",
+    "def _dr_window(spans,unit_ids):\n    texts=[]\n    found=[]\n    for wanted in unit_ids:\n        for s in spans:\n            if s.get('id')==wanted:\n                raw=s.get('text','')\n                if not isinstance(raw,str):\n                    raw=str(raw)\n                texts.append(raw)\n                found.append(wanted)\n                break\n    return ' '.join(texts),found",
+    "def _dr_add_filtered(statements,temp,allowed):\n    found=[]\n    for s in temp:\n        term=s.get('term')\n        if isinstance(term,list) and term and term[0] in allowed:\n            add_statement(statements,term,s.get('support_ids',[]))\n            if term[0] not in found:\n                found.append(term[0])\n    return found",
+    "def apply(inputs,premises):\n    spans=inputs.get('source_spans',[])\n    queries=_dr_queries(spans)\n    if inputs.get('phase')=='plan':\n        return {'queries':queries}\n    statements=[]\n    refs=[]\n    texts=[]\n    ids=[]\n    for s in spans:\n        raw=s.get('text','')\n        if not isinstance(raw,str):\n            raw=str(raw)\n        texts.append(raw)\n        ids.append(s.get('id'))\n        parse_context(raw,[s.get('id')],statements,refs)\n    i=0\n    while i+1<len(texts):\n        w=texts[i]+' '+texts[i+1]\n        lw=w.casefold()\n        if ('restrict access' in lw and 'such employees' in lw) or ('neither it nor its representatives' in lw and any_phrase(lw,['any other person','other person or organization'])):\n            parse_context(w,[ids[i],ids[i+1]],statements,refs)\n        i+=1\n    unresolved=[]\n    answers={}\n    for a in inputs.get('semantic_answers',[]):\n        aid=a.get('id')\n        if aid not in answers:\n            answers[aid]=a\n        else:\n            unresolved.append('Duplicate semantic answer for '+str(aid)+'.')\n    for q in queries:\n        qid=q.get('id')\n        a=answers.get(qid)\n        if a is None:\n            unresolved.append('Missing disposal/retention source-role judgment for '+qid+'.')\n            continue\n        if a.get('operation')!='disposal_retention_clause_role':\n            unresolved.append('Mismatched semantic operation for '+qid+'.')\n            continue\n        choice=a.get('choice','unknown')\n        if choice=='unknown':\n            unresolved.append('The disposal/retention role remains unknown for '+qid+'.')\n            continue\n        if choice=='supplemental_linked_effect':\n            unresolved.append('A linked disposal or retention effect could not be represented safely from the queried units for '+qid+'.')\n            continue\n        if choice=='no_relevant_operative_effect':\n            continue\n        raw,window_ids=_dr_window(spans,q.get('unit_ids',[]))\n        temp=[]\n        parse_disposal(raw,window_ids,temp)\n        if choice=='operative_disposal':\n            found=_dr_add_filtered(statements,temp,['disposal_obligation'])\n            if 'disposal_obligation' not in found:\n                unresolved.append('An operative disposal judgment could not be mapped without inventing scope for '+qid+'.')\n        elif choice=='operative_retention_permission':\n            found=_dr_add_filtered(statements,temp,['retention_permission'])\n            if 'retention_permission' not in found:\n                unresolved.append('An operative retention permission could not be mapped without inventing scope for '+qid+'.')\n        elif choice=='operative_retention_prohibition':\n            found=_dr_add_filtered(statements,temp,['retention_prohibition'])\n            if 'retention_prohibition' not in found:\n                unresolved.append('An operative retention prohibition could not be mapped without inventing scope for '+qid+'.')\n        elif choice=='operative_disposal_and_retention_permission':\n            found=_dr_add_filtered(statements,temp,['disposal_obligation','retention_permission'])\n            if 'disposal_obligation' not in found or 'retention_permission' not in found:\n                unresolved.append('The combined disposal and retention judgment could not be mapped completely for '+qid+'.')\n        else:\n            unresolved.append('Unsupported disposal/retention source-role choice for '+qid+'.')\n    has_permission=False\n    has_definition=False\n    needs_definition=False\n    for s in statements:\n        term=s.get('term')\n        if isinstance(term,list) and term:\n            if term[0]=='permission' or has_tag(term,'permission_exception'):\n                has_permission=True\n            if term[0]=='define_representative':\n                has_definition=True\n            if term[0] in ('permission','prohibition') and has_tag(term,'representatives_of'):\n                needs_definition=True\n    if refs and not has_permission:\n        unresolved.append('A disclosure exception refers to another provision, but no operative recipient permission was resolved from the current source.')\n    if needs_definition and not has_definition:\n        unresolved.append('An operative norm uses Representatives, but their current-source membership or owner binding was not resolved.')\n    return {'statements':statements,'complete':not unresolved,'unresolved':unresolved}"
+  ]
+}

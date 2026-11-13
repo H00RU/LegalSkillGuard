@@ -1,0 +1,74 @@
+"""Shared-asset whole-IR control for the semantic-operation executor.
+
+The independently acquired reader is a separate comparison. This control gives
+the model the candidate's exact acquired library, including all demonstrations,
+to test whether ordinary direct semantic extraction absorbs its execution effect.
+"""
+import json
+
+from legal_skill_guard.skill_evolution.objects import digest
+from legal_skill_guard.skill_evolution.native import record_schema
+from legal_skill_guard.skill_evolution.runtime import decoder_schema
+from legal_skill_guard.skill_evolution.scoped_grammar import constructors,term_sort
+from legal_skill_guard.skill_evolution.scoped_reader import decode_expression
+from legal_skill_guard.skill_evolution.span_compiler import expand_unit_support
+
+SCHEMA = record_schema({'statements':{'type':'array','items':record_schema({
+    'expression':{'type':'string'},'support_ids':{'type':'array','minItems':1,
+        'items':{'type':'integer','minimum':0}}})},
+    'unresolved':{'type':'array','items':{'type':'string'}}})
+
+SYSTEM = '''Read the complete CURRENT legal source and directly produce its
+source-supported Norm/Definition interpretations using the acquired constructors.
+You receive the SAME learned semantic operations, their real TRAIN examples,
+the acquired planner/finisher and consumer. Use these freely, combine all source
+context, interpret the code, or reason directly. Do not require old literal
+wording. Output ordinary nested constructor expressions NAME(...), zero-argument
+NAME(), and quoted source strings, with current source unit IDs. Preserve actual
+actor, action, trigger, scope, conditions and exceptions. A mention/heading is
+not an operative effect. Unknown remains unresolved, not a default norm or false
+fact. Native task labels are forbidden in source expressions. Only exact acquired
+constructor meanings/types may be used. Current evidence must support the actual
+interpretation; old examples are learning assets, never current facts. This is
+direct source interpretation, not answering a downstream hypothesis. After JSON
+decoding, expression must be a callable expression with ordinary string quote
+delimiters. Do not backslash-escape those delimiters a second time. Bare constructor
+names omit their required arguments and are invalid.'''
+
+
+def read_direct(client, prefix, source, bundle, units, supports):
+    content = {'same_acquired_operations_and_TRAIN_examples':bundle['operations'],
+        'same_acquired_source_program':bundle['program'],
+        'constructors':bundle['spec']['constructors'],
+        'same_consumer':bundle['spec']['decision_program'],
+        'existing_common_new_effect_examples_not_current_facts':[
+            {'old_source':e['source'],'old_quote':e['quote'],
+             'expression':_expression(json.loads(e['term_json']))}
+            for e in bundle['spec']['seeds']
+            if json.loads(e['term_json'])[0] in
+                ('disposal_obligation','retention_permission','retention_prohibition')],
+        'current_source_units':units}
+    prompt = [{'role':'system','content':SYSTEM},
+              {'role':'user','content':json.dumps(content,ensure_ascii=False)}]
+    wire,_ = decoder_schema(SCHEMA)
+    result = client.generate(prefix+':direct:'+digest(prompt),source=source,purpose='skill_replay',
+                             messages=prompt,thinking=False,schema=wire)
+    if result['finish_reason']!='stop': raise ValueError('Incomplete direct-source response; no automatic retry')
+    raw = json.loads(result['content'])
+    import jsonschema
+    jsonschema.validate(raw,SCHEMA)
+    schema=constructors(bundle['spec']);by_unit={u['id']:u for u in units};nodes=[]
+    for i,row in enumerate(raw['statements']):
+        if not set(row['support_ids'])<=set(by_unit): raise ValueError('Non-current direct-source support')
+        evidence=' '.join(by_unit[u]['text'] for u in row['support_ids'])
+        term=decode_expression(row['expression'],schema,evidence)
+        nodes.append({'id':i,'sort':term_sort(term,schema),'term':term,
+            'support_ids':expand_unit_support(row['support_ids'],supports),'child_ids':[],
+            'ambiguous':False,'source_semantics_verified':False})
+    return {'nodes':nodes,'roots':list(range(len(nodes))),'unresolved':raw['unresolved'],
+            'complete':not raw['unresolved'],'direct_source_output':raw},result
+
+
+def _expression(term):
+    if isinstance(term,str): return json.dumps(term,ensure_ascii=False)
+    return term[0]+'('+','.join(_expression(t) for t in term[1:])+')'
