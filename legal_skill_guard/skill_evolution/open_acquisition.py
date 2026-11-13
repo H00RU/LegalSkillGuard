@@ -45,6 +45,8 @@ def compile_update(previous, proposal, training_texts, *, semantic_update=None):
         # their pure consumer code; the original benchmark scorer stays fixed.
         spec['constructors'].extend(deepcopy(semantic_update['constructors']))
         spec['decision_program']=function_update(spec['decision_program'],semantic_update['decision_functions'])
+        if semantic_update.get('scalar_sorts'):
+            spec['scalar_sorts']=deepcopy(semantic_update['scalar_sorts'])
         constructors(spec)
     library={
         'operations':deepcopy(proposal['operations']),'planner_program':planner,
@@ -86,6 +88,24 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
     The caller separately supplies the preserved actual upstream source output.
     """
     from .runtime import decoder_schema
+    source_execution=None
+    if 'source_program' in library:
+        from .span_compiler import execute_json
+        from .scoped_source_program import OUTPUT
+        from .scoped_grammar import term_sort
+        import jsonschema
+        prior_digest=digest(source_output)
+        source_output=execute_json(library['source_program'],{
+            'source_text':source_text,'source_spans':units,'source_output':source_output},{},allow_helpers=True)
+        jsonschema.validate(source_output,OUTPUT)
+        schema=constructors(library['spec']);current={u['id'] for u in units}
+        for row in source_output['statements']:
+            term_sort(row['term'],schema)
+            if not set(row['support_ids'])<=current:
+                raise ValueError('Acquired source program cites a noncurrent source unit')
+        source_execution={'program_sha256':digest(library['source_program']),
+            'input_source_output_sha256':prior_digest,'output_sha256':digest(source_output),
+            'new_physical_requests':0,'source_semantics_verified':False}
     scope=library['scope'];reusable={};operation_scopes=library.get('operation_scopes')
     if operation_scopes is not None:
         if set(operation_scopes)!={o['name'] for o in library['operations']} or any(v not in ('focus_last','window') for v in operation_scopes.values()):
@@ -159,6 +179,8 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
         'context_batch_checks':batch_checks,
         'new_physical_requests':sum(not e['result'].get('cache_hit',False) for e in events),
         'no_unchanged_unknown_retried':True}
+    if source_execution is not None:
+        encoded['execution']['acquired_source_program']=source_execution
     return encoded
 
 

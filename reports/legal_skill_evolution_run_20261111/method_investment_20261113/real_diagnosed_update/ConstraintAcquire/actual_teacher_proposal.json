@@ -1,0 +1,639 @@
+{
+  "value": {
+    "composition": "{\"signatures\":{\"emit_no_disclosure_permission_v3\":{\"arguments\":[\"query\"],\"kind\":\"output\"},\"emit_disclosure_role_permission_v3\":{\"arguments\":[\"query\",\"query\",\"query\",\"query\",\"query\",\"recipient_role\",\"choice\",\"choice\",\"choice\",\"unit\",\"text\",\"text\",\"text\",\"text\"],\"kind\":\"output\"},\"emit_retention_permission_v3\":{\"arguments\":[\"query\",\"unit\",\"text\"],\"kind\":\"output\"},\"emit_retention_prohibition_v3\":{\"arguments\":[\"query\",\"unit\",\"text\"],\"kind\":\"output\"},\"emit_no_retention_effect_v3\":{\"arguments\":[\"query\",\"query\"],\"kind\":\"output\"},\"emit_no_disposal_obligation\":{\"arguments\":[\"query\"],\"kind\":\"output\"},\"emit_disposal_agreement_request_v2\":{\"arguments\":[\"unit\",\"query\"],\"kind\":\"output\"},\"emit_disposal_request_v2\":{\"arguments\":[\"unit\",\"query\"],\"kind\":\"output\"},\"emit_disposal_service_termination_v2\":{\"arguments\":[\"unit\",\"query\"],\"kind\":\"output\"},\"emit_disposal_relationship_termination_v2\":{\"arguments\":[\"unit\",\"query\"],\"kind\":\"output\"},\"emit_disposal_nonformation_v2\":{\"arguments\":[\"unit\",\"query\"],\"kind\":\"output\"}},\"constants\":{\"operation\":[\"operative_disclosure_clause_scout_v3\",\"disclosure_modality_v3\",\"disclosure_employee_role_v3\",\"disclosure_contractor_role_v3\",\"disclosure_consultant_role_v3\",\"disclosure_agent_role_v3\",\"disclosure_professional_adviser_role_v3\",\"disclosure_legal_adviser_role_v3\",\"disclosure_financial_adviser_role_v3\",\"disclosure_accountant_role_v3\",\"disclosure_need_v3\",\"disclosure_extent_v3\",\"disclosure_safeguard_v3\",\"retention_permission_scout_v3\",\"retention_prohibition_scout_v3\",\"disposal_obligation_scout\",\"disposal_pattern\"],\"choice\":[\"candidate_found\",\"none_in_complete_source\",\"operative_permission\",\"employees_covered\",\"contractors_covered\",\"consultants_covered\",\"agents_covered\",\"professional_advisers_covered\",\"legal_advisers_covered\",\"financial_advisers_covered\",\"accountants_covered\",\"need_to_know_required\",\"need_to_know_not_required_in_window\",\"extent_necessary_required\",\"extent_limit_not_required_in_window\",\"written_confidentiality_required\",\"confidentiality_duty_without_written_form\",\"no_safeguard_in_window\",\"explicit_retention_permission_found\",\"explicit_retention_prohibition_found\",\"return_only_service_termination_all_materials\",\"return_or_destroy_request_all_materials\",\"return_or_destroy_termination_or_request_all_materials\",\"return_only_relationship_termination_all_materials\",\"return_or_destroy_relationship_nonformation_deadline_all_materials\"],\"recipient_role\":[\"employees\",\"contractors\",\"consultants\",\"agents\",\"professional_advisers\",\"legal_advisers\",\"financial_advisers\",\"accountants\"]},\"rules\":[{\"id\":\"retain_current_roots_v5\",\"head\":{\"predicate\":\"keep_root\",\"arguments\":[{\"var\":\"T\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"legacy_root\",\"arguments\":[{\"var\":\"T\"}],\"sign\":\"positive\"}],\"cost\":1},{\"id\":\"explicit_complete_no_disclosure_v3\",\"head\":{\"predicate\":\"emit_no_disclosure_permission_v3\",\"arguments\":[{\"var\":\"Q\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"Q\"},\"operative_disclosure_clause_scout_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"Q\"},\"none_in_complete_source\"],\"sign\":\"positive\"}],\"cost\":2},{\"id\":\"role_employee_permission_v3\",\"head\":{\"predicate\":\"emit_disclosure_role_permission_v3\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"RQ\"},{\"var\":\"NQ\"},{\"var\":\"EQ\"},{\"var\":\"SQ\"},\"employees\",{\"var\":\"NC\"},{\"var\":\"EC\"},{\"var\":\"SC\"},{\"var\":\"U\"},{\"var\":\"RT\"},{\"var\":\"NT\"},{\"var\":\"ET\"},{\"var\":\"ST\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"MQ\"},\"disclosure_modality_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"MQ\"},\"operative_permission\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_unit\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"U\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"RQ\"},\"disclosure_employee_role_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"RQ\"},\"employees_covered\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"RQ\"},{\"var\":\"U\"},{\"var\":\"RT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"NQ\"},\"disclosure_need_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"NC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"U\"},{\"var\":\"NT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"EQ\"},\"disclosure_extent_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"EC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"U\"},{\"var\":\"ET\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"SQ\"},\"disclosure_safeguard_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"SC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"U\"},{\"var\":\"ST\"}],\"sign\":\"positive\"}],\"cost\":5},{\"id\":\"role_contractor_permission_v3\",\"head\":{\"predicate\":\"emit_disclosure_role_permission_v3\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"RQ\"},{\"var\":\"NQ\"},{\"var\":\"EQ\"},{\"var\":\"SQ\"},\"contractors\",{\"var\":\"NC\"},{\"var\":\"EC\"},{\"var\":\"SC\"},{\"var\":\"U\"},{\"var\":\"RT\"},{\"var\":\"NT\"},{\"var\":\"ET\"},{\"var\":\"ST\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"MQ\"},\"disclosure_modality_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"MQ\"},\"operative_permission\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_unit\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"U\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"RQ\"},\"disclosure_contractor_role_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"RQ\"},\"contractors_covered\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"RQ\"},{\"var\":\"U\"},{\"var\":\"RT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"NQ\"},\"disclosure_need_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"NC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"U\"},{\"var\":\"NT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"EQ\"},\"disclosure_extent_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"EC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"U\"},{\"var\":\"ET\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"SQ\"},\"disclosure_safeguard_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"SC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"U\"},{\"var\":\"ST\"}],\"sign\":\"positive\"}],\"cost\":5},{\"id\":\"role_consultant_permission_v3\",\"head\":{\"predicate\":\"emit_disclosure_role_permission_v3\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"RQ\"},{\"var\":\"NQ\"},{\"var\":\"EQ\"},{\"var\":\"SQ\"},\"consultants\",{\"var\":\"NC\"},{\"var\":\"EC\"},{\"var\":\"SC\"},{\"var\":\"U\"},{\"var\":\"RT\"},{\"var\":\"NT\"},{\"var\":\"ET\"},{\"var\":\"ST\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"MQ\"},\"disclosure_modality_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"MQ\"},\"operative_permission\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_unit\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"U\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"RQ\"},\"disclosure_consultant_role_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"RQ\"},\"consultants_covered\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"RQ\"},{\"var\":\"U\"},{\"var\":\"RT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"NQ\"},\"disclosure_need_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"NC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"U\"},{\"var\":\"NT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"EQ\"},\"disclosure_extent_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"EC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"U\"},{\"var\":\"ET\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"SQ\"},\"disclosure_safeguard_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"SC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"U\"},{\"var\":\"ST\"}],\"sign\":\"positive\"}],\"cost\":5},{\"id\":\"role_agent_permission_v3\",\"head\":{\"predicate\":\"emit_disclosure_role_permission_v3\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"RQ\"},{\"var\":\"NQ\"},{\"var\":\"EQ\"},{\"var\":\"SQ\"},\"agents\",{\"var\":\"NC\"},{\"var\":\"EC\"},{\"var\":\"SC\"},{\"var\":\"U\"},{\"var\":\"RT\"},{\"var\":\"NT\"},{\"var\":\"ET\"},{\"var\":\"ST\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"MQ\"},\"disclosure_modality_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"MQ\"},\"operative_permission\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_unit\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"U\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"RQ\"},\"disclosure_agent_role_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"RQ\"},\"agents_covered\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"RQ\"},{\"var\":\"U\"},{\"var\":\"RT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"NQ\"},\"disclosure_need_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"NC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"U\"},{\"var\":\"NT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"EQ\"},\"disclosure_extent_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"EC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"U\"},{\"var\":\"ET\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"SQ\"},\"disclosure_safeguard_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"SC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"U\"},{\"var\":\"ST\"}],\"sign\":\"positive\"}],\"cost\":5},{\"id\":\"role_professional_adviser_permission_v3\",\"head\":{\"predicate\":\"emit_disclosure_role_permission_v3\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"RQ\"},{\"var\":\"NQ\"},{\"var\":\"EQ\"},{\"var\":\"SQ\"},\"professional_advisers\",{\"var\":\"NC\"},{\"var\":\"EC\"},{\"var\":\"SC\"},{\"var\":\"U\"},{\"var\":\"RT\"},{\"var\":\"NT\"},{\"var\":\"ET\"},{\"var\":\"ST\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"MQ\"},\"disclosure_modality_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"MQ\"},\"operative_permission\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_unit\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"U\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"RQ\"},\"disclosure_professional_adviser_role_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"RQ\"},\"professional_advisers_covered\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"RQ\"},{\"var\":\"U\"},{\"var\":\"RT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"NQ\"},\"disclosure_need_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"NC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"U\"},{\"var\":\"NT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"EQ\"},\"disclosure_extent_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"EC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"U\"},{\"var\":\"ET\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"SQ\"},\"disclosure_safeguard_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"SC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"U\"},{\"var\":\"ST\"}],\"sign\":\"positive\"}],\"cost\":5},{\"id\":\"role_legal_adviser_permission_v3\",\"head\":{\"predicate\":\"emit_disclosure_role_permission_v3\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"RQ\"},{\"var\":\"NQ\"},{\"var\":\"EQ\"},{\"var\":\"SQ\"},\"legal_advisers\",{\"var\":\"NC\"},{\"var\":\"EC\"},{\"var\":\"SC\"},{\"var\":\"U\"},{\"var\":\"RT\"},{\"var\":\"NT\"},{\"var\":\"ET\"},{\"var\":\"ST\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"MQ\"},\"disclosure_modality_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"MQ\"},\"operative_permission\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_unit\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"U\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"RQ\"},\"disclosure_legal_adviser_role_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"RQ\"},\"legal_advisers_covered\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"RQ\"},{\"var\":\"U\"},{\"var\":\"RT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"NQ\"},\"disclosure_need_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"NC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"U\"},{\"var\":\"NT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"EQ\"},\"disclosure_extent_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"EC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"U\"},{\"var\":\"ET\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"SQ\"},\"disclosure_safeguard_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"SC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"U\"},{\"var\":\"ST\"}],\"sign\":\"positive\"}],\"cost\":5},{\"id\":\"role_financial_adviser_permission_v3\",\"head\":{\"predicate\":\"emit_disclosure_role_permission_v3\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"RQ\"},{\"var\":\"NQ\"},{\"var\":\"EQ\"},{\"var\":\"SQ\"},\"financial_advisers\",{\"var\":\"NC\"},{\"var\":\"EC\"},{\"var\":\"SC\"},{\"var\":\"U\"},{\"var\":\"RT\"},{\"var\":\"NT\"},{\"var\":\"ET\"},{\"var\":\"ST\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"MQ\"},\"disclosure_modality_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"MQ\"},\"operative_permission\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_unit\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"U\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"RQ\"},\"disclosure_financial_adviser_role_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"RQ\"},\"financial_advisers_covered\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"RQ\"},{\"var\":\"U\"},{\"var\":\"RT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"NQ\"},\"disclosure_need_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"NC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"U\"},{\"var\":\"NT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"EQ\"},\"disclosure_extent_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"EC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"U\"},{\"var\":\"ET\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"SQ\"},\"disclosure_safeguard_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"SC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"U\"},{\"var\":\"ST\"}],\"sign\":\"positive\"}],\"cost\":5},{\"id\":\"role_accountant_permission_v3\",\"head\":{\"predicate\":\"emit_disclosure_role_permission_v3\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"RQ\"},{\"var\":\"NQ\"},{\"var\":\"EQ\"},{\"var\":\"SQ\"},\"accountants\",{\"var\":\"NC\"},{\"var\":\"EC\"},{\"var\":\"SC\"},{\"var\":\"U\"},{\"var\":\"RT\"},{\"var\":\"NT\"},{\"var\":\"ET\"},{\"var\":\"ST\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"MQ\"},\"disclosure_modality_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"MQ\"},\"operative_permission\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_unit\",\"arguments\":[{\"var\":\"MQ\"},{\"var\":\"U\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"RQ\"},\"disclosure_accountant_role_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"RQ\"},\"accountants_covered\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"RQ\"},{\"var\":\"U\"},{\"var\":\"RT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"NQ\"},\"disclosure_need_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"NC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"NQ\"},{\"var\":\"U\"},{\"var\":\"NT\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"EQ\"},\"disclosure_extent_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"EC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"EQ\"},{\"var\":\"U\"},{\"var\":\"ET\"}],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"SQ\"},\"disclosure_safeguard_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"SC\"}],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"SQ\"},{\"var\":\"U\"},{\"var\":\"ST\"}],\"sign\":\"positive\"}],\"cost\":5},{\"id\":\"explicit_retention_permission_v3\",\"head\":{\"predicate\":\"emit_retention_permission_v3\",\"arguments\":[{\"var\":\"Q\"},{\"var\":\"U\"},{\"var\":\"T\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"Q\"},\"retention_permission_scout_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"Q\"},\"explicit_retention_permission_found\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"Q\"},{\"var\":\"U\"},{\"var\":\"T\"}],\"sign\":\"positive\"}],\"cost\":3},{\"id\":\"explicit_retention_prohibition_v3\",\"head\":{\"predicate\":\"emit_retention_prohibition_v3\",\"arguments\":[{\"var\":\"Q\"},{\"var\":\"U\"},{\"var\":\"T\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"Q\"},\"retention_prohibition_scout_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"Q\"},\"explicit_retention_prohibition_found\"],\"sign\":\"positive\"},{\"predicate\":\"evidence_quote\",\"arguments\":[{\"var\":\"Q\"},{\"var\":\"U\"},{\"var\":\"T\"}],\"sign\":\"positive\"}],\"cost\":3},{\"id\":\"explicit_complete_no_retention_v3\",\"head\":{\"predicate\":\"emit_no_retention_effect_v3\",\"arguments\":[{\"var\":\"PQ\"},{\"var\":\"NQ\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"PQ\"},\"retention_permission_scout_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"PQ\"},\"none_in_complete_source\"],\"sign\":\"positive\"},{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"NQ\"},\"retention_prohibition_scout_v3\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"NQ\"},\"none_in_complete_source\"],\"sign\":\"positive\"}],\"cost\":2},{\"id\":\"explicit_complete_no_disposal_v2\",\"head\":{\"predicate\":\"emit_no_disposal_obligation\",\"arguments\":[{\"var\":\"Q\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"Q\"},\"disposal_obligation_scout\"],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"Q\"},\"none_in_complete_source\"],\"sign\":\"positive\"}],\"cost\":2},{\"id\":\"disposal_agreement_or_request_full_v3\",\"head\":{\"predicate\":\"emit_disposal_agreement_request_v2\",\"arguments\":[{\"var\":\"U\"},{\"var\":\"Q\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"Q\"},\"disposal_pattern\"],\"sign\":\"positive\"},{\"predicate\":\"query_focus\",\"arguments\":[{\"var\":\"Q\"},{\"var\":\"U\"}],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"Q\"},\"return_or_destroy_termination_or_request_all_materials\"],\"sign\":\"positive\"}],\"cost\":3},{\"id\":\"disposal_request_full_v3\",\"head\":{\"predicate\":\"emit_disposal_request_v2\",\"arguments\":[{\"var\":\"U\"},{\"var\":\"Q\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"Q\"},\"disposal_pattern\"],\"sign\":\"positive\"},{\"predicate\":\"query_focus\",\"arguments\":[{\"var\":\"Q\"},{\"var\":\"U\"}],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"Q\"},\"return_or_destroy_request_all_materials\"],\"sign\":\"positive\"}],\"cost\":3},{\"id\":\"disposal_service_termination_full_v3\",\"head\":{\"predicate\":\"emit_disposal_service_termination_v2\",\"arguments\":[{\"var\":\"U\"},{\"var\":\"Q\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"Q\"},\"disposal_pattern\"],\"sign\":\"positive\"},{\"predicate\":\"query_focus\",\"arguments\":[{\"var\":\"Q\"},{\"var\":\"U\"}],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"Q\"},\"return_only_service_termination_all_materials\"],\"sign\":\"positive\"}],\"cost\":3},{\"id\":\"disposal_relationship_termination_full_v3\",\"head\":{\"predicate\":\"emit_disposal_relationship_termination_v2\",\"arguments\":[{\"var\":\"U\"},{\"var\":\"Q\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"Q\"},\"disposal_pattern\"],\"sign\":\"positive\"},{\"predicate\":\"query_focus\",\"arguments\":[{\"var\":\"Q\"},{\"var\":\"U\"}],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"Q\"},\"return_only_relationship_termination_all_materials\"],\"sign\":\"positive\"}],\"cost\":3},{\"id\":\"disposal_nonformation_full_v3\",\"head\":{\"predicate\":\"emit_disposal_nonformation_v2\",\"arguments\":[{\"var\":\"U\"},{\"var\":\"Q\"}],\"sign\":\"positive\"},\"body\":[{\"predicate\":\"reader_query\",\"arguments\":[{\"var\":\"Q\"},\"disposal_pattern\"],\"sign\":\"positive\"},{\"predicate\":\"query_focus\",\"arguments\":[{\"var\":\"Q\"},{\"var\":\"U\"}],\"sign\":\"positive\"},{\"predicate\":\"query_choice\",\"arguments\":[{\"var\":\"Q\"},\"return_or_destroy_relationship_nonformation_deadline_all_materials\"],\"sign\":\"positive\"}],\"cost\":3}]}",
+    "decision_functions": [
+      "def subterms(value):\n    out=[]\n    todo=[value]\n    while todo:\n        item=todo.pop()\n        if isinstance(item,list) and item:\n            out.append(item)\n            i=1\n            while i<len(item):\n                if isinstance(item[i],list):\n                    todo.append(item[i])\n                i+=1\n    return out\n\ndef has_tag(value,name):\n    for item in subterms(value):\n        if item[0]==name:\n            return True\n    return False\n\ndef unique(values):\n    out=[]\n    for value in values:\n        if value not in out:\n            out.append(value)\n    return out\n\ndef collect_entries(premises):\n    nodes=premises.get('nodes',[])\n    roots=premises.get('roots',[])\n    byid={}\n    for node in nodes:\n        byid[node.get('id')]=node\n    out=[]\n    for root in roots:\n        todo=[root]\n        seen=set()\n        while todo:\n            nid=todo.pop()\n            if nid in seen or nid not in byid:\n                continue\n            seen.add(nid)\n            node=byid[nid]\n            for term in subterms(node.get('term')):\n                out.append((term,root))\n            for child in node.get('child_ids',[]):\n                todo.append(child)\n    return out\n\ndef role_tags(value,definitions):\n    tags=set()\n    todo=[value]\n    seen=set()\n    while todo:\n        item=todo.pop()\n        if not isinstance(item,list) or not item:\n            continue\n        name=item[0]\n        if name=='source_recipient_role_of' and len(item)>2:\n            tags.add(str(item[2]))\n        elif name=='employees_of' or name=='internal_personnel_of':\n            tags.add('employees')\n        elif name=='independent_contractors_of':\n            tags.add('contractors')\n        elif name=='consultants_of':\n            tags.add('consultants')\n        elif name=='agents_of':\n            tags.add('agents')\n        elif name=='professional_advisors_of':\n            tags.add('professional_advisers')\n        elif name=='legal_advisors_of':\n            tags.add('legal_advisers')\n        elif name=='financial_advisors_of':\n            tags.add('financial_advisers')\n        elif name=='accountants_of':\n            tags.add('accountants')\n        elif name=='lenders_of':\n            tags.add('lenders')\n        elif name=='third_parties':\n            tags.add('third_parties')\n        elif name=='representatives_of' and len(item)>1:\n            key=str(item[1])\n            if key not in seen:\n                seen.add(key)\n                for owner,members in definitions:\n                    if str(owner)==key or (isinstance(owner,list) and owner and owner[0]=='party'):\n                        todo.append(members)\n        i=1\n        while i<len(item):\n            if isinstance(item[i],list):\n                todo.append(item[i])\n            i+=1\n    return tags\n\ndef apply(inputs,premises):\n    task=inputs.get('task_id')\n    if task not in ('nda-5','nda-7','nda-16','nda-20'):\n        return {'handled':False,'answer':None,'used_nodes':[]}\n    entries=collect_entries(premises)\n    if task in ('nda-5','nda-7'):\n        definitions=[]\n        definition_roots=[]\n        absence=[]\n        permissions=[]\n        prohibitions=[]\n        relevant=[]\n        for term,root in entries:\n            if term[0]=='define_representative' and len(term)==3:\n                definitions.append((term[1],term[2]))\n                definition_roots.append(root)\n            elif term[0]=='complete_source_no_disclosure_permission':\n                absence.append(root)\n        for term,root in entries:\n            if term[0] not in ('permission','prohibition') or len(term)<3:\n                continue\n            action=term[2]\n            if not isinstance(action,list) or len(action)!=3 or action[0]!='disclose' or not has_tag(action[1],'confidential_information'):\n                continue\n            relevant.append(root)\n            tags=role_tags(action[2],definitions)\n            if term[0]=='permission':\n                permissions.append((root,tags,action[2]))\n            else:\n                prohibitions.append((root,tags,action[2]))\n        wanted={'employees'} if task=='nda-5' else {'contractors','consultants','agents','professional_advisers','legal_advisers','financial_advisers','accountants','lenders','third_parties'}\n        for root,tags,recipient in permissions:\n            if tags.intersection(wanted):\n                used=[root]\n                if has_tag(recipient,'representatives_of'):\n                    used.extend(definition_roots)\n                return {'handled':True,'answer':'Entailment','used_nodes':unique(used)}\n        for root,tags,recipient in prohibitions:\n            if has_tag(recipient,'outsiders_to'):\n                continue\n            if tags.intersection(wanted):\n                return {'handled':True,'answer':'Contradiction','used_nodes':[root]}\n        if relevant or absence:\n            return {'handled':True,'answer':'NotMentioned','used_nodes':unique(relevant+definition_roots+absence)}\n        return {'handled':False,'answer':None,'used_nodes':[]}\n    disposal=[]\n    retention_yes=[]\n    retention_no=[]\n    no_disposal=[]\n    no_retention=[]\n    for term,root in entries:\n        if term[0]=='disposal_obligation' and len(term)==5:\n            disposal.append((term,root))\n        elif term[0] in ('retention_permission','retention_exception'):\n            retention_yes.append(root)\n        elif term[0]=='retention_prohibition':\n            retention_no.append(root)\n        elif term[0]=='complete_source_no_disposal_obligation':\n            no_disposal.append(root)\n        elif term[0]=='complete_source_no_retention_effect':\n            no_retention.append(root)\n    if task=='nda-16':\n        relevant=[]\n        entailed=[]\n        for term,root in disposal:\n            action=term[2]\n            trigger=term[3]\n            if not (has_tag(action,'return_to') or has_tag(action,'destroy')):\n                continue\n            relevant.append(root)\n            if has_tag(trigger,'agreement_termination') or has_tag(trigger,'service_termination') or has_tag(trigger,'relationship_termination'):\n                entailed.append(root)\n        if entailed:\n            return {'handled':True,'answer':'Entailment','used_nodes':unique(entailed)}\n        if relevant or no_disposal:\n            return {'handled':True,'answer':'NotMentioned','used_nodes':unique(relevant+no_disposal)}\n        return {'handled':False,'answer':None,'used_nodes':[]}\n    if retention_yes:\n        return {'handled':True,'answer':'Entailment','used_nodes':unique(retention_yes)}\n    if retention_no:\n        return {'handled':True,'answer':'Contradiction','used_nodes':unique(retention_no)}\n    relevant=[]\n    for term,root in disposal:\n        if has_tag(term[2],'return_to') or has_tag(term[2],'destroy'):\n            relevant.append(root)\n    if relevant or no_retention or no_disposal:\n        return {'handled':True,'answer':'NotMentioned','used_nodes':unique(relevant+no_retention+no_disposal)}\n    return {'handled':False,'answer':None,'used_nodes':[]}"
+    ],
+    "new_constructors": [
+      {
+        "arguments": [
+          "Participant",
+          "recipient_role",
+          "text"
+        ],
+        "meaning": "The enclosed participant class has the stated independently classified recipient role in the operative permission; the verbatim source text records the role-bearing permission or its governing definition and does not broaden the role to neighboring categories.",
+        "name": "source_recipient_role_of",
+        "sort": "Participant"
+      },
+      {
+        "arguments": [
+          "choice",
+          "choice",
+          "choice",
+          "text",
+          "text",
+          "text"
+        ],
+        "meaning": "The operative permission's independently read need-to-know choice, necessary-extent choice and confidentiality-safeguard choice, together with their verbatim current-source evidence. Negative profile choices mean only that the complete supplied permission window did not state that condition.",
+        "name": "disclosure_condition_profile",
+        "sort": "Condition"
+      },
+      {
+        "arguments": [
+          "text"
+        ],
+        "meaning": "The exact protected material scope to which an explicit post-disposal retention permission or prohibition applies, retained through the verbatim supporting source text without assuming that every copy or derivative is covered.",
+        "name": "source_retention_material",
+        "sort": "Information"
+      }
+    ],
+    "operations": [
+      {
+        "choices": [
+          {
+            "meaning": "完整来源中存在一个实际内部人员或专业服务接收者披露许可，所选单元构成其精读窗口。",
+            "name": "candidate_found"
+          },
+          {
+            "meaning": "已检查全部当前来源单元，没有发现上述实际披露许可。",
+            "name": "none_in_complete_source"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "candidate_found",
+            "quote": "The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.",
+            "source": "ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583"
+          },
+          {
+            "choice": "candidate_found",
+            "quote": "The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.",
+            "source": "ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad"
+          }
+        ],
+        "name": "operative_disclosure_clause_scout_v3",
+        "question": "检查所供应的完整当前来源，寻找一个最清晰的、实际生效的内部人员或专业服务接收者披露许可。许可必须允许受保护信息向雇员、工作人员、承包商、顾问、代理人、代表、律师、会计师、财务顾问或专业顾问中的至少一类披露。定义、人员信息描述、序言、一般禁令、仅由披露方逐案书面授权的例外及处置条款不是许可。发现时选择产生该许可的统领句、接收者条款、紧邻条件以及解释该许可所必需的接收者定义；定义不得单独成为候选。只有检查全部当前单元后才能选择未发现。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "窗口形成实际内部人员或专业服务接收者披露许可。",
+            "name": "operative_permission"
+          },
+          {
+            "meaning": "窗口没有形成上述实际许可。",
+            "name": "no_operational_permission"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "operative_permission",
+            "quote": "The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.",
+            "source": "ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583"
+          },
+          {
+            "choice": "no_operational_permission",
+            "quote": " Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information.",
+            "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450"
+          }
+        ],
+        "name": "disclosure_modality_v3",
+        "question": "把整个供应窗口作为一个有序来源片段判断。窗口是否形成实际内部人员或专业服务接收者披露许可？定义、序言、一般禁令、信息内容描述和逐案书面授权例外不得单独生成许可。选择许可时必须引用产生许可效果的当前单元。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "实际许可明确覆盖雇员、工作人员或职员。",
+            "name": "employees_covered"
+          },
+          {
+            "meaning": "窗口形成实际许可，但其明确接收者下界不含雇员、工作人员或职员。",
+            "name": "employees_not_covered"
+          },
+          {
+            "meaning": "窗口没有实际许可可供评价。",
+            "name": "no_operational_permission"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "employees_covered",
+            "quote": "The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.",
+            "source": "ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad"
+          }
+        ],
+        "name": "disclosure_employee_role_v3",
+        "question": "若供应窗口形成实际披露许可，该许可是否明确覆盖信息持有人的雇员、工作人员或职员？通过定义展开 Representatives 时，窗口必须同时提供该定义及实际许可。肯定与否定选择都须引用产生许可的单元；定义本身不是许可。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "实际许可明确覆盖承包商。",
+            "name": "contractors_covered"
+          },
+          {
+            "meaning": "窗口形成实际许可，但没有明确覆盖承包商。",
+            "name": "contractors_not_covered"
+          },
+          {
+            "meaning": "窗口没有实际许可可供评价。",
+            "name": "no_operational_permission"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "contractors_covered",
+            "quote": "The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.",
+            "source": "ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583"
+          },
+          {
+            "choice": "contractors_not_covered",
+            "quote": "The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.",
+            "source": "ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad"
+          }
+        ],
+        "name": "disclosure_contractor_role_v3",
+        "question": "若供应窗口形成实际披露许可，该许可是否明确覆盖信息持有人的承包商？不得把顾问、代理人、专业顾问或融资提供者改写成承包商。肯定与否定选择都须引用产生许可的单元。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "实际许可明确覆盖顾问或 consultants。",
+            "name": "consultants_covered"
+          },
+          {
+            "meaning": "窗口形成实际许可，但没有明确覆盖顾问或 consultants。",
+            "name": "consultants_not_covered"
+          },
+          {
+            "meaning": "窗口没有实际许可可供评价。",
+            "name": "no_operational_permission"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "consultants_covered",
+            "quote": "Auditor shall restrict disclosure of such Confidential Information to its employees and/or consultants with a need to know (and advise such employees and/or consultants of the obligations assumed herein), shall use the Confidential Information only for the purposes set forth in the Agreement, and shall not disclose such Confidential Information to any affiliates, subsidiaries, associates and/or third party without prior written approval of the Auditee.",
+            "source": "ContractNLI:e7b78d42d1496b794104490cca4c09eedae1ac693d19144164262009cef68482"
+          }
+        ],
+        "name": "disclosure_consultant_role_v3",
+        "question": "若供应窗口形成实际披露许可，该许可是否明确覆盖信息持有人的顾问或 consultants？不得从承包商、代理人或一般 Representatives 名称推断，除非窗口提供相应定义。肯定与否定选择都须引用产生许可的单元。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "实际许可明确覆盖代理人。",
+            "name": "agents_covered"
+          },
+          {
+            "meaning": "窗口形成实际许可，但没有明确覆盖代理人。",
+            "name": "agents_not_covered"
+          },
+          {
+            "meaning": "窗口没有实际许可可供评价。",
+            "name": "no_operational_permission"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "agents_covered",
+            "quote": "2.3.2 the Recipient’s employees, officials, representatives and agents who have a strict need to know the contents of the Confidential Information, and employees, officials, representatives and agents of any legal entity that it controls, controls it, or with which it is under common control, who have a similar need to know the contents of the Confidential Information, provided that, for these purposes a controlled legal entity means:",
+            "source": "ContractNLI:de427b59f51cd83644fef90b773bf036b9bc33972719dc42c658e45b54c2f98e"
+          }
+        ],
+        "name": "disclosure_agent_role_v3",
+        "question": "若供应窗口形成实际披露许可，该许可是否明确覆盖信息持有人的代理人？通过 Representatives 定义展开时必须保留所有者绑定。肯定与否定选择都须引用产生许可的单元。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "实际许可明确覆盖专业顾问。",
+            "name": "professional_advisers_covered"
+          },
+          {
+            "meaning": "窗口形成实际许可，但没有明确覆盖专业顾问。",
+            "name": "professional_advisers_not_covered"
+          },
+          {
+            "meaning": "窗口没有实际许可可供评价。",
+            "name": "no_operational_permission"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "professional_advisers_covered",
+            "quote": "The Receiving Party shall take all practical steps to keep the Disclosing Party’s Confidential Information confidential and shall restrict access to the Confidential Information to those agents and professional advisers to whom disclosure is necessary in pursuit of the Approved Purpose. Each Party shall inform all such employees, agents and professional advisers of the provisions of this Agreement and shall be responsible for ensuring compliance with the said provisions by all agents and professional advisers.",
+            "source": "ContractNLI:e671a984356facb0c0666809e219fa44fa18d30e4f6252bbb33d8869fc43b1c9"
+          }
+        ],
+        "name": "disclosure_professional_adviser_role_v3",
+        "question": "若供应窗口形成实际披露许可，该许可是否明确覆盖专业顾问或 professional advisers/advisors？不得把普通代理人、承包商或融资提供者改写成专业顾问。肯定与否定选择都须引用产生许可的单元。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "实际许可明确覆盖律师或法律顾问。",
+            "name": "legal_advisers_covered"
+          },
+          {
+            "meaning": "窗口形成实际许可，但没有明确覆盖律师或法律顾问。",
+            "name": "legal_advisers_not_covered"
+          },
+          {
+            "meaning": "窗口没有实际许可可供评价。",
+            "name": "no_operational_permission"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "legal_advisers_covered",
+            "quote": "(a) Subject to the restrictions set forth below in this Section 4, each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose. ",
+            "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078"
+          }
+        ],
+        "name": "disclosure_legal_adviser_role_v3",
+        "question": "若供应窗口形成实际披露许可，该许可是否明确覆盖律师、法律顾问或 legal advisers/advisors？定义必须与实际许可共同出现。肯定与否定选择都须引用产生许可的单元。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "实际许可明确覆盖财务顾问。",
+            "name": "financial_advisers_covered"
+          },
+          {
+            "meaning": "窗口形成实际许可，但没有明确覆盖财务顾问。",
+            "name": "financial_advisers_not_covered"
+          },
+          {
+            "meaning": "窗口没有实际许可可供评价。",
+            "name": "no_operational_permission"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "financial_advisers_covered",
+            "quote": "(a) Subject to the restrictions set forth below in this Section 4, each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose. ",
+            "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078"
+          }
+        ],
+        "name": "disclosure_financial_adviser_role_v3",
+        "question": "若供应窗口形成实际披露许可，该许可是否明确覆盖财务顾问或 financial advisers/advisors？不得从一般专业服务文字推断。肯定与否定选择都须引用产生许可的单元。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "实际许可明确覆盖会计师。",
+            "name": "accountants_covered"
+          },
+          {
+            "meaning": "窗口形成实际许可，但没有明确覆盖会计师。",
+            "name": "accountants_not_covered"
+          },
+          {
+            "meaning": "窗口没有实际许可可供评价。",
+            "name": "no_operational_permission"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "accountants_covered",
+            "quote": "(a) Subject to the restrictions set forth below in this Section 4, each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose. ",
+            "source": "ContractNLI:8af247c65a2da4c3d872a12c7774320911895801e6838fd0e20f01ded94e1078"
+          }
+        ],
+        "name": "disclosure_accountant_role_v3",
+        "question": "若供应窗口形成实际披露许可，该许可是否明确覆盖会计师？不得从一般顾问或专业服务文字推断。肯定与否定选择都须引用产生许可的单元。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "许可明确要求接收者具有知悉必要性。",
+            "name": "need_to_know_required"
+          },
+          {
+            "meaning": "窗口形成实际许可，但没有明确要求知悉必要性。",
+            "name": "need_to_know_not_required_in_window"
+          },
+          {
+            "meaning": "窗口没有实际许可可供评价。",
+            "name": "no_operational_permission"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "need_to_know_required",
+            "quote": "The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.",
+            "source": "ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583"
+          }
+        ],
+        "name": "disclosure_need_v3",
+        "question": "若供应窗口形成实际披露许可，该许可是否明确要求获准接收者具有知悉必要性？无论选择有或无，都必须引用实际许可单元；窗口没有实际许可时选择无可评价许可。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "许可明确限制披露至必要范围。",
+            "name": "extent_necessary_required"
+          },
+          {
+            "meaning": "窗口形成实际许可，但没有明确的必要范围限制。",
+            "name": "extent_limit_not_required_in_window"
+          },
+          {
+            "meaning": "窗口没有实际许可可供评价。",
+            "name": "no_operational_permission"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "extent_necessary_required",
+            "quote": "The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.",
+            "source": "ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad"
+          }
+        ],
+        "name": "disclosure_extent_v3",
+        "question": "若供应窗口形成实际披露许可，该许可是否明确把披露限制在为所述目的必要、合理必要或绝对必要的范围？无论选择有或无，都必须引用实际许可单元。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "获准接收者必须受书面保密协议或明确书面保密约束。",
+            "name": "written_confidentiality_required"
+          },
+          {
+            "meaning": "获准接收者须承担、遵守或被告知保密义务，但窗口没有明确要求书面形式。",
+            "name": "confidentiality_duty_without_written_form"
+          },
+          {
+            "meaning": "窗口形成实际许可，但没有明确施加上述保密保障。",
+            "name": "no_safeguard_in_window"
+          },
+          {
+            "meaning": "窗口没有实际许可可供评价。",
+            "name": "no_operational_permission"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "written_confidentiality_required",
+            "quote": "The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.",
+            "source": "ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583"
+          },
+          {
+            "choice": "confidentiality_duty_without_written_form",
+            "quote": "Auditor shall restrict disclosure of such Confidential Information to its employees and/or consultants with a need to know (and advise such employees and/or consultants of the obligations assumed herein), shall use the Confidential Information only for the purposes set forth in the Agreement, and shall not disclose such Confidential Information to any affiliates, subsidiaries, associates and/or third party without prior written approval of the Auditee.",
+            "source": "ContractNLI:e7b78d42d1496b794104490cca4c09eedae1ac693d19144164262009cef68482"
+          }
+        ],
+        "name": "disclosure_safeguard_v3",
+        "question": "若供应窗口形成实际披露许可，该许可对获准接收者明确施加何种保密保障？书面形式、非书面保密义务和未明示保障必须分别保留。每个选择都须引用实际许可单元及产生保障的单元。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "完整来源含有明示的处置后有限留存许可。",
+            "name": "explicit_retention_permission_found"
+          },
+          {
+            "meaning": "已检查全部当前来源，没有明示的处置后留存许可。",
+            "name": "none_in_complete_source"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "explicit_retention_permission_found",
+            "quote": "5.1.2 ensure that where Confidential Information has not been destroyed or returned under paragraph 5.1.1, all reasonable steps are taken to erase from any computer under your control any document, disk or file to the extent containing, reflecting or generated from any Confidential Information and that, following such erasure, no steps will be taken to access or recover such material, save that you will be entitled to retain such copies of such Confidential Information (a) to the extent required by law or regulation, (b) to the extent required by your internal compliance procedures, or (c) to the extent contained as back-ups or archives as a matter of reasonable routine process on your electronic information management and communications systems or servers and for which deletion or destruction would not be reasonably practicable (provided that no step will be taken to access or recover such Confidential Information and provided that such Confidential Information shall continue to be held subject to the terms of this agreement).",
+            "source": "ContractNLI:bbb3901122f38ae648ac6b6dc1427efc5f20bfb04a02bb769c2362e670a17c65"
+          }
+        ],
+        "name": "retention_permission_scout_v3",
+        "question": "检查全部当前来源，是否明示允许信息持有人在返还或销毁流程之后，因法律、监管、合规、档案、备份或其他限定理由保留受保护信息、记录或副本？返还或销毁义务本身、未销毁的事实以及一般所有权条款都不是留存许可。发现时仅选择产生许可及其限制条件的单元；检查全部来源后确无明示许可时才选择未发现。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "完整来源含有明示的处置后留存禁止。",
+            "name": "explicit_retention_prohibition_found"
+          },
+          {
+            "meaning": "已检查全部当前来源，没有明示的处置后留存禁止。",
+            "name": "none_in_complete_source"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "explicit_retention_prohibition_found",
+            "quote": "Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.",
+            "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450"
+          },
+          {
+            "choice": "explicit_retention_prohibition_found",
+            "quote": "The Receiving Party shall return information provided to it any time upon request and, at SINTEC's option, promptly return it to SINTEC once and for all at no charge, or destroy it without retaining any copies or records thereof.",
+            "source": "ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad"
+          }
+        ],
+        "name": "retention_prohibition_scout_v3",
+        "question": "检查全部当前来源，是否明示禁止信息持有人在相关返还或销毁后保留副本、记录、笔记、摘要或其他受保护材料？单纯要求返还或销毁全部材料不自动构成该选择；必须有 no copies retained、without retaining 或同等明示留存禁止。发现时只选择产生禁止及其材料范围的单元；检查全部来源后确无明示禁止时才选择未发现。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "完整来源中存在至少一个实际返还或销毁义务候选，证据标出动作和触发条款。",
+            "name": "candidate_found"
+          },
+          {
+            "meaning": "已检查全部当前来源单元，未发现实际返还或销毁义务。",
+            "name": "none_in_complete_source"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "candidate_found",
+            "quote": "(f) Return to theauditee, or destroy, at auditee’s discretion, any and all Confidential Information disclosed in a printed form or other permanent record, or in any other tangible form (including without limitation, all copies, notes, extracts, analyses, studies, summaries, records and reproductions thereof) immediately on (i) expiration or termination ofthis agreement, or (ii) the request of Auditee therefor.",
+            "source": "ContractNLI:e7b78d42d1496b794104490cca4c09eedae1ac693d19144164262009cef68482"
+          },
+          {
+            "choice": "candidate_found",
+            "quote": "5.3 The Receiving Party shall return to SINTEC any and all information disclosed by SINTEC as well as any copies thereof automatically upon termination/expiration of the business relation- ship.",
+            "source": "ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad"
+          }
+        ],
+        "name": "disposal_obligation_scout",
+        "question": "检查所供应的完整来源，是否存在要求返还或销毁受保护信息、其副本或相关材料的实际义务？存在时选择构成候选的动作统领句和触发条款；定义、签署文字、存续条款及其他不含处置动作的文字不是候选。完整来源均无实际义务时才选择未发现。"
+      },
+      {
+        "choices": [
+          {
+            "meaning": "最后单元建立服务关系终止时返还受保护信息及明示副本或相关材料的义务。",
+            "name": "return_only_service_termination_all_materials"
+          },
+          {
+            "meaning": "最后单元建立披露方请求时返还或销毁受保护信息及明示副本或相关材料的义务。",
+            "name": "return_or_destroy_request_all_materials"
+          },
+          {
+            "meaning": "最后单元建立协议到期或终止、或者披露方请求时返还或销毁受保护信息、全部副本及明示衍生材料的义务。",
+            "name": "return_or_destroy_termination_or_request_all_materials"
+          },
+          {
+            "meaning": "最后单元建立业务或工作关系终止或到期时返还受保护信息及明示副本的义务。",
+            "name": "return_only_relationship_termination_all_materials"
+          },
+          {
+            "meaning": "最后单元建立未在明示期限前形成业务关系时返还或销毁受保护信息及明示副本的义务。",
+            "name": "return_or_destroy_relationship_nonformation_deadline_all_materials"
+          },
+          {
+            "meaning": "最后单元建立其他明确期限事件触发的全部材料返还或销毁义务。",
+            "name": "return_or_destroy_other_endpoint_all_materials"
+          },
+          {
+            "meaning": "最后单元形成其他明确处置义务。",
+            "name": "other_disposal_pattern"
+          },
+          {
+            "meaning": "最后单元即使结合前文语境也没有形成实际返还或销毁义务。",
+            "name": "no_disposal_obligation"
+          }
+        ],
+        "examples": [
+          {
+            "choice": "return_only_service_termination_all_materials",
+            "quote": "Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.",
+            "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450"
+          },
+          {
+            "choice": "return_only_relationship_termination_all_materials",
+            "quote": "5.3 The Receiving Party shall return to SINTEC any and all information disclosed by SINTEC as well as any copies thereof automatically upon termination/expiration of the business relation- ship.",
+            "source": "ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad"
+          }
+        ],
+        "name": "disposal_pattern",
+        "question": "结合供应窗口中的统领句与最后一个来源单元，最后单元是否完成一个实际返还或销毁义务；若完成，精确保留动作、材料范围和触发事件。协议终止、服务终止、业务关系终止、未建立业务关系期限及请求必须分别保留。前文只作语境，不得把其效果归给不构成义务的最后单元。"
+      }
+    ],
+    "planner_functions": [
+      "def answer_rows(value):\n    if isinstance(value,list):\n        return value\n    if isinstance(value,dict):\n        answers=value.get('answers')\n        if isinstance(answers,list):\n            return answers\n        if isinstance(answers,dict):\n            return list(answers.values())\n        return list(value.values())\n    return []\n\ndef answered_ids(rows):\n    out=set()\n    for row in rows:\n        if isinstance(row,dict) and isinstance(row.get('id'),str):\n            out.add(row.get('id'))\n    return out\n\ndef answer_for(rows,qid):\n    for row in rows:\n        if isinstance(row,dict) and row.get('id')==qid:\n            return row\n    return None\n\ndef evidence_ids(answer):\n    out=[]\n    if not isinstance(answer,dict):\n        return out\n    evidence=answer.get('evidence',[])\n    if isinstance(evidence,dict):\n        evidence=[evidence]\n    for item in evidence:\n        if isinstance(item,dict):\n            uid=item.get('unit_id')\n            if uid not in out:\n                out.append(uid)\n    return out\n\ndef apply(inputs,premises):\n    spans=inputs.get('source_spans',[])\n    rows=answer_rows(inputs.get('semantic_answers',[]))\n    answered=answered_ids(rows)\n    all_units=[]\n    for span in spans:\n        all_units.append(span.get('id'))\n    queries=[]\n    initial=[('disclosure_scout_v3_complete','operative_disclosure_clause_scout_v3'),('scout_disposal_complete','disposal_obligation_scout'),('retention_permission_v3_complete','retention_permission_scout_v3'),('retention_prohibition_v3_complete','retention_prohibition_scout_v3')]\n    for qid,operation in initial:\n        if qid not in answered:\n            queries.append({'id':qid,'operation':operation,'unit_ids':all_units})\n    if queries:\n        return {'queries':queries}\n    disclosure=answer_for(rows,'disclosure_scout_v3_complete')\n    if isinstance(disclosure,dict) and disclosure.get('choice')=='candidate_found':\n        window=evidence_ids(disclosure)\n        details=[('disclosure_modality_v3','disclosure_modality_v3'),('disclosure_employee_v3','disclosure_employee_role_v3'),('disclosure_contractor_v3','disclosure_contractor_role_v3'),('disclosure_consultant_v3','disclosure_consultant_role_v3'),('disclosure_agent_v3','disclosure_agent_role_v3'),('disclosure_professional_adviser_v3','disclosure_professional_adviser_role_v3'),('disclosure_legal_adviser_v3','disclosure_legal_adviser_role_v3'),('disclosure_financial_adviser_v3','disclosure_financial_adviser_role_v3'),('disclosure_accountant_v3','disclosure_accountant_role_v3'),('disclosure_need_v3','disclosure_need_v3'),('disclosure_extent_v3','disclosure_extent_v3'),('disclosure_safeguard_v3','disclosure_safeguard_v3')]\n        if window:\n            for qid,operation in details:\n                if qid not in answered:\n                    queries.append({'id':qid,'operation':operation,'unit_ids':window})\n    disposal=answer_for(rows,'scout_disposal_complete')\n    if isinstance(disposal,dict) and disposal.get('choice')=='candidate_found':\n        prefix=[]\n        for uid in evidence_ids(disposal):\n            prefix.append(uid)\n            qid='disposal_'+str(uid)\n            if qid not in answered:\n                queries.append({'id':qid,'operation':'disposal_pattern','unit_ids':list(prefix)})\n    return {'queries':queries}"
+    ],
+    "rationale": "本次选择的修复层是“可执行来源概念 + 组合语言 + 消费者解释”，而不是按合同或原生标签分支。实际失败有三类。第一，旧披露读取把接收者角色、许可模态、need-to-know、必要范围和保密形式捆成单一宽类别，并在过大的窗口中混入定义、一般禁令和远处条款；这导致 UNHCR 的明示许可被读成 no_operational_rule、SINTEC 的员工许可产生大量跨条款条件污染、JLT 的 Representatives 许可无法稳定形成精确角色事实。新读取先发现一个最清晰的实际许可窗口，再分别询问许可模态、八种接收者角色、知悉必要性、必要范围和保密形式；每个肯定角色读取都必须同时引用产生许可的单元，定义单元只能提供角色下界，不能单独生成许可。组合器据此生成若干较窄但条件完全相同的角色许可，而不是把 employees、contractors、consultants、agents 和 advisers 强塞进一个复合类别。第二，旧 retention_effect_scout 曾把单纯返还/销毁文字误读成留存许可。新方案把“明示有限留存许可”和“明示留存禁止”拆成两个完整来源操作；只有实际文字分别支持时才生成 retention_permission 或 retention_prohibition，二者都未发现时才生成完整来源无明示留存效果的 Description。这样可一般化处理法律、合规、备份和档案例外，也可识别 SINTEC 的“without retaining any copies or records thereof”，同时不会把处置沉默改写成禁止。第三，nda-16 的原生问题使用了概括性的 termination 表述，而来源构造器必须继续区分 agreement_termination、service_termination、relationship_termination 和 relationship_nonformation_deadline。新消费者仅在任务解释层把协议、服务或业务关系的实际终止端点视为该原生假设的匹配，不改写来源构造器；未建立业务关系期限仍不等同于终止。预计剩余冲突包括：Tompkins 和 CERT-In 来源只有无例外的全量处置而没有明示留存禁止，但原生 nda-20 标为 Contradiction；UNHCR 的未建立业务关系期限被原生 nda-16 标为 Entailment。方案保留这些残差，不把某合同的处置规则提升为全局留存法，也不把 nonformation 伪装成 termination。旧根仅由 keep_root 显式保留；unknown、unread 和局部未覆盖均不产生否定。所有新断言仍是来源支持且 fallible 的观察，不构成来源真值证书。本提案没有声称 U 已运行、没有声称表示碰撞，也没有使用未来材料、合同 ID 或原生答案分支。",
+    "reading_contracts": [
+      {
+        "complete_source_absence_choices": [
+          "none_in_complete_source"
+        ],
+        "operation": "operative_disclosure_clause_scout_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [],
+        "operation": "disclosure_modality_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [],
+        "operation": "disclosure_employee_role_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [],
+        "operation": "disclosure_contractor_role_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [],
+        "operation": "disclosure_consultant_role_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [],
+        "operation": "disclosure_agent_role_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [],
+        "operation": "disclosure_professional_adviser_role_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [],
+        "operation": "disclosure_legal_adviser_role_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [],
+        "operation": "disclosure_financial_adviser_role_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [],
+        "operation": "disclosure_accountant_role_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [],
+        "operation": "disclosure_need_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [],
+        "operation": "disclosure_extent_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [],
+        "operation": "disclosure_safeguard_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [
+          "none_in_complete_source"
+        ],
+        "operation": "retention_permission_scout_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [
+          "none_in_complete_source"
+        ],
+        "operation": "retention_prohibition_scout_v3",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [
+          "none_in_complete_source"
+        ],
+        "operation": "disposal_obligation_scout",
+        "scope": "window"
+      },
+      {
+        "complete_source_absence_choices": [],
+        "operation": "disposal_pattern",
+        "scope": "focus_last"
+      }
+    ],
+    "renderers_json": "[{\"predicate\":\"emit_no_disclosure_permission_v3\",\"term\":[\"complete_source_no_disclosure_permission\"],\"support_arguments\":[],\"support_from_terms\":[],\"support_from_queries\":[0]},{\"predicate\":\"emit_disclosure_role_permission_v3\",\"term\":[\"permission\",[\"receiving_party\"],[\"disclose\",[\"confidential_information\"],[\"source_recipient_role_of\",[\"receiving_party\"],{\"scalar_argument\":5},{\"scalar_argument\":10}]],[\"disclosure_condition_profile\",{\"scalar_argument\":6},{\"scalar_argument\":7},{\"scalar_argument\":8},{\"scalar_argument\":11},{\"scalar_argument\":12},{\"scalar_argument\":13}]],\"support_arguments\":[9],\"support_from_terms\":[],\"support_from_queries\":[0,1,2,3,4]},{\"predicate\":\"emit_retention_permission_v3\",\"term\":[\"retention_permission\",[\"receiving_party\"],[\"source_retention_material\",{\"scalar_argument\":2}],[\"after_disposal\"],[\"retention_condition\",{\"scalar_argument\":2}]],\"support_arguments\":[1],\"support_from_terms\":[],\"support_from_queries\":[0]},{\"predicate\":\"emit_retention_prohibition_v3\",\"term\":[\"retention_prohibition\",[\"receiving_party\"],[\"source_retention_material\",{\"scalar_argument\":2}],[\"after_disposal\"]],\"support_arguments\":[1],\"support_from_terms\":[],\"support_from_queries\":[0]},{\"predicate\":\"emit_no_retention_effect_v3\",\"term\":[\"complete_source_no_retention_effect\"],\"support_arguments\":[],\"support_from_terms\":[],\"support_from_queries\":[0,1]},{\"predicate\":\"emit_no_disposal_obligation\",\"term\":[\"complete_source_no_disposal_obligation\"],\"support_arguments\":[],\"support_from_terms\":[],\"support_from_queries\":[0]},{\"predicate\":\"emit_disposal_agreement_request_v2\",\"term\":[\"disposal_obligation\",[\"receiving_party\"],[\"action_alternative\",[\"return_to\",[\"information_bundle\",[\"confidential_information\"],[\"information_bundle\",[\"copies_of\",[\"confidential_information\"]],[\"derivative_materials_of\",[\"confidential_information\"]]]],[\"disclosing_party\"]],[\"destroy\",[\"information_bundle\",[\"confidential_information\"],[\"information_bundle\",[\"copies_of\",[\"confidential_information\"]],[\"derivative_materials_of\",[\"confidential_information\"]]]]]],[\"trigger_alternative\",[\"agreement_termination\"],[\"request_by\",[\"disclosing_party\"]]],[\"no_exceptions\"]],\"support_arguments\":[0],\"support_from_terms\":[],\"support_from_queries\":[1]},{\"predicate\":\"emit_disposal_request_v2\",\"term\":[\"disposal_obligation\",[\"receiving_party\"],[\"action_alternative\",[\"return_to\",[\"information_bundle\",[\"confidential_information\"],[\"copies_of\",[\"confidential_information\"]]],[\"disclosing_party\"]],[\"destroy\",[\"information_bundle\",[\"confidential_information\"],[\"copies_of\",[\"confidential_information\"]]]]],[\"request_by\",[\"disclosing_party\"]],[\"no_exceptions\"]],\"support_arguments\":[0],\"support_from_terms\":[],\"support_from_queries\":[1]},{\"predicate\":\"emit_disposal_service_termination_v2\",\"term\":[\"disposal_obligation\",[\"receiving_party\"],[\"return_to\",[\"information_bundle\",[\"confidential_information\"],[\"copies_of\",[\"confidential_information\"]]],[\"disclosing_party\"]],[\"service_termination\"],[\"no_exceptions\"]],\"support_arguments\":[0],\"support_from_terms\":[],\"support_from_queries\":[1]},{\"predicate\":\"emit_disposal_relationship_termination_v2\",\"term\":[\"disposal_obligation\",[\"receiving_party\"],[\"return_to\",[\"information_bundle\",[\"confidential_information\"],[\"copies_of\",[\"confidential_information\"]]],[\"disclosing_party\"]],[\"relationship_termination\"],[\"no_exceptions\"]],\"support_arguments\":[0],\"support_from_terms\":[],\"support_from_queries\":[1]},{\"predicate\":\"emit_disposal_nonformation_v2\",\"term\":[\"disposal_obligation\",[\"receiving_party\"],[\"action_alternative\",[\"return_to\",[\"information_bundle\",[\"confidential_information\"],[\"copies_of\",[\"confidential_information\"]]],[\"disclosing_party\"]],[\"destroy\",[\"information_bundle\",[\"confidential_information\"],[\"copies_of\",[\"confidential_information\"]]]]],[\"relationship_nonformation_deadline\"],[\"no_exceptions\"]],\"support_arguments\":[0],\"support_from_terms\":[],\"support_from_queries\":[1]}]",
+    "suggested_rule_ids": [
+      "retain_current_roots_v5",
+      "explicit_complete_no_disclosure_v3",
+      "role_employee_permission_v3",
+      "role_contractor_permission_v3",
+      "role_consultant_permission_v3",
+      "role_agent_permission_v3",
+      "role_professional_adviser_permission_v3",
+      "role_legal_adviser_permission_v3",
+      "role_financial_adviser_permission_v3",
+      "role_accountant_permission_v3",
+      "explicit_retention_permission_v3",
+      "explicit_retention_prohibition_v3",
+      "explicit_complete_no_retention_v3",
+      "explicit_complete_no_disposal_v2",
+      "disposal_agreement_or_request_full_v3",
+      "disposal_request_full_v3",
+      "disposal_service_termination_full_v3",
+      "disposal_relationship_termination_full_v3",
+      "disposal_nonformation_full_v3"
+    ]
+  },
+  "model": "gpt-5.6-sol",
+  "response_sha256": "4b805cdca6da6943e270fca7a77ee4fe3142b8527d59b238e06cf8d3454885b0",
+  "elapsed_seconds": 509.94272841885686,
+  "usage": {
+    "cached_input_tokens": 13568,
+    "input_tokens": 278889,
+    "output_tokens": 27352,
+    "reasoning_output_tokens": 9866
+  },
+  "tool_events_detected": false,
+  "not_source_semantic_certification": true
+}

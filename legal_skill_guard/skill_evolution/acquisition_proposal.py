@@ -22,7 +22,7 @@ def _functions(modules):
     return result
 
 
-def compile_proposal(previous, proposal, arm, training_sources):
+def compile_proposal(previous, proposal, arm, training_sources, *, source_functions=()):
     """Use exactly the same schema meanings, provenance and runtime for both arms.
 
     Wire-schema validation and any explicit format adaptation belong to the
@@ -57,20 +57,36 @@ def compile_proposal(previous, proposal, arm, training_sources):
         if absence and contract['scope'] != 'window':
             raise ValueError('Complete-source absence requires window scope')
     planner = _functions(proposal['planner_functions']); decisions = _functions(proposal['decision_functions'])
+    source_parts = _functions(source_functions)
     identities = {v for k, source in training_sources.items() for v in (k, source['parent_id'])}
-    for code in planner + decisions + ([proposal['composition']] if arm == 'FreeUpdate' else []):
+    for code in planner + decisions + source_parts + ([proposal['composition']] if arm == 'FreeUpdate' else []):
         if any(isinstance(n, ast.Constant) and isinstance(n.value, str) and n.value in identities
                for n in ast.walk(ast.parse(code))):
             raise ValueError('A source identity is not an applicability guard')
+    scalar_declarations = deepcopy(previous['spec'].get('scalar_sorts', {}))
     if arm == 'ConstraintAcquire':
         language = json.loads(proposal['composition'])
         language['signatures'] = {**signatures(), 'keep_root': {'arguments': ['term'], 'kind': 'output'},
                                   **language['signatures']}
         if any(language['constants'].get(s) for s in ('unit', 'term', 'query', 'json_node')):
             raise ValueError('Current opaque identities cannot be vocabulary')
+        # Relational scalar sorts and term structural sorts are distinct type
+        # layers. Preserve a finite acquired scalar domain rather than erase a
+        # recipient-role/choice type to unrestricted text or invent wrapper IR.
+        structural = {c['sort'] for c in previous['spec']['constructors'] + proposal['new_constructors']}
+        for ctor in proposal['new_constructors']:
+            for sort in ctor['arguments']:
+                if sort == 'text' or sort in structural or sort not in language['constants']:
+                    continue
+                domain = language['constants'][sort]
+                if any(not isinstance(value, str) for value in domain):
+                    raise ValueError('Term scalar declarations need actual acquired string values')
+                scalar_declarations[sort] = sorted(set(scalar_declarations.get(sort, []) + domain))
+        semantic = {'constructors': proposal['new_constructors'], 'decision_functions': decisions}
+        if scalar_declarations: semantic['scalar_sorts'] = scalar_declarations
         library = compile_update(previous, {**proposal, 'scope': 'window', 'planner_functions': planner,
             'language': language, 'renderers': json.loads(proposal['renderers_json'])}, texts,
-            semantic_update={'constructors': proposal['new_constructors'], 'decision_functions': decisions})
+            semantic_update=semantic)
         if not set(proposal['suggested_rule_ids']) <= {r['id'] for r in language['rules']}:
             raise ValueError('NoFit selected an unproposed rule')
         library['suggested_rule_ids'] = proposal['suggested_rule_ids']
@@ -85,5 +101,13 @@ def compile_proposal(previous, proposal, arm, training_sources):
     library['operation_scopes'] = {n: r['scope'] for n, r in contracts.items()}
     library['complete_source_absence_choices'] = {n: r['complete_source_absence_choices']
         for n, r in contracts.items() if r['complete_source_absence_choices']}
+    if source_functions:
+        program = function_update(previous['source_program'], source_parts)
+        validate_procedure(program, allow_helpers=True)
+        library['source_program'] = program
+    elif 'source_program' in previous:
+        library['source_program'] = previous['source_program']
     return library, {'source_to_actual_supplied_seed_quotes': inherited,
-                     'new_source_text_or_labels_supplied': False, 'new_physical_requests': 0}
+        'finite_scalar_sorts_from_actual_acquired_vocabulary': scalar_declarations,
+        'source_functions_installed': len(source_functions),
+        'new_source_text_or_labels_supplied': False, 'new_physical_requests': 0}

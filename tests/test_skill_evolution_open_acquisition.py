@@ -112,6 +112,34 @@ class OpenAcquisitionTests(unittest.TestCase):
         self.assertEqual(got['execution']['new_physical_requests'],1)
         self.assertEqual(got['visible_inputs']['answers'][0]['choice'],'first')
 
+    def test_learned_source_program_reaches_planning_and_relational_facts_without_model_call(self):
+        library=deepcopy(self.library)
+        library['source_program']="""def apply(inputs,premises):
+    return {'statements':[{'term':['old_ctor',['actor',inputs['source_spans'][0]['text']]],
+        'support_ids':[inputs['source_spans'][0]['id']]}],'complete':False,'unresolved':['Fixture residual']}
+"""
+        library['planner_program']="""def apply(inputs,premises):
+    if inputs['source_output']['statements'][0]['term'][1][1] != 'Alpha.':
+        raise ValueError('Planner did not receive the acquired source output')
+    return {'queries':[]}
+"""
+        class NoCall:
+            def generate(self,*args,**kwargs):raise AssertionError('Pure source program called a model')
+        got=observe(NoCall(),'fixture','one',library,source_text='Alpha.',units=[{'id':4,'text':'Alpha.'}],
+            source_output={'statements':[],'complete':False,'unresolved':[]})
+        self.assertEqual(got['visible_inputs']['source_output']['unresolved'],['Fixture residual'])
+        self.assertIn(fact('term_scalar','t2','Alpha.'),got['context']['facts'])
+        self.assertEqual(got['execution']['new_physical_requests'],0)
+        self.assertFalse(got['execution']['acquired_source_program']['source_semantics_verified'])
+
+    def test_source_program_cannot_invent_type_or_provenance_or_default_after_error(self):
+        original=self.observation('one','Alpha.','first')['visible_inputs']['source_output']
+        for term,support in [("['unknown_ctor']",4),("['old_ctor',['actor','Alpha.']]",99)]:
+            library=deepcopy(self.library)
+            library['source_program']="def apply(inputs,premises):\n    return {'statements':[{'term':"+term+",'support_ids':["+str(support)+"]}],'complete':False,'unresolved':[]}\n"
+            with self.assertRaises(ValueError):
+                observe(object(),'fixture','one',library,source_text='Alpha.',units=[{'id':4,'text':'Alpha.'}],source_output=original)
+
     def test_invalid_response_saved_before_failure_no_hidden_retry(self):
         saved=[];calls=[]
         class Incomplete(FixtureClient):

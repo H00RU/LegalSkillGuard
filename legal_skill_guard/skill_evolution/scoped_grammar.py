@@ -62,6 +62,13 @@ def ground_quote(seed, public):
     return start, end
 
 
+class ConstructorSchema(dict):
+    """Structural constructors plus explicitly declared finite string sorts."""
+    def __init__(self, values, scalar_sorts):
+        super().__init__(values)
+        self.scalar_sorts = scalar_sorts
+
+
 def constructors(spec):
     values = {c['name']: c for c in spec['constructors']}
     if len(values) != len(spec['constructors']):
@@ -71,7 +78,15 @@ def constructors(spec):
            or not c['meaning'].strip() or any(not s.isidentifier() for s in c['arguments'])
            for c in values.values()):
         raise ValueError('Explicit constructor meanings and type identifiers required')
-    return values
+    scalar_sorts = spec.get('scalar_sorts', {})
+    structural_sorts = {c['sort'] for c in values.values()}
+    for name, domain in scalar_sorts.items():
+        if (not isinstance(name, str) or not name.isidentifier() or name in {'text', *LABELS}
+                or name in structural_sorts or not isinstance(domain, list) or not domain
+                or any(not isinstance(v, str) or v in LABELS for v in domain)
+                or len(domain) != len(set(domain))):
+            raise ValueError('A nominal scalar sort needs a distinct declared finite string domain')
+    return ConstructorSchema(values, scalar_sorts)
 
 
 def term_sort(term, schema, variables=()):
@@ -89,7 +104,13 @@ def term_sort(term, schema, variables=()):
     c = schema[term[0]]
     if len(term) - 1 != len(c['arguments']):
         raise ValueError('Semantic constructor arity mismatch')
-    if [term_sort(t, schema, variables) for t in term[1:]] != c['arguments']:
+    for child, expected in zip(term[1:], c['arguments']):
+        actual = term_sort(child, schema, variables)
+        if actual == expected:
+            continue
+        if (isinstance(child, str) and expected in schema.scalar_sorts
+                and child in schema.scalar_sorts[expected]):
+            continue
         raise ValueError('Semantic constructor argument sort mismatch')
     return c['sort']
 

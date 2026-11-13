@@ -19,6 +19,7 @@ from .span_compiler import validate_procedure
 
 
 COMPONENTS = {
+    'source_program': ('program', ('source_program',)),
     'planner_program': ('program', ('planner_program',)),
     'operations': ('data', ('operations',)),
     'language': ('data', ('language',)),
@@ -148,7 +149,7 @@ def library_candidates(library, bundles, observation, training_texts, *, enabled
         if 'language' in target:
             validate_language(target['language']); validate_renderers(target['language'], target['renderers'])
             validate_template_constructors(target['renderers'], target['spec'])
-        if changed & {'language', 'renderers', 'operations', 'planner_program', 'constructors'} and 'language' in target:
+        if changed & {'source_program', 'language', 'renderers', 'operations', 'planner_program', 'constructors'} and 'language' in target:
             target['selected_rule_ids'] = None
             target.pop('fit', None)
         raw_edits = {}; macro_edits = []

@@ -39,6 +39,25 @@ def observation(facts):
 
 
 class JointLibraryUpdateTests(unittest.TestCase):
+    def test_source_program_edit_enters_the_same_candidate_path_and_invalidates_fit(self):
+        before='def apply(inputs,premises):\n    return {"statements":[],"complete":False,"unresolved":["Alpha?"]}\n'
+        after=before.replace('Alpha?','Beta?')
+        item={'event_id':'source_program_fixture','source_facts':[{'predicate':'revision','arguments':['Alpha?','Beta?']}],
+            'edits':[{'component':'source_program','before':before,'after':after,
+                'source_slots':{role:{'sort':'text','positions':[[0,i]],
+                    'before_paths':paths(before,value),'after_paths':paths(after,value)}
+                    for i,(role,value)in enumerate([('old','Alpha?'),('new','Beta?')])}}]}
+        bundle=learn_bundle([item],{'revision':['text','text']})
+        library={'source_program':before,'operations':[],'planner_program':'def apply(inputs,premises):\n    return {"queries":[]}\n',
+            'spec':{'constructors':[]},'language':{'signatures':signatures(),'constants':{},'rules':[]},
+            'renderers':[],'selected_rule_ids':[],'fit':{'old':True}}
+        result=update_candidates(library,[bundle],observation(item['source_facts']),{})
+        self.assertEqual(len(result['candidates']),1)
+        target=result['candidates'][0]['library']
+        self.assertEqual(ast.dump(ast.parse(target['source_program'])),ast.dump(ast.parse(after)))
+        self.assertIsNone(target['selected_rule_ids']);self.assertNotIn('fit',target)
+        self.assertEqual(library['source_program'],before)
+
     def test_shared_binding_join_precedes_equal_program_deduplication(self):
         bundle = learn_bundle([example()], SIG, program_constants=API_CONSTANTS)
         library = {'planner_program': 'def apply(inputs, premises):\n    return inputs.get("value", 0)\n',

@@ -5,7 +5,6 @@ update supervision. The next original-order TRAIN pair is fixed before calls;
 previous post-freeze answers do not enter either teacher's input.
 """
 import argparse
-from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
 import fcntl
 import hashlib
@@ -36,7 +35,8 @@ from experiments.legal_skill_evolution_open_acquisition_train import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RUN = 'legal_skill_evolution_diagnosed_update_compact_20261114'
+RUN = 'legal_skill_evolution_diagnosed_update_scalar_20261114'
+PAID_UPDATE = ROOT / 'artifacts/legal_skill_evolution_diagnosed_update_compact_20261114'
 PARENT = ROOT / 'artifacts/legal_skill_evolution_joint_acquisition_evidence_set_20261114'
 PROFILES = ROOT / 'artifacts/legal_skill_evolution_joint_acquisition_compiled_20261114/direct_profile_recovery/profiles'
 LEDGER = ROOT / 'artifacts/rr_v2_preflight/research_ledger.sqlite3'
@@ -84,6 +84,8 @@ def prepare():
     if (folder / 'protocol.json').exists(): return folder, read(folder / 'protocol.json')
     terminal = read(PARENT / 'TERMINAL_PRESERVATION.json')
     if not terminal['run_boundary_terminal']: raise ValueError('Preserve the completed run first')
+    if not read(PAID_UPDATE / 'TERMINAL_PRESERVATION.json')['run_boundary_terminal']:
+        raise ValueError('Preserve the actual type-failure run before changing its execution binding')
     with sqlite3.connect(LEDGER) as db: rows = db.execute('select * from calls order by id').fetchall()
     if any(r[6] == 'reserved' for r in rows): raise ValueError('Reconcile live physical requests first')
     prior = read(PARENT / 'protocol.json'); public = read(PUBLIC)
@@ -98,6 +100,11 @@ def prepare():
         *sorted((ROOT / 'legal_skill_guard/skill_evolution').glob('*.py')),
         *sorted((ROOT / 'tests').glob('test_skill_evolution*.py'))]
     data = [PUBLIC, GRADING, PARENT / 'protocol.json', PARENT / 'TERMINAL_PRESERVATION.json',
+        PAID_UPDATE / 'protocol.json', PAID_UPDATE / 'TERMINAL_PRESERVATION.json',
+        PAID_UPDATE / 'actual_type_failure.json', PAID_UPDATE / 'finite_scalar_recovery.json',
+        *(PAID_UPDATE / a / 'teacher.json' for a in ARMS),
+        PAID_UPDATE / 'acquisition/ConstraintAcquire' / (prior['acquisition_sources'][0].replace(':', '_') + '.json'),
+        PAID_UPDATE / 'recovered_observations/ConstraintAcquire' / (prior['acquisition_sources'][1].replace(':', '_') + '.json'),
         ROOT / 'artifacts/legal_skill_evolution_source_program_acquisition_20261113/protocol.json',
         ROOT / 'artifacts/legal_skill_evolution_open_acquisition_semantic_route_absence_encoded_20261113/protocol.json',
         PARENT / 'ConstraintAcquire/learned.json', PARENT / 'FreeUpdate/learned.json',
@@ -114,6 +121,7 @@ def prepare():
         'strong_control': 'Independent free update with identical raw source, supervision, both complete current histories, diagnostic, shared library and comparable teacher resources.',
         'inherited_cost': 'All previous source/compiler/reader/teacher costs remain; both share preceding assets.',
         'diagnosis_drives': 'Exhausted current candidates route to actual open reading/language/consumer refinement; no fictitious representation-conflict certificate.',
+        'paid_update_reuse': 'Reuse both exact completed teacher responses, completed first source, and all20 paid executor responses. Finite nominal string sorts come only from acquired relational vocabularies; no unrestricted-text cast or fabricated semantics.',
         'U_dictionary': [], 'U_not_established': True,
         'executor_profile': prior['executor_profile'], 'teacher_profile': prior['teacher_profile'],
         'automatic_retries': 0, 'no_new_mechanical_call_cap': True,
@@ -124,6 +132,18 @@ def prepare():
     for file in ('base.json', 'grammar.json'):
         immutable_json(folder / file, read(PARENT / file))
     immutable_json(folder / 'shared/initial_library.json', read(PARENT / 'ConstraintAcquire/learned.json'))
+    for arm in ARMS:
+        for name in ('teacher.json', 'teacher_input.json', 'teacher_preflight.json'):
+            immutable_json(folder / arm / name, read(PAID_UPDATE / arm / name))
+    first = prior['acquisition_sources'][0].replace(':', '_') + '.json'
+    proof = read(PAID_UPDATE / 'finite_scalar_recovery.json')['actual_source_checks'][0]
+    if not proof['unchanged_first_source_output'] or not proof['unchanged_first_source_feedback']:
+        raise ValueError('Reusing first-source scores requires exact output and feedback equivalence')
+    immutable_json(folder / 'acquisition/ConstraintAcquire' / first,
+                   read(PAID_UPDATE / 'acquisition/ConstraintAcquire' / first))
+    second = prior['acquisition_sources'][1].replace(':', '_') + '.json'
+    immutable_json(folder / 'prior_observations/ConstraintAcquire' / second,
+                   read(PAID_UPDATE / 'recovered_observations/ConstraintAcquire' / second))
     for key in prior['acquisition_sources']:
         name=key.replace(':','_')+'.json'
         immutable_json(folder / 'upstream' / name, read(PARENT / 'upstream' / name))
@@ -183,8 +203,9 @@ def teacher_request(arm):
 
 
 def acquire(arm):
-    folder, p, ledger, args = teacher_request(arm); dst = folder / arm / 'teacher.json'
+    folder, p = prepare(); dst = folder / arm / 'teacher.json'
     if dst.exists(): return
+    folder, p, ledger, args = teacher_request(arm)
     result = FrozenTeacher(ledger, folder, p['teacher_profile']).propose(RUN + ':' + arm + ':teacher', **args)
     immutable_json(dst, result)
 
@@ -216,6 +237,8 @@ def run_stage(reuse=False):
                 continue
             pub, units, upstream = source_material(folder, public, key)
             histories = [] if reuse else [read(PARENT / 'acquisition' / a / name)['observation'] for a in ARMS]
+            recovered = folder / 'prior_observations' / arm / name
+            if not reuse and recovered.exists(): histories.append(read(recovered))
             try:
                 o = observe(client, RUN + ':' + stage + ':' + arm + ':' + key, key, library,
                     source_text=pub['source_text'], units=units, source_output=upstream, previous_observations=histories,
@@ -268,9 +291,7 @@ if __name__ == '__main__':
         elif args.phase == 'preflight':
             for arm in ARMS: teacher_request(arm)
         elif args.phase == 'acquire':
-            with ThreadPoolExecutor(max_workers=2) as pool:
-                futures = [pool.submit(acquire, arm) for arm in ARMS]
-                for future in futures: future.result()
+            for arm in ARMS: acquire(arm)
         elif args.phase == 'compile':
             for arm in ARMS: compile_arm(arm)
         else: run_stage(args.phase == 'reuse')
