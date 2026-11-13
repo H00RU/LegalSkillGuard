@@ -1,0 +1,508 @@
+{
+  "id": "legal_skill_evolution_positive_binding_delta_20261114:acquisition:ConstraintAcquire:ContractNLI:bbb3901122f38ae648ac6b6dc1427efc5f20bfb04a02bb769c2362e670a17c65:concept:1e32449ea4d393476e5bfb66600677e931951a2a79de376dc510ac148f1fb697",
+  "source": "ContractNLI:bbb3901122f38ae648ac6b6dc1427efc5f20bfb04a02bb769c2362e670a17c65",
+  "purpose": "skill_replay",
+  "request_hash": "f9addcb75ee4c0a34acc5108a3c555fc6c9bb825ab93b7ba0c7a17e1b5875f3a",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.\nThe focus_unit_id identifies the clause to classify. Other supplied units are context for resolving its references, not additional effects to merge into that focus. Interpret the acquired operation for that focus clause, using its actual context.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"许可窗口没有明示 need-to-know、必要范围或接收者保密约束。\", \"name\": \"no_condition_stated\"}, {\"meaning\": \"许可只明示 need-to-know 条件。\", \"name\": \"need_to_know_only\"}, {\"meaning\": \"许可只明示披露范围或接收者范围须为必要。\", \"name\": \"extent_necessary_only\"}, {\"meaning\": \"许可只明示接收者受保密义务约束。\", \"name\": \"confidentiality_only\"}, {\"meaning\": \"许可同时明示 need-to-know 和接收者保密约束。\", \"name\": \"need_and_confidentiality\"}, {\"meaning\": \"许可同时明示必要范围和接收者保密约束。\", \"name\": \"extent_and_confidentiality\"}, {\"meaning\": \"许可同时明示 need-to-know、必要范围和接收者保密约束。\", \"name\": \"need_extent_and_confidentiality\"}, {\"meaning\": \"许可具有其他明确条件组合，不能安全归入以上档案。\", \"name\": \"other_supported_condition_profile\"}], \"examples\": [{\"choice\": \"need_and_confidentiality\", \"quote\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"extent_necessary_only\", \"quote\": \"The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"disclosure_condition_profile_v1\", \"question\": \"把最后一个单元作为焦点，并用前置单元解释同一许可，分类许可明示的条件组合。只记录窗口中实际表述的 need-to-know、必要范围和保密约束；未表述的条件不得补写。原始 TRAIN（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.” 原始 TRAIN（逐字）：“The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.”\"}], \"current_queries\": [{\"id\": \"disclosure_conditions_104\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [98, 100, 102, 103, 104], \"current_units\": [{\"id\": 98, \"text\": \"7. ACTING AS PRINCIPAL You confirm that you are acting in this matter as principal and not as nominee, agent or broker for or acting in concert with any other person and that you will be responsible for your own costs whether incurred by you or your Representatives in connection with the Possible Transaction (whether or not it proceeds) and in complying with the terms of this agreement.\"}, {\"id\": 100, \"text\": \"8. INSIDE INFORMATION AND MARKET ABUSE You acknowledge that some or all of the Confidential Information relating to the Company may be information which is not public or otherwise generally available and is of a kind such that a person who has that information would be prohibited or restricted from using it to deal in the financial instruments of the Company under Part V Criminal Justice Act 1993, the EU Market Abuse Regulation or other applicable insider dealing, market abuse or similar law.\"}, {\"id\": 102, \"text\": \"You shall not use any of the Confidential Information to deal, or to encourage anyone else to deal, in any the financial instruments of the Company.\"}, {\"id\": 103, \"text\": \"You shall not otherwise use or disclose any Confidential Information in a way that amounts to market abuse under the EU Market Abuse Regulation or contravenes Part V Criminal Justice Act 1993 or any other applicable insider dealing, market abuse or similar law.\"}, {\"id\": 104, \"text\": \"9. TAKEOVER CODE 9.1 Each Party acknowledges that the Possible Transaction is governed by the Takeover Code which, amongst other things, requires persons in possession of confidential information to conduct themselves such as to minimise the chances of a leak of such information.\"}], \"focus_unit_id\": 104}, {\"id\": \"disclosure_conditions_106\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [100, 102, 103, 104, 106], \"current_units\": [{\"id\": 100, \"text\": \"8. INSIDE INFORMATION AND MARKET ABUSE You acknowledge that some or all of the Confidential Information relating to the Company may be information which is not public or otherwise generally available and is of a kind such that a person who has that information would be prohibited or restricted from using it to deal in the financial instruments of the Company under Part V Criminal Justice Act 1993, the EU Market Abuse Regulation or other applicable insider dealing, market abuse or similar law.\"}, {\"id\": 102, \"text\": \"You shall not use any of the Confidential Information to deal, or to encourage anyone else to deal, in any the financial instruments of the Company.\"}, {\"id\": 103, \"text\": \"You shall not otherwise use or disclose any Confidential Information in a way that amounts to market abuse under the EU Market Abuse Regulation or contravenes Part V Criminal Justice Act 1993 or any other applicable insider dealing, market abuse or similar law.\"}, {\"id\": 104, \"text\": \"9. TAKEOVER CODE 9.1 Each Party acknowledges that the Possible Transaction is governed by the Takeover Code which, amongst other things, requires persons in possession of confidential information to conduct themselves such as to minimise the chances of a leak of such information.\"}, {\"id\": 106, \"text\": \"9.2 Each Party confirms that it is taking, or will take, appropriate legal and financial advice on the application of the Takeover Code to the Possible Transaction.\"}], \"focus_unit_id\": 106}, {\"id\": \"disclosure_conditions_107\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [102, 103, 104, 106, 107], \"current_units\": [{\"id\": 102, \"text\": \"You shall not use any of the Confidential Information to deal, or to encourage anyone else to deal, in any the financial instruments of the Company.\"}, {\"id\": 103, \"text\": \"You shall not otherwise use or disclose any Confidential Information in a way that amounts to market abuse under the EU Market Abuse Regulation or contravenes Part V Criminal Justice Act 1993 or any other applicable insider dealing, market abuse or similar law.\"}, {\"id\": 104, \"text\": \"9. TAKEOVER CODE 9.1 Each Party acknowledges that the Possible Transaction is governed by the Takeover Code which, amongst other things, requires persons in possession of confidential information to conduct themselves such as to minimise the chances of a leak of such information.\"}, {\"id\": 106, \"text\": \"9.2 Each Party confirms that it is taking, or will take, appropriate legal and financial advice on the application of the Takeover Code to the Possible Transaction.\"}, {\"id\": 107, \"text\": \"9.3 Each Party confirms that it understands the requirements of Rule 2 of the Takeover Code (and Practice Statement 20) and, in particular, (i) the need for secrecy prior to announcement of any Possible Transaction;\"}], \"focus_unit_id\": 107}, {\"id\": \"disclosure_conditions_109\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [103, 104, 106, 107, 109], \"current_units\": [{\"id\": 103, \"text\": \"You shall not otherwise use or disclose any Confidential Information in a way that amounts to market abuse under the EU Market Abuse Regulation or contravenes Part V Criminal Justice Act 1993 or any other applicable insider dealing, market abuse or similar law.\"}, {\"id\": 104, \"text\": \"9. TAKEOVER CODE 9.1 Each Party acknowledges that the Possible Transaction is governed by the Takeover Code which, amongst other things, requires persons in possession of confidential information to conduct themselves such as to minimise the chances of a leak of such information.\"}, {\"id\": 106, \"text\": \"9.2 Each Party confirms that it is taking, or will take, appropriate legal and financial advice on the application of the Takeover Code to the Possible Transaction.\"}, {\"id\": 107, \"text\": \"9.3 Each Party confirms that it understands the requirements of Rule 2 of the Takeover Code (and Practice Statement 20) and, in particular, (i) the need for secrecy prior to announcement of any Possible Transaction;\"}, {\"id\": 109, \"text\": \"(ii) the obligation to minimise the chances of a leak; and\"}], \"focus_unit_id\": 109}, {\"id\": \"disclosure_conditions_110\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [104, 106, 107, 109, 110], \"current_units\": [{\"id\": 104, \"text\": \"9. TAKEOVER CODE 9.1 Each Party acknowledges that the Possible Transaction is governed by the Takeover Code which, amongst other things, requires persons in possession of confidential information to conduct themselves such as to minimise the chances of a leak of such information.\"}, {\"id\": 106, \"text\": \"9.2 Each Party confirms that it is taking, or will take, appropriate legal and financial advice on the application of the Takeover Code to the Possible Transaction.\"}, {\"id\": 107, \"text\": \"9.3 Each Party confirms that it understands the requirements of Rule 2 of the Takeover Code (and Practice Statement 20) and, in particular, (i) the need for secrecy prior to announcement of any Possible Transaction;\"}, {\"id\": 109, \"text\": \"(ii) the obligation to minimise the chances of a leak; and\"}, {\"id\": 110, \"text\": \"(iii) the “Rule of 6” as it is applied to the restriction on extending discussions beyond a very limited number of people.\"}], \"focus_unit_id\": 110}, {\"id\": \"disclosure_conditions_111\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [106, 107, 109, 110, 111], \"current_units\": [{\"id\": 106, \"text\": \"9.2 Each Party confirms that it is taking, or will take, appropriate legal and financial advice on the application of the Takeover Code to the Possible Transaction.\"}, {\"id\": 107, \"text\": \"9.3 Each Party confirms that it understands the requirements of Rule 2 of the Takeover Code (and Practice Statement 20) and, in particular, (i) the need for secrecy prior to announcement of any Possible Transaction;\"}, {\"id\": 109, \"text\": \"(ii) the obligation to minimise the chances of a leak; and\"}, {\"id\": 110, \"text\": \"(iii) the “Rule of 6” as it is applied to the restriction on extending discussions beyond a very limited number of people.\"}, {\"id\": 111, \"text\": \"9.4 Nothing in this agreement shall oblige the Company to take any action or not take any action with the Takeover Panel determines would not be permitted by Rule 21.2 of the Code.\"}], \"focus_unit_id\": 111}, {\"id\": \"disclosure_conditions_113\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [107, 109, 110, 111, 113], \"current_units\": [{\"id\": 107, \"text\": \"9.3 Each Party confirms that it understands the requirements of Rule 2 of the Takeover Code (and Practice Statement 20) and, in particular, (i) the need for secrecy prior to announcement of any Possible Transaction;\"}, {\"id\": 109, \"text\": \"(ii) the obligation to minimise the chances of a leak; and\"}, {\"id\": 110, \"text\": \"(iii) the “Rule of 6” as it is applied to the restriction on extending discussions beyond a very limited number of people.\"}, {\"id\": 111, \"text\": \"9.4 Nothing in this agreement shall oblige the Company to take any action or not take any action with the Takeover Panel determines would not be permitted by Rule 21.2 of the Code.\"}, {\"id\": 113, \"text\": \"10. STANDSTILL AGREEMENT 10.1 For a period of 12 months starting on the date of this agreement, and unless terminated in accordance with paragraph 10.3 below, you shall not, and shall procure that none of your concert parties shall, either alone or acting in concert with other persons, directly or indirectly, without the prior written consent of the Company:\"}], \"focus_unit_id\": 113}, {\"id\": \"disclosure_conditions_116\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [109, 110, 111, 113, 116], \"current_units\": [{\"id\": 109, \"text\": \"(ii) the obligation to minimise the chances of a leak; and\"}, {\"id\": 110, \"text\": \"(iii) the “Rule of 6” as it is applied to the restriction on extending discussions beyond a very limited number of people.\"}, {\"id\": 111, \"text\": \"9.4 Nothing in this agreement shall oblige the Company to take any action or not take any action with the Takeover Panel determines would not be permitted by Rule 21.2 of the Code.\"}, {\"id\": 113, \"text\": \"10. STANDSTILL AGREEMENT 10.1 For a period of 12 months starting on the date of this agreement, and unless terminated in accordance with paragraph 10.3 below, you shall not, and shall procure that none of your concert parties shall, either alone or acting in concert with other persons, directly or indirectly, without the prior written consent of the Company:\"}, {\"id\": 116, \"text\": \"10.1.1 acquire, offer to acquire, agree to acquire or procure or induce another person to acquire, any interest(s) in securities of the Company;\"}], \"focus_unit_id\": 116}, {\"id\": \"disclosure_conditions_117\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [110, 111, 113, 116, 117], \"current_units\": [{\"id\": 110, \"text\": \"(iii) the “Rule of 6” as it is applied to the restriction on extending discussions beyond a very limited number of people.\"}, {\"id\": 111, \"text\": \"9.4 Nothing in this agreement shall oblige the Company to take any action or not take any action with the Takeover Panel determines would not be permitted by Rule 21.2 of the Code.\"}, {\"id\": 113, \"text\": \"10. STANDSTILL AGREEMENT 10.1 For a period of 12 months starting on the date of this agreement, and unless terminated in accordance with paragraph 10.3 below, you shall not, and shall procure that none of your concert parties shall, either alone or acting in concert with other persons, directly or indirectly, without the prior written consent of the Company:\"}, {\"id\": 116, \"text\": \"10.1.1 acquire, offer to acquire, agree to acquire or procure or induce another person to acquire, any interest(s) in securities of the Company;\"}, {\"id\": 117, \"text\": \"10.1.2 do or omit to do any act as a result of which you or any of your concert parties may acquire any interest(s) in securities of the Company;\"}], \"focus_unit_id\": 117}, {\"id\": \"disclosure_conditions_118\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [111, 113, 116, 117, 118], \"current_units\": [{\"id\": 111, \"text\": \"9.4 Nothing in this agreement shall oblige the Company to take any action or not take any action with the Takeover Panel determines would not be permitted by Rule 21.2 of the Code.\"}, {\"id\": 113, \"text\": \"10. STANDSTILL AGREEMENT 10.1 For a period of 12 months starting on the date of this agreement, and unless terminated in accordance with paragraph 10.3 below, you shall not, and shall procure that none of your concert parties shall, either alone or acting in concert with other persons, directly or indirectly, without the prior written consent of the Company:\"}, {\"id\": 116, \"text\": \"10.1.1 acquire, offer to acquire, agree to acquire or procure or induce another person to acquire, any interest(s) in securities of the Company;\"}, {\"id\": 117, \"text\": \"10.1.2 do or omit to do any act as a result of which you or any of your concert parties may acquire any interest(s) in securities of the Company;\"}, {\"id\": 118, \"text\": \"10.1.3 until such time as you or any of your concert parties makes an announcement of a firm intention to make an offer for the Company pursuant to the Takeover Code that is upon announcement recommended by the committee of independent Company directors (“your Recommended Offer”), announce, make, or procure or induce any other person to announce or make, any offer for all or any of the securities of the Company or do or omit to do any act as a result of which you or any of your concert parties may become obliged (under the Takeover Code or otherwise) to announce or make an offer for all or any of the securities of the Company;\"}], \"focus_unit_id\": 118}, {\"id\": \"disclosure_conditions_119\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [113, 116, 117, 118, 119], \"current_units\": [{\"id\": 113, \"text\": \"10. STANDSTILL AGREEMENT 10.1 For a period of 12 months starting on the date of this agreement, and unless terminated in accordance with paragraph 10.3 below, you shall not, and shall procure that none of your concert parties shall, either alone or acting in concert with other persons, directly or indirectly, without the prior written consent of the Company:\"}, {\"id\": 116, \"text\": \"10.1.1 acquire, offer to acquire, agree to acquire or procure or induce another person to acquire, any interest(s) in securities of the Company;\"}, {\"id\": 117, \"text\": \"10.1.2 do or omit to do any act as a result of which you or any of your concert parties may acquire any interest(s) in securities of the Company;\"}, {\"id\": 118, \"text\": \"10.1.3 until such time as you or any of your concert parties makes an announcement of a firm intention to make an offer for the Company pursuant to the Takeover Code that is upon announcement recommended by the committee of independent Company directors (“your Recommended Offer”), announce, make, or procure or induce any other person to announce or make, any offer for all or any of the securities of the Company or do or omit to do any act as a result of which you or any of your concert parties may become obliged (under the Takeover Code or otherwise) to announce or make an offer for all or any of the securities of the Company;\"}, {\"id\": 119, \"text\": \"10.1.4 make or in any way participate in any solicitation of votes or any attempt to influence votes from or by any holder of shares in the Company in connection with any vote of the holders of any such securities, except for the purposes of soliciting votes in favour of a scheme of arrangement to implement your Recommended Offer;\"}], \"focus_unit_id\": 119}, {\"id\": \"disclosure_conditions_121\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [116, 117, 118, 119, 121], \"current_units\": [{\"id\": 116, \"text\": \"10.1.1 acquire, offer to acquire, agree to acquire or procure or induce another person to acquire, any interest(s) in securities of the Company;\"}, {\"id\": 117, \"text\": \"10.1.2 do or omit to do any act as a result of which you or any of your concert parties may acquire any interest(s) in securities of the Company;\"}, {\"id\": 118, \"text\": \"10.1.3 until such time as you or any of your concert parties makes an announcement of a firm intention to make an offer for the Company pursuant to the Takeover Code that is upon announcement recommended by the committee of independent Company directors (“your Recommended Offer”), announce, make, or procure or induce any other person to announce or make, any offer for all or any of the securities of the Company or do or omit to do any act as a result of which you or any of your concert parties may become obliged (under the Takeover Code or otherwise) to announce or make an offer for all or any of the securities of the Company;\"}, {\"id\": 119, \"text\": \"10.1.4 make or in any way participate in any solicitation of votes or any attempt to influence votes from or by any holder of shares in the Company in connection with any vote of the holders of any such securities, except for the purposes of soliciting votes in favour of a scheme of arrangement to implement your Recommended Offer;\"}, {\"id\": 121, \"text\": \"10.1.5 seek to control or in any way influence the management, the board of directors or the policies or affairs of the Company; or\"}], \"focus_unit_id\": 121}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_conditions_104": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          98,
+                          100,
+                          102,
+                          103,
+                          104
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_106": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          100,
+                          102,
+                          103,
+                          104,
+                          106
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_107": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          102,
+                          103,
+                          104,
+                          106,
+                          107
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_109": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          103,
+                          104,
+                          106,
+                          107,
+                          109
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_110": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          104,
+                          106,
+                          107,
+                          109,
+                          110
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_111": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          106,
+                          107,
+                          109,
+                          110,
+                          111
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_113": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          107,
+                          109,
+                          110,
+                          111,
+                          113
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_116": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          109,
+                          110,
+                          111,
+                          113,
+                          116
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_117": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          110,
+                          111,
+                          113,
+                          116,
+                          117
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_118": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          111,
+                          113,
+                          116,
+                          117,
+                          118
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_119": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          113,
+                          116,
+                          117,
+                          118,
+                          119
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_121": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          116,
+                          117,
+                          118,
+                          119,
+                          121
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_conditions_104",
+                "disclosure_conditions_106",
+                "disclosure_conditions_107",
+                "disclosure_conditions_109",
+                "disclosure_conditions_110",
+                "disclosure_conditions_111",
+                "disclosure_conditions_113",
+                "disclosure_conditions_116",
+                "disclosure_conditions_117",
+                "disclosure_conditions_118",
+                "disclosure_conditions_119",
+                "disclosure_conditions_121"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "789c3916b5f116538ce30c12befaa6cf8f0c3396b40e9467a3ae4edf557bcb81",
+  "full_original_request_and_wire_retained_locally": true
+}

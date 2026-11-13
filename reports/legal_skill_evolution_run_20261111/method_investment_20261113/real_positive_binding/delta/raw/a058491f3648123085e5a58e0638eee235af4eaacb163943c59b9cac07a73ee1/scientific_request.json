@@ -1,0 +1,140 @@
+{
+  "id": "legal_skill_evolution_positive_binding_delta_20261114:acquisition:ConstraintAcquire:ContractNLI:e82b951aca3540fe6be6bfa63cae714cb7c7d55f38631402a3b6521eb6fc9bc6:concept:489ee6b85960fbb7c273036aa26be5ac7379f472f0356b28e6c5a3aa0873c49d",
+  "source": "ContractNLI:e82b951aca3540fe6be6bfa63cae714cb7c7d55f38631402a3b6521eb6fc9bc6",
+  "purpose": "skill_replay",
+  "request_hash": "815932db29312e430ffce5751eab5dd5e2669f604a29674d2067836a8c58e8af",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"窗口要求在披露方或请求方请求时返还全部受保护材料；未明示销毁选择或留存资格。\", \"name\": \"return_on_request_all_materials\"}, {\"meaning\": \"窗口允许以返还或销毁全部受保护信息及所述副本履行同一个请求触发义务。\", \"name\": \"return_or_destroy_on_request_all_materials\"}, {\"meaning\": \"窗口要求请求时返还全部受保护信息及副本，仅在来源明示书面授权时才可改为销毁或删除。\", \"name\": \"return_or_authorized_destroy_on_request_all_materials\"}, {\"meaning\": \"窗口要求在协议终止或到期、或者披露方请求时返还或销毁全部受保护信息及所述副本或衍生材料。\", \"name\": \"return_or_destroy_on_agreement_end_or_request_all_materials\"}, {\"meaning\": \"窗口要求在协议终止或到期时返还全部受保护信息及所述副本。\", \"name\": \"return_on_agreement_end_all_materials\"}, {\"meaning\": \"窗口要求在业务或工作关系终止或到期时返还全部受保护信息及所述副本。\", \"name\": \"return_on_relationship_end_all_materials\"}, {\"meaning\": \"窗口要求在服务终止时返还全部受保护信息及所述副本。\", \"name\": \"return_on_service_end_all_materials\"}, {\"meaning\": \"窗口把请求与返还关联、把项目到期或终止与销毁关联，并覆盖全部受保护信息及所述副本。\", \"name\": \"return_on_request_or_destroy_on_project_end_all_materials\"}, {\"meaning\": \"窗口把请求返还与项目终止销毁分别关联，并明示备份或档案存储不必删除且继续受保密约束。\", \"name\": \"return_on_request_or_destroy_on_project_end_with_backup_exception\"}, {\"meaning\": \"窗口把请求返还与项目终止销毁分别关联，并同时明示备份/档案和受限单一留档资格。\", \"name\": \"return_on_request_or_destroy_on_project_end_with_backup_and_record_copy\"}, {\"meaning\": \"窗口要求请求时返还受保护信息，同时销毁或永久擦除接收方及下游持有人的副本。\", \"name\": \"return_and_destroy_copies_on_request\"}, {\"meaning\": \"窗口形成实际处置义务，但其动作—触发—材料—资格组合不属于以上有限原型。\", \"name\": \"other_explicit_disposal_pattern\"}, {\"meaning\": \"所给窗口不形成实际返还或销毁义务。\", \"name\": \"not_a_disposal_obligation\"}], \"examples\": [{\"choice\": \"return_or_authorized_destroy_on_request_all_materials\", \"quote\": \"2.1.7 upon demand of the OSCE, to promptly return all Confidential Information (in whatever medium), together with all copies thereof or, where expressly authorised in writing by the OSCE, to destroy or delete all such Confidential Information and shall confirm to the OSCE in writing that such destruction or deletion has taken place.\", \"source\": \"ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3\"}, {\"choice\": \"return_on_request_all_materials\", \"quote\": \"If requested, either Party shall be bound to return any and all materials to the Requesting Party within ____ days.\", \"source\": \"ContractNLI:8fb38aee9252512c6e77c4fa76440766310d1a4090d0149bff12ebf69ec972e7\"}, {\"choice\": \"return_on_request_or_destroy_on_project_end_all_materials\", \"quote\": \"Each party agrees that all Confidential Information of the other party, including any copies thereof, shall be returned to the disclosing party upon request or destroyed within ten (10) business days of the expiration or other termination of the Project.\", \"source\": \"ContractNLI:6fce84641005b157aa8eda07d8372f5b6fd5f0f893665acfbfc3e8fdeda3597e\"}, {\"choice\": \"return_on_request_or_destroy_on_project_end_with_backup_exception\", \"quote\": \"However, notwithstanding anything to the contrary herein, 1) neither party will be required to delete electronic Confidential Information stored in back-up/archival storage in accordance with its policies, provided that any such retained Confidential Information will continue to be subject to the terms of this Confidentiality Agreement until it is destroyed by the receiving party; and\", \"source\": \"ContractNLI:6fce84641005b157aa8eda07d8372f5b6fd5f0f893665acfbfc3e8fdeda3597e\"}], \"name\": \"disposal_norm_binding_v1\", \"question\": \"分类所给连续处置窗口形成的完整来源规范。必须同时保留动作、材料、触发、动作与触发的关联，以及窗口中明示的备份、档案或单一留档资格。请求触发不得改写为终止触发；“请求时返还、项目终止时销毁”不得改写成两种动作在两个触发下均可任选；全量返还或销毁不得标成来源明示 no-retention。原始 TRAIN（逐字）：“2.1.7 upon demand of the OSCE, to promptly return all Confidential Information (in whatever medium), together with all copies thereof or, where expressly authorised in writing by the OSCE, to destroy or delete all such Confidential Information and shall confirm to the OSCE in writing that such destruction or deletion has taken place.” 原始 TRAIN（逐字）：“If requested, either Party shall be bound to return any and all materials to the Requesting Party within ____ days.” 原始 TRAIN（逐字）：“Each party agrees that all Confidential Information of the other party, including any copies thereof, shall be returned to the disclosing party upon request or destroyed within ten (10) business days of the expiration or other termination of the Project.” 原始 TRAIN 资格（逐字）：“However, notwithstanding anything to the contrary herein, 1) neither party will be required to delete electronic Confidential Information stored in back-up/archival storage in accordance with its policies, provided that any such retained Confidential Information will continue to be subject to the terms of this Confidentiality Agreement until it is destroyed by the receiving party; and”\"}], \"current_queries\": [{\"id\": \"disposal_binding_42\", \"operation\": \"disposal_norm_binding_v1\", \"unit_ids\": [36, 39, 41, 42, 45, 46], \"current_units\": [{\"id\": 36, \"text\": \"5. COPIES 5.1 The receiving Party shall acquire no proprietary interest in or right to the Confidential Information supplied to it by the disclosing Party.\"}, {\"id\": 39, \"text\": \"5.1.1 The receiving Party may only make such copies of Confidential Information as are expressly authorised by the disclosing Party for the Permitted Purpose and for disclosures that are not in breach of this Agreement.\"}, {\"id\": 41, \"text\": \"The receiving Party will clearly label all copies of Confidential Information as confidential.\"}, {\"id\": 42, \"text\": \"5.2 If the disclosing Party so requests in writing, the receiving Party shall immediately:- 5.2.1 return all Confidential Information including copies to the disclosing Party; and\"}, {\"id\": 45, \"text\": \"5.2.2 destroy or permanently erase all copies made by the receiving Party and procure that anyone to whom the receiving Party has supplied copies destroys or permanently erases such copies and any further copies made by them.\"}, {\"id\": 46, \"text\": \"6. GENERAL 6.1 Each Party shall indemnify and hold harmless the other Party against all loss, damage and expense (including legal expenses) whatsoever and howsoever arising out of or in connection with any breach by the first Party or its employees of this Agreement.\"}]}, {\"id\": \"disposal_binding_45\", \"operation\": \"disposal_norm_binding_v1\", \"unit_ids\": [39, 41, 42, 45, 46, 48], \"current_units\": [{\"id\": 39, \"text\": \"5.1.1 The receiving Party may only make such copies of Confidential Information as are expressly authorised by the disclosing Party for the Permitted Purpose and for disclosures that are not in breach of this Agreement.\"}, {\"id\": 41, \"text\": \"The receiving Party will clearly label all copies of Confidential Information as confidential.\"}, {\"id\": 42, \"text\": \"5.2 If the disclosing Party so requests in writing, the receiving Party shall immediately:- 5.2.1 return all Confidential Information including copies to the disclosing Party; and\"}, {\"id\": 45, \"text\": \"5.2.2 destroy or permanently erase all copies made by the receiving Party and procure that anyone to whom the receiving Party has supplied copies destroys or permanently erases such copies and any further copies made by them.\"}, {\"id\": 46, \"text\": \"6. GENERAL 6.1 Each Party shall indemnify and hold harmless the other Party against all loss, damage and expense (including legal expenses) whatsoever and howsoever arising out of or in connection with any breach by the first Party or its employees of this Agreement.\"}, {\"id\": 48, \"text\": \"6.2 Each Party acknowledges and agrees that damages alone may not be an adequate remedy for a breach of this Agreement and that each Party shall be entitled to an order for injunctive relief in the event of any actual, threatened or anticipated breach of this Agreement by the other Party.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disposal_binding_42": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "return_on_request_all_materials",
+                        "return_or_destroy_on_request_all_materials",
+                        "return_or_authorized_destroy_on_request_all_materials",
+                        "return_or_destroy_on_agreement_end_or_request_all_materials",
+                        "return_on_agreement_end_all_materials",
+                        "return_on_relationship_end_all_materials",
+                        "return_on_service_end_all_materials",
+                        "return_on_request_or_destroy_on_project_end_all_materials",
+                        "return_on_request_or_destroy_on_project_end_with_backup_exception",
+                        "return_on_request_or_destroy_on_project_end_with_backup_and_record_copy",
+                        "return_and_destroy_copies_on_request",
+                        "other_explicit_disposal_pattern",
+                        "not_a_disposal_obligation",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          36,
+                          39,
+                          41,
+                          42,
+                          45,
+                          46
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disposal_binding_45": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "return_on_request_all_materials",
+                        "return_or_destroy_on_request_all_materials",
+                        "return_or_authorized_destroy_on_request_all_materials",
+                        "return_or_destroy_on_agreement_end_or_request_all_materials",
+                        "return_on_agreement_end_all_materials",
+                        "return_on_relationship_end_all_materials",
+                        "return_on_service_end_all_materials",
+                        "return_on_request_or_destroy_on_project_end_all_materials",
+                        "return_on_request_or_destroy_on_project_end_with_backup_exception",
+                        "return_on_request_or_destroy_on_project_end_with_backup_and_record_copy",
+                        "return_and_destroy_copies_on_request",
+                        "other_explicit_disposal_pattern",
+                        "not_a_disposal_obligation",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          39,
+                          41,
+                          42,
+                          45,
+                          46,
+                          48
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disposal_binding_42",
+                "disposal_binding_45"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "24c2261983624dde190208ad427e702bc90a72db759d4e1eab2ecd43333aafd1",
+  "full_original_request_and_wire_retained_locally": true
+}

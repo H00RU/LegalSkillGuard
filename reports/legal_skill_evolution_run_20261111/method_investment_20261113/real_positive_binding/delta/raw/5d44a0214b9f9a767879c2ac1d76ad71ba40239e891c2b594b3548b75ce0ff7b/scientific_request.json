@@ -1,0 +1,508 @@
+{
+  "id": "legal_skill_evolution_positive_binding_delta_20261114:acquisition:ConstraintAcquire:ContractNLI:bbb3901122f38ae648ac6b6dc1427efc5f20bfb04a02bb769c2362e670a17c65:concept:c86ce245bc2e57dc1c669e96608e2389086188e23546ee9e00499c93cdc72a86",
+  "source": "ContractNLI:bbb3901122f38ae648ac6b6dc1427efc5f20bfb04a02bb769c2362e670a17c65",
+  "purpose": "skill_replay",
+  "request_hash": "5d32bf33a39093e8187c5e08d7d535fd809101d17142d7cb02b485895d8c35ae",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.\nThe focus_unit_id identifies the clause to classify. Other supplied units are context for resolving its references, not additional effects to merge into that focus. Interpret the acquired operation for that focus clause, using its actual context.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"许可窗口没有明示 need-to-know、必要范围或接收者保密约束。\", \"name\": \"no_condition_stated\"}, {\"meaning\": \"许可只明示 need-to-know 条件。\", \"name\": \"need_to_know_only\"}, {\"meaning\": \"许可只明示披露范围或接收者范围须为必要。\", \"name\": \"extent_necessary_only\"}, {\"meaning\": \"许可只明示接收者受保密义务约束。\", \"name\": \"confidentiality_only\"}, {\"meaning\": \"许可同时明示 need-to-know 和接收者保密约束。\", \"name\": \"need_and_confidentiality\"}, {\"meaning\": \"许可同时明示必要范围和接收者保密约束。\", \"name\": \"extent_and_confidentiality\"}, {\"meaning\": \"许可同时明示 need-to-know、必要范围和接收者保密约束。\", \"name\": \"need_extent_and_confidentiality\"}, {\"meaning\": \"许可具有其他明确条件组合，不能安全归入以上档案。\", \"name\": \"other_supported_condition_profile\"}], \"examples\": [{\"choice\": \"need_and_confidentiality\", \"quote\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"extent_necessary_only\", \"quote\": \"The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"disclosure_condition_profile_v1\", \"question\": \"把最后一个单元作为焦点，并用前置单元解释同一许可，分类许可明示的条件组合。只记录窗口中实际表述的 need-to-know、必要范围和保密约束；未表述的条件不得补写。原始 TRAIN（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.” 原始 TRAIN（逐字）：“The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.”\"}], \"current_queries\": [{\"id\": \"disclosure_conditions_59\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [49, 50, 52, 56, 59], \"current_units\": [{\"id\": 49, \"text\": \"You shall ensure that the Confidential Information is protected with the same security measures and degree of care that would apply to your own confidential information.\"}, {\"id\": 50, \"text\": \"2.2 You shall only use the Confidential Information for the purpose of considering and implementing the Possible Transaction.\"}, {\"id\": 52, \"text\": \"2.3 Subject always to paragraph 4.3, we shall treat and keep all Target Confidential Information as confidential and shall not, without your prior written consent, directly or indirectly disclose such Target Confidential Information to any other person other than (i) as permitted by paragraph 3.1, (ii) to Jardine Matheson Holdings Limited (or any member of its group or its advisers in connection with the Possible Transaction) and (iii) to the Takeover Panel and the Financial Conduct Authority.\"}, {\"id\": 56, \"text\": \"3. PERMITTED DISCLOSURE OF CONFIDENTIAL INFORMATION 3.1 The restrictions in paragraph 2.1 and 2.3 do not apply to the disclosure of Confidential Information or Target Confidential Information (as appropriate):\"}, {\"id\": 59, \"text\": \"3.1.1 to each party's respective Representatives who are directly concerned with the assessment of the JLT Group and implementation of the Possible Transaction and whose knowledge of the Confidential Information or Target Confidential Information (as appropriate) is reasonably necessary for these purposes; or\"}], \"focus_unit_id\": 59}, {\"id\": \"disclosure_conditions_60\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [50, 52, 56, 59, 60], \"current_units\": [{\"id\": 50, \"text\": \"2.2 You shall only use the Confidential Information for the purpose of considering and implementing the Possible Transaction.\"}, {\"id\": 52, \"text\": \"2.3 Subject always to paragraph 4.3, we shall treat and keep all Target Confidential Information as confidential and shall not, without your prior written consent, directly or indirectly disclose such Target Confidential Information to any other person other than (i) as permitted by paragraph 3.1, (ii) to Jardine Matheson Holdings Limited (or any member of its group or its advisers in connection with the Possible Transaction) and (iii) to the Takeover Panel and the Financial Conduct Authority.\"}, {\"id\": 56, \"text\": \"3. PERMITTED DISCLOSURE OF CONFIDENTIAL INFORMATION 3.1 The restrictions in paragraph 2.1 and 2.3 do not apply to the disclosure of Confidential Information or Target Confidential Information (as appropriate):\"}, {\"id\": 59, \"text\": \"3.1.1 to each party's respective Representatives who are directly concerned with the assessment of the JLT Group and implementation of the Possible Transaction and whose knowledge of the Confidential Information or Target Confidential Information (as appropriate) is reasonably necessary for these purposes; or\"}, {\"id\": 60, \"text\": \"3.1.2 to the extent required by law or regulation or by any court of competent jurisdiction or by the rules, or at the request of, any applicable governmental, supervisory or regulatory body or organisation or any stock exchange which, in each case, is lawfully entitled to require such disclosure (subject to paragraph 4).\"}], \"focus_unit_id\": 60}, {\"id\": \"disclosure_conditions_61\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [52, 56, 59, 60, 61], \"current_units\": [{\"id\": 52, \"text\": \"2.3 Subject always to paragraph 4.3, we shall treat and keep all Target Confidential Information as confidential and shall not, without your prior written consent, directly or indirectly disclose such Target Confidential Information to any other person other than (i) as permitted by paragraph 3.1, (ii) to Jardine Matheson Holdings Limited (or any member of its group or its advisers in connection with the Possible Transaction) and (iii) to the Takeover Panel and the Financial Conduct Authority.\"}, {\"id\": 56, \"text\": \"3. PERMITTED DISCLOSURE OF CONFIDENTIAL INFORMATION 3.1 The restrictions in paragraph 2.1 and 2.3 do not apply to the disclosure of Confidential Information or Target Confidential Information (as appropriate):\"}, {\"id\": 59, \"text\": \"3.1.1 to each party's respective Representatives who are directly concerned with the assessment of the JLT Group and implementation of the Possible Transaction and whose knowledge of the Confidential Information or Target Confidential Information (as appropriate) is reasonably necessary for these purposes; or\"}, {\"id\": 60, \"text\": \"3.1.2 to the extent required by law or regulation or by any court of competent jurisdiction or by the rules, or at the request of, any applicable governmental, supervisory or regulatory body or organisation or any stock exchange which, in each case, is lawfully entitled to require such disclosure (subject to paragraph 4).\"}, {\"id\": 61, \"text\": \"3.2 Each party shall ensure that any person (the “Recipient”) to whom any Confidential Information or Target Confidential Information (as appropriate) is disclosed by such party (the “Relevant Party”) in accordance with paragraph 3.1.1 complies with all the provisions of this agreement as if it were a party to this agreement (save that there shall be no obligation on either party to ensure that professional advisers or Permitted Finance Providers comply with paragraph 6.3.2), and, save as aforesaid, the Relevant Party shall be responsible for anything which would constitute a breach of the provisions of this agreement by the Recipient were they a party.\"}], \"focus_unit_id\": 61}, {\"id\": \"disclosure_conditions_63\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [56, 59, 60, 61, 63], \"current_units\": [{\"id\": 56, \"text\": \"3. PERMITTED DISCLOSURE OF CONFIDENTIAL INFORMATION 3.1 The restrictions in paragraph 2.1 and 2.3 do not apply to the disclosure of Confidential Information or Target Confidential Information (as appropriate):\"}, {\"id\": 59, \"text\": \"3.1.1 to each party's respective Representatives who are directly concerned with the assessment of the JLT Group and implementation of the Possible Transaction and whose knowledge of the Confidential Information or Target Confidential Information (as appropriate) is reasonably necessary for these purposes; or\"}, {\"id\": 60, \"text\": \"3.1.2 to the extent required by law or regulation or by any court of competent jurisdiction or by the rules, or at the request of, any applicable governmental, supervisory or regulatory body or organisation or any stock exchange which, in each case, is lawfully entitled to require such disclosure (subject to paragraph 4).\"}, {\"id\": 61, \"text\": \"3.2 Each party shall ensure that any person (the “Recipient”) to whom any Confidential Information or Target Confidential Information (as appropriate) is disclosed by such party (the “Relevant Party”) in accordance with paragraph 3.1.1 complies with all the provisions of this agreement as if it were a party to this agreement (save that there shall be no obligation on either party to ensure that professional advisers or Permitted Finance Providers comply with paragraph 6.3.2), and, save as aforesaid, the Relevant Party shall be responsible for anything which would constitute a breach of the provisions of this agreement by the Recipient were they a party.\"}, {\"id\": 63, \"text\": \"4. ANNOUNCEMENTS AND DISCLOSURE 4.1 Subject to paragraphs 4.2 and 4.3, neither party shall make any announcement relating to the Possible Transaction without the prior written consent of the other party.\"}], \"focus_unit_id\": 63}, {\"id\": \"disclosure_conditions_66\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [59, 60, 61, 63, 66], \"current_units\": [{\"id\": 59, \"text\": \"3.1.1 to each party's respective Representatives who are directly concerned with the assessment of the JLT Group and implementation of the Possible Transaction and whose knowledge of the Confidential Information or Target Confidential Information (as appropriate) is reasonably necessary for these purposes; or\"}, {\"id\": 60, \"text\": \"3.1.2 to the extent required by law or regulation or by any court of competent jurisdiction or by the rules, or at the request of, any applicable governmental, supervisory or regulatory body or organisation or any stock exchange which, in each case, is lawfully entitled to require such disclosure (subject to paragraph 4).\"}, {\"id\": 61, \"text\": \"3.2 Each party shall ensure that any person (the “Recipient”) to whom any Confidential Information or Target Confidential Information (as appropriate) is disclosed by such party (the “Relevant Party”) in accordance with paragraph 3.1.1 complies with all the provisions of this agreement as if it were a party to this agreement (save that there shall be no obligation on either party to ensure that professional advisers or Permitted Finance Providers comply with paragraph 6.3.2), and, save as aforesaid, the Relevant Party shall be responsible for anything which would constitute a breach of the provisions of this agreement by the Recipient were they a party.\"}, {\"id\": 63, \"text\": \"4. ANNOUNCEMENTS AND DISCLOSURE 4.1 Subject to paragraphs 4.2 and 4.3, neither party shall make any announcement relating to the Possible Transaction without the prior written consent of the other party.\"}, {\"id\": 66, \"text\": \"4.2 If either party is required by law or regulation or by any court of competent jurisdiction or by the rules, or at the request of, any applicable governmental, supervisory, stock exchange or regulatory body or organisation to make an announcement of the Possible Transaction or to disclose any Confidential Information, the relevant party shall, where and to the extent legally permissible, only make such announcement or disclosure after consultation with the other party and after considering its reasonable requirements as to the timing, content and manner of making such announcement or disclosure.\"}], \"focus_unit_id\": 66}, {\"id\": \"disclosure_conditions_68\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [60, 61, 63, 66, 68], \"current_units\": [{\"id\": 60, \"text\": \"3.1.2 to the extent required by law or regulation or by any court of competent jurisdiction or by the rules, or at the request of, any applicable governmental, supervisory or regulatory body or organisation or any stock exchange which, in each case, is lawfully entitled to require such disclosure (subject to paragraph 4).\"}, {\"id\": 61, \"text\": \"3.2 Each party shall ensure that any person (the “Recipient”) to whom any Confidential Information or Target Confidential Information (as appropriate) is disclosed by such party (the “Relevant Party”) in accordance with paragraph 3.1.1 complies with all the provisions of this agreement as if it were a party to this agreement (save that there shall be no obligation on either party to ensure that professional advisers or Permitted Finance Providers comply with paragraph 6.3.2), and, save as aforesaid, the Relevant Party shall be responsible for anything which would constitute a breach of the provisions of this agreement by the Recipient were they a party.\"}, {\"id\": 63, \"text\": \"4. ANNOUNCEMENTS AND DISCLOSURE 4.1 Subject to paragraphs 4.2 and 4.3, neither party shall make any announcement relating to the Possible Transaction without the prior written consent of the other party.\"}, {\"id\": 66, \"text\": \"4.2 If either party is required by law or regulation or by any court of competent jurisdiction or by the rules, or at the request of, any applicable governmental, supervisory, stock exchange or regulatory body or organisation to make an announcement of the Possible Transaction or to disclose any Confidential Information, the relevant party shall, where and to the extent legally permissible, only make such announcement or disclosure after consultation with the other party and after considering its reasonable requirements as to the timing, content and manner of making such announcement or disclosure.\"}, {\"id\": 68, \"text\": \"If such a consultation is not possible before the announcement or disclosure is made, the party making such announcement or disclosure shall inform the other party of the circumstances, timing, content and manner of making of the announcement or disclosure as soon as reasonably practicable after such announcement or disclosure is made.\"}], \"focus_unit_id\": 68}, {\"id\": \"disclosure_conditions_69\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [61, 63, 66, 68, 69], \"current_units\": [{\"id\": 61, \"text\": \"3.2 Each party shall ensure that any person (the “Recipient”) to whom any Confidential Information or Target Confidential Information (as appropriate) is disclosed by such party (the “Relevant Party”) in accordance with paragraph 3.1.1 complies with all the provisions of this agreement as if it were a party to this agreement (save that there shall be no obligation on either party to ensure that professional advisers or Permitted Finance Providers comply with paragraph 6.3.2), and, save as aforesaid, the Relevant Party shall be responsible for anything which would constitute a breach of the provisions of this agreement by the Recipient were they a party.\"}, {\"id\": 63, \"text\": \"4. ANNOUNCEMENTS AND DISCLOSURE 4.1 Subject to paragraphs 4.2 and 4.3, neither party shall make any announcement relating to the Possible Transaction without the prior written consent of the other party.\"}, {\"id\": 66, \"text\": \"4.2 If either party is required by law or regulation or by any court of competent jurisdiction or by the rules, or at the request of, any applicable governmental, supervisory, stock exchange or regulatory body or organisation to make an announcement of the Possible Transaction or to disclose any Confidential Information, the relevant party shall, where and to the extent legally permissible, only make such announcement or disclosure after consultation with the other party and after considering its reasonable requirements as to the timing, content and manner of making such announcement or disclosure.\"}, {\"id\": 68, \"text\": \"If such a consultation is not possible before the announcement or disclosure is made, the party making such announcement or disclosure shall inform the other party of the circumstances, timing, content and manner of making of the announcement or disclosure as soon as reasonably practicable after such announcement or disclosure is made.\"}, {\"id\": 69, \"text\": \"4.3 Nothing in this agreement shall prevent the Company from making any public announcement as referred to in Rule 2.3(d) of the Takeover Code.\"}], \"focus_unit_id\": 69}, {\"id\": \"disclosure_conditions_71\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [63, 66, 68, 69, 71], \"current_units\": [{\"id\": 63, \"text\": \"4. ANNOUNCEMENTS AND DISCLOSURE 4.1 Subject to paragraphs 4.2 and 4.3, neither party shall make any announcement relating to the Possible Transaction without the prior written consent of the other party.\"}, {\"id\": 66, \"text\": \"4.2 If either party is required by law or regulation or by any court of competent jurisdiction or by the rules, or at the request of, any applicable governmental, supervisory, stock exchange or regulatory body or organisation to make an announcement of the Possible Transaction or to disclose any Confidential Information, the relevant party shall, where and to the extent legally permissible, only make such announcement or disclosure after consultation with the other party and after considering its reasonable requirements as to the timing, content and manner of making such announcement or disclosure.\"}, {\"id\": 68, \"text\": \"If such a consultation is not possible before the announcement or disclosure is made, the party making such announcement or disclosure shall inform the other party of the circumstances, timing, content and manner of making of the announcement or disclosure as soon as reasonably practicable after such announcement or disclosure is made.\"}, {\"id\": 69, \"text\": \"4.3 Nothing in this agreement shall prevent the Company from making any public announcement as referred to in Rule 2.3(d) of the Takeover Code.\"}, {\"id\": 71, \"text\": \"4.4 Before you approach any third party other than Goldman Sachs International about the possibility of such third party providing debt finance to you or any other member of your Group in connection with the Possible Transaction, you shall inform the Company of your intention to do so and obtain prior written consent from the Company (such consent not to be unreasonably withheld, conditioned or delayed) so as to ensure that the proposed approach would not result in an obligation to:\"}], \"focus_unit_id\": 71}, {\"id\": \"disclosure_conditions_73\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [66, 68, 69, 71, 73], \"current_units\": [{\"id\": 66, \"text\": \"4.2 If either party is required by law or regulation or by any court of competent jurisdiction or by the rules, or at the request of, any applicable governmental, supervisory, stock exchange or regulatory body or organisation to make an announcement of the Possible Transaction or to disclose any Confidential Information, the relevant party shall, where and to the extent legally permissible, only make such announcement or disclosure after consultation with the other party and after considering its reasonable requirements as to the timing, content and manner of making such announcement or disclosure.\"}, {\"id\": 68, \"text\": \"If such a consultation is not possible before the announcement or disclosure is made, the party making such announcement or disclosure shall inform the other party of the circumstances, timing, content and manner of making of the announcement or disclosure as soon as reasonably practicable after such announcement or disclosure is made.\"}, {\"id\": 69, \"text\": \"4.3 Nothing in this agreement shall prevent the Company from making any public announcement as referred to in Rule 2.3(d) of the Takeover Code.\"}, {\"id\": 71, \"text\": \"4.4 Before you approach any third party other than Goldman Sachs International about the possibility of such third party providing debt finance to you or any other member of your Group in connection with the Possible Transaction, you shall inform the Company of your intention to do so and obtain prior written consent from the Company (such consent not to be unreasonably withheld, conditioned or delayed) so as to ensure that the proposed approach would not result in an obligation to:\"}, {\"id\": 73, \"text\": \"3.5.1 consult with the Takeover Panel under Note 1(d) on Rule 2.2(e) of the Takeover Code or under Practice Statement 20; or\"}], \"focus_unit_id\": 73}, {\"id\": \"disclosure_conditions_74\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [68, 69, 71, 73, 74], \"current_units\": [{\"id\": 68, \"text\": \"If such a consultation is not possible before the announcement or disclosure is made, the party making such announcement or disclosure shall inform the other party of the circumstances, timing, content and manner of making of the announcement or disclosure as soon as reasonably practicable after such announcement or disclosure is made.\"}, {\"id\": 69, \"text\": \"4.3 Nothing in this agreement shall prevent the Company from making any public announcement as referred to in Rule 2.3(d) of the Takeover Code.\"}, {\"id\": 71, \"text\": \"4.4 Before you approach any third party other than Goldman Sachs International about the possibility of such third party providing debt finance to you or any other member of your Group in connection with the Possible Transaction, you shall inform the Company of your intention to do so and obtain prior written consent from the Company (such consent not to be unreasonably withheld, conditioned or delayed) so as to ensure that the proposed approach would not result in an obligation to:\"}, {\"id\": 73, \"text\": \"3.5.1 consult with the Takeover Panel under Note 1(d) on Rule 2.2(e) of the Takeover Code or under Practice Statement 20; or\"}, {\"id\": 74, \"text\": \"3.5.2 make an announcement under Rule 2.2(e) of the Takeover Code.\"}], \"focus_unit_id\": 74}, {\"id\": \"disclosure_conditions_75\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [69, 71, 73, 74, 75], \"current_units\": [{\"id\": 69, \"text\": \"4.3 Nothing in this agreement shall prevent the Company from making any public announcement as referred to in Rule 2.3(d) of the Takeover Code.\"}, {\"id\": 71, \"text\": \"4.4 Before you approach any third party other than Goldman Sachs International about the possibility of such third party providing debt finance to you or any other member of your Group in connection with the Possible Transaction, you shall inform the Company of your intention to do so and obtain prior written consent from the Company (such consent not to be unreasonably withheld, conditioned or delayed) so as to ensure that the proposed approach would not result in an obligation to:\"}, {\"id\": 73, \"text\": \"3.5.1 consult with the Takeover Panel under Note 1(d) on Rule 2.2(e) of the Takeover Code or under Practice Statement 20; or\"}, {\"id\": 74, \"text\": \"3.5.2 make an announcement under Rule 2.2(e) of the Takeover Code.\"}, {\"id\": 75, \"text\": \"5. RETURN OF CONFIDENTIAL INFORMATION 5.1 You shall, upon request by us at any time:\"}], \"focus_unit_id\": 75}, {\"id\": \"disclosure_conditions_84\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [74, 75, 78, 79, 84], \"current_units\": [{\"id\": 74, \"text\": \"3.5.2 make an announcement under Rule 2.2(e) of the Takeover Code.\"}, {\"id\": 75, \"text\": \"5. RETURN OF CONFIDENTIAL INFORMATION 5.1 You shall, upon request by us at any time:\"}, {\"id\": 78, \"text\": \"5.1.1 promptly destroy or return to us (at your option) all hard copy documents and other materials which are in a form reasonably capable of delivery containing or reflecting the Confidential Information and all copies thereof and ensure the destruction of all Derivative Information and confirm to us in writing that you have complied with this paragraph 5.1.1; and\"}, {\"id\": 79, \"text\": \"5.1.2 ensure that where Confidential Information has not been destroyed or returned under paragraph 5.1.1, all reasonable steps are taken to erase from any computer under your control any document, disk or file to the extent containing, reflecting or generated from any Confidential Information and that, following such erasure, no steps will be taken to access or recover such material, save that you will be entitled to retain such copies of such Confidential Information (a) to the extent required by law or regulation, (b) to the extent required by your internal compliance procedures, or (c) to the extent contained as back-ups or archives as a matter of reasonable routine process on your electronic information management and communications systems or servers and for which deletion or destruction would not be reasonably practicable (provided that no step will be taken to access or recover such Confidential Information and provided that such Confidential Information shall continue to be held subject to the terms of this agreement).\"}, {\"id\": 84, \"text\": \"5.2 Any Confidential Information which, notwithstanding paragraph 5.1 is retained, will continue to be held subject to the terms of this agreement and you shall not further use or disclose to any person any such Confidential Information.\"}], \"focus_unit_id\": 84}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_conditions_59": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          49,
+                          50,
+                          52,
+                          56,
+                          59
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_60": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          50,
+                          52,
+                          56,
+                          59,
+                          60
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_61": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          52,
+                          56,
+                          59,
+                          60,
+                          61
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_63": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          56,
+                          59,
+                          60,
+                          61,
+                          63
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_66": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          59,
+                          60,
+                          61,
+                          63,
+                          66
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_68": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          60,
+                          61,
+                          63,
+                          66,
+                          68
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_69": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          61,
+                          63,
+                          66,
+                          68,
+                          69
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_71": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          63,
+                          66,
+                          68,
+                          69,
+                          71
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_73": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          66,
+                          68,
+                          69,
+                          71,
+                          73
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_74": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          68,
+                          69,
+                          71,
+                          73,
+                          74
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_75": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          69,
+                          71,
+                          73,
+                          74,
+                          75
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_84": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          74,
+                          75,
+                          78,
+                          79,
+                          84
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_conditions_59",
+                "disclosure_conditions_60",
+                "disclosure_conditions_61",
+                "disclosure_conditions_63",
+                "disclosure_conditions_66",
+                "disclosure_conditions_68",
+                "disclosure_conditions_69",
+                "disclosure_conditions_71",
+                "disclosure_conditions_73",
+                "disclosure_conditions_74",
+                "disclosure_conditions_75",
+                "disclosure_conditions_84"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "59751a89aaa16708643ac42e57096a5afe4e1b407163b52b62083fdfee26c7d5",
+  "full_original_request_and_wire_retained_locally": true
+}

@@ -1,0 +1,448 @@
+{
+  "id": "legal_skill_evolution_positive_binding_delta_20261114:acquisition:ConstraintAcquire:ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54:concept:f27f22d092a0cd829481d48602a67bfc225f1079f04362b26a332f69dc3a8ab9",
+  "source": "ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54",
+  "purpose": "skill_replay",
+  "request_hash": "5e8ca4155e3e9418690bf016eee63df18dd8961f8972a162820019a3f22ee588",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.\nThe focus_unit_id identifies the clause to classify. Other supplied units are context for resolving its references, not additional effects to merge into that focus. Interpret the acquired operation for that focus clause, using its actual context.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"焦点在其前置统领语境中形成直接、实际生效的接收者披露许可。\", \"name\": \"direct_permission\"}, {\"meaning\": \"焦点在一般披露禁止中形成明确、类别受限且实际生效的接收者许可例外。\", \"name\": \"recipient_exception_permission\"}, {\"meaning\": \"焦点在所给语境中不形成实际接收者披露许可。\", \"name\": \"not_an_operative_permission\"}], \"examples\": [{\"choice\": \"direct_permission\", \"quote\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"recipient_exception_permission\", \"quote\": \"(c) not to disclose the same whether to its employees or to third parties except in confidence to such of its employees, directors or contractors who need to know the same for the Purpose and that (i) such employees, directors and contractors are obliged by their contracts of employment or services not to disclose the same, (ii) the receiving party shall enforce such obligations at its expense and at the request of the disclosing party in so far as breach thereof relates to the disclosing party's Confidential Information;\", \"source\": \"ContractNLI:d9360f2a8c03efc35524289167a83e9505ebae476367505b868af29f37fcffa0\"}], \"name\": \"disclosure_permission_effect_form_v1\", \"question\": \"把最后一个单元作为焦点，并仅用前置单元解释其统领结构。判断焦点是否完成一个直接披露许可、是否是一般禁止中的明确接收者许可例外，或是否不产生实际许可。不要把定义、序言、一般授权例外或人员信息描述当作许可。原始 TRAIN 直接许可（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.” 原始 TRAIN 例外许可（逐字）：“(c) not to disclose the same whether to its employees or to third parties except in confidence to such of its employees, directors or contractors who need to know the same for the Purpose and that (i) such employees, directors and contractors are obliged by their contracts of employment or services not to disclose the same, (ii) the receiving party shall enforce such obligations at its expense and at the request of the disclosing party in so far as breach thereof relates to the disclosing party's Confidential Information;”\"}], \"current_queries\": [{\"id\": \"disclosure_effect_31\", \"operation\": \"disclosure_permission_effect_form_v1\", \"unit_ids\": [27, 28, 29, 30, 31], \"current_units\": [{\"id\": 27, \"text\": \"D. “Receiving Party” as used herein shall refer to the party who receives the Confidential Information or Intellectual Property from the Originating Party.\"}, {\"id\": 28, \"text\": \"E. “Representative” means directors, officers, employees, accountants, attorneys, lenders of funds and agents of a party or its affiliates.\"}, {\"id\": 29, \"text\": \"II. NON-DISCLOSURE AGREEMENT: Both parties recognizes and acknowledges that, in an effort to foster the Discussions one or both of the parties has provided and/or will provide, at no cost, fee, charge or expense to Receiving Party, Confidential Information of a special and unique value and nature developed and/or acquired by (and/or being developed or acquired by) Originating Party at great expense and cost to Originating Party which, if it were to come into the possession of Originating Party’s competitors, would cause irreparable damage to Originating Party, its competitive advantage and its ability to operate profitably.\"}, {\"id\": 30, \"text\": \"Receiving Party acknowledges that, prior to its relationship with Originating Party and prior to execution of this Agreement, Receiving Party had no knowledge of any of the aforesaid information.\"}, {\"id\": 31, \"text\": \"Receiving Party therefore agrees that neither it nor its Representatives will at any time make any independent business or personal use of, retain, copy, divulge, disclose, reveal or communicate to any other person or organization (except as expressly authorized in writing by Originating Party, as required to analyze the Business Relationship or as required to fulfill Receiving Party’s obligations to Originating Party) any Confidential Information.\"}], \"focus_unit_id\": 31}, {\"id\": \"disclosure_effect_33\", \"operation\": \"disclosure_permission_effect_form_v1\", \"unit_ids\": [28, 29, 30, 31, 33], \"current_units\": [{\"id\": 28, \"text\": \"E. “Representative” means directors, officers, employees, accountants, attorneys, lenders of funds and agents of a party or its affiliates.\"}, {\"id\": 29, \"text\": \"II. NON-DISCLOSURE AGREEMENT: Both parties recognizes and acknowledges that, in an effort to foster the Discussions one or both of the parties has provided and/or will provide, at no cost, fee, charge or expense to Receiving Party, Confidential Information of a special and unique value and nature developed and/or acquired by (and/or being developed or acquired by) Originating Party at great expense and cost to Originating Party which, if it were to come into the possession of Originating Party’s competitors, would cause irreparable damage to Originating Party, its competitive advantage and its ability to operate profitably.\"}, {\"id\": 30, \"text\": \"Receiving Party acknowledges that, prior to its relationship with Originating Party and prior to execution of this Agreement, Receiving Party had no knowledge of any of the aforesaid information.\"}, {\"id\": 31, \"text\": \"Receiving Party therefore agrees that neither it nor its Representatives will at any time make any independent business or personal use of, retain, copy, divulge, disclose, reveal or communicate to any other person or organization (except as expressly authorized in writing by Originating Party, as required to analyze the Business Relationship or as required to fulfill Receiving Party’s obligations to Originating Party) any Confidential Information.\"}, {\"id\": 33, \"text\": \"Both parties agree that the obligations under this Agreement are in addition to all duties and obligations imposed upon each party by operation of law including but not limited to common-law and statute.\"}], \"focus_unit_id\": 33}, {\"id\": \"disclosure_effect_34\", \"operation\": \"disclosure_permission_effect_form_v1\", \"unit_ids\": [29, 30, 31, 33, 34], \"current_units\": [{\"id\": 29, \"text\": \"II. NON-DISCLOSURE AGREEMENT: Both parties recognizes and acknowledges that, in an effort to foster the Discussions one or both of the parties has provided and/or will provide, at no cost, fee, charge or expense to Receiving Party, Confidential Information of a special and unique value and nature developed and/or acquired by (and/or being developed or acquired by) Originating Party at great expense and cost to Originating Party which, if it were to come into the possession of Originating Party’s competitors, would cause irreparable damage to Originating Party, its competitive advantage and its ability to operate profitably.\"}, {\"id\": 30, \"text\": \"Receiving Party acknowledges that, prior to its relationship with Originating Party and prior to execution of this Agreement, Receiving Party had no knowledge of any of the aforesaid information.\"}, {\"id\": 31, \"text\": \"Receiving Party therefore agrees that neither it nor its Representatives will at any time make any independent business or personal use of, retain, copy, divulge, disclose, reveal or communicate to any other person or organization (except as expressly authorized in writing by Originating Party, as required to analyze the Business Relationship or as required to fulfill Receiving Party’s obligations to Originating Party) any Confidential Information.\"}, {\"id\": 33, \"text\": \"Both parties agree that the obligations under this Agreement are in addition to all duties and obligations imposed upon each party by operation of law including but not limited to common-law and statute.\"}, {\"id\": 34, \"text\": \"Both parties further agree that their obligations under this paragraph survive the termination of the relationship between the two parties.\"}], \"focus_unit_id\": 34}, {\"id\": \"disclosure_effect_35\", \"operation\": \"disclosure_permission_effect_form_v1\", \"unit_ids\": [30, 31, 33, 34, 35], \"current_units\": [{\"id\": 30, \"text\": \"Receiving Party acknowledges that, prior to its relationship with Originating Party and prior to execution of this Agreement, Receiving Party had no knowledge of any of the aforesaid information.\"}, {\"id\": 31, \"text\": \"Receiving Party therefore agrees that neither it nor its Representatives will at any time make any independent business or personal use of, retain, copy, divulge, disclose, reveal or communicate to any other person or organization (except as expressly authorized in writing by Originating Party, as required to analyze the Business Relationship or as required to fulfill Receiving Party’s obligations to Originating Party) any Confidential Information.\"}, {\"id\": 33, \"text\": \"Both parties agree that the obligations under this Agreement are in addition to all duties and obligations imposed upon each party by operation of law including but not limited to common-law and statute.\"}, {\"id\": 34, \"text\": \"Both parties further agree that their obligations under this paragraph survive the termination of the relationship between the two parties.\"}, {\"id\": 35, \"text\": \"III. LEGALLY REQUIRED DISCLOSURES: If Receiving Party is requested to disclose any Confidential Information of the Originating Party under applicable law, in any judicial or administrative proceeding, or in response to a formal request of a regulatory or governmental authority (including law enforcement), then, except as otherwise required to comply with applicable law, the Receiving Party shall promptly notify the Originating Party of such request so that Originating Party may resist such disclosure or seek an appropriate protective order, and shall provide all information and assistance reasonably requested by Originating Party in connection therewith, at the Originating Party’s sole expense.\"}], \"focus_unit_id\": 35}, {\"id\": \"disclosure_effect_36\", \"operation\": \"disclosure_permission_effect_form_v1\", \"unit_ids\": [31, 33, 34, 35, 36], \"current_units\": [{\"id\": 31, \"text\": \"Receiving Party therefore agrees that neither it nor its Representatives will at any time make any independent business or personal use of, retain, copy, divulge, disclose, reveal or communicate to any other person or organization (except as expressly authorized in writing by Originating Party, as required to analyze the Business Relationship or as required to fulfill Receiving Party’s obligations to Originating Party) any Confidential Information.\"}, {\"id\": 33, \"text\": \"Both parties agree that the obligations under this Agreement are in addition to all duties and obligations imposed upon each party by operation of law including but not limited to common-law and statute.\"}, {\"id\": 34, \"text\": \"Both parties further agree that their obligations under this paragraph survive the termination of the relationship between the two parties.\"}, {\"id\": 35, \"text\": \"III. LEGALLY REQUIRED DISCLOSURES: If Receiving Party is requested to disclose any Confidential Information of the Originating Party under applicable law, in any judicial or administrative proceeding, or in response to a formal request of a regulatory or governmental authority (including law enforcement), then, except as otherwise required to comply with applicable law, the Receiving Party shall promptly notify the Originating Party of such request so that Originating Party may resist such disclosure or seek an appropriate protective order, and shall provide all information and assistance reasonably requested by Originating Party in connection therewith, at the Originating Party’s sole expense.\"}, {\"id\": 36, \"text\": \"If the Receiving Party is nonetheless compelled to disclose any Confidential Information of the Originating Party, the Receiving Party shall limit its disclosure to that which, in the reasonable opinion of counsel, is required under applicable law.\"}], \"focus_unit_id\": 36}, {\"id\": \"disclosure_effect_37\", \"operation\": \"disclosure_permission_effect_form_v1\", \"unit_ids\": [33, 34, 35, 36, 37], \"current_units\": [{\"id\": 33, \"text\": \"Both parties agree that the obligations under this Agreement are in addition to all duties and obligations imposed upon each party by operation of law including but not limited to common-law and statute.\"}, {\"id\": 34, \"text\": \"Both parties further agree that their obligations under this paragraph survive the termination of the relationship between the two parties.\"}, {\"id\": 35, \"text\": \"III. LEGALLY REQUIRED DISCLOSURES: If Receiving Party is requested to disclose any Confidential Information of the Originating Party under applicable law, in any judicial or administrative proceeding, or in response to a formal request of a regulatory or governmental authority (including law enforcement), then, except as otherwise required to comply with applicable law, the Receiving Party shall promptly notify the Originating Party of such request so that Originating Party may resist such disclosure or seek an appropriate protective order, and shall provide all information and assistance reasonably requested by Originating Party in connection therewith, at the Originating Party’s sole expense.\"}, {\"id\": 36, \"text\": \"If the Receiving Party is nonetheless compelled to disclose any Confidential Information of the Originating Party, the Receiving Party shall limit its disclosure to that which, in the reasonable opinion of counsel, is required under applicable law.\"}, {\"id\": 37, \"text\": \"IV. NO REVERSE ENGINEERING; WORK PRODUCT: Receiving Party shall not reverse-engineer, analyze, attempt to duplicate or otherwise attempt to determine the design or method of compiling samples, prototypes or products of the Originating Party except pursuant to a mutually acceptable, written agreement executed by the parties.\"}], \"focus_unit_id\": 37}, {\"id\": \"disclosure_effect_38\", \"operation\": \"disclosure_permission_effect_form_v1\", \"unit_ids\": [34, 35, 36, 37, 38], \"current_units\": [{\"id\": 34, \"text\": \"Both parties further agree that their obligations under this paragraph survive the termination of the relationship between the two parties.\"}, {\"id\": 35, \"text\": \"III. LEGALLY REQUIRED DISCLOSURES: If Receiving Party is requested to disclose any Confidential Information of the Originating Party under applicable law, in any judicial or administrative proceeding, or in response to a formal request of a regulatory or governmental authority (including law enforcement), then, except as otherwise required to comply with applicable law, the Receiving Party shall promptly notify the Originating Party of such request so that Originating Party may resist such disclosure or seek an appropriate protective order, and shall provide all information and assistance reasonably requested by Originating Party in connection therewith, at the Originating Party’s sole expense.\"}, {\"id\": 36, \"text\": \"If the Receiving Party is nonetheless compelled to disclose any Confidential Information of the Originating Party, the Receiving Party shall limit its disclosure to that which, in the reasonable opinion of counsel, is required under applicable law.\"}, {\"id\": 37, \"text\": \"IV. NO REVERSE ENGINEERING; WORK PRODUCT: Receiving Party shall not reverse-engineer, analyze, attempt to duplicate or otherwise attempt to determine the design or method of compiling samples, prototypes or products of the Originating Party except pursuant to a mutually acceptable, written agreement executed by the parties.\"}, {\"id\": 38, \"text\": \"In the event that Receiving Party performs any services or testing for or on behalf of Originating Party without entering into such a written agreement, then any information or data developed by Receiving Party in connection with such services or tests shall be considered the Originating Party’s Confidential Information and shall be maintained as such and kept confidential in accordance with the provisions of this Agreement.\"}], \"focus_unit_id\": 38}, {\"id\": \"disclosure_effect_39\", \"operation\": \"disclosure_permission_effect_form_v1\", \"unit_ids\": [35, 36, 37, 38, 39], \"current_units\": [{\"id\": 35, \"text\": \"III. LEGALLY REQUIRED DISCLOSURES: If Receiving Party is requested to disclose any Confidential Information of the Originating Party under applicable law, in any judicial or administrative proceeding, or in response to a formal request of a regulatory or governmental authority (including law enforcement), then, except as otherwise required to comply with applicable law, the Receiving Party shall promptly notify the Originating Party of such request so that Originating Party may resist such disclosure or seek an appropriate protective order, and shall provide all information and assistance reasonably requested by Originating Party in connection therewith, at the Originating Party’s sole expense.\"}, {\"id\": 36, \"text\": \"If the Receiving Party is nonetheless compelled to disclose any Confidential Information of the Originating Party, the Receiving Party shall limit its disclosure to that which, in the reasonable opinion of counsel, is required under applicable law.\"}, {\"id\": 37, \"text\": \"IV. NO REVERSE ENGINEERING; WORK PRODUCT: Receiving Party shall not reverse-engineer, analyze, attempt to duplicate or otherwise attempt to determine the design or method of compiling samples, prototypes or products of the Originating Party except pursuant to a mutually acceptable, written agreement executed by the parties.\"}, {\"id\": 38, \"text\": \"In the event that Receiving Party performs any services or testing for or on behalf of Originating Party without entering into such a written agreement, then any information or data developed by Receiving Party in connection with such services or tests shall be considered the Originating Party’s Confidential Information and shall be maintained as such and kept confidential in accordance with the provisions of this Agreement.\"}, {\"id\": 39, \"text\": \"All such information and data shall belong to Originating Party exclusively and Receiving Party shall execute any instruments determined by Originating Party to be reasonably necessary to confirm Originating Party’s ownership thereof.\"}], \"focus_unit_id\": 39}, {\"id\": \"disclosure_effect_40\", \"operation\": \"disclosure_permission_effect_form_v1\", \"unit_ids\": [36, 37, 38, 39, 40], \"current_units\": [{\"id\": 36, \"text\": \"If the Receiving Party is nonetheless compelled to disclose any Confidential Information of the Originating Party, the Receiving Party shall limit its disclosure to that which, in the reasonable opinion of counsel, is required under applicable law.\"}, {\"id\": 37, \"text\": \"IV. NO REVERSE ENGINEERING; WORK PRODUCT: Receiving Party shall not reverse-engineer, analyze, attempt to duplicate or otherwise attempt to determine the design or method of compiling samples, prototypes or products of the Originating Party except pursuant to a mutually acceptable, written agreement executed by the parties.\"}, {\"id\": 38, \"text\": \"In the event that Receiving Party performs any services or testing for or on behalf of Originating Party without entering into such a written agreement, then any information or data developed by Receiving Party in connection with such services or tests shall be considered the Originating Party’s Confidential Information and shall be maintained as such and kept confidential in accordance with the provisions of this Agreement.\"}, {\"id\": 39, \"text\": \"All such information and data shall belong to Originating Party exclusively and Receiving Party shall execute any instruments determined by Originating Party to be reasonably necessary to confirm Originating Party’s ownership thereof.\"}, {\"id\": 40, \"text\": \"V. NON-SOLICITATION OF EMPLOYEES AND/OR CONTRACTORS: Receiving Party recognizes and acknowledges that, while engaged in Discussions and/or while involved in a Business Relationship, such party will be in a position to utilize Originating Party’s goodwill and have access to and/or utilize Confidential Information of Originating Party that would enable Receiving Party to take advantage of that goodwill and/or Confidential Information to the detriment of the Originating Party, by attempting, for example, to recruit or solicit employees, and/or contractors of Originating Party.\"}], \"focus_unit_id\": 40}, {\"id\": \"disclosure_effect_41\", \"operation\": \"disclosure_permission_effect_form_v1\", \"unit_ids\": [37, 38, 39, 40, 41], \"current_units\": [{\"id\": 37, \"text\": \"IV. NO REVERSE ENGINEERING; WORK PRODUCT: Receiving Party shall not reverse-engineer, analyze, attempt to duplicate or otherwise attempt to determine the design or method of compiling samples, prototypes or products of the Originating Party except pursuant to a mutually acceptable, written agreement executed by the parties.\"}, {\"id\": 38, \"text\": \"In the event that Receiving Party performs any services or testing for or on behalf of Originating Party without entering into such a written agreement, then any information or data developed by Receiving Party in connection with such services or tests shall be considered the Originating Party’s Confidential Information and shall be maintained as such and kept confidential in accordance with the provisions of this Agreement.\"}, {\"id\": 39, \"text\": \"All such information and data shall belong to Originating Party exclusively and Receiving Party shall execute any instruments determined by Originating Party to be reasonably necessary to confirm Originating Party’s ownership thereof.\"}, {\"id\": 40, \"text\": \"V. NON-SOLICITATION OF EMPLOYEES AND/OR CONTRACTORS: Receiving Party recognizes and acknowledges that, while engaged in Discussions and/or while involved in a Business Relationship, such party will be in a position to utilize Originating Party’s goodwill and have access to and/or utilize Confidential Information of Originating Party that would enable Receiving Party to take advantage of that goodwill and/or Confidential Information to the detriment of the Originating Party, by attempting, for example, to recruit or solicit employees, and/or contractors of Originating Party.\"}, {\"id\": 41, \"text\": \"Receiving Party agrees and acknowledges that this would have the effect of causing the cessation or curtailment of the Business Relationship and would otherwise unfairly damage the business prospects of Originating Party.\"}], \"focus_unit_id\": 41}, {\"id\": \"disclosure_effect_42\", \"operation\": \"disclosure_permission_effect_form_v1\", \"unit_ids\": [38, 39, 40, 41, 42], \"current_units\": [{\"id\": 38, \"text\": \"In the event that Receiving Party performs any services or testing for or on behalf of Originating Party without entering into such a written agreement, then any information or data developed by Receiving Party in connection with such services or tests shall be considered the Originating Party’s Confidential Information and shall be maintained as such and kept confidential in accordance with the provisions of this Agreement.\"}, {\"id\": 39, \"text\": \"All such information and data shall belong to Originating Party exclusively and Receiving Party shall execute any instruments determined by Originating Party to be reasonably necessary to confirm Originating Party’s ownership thereof.\"}, {\"id\": 40, \"text\": \"V. NON-SOLICITATION OF EMPLOYEES AND/OR CONTRACTORS: Receiving Party recognizes and acknowledges that, while engaged in Discussions and/or while involved in a Business Relationship, such party will be in a position to utilize Originating Party’s goodwill and have access to and/or utilize Confidential Information of Originating Party that would enable Receiving Party to take advantage of that goodwill and/or Confidential Information to the detriment of the Originating Party, by attempting, for example, to recruit or solicit employees, and/or contractors of Originating Party.\"}, {\"id\": 41, \"text\": \"Receiving Party agrees and acknowledges that this would have the effect of causing the cessation or curtailment of the Business Relationship and would otherwise unfairly damage the business prospects of Originating Party.\"}, {\"id\": 42, \"text\": \"Therefore, in consideration of the mutual agreements made in this Agreement, during the course of the Business Relationship and for a period of 36 months after termination of the Business Relationship, Receiving Party agrees not to directly or indirectly communicate, solicit, induce, hire, recruit, take away, employ, endeavor to employ (on Receiving Party’s own behalf or on behalf of any other person or entity) or attempt to influence any employee or contractor in any way that may have the effect of causing the cessation or curtailment of their respective relationships with Originating Party.\"}], \"focus_unit_id\": 42}, {\"id\": \"disclosure_effect_43\", \"operation\": \"disclosure_permission_effect_form_v1\", \"unit_ids\": [39, 40, 41, 42, 43], \"current_units\": [{\"id\": 39, \"text\": \"All such information and data shall belong to Originating Party exclusively and Receiving Party shall execute any instruments determined by Originating Party to be reasonably necessary to confirm Originating Party’s ownership thereof.\"}, {\"id\": 40, \"text\": \"V. NON-SOLICITATION OF EMPLOYEES AND/OR CONTRACTORS: Receiving Party recognizes and acknowledges that, while engaged in Discussions and/or while involved in a Business Relationship, such party will be in a position to utilize Originating Party’s goodwill and have access to and/or utilize Confidential Information of Originating Party that would enable Receiving Party to take advantage of that goodwill and/or Confidential Information to the detriment of the Originating Party, by attempting, for example, to recruit or solicit employees, and/or contractors of Originating Party.\"}, {\"id\": 41, \"text\": \"Receiving Party agrees and acknowledges that this would have the effect of causing the cessation or curtailment of the Business Relationship and would otherwise unfairly damage the business prospects of Originating Party.\"}, {\"id\": 42, \"text\": \"Therefore, in consideration of the mutual agreements made in this Agreement, during the course of the Business Relationship and for a period of 36 months after termination of the Business Relationship, Receiving Party agrees not to directly or indirectly communicate, solicit, induce, hire, recruit, take away, employ, endeavor to employ (on Receiving Party’s own behalf or on behalf of any other person or entity) or attempt to influence any employee or contractor in any way that may have the effect of causing the cessation or curtailment of their respective relationships with Originating Party.\"}, {\"id\": 43, \"text\": \"VI. NO COMMITMENT; NO LICENSE; NO WARRANTY: Neither party shall be obligated under this Agreement to commence or continue with any Discussions, enter into any particular Business Relationship, or disclose any particular Confidential Information to the other party.\"}], \"focus_unit_id\": 43}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_effect_31": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "direct_permission",
+                        "recipient_exception_permission",
+                        "not_an_operative_permission",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          27,
+                          28,
+                          29,
+                          30,
+                          31
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_effect_33": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "direct_permission",
+                        "recipient_exception_permission",
+                        "not_an_operative_permission",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          28,
+                          29,
+                          30,
+                          31,
+                          33
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_effect_34": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "direct_permission",
+                        "recipient_exception_permission",
+                        "not_an_operative_permission",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          29,
+                          30,
+                          31,
+                          33,
+                          34
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_effect_35": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "direct_permission",
+                        "recipient_exception_permission",
+                        "not_an_operative_permission",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          30,
+                          31,
+                          33,
+                          34,
+                          35
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_effect_36": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "direct_permission",
+                        "recipient_exception_permission",
+                        "not_an_operative_permission",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          31,
+                          33,
+                          34,
+                          35,
+                          36
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_effect_37": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "direct_permission",
+                        "recipient_exception_permission",
+                        "not_an_operative_permission",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          33,
+                          34,
+                          35,
+                          36,
+                          37
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_effect_38": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "direct_permission",
+                        "recipient_exception_permission",
+                        "not_an_operative_permission",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          34,
+                          35,
+                          36,
+                          37,
+                          38
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_effect_39": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "direct_permission",
+                        "recipient_exception_permission",
+                        "not_an_operative_permission",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          35,
+                          36,
+                          37,
+                          38,
+                          39
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_effect_40": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "direct_permission",
+                        "recipient_exception_permission",
+                        "not_an_operative_permission",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          36,
+                          37,
+                          38,
+                          39,
+                          40
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_effect_41": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "direct_permission",
+                        "recipient_exception_permission",
+                        "not_an_operative_permission",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          37,
+                          38,
+                          39,
+                          40,
+                          41
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_effect_42": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "direct_permission",
+                        "recipient_exception_permission",
+                        "not_an_operative_permission",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          38,
+                          39,
+                          40,
+                          41,
+                          42
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_effect_43": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "direct_permission",
+                        "recipient_exception_permission",
+                        "not_an_operative_permission",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          39,
+                          40,
+                          41,
+                          42,
+                          43
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_effect_31",
+                "disclosure_effect_33",
+                "disclosure_effect_34",
+                "disclosure_effect_35",
+                "disclosure_effect_36",
+                "disclosure_effect_37",
+                "disclosure_effect_38",
+                "disclosure_effect_39",
+                "disclosure_effect_40",
+                "disclosure_effect_41",
+                "disclosure_effect_42",
+                "disclosure_effect_43"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "f14e5a22ffbda2f157ca70dac896779d9421e3796172baa7feea94212efd1605",
+  "full_original_request_and_wire_retained_locally": true
+}

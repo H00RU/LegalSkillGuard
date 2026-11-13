@@ -1,0 +1,116 @@
+{
+  "id": "legal_skill_evolution_positive_binding_delta_20261114:acquisition:FreeUpdate:ContractNLI:8fb38aee9252512c6e77c4fa76440766310d1a4090d0149bff12ebf69ec972e7:concept:9ee07b28ba28b1bffb8ffb4beea26bdaaf0a25295a77ce5342ad3ba9035a3ba1",
+  "source": "ContractNLI:8fb38aee9252512c6e77c4fa76440766310d1a4090d0149bff12ebf69ec972e7",
+  "purpose": "skill_replay",
+  "request_hash": "ba8d870c7c7efceb3a75cf692dce9aba5c916ef54906dc43790b67d890d6d574",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"完整来源中存在至少一个实际处置义务，所选单元覆盖全部发现的候选窗口。\", \"name\": \"candidate_found\"}, {\"meaning\": \"已检查全部当前来源单元，没有实际返还或销毁义务。\", \"name\": \"none_in_complete_source\"}], \"examples\": [], \"name\": \"positive_disposal_norm_locator_v1\", \"question\": \"检查完整当前来源，找出所有实际返还或销毁受保护信息、其副本或相关材料的义务候选。证据必须覆盖动作、材料范围、触发条件及紧邻例外；仅有终止、存续、定义、不得保留或签署文字不是候选。只有检查全部当前单元后才能选择 none_in_complete_source。原始 TRAIN 正例（逐字）：“(f) Return to theauditee, or destroy, at auditee’s discretion, any and all Confidential Information disclosed in a printed form or other permanent record, or in any other tangible form (including without limitation, all copies, notes, extracts, analyses, studies, summaries, records and reproductions thereof) immediately on (i) expiration or termination ofthis agreement, or (ii) the request of Auditee therefor.”；“5.3 The Receiving Party shall return to SINTEC any and all information disclosed by SINTEC as well as any copies thereof automatically upon termination/expiration of the business relation- ship.”；“If requested, either Party shall be bound to return any and all materials to the Requesting Party within ____ days.” 原始 TRAIN 反例（逐字）：“Both parties further agree that their obligations under this paragraph survive the termination of the relationship between the two parties.”\"}], \"current_queries\": [{\"id\": \"positive_disposal_locator_v1\", \"operation\": \"positive_disposal_norm_locator_v1\", \"unit_ids\": [0, 2, 5, 6, 7, 8, 10, 11, 12, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43], \"current_units\": [{\"id\": 0, \"text\": \"FLORIDA NON-DISCLOSURE AGREEMENT (NDA) I. THE PARTIES.\"}, {\"id\": 2, \"text\": \"This Non-Disclosure Agreement, hereinafter known as the “Agreement”, created on the ___ day of _________________________, 20___ is by and between _________________________, hereinafter known as “1st Party”, and _________________________, hereinafter known as “2nd Party”, and collectively known as the “Parties”.\"}, {\"id\": 5, \"text\": \"WHEREAS, this Agreement is created for the purpose of preventing the unauthorized disclosure of the confidential and proprietary information.\"}, {\"id\": 6, \"text\": \"The Parties agree as follows:\"}, {\"id\": 7, \"text\": \"II. TYPE OF AGREEMENT.\"}, {\"id\": 8, \"text\": \"Check One (1) ☐ - Unilateral – This Agreement shall be Unilateral, whereas, 1st Party shall have sole ownership of the Confidential Information with 2nd Party being prohibited from disclosing confidential and proprietary information that is to be released by the 1st Party.\"}, {\"id\": 10, \"text\": \"☐ - Mutual – This Agreement shall be Mutual, whereas, the Parties shall be prohibited from disclosing confidential and proprietary information that is to be shared between one another.\"}, {\"id\": 11, \"text\": \"III. RELATIONSHIP.\"}, {\"id\": 12, \"text\": \"The Party A’s relationship to Party B can be described as _________________________ and Party B’s relationship to Party A can be described as _________________________.\"}, {\"id\": 16, \"text\": \"IV. DEFINITION.\"}, {\"id\": 17, \"text\": \"For the purposes of this Agreement, the term “Confidential Information” shall include, but not be limited to, documents, records, information and data (whether verbal, electronic or written), drawings, models, apparatus, sketches, designs, schedules, product plans, marketing plans, technical procedures, manufacturing processes, analyses, compilations, studies, software, prototypes, samples, formulas, methodologies, formulations, product developments, patent applications, know-how, experimental results, specifications and other business information, relating to the Party’s business, assets, operations or contracts, furnished to the other Party and/or the other Party’s affiliates, employees, officers, owners, agents, consultants or representatives, in the course of their work contemplated in this Agreement, regardless of whether such Confidential Information has been expressly designated as confidential or proprietary.\"}, {\"id\": 18, \"text\": \"Confidential Information also includes any and all, work products, studies and other material prepared by or in the possession or control of the other Party, which contain, include, refer to or otherwise reflect or are generated from any Confidential Information.\"}, {\"id\": 19, \"text\": \"However, Confidential Information does not include:\"}, {\"id\": 20, \"text\": \"(a) information generally available to the public;\"}, {\"id\": 21, \"text\": \"(b) widely used programming practices or algorithms;\"}, {\"id\": 22, \"text\": \"(c) information rightfully in the possession of the Parties prior to signing this Agreement; and\"}, {\"id\": 23, \"text\": \"(d) information independently developed without the use of any of the provided Confidential Information.\"}, {\"id\": 24, \"text\": \"V. OBLIGATIONS.\"}, {\"id\": 25, \"text\": \"The obligations of the Parties shall be to hold and maintain the Confidential Information in the strictest of confidence at all times and to their agents, employees, representatives, affiliates, and any other individual or entity that is on a “need to know” basis.\"}, {\"id\": 26, \"text\": \"If any such Confidential Information shall reach a third (3rd) party, or become public, all liability will be on the Party that is responsible.\"}, {\"id\": 27, \"text\": \"Neither Party shall, without the written approval of the other Party, publish, copy, or use the Confidential Information for their sole benefit.\"}, {\"id\": 28, \"text\": \"If requested, either Party shall be bound to return any and all materials to the Requesting Party within ____ days.\"}, {\"id\": 29, \"text\": \"This Section shall not apply to the 1st Party if this Agreement is Unilateral as marked in Section II.\"}, {\"id\": 30, \"text\": \"VI. TIME PERIOD.\"}, {\"id\": 31, \"text\": \"The bounded Party’s(ies’) duty to hold the Confidential Information in confidence shall remain in effect until such information no longer qualifies as a trade secret or written notice is given releasing such Party from this Agreement.\"}, {\"id\": 32, \"text\": \"VII. INTEGRATION.\"}, {\"id\": 33, \"text\": \"This Agreement expresses the complete understanding of the Parties with respect to the subject matter and supersedes all prior proposals, agreements, representations, and understandings.\"}, {\"id\": 34, \"text\": \"This Agreement may not be amended except in writing with the acknowledgment of the Parties.\"}, {\"id\": 35, \"text\": \"VIII. SEVERABILITY.\"}, {\"id\": 36, \"text\": \"If a court finds that any provision of this Agreement is invalid or unenforceable, the remainder of this Agreement shall be interpreted so as best to affect the intent of the Parties.\"}, {\"id\": 37, \"text\": \"IX. ENFORCEMENT.\"}, {\"id\": 38, \"text\": \"The Parties acknowledge and agree that due to the unique and sensitive nature of the Confidential Information, any breach of this Agreement would cause irreparable harm for which damages and/or equitable relief may be sought.\"}, {\"id\": 39, \"text\": \"The harmed Party in this Agreement shall be entitled to all remedies available at law.\"}, {\"id\": 40, \"text\": \"X. GOVERNING LAW.\"}, {\"id\": 41, \"text\": \"This Agreement shall be governed under the laws in the State of Florida.\"}, {\"id\": 42, \"text\": \"IN WITNESS WHEREOF, the parties hereto have executed this Agreement as of the date written below.\"}, {\"id\": 43, \"text\": \"1st Party’s Signature ______________________________ Date _________________ Print Name ______________________________ 2nd Party’s Signature ______________________________ Date _________________ Print Name ______________________________\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "positive_disposal_locator_v1": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "candidate_found",
+                        "none_in_complete_source",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          0,
+                          2,
+                          5,
+                          6,
+                          7,
+                          8,
+                          10,
+                          11,
+                          12,
+                          16,
+                          17,
+                          18,
+                          19,
+                          20,
+                          21,
+                          22,
+                          23,
+                          24,
+                          25,
+                          26,
+                          27,
+                          28,
+                          29,
+                          30,
+                          31,
+                          32,
+                          33,
+                          34,
+                          35,
+                          36,
+                          37,
+                          38,
+                          39,
+                          40,
+                          41,
+                          42,
+                          43
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "positive_disposal_locator_v1"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "fa8caf5ceb2411e0da778c01e4dce0e553cff94fcd0a2481d66872f07a9e60ba",
+  "full_original_request_and_wire_retained_locally": true
+}

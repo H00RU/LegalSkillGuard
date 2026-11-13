@@ -2,6 +2,33 @@
 
 2026-11-14。同一Goal **active、未完成**。目标、验收、授权及边界只由[CURRENT_GOAL.md](CURRENT_GOAL.md)规定。唯一项目`/home/yndx/hhy/legal-skill-current`，开发分支`repair/lift-corev-activation-20261112`，不改main。历史暂停、Goal卡及旧PID不触发操作。
 
+## 当前完成：正向规则获取与固定12/4研究
+
+当前入口`experiments/legal_skill_evolution_positive_binding_acquisition.py`，终结run为`legal_skill_evolution_positive_binding_typed_20261114`，原positive_binding/delta与全部失败保留。12母获取、4母冻结复用和评分均完成；8份无标签复用结果全部先于评分保存。真实客户端已终止，10436条账本、reserved=0；常驻推理服务不是排队任务，不重复启动。
+
+|固定范围|C拟合|同φ建议G的NoFit|独立Free|
+|---|---:|---:|---:|
+|获取正确/48|36|39|29|
+|获取核心执行/48|42|48|34|
+|复用正确/16|8|8|5|
+|复用核心执行/16|12|12|14|
+
+共同初态25/48正确、32/48可执行。C学得6类读取、16候选G、2个正向规范构造子，12母中8母产生22个绑定规范，4母复用有10个，实际主路径已接通。删除实际新增正向根，保持同消费者，获取36→27、复用8→3，显示真实使用，不能证明C算法独立收益。NoFit复用相同、获取更高。Free有自己的11类读取及程序，不能用C专用构造子为0称其未学习。
+
+源语义仍有具体错误：4607遗漏保密条件，78ad多出书面授权，e82b把AND读成授权OR，6fce混淆动作/触发及备份/单一留档，复用中的角色/材料/额外事件也有误读。96361条款26的处置字段有原文和真实消费证据，但同源角色仍错误。四条旧未发现反证不是完整字段认证。只复用已付费12母理论profile，将获取源中明确错误字段作为部分反证，当前共同G最小错误12→21/48，逐母乐观下限15/48；没有重新枚举/调用或修复后复用重跑。说明需要改实际φ/输出表达，不是继续拟合同一候选空间。这个局部上限不证明开放方法不可能。[完整新结果、源路径和诊断](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/update_train_result.md)。
+
+Free的choice域共享编译缺陷已在安全终止边界修复，对双方一致登记实际已声明读取选项，未声明值/unknown/native答案仍拒绝。原14份已完成输出/评分保持，第15份原始失败输出原样恢复，0新调用；436项回归通过。旧10282条及原始10167条分别核对保留，未删除失败/重置账本。[修复证据](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_positive_binding/typed/offline_scalar_repair.json)。
+
+本固定研究新增266E/3T（含Free600秒失败），10436累计=10205E/231T、在途0；已知E697005输入/35037输出/1069.739秒，T447858输入/35365输出（含14028reasoning）/1259.594秒，失败usage未知。266份E真实OFF/8192/stop核实，现金发票/GPU分摊未知。[成本](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_positive_binding/typed/cost_and_preservation.json)。本次类型恢复不重问教师，C整份 paid提议不重复请求。
+
+## 下一项实际工作
+
+仍为原C/U两方向，不换题。先完成C当前获取TRAIN中已证实字段缺口的定点学习：把目前会混淆的整段profile拆成可明确绑定的角色归属、条件及动作—触发—材料关系，保留跨条上下文和unknown，不由host补法律值。下一次更新明确使用本轮源反证/当前候选上限，让教师编辑真正缺失的φ/输出并保留G的候选选择；独立Free得到同样原文、历史、监督和普通完整更新能力，公共修复一致。
+
+不再用上述4份已评分复用材料修复后反复追分；新有限比较只在原TRAIN及原授权内按已有顺序、隔离规则预先固定，不追加来源或扫配置。不能把阅读器的分数差、NoFit吸收的部分、普通编译修复或静态类型更新当C/U贡献。U真实φ/G更新字典仍空，须在第一项完整后继续取得源参数化的真实修订和后续调用；不为凑例改任务。两项均未验收，Goal active，不新建/重置/暂停，不启动完整训练/DEV/TEST或论文。
+
+## 历史证据（以下运行状态及下一步为当时记录，不触发队列）
+
 ## 当前终结结果与下一项真实学习
 
 四母冻结NDA检验已完成，entry为experiments/legal_skill_evolution_frozen_acquirer_probe.py，run为legal_skill_evolution_frozen_acquirer_probe_20261114。按原TRAIN顺序固定4607、8fb3、6fce、e82b四母，排除当前8母获取、bc93/6d10及共同seed，不按得分挑源。旧完整TRAIN及早期暴露保留，不称新盲测。保持C_active/Free_active已学库，不重新获取或调参。双方均有同一无标签覆盖选择器及全部本方已学操作的eager控制。

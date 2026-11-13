@@ -1,0 +1,128 @@
+{
+  "id": "legal_skill_evolution_positive_binding_typed_20261114:reuse:ConstraintAcquire:ContractNLI:96361e4d339fbfb53b8480d26323d5f180c277b2f60edda9666b7b5ef6aa6e03:concept:68e0ad78cdda43c443b040ff8abece43ef593004bf4ec6e7e8f3530ee31b76dc",
+  "source": "ContractNLI:96361e4d339fbfb53b8480d26323d5f180c277b2f60edda9666b7b5ef6aa6e03",
+  "purpose": "skill_replay",
+  "request_hash": "3bce6c2367f796231b6cd94c13988c4f0a7cfa43f5bda2a425424eda0c7a5178",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.\nThe focus_unit_id identifies the clause to classify. Other supplied units are context for resolving its references, not additional effects to merge into that focus. Interpret the acquired operation for that focus clause, using its actual context.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"许可窗口没有明示 need-to-know、必要范围或接收者保密约束。\", \"name\": \"no_condition_stated\"}, {\"meaning\": \"许可只明示 need-to-know 条件。\", \"name\": \"need_to_know_only\"}, {\"meaning\": \"许可只明示披露范围或接收者范围须为必要。\", \"name\": \"extent_necessary_only\"}, {\"meaning\": \"许可只明示接收者受保密义务约束。\", \"name\": \"confidentiality_only\"}, {\"meaning\": \"许可同时明示 need-to-know 和接收者保密约束。\", \"name\": \"need_and_confidentiality\"}, {\"meaning\": \"许可同时明示必要范围和接收者保密约束。\", \"name\": \"extent_and_confidentiality\"}, {\"meaning\": \"许可同时明示 need-to-know、必要范围和接收者保密约束。\", \"name\": \"need_extent_and_confidentiality\"}, {\"meaning\": \"许可具有其他明确条件组合，不能安全归入以上档案。\", \"name\": \"other_supported_condition_profile\"}], \"examples\": [{\"choice\": \"need_and_confidentiality\", \"quote\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"extent_necessary_only\", \"quote\": \"The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"disclosure_condition_profile_v1\", \"question\": \"把最后一个单元作为焦点，并用前置单元解释同一许可，分类许可明示的条件组合。只记录窗口中实际表述的 need-to-know、必要范围和保密约束；未表述的条件不得补写。原始 TRAIN（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.” 原始 TRAIN（逐字）：“The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.”\"}], \"current_queries\": [{\"id\": \"disclosure_conditions_15\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [7, 12, 13, 14, 15], \"current_units\": [{\"id\": 7, \"text\": \"\\\"Confidential Information\\\" does not include information that (i) is generally available to the public on the date of this agreement, (ii) becomes generally available to the public other than as a result of a disclosure not otherwise permissible hereunder, (iii) was in the Recipient's possession prior to disclosure by the Provider, except to the extent that the Recipient received the information in violation of any requirement of confidentiality of which the Recipient was aware or reasonably should have been aware, or (iv) is made available to the Recipient lawfully and in good faith by a third party who Recipient reasonably believes is not under an obligation to keep such information confidential.\"}, {\"id\": 12, \"text\": \"2. Use of Confidential Information.\"}, {\"id\": 13, \"text\": \"Each party agrees that at all times and notwithstanding any termination or expiration of this Agreement it will hold in strict confidence and not disclose to any third party Confidential Information of the other, except as approved in advance in writing by the other party to this Agreement, and will use the Confidential Information for no purpose other than evaluating or pursuing a business relationship with the other party to this Agreement.\"}, {\"id\": 14, \"text\": \"3. Employees, Advisors, and Agents.\"}, {\"id\": 15, \"text\": \"The Recipient will only share Confidential Information with its employees, advisors, and agents when such disclosure is necessary for the purpose for which the Provider disclosed the information.\"}], \"focus_unit_id\": 15}, {\"id\": \"disclosure_conditions_13\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [5, 6, 7, 12, 13], \"current_units\": [{\"id\": 5, \"text\": \"1. Confidential Information.\"}, {\"id\": 6, \"text\": \"As used herein, \\\"Confidential Information\\\" shall mean any and all oral and written proprietary information provided by one party (the \\\"Provider\\\") to the other (the \\\"Recipient\\\"), including but not limited to financial documents, customer lists, development plans, business plans, trade secrets, and intellectual property.\"}, {\"id\": 7, \"text\": \"\\\"Confidential Information\\\" does not include information that (i) is generally available to the public on the date of this agreement, (ii) becomes generally available to the public other than as a result of a disclosure not otherwise permissible hereunder, (iii) was in the Recipient's possession prior to disclosure by the Provider, except to the extent that the Recipient received the information in violation of any requirement of confidentiality of which the Recipient was aware or reasonably should have been aware, or (iv) is made available to the Recipient lawfully and in good faith by a third party who Recipient reasonably believes is not under an obligation to keep such information confidential.\"}, {\"id\": 12, \"text\": \"2. Use of Confidential Information.\"}, {\"id\": 13, \"text\": \"Each party agrees that at all times and notwithstanding any termination or expiration of this Agreement it will hold in strict confidence and not disclose to any third party Confidential Information of the other, except as approved in advance in writing by the other party to this Agreement, and will use the Confidential Information for no purpose other than evaluating or pursuing a business relationship with the other party to this Agreement.\"}], \"focus_unit_id\": 13}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_conditions_13": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          5,
+                          6,
+                          7,
+                          12,
+                          13
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_15": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          7,
+                          12,
+                          13,
+                          14,
+                          15
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_conditions_15",
+                "disclosure_conditions_13"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "4fa2f65cfb2a22465acdbfcbf54025f5fdc8ab1bb7699320c387a0fda2eb5d98",
+  "full_original_request_and_wire_retained_locally": true
+}

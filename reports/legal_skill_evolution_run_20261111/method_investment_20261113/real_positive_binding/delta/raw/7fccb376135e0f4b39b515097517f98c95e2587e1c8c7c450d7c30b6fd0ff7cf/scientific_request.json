@@ -1,0 +1,86 @@
+{
+  "id": "legal_skill_evolution_positive_binding_delta_20261114:acquisition:FreeUpdate:ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3:concept:fe1bc404506523d5b585ba5a2a0c19843f984b4febe360d07b32062e9b7000e3",
+  "source": "ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3",
+  "purpose": "skill_replay",
+  "request_hash": "40ce80a92a81642a558e40c9727ac68f173ef9f9a6d5f01535a829937434cb87",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"明示范围是受保护信息本身，未明示副本或衍生材料。\", \"name\": \"confidential_information_only\"}, {\"meaning\": \"明示范围包括受保护信息及其副本。\", \"name\": \"confidential_information_and_copies\"}, {\"meaning\": \"明示范围包括信息、副本以及笔记、分析、摘要或其他衍生材料。\", \"name\": \"information_copies_and_derivatives\"}, {\"meaning\": \"动作仅针对副本或复制件。\", \"name\": \"copies_or_reproductions_only\"}, {\"meaning\": \"来源明示全部相关材料，但其具体边界由逐字证据限定。\", \"name\": \"all_source_stated_materials\"}, {\"meaning\": \"窗口给出其他明确材料范围，须按逐字来源保留。\", \"name\": \"other_explicit_material_scope\"}], \"examples\": [], \"name\": \"disposal_material_scope_v1\", \"question\": \"判断供应处置窗口明示覆盖的材料层级，同时保留逐字来源以约束具体范围。原始 TRAIN 示范（逐字）：“If requested, either Party shall be bound to return any and all materials to the Requesting Party within ____ days.”→all_source_stated_materials；“5.3 The Receiving Party shall return to SINTEC any and all information disclosed by SINTEC as well as any copies thereof automatically upon termination/expiration of the business relation- ship.”→confidential_information_and_copies；“(f) Return to theauditee, or destroy, at auditee’s discretion, any and all Confidential Information disclosed in a printed form or other permanent record, or in any other tangible form (including without limitation, all copies, notes, extracts, analyses, studies, summaries, records and reproductions thereof) immediately on (i) expiration or termination ofthis agreement, or (ii) the request of Auditee therefor.”→information_copies_and_derivatives。\"}], \"current_queries\": [{\"id\": \"disposal_disposal_material_scope_v1__31_33\", \"operation\": \"disposal_material_scope_v1\", \"unit_ids\": [31, 32, 33], \"current_units\": [{\"id\": 31, \"text\": \"2.1.6 to treat Confidential Information as being confidential and proprietary to the OSCE by using the same degree of care, but in any case no less than a reasonable degree of care, to prevent unauthorised use, dissemination or publication thereof, as it uses to protect its own Confidential Information of a similar nature.\"}, {\"id\": 32, \"text\": \"2.1.7 upon demand of the OSCE, to promptly return all Confidential Information (in whatever medium), together with all copies thereof or, where expressly authorised in writing by the OSCE, to destroy or delete all such Confidential Information and shall confirm to the OSCE in writing that such destruction or deletion has taken place.\"}, {\"id\": 33, \"text\": \"3 INDEMNIFICATION The Recipient agrees to indemnify the OSCE in respect of any expenses, losses, damages, costs, claims, liabilities the OSCE may suffer or incur as a result of an act or omission by the Recipient or its employees in connection with the Confidential Information and the Recipient’s obligations under this Agreement.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disposal_disposal_material_scope_v1__31_33": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "confidential_information_only",
+                        "confidential_information_and_copies",
+                        "information_copies_and_derivatives",
+                        "copies_or_reproductions_only",
+                        "all_source_stated_materials",
+                        "other_explicit_material_scope",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          31,
+                          32,
+                          33
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disposal_disposal_material_scope_v1__31_33"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "a4185c38bedb6e9333725920be33c95b7f01e71790bac3ed0a67ae178ddc68db",
+  "full_original_request_and_wire_retained_locally": true
+}

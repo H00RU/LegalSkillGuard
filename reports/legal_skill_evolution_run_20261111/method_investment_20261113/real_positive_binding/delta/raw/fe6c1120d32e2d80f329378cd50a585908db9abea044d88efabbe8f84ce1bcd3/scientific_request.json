@@ -1,0 +1,508 @@
+{
+  "id": "legal_skill_evolution_positive_binding_delta_20261114:acquisition:ConstraintAcquire:ContractNLI:bbb3901122f38ae648ac6b6dc1427efc5f20bfb04a02bb769c2362e670a17c65:concept:cd4c24aa07a63c7fbedb19e2245804d9e26a67a50c2f3eb161e8a9ba25a7fc17",
+  "source": "ContractNLI:bbb3901122f38ae648ac6b6dc1427efc5f20bfb04a02bb769c2362e670a17c65",
+  "purpose": "skill_replay",
+  "request_hash": "64e2d2f6e5d65c0f6d748608e4edf129da3973e74746bb6b3eb745b0a6b2bca2",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.\nThe focus_unit_id identifies the clause to classify. Other supplied units are context for resolving its references, not additional effects to merge into that focus. Interpret the acquired operation for that focus clause, using its actual context.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"许可只明确覆盖接收方自己的员工或工作人员。\", \"name\": \"recipient_employees\"}, {\"meaning\": \"许可明确覆盖接收方自己的员工以及承包商。\", \"name\": \"recipient_employees_and_contractors\"}, {\"meaning\": \"许可明确覆盖接收方自己的员工以及顾问、代理人或专业顾问中的至少一类。\", \"name\": \"recipient_employees_and_professionals\"}, {\"meaning\": \"许可覆盖受接收方控制公司的员工，并另覆盖顾问或顾问类专业人员；不把这些员工改写为接收方自己的员工。\", \"name\": \"controlled_company_employees_and_professionals\"}, {\"meaning\": \"许可通过明确列表或当前可解析的 Representatives 定义覆盖员工并覆盖至少一种专业服务角色。\", \"name\": \"representatives_with_employees_and_professionals\"}, {\"meaning\": \"许可覆盖顾问、代理人、承包商或专业顾问，但不明确覆盖接收方自己的员工。\", \"name\": \"professionals_without_recipient_employees\"}, {\"meaning\": \"窗口形成实际许可，但其明确接收者组合不属于以上有限档案。\", \"name\": \"other_supported_recipient_profile\"}, {\"meaning\": \"所给许可窗口没有明确给出内部人员或专业服务接收者角色。\", \"name\": \"no_supported_recipient_profile\"}], \"examples\": [{\"choice\": \"controlled_company_employees_and_professionals\", \"quote\": \"2.1.3 only to disclose the Confidential Information to employees of companies directly or indirectly owned or controlled by the Recipient, consultants and/or advisors to whom disclosure is necessary for the Permitted Purpose and then only on the understanding that such employees, consultants and/or advisors are expressly subject to the provisions of this Confidentiality Agreement.\", \"source\": \"ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3\"}, {\"choice\": \"representatives_with_employees_and_professionals\", \"quote\": \"3. Neither party shall disclose the Confidential Information received from the other to any person or entity, except its employees, officers, directors, independent consultants, affiliates, subsidiaries and other agents (collectively “Representatives”) involved in the performance of the Project, or to use the Confidential Information for any purpose other than fulfilling its obligations under the Project.\", \"source\": \"ContractNLI:6fce84641005b157aa8eda07d8372f5b6fd5f0f893665acfbfc3e8fdeda3597e\"}], \"name\": \"disclosure_recipient_profile_v1\", \"question\": \"把最后一个单元作为焦点，用前置单元解释同一披露许可，精确分类其接收者角色和所有权。接收方自己的员工、受控公司的员工、承包商、顾问、代理人和专业顾问不得相互替代；Representatives 只有在当前窗口给出实际成员或可解析定义时才使用相应档案。原始 TRAIN（逐字）：“2.1.3 only to disclose the Confidential Information to employees of companies directly or indirectly owned or controlled by the Recipient, consultants and/or advisors to whom disclosure is necessary for the Permitted Purpose and then only on the understanding that such employees, consultants and/or advisors are expressly subject to the provisions of this Confidentiality Agreement.” 原始 TRAIN（逐字）：“3. Neither party shall disclose the Confidential Information received from the other to any person or entity, except its employees, officers, directors, independent consultants, affiliates, subsidiaries and other agents (collectively “Representatives”) involved in the performance of the Project, or to use the Confidential Information for any purpose other than fulfilling its obligations under the Project.”\"}], \"current_queries\": [{\"id\": \"disclosure_roles_104\", \"operation\": \"disclosure_recipient_profile_v1\", \"unit_ids\": [98, 100, 102, 103, 104], \"current_units\": [{\"id\": 98, \"text\": \"7. ACTING AS PRINCIPAL You confirm that you are acting in this matter as principal and not as nominee, agent or broker for or acting in concert with any other person and that you will be responsible for your own costs whether incurred by you or your Representatives in connection with the Possible Transaction (whether or not it proceeds) and in complying with the terms of this agreement.\"}, {\"id\": 100, \"text\": \"8. INSIDE INFORMATION AND MARKET ABUSE You acknowledge that some or all of the Confidential Information relating to the Company may be information which is not public or otherwise generally available and is of a kind such that a person who has that information would be prohibited or restricted from using it to deal in the financial instruments of the Company under Part V Criminal Justice Act 1993, the EU Market Abuse Regulation or other applicable insider dealing, market abuse or similar law.\"}, {\"id\": 102, \"text\": \"You shall not use any of the Confidential Information to deal, or to encourage anyone else to deal, in any the financial instruments of the Company.\"}, {\"id\": 103, \"text\": \"You shall not otherwise use or disclose any Confidential Information in a way that amounts to market abuse under the EU Market Abuse Regulation or contravenes Part V Criminal Justice Act 1993 or any other applicable insider dealing, market abuse or similar law.\"}, {\"id\": 104, \"text\": \"9. TAKEOVER CODE 9.1 Each Party acknowledges that the Possible Transaction is governed by the Takeover Code which, amongst other things, requires persons in possession of confidential information to conduct themselves such as to minimise the chances of a leak of such information.\"}], \"focus_unit_id\": 104}, {\"id\": \"disclosure_roles_106\", \"operation\": \"disclosure_recipient_profile_v1\", \"unit_ids\": [100, 102, 103, 104, 106], \"current_units\": [{\"id\": 100, \"text\": \"8. INSIDE INFORMATION AND MARKET ABUSE You acknowledge that some or all of the Confidential Information relating to the Company may be information which is not public or otherwise generally available and is of a kind such that a person who has that information would be prohibited or restricted from using it to deal in the financial instruments of the Company under Part V Criminal Justice Act 1993, the EU Market Abuse Regulation or other applicable insider dealing, market abuse or similar law.\"}, {\"id\": 102, \"text\": \"You shall not use any of the Confidential Information to deal, or to encourage anyone else to deal, in any the financial instruments of the Company.\"}, {\"id\": 103, \"text\": \"You shall not otherwise use or disclose any Confidential Information in a way that amounts to market abuse under the EU Market Abuse Regulation or contravenes Part V Criminal Justice Act 1993 or any other applicable insider dealing, market abuse or similar law.\"}, {\"id\": 104, \"text\": \"9. TAKEOVER CODE 9.1 Each Party acknowledges that the Possible Transaction is governed by the Takeover Code which, amongst other things, requires persons in possession of confidential information to conduct themselves such as to minimise the chances of a leak of such information.\"}, {\"id\": 106, \"text\": \"9.2 Each Party confirms that it is taking, or will take, appropriate legal and financial advice on the application of the Takeover Code to the Possible Transaction.\"}], \"focus_unit_id\": 106}, {\"id\": \"disclosure_roles_107\", \"operation\": \"disclosure_recipient_profile_v1\", \"unit_ids\": [102, 103, 104, 106, 107], \"current_units\": [{\"id\": 102, \"text\": \"You shall not use any of the Confidential Information to deal, or to encourage anyone else to deal, in any the financial instruments of the Company.\"}, {\"id\": 103, \"text\": \"You shall not otherwise use or disclose any Confidential Information in a way that amounts to market abuse under the EU Market Abuse Regulation or contravenes Part V Criminal Justice Act 1993 or any other applicable insider dealing, market abuse or similar law.\"}, {\"id\": 104, \"text\": \"9. TAKEOVER CODE 9.1 Each Party acknowledges that the Possible Transaction is governed by the Takeover Code which, amongst other things, requires persons in possession of confidential information to conduct themselves such as to minimise the chances of a leak of such information.\"}, {\"id\": 106, \"text\": \"9.2 Each Party confirms that it is taking, or will take, appropriate legal and financial advice on the application of the Takeover Code to the Possible Transaction.\"}, {\"id\": 107, \"text\": \"9.3 Each Party confirms that it understands the requirements of Rule 2 of the Takeover Code (and Practice Statement 20) and, in particular, (i) the need for secrecy prior to announcement of any Possible Transaction;\"}], \"focus_unit_id\": 107}, {\"id\": \"disclosure_roles_109\", \"operation\": \"disclosure_recipient_profile_v1\", \"unit_ids\": [103, 104, 106, 107, 109], \"current_units\": [{\"id\": 103, \"text\": \"You shall not otherwise use or disclose any Confidential Information in a way that amounts to market abuse under the EU Market Abuse Regulation or contravenes Part V Criminal Justice Act 1993 or any other applicable insider dealing, market abuse or similar law.\"}, {\"id\": 104, \"text\": \"9. TAKEOVER CODE 9.1 Each Party acknowledges that the Possible Transaction is governed by the Takeover Code which, amongst other things, requires persons in possession of confidential information to conduct themselves such as to minimise the chances of a leak of such information.\"}, {\"id\": 106, \"text\": \"9.2 Each Party confirms that it is taking, or will take, appropriate legal and financial advice on the application of the Takeover Code to the Possible Transaction.\"}, {\"id\": 107, \"text\": \"9.3 Each Party confirms that it understands the requirements of Rule 2 of the Takeover Code (and Practice Statement 20) and, in particular, (i) the need for secrecy prior to announcement of any Possible Transaction;\"}, {\"id\": 109, \"text\": \"(ii) the obligation to minimise the chances of a leak; and\"}], \"focus_unit_id\": 109}, {\"id\": \"disclosure_roles_110\", \"operation\": \"disclosure_recipient_profile_v1\", \"unit_ids\": [104, 106, 107, 109, 110], \"current_units\": [{\"id\": 104, \"text\": \"9. TAKEOVER CODE 9.1 Each Party acknowledges that the Possible Transaction is governed by the Takeover Code which, amongst other things, requires persons in possession of confidential information to conduct themselves such as to minimise the chances of a leak of such information.\"}, {\"id\": 106, \"text\": \"9.2 Each Party confirms that it is taking, or will take, appropriate legal and financial advice on the application of the Takeover Code to the Possible Transaction.\"}, {\"id\": 107, \"text\": \"9.3 Each Party confirms that it understands the requirements of Rule 2 of the Takeover Code (and Practice Statement 20) and, in particular, (i) the need for secrecy prior to announcement of any Possible Transaction;\"}, {\"id\": 109, \"text\": \"(ii) the obligation to minimise the chances of a leak; and\"}, {\"id\": 110, \"text\": \"(iii) the “Rule of 6” as it is applied to the restriction on extending discussions beyond a very limited number of people.\"}], \"focus_unit_id\": 110}, {\"id\": \"disclosure_roles_111\", \"operation\": \"disclosure_recipient_profile_v1\", \"unit_ids\": [106, 107, 109, 110, 111], \"current_units\": [{\"id\": 106, \"text\": \"9.2 Each Party confirms that it is taking, or will take, appropriate legal and financial advice on the application of the Takeover Code to the Possible Transaction.\"}, {\"id\": 107, \"text\": \"9.3 Each Party confirms that it understands the requirements of Rule 2 of the Takeover Code (and Practice Statement 20) and, in particular, (i) the need for secrecy prior to announcement of any Possible Transaction;\"}, {\"id\": 109, \"text\": \"(ii) the obligation to minimise the chances of a leak; and\"}, {\"id\": 110, \"text\": \"(iii) the “Rule of 6” as it is applied to the restriction on extending discussions beyond a very limited number of people.\"}, {\"id\": 111, \"text\": \"9.4 Nothing in this agreement shall oblige the Company to take any action or not take any action with the Takeover Panel determines would not be permitted by Rule 21.2 of the Code.\"}], \"focus_unit_id\": 111}, {\"id\": \"disclosure_roles_113\", \"operation\": \"disclosure_recipient_profile_v1\", \"unit_ids\": [107, 109, 110, 111, 113], \"current_units\": [{\"id\": 107, \"text\": \"9.3 Each Party confirms that it understands the requirements of Rule 2 of the Takeover Code (and Practice Statement 20) and, in particular, (i) the need for secrecy prior to announcement of any Possible Transaction;\"}, {\"id\": 109, \"text\": \"(ii) the obligation to minimise the chances of a leak; and\"}, {\"id\": 110, \"text\": \"(iii) the “Rule of 6” as it is applied to the restriction on extending discussions beyond a very limited number of people.\"}, {\"id\": 111, \"text\": \"9.4 Nothing in this agreement shall oblige the Company to take any action or not take any action with the Takeover Panel determines would not be permitted by Rule 21.2 of the Code.\"}, {\"id\": 113, \"text\": \"10. STANDSTILL AGREEMENT 10.1 For a period of 12 months starting on the date of this agreement, and unless terminated in accordance with paragraph 10.3 below, you shall not, and shall procure that none of your concert parties shall, either alone or acting in concert with other persons, directly or indirectly, without the prior written consent of the Company:\"}], \"focus_unit_id\": 113}, {\"id\": \"disclosure_roles_116\", \"operation\": \"disclosure_recipient_profile_v1\", \"unit_ids\": [109, 110, 111, 113, 116], \"current_units\": [{\"id\": 109, \"text\": \"(ii) the obligation to minimise the chances of a leak; and\"}, {\"id\": 110, \"text\": \"(iii) the “Rule of 6” as it is applied to the restriction on extending discussions beyond a very limited number of people.\"}, {\"id\": 111, \"text\": \"9.4 Nothing in this agreement shall oblige the Company to take any action or not take any action with the Takeover Panel determines would not be permitted by Rule 21.2 of the Code.\"}, {\"id\": 113, \"text\": \"10. STANDSTILL AGREEMENT 10.1 For a period of 12 months starting on the date of this agreement, and unless terminated in accordance with paragraph 10.3 below, you shall not, and shall procure that none of your concert parties shall, either alone or acting in concert with other persons, directly or indirectly, without the prior written consent of the Company:\"}, {\"id\": 116, \"text\": \"10.1.1 acquire, offer to acquire, agree to acquire or procure or induce another person to acquire, any interest(s) in securities of the Company;\"}], \"focus_unit_id\": 116}, {\"id\": \"disclosure_roles_117\", \"operation\": \"disclosure_recipient_profile_v1\", \"unit_ids\": [110, 111, 113, 116, 117], \"current_units\": [{\"id\": 110, \"text\": \"(iii) the “Rule of 6” as it is applied to the restriction on extending discussions beyond a very limited number of people.\"}, {\"id\": 111, \"text\": \"9.4 Nothing in this agreement shall oblige the Company to take any action or not take any action with the Takeover Panel determines would not be permitted by Rule 21.2 of the Code.\"}, {\"id\": 113, \"text\": \"10. STANDSTILL AGREEMENT 10.1 For a period of 12 months starting on the date of this agreement, and unless terminated in accordance with paragraph 10.3 below, you shall not, and shall procure that none of your concert parties shall, either alone or acting in concert with other persons, directly or indirectly, without the prior written consent of the Company:\"}, {\"id\": 116, \"text\": \"10.1.1 acquire, offer to acquire, agree to acquire or procure or induce another person to acquire, any interest(s) in securities of the Company;\"}, {\"id\": 117, \"text\": \"10.1.2 do or omit to do any act as a result of which you or any of your concert parties may acquire any interest(s) in securities of the Company;\"}], \"focus_unit_id\": 117}, {\"id\": \"disclosure_roles_118\", \"operation\": \"disclosure_recipient_profile_v1\", \"unit_ids\": [111, 113, 116, 117, 118], \"current_units\": [{\"id\": 111, \"text\": \"9.4 Nothing in this agreement shall oblige the Company to take any action or not take any action with the Takeover Panel determines would not be permitted by Rule 21.2 of the Code.\"}, {\"id\": 113, \"text\": \"10. STANDSTILL AGREEMENT 10.1 For a period of 12 months starting on the date of this agreement, and unless terminated in accordance with paragraph 10.3 below, you shall not, and shall procure that none of your concert parties shall, either alone or acting in concert with other persons, directly or indirectly, without the prior written consent of the Company:\"}, {\"id\": 116, \"text\": \"10.1.1 acquire, offer to acquire, agree to acquire or procure or induce another person to acquire, any interest(s) in securities of the Company;\"}, {\"id\": 117, \"text\": \"10.1.2 do or omit to do any act as a result of which you or any of your concert parties may acquire any interest(s) in securities of the Company;\"}, {\"id\": 118, \"text\": \"10.1.3 until such time as you or any of your concert parties makes an announcement of a firm intention to make an offer for the Company pursuant to the Takeover Code that is upon announcement recommended by the committee of independent Company directors (“your Recommended Offer”), announce, make, or procure or induce any other person to announce or make, any offer for all or any of the securities of the Company or do or omit to do any act as a result of which you or any of your concert parties may become obliged (under the Takeover Code or otherwise) to announce or make an offer for all or any of the securities of the Company;\"}], \"focus_unit_id\": 118}, {\"id\": \"disclosure_roles_119\", \"operation\": \"disclosure_recipient_profile_v1\", \"unit_ids\": [113, 116, 117, 118, 119], \"current_units\": [{\"id\": 113, \"text\": \"10. STANDSTILL AGREEMENT 10.1 For a period of 12 months starting on the date of this agreement, and unless terminated in accordance with paragraph 10.3 below, you shall not, and shall procure that none of your concert parties shall, either alone or acting in concert with other persons, directly or indirectly, without the prior written consent of the Company:\"}, {\"id\": 116, \"text\": \"10.1.1 acquire, offer to acquire, agree to acquire or procure or induce another person to acquire, any interest(s) in securities of the Company;\"}, {\"id\": 117, \"text\": \"10.1.2 do or omit to do any act as a result of which you or any of your concert parties may acquire any interest(s) in securities of the Company;\"}, {\"id\": 118, \"text\": \"10.1.3 until such time as you or any of your concert parties makes an announcement of a firm intention to make an offer for the Company pursuant to the Takeover Code that is upon announcement recommended by the committee of independent Company directors (“your Recommended Offer”), announce, make, or procure or induce any other person to announce or make, any offer for all or any of the securities of the Company or do or omit to do any act as a result of which you or any of your concert parties may become obliged (under the Takeover Code or otherwise) to announce or make an offer for all or any of the securities of the Company;\"}, {\"id\": 119, \"text\": \"10.1.4 make or in any way participate in any solicitation of votes or any attempt to influence votes from or by any holder of shares in the Company in connection with any vote of the holders of any such securities, except for the purposes of soliciting votes in favour of a scheme of arrangement to implement your Recommended Offer;\"}], \"focus_unit_id\": 119}, {\"id\": \"disclosure_roles_121\", \"operation\": \"disclosure_recipient_profile_v1\", \"unit_ids\": [116, 117, 118, 119, 121], \"current_units\": [{\"id\": 116, \"text\": \"10.1.1 acquire, offer to acquire, agree to acquire or procure or induce another person to acquire, any interest(s) in securities of the Company;\"}, {\"id\": 117, \"text\": \"10.1.2 do or omit to do any act as a result of which you or any of your concert parties may acquire any interest(s) in securities of the Company;\"}, {\"id\": 118, \"text\": \"10.1.3 until such time as you or any of your concert parties makes an announcement of a firm intention to make an offer for the Company pursuant to the Takeover Code that is upon announcement recommended by the committee of independent Company directors (“your Recommended Offer”), announce, make, or procure or induce any other person to announce or make, any offer for all or any of the securities of the Company or do or omit to do any act as a result of which you or any of your concert parties may become obliged (under the Takeover Code or otherwise) to announce or make an offer for all or any of the securities of the Company;\"}, {\"id\": 119, \"text\": \"10.1.4 make or in any way participate in any solicitation of votes or any attempt to influence votes from or by any holder of shares in the Company in connection with any vote of the holders of any such securities, except for the purposes of soliciting votes in favour of a scheme of arrangement to implement your Recommended Offer;\"}, {\"id\": 121, \"text\": \"10.1.5 seek to control or in any way influence the management, the board of directors or the policies or affairs of the Company; or\"}], \"focus_unit_id\": 121}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_roles_104": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_employees",
+                        "recipient_employees_and_contractors",
+                        "recipient_employees_and_professionals",
+                        "controlled_company_employees_and_professionals",
+                        "representatives_with_employees_and_professionals",
+                        "professionals_without_recipient_employees",
+                        "other_supported_recipient_profile",
+                        "no_supported_recipient_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          98,
+                          100,
+                          102,
+                          103,
+                          104
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_roles_106": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_employees",
+                        "recipient_employees_and_contractors",
+                        "recipient_employees_and_professionals",
+                        "controlled_company_employees_and_professionals",
+                        "representatives_with_employees_and_professionals",
+                        "professionals_without_recipient_employees",
+                        "other_supported_recipient_profile",
+                        "no_supported_recipient_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          100,
+                          102,
+                          103,
+                          104,
+                          106
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_roles_107": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_employees",
+                        "recipient_employees_and_contractors",
+                        "recipient_employees_and_professionals",
+                        "controlled_company_employees_and_professionals",
+                        "representatives_with_employees_and_professionals",
+                        "professionals_without_recipient_employees",
+                        "other_supported_recipient_profile",
+                        "no_supported_recipient_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          102,
+                          103,
+                          104,
+                          106,
+                          107
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_roles_109": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_employees",
+                        "recipient_employees_and_contractors",
+                        "recipient_employees_and_professionals",
+                        "controlled_company_employees_and_professionals",
+                        "representatives_with_employees_and_professionals",
+                        "professionals_without_recipient_employees",
+                        "other_supported_recipient_profile",
+                        "no_supported_recipient_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          103,
+                          104,
+                          106,
+                          107,
+                          109
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_roles_110": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_employees",
+                        "recipient_employees_and_contractors",
+                        "recipient_employees_and_professionals",
+                        "controlled_company_employees_and_professionals",
+                        "representatives_with_employees_and_professionals",
+                        "professionals_without_recipient_employees",
+                        "other_supported_recipient_profile",
+                        "no_supported_recipient_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          104,
+                          106,
+                          107,
+                          109,
+                          110
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_roles_111": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_employees",
+                        "recipient_employees_and_contractors",
+                        "recipient_employees_and_professionals",
+                        "controlled_company_employees_and_professionals",
+                        "representatives_with_employees_and_professionals",
+                        "professionals_without_recipient_employees",
+                        "other_supported_recipient_profile",
+                        "no_supported_recipient_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          106,
+                          107,
+                          109,
+                          110,
+                          111
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_roles_113": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_employees",
+                        "recipient_employees_and_contractors",
+                        "recipient_employees_and_professionals",
+                        "controlled_company_employees_and_professionals",
+                        "representatives_with_employees_and_professionals",
+                        "professionals_without_recipient_employees",
+                        "other_supported_recipient_profile",
+                        "no_supported_recipient_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          107,
+                          109,
+                          110,
+                          111,
+                          113
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_roles_116": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_employees",
+                        "recipient_employees_and_contractors",
+                        "recipient_employees_and_professionals",
+                        "controlled_company_employees_and_professionals",
+                        "representatives_with_employees_and_professionals",
+                        "professionals_without_recipient_employees",
+                        "other_supported_recipient_profile",
+                        "no_supported_recipient_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          109,
+                          110,
+                          111,
+                          113,
+                          116
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_roles_117": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_employees",
+                        "recipient_employees_and_contractors",
+                        "recipient_employees_and_professionals",
+                        "controlled_company_employees_and_professionals",
+                        "representatives_with_employees_and_professionals",
+                        "professionals_without_recipient_employees",
+                        "other_supported_recipient_profile",
+                        "no_supported_recipient_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          110,
+                          111,
+                          113,
+                          116,
+                          117
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_roles_118": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_employees",
+                        "recipient_employees_and_contractors",
+                        "recipient_employees_and_professionals",
+                        "controlled_company_employees_and_professionals",
+                        "representatives_with_employees_and_professionals",
+                        "professionals_without_recipient_employees",
+                        "other_supported_recipient_profile",
+                        "no_supported_recipient_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          111,
+                          113,
+                          116,
+                          117,
+                          118
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_roles_119": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_employees",
+                        "recipient_employees_and_contractors",
+                        "recipient_employees_and_professionals",
+                        "controlled_company_employees_and_professionals",
+                        "representatives_with_employees_and_professionals",
+                        "professionals_without_recipient_employees",
+                        "other_supported_recipient_profile",
+                        "no_supported_recipient_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          113,
+                          116,
+                          117,
+                          118,
+                          119
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_roles_121": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_employees",
+                        "recipient_employees_and_contractors",
+                        "recipient_employees_and_professionals",
+                        "controlled_company_employees_and_professionals",
+                        "representatives_with_employees_and_professionals",
+                        "professionals_without_recipient_employees",
+                        "other_supported_recipient_profile",
+                        "no_supported_recipient_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          116,
+                          117,
+                          118,
+                          119,
+                          121
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_roles_104",
+                "disclosure_roles_106",
+                "disclosure_roles_107",
+                "disclosure_roles_109",
+                "disclosure_roles_110",
+                "disclosure_roles_111",
+                "disclosure_roles_113",
+                "disclosure_roles_116",
+                "disclosure_roles_117",
+                "disclosure_roles_118",
+                "disclosure_roles_119",
+                "disclosure_roles_121"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "af200df0f57a7d1bbae776b8728d028a5898bd9a78d5f2a2d8ceaad7de7687b1",
+  "full_original_request_and_wire_retained_locally": true
+}

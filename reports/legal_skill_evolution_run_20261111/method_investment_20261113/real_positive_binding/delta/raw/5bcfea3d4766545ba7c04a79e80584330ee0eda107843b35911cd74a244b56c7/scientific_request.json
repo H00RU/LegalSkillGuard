@@ -1,0 +1,242 @@
+{
+  "id": "legal_skill_evolution_positive_binding_delta_20261114:acquisition:ConstraintAcquire:ContractNLI:6fce84641005b157aa8eda07d8372f5b6fd5f0f893665acfbfc3e8fdeda3597e:concept:d7ed861549a587bed1ce531fd7ea889ffdc54e0d9ec3c7e99e9c3a4ebbd45b42",
+  "source": "ContractNLI:6fce84641005b157aa8eda07d8372f5b6fd5f0f893665acfbfc3e8fdeda3597e",
+  "purpose": "skill_replay",
+  "request_hash": "96e9476c1df7f96347c42c8cd1fd343a9adc145829366a32e8646456c7d9f14c",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.\nThe focus_unit_id identifies the clause to classify. Other supplied units are context for resolving its references, not additional effects to merge into that focus. Interpret the acquired operation for that focus clause, using its actual context.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"许可窗口没有明示 need-to-know、必要范围或接收者保密约束。\", \"name\": \"no_condition_stated\"}, {\"meaning\": \"许可只明示 need-to-know 条件。\", \"name\": \"need_to_know_only\"}, {\"meaning\": \"许可只明示披露范围或接收者范围须为必要。\", \"name\": \"extent_necessary_only\"}, {\"meaning\": \"许可只明示接收者受保密义务约束。\", \"name\": \"confidentiality_only\"}, {\"meaning\": \"许可同时明示 need-to-know 和接收者保密约束。\", \"name\": \"need_and_confidentiality\"}, {\"meaning\": \"许可同时明示必要范围和接收者保密约束。\", \"name\": \"extent_and_confidentiality\"}, {\"meaning\": \"许可同时明示 need-to-know、必要范围和接收者保密约束。\", \"name\": \"need_extent_and_confidentiality\"}, {\"meaning\": \"许可具有其他明确条件组合，不能安全归入以上档案。\", \"name\": \"other_supported_condition_profile\"}], \"examples\": [{\"choice\": \"need_and_confidentiality\", \"quote\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"extent_necessary_only\", \"quote\": \"The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"disclosure_condition_profile_v1\", \"question\": \"把最后一个单元作为焦点，并用前置单元解释同一许可，分类许可明示的条件组合。只记录窗口中实际表述的 need-to-know、必要范围和保密约束；未表述的条件不得补写。原始 TRAIN（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.” 原始 TRAIN（逐字）：“The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.”\"}], \"current_queries\": [{\"id\": \"disclosure_conditions_10\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [6, 7, 8, 9, 10], \"current_units\": [{\"id\": 6, \"text\": \"Some of the information in each of these categories is confidential in nature or constitutes a trade secret as it is not generally known to its competitors or the public.\"}, {\"id\": 7, \"text\": \"This information received from a party, either orally or in writing, during the course of the Project shall be deemed to be confidential information (“Confidential Information”) for purposes of this Confidentiality Agreement.\"}, {\"id\": 8, \"text\": \"Notes, documents, summaries or reports which are prepared from Confidential Information to the extent such specifically refer or relate to Confidential Information are themselves Confidential Information.\"}, {\"id\": 9, \"text\": \"2. Each party acknowledges the sensitive and secret nature of the Confidential Information it will have access to during the term of the Project and agrees that it will treat such Confidential Information as strictly confidential and shall exercise the same degree of care in the protection of the Confidential Information as the receiving party exercises with respect to its own proprietary property and trade secrets, but in no event shall it be less than a reasonable degree of care given the nature of the Confidential Information.\"}, {\"id\": 10, \"text\": \"3. Neither party shall disclose the Confidential Information received from the other to any person or entity, except its employees, officers, directors, independent consultants, affiliates, subsidiaries and other agents (collectively “Representatives”) involved in the performance of the Project, or to use the Confidential Information for any purpose other than fulfilling its obligations under the Project.\"}], \"focus_unit_id\": 10}, {\"id\": \"disclosure_conditions_12\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [8, 9, 10, 11, 12], \"current_units\": [{\"id\": 8, \"text\": \"Notes, documents, summaries or reports which are prepared from Confidential Information to the extent such specifically refer or relate to Confidential Information are themselves Confidential Information.\"}, {\"id\": 9, \"text\": \"2. Each party acknowledges the sensitive and secret nature of the Confidential Information it will have access to during the term of the Project and agrees that it will treat such Confidential Information as strictly confidential and shall exercise the same degree of care in the protection of the Confidential Information as the receiving party exercises with respect to its own proprietary property and trade secrets, but in no event shall it be less than a reasonable degree of care given the nature of the Confidential Information.\"}, {\"id\": 10, \"text\": \"3. Neither party shall disclose the Confidential Information received from the other to any person or entity, except its employees, officers, directors, independent consultants, affiliates, subsidiaries and other agents (collectively “Representatives”) involved in the performance of the Project, or to use the Confidential Information for any purpose other than fulfilling its obligations under the Project.\"}, {\"id\": 11, \"text\": \"Each party acknowledges and agrees that breach of this Confidentiality Agreement by the other and/or anyone employed by or otherwise associated with the other may also constitute a violation of applicable laws.\"}, {\"id\": 12, \"text\": \"Access to Confidential Information by the receiving party shall be limited to those Representatives who have agreed to be bound in writing under terms no less stringent than this Confidentiality Agreement.\"}], \"focus_unit_id\": 12}, {\"id\": \"disclosure_conditions_39\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [34, 35, 36, 37, 39], \"current_units\": [{\"id\": 34, \"text\": \"(5) information that is disclosed with the disclosing party’s prior written consent.\"}, {\"id\": 35, \"text\": \"8. In the event that a party receives a subpoena or other validly issued administrative or judicial process requesting Confidential Information received from the other, the receiving party shall provide prompt actual notice to, in the case of <Vendor Name Here>, the General Counsel of <Vendor Name Here>, and, in the case of Company, to the General Counsel of Company, of such receipt, providing the party with a reasonable opportunity to intervene in the proceeding before the time that the other party is required to comply with such subpoena or other process.\"}, {\"id\": 36, \"text\": \"If such protective order or other remedy is not obtained, or the disclosing party waives compliance with the provision of this Confidentiality Agreement, the receiving party shall furnish only that portion of the Confidential Information which the receiving party is legally required to disclose and shall exercise its reasonable efforts to obtain reliable assurance that confidential treatment shall be accorded the Confidential Information.\"}, {\"id\": 37, \"text\": \"Notwithstanding anything otherwise set forth herein, <Vendor Name Here> or Company may disclose Confidential Information:\"}, {\"id\": 39, \"text\": \"a) to the extent revealed to a government agency with regulatory or oversight jurisdiction over Company; or\"}], \"focus_unit_id\": 39}, {\"id\": \"disclosure_conditions_40\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [35, 36, 37, 39, 40], \"current_units\": [{\"id\": 35, \"text\": \"8. In the event that a party receives a subpoena or other validly issued administrative or judicial process requesting Confidential Information received from the other, the receiving party shall provide prompt actual notice to, in the case of <Vendor Name Here>, the General Counsel of <Vendor Name Here>, and, in the case of Company, to the General Counsel of Company, of such receipt, providing the party with a reasonable opportunity to intervene in the proceeding before the time that the other party is required to comply with such subpoena or other process.\"}, {\"id\": 36, \"text\": \"If such protective order or other remedy is not obtained, or the disclosing party waives compliance with the provision of this Confidentiality Agreement, the receiving party shall furnish only that portion of the Confidential Information which the receiving party is legally required to disclose and shall exercise its reasonable efforts to obtain reliable assurance that confidential treatment shall be accorded the Confidential Information.\"}, {\"id\": 37, \"text\": \"Notwithstanding anything otherwise set forth herein, <Vendor Name Here> or Company may disclose Confidential Information:\"}, {\"id\": 39, \"text\": \"a) to the extent revealed to a government agency with regulatory or oversight jurisdiction over Company; or\"}, {\"id\": 40, \"text\": \"b) in the course of fulfilling any of <Vendor Name Here> regulatory responsibilities, including responsibilities under the Securities Exchange Act of 1934 (Act) or other applicable law.\"}], \"focus_unit_id\": 40}, {\"id\": \"disclosure_conditions_41\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [36, 37, 39, 40, 41], \"current_units\": [{\"id\": 36, \"text\": \"If such protective order or other remedy is not obtained, or the disclosing party waives compliance with the provision of this Confidentiality Agreement, the receiving party shall furnish only that portion of the Confidential Information which the receiving party is legally required to disclose and shall exercise its reasonable efforts to obtain reliable assurance that confidential treatment shall be accorded the Confidential Information.\"}, {\"id\": 37, \"text\": \"Notwithstanding anything otherwise set forth herein, <Vendor Name Here> or Company may disclose Confidential Information:\"}, {\"id\": 39, \"text\": \"a) to the extent revealed to a government agency with regulatory or oversight jurisdiction over Company; or\"}, {\"id\": 40, \"text\": \"b) in the course of fulfilling any of <Vendor Name Here> regulatory responsibilities, including responsibilities under the Securities Exchange Act of 1934 (Act) or other applicable law.\"}, {\"id\": 41, \"text\": \"In either case, <Vendor Name Here> or Company shall furnish only that portion of the Confidential Information which the receiving party is legally required to disclose and shall exercise its reasonable efforts to obtain reliable assurance that confidential treatment shall be accorded the Confidential Information.\"}], \"focus_unit_id\": 41}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_conditions_10": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          6,
+                          7,
+                          8,
+                          9,
+                          10
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_12": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          8,
+                          9,
+                          10,
+                          11,
+                          12
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_39": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          34,
+                          35,
+                          36,
+                          37,
+                          39
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_40": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          35,
+                          36,
+                          37,
+                          39,
+                          40
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_41": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          36,
+                          37,
+                          39,
+                          40,
+                          41
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_conditions_10",
+                "disclosure_conditions_12",
+                "disclosure_conditions_39",
+                "disclosure_conditions_40",
+                "disclosure_conditions_41"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "45160b474f37d9789825b57894b796e9411fbeddf2f5b86eb0b852873dc85a1c",
+  "full_original_request_and_wire_retained_locally": true
+}

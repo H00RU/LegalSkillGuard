@@ -1,0 +1,85 @@
+{
+  "id": "legal_skill_evolution_positive_binding_typed_20261114:reuse:FreeUpdate:ContractNLI:96361e4d339fbfb53b8480d26323d5f180c277b2f60edda9666b7b5ef6aa6e03:concept:6787f64e88332d9825e32a85471106f10fdd2d9cb077de9de0ea11caed7502be",
+  "source": "ContractNLI:96361e4d339fbfb53b8480d26323d5f180c277b2f60edda9666b7b5ef6aa6e03",
+  "purpose": "skill_replay",
+  "request_hash": "a04c9b362a0532b0e9565feb4b596ca491d40ec9e677f817ecac2bbb0010c341",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"窗口明示接收者须具有 need-to-know。\", \"name\": \"need_to_know_required\"}, {\"meaning\": \"完整供应窗口没有陈述 need-to-know 条件；只判断该窗口。\", \"name\": \"need_to_know_not_stated_in_window\"}], \"examples\": [], \"name\": \"need_to_know_requirement_v1\", \"question\": \"判断供应披露窗口是否明示接收者必须具有 need-to-know；不得从必要目的或一般保密义务推断。原始 TRAIN 示范（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.”→need_to_know_required；“The Receiving Party shall take all practical steps to keep the Disclosing Party’s Confidential Information confidential and shall restrict access to the Confidential Information to those agents and professional advisers to whom disclosure is necessary in pursuit of the Approved Purpose.”→need_to_know_not_stated_in_window。\"}], \"current_queries\": [{\"id\": \"disclosure_need_to_know_requirement_v1__12_17\", \"operation\": \"need_to_know_requirement_v1\", \"unit_ids\": [12, 13, 14, 15, 16, 17], \"current_units\": [{\"id\": 12, \"text\": \"2. Use of Confidential Information.\"}, {\"id\": 13, \"text\": \"Each party agrees that at all times and notwithstanding any termination or expiration of this Agreement it will hold in strict confidence and not disclose to any third party Confidential Information of the other, except as approved in advance in writing by the other party to this Agreement, and will use the Confidential Information for no purpose other than evaluating or pursuing a business relationship with the other party to this Agreement.\"}, {\"id\": 14, \"text\": \"3. Employees, Advisors, and Agents.\"}, {\"id\": 15, \"text\": \"The Recipient will only share Confidential Information with its employees, advisors, and agents when such disclosure is necessary for the purpose for which the Provider disclosed the information.\"}, {\"id\": 16, \"text\": \"All employees, advisors, and agents of the Recipient party with access to Confidential Information shall be bound by this Agreement and the Recipient shall be responsible for any unauthorized disclosure of Confidential Information by its employees, advisors and/or agents.\"}, {\"id\": 17, \"text\": \"4. Court Order.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_need_to_know_requirement_v1__12_17": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "need_to_know_required",
+                        "need_to_know_not_stated_in_window",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          12,
+                          13,
+                          14,
+                          15,
+                          16,
+                          17
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_need_to_know_requirement_v1__12_17"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "c6f49cd7686540791b0a8820f7d37981a8579ac2baf6aa23ec2d950ffba353f0",
+  "full_original_request_and_wire_retained_locally": true
+}

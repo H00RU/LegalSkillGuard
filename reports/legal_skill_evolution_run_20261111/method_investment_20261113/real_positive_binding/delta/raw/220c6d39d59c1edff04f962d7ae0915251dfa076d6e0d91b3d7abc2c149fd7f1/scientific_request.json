@@ -1,0 +1,508 @@
+{
+  "id": "legal_skill_evolution_positive_binding_delta_20261114:acquisition:ConstraintAcquire:ContractNLI:bbb3901122f38ae648ac6b6dc1427efc5f20bfb04a02bb769c2362e670a17c65:concept:a566a4742a1b8f358d87da5d781d3fbb63f8f33d82f28cbc511249e005503ac5",
+  "source": "ContractNLI:bbb3901122f38ae648ac6b6dc1427efc5f20bfb04a02bb769c2362e670a17c65",
+  "purpose": "skill_replay",
+  "request_hash": "7d7cca36347dde42dd46e1d0282ae1febe008ed90d40083fee33cee5ab5f4b85",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.\nThe focus_unit_id identifies the clause to classify. Other supplied units are context for resolving its references, not additional effects to merge into that focus. Interpret the acquired operation for that focus clause, using its actual context.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"许可窗口没有明示 need-to-know、必要范围或接收者保密约束。\", \"name\": \"no_condition_stated\"}, {\"meaning\": \"许可只明示 need-to-know 条件。\", \"name\": \"need_to_know_only\"}, {\"meaning\": \"许可只明示披露范围或接收者范围须为必要。\", \"name\": \"extent_necessary_only\"}, {\"meaning\": \"许可只明示接收者受保密义务约束。\", \"name\": \"confidentiality_only\"}, {\"meaning\": \"许可同时明示 need-to-know 和接收者保密约束。\", \"name\": \"need_and_confidentiality\"}, {\"meaning\": \"许可同时明示必要范围和接收者保密约束。\", \"name\": \"extent_and_confidentiality\"}, {\"meaning\": \"许可同时明示 need-to-know、必要范围和接收者保密约束。\", \"name\": \"need_extent_and_confidentiality\"}, {\"meaning\": \"许可具有其他明确条件组合，不能安全归入以上档案。\", \"name\": \"other_supported_condition_profile\"}], \"examples\": [{\"choice\": \"need_and_confidentiality\", \"quote\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"extent_necessary_only\", \"quote\": \"The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"disclosure_condition_profile_v1\", \"question\": \"把最后一个单元作为焦点，并用前置单元解释同一许可，分类许可明示的条件组合。只记录窗口中实际表述的 need-to-know、必要范围和保密约束；未表述的条件不得补写。原始 TRAIN（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.” 原始 TRAIN（逐字）：“The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.”\"}], \"current_queries\": [{\"id\": \"disclosure_conditions_86\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [75, 78, 79, 84, 86], \"current_units\": [{\"id\": 75, \"text\": \"5. RETURN OF CONFIDENTIAL INFORMATION 5.1 You shall, upon request by us at any time:\"}, {\"id\": 78, \"text\": \"5.1.1 promptly destroy or return to us (at your option) all hard copy documents and other materials which are in a form reasonably capable of delivery containing or reflecting the Confidential Information and all copies thereof and ensure the destruction of all Derivative Information and confirm to us in writing that you have complied with this paragraph 5.1.1; and\"}, {\"id\": 79, \"text\": \"5.1.2 ensure that where Confidential Information has not been destroyed or returned under paragraph 5.1.1, all reasonable steps are taken to erase from any computer under your control any document, disk or file to the extent containing, reflecting or generated from any Confidential Information and that, following such erasure, no steps will be taken to access or recover such material, save that you will be entitled to retain such copies of such Confidential Information (a) to the extent required by law or regulation, (b) to the extent required by your internal compliance procedures, or (c) to the extent contained as back-ups or archives as a matter of reasonable routine process on your electronic information management and communications systems or servers and for which deletion or destruction would not be reasonably practicable (provided that no step will be taken to access or recover such Confidential Information and provided that such Confidential Information shall continue to be held subject to the terms of this agreement).\"}, {\"id\": 84, \"text\": \"5.2 Any Confidential Information which, notwithstanding paragraph 5.1 is retained, will continue to be held subject to the terms of this agreement and you shall not further use or disclose to any person any such Confidential Information.\"}, {\"id\": 86, \"text\": \"6. CONTACT WITH US, THE JLT GROUP AND OTHERS 6.1 You shall direct all communications and questions regarding the Possible Transaction only to Geoffrey Howe, Dominic Burke or Derek Walsh of the Company or to Conor Hillery of J.P. Morgan or Tim Lewis or Katherine Moir of Clifford Chance LLP, save with prior consent from the Company.\"}], \"focus_unit_id\": 86}, {\"id\": \"disclosure_conditions_89\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [78, 79, 84, 86, 89], \"current_units\": [{\"id\": 78, \"text\": \"5.1.1 promptly destroy or return to us (at your option) all hard copy documents and other materials which are in a form reasonably capable of delivery containing or reflecting the Confidential Information and all copies thereof and ensure the destruction of all Derivative Information and confirm to us in writing that you have complied with this paragraph 5.1.1; and\"}, {\"id\": 79, \"text\": \"5.1.2 ensure that where Confidential Information has not been destroyed or returned under paragraph 5.1.1, all reasonable steps are taken to erase from any computer under your control any document, disk or file to the extent containing, reflecting or generated from any Confidential Information and that, following such erasure, no steps will be taken to access or recover such material, save that you will be entitled to retain such copies of such Confidential Information (a) to the extent required by law or regulation, (b) to the extent required by your internal compliance procedures, or (c) to the extent contained as back-ups or archives as a matter of reasonable routine process on your electronic information management and communications systems or servers and for which deletion or destruction would not be reasonably practicable (provided that no step will be taken to access or recover such Confidential Information and provided that such Confidential Information shall continue to be held subject to the terms of this agreement).\"}, {\"id\": 84, \"text\": \"5.2 Any Confidential Information which, notwithstanding paragraph 5.1 is retained, will continue to be held subject to the terms of this agreement and you shall not further use or disclose to any person any such Confidential Information.\"}, {\"id\": 86, \"text\": \"6. CONTACT WITH US, THE JLT GROUP AND OTHERS 6.1 You shall direct all communications and questions regarding the Possible Transaction only to Geoffrey Howe, Dominic Burke or Derek Walsh of the Company or to Conor Hillery of J.P. Morgan or Tim Lewis or Katherine Moir of Clifford Chance LLP, save with prior consent from the Company.\"}, {\"id\": 89, \"text\": \"6.2 You acknowledge and agree that any consent or authorisation required under this agreement shall only be given on our behalf by Geoffrey Howe or Derek Walsh of the Company.\"}], \"focus_unit_id\": 89}, {\"id\": \"disclosure_conditions_91\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [79, 84, 86, 89, 91], \"current_units\": [{\"id\": 79, \"text\": \"5.1.2 ensure that where Confidential Information has not been destroyed or returned under paragraph 5.1.1, all reasonable steps are taken to erase from any computer under your control any document, disk or file to the extent containing, reflecting or generated from any Confidential Information and that, following such erasure, no steps will be taken to access or recover such material, save that you will be entitled to retain such copies of such Confidential Information (a) to the extent required by law or regulation, (b) to the extent required by your internal compliance procedures, or (c) to the extent contained as back-ups or archives as a matter of reasonable routine process on your electronic information management and communications systems or servers and for which deletion or destruction would not be reasonably practicable (provided that no step will be taken to access or recover such Confidential Information and provided that such Confidential Information shall continue to be held subject to the terms of this agreement).\"}, {\"id\": 84, \"text\": \"5.2 Any Confidential Information which, notwithstanding paragraph 5.1 is retained, will continue to be held subject to the terms of this agreement and you shall not further use or disclose to any person any such Confidential Information.\"}, {\"id\": 86, \"text\": \"6. CONTACT WITH US, THE JLT GROUP AND OTHERS 6.1 You shall direct all communications and questions regarding the Possible Transaction only to Geoffrey Howe, Dominic Burke or Derek Walsh of the Company or to Conor Hillery of J.P. Morgan or Tim Lewis or Katherine Moir of Clifford Chance LLP, save with prior consent from the Company.\"}, {\"id\": 89, \"text\": \"6.2 You acknowledge and agree that any consent or authorisation required under this agreement shall only be given on our behalf by Geoffrey Howe or Derek Walsh of the Company.\"}, {\"id\": 91, \"text\": \"For the avoidance or doubt, written consent or authorisation may be provided by email.\"}], \"focus_unit_id\": 91}, {\"id\": \"disclosure_conditions_92\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [84, 86, 89, 91, 92], \"current_units\": [{\"id\": 84, \"text\": \"5.2 Any Confidential Information which, notwithstanding paragraph 5.1 is retained, will continue to be held subject to the terms of this agreement and you shall not further use or disclose to any person any such Confidential Information.\"}, {\"id\": 86, \"text\": \"6. CONTACT WITH US, THE JLT GROUP AND OTHERS 6.1 You shall direct all communications and questions regarding the Possible Transaction only to Geoffrey Howe, Dominic Burke or Derek Walsh of the Company or to Conor Hillery of J.P. Morgan or Tim Lewis or Katherine Moir of Clifford Chance LLP, save with prior consent from the Company.\"}, {\"id\": 89, \"text\": \"6.2 You acknowledge and agree that any consent or authorisation required under this agreement shall only be given on our behalf by Geoffrey Howe or Derek Walsh of the Company.\"}, {\"id\": 91, \"text\": \"For the avoidance or doubt, written consent or authorisation may be provided by email.\"}, {\"id\": 92, \"text\": \"6.3 Neither party shall (and each party shall procure that its directors, officers, employees, representatives and agents shall not) directly or indirectly, without the prior written consent of the other party, at any time during the period of 12 months from the date of this agreement:\"}], \"focus_unit_id\": 92}, {\"id\": \"disclosure_conditions_93\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [86, 89, 91, 92, 93], \"current_units\": [{\"id\": 86, \"text\": \"6. CONTACT WITH US, THE JLT GROUP AND OTHERS 6.1 You shall direct all communications and questions regarding the Possible Transaction only to Geoffrey Howe, Dominic Burke or Derek Walsh of the Company or to Conor Hillery of J.P. Morgan or Tim Lewis or Katherine Moir of Clifford Chance LLP, save with prior consent from the Company.\"}, {\"id\": 89, \"text\": \"6.2 You acknowledge and agree that any consent or authorisation required under this agreement shall only be given on our behalf by Geoffrey Howe or Derek Walsh of the Company.\"}, {\"id\": 91, \"text\": \"For the avoidance or doubt, written consent or authorisation may be provided by email.\"}, {\"id\": 92, \"text\": \"6.3 Neither party shall (and each party shall procure that its directors, officers, employees, representatives and agents shall not) directly or indirectly, without the prior written consent of the other party, at any time during the period of 12 months from the date of this agreement:\"}, {\"id\": 93, \"text\": \"6.3.1 except as otherwise permitted by this Agreement and subject to paragraph 6.4, initiate or knowingly engage in discussions in connection with the Possible Transaction with any shareholder, employee (including the JLT directors nominated by Jardine Matheson Holdings Limited (or its subsidiary) but excluding any other director of a Party who is also an employee), customer or supplier of or lender to any member of the other party's Group; or\"}], \"focus_unit_id\": 93}, {\"id\": \"disclosure_conditions_94\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [89, 91, 92, 93, 94], \"current_units\": [{\"id\": 89, \"text\": \"6.2 You acknowledge and agree that any consent or authorisation required under this agreement shall only be given on our behalf by Geoffrey Howe or Derek Walsh of the Company.\"}, {\"id\": 91, \"text\": \"For the avoidance or doubt, written consent or authorisation may be provided by email.\"}, {\"id\": 92, \"text\": \"6.3 Neither party shall (and each party shall procure that its directors, officers, employees, representatives and agents shall not) directly or indirectly, without the prior written consent of the other party, at any time during the period of 12 months from the date of this agreement:\"}, {\"id\": 93, \"text\": \"6.3.1 except as otherwise permitted by this Agreement and subject to paragraph 6.4, initiate or knowingly engage in discussions in connection with the Possible Transaction with any shareholder, employee (including the JLT directors nominated by Jardine Matheson Holdings Limited (or its subsidiary) but excluding any other director of a Party who is also an employee), customer or supplier of or lender to any member of the other party's Group; or\"}, {\"id\": 94, \"text\": \"6.3.2 solicit, engage or employ (whether paid or unpaid) any Restricted Person of the other Party.\"}], \"focus_unit_id\": 94}, {\"id\": \"disclosure_conditions_95\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [91, 92, 93, 94, 95], \"current_units\": [{\"id\": 91, \"text\": \"For the avoidance or doubt, written consent or authorisation may be provided by email.\"}, {\"id\": 92, \"text\": \"6.3 Neither party shall (and each party shall procure that its directors, officers, employees, representatives and agents shall not) directly or indirectly, without the prior written consent of the other party, at any time during the period of 12 months from the date of this agreement:\"}, {\"id\": 93, \"text\": \"6.3.1 except as otherwise permitted by this Agreement and subject to paragraph 6.4, initiate or knowingly engage in discussions in connection with the Possible Transaction with any shareholder, employee (including the JLT directors nominated by Jardine Matheson Holdings Limited (or its subsidiary) but excluding any other director of a Party who is also an employee), customer or supplier of or lender to any member of the other party's Group; or\"}, {\"id\": 94, \"text\": \"6.3.2 solicit, engage or employ (whether paid or unpaid) any Restricted Person of the other Party.\"}, {\"id\": 95, \"text\": \"For the avoidance of doubt this restriction shall not prohibit either Party from engaging or employing any such Restricted Person who has responded to a bona fide recruitment advertisement not specifically targeted at such Restricted Person or from engaging or employing any Restricted Person whose employment has been terminated by the party by whom such Restricted Person was employed, provided that such employment and engagement commences following such termination.\"}], \"focus_unit_id\": 95}, {\"id\": \"disclosure_conditions_96\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [92, 93, 94, 95, 96], \"current_units\": [{\"id\": 92, \"text\": \"6.3 Neither party shall (and each party shall procure that its directors, officers, employees, representatives and agents shall not) directly or indirectly, without the prior written consent of the other party, at any time during the period of 12 months from the date of this agreement:\"}, {\"id\": 93, \"text\": \"6.3.1 except as otherwise permitted by this Agreement and subject to paragraph 6.4, initiate or knowingly engage in discussions in connection with the Possible Transaction with any shareholder, employee (including the JLT directors nominated by Jardine Matheson Holdings Limited (or its subsidiary) but excluding any other director of a Party who is also an employee), customer or supplier of or lender to any member of the other party's Group; or\"}, {\"id\": 94, \"text\": \"6.3.2 solicit, engage or employ (whether paid or unpaid) any Restricted Person of the other Party.\"}, {\"id\": 95, \"text\": \"For the avoidance of doubt this restriction shall not prohibit either Party from engaging or employing any such Restricted Person who has responded to a bona fide recruitment advertisement not specifically targeted at such Restricted Person or from engaging or employing any Restricted Person whose employment has been terminated by the party by whom such Restricted Person was employed, provided that such employment and engagement commences following such termination.\"}, {\"id\": 96, \"text\": \"6.4 You may initiate or engage in discussions in connection with the Possible Transaction with any shareholder of the Company once the restrictions under paragraph 10.1 have ceased to apply pursuant to paragraphs 10.3.1, 10.3.2 or 10.3.3 provided, in each case, that you have, prior to such time, announced a firm intention to make an offer for the Company pursuant to the Takeover Code that is upon announcement recommended by the committee of independent Company directors.\"}], \"focus_unit_id\": 96}, {\"id\": \"disclosure_conditions_98\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [93, 94, 95, 96, 98], \"current_units\": [{\"id\": 93, \"text\": \"6.3.1 except as otherwise permitted by this Agreement and subject to paragraph 6.4, initiate or knowingly engage in discussions in connection with the Possible Transaction with any shareholder, employee (including the JLT directors nominated by Jardine Matheson Holdings Limited (or its subsidiary) but excluding any other director of a Party who is also an employee), customer or supplier of or lender to any member of the other party's Group; or\"}, {\"id\": 94, \"text\": \"6.3.2 solicit, engage or employ (whether paid or unpaid) any Restricted Person of the other Party.\"}, {\"id\": 95, \"text\": \"For the avoidance of doubt this restriction shall not prohibit either Party from engaging or employing any such Restricted Person who has responded to a bona fide recruitment advertisement not specifically targeted at such Restricted Person or from engaging or employing any Restricted Person whose employment has been terminated by the party by whom such Restricted Person was employed, provided that such employment and engagement commences following such termination.\"}, {\"id\": 96, \"text\": \"6.4 You may initiate or engage in discussions in connection with the Possible Transaction with any shareholder of the Company once the restrictions under paragraph 10.1 have ceased to apply pursuant to paragraphs 10.3.1, 10.3.2 or 10.3.3 provided, in each case, that you have, prior to such time, announced a firm intention to make an offer for the Company pursuant to the Takeover Code that is upon announcement recommended by the committee of independent Company directors.\"}, {\"id\": 98, \"text\": \"7. ACTING AS PRINCIPAL You confirm that you are acting in this matter as principal and not as nominee, agent or broker for or acting in concert with any other person and that you will be responsible for your own costs whether incurred by you or your Representatives in connection with the Possible Transaction (whether or not it proceeds) and in complying with the terms of this agreement.\"}], \"focus_unit_id\": 98}, {\"id\": \"disclosure_conditions_100\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [94, 95, 96, 98, 100], \"current_units\": [{\"id\": 94, \"text\": \"6.3.2 solicit, engage or employ (whether paid or unpaid) any Restricted Person of the other Party.\"}, {\"id\": 95, \"text\": \"For the avoidance of doubt this restriction shall not prohibit either Party from engaging or employing any such Restricted Person who has responded to a bona fide recruitment advertisement not specifically targeted at such Restricted Person or from engaging or employing any Restricted Person whose employment has been terminated by the party by whom such Restricted Person was employed, provided that such employment and engagement commences following such termination.\"}, {\"id\": 96, \"text\": \"6.4 You may initiate or engage in discussions in connection with the Possible Transaction with any shareholder of the Company once the restrictions under paragraph 10.1 have ceased to apply pursuant to paragraphs 10.3.1, 10.3.2 or 10.3.3 provided, in each case, that you have, prior to such time, announced a firm intention to make an offer for the Company pursuant to the Takeover Code that is upon announcement recommended by the committee of independent Company directors.\"}, {\"id\": 98, \"text\": \"7. ACTING AS PRINCIPAL You confirm that you are acting in this matter as principal and not as nominee, agent or broker for or acting in concert with any other person and that you will be responsible for your own costs whether incurred by you or your Representatives in connection with the Possible Transaction (whether or not it proceeds) and in complying with the terms of this agreement.\"}, {\"id\": 100, \"text\": \"8. INSIDE INFORMATION AND MARKET ABUSE You acknowledge that some or all of the Confidential Information relating to the Company may be information which is not public or otherwise generally available and is of a kind such that a person who has that information would be prohibited or restricted from using it to deal in the financial instruments of the Company under Part V Criminal Justice Act 1993, the EU Market Abuse Regulation or other applicable insider dealing, market abuse or similar law.\"}], \"focus_unit_id\": 100}, {\"id\": \"disclosure_conditions_102\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [95, 96, 98, 100, 102], \"current_units\": [{\"id\": 95, \"text\": \"For the avoidance of doubt this restriction shall not prohibit either Party from engaging or employing any such Restricted Person who has responded to a bona fide recruitment advertisement not specifically targeted at such Restricted Person or from engaging or employing any Restricted Person whose employment has been terminated by the party by whom such Restricted Person was employed, provided that such employment and engagement commences following such termination.\"}, {\"id\": 96, \"text\": \"6.4 You may initiate or engage in discussions in connection with the Possible Transaction with any shareholder of the Company once the restrictions under paragraph 10.1 have ceased to apply pursuant to paragraphs 10.3.1, 10.3.2 or 10.3.3 provided, in each case, that you have, prior to such time, announced a firm intention to make an offer for the Company pursuant to the Takeover Code that is upon announcement recommended by the committee of independent Company directors.\"}, {\"id\": 98, \"text\": \"7. ACTING AS PRINCIPAL You confirm that you are acting in this matter as principal and not as nominee, agent or broker for or acting in concert with any other person and that you will be responsible for your own costs whether incurred by you or your Representatives in connection with the Possible Transaction (whether or not it proceeds) and in complying with the terms of this agreement.\"}, {\"id\": 100, \"text\": \"8. INSIDE INFORMATION AND MARKET ABUSE You acknowledge that some or all of the Confidential Information relating to the Company may be information which is not public or otherwise generally available and is of a kind such that a person who has that information would be prohibited or restricted from using it to deal in the financial instruments of the Company under Part V Criminal Justice Act 1993, the EU Market Abuse Regulation or other applicable insider dealing, market abuse or similar law.\"}, {\"id\": 102, \"text\": \"You shall not use any of the Confidential Information to deal, or to encourage anyone else to deal, in any the financial instruments of the Company.\"}], \"focus_unit_id\": 102}, {\"id\": \"disclosure_conditions_103\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [96, 98, 100, 102, 103], \"current_units\": [{\"id\": 96, \"text\": \"6.4 You may initiate or engage in discussions in connection with the Possible Transaction with any shareholder of the Company once the restrictions under paragraph 10.1 have ceased to apply pursuant to paragraphs 10.3.1, 10.3.2 or 10.3.3 provided, in each case, that you have, prior to such time, announced a firm intention to make an offer for the Company pursuant to the Takeover Code that is upon announcement recommended by the committee of independent Company directors.\"}, {\"id\": 98, \"text\": \"7. ACTING AS PRINCIPAL You confirm that you are acting in this matter as principal and not as nominee, agent or broker for or acting in concert with any other person and that you will be responsible for your own costs whether incurred by you or your Representatives in connection with the Possible Transaction (whether or not it proceeds) and in complying with the terms of this agreement.\"}, {\"id\": 100, \"text\": \"8. INSIDE INFORMATION AND MARKET ABUSE You acknowledge that some or all of the Confidential Information relating to the Company may be information which is not public or otherwise generally available and is of a kind such that a person who has that information would be prohibited or restricted from using it to deal in the financial instruments of the Company under Part V Criminal Justice Act 1993, the EU Market Abuse Regulation or other applicable insider dealing, market abuse or similar law.\"}, {\"id\": 102, \"text\": \"You shall not use any of the Confidential Information to deal, or to encourage anyone else to deal, in any the financial instruments of the Company.\"}, {\"id\": 103, \"text\": \"You shall not otherwise use or disclose any Confidential Information in a way that amounts to market abuse under the EU Market Abuse Regulation or contravenes Part V Criminal Justice Act 1993 or any other applicable insider dealing, market abuse or similar law.\"}], \"focus_unit_id\": 103}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_conditions_100": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          94,
+                          95,
+                          96,
+                          98,
+                          100
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_102": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          95,
+                          96,
+                          98,
+                          100,
+                          102
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_103": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          96,
+                          98,
+                          100,
+                          102,
+                          103
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_86": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          75,
+                          78,
+                          79,
+                          84,
+                          86
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_89": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          78,
+                          79,
+                          84,
+                          86,
+                          89
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_91": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          79,
+                          84,
+                          86,
+                          89,
+                          91
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_92": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          84,
+                          86,
+                          89,
+                          91,
+                          92
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_93": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          86,
+                          89,
+                          91,
+                          92,
+                          93
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_94": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          89,
+                          91,
+                          92,
+                          93,
+                          94
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_95": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          91,
+                          92,
+                          93,
+                          94,
+                          95
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_96": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          92,
+                          93,
+                          94,
+                          95,
+                          96
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_98": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          93,
+                          94,
+                          95,
+                          96,
+                          98
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_conditions_86",
+                "disclosure_conditions_89",
+                "disclosure_conditions_91",
+                "disclosure_conditions_92",
+                "disclosure_conditions_93",
+                "disclosure_conditions_94",
+                "disclosure_conditions_95",
+                "disclosure_conditions_96",
+                "disclosure_conditions_98",
+                "disclosure_conditions_100",
+                "disclosure_conditions_102",
+                "disclosure_conditions_103"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "b82fddd98e1ba243f30603ce138e26707358acf218967a4e6f0a7a7a79f45ec9",
+  "full_original_request_and_wire_retained_locally": true
+}

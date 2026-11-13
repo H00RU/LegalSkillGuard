@@ -1,0 +1,183 @@
+{
+  "id": "legal_skill_evolution_positive_binding_typed_20261114:acquisition:FreeUpdate:ContractNLI:6fce84641005b157aa8eda07d8372f5b6fd5f0f893665acfbfc3e8fdeda3597e:concept:da8f4803b6cc3e337290d15a0f1d14d6d52c599831ec53c901980b3c936b845e",
+  "source": "ContractNLI:6fce84641005b157aa8eda07d8372f5b6fd5f0f893665acfbfc3e8fdeda3597e",
+  "purpose": "skill_replay",
+  "request_hash": "72ff844a5903397f2c1c1e71388c6aef582df970e1b84ec35ffea0f6f8085d20",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"窗口明示允许在处置过程后保留限定材料。\", \"name\": \"explicit_retention_permission\"}, {\"meaning\": \"窗口明示禁止在处置过程后保留限定材料。\", \"name\": \"explicit_retention_prohibition\"}, {\"meaning\": \"窗口对不同材料或条件同时明示有限留存许可和留存禁止。\", \"name\": \"both_permission_and_prohibition\"}, {\"meaning\": \"完整供应窗口没有明示处置后留存许可或禁止；全量处置本身不改变此选择。\", \"name\": \"no_explicit_retention_effect_in_window\"}], \"examples\": [], \"name\": \"post_disposal_retention_effect_v1\", \"question\": \"判断供应窗口是否明示处置后的留存许可或留存禁止。不得仅因要求返还或销毁全部材料就称其为 explicit retention prohibition。原始 TRAIN 示范（逐字）：“Notwithstanding anything in this paragraph 6 to the contrary, a Participating Entity may retain a record copy of any Confidential Information if required to do so by applicable law. ”→explicit_retention_permission；“Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.”→explicit_retention_prohibition；“However, notwithstanding anything to the contrary herein, 1) neither party will be required to delete electronic Confidential Information stored in back-up/archival storage in accordance with its policies, provided that any such retained Confidential Information will continue to be subject to the terms of this Confidentiality Agreement until it is destroyed by the receiving party; and”→explicit_retention_permission；“(f) Return to theauditee, or destroy, at auditee’s discretion, any and all Confidential Information disclosed in a printed form or other permanent record, or in any other tangible form (including without limitation, all copies, notes, extracts, analyses, studies, summaries, records and reproductions thereof) immediately on (i) expiration or termination ofthis agreement, or (ii) the request of Auditee therefor.”→no_explicit_retention_effect_in_window。\"}], \"current_queries\": [{\"id\": \"disposal_post_disposal_retention_effect_v1__14_16\", \"operation\": \"post_disposal_retention_effect_v1\", \"unit_ids\": [14, 15, 16], \"current_units\": [{\"id\": 14, \"text\": \"Each copy, including its storage media, shall be marked Confidential, and also include all copyright, trademark and other proprietary notices which appear on the original.\"}, {\"id\": 15, \"text\": \"Each party agrees that all Confidential Information of the other party, including any copies thereof, shall be returned to the disclosing party upon request or destroyed within ten (10) business days of the expiration or other termination of the Project.\"}, {\"id\": 16, \"text\": \"However, notwithstanding anything to the contrary herein, 1) neither party will be required to delete electronic Confidential Information stored in back-up/archival storage in accordance with its policies, provided that any such retained Confidential Information will continue to be subject to the terms of this Confidentiality Agreement until it is destroyed by the receiving party; and\"}]}, {\"id\": \"disposal_post_disposal_retention_effect_v1__20_27\", \"operation\": \"post_disposal_retention_effect_v1\", \"unit_ids\": [20, 21, 23, 24, 26, 27], \"current_units\": [{\"id\": 20, \"text\": \"5. Upon written demand by the disclosing party or upon termination of this Confidentiality Agreement, the receiving party shall:\"}, {\"id\": 21, \"text\": \"(i) cease using the Confidential Information, (ii) return the Confidential Information and all copies, notes or extracts thereof to the disclosing party within ten (10) business days of receipt of demand; and\"}, {\"id\": 23, \"text\": \"(iii) upon request of the disclosing party, certify in writing that the receiving party has complied with the obligations set forth in this paragraph.\"}, {\"id\": 24, \"text\": \"Notwithstanding anything to the contrary herein, 1) neither party will be required to delete electronic Confidential Information stored in back-up/archival storage in accordance with its policies, provided that any such retained Confidential Information will continue to be subject to the terms of this Confidentiality Agreement until it is destroyed by the receiving party; and\"}, {\"id\": 26, \"text\": \"2) a single copy of all Confidential Information may be retained by the Receiving Party’s legal department for dispute resolution purposes only, provided, however, that such Confidential Information shall remain subject to the terms and conditions of this Confidentiality Agreement.\"}, {\"id\": 27, \"text\": \"6. All intellectual property rights associated with the Confidential Information, including without limitation, patent, trademark, copyright, trade secret rights, and moral rights shall remain in the disclosing party.\"}]}, {\"id\": \"disposal_post_disposal_retention_effect_v1__34_76\", \"operation\": \"post_disposal_retention_effect_v1\", \"unit_ids\": [34, 35, 36, 37, 39, 40, 41, 42, 43, 44, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 64, 66, 67, 68, 70, 71, 72, 73, 74, 75, 76], \"current_units\": [{\"id\": 34, \"text\": \"(5) information that is disclosed with the disclosing party’s prior written consent.\"}, {\"id\": 35, \"text\": \"8. In the event that a party receives a subpoena or other validly issued administrative or judicial process requesting Confidential Information received from the other, the receiving party shall provide prompt actual notice to, in the case of <Vendor Name Here>, the General Counsel of <Vendor Name Here>, and, in the case of Company, to the General Counsel of Company, of such receipt, providing the party with a reasonable opportunity to intervene in the proceeding before the time that the other party is required to comply with such subpoena or other process.\"}, {\"id\": 36, \"text\": \"If such protective order or other remedy is not obtained, or the disclosing party waives compliance with the provision of this Confidentiality Agreement, the receiving party shall furnish only that portion of the Confidential Information which the receiving party is legally required to disclose and shall exercise its reasonable efforts to obtain reliable assurance that confidential treatment shall be accorded the Confidential Information.\"}, {\"id\": 37, \"text\": \"Notwithstanding anything otherwise set forth herein, <Vendor Name Here> or Company may disclose Confidential Information:\"}, {\"id\": 39, \"text\": \"a) to the extent revealed to a government agency with regulatory or oversight jurisdiction over Company; or\"}, {\"id\": 40, \"text\": \"b) in the course of fulfilling any of <Vendor Name Here> regulatory responsibilities, including responsibilities under the Securities Exchange Act of 1934 (Act) or other applicable law.\"}, {\"id\": 41, \"text\": \"In either case, <Vendor Name Here> or Company shall furnish only that portion of the Confidential Information which the receiving party is legally required to disclose and shall exercise its reasonable efforts to obtain reliable assurance that confidential treatment shall be accorded the Confidential Information.\"}, {\"id\": 42, \"text\": \"9. Each party acknowledges that the other, because of the nature of the Confidential Information, would suffer irreparable harm in the event of a material breach of the provisions of this Confidentiality Agreement in that monetary damages would be inadequate to compensate for such a breach, and that in the event of any material breach or threatened material breach by a party receiving Confidential Information from the other party of any such provisions, a party shall be entitled, in addition to such other legal or equitable remedies which might be available, to injunctive relief in any court of competent jurisdiction against the threatened material breach or continuation of any such material breach without showing or proving any actual damages sustained by it.\"}, {\"id\": 43, \"text\": \"Moreover, any such award of relief to the discloser of such Confidential Information shall include recovery of all actual and reasonable costs associated with enforcement of this Agreement including, without limitation, attorneys’ fees.\"}, {\"id\": 44, \"text\": \"10. The Effective Date of this Confidentiality Agreement shall be the date it is signed by both parties and it shall terminate upon the earlier of (i) thirty (30) days written notice of either party, or (ii) three (3) years after the effective date.\"}, {\"id\": 47, \"text\": \"11. The representations and obligations of each party relative to the Confidential Information shall survive the expiration or termination of this Confidentiality Agreement for a period of the longer of three (3) years or for such time as such Confidential Information remains a protectable trade secret under applicable law.\"}, {\"id\": 48, \"text\": \"12. The rights and obligations of the parties hereunder are in addition to, and not in derogation of, their respective rights and duties under the Uniform Trade Secrets Act (“UTSA”) as adopted in the state set forth below or in respective state’s trade secrets laws, if UTSA has not been adopted.\"}, {\"id\": 49, \"text\": \"13. This Confidentiality Agreement contains the full and complete understanding of Company and <Vendor Name Here> with respect to the subject matter and supersedes all prior representations and understandings whether they be oral or written.\"}, {\"id\": 51, \"text\": \"14. Company and <Vendor Name Here> understand and agree that in the event any part, term or provision of this Confidentiality Agreement is held to be invalid or legally unenforceable, the validity of the remaining parts, terms or provisions shall not be affected, and the rights and obligations of the parties shall be construed and enforced as if the Confidentiality Agreement did not contain the particular part, term, or provision held to be invalid.\"}, {\"id\": 52, \"text\": \"This Confidentiality Agreement and performance thereunder shall be governed by the laws of the State of New York, excluding its conflicts of laws rules.\"}, {\"id\": 53, \"text\": \"15. The parties acknowledge that the Confidential Information disclosed by each of them under this Confidentiality Agreement may be subject to export controls under the laws of the United States.\"}, {\"id\": 54, \"text\": \"Each party shall comply with such laws and agrees not to knowingly export, re-export or transfer Confidential Information of the other party without first obtaining all required United States authorizations or licenses.\"}, {\"id\": 55, \"text\": \"16. Neither party may assign this Confidentiality Agreement without the prior written consent of the other party.\"}, {\"id\": 56, \"text\": \"However, either party may assign or transfer this Confidentiality Agreement and its rights hereunder to an affiliate or successor to its assets or liabilities if such assignee agrees in writing to be bound by the terms and conditions hereof and the non-assignment party is given notice of such an assignment.\"}, {\"id\": 57, \"text\": \"Any assignment to the contrary shall be void.\"}, {\"id\": 58, \"text\": \"17. The persons executing this Confidentiality Agreement warrant that they have the authority to bind <Vendor Name Here> and Company to the terms and conditions embodied in this Confidentiality Agreement.\"}, {\"id\": 59, \"text\": \"18. Neither party makes or intends to make any warranty or representation of any kind concerning the Confidential Information, except each party represents and warrants that it has the right to disclose Confidential Information to Receiving Party.\"}, {\"id\": 60, \"text\": \"Confidential Information is provided only for discussion purposes, is provided on an “As Is” basis, and Receiving Party relies on Confidential Information at its own risk.\"}, {\"id\": 61, \"text\": \"19. As used in this Confidentiality Agreement, the terms “<Vendor Name Here>” and Company shall include any of their respective corporate affiliates or subsidiaries, provided that <Vendor Name Here> and Company (a) shall be responsible for the observance and proper performance by all of their respective corporate affiliates of the terms and conditions of this Confidentiality Agreement, and (b) if requested by the disclosing party, shall cause such corporate affiliate to return or destroy all Confidential Information in accordance with Section 5, prior to a corporate affiliate ceasing to be an affiliate thereof.\"}, {\"id\": 64, \"text\": \"20. Independent Development: This Confidentiality Agreement shall not be construed to limit the Receiving Party’s, or any of its Representatives’, right to independently develop or acquire products, services, or technology without use of the Disclosing Party’s Confidential Information.\"}, {\"id\": 66, \"text\": \"The Disclosing Party understands and acknowledges that the Receiving Party and/or its Representatives may currently or in the future be developing information, knowledge or technology internally, or obtaining information, knowledge or technology from other persons that may be similar to information, knowledge or technology contained or reflected in the Disclosing Party’s Confidential Information.\"}, {\"id\": 67, \"text\": \"21. Agreed and Accepted:\"}, {\"id\": 68, \"text\": \"<Full Vendor Name Here> By:\"}, {\"id\": 70, \"text\": \"Name:\"}, {\"id\": 71, \"text\": \"Title:\"}, {\"id\": 72, \"text\": \"Date:\"}, {\"id\": 73, \"text\": \"Conference of State Bank Supervisors, Inc.\"}, {\"id\": 74, \"text\": \"By:\"}, {\"id\": 75, \"text\": \"Name:\"}, {\"id\": 76, \"text\": \"Title:\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disposal_post_disposal_retention_effect_v1__14_16": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "explicit_retention_permission",
+                        "explicit_retention_prohibition",
+                        "both_permission_and_prohibition",
+                        "no_explicit_retention_effect_in_window",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          14,
+                          15,
+                          16
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disposal_post_disposal_retention_effect_v1__20_27": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "explicit_retention_permission",
+                        "explicit_retention_prohibition",
+                        "both_permission_and_prohibition",
+                        "no_explicit_retention_effect_in_window",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          20,
+                          21,
+                          23,
+                          24,
+                          26,
+                          27
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disposal_post_disposal_retention_effect_v1__34_76": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "explicit_retention_permission",
+                        "explicit_retention_prohibition",
+                        "both_permission_and_prohibition",
+                        "no_explicit_retention_effect_in_window",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          34,
+                          35,
+                          36,
+                          37,
+                          39,
+                          40,
+                          41,
+                          42,
+                          43,
+                          44,
+                          47,
+                          48,
+                          49,
+                          51,
+                          52,
+                          53,
+                          54,
+                          55,
+                          56,
+                          57,
+                          58,
+                          59,
+                          60,
+                          61,
+                          64,
+                          66,
+                          67,
+                          68,
+                          70,
+                          71,
+                          72,
+                          73,
+                          74,
+                          75,
+                          76
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disposal_post_disposal_retention_effect_v1__14_16",
+                "disposal_post_disposal_retention_effect_v1__20_27",
+                "disposal_post_disposal_retention_effect_v1__34_76"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "303c0b2993d1b68e3018b6ada49935454f37b9e9216eec5735abf2738d461747",
+  "full_original_request_and_wire_retained_locally": true
+}

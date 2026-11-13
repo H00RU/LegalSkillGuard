@@ -1,0 +1,86 @@
+{
+  "id": "legal_skill_evolution_positive_binding_typed_20261114:reuse:FreeUpdate:ContractNLI:96361e4d339fbfb53b8480d26323d5f180c277b2f60edda9666b7b5ef6aa6e03:concept:bad33fdbe19c1ca916a6fb5e31d6c18d09eaabb6294f057aafad0a9c3250c96b",
+  "source": "ContractNLI:96361e4d339fbfb53b8480d26323d5f180c277b2f60edda9666b7b5ef6aa6e03",
+  "purpose": "skill_replay",
+  "request_hash": "324350cb7ad5ea93802ba750ba5b8d8e3ef47ea0b8cf85dc1fe31cb6fefe24b9",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"窗口要求返还而未要求销毁。\", \"name\": \"return_only\"}, {\"meaning\": \"窗口要求销毁而未要求返还。\", \"name\": \"destroy_only\"}, {\"meaning\": \"窗口允许以返还或销毁二选一履行。\", \"name\": \"return_or_destroy_alternative\"}, {\"meaning\": \"返还是通常动作，销毁仅在来源所述授权下替代返还。\", \"name\": \"return_or_authorized_destroy\"}, {\"meaning\": \"窗口要求返还与销毁同时适用于各自材料范围。\", \"name\": \"return_and_destroy_distinct_scopes\"}, {\"meaning\": \"窗口没有实际返还或销毁动作。\", \"name\": \"not_a_disposal_action\"}], \"examples\": [], \"name\": \"disposal_action_profile_v1\", \"question\": \"判断供应处置窗口要求的动作结构。区分返还或销毁二选一、须书面授权才可用销毁替代返还，以及针对不同材料同时返还并销毁。原始 TRAIN 示范（逐字）：“(f) Return to theauditee, or destroy, at auditee’s discretion, any and all Confidential Information disclosed in a printed form or other permanent record, or in any other tangible form (including without limitation, all copies, notes, extracts, analyses, studies, summaries, records and reproductions thereof) immediately on (i) expiration or termination ofthis agreement, or (ii) the request of Auditee therefor.”→return_or_destroy_alternative；“2.1.7 upon demand of the OSCE, to promptly return all Confidential Information (in whatever medium), together with all copies thereof or, where expressly authorised in writing by the OSCE, to destroy or delete all such Confidential Information and shall confirm to the OSCE in writing that such destruction or deletion has taken place.”→return_or_authorized_destroy；“5.2.1 return all Confidential Information including copies to the disclosing Party; and 5.2.2 destroy or permanently erase all copies made by the receiving Party and procure that anyone to whom the receiving Party has supplied copies destroys or permanently erases such copies and any further copies made by them.”→return_and_destroy_distinct_scopes。\"}], \"current_queries\": [{\"id\": \"disposal_disposal_action_profile_v1__25_27\", \"operation\": \"disposal_action_profile_v1\", \"unit_ids\": [25, 26, 27], \"current_units\": [{\"id\": 25, \"text\": \"8. Return of Information.\"}, {\"id\": 26, \"text\": \"Upon termination or expiration of the Agreement, or upon written request by either party, each party shall promptly return to the other all documents and other tangible materials representing the other's Confidential Information and all copies thereof, or destroy all Confidential Information and copies thereof and certify its destruction to the Provider.\"}, {\"id\": 27, \"text\": \"9. No Property Rights; No Partnership or Joint Venture.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disposal_disposal_action_profile_v1__25_27": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "return_only",
+                        "destroy_only",
+                        "return_or_destroy_alternative",
+                        "return_or_authorized_destroy",
+                        "return_and_destroy_distinct_scopes",
+                        "not_a_disposal_action",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          25,
+                          26,
+                          27
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disposal_disposal_action_profile_v1__25_27"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "51267e7c9d48ed3295b2bf3dd2ed55906bc338ff82d0a3eea1e880306ce78dff",
+  "full_original_request_and_wire_retained_locally": true
+}

@@ -1,0 +1,242 @@
+{
+  "id": "legal_skill_evolution_positive_binding_typed_20261114:reuse:ConstraintAcquire:ContractNLI:c46f72f538536d21a4dae4071b50a5503c62bb631294e022112f25da9aa60c0e:concept:90961e727ac7c2d88e153f5f9a9d1990918e94375b1129d1baf04291a7539564",
+  "source": "ContractNLI:c46f72f538536d21a4dae4071b50a5503c62bb631294e022112f25da9aa60c0e",
+  "purpose": "skill_replay",
+  "request_hash": "6ccc08f1c1e7bf30290d19bdd3dacb6dc53824f77a96b803b7d6ae345e8f11eb",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.\nThe focus_unit_id identifies the clause to classify. Other supplied units are context for resolving its references, not additional effects to merge into that focus. Interpret the acquired operation for that focus clause, using its actual context.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"许可窗口没有明示 need-to-know、必要范围或接收者保密约束。\", \"name\": \"no_condition_stated\"}, {\"meaning\": \"许可只明示 need-to-know 条件。\", \"name\": \"need_to_know_only\"}, {\"meaning\": \"许可只明示披露范围或接收者范围须为必要。\", \"name\": \"extent_necessary_only\"}, {\"meaning\": \"许可只明示接收者受保密义务约束。\", \"name\": \"confidentiality_only\"}, {\"meaning\": \"许可同时明示 need-to-know 和接收者保密约束。\", \"name\": \"need_and_confidentiality\"}, {\"meaning\": \"许可同时明示必要范围和接收者保密约束。\", \"name\": \"extent_and_confidentiality\"}, {\"meaning\": \"许可同时明示 need-to-know、必要范围和接收者保密约束。\", \"name\": \"need_extent_and_confidentiality\"}, {\"meaning\": \"许可具有其他明确条件组合，不能安全归入以上档案。\", \"name\": \"other_supported_condition_profile\"}], \"examples\": [{\"choice\": \"need_and_confidentiality\", \"quote\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"extent_necessary_only\", \"quote\": \"The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"disclosure_condition_profile_v1\", \"question\": \"把最后一个单元作为焦点，并用前置单元解释同一许可，分类许可明示的条件组合。只记录窗口中实际表述的 need-to-know、必要范围和保密约束；未表述的条件不得补写。原始 TRAIN（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.” 原始 TRAIN（逐字）：“The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.”\"}], \"current_queries\": [{\"id\": \"disclosure_conditions_12\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [7, 9, 10, 11, 12], \"current_units\": [{\"id\": 7, \"text\": \"1. For the purposes of this Non-Disclosure Agreement, the term \\\"Confidential Information\\\" shall mean material, information, data and other communications (a) disclosed by NYNEX and/or one or more of its parent, subsidiary or affiliated corporations, appropriately marked as \\\"Confidential,\\\" \\\"Proprietary\\\" or the like or otherwise disclosed in a manner consistent with its proprietary and confidential nature; or\"}, {\"id\": 9, \"text\": \"(b) produced during the course of the working relationship between NYNEX and CONSULTANT, which would either give NYNEX' competitors an advantage or diminish or eliminate NYNEX' advantage over its competitors.\"}, {\"id\": 10, \"text\": \"2. ALL NYNEX Confidential Information:\"}, {\"id\": 11, \"text\": \"(a) is hereby acknowledged by CONSULTANT to be of a proprietary nature to, and to constitute secrets of NYNEX;\"}, {\"id\": 12, \"text\": \"(b) shall not be copied, used, distributed, disclosed, disseminated or communicated in any way or form by CONSULTANT whether or not for its own benefit, to anyone outside or within its own organization, except on a \\\"need-to-know\\\" basis to the extent necessary for:\"}], \"focus_unit_id\": 12}, {\"id\": \"disclosure_conditions_13\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [9, 10, 11, 12, 13], \"current_units\": [{\"id\": 9, \"text\": \"(b) produced during the course of the working relationship between NYNEX and CONSULTANT, which would either give NYNEX' competitors an advantage or diminish or eliminate NYNEX' advantage over its competitors.\"}, {\"id\": 10, \"text\": \"2. ALL NYNEX Confidential Information:\"}, {\"id\": 11, \"text\": \"(a) is hereby acknowledged by CONSULTANT to be of a proprietary nature to, and to constitute secrets of NYNEX;\"}, {\"id\": 12, \"text\": \"(b) shall not be copied, used, distributed, disclosed, disseminated or communicated in any way or form by CONSULTANT whether or not for its own benefit, to anyone outside or within its own organization, except on a \\\"need-to-know\\\" basis to the extent necessary for:\"}, {\"id\": 13, \"text\": \"(i) negotiations, discussions and consultations with personnel or authorized representatives of NYNEX;\"}], \"focus_unit_id\": 13}, {\"id\": \"disclosure_conditions_14\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [10, 11, 12, 13, 14], \"current_units\": [{\"id\": 10, \"text\": \"2. ALL NYNEX Confidential Information:\"}, {\"id\": 11, \"text\": \"(a) is hereby acknowledged by CONSULTANT to be of a proprietary nature to, and to constitute secrets of NYNEX;\"}, {\"id\": 12, \"text\": \"(b) shall not be copied, used, distributed, disclosed, disseminated or communicated in any way or form by CONSULTANT whether or not for its own benefit, to anyone outside or within its own organization, except on a \\\"need-to-know\\\" basis to the extent necessary for:\"}, {\"id\": 13, \"text\": \"(i) negotiations, discussions and consultations with personnel or authorized representatives of NYNEX;\"}, {\"id\": 14, \"text\": \"(ii) supplying NYNEX with products or services at its order;\"}], \"focus_unit_id\": 14}, {\"id\": \"disclosure_conditions_15\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [11, 12, 13, 14, 15], \"current_units\": [{\"id\": 11, \"text\": \"(a) is hereby acknowledged by CONSULTANT to be of a proprietary nature to, and to constitute secrets of NYNEX;\"}, {\"id\": 12, \"text\": \"(b) shall not be copied, used, distributed, disclosed, disseminated or communicated in any way or form by CONSULTANT whether or not for its own benefit, to anyone outside or within its own organization, except on a \\\"need-to-know\\\" basis to the extent necessary for:\"}, {\"id\": 13, \"text\": \"(i) negotiations, discussions and consultations with personnel or authorized representatives of NYNEX;\"}, {\"id\": 14, \"text\": \"(ii) supplying NYNEX with products or services at its order;\"}, {\"id\": 15, \"text\": \"(iii) preparing bids, estimates and proposals for submission to NYNEX; and\"}], \"focus_unit_id\": 15}, {\"id\": \"disclosure_conditions_16\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [12, 13, 14, 15, 16], \"current_units\": [{\"id\": 12, \"text\": \"(b) shall not be copied, used, distributed, disclosed, disseminated or communicated in any way or form by CONSULTANT whether or not for its own benefit, to anyone outside or within its own organization, except on a \\\"need-to-know\\\" basis to the extent necessary for:\"}, {\"id\": 13, \"text\": \"(i) negotiations, discussions and consultations with personnel or authorized representatives of NYNEX;\"}, {\"id\": 14, \"text\": \"(ii) supplying NYNEX with products or services at its order;\"}, {\"id\": 15, \"text\": \"(iii) preparing bids, estimates and proposals for submission to NYNEX; and\"}, {\"id\": 16, \"text\": \"(iv) any other purpose which NYNEX may authorize in writing;\"}], \"focus_unit_id\": 16}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_conditions_12": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          7,
+                          9,
+                          10,
+                          11,
+                          12
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_13": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          9,
+                          10,
+                          11,
+                          12,
+                          13
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_14": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          10,
+                          11,
+                          12,
+                          13,
+                          14
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_15": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          11,
+                          12,
+                          13,
+                          14,
+                          15
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_16": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          12,
+                          13,
+                          14,
+                          15,
+                          16
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_conditions_12",
+                "disclosure_conditions_13",
+                "disclosure_conditions_14",
+                "disclosure_conditions_15",
+                "disclosure_conditions_16"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "3b7eb0a6c0b0e1bbb9be51b6f953395902917252ce5eb500c47750d7d0209de3",
+  "full_original_request_and_wire_retained_locally": true
+}

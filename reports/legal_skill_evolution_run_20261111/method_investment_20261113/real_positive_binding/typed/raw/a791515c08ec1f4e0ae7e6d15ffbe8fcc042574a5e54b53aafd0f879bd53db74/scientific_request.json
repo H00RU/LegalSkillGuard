@@ -1,0 +1,115 @@
+{
+  "id": "legal_skill_evolution_positive_binding_typed_20261114:acquisition:FreeUpdate:ContractNLI:6fce84641005b157aa8eda07d8372f5b6fd5f0f893665acfbfc3e8fdeda3597e:concept:6527de7ce372b544a5e66713f20ad34d53959a81c560277f5140ebb4106f5ef2",
+  "source": "ContractNLI:6fce84641005b157aa8eda07d8372f5b6fd5f0f893665acfbfc3e8fdeda3597e",
+  "purpose": "skill_replay",
+  "request_hash": "60b11cc08ec8b9dc20035bc7dcdcc0fef2b2cadbe1400cf2d48d78ec2e466f1e",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"窗口要求书面保密协议或书面约束。\", \"name\": \"written_confidentiality_required\"}, {\"meaning\": \"窗口要求保密约束，但没有要求另行书面协议。\", \"name\": \"confidentiality_required_without_separate_written_agreement\"}, {\"meaning\": \"完整供应窗口没有陈述接收者保密保障；只判断该窗口。\", \"name\": \"no_safeguard_stated_in_window\"}], \"examples\": [], \"name\": \"confidentiality_safeguard_v1\", \"question\": \"判断供应披露窗口对接收者规定的保密保障。区分书面协议要求与未要求书面形式的保密义务。原始 TRAIN 示范（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.”→written_confidentiality_required；“(c) not to disclose the same whether to its employees or to third parties except in confidence to such of its employees, directors or contractors who need to know the same for the Purpose and that (i) such employees, directors and contractors are obliged by their contracts of employment or services not to disclose the same, (ii) the receiving party shall enforce such obligations at its expense and at the request of the disclosing party in so far as breach thereof relates to the disclosing party's Confidential Information;”→confidentiality_required_without_separate_written_agreement；“The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.”→no_safeguard_stated_in_window。\"}], \"current_queries\": [{\"id\": \"disclosure_confidentiality_safeguard_v1__9_11\", \"operation\": \"confidentiality_safeguard_v1\", \"unit_ids\": [9, 10, 11], \"current_units\": [{\"id\": 9, \"text\": \"2. Each party acknowledges the sensitive and secret nature of the Confidential Information it will have access to during the term of the Project and agrees that it will treat such Confidential Information as strictly confidential and shall exercise the same degree of care in the protection of the Confidential Information as the receiving party exercises with respect to its own proprietary property and trade secrets, but in no event shall it be less than a reasonable degree of care given the nature of the Confidential Information.\"}, {\"id\": 10, \"text\": \"3. Neither party shall disclose the Confidential Information received from the other to any person or entity, except its employees, officers, directors, independent consultants, affiliates, subsidiaries and other agents (collectively “Representatives”) involved in the performance of the Project, or to use the Confidential Information for any purpose other than fulfilling its obligations under the Project.\"}, {\"id\": 11, \"text\": \"Each party acknowledges and agrees that breach of this Confidentiality Agreement by the other and/or anyone employed by or otherwise associated with the other may also constitute a violation of applicable laws.\"}]}, {\"id\": \"disclosure_confidentiality_safeguard_v1__37_41\", \"operation\": \"confidentiality_safeguard_v1\", \"unit_ids\": [37, 39, 40, 41], \"current_units\": [{\"id\": 37, \"text\": \"Notwithstanding anything otherwise set forth herein, <Vendor Name Here> or Company may disclose Confidential Information:\"}, {\"id\": 39, \"text\": \"a) to the extent revealed to a government agency with regulatory or oversight jurisdiction over Company; or\"}, {\"id\": 40, \"text\": \"b) in the course of fulfilling any of <Vendor Name Here> regulatory responsibilities, including responsibilities under the Securities Exchange Act of 1934 (Act) or other applicable law.\"}, {\"id\": 41, \"text\": \"In either case, <Vendor Name Here> or Company shall furnish only that portion of the Confidential Information which the receiving party is legally required to disclose and shall exercise its reasonable efforts to obtain reliable assurance that confidential treatment shall be accorded the Confidential Information.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_confidentiality_safeguard_v1__37_41": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "written_confidentiality_required",
+                        "confidentiality_required_without_separate_written_agreement",
+                        "no_safeguard_stated_in_window",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          37,
+                          39,
+                          40,
+                          41
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_confidentiality_safeguard_v1__9_11": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "written_confidentiality_required",
+                        "confidentiality_required_without_separate_written_agreement",
+                        "no_safeguard_stated_in_window",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          9,
+                          10,
+                          11
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_confidentiality_safeguard_v1__9_11",
+                "disclosure_confidentiality_safeguard_v1__37_41"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "5594ac012d777cc6e78927d992a5e6a37335d6a2c603ab512a110829d0361198",
+  "full_original_request_and_wire_retained_locally": true
+}

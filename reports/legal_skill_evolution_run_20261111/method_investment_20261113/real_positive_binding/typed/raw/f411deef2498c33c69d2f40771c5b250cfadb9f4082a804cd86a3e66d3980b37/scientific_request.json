@@ -1,0 +1,87 @@
+{
+  "id": "legal_skill_evolution_positive_binding_typed_20261114:acquisition:FreeUpdate:ContractNLI:de427b59f51cd83644fef90b773bf036b9bc33972719dc42c658e45b54c2f98e:concept:3857e2f99fe12a600603f61a4918cf45d2c93c43f57bb045c9422479a612c7fe",
+  "source": "ContractNLI:de427b59f51cd83644fef90b773bf036b9bc33972719dc42c658e45b54c2f98e",
+  "purpose": "skill_replay",
+  "request_hash": "d29ac4a0498bd971922756fb0c31b3e590c531b8e013086234304d5f6765e752",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"所列人员均属于或服务于接收方本身。\", \"name\": \"recipient_owned_people\"}, {\"meaning\": \"所列人员属于接收方控制、被控制或共同控制的实体，而非接收方自身。\", \"name\": \"controlled_company_people\"}, {\"meaning\": \"窗口同时列出接收方自身人员和关联或受控实体人员，或不同类别具有不同所有者。\", \"name\": \"mixed_recipient_and_controlled_company_people\"}, {\"meaning\": \"窗口未清楚给出上述所有权关系。\", \"name\": \"other_or_unspecified_owner\"}], \"examples\": [], \"name\": \"disclosure_owner_scope_v1\", \"question\": \"判断窗口列明人员类别的所有者范围，保持接收方自身人员与其控制、被控制或共同控制实体的人员之区别。原始 TRAIN 示范（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.”→recipient_owned_people；“2.1.3 only to disclose the Confidential Information to employees of companies directly or indirectly owned or controlled by the Recipient, consultants and/or advisors to whom disclosure is necessary for the Permitted Purpose and then only on the understanding that such employees, consultants and/or advisors are expressly subject to the provisions of this Confidentiality Agreement.”→mixed_recipient_and_controlled_company_people；“2.3.2 the Recipient’s employees, officials, representatives and agents who have a strict need to know the contents of the Confidential Information, and employees, officials, representatives and agents of any legal entity that it controls, controls it, or with which it is under common control, who have a similar need to know the contents of the Confidential Information, provided that, for these purposes a controlled legal entity means:”→mixed_recipient_and_controlled_company_people。\"}], \"current_queries\": [{\"id\": \"disclosure_disclosure_owner_scope_v1__18_27\", \"operation\": \"disclosure_owner_scope_v1\", \"unit_ids\": [18, 20, 21, 23, 24, 27], \"current_units\": [{\"id\": 18, \"text\": \"2.2 The Recipient shall use the Confidential Information solely for the purpose for which it was disclosed;\"}, {\"id\": 20, \"text\": \"2.3 Provided that the Recipient has a written agreement with the following persons or entities requiring them to treat the Confidential Information in accordance with this Agreement, the Recipient may disclose the Confidential Information to:\"}, {\"id\": 21, \"text\": \"2.3.1 Any other party with the Discloser’s prior written consent; and\"}, {\"id\": 23, \"text\": \"2.3.2 the Recipient’s employees, officials, representatives and agents who have a strict need to know the contents of the Confidential Information, and employees, officials, representatives and agents of any legal entity that it controls, controls it, or with which it is under common control, who have a similar need to know the contents of the Confidential Information, provided that, for these purposes a controlled legal entity means:\"}, {\"id\": 24, \"text\": \"2.3.2.1 a corporate entity in which the Party owns or otherwise controls, whether directly or indirectly, over fifty percent (50%) of voting shares thereof; or, 2.3.2.2 any entity over which the Party exercises effective managerial control; or, 2.3.2.3 for UNHCR, a principal or subsidiary organ of the United Nations established in accordance with the Charter of the United Nations.\"}, {\"id\": 27, \"text\": \"2.4 The Recipient may disclose the Confidential Information to the extent required by law, provided that, subject to and without any waiver of the privileges and immunities of UNHCR, the Recipient will give UNHCR sufficient prior notice of a request for the disclosure of the Confidential Information in order to allow UNHCR to have a reasonable opportunity to take protective measures or such other action as may be appropriate before any such disclosure is made.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_disclosure_owner_scope_v1__18_27": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_owned_people",
+                        "controlled_company_people",
+                        "mixed_recipient_and_controlled_company_people",
+                        "other_or_unspecified_owner",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          18,
+                          20,
+                          21,
+                          23,
+                          24,
+                          27
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_disclosure_owner_scope_v1__18_27"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "a9151eb6c82295bffd367bfddb0570b67a9a97ee03a245f6e58ffa295b359640",
+  "full_original_request_and_wire_retained_locally": true
+}

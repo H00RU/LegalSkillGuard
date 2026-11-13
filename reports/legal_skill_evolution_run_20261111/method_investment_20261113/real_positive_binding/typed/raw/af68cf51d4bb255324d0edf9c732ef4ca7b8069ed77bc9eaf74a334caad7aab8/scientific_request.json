@@ -1,0 +1,158 @@
+{
+  "id": "legal_skill_evolution_positive_binding_typed_20261114:reuse:FreeUpdate:ContractNLI:ef7bf53e9fb90ce5e3cf46d57d5845406bc1772e0742e599086cdb1b92d79806:concept:3341d14d3ad0a4580d075c397b4187774f07d21114bc3359fc7722d09adf0527",
+  "source": "ContractNLI:ef7bf53e9fb90ce5e3cf46d57d5845406bc1772e0742e599086cdb1b92d79806",
+  "purpose": "skill_replay",
+  "request_hash": "d7ef66483bbc7aeeaf9b5d80a0401eda4a6f2959e011d9fc8bcbcc69222f8994",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"窗口明示一个实际生效的类别化披露许可。\", \"name\": \"operative_permission\"}, {\"meaning\": \"窗口给出披露禁令，同时对列明接收者类别形成真实许可例外。\", \"name\": \"prohibition_with_class_permission\"}, {\"meaning\": \"窗口只有实际披露禁令，没有列明接收者类别许可。\", \"name\": \"operative_prohibition_only\"}, {\"meaning\": \"窗口把人员类别置于保密义务范围，但省略了足以形成清晰披露许可的语言。\", \"name\": \"elliptical_recipient_confidentiality_scope\"}, {\"meaning\": \"该窗口不是实际披露规范。\", \"name\": \"not_an_operative_disclosure_norm\"}], \"examples\": [], \"name\": \"disclosure_norm_effect_v1\", \"question\": \"判断整个供应窗口表达的披露规范效力。只按来源实际措辞分类；不得把序言、定义或省略文字补成许可。一般禁令中对列明接收者类别的真实例外属于 prohibition_with_class_permission。原始 TRAIN 示范（逐字）：“(a) Subject to the restrictions set forth below in this Section 4, each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose. ”→operative_permission；“(c) not to disclose the same whether to its employees or to third parties except in confidence to such of its employees, directors or contractors who need to know the same for the Purpose and that (i) such employees, directors and contractors are obliged by their contracts of employment or services not to disclose the same, (ii) the receiving party shall enforce such obligations at its expense and at the request of the disclosing party in so far as breach thereof relates to the disclosing party's Confidential Information;”→prohibition_with_class_permission；“The obligations of the Parties shall be to hold and maintain the Confidential Information in the strictest of confidence at all times and to their agents, employees, representatives, affiliates, and any other individual or entity that is on a “need to know” basis.”→elliptical_recipient_confidentiality_scope。\"}], \"current_queries\": [{\"id\": \"disclosure_disclosure_norm_effect_v1__15_20\", \"operation\": \"disclosure_norm_effect_v1\", \"unit_ids\": [15, 16, 17, 18, 19, 20], \"current_units\": [{\"id\": 15, \"text\": \"In consideration of your furnishing us with the Information, we agree that:\"}, {\"id\": 16, \"text\": \"1. The Information will be kept confidential and shall not without your prior written consent, be disclosed by us, or by our agents, representatives or employees, in any manner whatsover, in whole or in part, and shall not be used by us, our agents, representatives or employees, other than in connection with the transaction described above.\"}, {\"id\": 17, \"text\": \"Moreover, we agree to reveal the Information only to our agents, representatives and employees who need to know the Information for the purpose of evaluating the transaction described above, who are informed by us of the confidential nature of the Information and who shall agree in writing to act in accordance with the terms and conditions of this Agreement.\"}, {\"id\": 18, \"text\": \"We shall be responsible for any breach of this Agreement by our agents, representatives or employees.\"}, {\"id\": 19, \"text\": \"2. Without your prior written consent, except as required by law, we and our agents, representatives and employees will not disclose to any person or entity the fact that the Information has been made available, that discussions or negotiations are taking place or have taken place concerning a possible transaction involving the Business or any of the terms, conditions or other facts with respect to any such possible transaction, including the status thereof.\"}, {\"id\": 20, \"text\": \"3. We shall keep a record of the written Information furnished to us and of the location of such Information.\"}]}, {\"id\": \"disclosure_disclosure_norm_effect_v1__24_30\", \"operation\": \"disclosure_norm_effect_v1\", \"unit_ids\": [24, 28, 29, 30], \"current_units\": [{\"id\": 24, \"text\": \"4. The term Information shall not include such portions of the Information which (i) are or become generally available to the public other than as a result of a disclosure by us, our agents, representatives or employees, or (ii) become available to us on a non-confidential basis from a source (other than you or your agents) which is not prohibited from disclosing such information to us by a legal, contractual or fiduciary obligation to you or (iii) information which we have developed independently through conducting our own competitive business.\"}, {\"id\": 28, \"text\": \"5. Without your prior written consent, we and our Representatives will not communicate with any person or entity that is a party to any agreement with the Business or any possible transaction between us and the Business involving the Business.\"}, {\"id\": 29, \"text\": \"6. Without your prior written consent, we will not for a period of one year from the date hereof directly or indirectly solicit for employment any person who is now employed by you or any of your subsidiaries who is identified by us as a result of our invastigation of the Business.\"}, {\"id\": 30, \"text\": \"7. We acknowledge that you make no express or implied representation or warranty as to the accuracy or completeness of the Information, and you expressly disclaim any and all liability that may be based on the Information, errors therein or omissions therefrom.\"}]}, {\"id\": \"disclosure_disclosure_norm_effect_v1__31_36\", \"operation\": \"disclosure_norm_effect_v1\", \"unit_ids\": [31, 32, 33, 34, 35, 36], \"current_units\": [{\"id\": 31, \"text\": \"We agree that we are not entitled to rely on the accuracy or completeness of the Information and that we shall be entitled to rely solely on the representations and warranties made to us by the Business in any final purchase agreement regarding the acquisition.\"}, {\"id\": 32, \"text\": \"8. In the event that we or anyone to whom we transmit the Information pursuant to this Agreement becomes legally compelled to disclose any of the Information, we will provide you with prompt written notice and oral notice so that you may seek a protective order or other appropriate remedy and/or waive compliance with the provisions of this Agreement.\"}, {\"id\": 33, \"text\": \"In the event that such protective order or other remedy is not obtained, or that the Business waives compliance with the provisions of this Agreement, we will furnish only that portion of the Information which we are advised by the Business or the Business' attorney we are legally required to furnish and we will exercise the efforts directed by the Business to obtain reliable assurance that confidential treatment will be accorded the Information.\"}, {\"id\": 34, \"text\": \"All costs for actions taken at the direction of the Business shall be subject to indemnification and reimbursement by the Business.\"}, {\"id\": 35, \"text\": \"9. We agree that, until the expiration of the term of this Agreement pursuant to Paragraph 10 below, neither we nor any of our affiliates, including any person or entity directly or indirectly through one or more intermediaries, controlling us or controlled by or under common control with us, will purchase, offer or agree to purchase any securities or assets of the Business, enter, or agree to enter into any acquisition or other business combination, relating to the Business, or make, or induce any other entity to make or negotiate or otherwise deal with others for a tender or exchange offer of Common Stock of the Business, solicit proxies, votes or consents other than for nonimees selected by the Business' Board of Directors, and proposals recommended by the Business' Board of Directors, or otherwise seek to acquire control of the Business unless such purchase, transaction, offer, agreement or proposal shall have previously been approved by the Board of Directors of the Business.\"}, {\"id\": 36, \"text\": \"10. This Agreement shall expire on December 31, 1999.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_disclosure_norm_effect_v1__15_20": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "operative_permission",
+                        "prohibition_with_class_permission",
+                        "operative_prohibition_only",
+                        "elliptical_recipient_confidentiality_scope",
+                        "not_an_operative_disclosure_norm",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          15,
+                          16,
+                          17,
+                          18,
+                          19,
+                          20
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_disclosure_norm_effect_v1__24_30": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "operative_permission",
+                        "prohibition_with_class_permission",
+                        "operative_prohibition_only",
+                        "elliptical_recipient_confidentiality_scope",
+                        "not_an_operative_disclosure_norm",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          24,
+                          28,
+                          29,
+                          30
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_disclosure_norm_effect_v1__31_36": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "operative_permission",
+                        "prohibition_with_class_permission",
+                        "operative_prohibition_only",
+                        "elliptical_recipient_confidentiality_scope",
+                        "not_an_operative_disclosure_norm",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          31,
+                          32,
+                          33,
+                          34,
+                          35,
+                          36
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_disclosure_norm_effect_v1__15_20",
+                "disclosure_disclosure_norm_effect_v1__24_30",
+                "disclosure_disclosure_norm_effect_v1__31_36"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "4e671d6ab17f616830931d2390da145672794b5de97517f062f5eebf75174fd5",
+  "full_original_request_and_wire_retained_locally": true
+}

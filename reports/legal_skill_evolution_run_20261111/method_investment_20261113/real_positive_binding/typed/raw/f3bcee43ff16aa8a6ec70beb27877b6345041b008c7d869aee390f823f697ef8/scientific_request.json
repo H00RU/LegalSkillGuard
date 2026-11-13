@@ -1,0 +1,117 @@
+{
+  "id": "legal_skill_evolution_positive_binding_typed_20261114:reuse:FreeUpdate:ContractNLI:467e2e05d5ade8611f13fe6ffdeea100bd3ca6c2aaa3c0ad34699c307d05b2c5:concept:a69a8ca244be55cd383db9abdde6bb6eb87cd27086c8f8dbbd5b43004ba3910f",
+  "source": "ContractNLI:467e2e05d5ade8611f13fe6ffdeea100bd3ca6c2aaa3c0ad34699c307d05b2c5",
+  "purpose": "skill_replay",
+  "request_hash": "92899ad3c184c7fea658e83174cf7118c742277cbfe1f80a54655aea7685ba7d",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"所列人员均属于或服务于接收方本身。\", \"name\": \"recipient_owned_people\"}, {\"meaning\": \"所列人员属于接收方控制、被控制或共同控制的实体，而非接收方自身。\", \"name\": \"controlled_company_people\"}, {\"meaning\": \"窗口同时列出接收方自身人员和关联或受控实体人员，或不同类别具有不同所有者。\", \"name\": \"mixed_recipient_and_controlled_company_people\"}, {\"meaning\": \"窗口未清楚给出上述所有权关系。\", \"name\": \"other_or_unspecified_owner\"}], \"examples\": [], \"name\": \"disclosure_owner_scope_v1\", \"question\": \"判断窗口列明人员类别的所有者范围，保持接收方自身人员与其控制、被控制或共同控制实体的人员之区别。原始 TRAIN 示范（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.”→recipient_owned_people；“2.1.3 only to disclose the Confidential Information to employees of companies directly or indirectly owned or controlled by the Recipient, consultants and/or advisors to whom disclosure is necessary for the Permitted Purpose and then only on the understanding that such employees, consultants and/or advisors are expressly subject to the provisions of this Confidentiality Agreement.”→mixed_recipient_and_controlled_company_people；“2.3.2 the Recipient’s employees, officials, representatives and agents who have a strict need to know the contents of the Confidential Information, and employees, officials, representatives and agents of any legal entity that it controls, controls it, or with which it is under common control, who have a similar need to know the contents of the Confidential Information, provided that, for these purposes a controlled legal entity means:”→mixed_recipient_and_controlled_company_people。\"}], \"current_queries\": [{\"id\": \"disclosure_disclosure_owner_scope_v1__10_19\", \"operation\": \"disclosure_owner_scope_v1\", \"unit_ids\": [10, 11, 18, 19], \"current_units\": [{\"id\": 10, \"text\": \"Accordingly, the Parties hereby agree that:\"}, {\"id\": 11, \"text\": \"1. The Parties and their Representatives (i) will keep the Information strictly confidential and will not (except as required by applicable law, regulation or legal process, and only after compliance with paragraph 2 below), without the prior written consent of the other party, disclose any Information in any manner whatsoever, and (ii) will not use any Information other than in connection with the Transaction; provided, however, that the Parties may reveal the Information to their Representatives (a) who need to know the Information for the purpose of evaluating the Transaction, (b) who are informed by the Parties of the confidential nature of the Information and are provided with a copy of this Agreement, (c) who agree not to disclose any of the Information to any other party and (d) who agree to act in accordance with the terms of this letter agreement to the same extent as if they were parties hereto.\"}, {\"id\": 18, \"text\": \"The Parties will cause their Representatives to observe the terms of this letter agreement, and they will be responsible for any breach of this agreement by any of their Representatives.\"}, {\"id\": 19, \"text\": \"2. In the event that the Parties or any of their Representatives are requested pursuant to, or required by, applicable law, regulation, rules of any national stock exchange, or legal process to disclose any of the Information, the Parties must notify each other promptly so that they may seek a protective order or other appropriate remedy or, in the sole discretion of the party that initially furnished such Information, waive compliance with the terms of this letter agreement.\"}]}, {\"id\": \"disclosure_disclosure_owner_scope_v1__27_29\", \"operation\": \"disclosure_owner_scope_v1\", \"unit_ids\": [27, 28, 29], \"current_units\": [{\"id\": 27, \"text\": \"4. Neither Party hereto shall in any way or in any form disclose, publicize or advertise in any manner the discussions that give rise to this Agreement or the discussions or negotiations covered by this Agreement, including the fact that any such discussions have taken or are taking place, or any proposal relating thereto, including the terms and conditions thereof, without the prior written consent of the other Party.\"}, {\"id\": 28, \"text\": \"Notwithstanding any term or implication herein to the contrary, either Party may disclose Information and any of the information described in the preceding paragraph to the extent such Party determines in good faith upon advice of counsel that such disclosure is required in connection with such Party’s disclosure responsibilities under the securities laws (including regulations, rules and interpretations promulgated or issued by a regulatory body), so long as such Party gives the other party such prior notice of such disclosure, and such opportunity to review, comment on, and lawfully limit the proposed disclosure, as is reasonably available under the circumstances.\"}, {\"id\": 29, \"text\": \"5. The Parties hereby acknowledge that, unless and until a definitive agreement between COMPANY and COMSYS with respect to any Transaction has been executed and delivered, neither the COMPANY nor COMSYS will be under any legal obligation of any kind whatsoever with respect to such Transaction and hereby waive, in advance, any claims (including, without limitation, breach of contract) in connection with any Transaction.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_disclosure_owner_scope_v1__10_19": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_owned_people",
+                        "controlled_company_people",
+                        "mixed_recipient_and_controlled_company_people",
+                        "other_or_unspecified_owner",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          10,
+                          11,
+                          18,
+                          19
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_disclosure_owner_scope_v1__27_29": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_owned_people",
+                        "controlled_company_people",
+                        "mixed_recipient_and_controlled_company_people",
+                        "other_or_unspecified_owner",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          27,
+                          28,
+                          29
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_disclosure_owner_scope_v1__10_19",
+                "disclosure_disclosure_owner_scope_v1__27_29"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "d4904f04e70291b92cf091cf2edf65c14aab2d0d5f49c2e201f793651ae96f17",
+  "full_original_request_and_wire_retained_locally": true
+}

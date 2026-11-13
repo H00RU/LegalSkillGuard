@@ -1,0 +1,154 @@
+{
+  "id": "legal_skill_evolution_positive_binding_delta_20261114:acquisition:FreeUpdate:ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450:concept:f5f63c190705eb61a413de81bad7de915394b2876daa837ca87143d1f96f49d8",
+  "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+  "purpose": "skill_replay",
+  "request_hash": "bb80ac8e41c310db9094fe77ee19deca4291db3c61f11f3ebebca307428fc2a2",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"所列人员均属于或服务于接收方本身。\", \"name\": \"recipient_owned_people\"}, {\"meaning\": \"所列人员属于接收方控制、被控制或共同控制的实体，而非接收方自身。\", \"name\": \"controlled_company_people\"}, {\"meaning\": \"窗口同时列出接收方自身人员和关联或受控实体人员，或不同类别具有不同所有者。\", \"name\": \"mixed_recipient_and_controlled_company_people\"}, {\"meaning\": \"窗口未清楚给出上述所有权关系。\", \"name\": \"other_or_unspecified_owner\"}], \"examples\": [], \"name\": \"disclosure_owner_scope_v1\", \"question\": \"判断窗口列明人员类别的所有者范围，保持接收方自身人员与其控制、被控制或共同控制实体的人员之区别。原始 TRAIN 示范（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.”→recipient_owned_people；“2.1.3 only to disclose the Confidential Information to employees of companies directly or indirectly owned or controlled by the Recipient, consultants and/or advisors to whom disclosure is necessary for the Permitted Purpose and then only on the understanding that such employees, consultants and/or advisors are expressly subject to the provisions of this Confidentiality Agreement.”→mixed_recipient_and_controlled_company_people；“2.3.2 the Recipient’s employees, officials, representatives and agents who have a strict need to know the contents of the Confidential Information, and employees, officials, representatives and agents of any legal entity that it controls, controls it, or with which it is under common control, who have a similar need to know the contents of the Confidential Information, provided that, for these purposes a controlled legal entity means:”→mixed_recipient_and_controlled_company_people。\"}], \"current_queries\": [{\"id\": \"disclosure_disclosure_owner_scope_v1__3_8\", \"operation\": \"disclosure_owner_scope_v1\", \"unit_ids\": [3, 5, 6, 8], \"current_units\": [{\"id\": 3, \"text\": \"Policy Annually the volunteers of the Certification Council for Professional Dog Trainers shall sign the following agreement:\"}, {\"id\": 5, \"text\": \"In consideration for receiving certain confidential information in connection with providing services to or on behalf of the Certification Council for Professional Dog Trainers (CCPDT), I, herein referred to as “Volunteer”, hereby agree and acknowledge:\"}, {\"id\": 6, \"text\": \"Confidential and Proprietary Information For purposes of this Agreement, “Confidential Information” means all information and materials, in whatever form, whether tangible or intangible, disclosed by the Certification Council for Professional Dog Trainers or any of its authorized representatives to Volunteer, or to which Volunteer otherwise gains access as a result of volunteering for the Certification Council for Professional Dog Trainers, pertaining in any manner to the activities of the Certification Council for Professional Dog Trainers or its affiliates, consultants, members, or any person or entity to which the Certification Council for Professional Dog Trainers owes a duty of confidentiality, whether or not labeled or identified as proprietary or confidential.\"}, {\"id\": 8, \"text\": \"All proprietary information of the Certification Council for Professional Dog Trainers that is not known generally to the public is Confidential Information.\"}]}, {\"id\": \"disclosure_disclosure_owner_scope_v1__23_31\", \"operation\": \"disclosure_owner_scope_v1\", \"unit_ids\": [23, 24, 26, 27, 28, 29, 30, 31], \"current_units\": [{\"id\": 23, \"text\": \" Any other information to which Volunteer has access while involved in the Certification Council for Professional Dog Trainers’ activities.\"}, {\"id\": 24, \"text\": \"Non-Disclosure  Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information.\"}, {\"id\": 26, \"text\": \"In no event shall Volunteer use Confidential Information in a manner that is in any way detrimental to the Certification Council for Professional Dog Trainers.\"}, {\"id\": 27, \"text\": \" Volunteer agrees to maintain the confidentiality of all Confidential Information and not misuse, misappropriate, or disclose in writing, orally or by electronic means, any Confidential Information, directly or indirectly, to any other person or use them in any way, either during the term of this Agreement or at any other time thereafter, except as is required in the course of service to the CCPDT.\"}, {\"id\": 28, \"text\": \" Volunteer acknowledges and agrees that all Confidential Information and similar items whether maintained in hard copy, electronically or on-line relating to CCPDT’s business shall remain exclusively the property of the Certification Council for Professional Dog Trainers and shall only be used by Volunteer for the purpose(s) permitted by the Certification Council for Professional Dog Trainers.\"}, {\"id\": 29, \"text\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"}, {\"id\": 30, \"text\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}, {\"id\": 31, \"text\": \"Volunteer Conflict of Interest  Volunteers shall avoid personal and professional conflicts of interest in all matters pertaining to the Certification program.\"}]}, {\"id\": \"disclosure_disclosure_owner_scope_v1__47_49\", \"operation\": \"disclosure_owner_scope_v1\", \"unit_ids\": [47, 48, 49], \"current_units\": [{\"id\": 47, \"text\": \" The provisions of this Agreement and Volunteer’s obligations hereunder shall survive any expiration, termination, or rescission of this Agreement and remain even after Volunteer’s relationship with the Certification Council for Professional Dog Trainers ends.\"}, {\"id\": 48, \"text\": \"Except as provided herein, Volunteer is prohibited from disclosing or using any confidential information in all circumstances, including but not limited to subsequent engagements or employment with third parties.\"}, {\"id\": 49, \"text\": \" This Agreement shall be binding upon Volunteer and Volunteer’s personal representatives and successors in interest, and shall inure to the benefit of the CCPDT, its successors and assigns.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_disclosure_owner_scope_v1__23_31": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_owned_people",
+                        "controlled_company_people",
+                        "mixed_recipient_and_controlled_company_people",
+                        "other_or_unspecified_owner",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          23,
+                          24,
+                          26,
+                          27,
+                          28,
+                          29,
+                          30,
+                          31
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_disclosure_owner_scope_v1__3_8": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_owned_people",
+                        "controlled_company_people",
+                        "mixed_recipient_and_controlled_company_people",
+                        "other_or_unspecified_owner",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          3,
+                          5,
+                          6,
+                          8
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_disclosure_owner_scope_v1__47_49": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "recipient_owned_people",
+                        "controlled_company_people",
+                        "mixed_recipient_and_controlled_company_people",
+                        "other_or_unspecified_owner",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          47,
+                          48,
+                          49
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_disclosure_owner_scope_v1__3_8",
+                "disclosure_disclosure_owner_scope_v1__23_31",
+                "disclosure_disclosure_owner_scope_v1__47_49"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "76d081d6eece6d6c9aef56a26e05894c361fb43c275df76fc792645d30e1307f",
+  "full_original_request_and_wire_retained_locally": true
+}

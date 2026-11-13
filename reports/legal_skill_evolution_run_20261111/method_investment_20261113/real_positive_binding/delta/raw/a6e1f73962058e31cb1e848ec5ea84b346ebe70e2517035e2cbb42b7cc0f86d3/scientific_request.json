@@ -1,0 +1,432 @@
+{
+  "id": "legal_skill_evolution_positive_binding_delta_20261114:acquisition:ConstraintAcquire:ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54:concept:4b34663ad7cd8f137f3d815e2fbd75e4e8ca7eeff7743f15eeb76b15fc170452",
+  "source": "ContractNLI:62fda7e904de3c7f48fe38d41908127e324a6a8da77d21d4465816e57cf90f54",
+  "purpose": "skill_replay",
+  "request_hash": "03c8317fb907341dfac13a6c9502490f800ba5331435cf20aac172898c78bd73",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.\nThe focus_unit_id identifies the clause to classify. Other supplied units are context for resolving its references, not additional effects to merge into that focus. Interpret the acquired operation for that focus clause, using its actual context.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"许可窗口没有明示 need-to-know、必要范围或接收者保密约束。\", \"name\": \"no_condition_stated\"}, {\"meaning\": \"许可只明示 need-to-know 条件。\", \"name\": \"need_to_know_only\"}, {\"meaning\": \"许可只明示披露范围或接收者范围须为必要。\", \"name\": \"extent_necessary_only\"}, {\"meaning\": \"许可只明示接收者受保密义务约束。\", \"name\": \"confidentiality_only\"}, {\"meaning\": \"许可同时明示 need-to-know 和接收者保密约束。\", \"name\": \"need_and_confidentiality\"}, {\"meaning\": \"许可同时明示必要范围和接收者保密约束。\", \"name\": \"extent_and_confidentiality\"}, {\"meaning\": \"许可同时明示 need-to-know、必要范围和接收者保密约束。\", \"name\": \"need_extent_and_confidentiality\"}, {\"meaning\": \"许可具有其他明确条件组合，不能安全归入以上档案。\", \"name\": \"other_supported_condition_profile\"}], \"examples\": [{\"choice\": \"need_and_confidentiality\", \"quote\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"extent_necessary_only\", \"quote\": \"The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"disclosure_condition_profile_v1\", \"question\": \"把最后一个单元作为焦点，并用前置单元解释同一许可，分类许可明示的条件组合。只记录窗口中实际表述的 need-to-know、必要范围和保密约束；未表述的条件不得补写。原始 TRAIN（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.” 原始 TRAIN（逐字）：“The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.”\"}], \"current_queries\": [{\"id\": \"disclosure_conditions_56\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [52, 53, 54, 55, 56], \"current_units\": [{\"id\": 52, \"text\": \"The parties to this Agreement consent and designate St. Louis County, Missouri as the sole venue and location for any suit or other proceeding of any kind regarding any aspect of this agreement and all issues arising out of or relating to the independent relationship between the parties.\"}, {\"id\": 53, \"text\": \"X. ASSIGNMENT:\"}, {\"id\": 54, \"text\": \"This Agreement is binding upon and shall inure to the benefit of the parties hereto and the successors and the assigns of all parties herein.\"}, {\"id\": 55, \"text\": \"Each party may assign or transfer this Agreement to a successor business entity in the event of a merger, consolidation, transfer or sale of the assets of said party.\"}, {\"id\": 56, \"text\": \"Any purported assignment of this Agreement, other than as provided above, shall be void.\"}], \"focus_unit_id\": 56}, {\"id\": \"disclosure_conditions_57\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [53, 54, 55, 56, 57], \"current_units\": [{\"id\": 53, \"text\": \"X. ASSIGNMENT:\"}, {\"id\": 54, \"text\": \"This Agreement is binding upon and shall inure to the benefit of the parties hereto and the successors and the assigns of all parties herein.\"}, {\"id\": 55, \"text\": \"Each party may assign or transfer this Agreement to a successor business entity in the event of a merger, consolidation, transfer or sale of the assets of said party.\"}, {\"id\": 56, \"text\": \"Any purported assignment of this Agreement, other than as provided above, shall be void.\"}, {\"id\": 57, \"text\": \"XI.\"}], \"focus_unit_id\": 57}, {\"id\": \"disclosure_conditions_58\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [54, 55, 56, 57, 58], \"current_units\": [{\"id\": 54, \"text\": \"This Agreement is binding upon and shall inure to the benefit of the parties hereto and the successors and the assigns of all parties herein.\"}, {\"id\": 55, \"text\": \"Each party may assign or transfer this Agreement to a successor business entity in the event of a merger, consolidation, transfer or sale of the assets of said party.\"}, {\"id\": 56, \"text\": \"Any purported assignment of this Agreement, other than as provided above, shall be void.\"}, {\"id\": 57, \"text\": \"XI.\"}, {\"id\": 58, \"text\": \"NOTICES: Except as expressly set forth to the contrary in this Agreement, all notices, requests, consents or other communications (each a \\\"Notice\\\") provided for or permitted to be given under this Agreement must be in writing and must be given either (i) by depositing the Notice in the United States mail, addressed to the recipient, postage paid, and registered or certified with return receipt requested or (ii) by delivering the Notice to the recipient in person, by courier, or by facsimile transmission.\"}], \"focus_unit_id\": 58}, {\"id\": \"disclosure_conditions_61\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [55, 56, 57, 58, 61], \"current_units\": [{\"id\": 55, \"text\": \"Each party may assign or transfer this Agreement to a successor business entity in the event of a merger, consolidation, transfer or sale of the assets of said party.\"}, {\"id\": 56, \"text\": \"Any purported assignment of this Agreement, other than as provided above, shall be void.\"}, {\"id\": 57, \"text\": \"XI.\"}, {\"id\": 58, \"text\": \"NOTICES: Except as expressly set forth to the contrary in this Agreement, all notices, requests, consents or other communications (each a \\\"Notice\\\") provided for or permitted to be given under this Agreement must be in writing and must be given either (i) by depositing the Notice in the United States mail, addressed to the recipient, postage paid, and registered or certified with return receipt requested or (ii) by delivering the Notice to the recipient in person, by courier, or by facsimile transmission.\"}, {\"id\": 61, \"text\": \"A Notice given under this Agreement is effective on receipt by the party to receive it.\"}], \"focus_unit_id\": 61}, {\"id\": \"disclosure_conditions_62\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [56, 57, 58, 61, 62], \"current_units\": [{\"id\": 56, \"text\": \"Any purported assignment of this Agreement, other than as provided above, shall be void.\"}, {\"id\": 57, \"text\": \"XI.\"}, {\"id\": 58, \"text\": \"NOTICES: Except as expressly set forth to the contrary in this Agreement, all notices, requests, consents or other communications (each a \\\"Notice\\\") provided for or permitted to be given under this Agreement must be in writing and must be given either (i) by depositing the Notice in the United States mail, addressed to the recipient, postage paid, and registered or certified with return receipt requested or (ii) by delivering the Notice to the recipient in person, by courier, or by facsimile transmission.\"}, {\"id\": 61, \"text\": \"A Notice given under this Agreement is effective on receipt by the party to receive it.\"}, {\"id\": 62, \"text\": \"Any Notice to any party must be sent to or made at that party’s address (or facsimile number if applicable) given below such party’s signature or such other address or facsimile number as that party may specify by delivering a Notice in compliance with this paragraph.\"}], \"focus_unit_id\": 62}, {\"id\": \"disclosure_conditions_63\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [57, 58, 61, 62, 63], \"current_units\": [{\"id\": 57, \"text\": \"XI.\"}, {\"id\": 58, \"text\": \"NOTICES: Except as expressly set forth to the contrary in this Agreement, all notices, requests, consents or other communications (each a \\\"Notice\\\") provided for or permitted to be given under this Agreement must be in writing and must be given either (i) by depositing the Notice in the United States mail, addressed to the recipient, postage paid, and registered or certified with return receipt requested or (ii) by delivering the Notice to the recipient in person, by courier, or by facsimile transmission.\"}, {\"id\": 61, \"text\": \"A Notice given under this Agreement is effective on receipt by the party to receive it.\"}, {\"id\": 62, \"text\": \"Any Notice to any party must be sent to or made at that party’s address (or facsimile number if applicable) given below such party’s signature or such other address or facsimile number as that party may specify by delivering a Notice in compliance with this paragraph.\"}, {\"id\": 63, \"text\": \"XII.\"}], \"focus_unit_id\": 63}, {\"id\": \"disclosure_conditions_64\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [58, 61, 62, 63, 64], \"current_units\": [{\"id\": 58, \"text\": \"NOTICES: Except as expressly set forth to the contrary in this Agreement, all notices, requests, consents or other communications (each a \\\"Notice\\\") provided for or permitted to be given under this Agreement must be in writing and must be given either (i) by depositing the Notice in the United States mail, addressed to the recipient, postage paid, and registered or certified with return receipt requested or (ii) by delivering the Notice to the recipient in person, by courier, or by facsimile transmission.\"}, {\"id\": 61, \"text\": \"A Notice given under this Agreement is effective on receipt by the party to receive it.\"}, {\"id\": 62, \"text\": \"Any Notice to any party must be sent to or made at that party’s address (or facsimile number if applicable) given below such party’s signature or such other address or facsimile number as that party may specify by delivering a Notice in compliance with this paragraph.\"}, {\"id\": 63, \"text\": \"XII.\"}, {\"id\": 64, \"text\": \"EQUITABLE RELIEF: Each party recognizes that any actual or threatened breach of the provisions of this Agreement would cause irreparable harm to the other party, the extent of which would be difficult and impracticable to assess, and that money damages would not be an adequate remedy for such breach.\"}], \"focus_unit_id\": 64}, {\"id\": \"disclosure_conditions_65\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [61, 62, 63, 64, 65], \"current_units\": [{\"id\": 61, \"text\": \"A Notice given under this Agreement is effective on receipt by the party to receive it.\"}, {\"id\": 62, \"text\": \"Any Notice to any party must be sent to or made at that party’s address (or facsimile number if applicable) given below such party’s signature or such other address or facsimile number as that party may specify by delivering a Notice in compliance with this paragraph.\"}, {\"id\": 63, \"text\": \"XII.\"}, {\"id\": 64, \"text\": \"EQUITABLE RELIEF: Each party recognizes that any actual or threatened breach of the provisions of this Agreement would cause irreparable harm to the other party, the extent of which would be difficult and impracticable to assess, and that money damages would not be an adequate remedy for such breach.\"}, {\"id\": 65, \"text\": \"Accordingly, in addition to and not in limitation of any other remedies at law or in equity available under the circumstances, and notwithstanding any jurisdiction and venue requirements of this Agreement, each party shall be entitled to seek immediate injunctive and other non-monetary equitable relief in any court of competent jurisdiction without the need or requirement of any bond, provided that if a bond is required, the bond shall not exceed $1,000.00.\"}], \"focus_unit_id\": 65}, {\"id\": \"disclosure_conditions_66\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [62, 63, 64, 65, 66], \"current_units\": [{\"id\": 62, \"text\": \"Any Notice to any party must be sent to or made at that party’s address (or facsimile number if applicable) given below such party’s signature or such other address or facsimile number as that party may specify by delivering a Notice in compliance with this paragraph.\"}, {\"id\": 63, \"text\": \"XII.\"}, {\"id\": 64, \"text\": \"EQUITABLE RELIEF: Each party recognizes that any actual or threatened breach of the provisions of this Agreement would cause irreparable harm to the other party, the extent of which would be difficult and impracticable to assess, and that money damages would not be an adequate remedy for such breach.\"}, {\"id\": 65, \"text\": \"Accordingly, in addition to and not in limitation of any other remedies at law or in equity available under the circumstances, and notwithstanding any jurisdiction and venue requirements of this Agreement, each party shall be entitled to seek immediate injunctive and other non-monetary equitable relief in any court of competent jurisdiction without the need or requirement of any bond, provided that if a bond is required, the bond shall not exceed $1,000.00.\"}, {\"id\": 66, \"text\": \"IN WITNESS WHEREOF, the parties, intending to be legally bound, have executed this Agreement as of the last date set forth below by the undersigned duly authorized representatives.\"}], \"focus_unit_id\": 66}, {\"id\": \"disclosure_conditions_67\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [63, 64, 65, 66, 67], \"current_units\": [{\"id\": 63, \"text\": \"XII.\"}, {\"id\": 64, \"text\": \"EQUITABLE RELIEF: Each party recognizes that any actual or threatened breach of the provisions of this Agreement would cause irreparable harm to the other party, the extent of which would be difficult and impracticable to assess, and that money damages would not be an adequate remedy for such breach.\"}, {\"id\": 65, \"text\": \"Accordingly, in addition to and not in limitation of any other remedies at law or in equity available under the circumstances, and notwithstanding any jurisdiction and venue requirements of this Agreement, each party shall be entitled to seek immediate injunctive and other non-monetary equitable relief in any court of competent jurisdiction without the need or requirement of any bond, provided that if a bond is required, the bond shall not exceed $1,000.00.\"}, {\"id\": 66, \"text\": \"IN WITNESS WHEREOF, the parties, intending to be legally bound, have executed this Agreement as of the last date set forth below by the undersigned duly authorized representatives.\"}, {\"id\": 67, \"text\": \"Dealer Pay, LLC ________________________________(Company) PO Box 1691 ________________________________(Street Address) St. Charles, MO 63302 ________________________________(City, State, Zip) Julie R. Douglas ________________________________(Name) President ________________________________(Title) _________________________________ _________________________________ (Signature) (Signature) _________________________________ _________________________________ (Date) (Date)\"}], \"focus_unit_id\": 67}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_conditions_56": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          52,
+                          53,
+                          54,
+                          55,
+                          56
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_57": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          53,
+                          54,
+                          55,
+                          56,
+                          57
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_58": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          54,
+                          55,
+                          56,
+                          57,
+                          58
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_61": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          55,
+                          56,
+                          57,
+                          58,
+                          61
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_62": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          56,
+                          57,
+                          58,
+                          61,
+                          62
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_63": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          57,
+                          58,
+                          61,
+                          62,
+                          63
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_64": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          58,
+                          61,
+                          62,
+                          63,
+                          64
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_65": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          61,
+                          62,
+                          63,
+                          64,
+                          65
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_66": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          62,
+                          63,
+                          64,
+                          65,
+                          66
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_67": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          63,
+                          64,
+                          65,
+                          66,
+                          67
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_conditions_56",
+                "disclosure_conditions_57",
+                "disclosure_conditions_58",
+                "disclosure_conditions_61",
+                "disclosure_conditions_62",
+                "disclosure_conditions_63",
+                "disclosure_conditions_64",
+                "disclosure_conditions_65",
+                "disclosure_conditions_66",
+                "disclosure_conditions_67"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "c64285689d3af91a1306b9d285286b7836458988a7aa020412e9dc92ef58fda2",
+  "full_original_request_and_wire_retained_locally": true
+}

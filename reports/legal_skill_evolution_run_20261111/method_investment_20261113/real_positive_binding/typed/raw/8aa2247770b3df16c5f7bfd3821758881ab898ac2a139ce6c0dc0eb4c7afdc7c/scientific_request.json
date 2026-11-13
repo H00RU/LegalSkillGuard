@@ -1,0 +1,91 @@
+{
+  "id": "legal_skill_evolution_positive_binding_typed_20261114:acquisition:FreeUpdate:ContractNLI:e82b951aca3540fe6be6bfa63cae714cb7c7d55f38631402a3b6521eb6fc9bc6:concept:357f0250535af8fb298fff2514c6cea76c9b8d85a68800a109abfaaf44426a82",
+  "source": "ContractNLI:e82b951aca3540fe6be6bfa63cae714cb7c7d55f38631402a3b6521eb6fc9bc6",
+  "purpose": "skill_replay",
+  "request_hash": "ee325f4f742d768db8b70a84ef16eeb78e6748562caf1d254fd65da038aec8fa",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"唯一实际触发是来源指定参与方的请求或要求。\", \"name\": \"request_only\"}, {\"meaning\": \"唯一实际触发是协议终止或到期。\", \"name\": \"agreement_termination_only\"}, {\"meaning\": \"唯一实际触发是业务、工作或项目关系终止或到期。\", \"name\": \"relationship_termination_only\"}, {\"meaning\": \"唯一实际触发是人员服务终止。\", \"name\": \"service_termination_only\"}, {\"meaning\": \"唯一实际触发是规定期限内未建立预期关系。\", \"name\": \"relationship_nonformation_only\"}, {\"meaning\": \"协议终止或到期与请求均可触发。\", \"name\": \"agreement_termination_or_request\"}, {\"meaning\": \"业务、工作或项目关系终止与请求均可触发。\", \"name\": \"relationship_termination_or_request\"}, {\"meaning\": \"关系未建立期限与请求均可触发。\", \"name\": \"relationship_nonformation_or_request\"}, {\"meaning\": \"窗口有其他明示触发，须按逐字来源保留。\", \"name\": \"other_explicit_trigger\"}, {\"meaning\": \"完整供应窗口没有陈述处置触发；只判断该窗口。\", \"name\": \"no_trigger_stated_in_window\"}], \"examples\": [], \"name\": \"disposal_trigger_profile_v1\", \"question\": \"判断供应处置窗口的实际触发事件，不把请求、协议终止、业务或项目终止、服务终止、关系未建立期限相互替换。原始 TRAIN 示范（逐字）：“If requested, either Party shall be bound to return any and all materials to the Requesting Party within ____ days.”→request_only；“Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.”→service_termination_only；“5.3 The Receiving Party shall return to SINTEC any and all information disclosed by SINTEC as well as any copies thereof automatically upon termination/expiration of the business relation- ship.”→relationship_termination_only；“All Confidential Information in any form and any medium, including all copies thereof, disclosed to the Recipient shall be returned to UNHCR or destroyed: (a) if a business relationship is not entered into with UNHCR on or before the date which is three (3) months after the date both Parties have signed the Agreement; or (b) promptly upon request by the UNHCR at any time.”→relationship_nonformation_or_request。\"}], \"current_queries\": [{\"id\": \"disposal_disposal_trigger_profile_v1__41_46\", \"operation\": \"disposal_trigger_profile_v1\", \"unit_ids\": [41, 42, 45, 46], \"current_units\": [{\"id\": 41, \"text\": \"The receiving Party will clearly label all copies of Confidential Information as confidential.\"}, {\"id\": 42, \"text\": \"5.2 If the disclosing Party so requests in writing, the receiving Party shall immediately:- 5.2.1 return all Confidential Information including copies to the disclosing Party; and\"}, {\"id\": 45, \"text\": \"5.2.2 destroy or permanently erase all copies made by the receiving Party and procure that anyone to whom the receiving Party has supplied copies destroys or permanently erases such copies and any further copies made by them.\"}, {\"id\": 46, \"text\": \"6. GENERAL 6.1 Each Party shall indemnify and hold harmless the other Party against all loss, damage and expense (including legal expenses) whatsoever and howsoever arising out of or in connection with any breach by the first Party or its employees of this Agreement.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disposal_disposal_trigger_profile_v1__41_46": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "request_only",
+                        "agreement_termination_only",
+                        "relationship_termination_only",
+                        "service_termination_only",
+                        "relationship_nonformation_only",
+                        "agreement_termination_or_request",
+                        "relationship_termination_or_request",
+                        "relationship_nonformation_or_request",
+                        "other_explicit_trigger",
+                        "no_trigger_stated_in_window",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          41,
+                          42,
+                          45,
+                          46
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disposal_disposal_trigger_profile_v1__41_46"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "786e1ff9b3da9c0e790146ea2a12040224172edd3d0e4fdddaae21faad8dc36b",
+  "full_original_request_and_wire_retained_locally": true
+}

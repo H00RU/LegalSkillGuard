@@ -1,0 +1,88 @@
+{
+  "id": "legal_skill_evolution_positive_binding_typed_20261114:acquisition:FreeUpdate:ContractNLI:de427b59f51cd83644fef90b773bf036b9bc33972719dc42c658e45b54c2f98e:concept:00120de4a6a4612c150ff8054f2f2909761270483f507d66768c0581262aec84",
+  "source": "ContractNLI:de427b59f51cd83644fef90b773bf036b9bc33972719dc42c658e45b54c2f98e",
+  "purpose": "skill_replay",
+  "request_hash": "87054606e634ad888e5cde5cecbfcfbcb46ab28d27a7ddff45ad75258ff79fc9",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"窗口明示一个实际生效的类别化披露许可。\", \"name\": \"operative_permission\"}, {\"meaning\": \"窗口给出披露禁令，同时对列明接收者类别形成真实许可例外。\", \"name\": \"prohibition_with_class_permission\"}, {\"meaning\": \"窗口只有实际披露禁令，没有列明接收者类别许可。\", \"name\": \"operative_prohibition_only\"}, {\"meaning\": \"窗口把人员类别置于保密义务范围，但省略了足以形成清晰披露许可的语言。\", \"name\": \"elliptical_recipient_confidentiality_scope\"}, {\"meaning\": \"该窗口不是实际披露规范。\", \"name\": \"not_an_operative_disclosure_norm\"}], \"examples\": [], \"name\": \"disclosure_norm_effect_v1\", \"question\": \"判断整个供应窗口表达的披露规范效力。只按来源实际措辞分类；不得把序言、定义或省略文字补成许可。一般禁令中对列明接收者类别的真实例外属于 prohibition_with_class_permission。原始 TRAIN 示范（逐字）：“(a) Subject to the restrictions set forth below in this Section 4, each Party may disclose the other Party’s Confidential Information to its directors, officers, employees, legal advisors, financial advisors and accountants, each bound by obligations of confidentiality consistent with this Agreement, who have a bona fide need to know (“Representatives”), but only to the extent necessary to carry out the Business Purpose. ”→operative_permission；“(c) not to disclose the same whether to its employees or to third parties except in confidence to such of its employees, directors or contractors who need to know the same for the Purpose and that (i) such employees, directors and contractors are obliged by their contracts of employment or services not to disclose the same, (ii) the receiving party shall enforce such obligations at its expense and at the request of the disclosing party in so far as breach thereof relates to the disclosing party's Confidential Information;”→prohibition_with_class_permission；“The obligations of the Parties shall be to hold and maintain the Confidential Information in the strictest of confidence at all times and to their agents, employees, representatives, affiliates, and any other individual or entity that is on a “need to know” basis.”→elliptical_recipient_confidentiality_scope。\"}], \"current_queries\": [{\"id\": \"disclosure_disclosure_norm_effect_v1__18_27\", \"operation\": \"disclosure_norm_effect_v1\", \"unit_ids\": [18, 20, 21, 23, 24, 27], \"current_units\": [{\"id\": 18, \"text\": \"2.2 The Recipient shall use the Confidential Information solely for the purpose for which it was disclosed;\"}, {\"id\": 20, \"text\": \"2.3 Provided that the Recipient has a written agreement with the following persons or entities requiring them to treat the Confidential Information in accordance with this Agreement, the Recipient may disclose the Confidential Information to:\"}, {\"id\": 21, \"text\": \"2.3.1 Any other party with the Discloser’s prior written consent; and\"}, {\"id\": 23, \"text\": \"2.3.2 the Recipient’s employees, officials, representatives and agents who have a strict need to know the contents of the Confidential Information, and employees, officials, representatives and agents of any legal entity that it controls, controls it, or with which it is under common control, who have a similar need to know the contents of the Confidential Information, provided that, for these purposes a controlled legal entity means:\"}, {\"id\": 24, \"text\": \"2.3.2.1 a corporate entity in which the Party owns or otherwise controls, whether directly or indirectly, over fifty percent (50%) of voting shares thereof; or, 2.3.2.2 any entity over which the Party exercises effective managerial control; or, 2.3.2.3 for UNHCR, a principal or subsidiary organ of the United Nations established in accordance with the Charter of the United Nations.\"}, {\"id\": 27, \"text\": \"2.4 The Recipient may disclose the Confidential Information to the extent required by law, provided that, subject to and without any waiver of the privileges and immunities of UNHCR, the Recipient will give UNHCR sufficient prior notice of a request for the disclosure of the Confidential Information in order to allow UNHCR to have a reasonable opportunity to take protective measures or such other action as may be appropriate before any such disclosure is made.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_disclosure_norm_effect_v1__18_27": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "operative_permission",
+                        "prohibition_with_class_permission",
+                        "operative_prohibition_only",
+                        "elliptical_recipient_confidentiality_scope",
+                        "not_an_operative_disclosure_norm",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          18,
+                          20,
+                          21,
+                          23,
+                          24,
+                          27
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_disclosure_norm_effect_v1__18_27"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "2598692b99bbfdcfa2476fc5a2508b0819add4dfbb37f34480af0c168006506b",
+  "full_original_request_and_wire_retained_locally": true
+}

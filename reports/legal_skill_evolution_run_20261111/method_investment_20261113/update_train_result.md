@@ -2,7 +2,32 @@
 
 2026-11-14。同一Goal active。沿用C（诊断驱动开放获取）与U（源—代码联合更新程序），未换候选。**C已出现局部补读增量，完整独立贡献尚未确立；U核心及真实修订同例回放已实现，独立作用和后续来源验证仍未成立，Goal未完成。** 下方各节按检查点保留，当时的未实现/下一步不覆盖当前METHOD。
 
-## 最新：固定四母独立获取器比较与可达上限
+## 最新：正向规则获取、12母学习与4母冻结复用已完成
+
+本次完成了真实的“发现→细读→源内规范→消费者”路径，不再只有候选和未发现根。仍为原TRAIN中的12份合同获取、预先固定4份合同复用，每母4个原生视图；不是12/4个新来源，也不称新盲测。双方独立更新获得相同原文、合法监督、历史、共同真实初态及诊断；没有新增完整训练、DEV/TEST或论文。
+
+|固定范围|C共同拟合|同φ与建议G的NoFit|独立Free更新|
+|---|---:|---:|---:|
+|12母获取，正确/48|36|39|29|
+|获取核心执行/48|42|48|34|
+|4母冻结复用，正确/16|8|8|5|
+|复用核心执行/16|12|12|14|
+
+共同初态获取25/48正确、32/48可执行。所有8份复用源×臂无标签执行先保存，之后才评分；两库hash保持。[先执行后评分](real_positive_binding/typed/execution_before_scoring.json)、[逐来源答案/实际使用根](real_positive_binding/typed/live_analysis/source_results.json)。未覆盖和错误留在分母，fallback物理调用0；核心可执行不代表法义已认证。
+
+**确实学到了什么。** C独立取得6类读取、16条候选G、两个正向Norm构造子和真实多阶段规划；12母中8母生成22个C绑定规范，4母复用生成10个。这些不是预置规则或反事实样例。只删除本轮实际正向规范，保留同一消费者和其余真实根，获取36→27，复用8→3，显示新根实际参与原生执行。这是组件使用证据，**不能代替诊断/共同拟合的独立收益**；NoFit在复用同样8/16、获取更高。Free亦取得自己的11类读取和完整来源/消费者程序，不以C专用构造子计数为0声称Free没有学习。[真实C提议](real_positive_binding/typed/ConstraintAcquire/teacher.json)、[独立Free提议](real_positive_binding/typed/FreeUpdate/teacher.json)、[实际组件删除](real_positive_binding/typed/live_analysis/component_deletion.json)。
+
+**语义问题定位到具体字段。** 96361的实际条款26支持“协议结束或书面请求→返还或销毁信息及副本”，其对应规范被真实消费者使用；同份披露把本方员工读成受控公司员工则错误。4607的许可根遗漏保密条件；78ad的处置根额外添加书面授权要求；e82b把返还且销毁不同副本读成授权二选一；6fce的部分窗口把协议终止、项目结束及备份/单一留档条件混为一种profile。c46f的返还加擦除、ef7b的材料分区和467e的不继续交易事件仍被压缩。不能把原生答对或有出处直接当完整规则正确。[获取源审查](real_positive_binding/typed/live_analysis/actual_source_review.json)、[复用事后源核查](real_positive_binding/typed/live_analysis/postscore_reuse_source_review.json)。原4条“未发现”反证检查只覆盖对应获取材料，不覆盖所有新字段；复用没有这4条检查，不把无约束的真值计为源语义成功。
+
+**已补出源字段诊断，无需重问模型。** 直接复用本轮已付费12份观察及完整理论profile，不重新枚举、生成或评分复用四母。对获取材料中明确错误的字段加入部分源反证，当前G共同最小错误从12上升到21/48；即使允许每母单独选择，乐观下限仍15/48。说明当前读数/候选组合不能通过单纯继续拟合解决这些字段错误，需要修改实际φ/输出表达；这不是整个开放表示不可能的证明，也没有安装事后库或覆盖原分数。[原profile复用的精确诊断](real_positive_binding/typed/live_analysis/field_constraint_diagnosis.json)。下一项针对这些获取TRAIN字段完成语义分解和定点更新，不回放这4份复用追分，不扩大来源或更换配置。
+
+**共享类型缺陷已确定性修复。** Free实际输出`statements[7].term[2][1][1]`为已声明的`confidential_information_and_copies`，旧编译器只继承旧choice域。先在客户端终止、账本reserved=0时保存现场，再为双方统一安装已验证operation choices组成的有限域；unknown、任意未声明值及native答案继续拒绝。原14份执行输出/原生反馈不变，第15份失败输出不改字恢复；模型新增0，436项回归通过。原程序、原始提议、旧失败、冻结源码和账本均保存。[失败完整观察/输出](real_positive_binding/delta/type_failure_recovery)、[逐字段及期望/实际类型](real_positive_binding/delta/type_failure_recovery/issues.json)、[修复等价证据](real_positive_binding/typed/offline_scalar_repair.json)、[软件回归](real_positive_binding/software_regression.log)。
+
+**成本与保留。** 本固定获取/验证累计新增266E/3T，其中2个教师成功、Free原请求600秒超时1次，全部收费记账；C提议未重问，Free只在输出协议有明确修改且离线等价后重试。累计账本10167→10436（10205E/231T），原10167行逐条hash不变，在途0。执行器697005输入/35037输出token、1069.739服务秒，266份实际wire均thinking OFF/max8192、正常stop且无reasoning内容；教师已知447858输入/35365输出（含14028reasoning），含失败1259.594服务秒，失败token未知。现金发票及GPU分摊未知，不能把这些token称为现金费用。[269次物理请求与成本](real_positive_binding/typed/cost_and_preservation.json)、[实际OFF/wire核对](real_positive_binding/typed/executor_wire_verification.json)、[终结保存](real_positive_binding/typed/TERMINAL_PRESERVATION.json)。
+
+**阶段结论。** 正向规则学习和实际复用已有产出；C相对Free有本次有限分数差，但共同拟合的独立优势未成立，部分新增规范仍有字段错误；U真实φ/G更新字典仍为空。两项贡献均未验收，Goal继续active，不以本检查点或少数正确规范结项。
+
+## 前一检查点：固定四母独立获取器比较与可达上限
 
 保持已冻结NDA C/Free库，按原TRAIN顺序排除当前8母获取、bc93/6d10及共同seed，先固定4607/8fb3/6fce/e82b四母，再执行和评分。C/Free同有无标签覆盖选择器，另以各自全部已学操作作eager控制；没有教师更新或调参。旧完整TRAIN和早期研究暴露披露，不称新盲测。
 

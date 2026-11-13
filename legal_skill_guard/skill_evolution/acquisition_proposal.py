@@ -69,6 +69,15 @@ def compile_proposal(previous, proposal, arm, training_sources, *, source_functi
                for n in ast.walk(ast.parse(code))):
             raise ValueError('A source identity is not an applicability guard')
     scalar_declarations = deepcopy(previous['spec'].get('scalar_sorts', {}))
+    # Both architectures can put an acquired answer choice into a typed term.
+    # Its finite domain comes from the validated operations, not arbitrary
+    # strings observed at runtime. Preserve unknown as absence of a reading.
+    if any('choice' in c['arguments'] for c in
+           previous['spec']['constructors'] + proposal['new_constructors']):
+        choices = [c['name'] for op in proposal['operations'] for c in op['choices']]
+        if choices:
+            scalar_declarations['choice'] = sorted(set(
+                scalar_declarations.get('choice', []) + choices))
     if arm == 'ConstraintAcquire':
         language = json.loads(proposal['composition'])
         language['signatures'] = {**signatures(), 'keep_root': {'arguments': ['term'], 'kind': 'output'},
@@ -99,6 +108,8 @@ def compile_proposal(previous, proposal, arm, training_sources, *, source_functi
     else:
         validate_procedure(proposal['composition'], allow_helpers=True)
         spec = deepcopy(previous['spec']); spec['constructors'].extend(deepcopy(proposal['new_constructors']))
+        if scalar_declarations:
+            spec['scalar_sorts'] = deepcopy(scalar_declarations)
         spec['decision_program'] = function_update(spec['decision_program'], decisions); constructors(spec)
         library = {'operations': proposal['operations'],
             'planner_program': function_update(previous['planner_program'], planner), 'scope': 'window',

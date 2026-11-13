@@ -1,0 +1,87 @@
+{
+  "id": "legal_skill_evolution_positive_binding_delta_20261114:acquisition:FreeUpdate:ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450:concept:85b47e79c56d55e4bd69cbfa56e895b9f5c3ecbaa1fab66a96f0aa9aebabe0c0",
+  "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+  "purpose": "skill_replay",
+  "request_hash": "022178dd0a595ee80abe4e67b6c7c9bd5a9f5239a787b194f84adb5660804975",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"明示范围是受保护信息本身，未明示副本或衍生材料。\", \"name\": \"confidential_information_only\"}, {\"meaning\": \"明示范围包括受保护信息及其副本。\", \"name\": \"confidential_information_and_copies\"}, {\"meaning\": \"明示范围包括信息、副本以及笔记、分析、摘要或其他衍生材料。\", \"name\": \"information_copies_and_derivatives\"}, {\"meaning\": \"动作仅针对副本或复制件。\", \"name\": \"copies_or_reproductions_only\"}, {\"meaning\": \"来源明示全部相关材料，但其具体边界由逐字证据限定。\", \"name\": \"all_source_stated_materials\"}, {\"meaning\": \"窗口给出其他明确材料范围，须按逐字来源保留。\", \"name\": \"other_explicit_material_scope\"}], \"examples\": [], \"name\": \"disposal_material_scope_v1\", \"question\": \"判断供应处置窗口明示覆盖的材料层级，同时保留逐字来源以约束具体范围。原始 TRAIN 示范（逐字）：“If requested, either Party shall be bound to return any and all materials to the Requesting Party within ____ days.”→all_source_stated_materials；“5.3 The Receiving Party shall return to SINTEC any and all information disclosed by SINTEC as well as any copies thereof automatically upon termination/expiration of the business relation- ship.”→confidential_information_and_copies；“(f) Return to theauditee, or destroy, at auditee’s discretion, any and all Confidential Information disclosed in a printed form or other permanent record, or in any other tangible form (including without limitation, all copies, notes, extracts, analyses, studies, summaries, records and reproductions thereof) immediately on (i) expiration or termination ofthis agreement, or (ii) the request of Auditee therefor.”→information_copies_and_derivatives。\"}], \"current_queries\": [{\"id\": \"disposal_disposal_material_scope_v1__28_31\", \"operation\": \"disposal_material_scope_v1\", \"unit_ids\": [28, 29, 30, 31], \"current_units\": [{\"id\": 28, \"text\": \" Volunteer acknowledges and agrees that all Confidential Information and similar items whether maintained in hard copy, electronically or on-line relating to CCPDT’s business shall remain exclusively the property of the Certification Council for Professional Dog Trainers and shall only be used by Volunteer for the purpose(s) permitted by the Certification Council for Professional Dog Trainers.\"}, {\"id\": 29, \"text\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"}, {\"id\": 30, \"text\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}, {\"id\": 31, \"text\": \"Volunteer Conflict of Interest  Volunteers shall avoid personal and professional conflicts of interest in all matters pertaining to the Certification program.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disposal_disposal_material_scope_v1__28_31": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "confidential_information_only",
+                        "confidential_information_and_copies",
+                        "information_copies_and_derivatives",
+                        "copies_or_reproductions_only",
+                        "all_source_stated_materials",
+                        "other_explicit_material_scope",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          28,
+                          29,
+                          30,
+                          31
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disposal_disposal_material_scope_v1__28_31"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "5d4b4c450e3c0e48db1b6873c48fa9903dfdcf8ed23d77c46e6af2daabd5a709",
+  "full_original_request_and_wire_retained_locally": true
+}

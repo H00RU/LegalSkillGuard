@@ -1,0 +1,508 @@
+{
+  "id": "legal_skill_evolution_positive_binding_delta_20261114:acquisition:ConstraintAcquire:ContractNLI:bbb3901122f38ae648ac6b6dc1427efc5f20bfb04a02bb769c2362e670a17c65:concept:7d59af741b1aafe59bbe577e701798ea420cebece73b313b11981fea6bf2c804",
+  "source": "ContractNLI:bbb3901122f38ae648ac6b6dc1427efc5f20bfb04a02bb769c2362e670a17c65",
+  "purpose": "skill_replay",
+  "request_hash": "5209f4c9d817701f2e45d18adcbdbc2a52c578ad1a5fb39e5ea8ca6cb945d9f6",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.\nThe focus_unit_id identifies the clause to classify. Other supplied units are context for resolving its references, not additional effects to merge into that focus. Interpret the acquired operation for that focus clause, using its actual context.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"许可窗口没有明示 need-to-know、必要范围或接收者保密约束。\", \"name\": \"no_condition_stated\"}, {\"meaning\": \"许可只明示 need-to-know 条件。\", \"name\": \"need_to_know_only\"}, {\"meaning\": \"许可只明示披露范围或接收者范围须为必要。\", \"name\": \"extent_necessary_only\"}, {\"meaning\": \"许可只明示接收者受保密义务约束。\", \"name\": \"confidentiality_only\"}, {\"meaning\": \"许可同时明示 need-to-know 和接收者保密约束。\", \"name\": \"need_and_confidentiality\"}, {\"meaning\": \"许可同时明示必要范围和接收者保密约束。\", \"name\": \"extent_and_confidentiality\"}, {\"meaning\": \"许可同时明示 need-to-know、必要范围和接收者保密约束。\", \"name\": \"need_extent_and_confidentiality\"}, {\"meaning\": \"许可具有其他明确条件组合，不能安全归入以上档案。\", \"name\": \"other_supported_condition_profile\"}], \"examples\": [{\"choice\": \"need_and_confidentiality\", \"quote\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"extent_necessary_only\", \"quote\": \"The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"disclosure_condition_profile_v1\", \"question\": \"把最后一个单元作为焦点，并用前置单元解释同一许可，分类许可明示的条件组合。只记录窗口中实际表述的 need-to-know、必要范围和保密约束；未表述的条件不得补写。原始 TRAIN（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.” 原始 TRAIN（逐字）：“The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.”\"}], \"current_queries\": [{\"id\": \"disclosure_conditions_159\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [152, 154, 156, 158, 159], \"current_units\": [{\"id\": 152, \"text\": \"11.5 Nothing in this paragraph 10 shall have the effect of limiting or restricting any liability arising as a result of fraud.\"}, {\"id\": 154, \"text\": \"12. DURATION This agreement shall continue for 18 months after the date of this agreement.\"}, {\"id\": 156, \"text\": \"13. THIRD PARTY RIGHTS The provisions of this agreement confer benefits on the persons referred to in paragraph 1.4 (other than us) (each, a \\\"Third Party\\\") and each Third Party will have the right under the Contracts (Rights of Third Parties) Act 1999 (the \\\"1999 Act\\\") to enforce its respective rights under this agreement.\"}, {\"id\": 158, \"text\": \"The parties to this agreement do not require the consent of any Third Party to rescind or vary this agreement (other than paragraphs 10, 13 and 16) at any time.\"}, {\"id\": 159, \"text\": \"No other person who is not a party to this agreement has any right under the 1999 Act to enforce any term of this agreement but this does not affect any right or remedy of a third party which exists or is available apart from the 1999 Act.\"}], \"focus_unit_id\": 159}, {\"id\": \"disclosure_conditions_160\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [154, 156, 158, 159, 160], \"current_units\": [{\"id\": 154, \"text\": \"12. DURATION This agreement shall continue for 18 months after the date of this agreement.\"}, {\"id\": 156, \"text\": \"13. THIRD PARTY RIGHTS The provisions of this agreement confer benefits on the persons referred to in paragraph 1.4 (other than us) (each, a \\\"Third Party\\\") and each Third Party will have the right under the Contracts (Rights of Third Parties) Act 1999 (the \\\"1999 Act\\\") to enforce its respective rights under this agreement.\"}, {\"id\": 158, \"text\": \"The parties to this agreement do not require the consent of any Third Party to rescind or vary this agreement (other than paragraphs 10, 13 and 16) at any time.\"}, {\"id\": 159, \"text\": \"No other person who is not a party to this agreement has any right under the 1999 Act to enforce any term of this agreement but this does not affect any right or remedy of a third party which exists or is available apart from the 1999 Act.\"}, {\"id\": 160, \"text\": \"14. GENERAL 14.1 Each party acknowledges and agrees that damages alone would not be an adequate remedy for a breach of this agreement or breach of confidence and that the other party shall be entitled to seek the remedies of injunction, specific performance and other equitable relief for any threatened or actual breach of this agreement or breach of confidence.\"}], \"focus_unit_id\": 160}, {\"id\": \"disclosure_conditions_162\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [156, 158, 159, 160, 162], \"current_units\": [{\"id\": 156, \"text\": \"13. THIRD PARTY RIGHTS The provisions of this agreement confer benefits on the persons referred to in paragraph 1.4 (other than us) (each, a \\\"Third Party\\\") and each Third Party will have the right under the Contracts (Rights of Third Parties) Act 1999 (the \\\"1999 Act\\\") to enforce its respective rights under this agreement.\"}, {\"id\": 158, \"text\": \"The parties to this agreement do not require the consent of any Third Party to rescind or vary this agreement (other than paragraphs 10, 13 and 16) at any time.\"}, {\"id\": 159, \"text\": \"No other person who is not a party to this agreement has any right under the 1999 Act to enforce any term of this agreement but this does not affect any right or remedy of a third party which exists or is available apart from the 1999 Act.\"}, {\"id\": 160, \"text\": \"14. GENERAL 14.1 Each party acknowledges and agrees that damages alone would not be an adequate remedy for a breach of this agreement or breach of confidence and that the other party shall be entitled to seek the remedies of injunction, specific performance and other equitable relief for any threatened or actual breach of this agreement or breach of confidence.\"}, {\"id\": 162, \"text\": \"14.2 The failure to exercise or delay in exercising a right or remedy provided by this agreement or by law does not impair or constitute a waiver of the right or remedy or an impairment of or a waiver of any other rights or remedies.\"}], \"focus_unit_id\": 162}, {\"id\": \"disclosure_conditions_164\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [158, 159, 160, 162, 164], \"current_units\": [{\"id\": 158, \"text\": \"The parties to this agreement do not require the consent of any Third Party to rescind or vary this agreement (other than paragraphs 10, 13 and 16) at any time.\"}, {\"id\": 159, \"text\": \"No other person who is not a party to this agreement has any right under the 1999 Act to enforce any term of this agreement but this does not affect any right or remedy of a third party which exists or is available apart from the 1999 Act.\"}, {\"id\": 160, \"text\": \"14. GENERAL 14.1 Each party acknowledges and agrees that damages alone would not be an adequate remedy for a breach of this agreement or breach of confidence and that the other party shall be entitled to seek the remedies of injunction, specific performance and other equitable relief for any threatened or actual breach of this agreement or breach of confidence.\"}, {\"id\": 162, \"text\": \"14.2 The failure to exercise or delay in exercising a right or remedy provided by this agreement or by law does not impair or constitute a waiver of the right or remedy or an impairment of or a waiver of any other rights or remedies.\"}, {\"id\": 164, \"text\": \"No single or partial exercise of any right or remedy provided by this agreement or by law prevents further exercise of the right or remedy or the exercise of another right or remedy.\"}], \"focus_unit_id\": 164}, {\"id\": \"disclosure_conditions_165\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [159, 160, 162, 164, 165], \"current_units\": [{\"id\": 159, \"text\": \"No other person who is not a party to this agreement has any right under the 1999 Act to enforce any term of this agreement but this does not affect any right or remedy of a third party which exists or is available apart from the 1999 Act.\"}, {\"id\": 160, \"text\": \"14. GENERAL 14.1 Each party acknowledges and agrees that damages alone would not be an adequate remedy for a breach of this agreement or breach of confidence and that the other party shall be entitled to seek the remedies of injunction, specific performance and other equitable relief for any threatened or actual breach of this agreement or breach of confidence.\"}, {\"id\": 162, \"text\": \"14.2 The failure to exercise or delay in exercising a right or remedy provided by this agreement or by law does not impair or constitute a waiver of the right or remedy or an impairment of or a waiver of any other rights or remedies.\"}, {\"id\": 164, \"text\": \"No single or partial exercise of any right or remedy provided by this agreement or by law prevents further exercise of the right or remedy or the exercise of another right or remedy.\"}, {\"id\": 165, \"text\": \"14.3 A variation of this agreement or a waiver granted by a party or any member of its Group or its Representatives in respect of any action taken by the other party is valid only if it is in writing and signed by such party.\"}], \"focus_unit_id\": 165}, {\"id\": \"disclosure_conditions_167\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [160, 162, 164, 165, 167], \"current_units\": [{\"id\": 160, \"text\": \"14. GENERAL 14.1 Each party acknowledges and agrees that damages alone would not be an adequate remedy for a breach of this agreement or breach of confidence and that the other party shall be entitled to seek the remedies of injunction, specific performance and other equitable relief for any threatened or actual breach of this agreement or breach of confidence.\"}, {\"id\": 162, \"text\": \"14.2 The failure to exercise or delay in exercising a right or remedy provided by this agreement or by law does not impair or constitute a waiver of the right or remedy or an impairment of or a waiver of any other rights or remedies.\"}, {\"id\": 164, \"text\": \"No single or partial exercise of any right or remedy provided by this agreement or by law prevents further exercise of the right or remedy or the exercise of another right or remedy.\"}, {\"id\": 165, \"text\": \"14.3 A variation of this agreement or a waiver granted by a party or any member of its Group or its Representatives in respect of any action taken by the other party is valid only if it is in writing and signed by such party.\"}, {\"id\": 167, \"text\": \"14.4 To the extent that any Confidential Information is covered or protected by privilege, disclosing such Confidential Information to you or otherwise permitting disclosure of it in accordance with this agreement does not constitute a waiver of privilege or any other rights which we or any member of our Group or our respective Representatives may have in respect of such Confidential Information.\"}], \"focus_unit_id\": 167}, {\"id\": \"disclosure_conditions_169\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [162, 164, 165, 167, 169], \"current_units\": [{\"id\": 162, \"text\": \"14.2 The failure to exercise or delay in exercising a right or remedy provided by this agreement or by law does not impair or constitute a waiver of the right or remedy or an impairment of or a waiver of any other rights or remedies.\"}, {\"id\": 164, \"text\": \"No single or partial exercise of any right or remedy provided by this agreement or by law prevents further exercise of the right or remedy or the exercise of another right or remedy.\"}, {\"id\": 165, \"text\": \"14.3 A variation of this agreement or a waiver granted by a party or any member of its Group or its Representatives in respect of any action taken by the other party is valid only if it is in writing and signed by such party.\"}, {\"id\": 167, \"text\": \"14.4 To the extent that any Confidential Information is covered or protected by privilege, disclosing such Confidential Information to you or otherwise permitting disclosure of it in accordance with this agreement does not constitute a waiver of privilege or any other rights which we or any member of our Group or our respective Representatives may have in respect of such Confidential Information.\"}, {\"id\": 169, \"text\": \"14.5 The rights and remedies contained in this agreement are cumulative and not exclusive of any rights or remedies provided by law.\"}], \"focus_unit_id\": 169}, {\"id\": \"disclosure_conditions_171\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [164, 165, 167, 169, 171], \"current_units\": [{\"id\": 164, \"text\": \"No single or partial exercise of any right or remedy provided by this agreement or by law prevents further exercise of the right or remedy or the exercise of another right or remedy.\"}, {\"id\": 165, \"text\": \"14.3 A variation of this agreement or a waiver granted by a party or any member of its Group or its Representatives in respect of any action taken by the other party is valid only if it is in writing and signed by such party.\"}, {\"id\": 167, \"text\": \"14.4 To the extent that any Confidential Information is covered or protected by privilege, disclosing such Confidential Information to you or otherwise permitting disclosure of it in accordance with this agreement does not constitute a waiver of privilege or any other rights which we or any member of our Group or our respective Representatives may have in respect of such Confidential Information.\"}, {\"id\": 169, \"text\": \"14.5 The rights and remedies contained in this agreement are cumulative and not exclusive of any rights or remedies provided by law.\"}, {\"id\": 171, \"text\": \"14.6 You acknowledge and agree that no right or licence is granted to you in relation to the Confidential Information except as expressly set out in this agreement.\"}], \"focus_unit_id\": 171}, {\"id\": \"disclosure_conditions_173\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [165, 167, 169, 171, 173], \"current_units\": [{\"id\": 165, \"text\": \"14.3 A variation of this agreement or a waiver granted by a party or any member of its Group or its Representatives in respect of any action taken by the other party is valid only if it is in writing and signed by such party.\"}, {\"id\": 167, \"text\": \"14.4 To the extent that any Confidential Information is covered or protected by privilege, disclosing such Confidential Information to you or otherwise permitting disclosure of it in accordance with this agreement does not constitute a waiver of privilege or any other rights which we or any member of our Group or our respective Representatives may have in respect of such Confidential Information.\"}, {\"id\": 169, \"text\": \"14.5 The rights and remedies contained in this agreement are cumulative and not exclusive of any rights or remedies provided by law.\"}, {\"id\": 171, \"text\": \"14.6 You acknowledge and agree that no right or licence is granted to you in relation to the Confidential Information except as expressly set out in this agreement.\"}, {\"id\": 173, \"text\": \"14.7 The invalidity, illegality or unenforceability of any provision of this agreement does not affect the continuation in force of the remainder of this agreement.\"}], \"focus_unit_id\": 173}, {\"id\": \"disclosure_conditions_175\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [167, 169, 171, 173, 175], \"current_units\": [{\"id\": 167, \"text\": \"14.4 To the extent that any Confidential Information is covered or protected by privilege, disclosing such Confidential Information to you or otherwise permitting disclosure of it in accordance with this agreement does not constitute a waiver of privilege or any other rights which we or any member of our Group or our respective Representatives may have in respect of such Confidential Information.\"}, {\"id\": 169, \"text\": \"14.5 The rights and remedies contained in this agreement are cumulative and not exclusive of any rights or remedies provided by law.\"}, {\"id\": 171, \"text\": \"14.6 You acknowledge and agree that no right or licence is granted to you in relation to the Confidential Information except as expressly set out in this agreement.\"}, {\"id\": 173, \"text\": \"14.7 The invalidity, illegality or unenforceability of any provision of this agreement does not affect the continuation in force of the remainder of this agreement.\"}, {\"id\": 175, \"text\": \"15. ASSIGNMENT Neither party shall assign, transfer, declare a trust of the benefit of or in any other way alienate any of its rights under this agreement whether in whole or in part without the consent of the other.\"}], \"focus_unit_id\": 175}, {\"id\": \"disclosure_conditions_177\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [169, 171, 173, 175, 177], \"current_units\": [{\"id\": 169, \"text\": \"14.5 The rights and remedies contained in this agreement are cumulative and not exclusive of any rights or remedies provided by law.\"}, {\"id\": 171, \"text\": \"14.6 You acknowledge and agree that no right or licence is granted to you in relation to the Confidential Information except as expressly set out in this agreement.\"}, {\"id\": 173, \"text\": \"14.7 The invalidity, illegality or unenforceability of any provision of this agreement does not affect the continuation in force of the remainder of this agreement.\"}, {\"id\": 175, \"text\": \"15. ASSIGNMENT Neither party shall assign, transfer, declare a trust of the benefit of or in any other way alienate any of its rights under this agreement whether in whole or in part without the consent of the other.\"}, {\"id\": 177, \"text\": \"16. GOVERNING LAW AND JURISDICTION 16.1 This agreement and any non-contractual or other obligations arising out of or in connection with it are governed by English law.\"}], \"focus_unit_id\": 177}, {\"id\": \"disclosure_conditions_180\", \"operation\": \"disclosure_condition_profile_v1\", \"unit_ids\": [171, 173, 175, 177, 180], \"current_units\": [{\"id\": 171, \"text\": \"14.6 You acknowledge and agree that no right or licence is granted to you in relation to the Confidential Information except as expressly set out in this agreement.\"}, {\"id\": 173, \"text\": \"14.7 The invalidity, illegality or unenforceability of any provision of this agreement does not affect the continuation in force of the remainder of this agreement.\"}, {\"id\": 175, \"text\": \"15. ASSIGNMENT Neither party shall assign, transfer, declare a trust of the benefit of or in any other way alienate any of its rights under this agreement whether in whole or in part without the consent of the other.\"}, {\"id\": 177, \"text\": \"16. GOVERNING LAW AND JURISDICTION 16.1 This agreement and any non-contractual or other obligations arising out of or in connection with it are governed by English law.\"}, {\"id\": 180, \"text\": \"16.2 The courts of England have exclusive jurisdiction to hear and decide any suit, action or proceedings, and to settle any disputes, which may arise out of or in connection with this agreement, including a dispute or proceeding regarding the existence, validity or termination of this agreement or relating to any non-contractual or other obligation arising out of or in connection with this agreement or regarding the consequences of its nullity (respectively, \\\"Proceedings\\\" and \\\"Disputes\\\"), and for these purposes, each party irrevocably submits to the jurisdiction of the courts of England.\"}], \"focus_unit_id\": 180}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_conditions_159": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          152,
+                          154,
+                          156,
+                          158,
+                          159
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_160": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          154,
+                          156,
+                          158,
+                          159,
+                          160
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_162": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          156,
+                          158,
+                          159,
+                          160,
+                          162
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_164": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          158,
+                          159,
+                          160,
+                          162,
+                          164
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_165": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          159,
+                          160,
+                          162,
+                          164,
+                          165
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_167": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          160,
+                          162,
+                          164,
+                          165,
+                          167
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_169": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          162,
+                          164,
+                          165,
+                          167,
+                          169
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_171": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          164,
+                          165,
+                          167,
+                          169,
+                          171
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_173": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          165,
+                          167,
+                          169,
+                          171,
+                          173
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_175": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          167,
+                          169,
+                          171,
+                          173,
+                          175
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_177": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          169,
+                          171,
+                          173,
+                          175,
+                          177
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_conditions_180": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "no_condition_stated",
+                        "need_to_know_only",
+                        "extent_necessary_only",
+                        "confidentiality_only",
+                        "need_and_confidentiality",
+                        "extent_and_confidentiality",
+                        "need_extent_and_confidentiality",
+                        "other_supported_condition_profile",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          171,
+                          173,
+                          175,
+                          177,
+                          180
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_conditions_159",
+                "disclosure_conditions_160",
+                "disclosure_conditions_162",
+                "disclosure_conditions_164",
+                "disclosure_conditions_165",
+                "disclosure_conditions_167",
+                "disclosure_conditions_169",
+                "disclosure_conditions_171",
+                "disclosure_conditions_173",
+                "disclosure_conditions_175",
+                "disclosure_conditions_177",
+                "disclosure_conditions_180"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "original_request_sha256": "dd6450df895113ace3dcbd58f1394f2530bab716fc425e11da43bdcf026fd7f2",
+  "full_original_request_and_wire_retained_locally": true
+}
