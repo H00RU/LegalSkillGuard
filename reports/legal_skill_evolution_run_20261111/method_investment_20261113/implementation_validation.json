@@ -1,0 +1,31 @@
+{
+  "stage": "open_acquisition_implementation",
+  "goal_complete": false,
+  "new_model_requests": 0,
+  "checks": [
+    {
+      "command": "PYTHONPATH=. .venv/bin/python -m unittest tests.test_skill_evolution_relational_learning",
+      "passed": 11
+    },
+    {
+      "command": "PYTHONPATH=.:tests .venv/bin/python -m unittest tests.test_skill_evolution_observation_diagnosis tests.test_skill_evolution_relational_learning tests.test_skill_evolution_source_observations tests.test_skill_evolution_open_acquisition tests.test_skill_evolution_semantic_operations tests.test_skill_evolution_semantic_execution tests.test_skill_evolution_source_effect_update tests.test_skill_evolution_span_compiler tests.test_skill_evolution_scoped_source_program",
+      "passed": 66,
+      "failed": 0,
+      "seconds": 2.747
+    }
+  ],
+  "earlier_invocation": {
+    "passed_executed_tests": 62,
+    "module_import_errors": 1,
+    "reason": "Existing scoped_source_program test imports fixture as a top-level test module. PYTHONPATH required tests as well as project root. Historical tests unchanged."
+  },
+  "integration": {
+    "command": "PYTHONPATH=. .venv/bin/python experiments/legal_skill_evolution_open_acquisition_replay.py",
+    "receipt_sha256": "440cdd68783bc88c9c33c0112f92774c7ae141999da4cfd5583eb5509e1bc1c3",
+    "learned_or_semantically_certified": false
+  },
+  "dependency": {
+    "clingo": "5.8.0"
+  },
+  "no_new_legal_examples": true
+}
