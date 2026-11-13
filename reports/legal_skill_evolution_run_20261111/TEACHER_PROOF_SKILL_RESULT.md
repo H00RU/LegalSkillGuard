@@ -55,3 +55,40 @@ Full与ProofFree共享的TeacherProof初始化，在每臂逻辑成本中均计�
 [PercepLog-0](https://aclanthology.org/2026.findings-emnlp.2099.pdf)已有按目标抽取事实与反向链；[官方仓库](https://github.com/HLR/PercepLog)目前仅README，不能声称复现其官方代码。[ReaComp](https://arxiv.org/html/2605.05485v1)已有从轨迹取得可复用求解器；[法律proof-carrying方法](https://www.mdpi.com/2504-2289/10/9/295)已有源链接规则与确定性执行。因此候选应由真实机制差异和强比较支撑，不能凭“教师＋程序＋缓存”命名成立，也不能因它们是成熟组件而拒绝验证。
 
 **关闭本版有限小试，不扩大完整训练或评估矩阵；Goal仍active、未完成。** 下一工程工作是在保留有效Python程序与GIVEN更新的基础上，使已学法律子结论具有源作用域、输入和输出的可调用合同，由通用查询过程实际复用；确定性host只做调用与检查，不补未取得的法律规则。未取得规则仍unknown。这是修复当前机制未兑现的必要实现工作，本身不自动算创新。后续真实比较须包含独立完整原文程序／持久规则缓存等强控制；若普通缓存已吸收效果，如实处理。两个贡献仍须满足主任务增益、独立消融及完整ours优于强方法的最终条件。
+
+## 6. 接续接口拆分与离线核对
+
+本节与上面已冻结的小试分开计账。教师接收原已学Full程序、同一法源和新的属性调用接口，没有接收后四条检查案例、问题、标签或结果。它实际返回10个有原文引文、输入字段及函数的单元，全部标记复用既有逻辑；没有新增法源或补造未取得的规则。法律程序只接收单元标识和案情支持的事实，金额主张与原生标签留在调用层。
+
+离线核对实际执行10个入口，空输入全部保持unknown，声明的函数均被调用。仅重放原两条获取案例已有的真实reader绑定，原答案保持；8项公共接口回归通过。上述结果证明接口能执行并保留这两个已有行为，没有增加独立来源、真实executor调用、主指标收益或贡献证据。
+
+审查还发现尚未解决的具体不兼容：6个单元只有quantity头，其中部分法律条款既规定适用条件，也规定金额；金额计算入口不能直接回答适用性。源程序内部已有部分条件计算，但当前没有提供相应独立predicate输出。不得通用地用“金额大于零”转成适用，也不得把缺少相应入口视为新目标已验证。下一工程改动应明确区分条件与效果，保留源依据及unknown；是否需要为某一条款提供两种属性取决于真实任务，不追加全条款覆盖要求。这个接口改动本身不占任何贡献。
+
+本次新增**0E/1T**，累计**9486E/201T、9687行、在途0**，原9686行逐条保持。教师25134输入／17398输出token，含8364 reasoning，服务333.454秒；CLI现金发票不可用，费用仍记未知。绑定的6份源码与测试在该请求期间哈希不变。原四条冻结检查没有重跑，仍保留原失败结果；没有完整训练、DEV/TEST或新评分。
+
+[教师原始响应](teacher_proof_skill_evidence/callable_rule_refactor/teacher.json)、[实际输入](teacher_proof_skill_evidence/callable_rule_refactor/input.json)、[协议与绑定](teacher_proof_skill_evidence/callable_rule_refactor/protocol.json)、[可执行单元库](teacher_proof_skill_evidence/callable_rule_refactor/library.json)、[逐入口审查、两条重放及账本保全](teacher_proof_skill_evidence/callable_rule_refactor/semantic_interface_audit.json)。**两项贡献仍未成立，Goal保持active、未完成。**
+
+## 7. 新TRAIN法源独立获取、真实比较与事实绑定修复
+
+接续完成了条件／效果分离：教师增加5个适用条件函数，原法律函数AST逐项保持；调用层直接执行声明函数，保留未知。原两个获取案例重放不变。本节使用原TRAIN中未参与本轮机制修补的§151三个母案例，同一法源及关联§152／§68，不当作三部独立法律或新盲测。两教师独立读取相同完整法源和通用任务说明，没有接收案例正文、原生问题、标签或另一臂的程序；程序在首个真实reader前冻结。方法取得16单元，自由缓存取得26单元，允许相同架构和完整源处理。[固定协议](teacher_proof_skill_evidence/callable_source_trial/protocol.json)、[两份真实获取](teacher_proof_skill_evidence/callable_source_trial/)、[冻结收据](teacher_proof_skill_evidence/callable_source_trial/freeze.json)。
+
+方法返回的条款标识包含§符号和标题，严格检查首次拒收。提取其唯一显式条款编号后无歧义恢复，法律程序字节保持；原失败、输入和源码快照保留。该确定性公共适配在任何native执行／评分前记录，并一致适用于两臂，没有重新调用教师。[源码调整收据](teacher_proof_skill_evidence/callable_source_trial/clause_normalization_source_amendment.json)、[原失败与恢复](teacher_proof_skill_evidence/callable_source_trial/ProofSkills/recovered_offline_check.json)。
+
+|固定3例的原始真实结果|主路径给出答案|原生答对|需回退|
+|---|---:|---:|---:|
+|ProofSkills|1/3|1/3|2/3|
+|IndependentCache|1/3|0/3|2/3|
+
+**该表不能认定为有效方法增益。** 方法唯一答对项把问题中的“Bob the dependent”作为GIVEN事实支持，原检查只识别explicit／state措辞，漏掉expressly give。真实原始reader没有提供案情证据；不得补换引用。对两臂一致施加“事实前提必须有facts支持”的必要检查后，原6条记录离线重放，方法三条均unknown，表面差距消失。原始结果不覆盖。[原始统计与费用](teacher_proof_skill_evidence/callable_source_trial/stage_result.json)、[事实支持重放](teacher_proof_skill_evidence/callable_source_trial/facts_only_replay/summary.json)。
+
+另两条的原因已定位：§151(d)(3)(B)方法读到了276932、250000及未婚，但程序额外连接§68暂停条件，要求未读取的tax-year-begin字段；自由缓存不接收明确GIVEN的250000，而从未知filing_status重建阈值。§151(d)(2)双方询问deduction allowable，而案情明确给定exemption entitlement，均未消费源§151(a)的连接。它们是所学程序／事实接口和查询作用域的具体缺口；材料并非不支持推理，不是截断或类型失败。不得由host填默认年份或补法律连接。
+
+随后只针对已暴露的事实证据缺陷做2次工程确认：相同案例、原程序及字段不变，只给facts分配证据ID，原生问题通过invocation_arguments保留为查询上下文；没有教师或标签输入。方法的GIVEN dependent现在实际引用facts，源§151(c)函数返回True；其另一个spouse字段仍误取Alice／Charlie，但未被提前返回的GIVEN路径消费。对照也误取该spouse关系并返回False。**这是修复后的真实同例执行，不是新增独立验证或创新增益。** [实际工程恢复](teacher_proof_skill_evidence/case_evidence_recovery/)、[逐问题语义与机制审查](teacher_proof_skill_evidence/callable_source_trial/semantic_and_mechanism_review.json)。
+
+本节接续共**8E/3T**，累计**9494E/204T、9698行、在途0**，此前9687行逐条保持。教师60209输入／38236输出token（含14460 reasoning）、739.108服务秒；执行11471输入／1382输出token、38.950服务秒。8个实际wire均thinking OFF、max_tokens8192，全部正常stop。教师实付发票及GPU分摊未知，执行增量API现金0。[逐请求成本与保全](teacher_proof_skill_evidence/callable_source_trial/total_cost_with_engineering_recovery.json)、[实际wire配置核验](teacher_proof_skill_evidence/callable_source_trial/executor_wire_profile_check.json)。16项相关离线回归通过。原三题比较结束，不继续同例提示变体；无新来源、DEV/TEST或完整训练。
+
+## 8. 与最近邻的差异判断及下一步
+
+当前两个名称仍是待验证候选，不是两个已成立贡献。最近邻已经包含重要底座：PercepLog-0的Algorithm1使用LLM辅助目标抽取／代换并展开规则；ReaComp §2.2从轨迹取得可复用求解器；法律proof-carrying方案已有源链接规则、defeater、证明和验证触发修补。因此“教师生成程序”“按需读取”“保留证明／缓存”“报错后修补”单独都不能承担本项目的差异主张。[PercepLog-0原文](https://aclanthology.org/2026.findings-emnlp.2099.pdf)、[ReaComp原文](https://arxiv.org/html/2605.05485v1)、[法律proof-carrying原文](https://www.mdpi.com/2504-2289/10/9/295)。
+
+我们的拟研究增量仍是法律规则获取与复用中的可靠性，以及反馈驱动修订在后续案例中的独立作用。本轮没有证明它们；代码接口差异和个别正确路径不代替机制差异。下一项先将**查询人物／期间与案情前提分开，并让实际源程序正确消费明确GIVEN的法律中间命题**；这属于修复已定位的实现／学习对象缺口。随后必须明确教师究竟学到了什么、如何更新及何处超出普通持久缓存／同信息反思，再预先固定原TRAIN中的后续比较。没有具体机制差异时不扩完整建库或批量实验。完成判定仍要求完整ours优于强方法，且两项各自消融有可解释任务指标下降；不新增零回退、全分支实测或固定涨分门槛。**同一Goal active、未完成，不重启或重置。**
