@@ -45,11 +45,13 @@ def strict_json(content):
     return json.loads(content, object_pairs_hook=pairs)
 
 
-def decode_answers(operations, queries, units, content):
+def decode_answers(operations, queries, units, content, *, scope=None,
+                   complete_source_absence_choices=None):
     value = strict_json(content)
     jsonschema.validate(value, answer_schema(operations, queries))
     canonical = {'answers': [{'id': q['id'], **value['answers'][q['id']]} for q in queries]}
-    return value, ground_answers(operations, queries, units, canonical)
+    return value, ground_answers(operations, queries, units, canonical, scope=scope,
+        complete_source_absence_choices=complete_source_absence_choices)
 
 
 def focused_messages(operations, queries, units, *, scope, examples=True):
@@ -153,7 +155,8 @@ def execute(client, prefix, source, bundle, text, units, *, scope, lookup=None, 
                                      thinking=False,schema=wire)
             if result['finish_reason'] != 'stop':
                 raise ValueError('Incomplete source operation; retained without automatic retry')
-            value, grounded = decode_answers(bundle['operations'],batch,units,result['content'])
+            value, grounded = decode_answers(bundle['operations'],batch,units,result['content'],scope=scope,
+                complete_source_absence_choices=bundle.get('complete_source_absence_choices'))
             for answer in grounded:
                 if answer['id'] in answers:
                     raise ValueError('Repeated logical source interpretation')

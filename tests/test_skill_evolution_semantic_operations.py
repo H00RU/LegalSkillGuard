@@ -94,6 +94,54 @@ def test_truncation_does_not_retry_or_implicitly_execute_later_batches():
 
 
 class SemanticOperationTests(unittest.TestCase):
+    def test_explicit_complete_source_absence_preserves_actual_reading(self):
+        ops = copy.deepcopy(OPS)
+        ops[0]['choices'].append({'name': 'absent', 'meaning':
+            'After examining the complete source, the specified operative duty is absent.'})
+        queries = [{**QUERIES[0], 'unit_ids': [7, 19]}]
+        raw = {'answers': [{'id': 'q', 'choice': 'absent', 'evidence': []}]}
+        answer = ground_answers(ops, queries, UNITS, raw, scope='window',
+            complete_source_absence_choices={'operative': ['absent']})[0]
+        self.assertEqual(answer['choice'], 'absent')
+        self.assertEqual(answer['evidence'], [])
+        self.assertEqual(answer['complete_source_evidence']['unit_ids'], [7, 19])
+        self.assertFalse(answer['source_semantics_verified'])
+        self.assertEqual(raw['answers'][0], {'id': 'q', 'choice': 'absent', 'evidence': []})
+
+    def test_absence_policy_cannot_make_unknown_or_partial_reads_negative(self):
+        ops = copy.deepcopy(OPS)
+        ops[0]['choices'].append({'name': 'absent', 'meaning': 'Absent in the complete source.'})
+        policy = {'operative': ['absent']}
+        full = [{**QUERIES[0], 'unit_ids': [7, 19]}]
+        raw = {'answers': [{'id': 'q', 'choice': 'absent', 'evidence': []}]}
+        for queries, scope in [(QUERIES, 'window'), (full, 'focus_last'), (full, None)]:
+            with self.subTest(scope=scope, queries=queries), self.assertRaisesRegex(ValueError, 'complete current source'):
+                ground_answers(ops, queries, UNITS, raw, scope=scope,
+                    complete_source_absence_choices=policy)
+        unknown = {'answers': [{'id': 'q', 'choice': 'unknown', 'evidence': []}]}
+        answer = ground_answers(ops, full, UNITS, unknown, scope='window',
+            complete_source_absence_choices=policy)[0]
+        self.assertEqual(answer['choice'], 'unknown')
+        self.assertNotIn('complete_source_evidence', answer)
+        for choice in ['duty', 'mention']:
+            with self.subTest(choice=choice), self.assertRaisesRegex(ValueError, 'needs current evidence'):
+                ground_answers(ops, full, UNITS,
+                    {'answers': [{'id': 'q', 'choice': choice, 'evidence': []}]},
+                    scope='window', complete_source_absence_choices=policy)
+
+    def test_source_absence_policy_rejects_undeclared_choices_and_false_quotes(self):
+        raw = {'answers': [{'id': 'q', 'choice': 'duty', 'evidence': []}]}
+        with self.assertRaisesRegex(ValueError, 'actual acquired choices'):
+            ground_answers(OPS, QUERIES, UNITS, raw, scope='window',
+                complete_source_absence_choices={'operative': ['undeclared']})
+        ops = copy.deepcopy(OPS)
+        ops[0]['choices'].append({'name': 'absent', 'meaning': 'Absent in the complete source.'})
+        with self.assertRaisesRegex(ValueError, 'Nonverbatim'):
+            ground_answers(ops, [{**QUERIES[0], 'unit_ids': [7, 19]}], UNITS,
+                {'answers': [{'id': 'q', 'choice': 'absent',
+                    'evidence': [{'unit_id': 7, 'quote': 'shall not return'}]}]},
+                scope='window', complete_source_absence_choices={'operative': ['absent']})
+
     def test_real_typographic_quote_failure_has_unique_verbatim_recovery(self):
         # Minimized from the saved e7b scout response. Its legal choice is
         # untouched; only the two quotation-mark glyphs differ from the source.

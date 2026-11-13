@@ -48,7 +48,8 @@ def signatures():
 
 
 def encode_source_observations(source_id, *, source_text, units, source_output,
-                               operations, queries, answers, scope, query_scopes=None):
+                               operations, queries, answers, scope, query_scopes=None,
+                               complete_source_absence_choices=None):
     """Retain every G-visible value, including order, text and unknown/unread.
 
     Only the actual answered subset is quote-grounded. Completion branches are
@@ -90,11 +91,18 @@ def encode_source_observations(source_id, *, source_text, units, source_output,
     raw={'answers':[{k:deepcopy(a[k]) for k in ('id','choice','evidence')} for a in answers]}
     for a in raw['answers']:
         a['evidence']=[{k:w[k] for k in ('unit_id','quote')} for w in a['evidence']]
-    grounded=ground_answers(operations,[q for q in queries if q['id'] in set(ids)],units,raw)
+    grounded=[]
+    for answer in raw['answers']:
+        query=by_query[answer['id']]
+        actual_scope=query_scopes[query['id']] if query_scopes is not None else scope
+        grounded.extend(ground_answers(operations,[query],units,{'answers':[answer]},scope=actual_scope,
+            complete_source_absence_choices=complete_source_absence_choices))
     by_answer={a['id']:a for a in grounded}
     visible={'source_text':source_text,'units':deepcopy(units),'source_output':deepcopy(source_output),
         'operations':deepcopy(operations),'queries':deepcopy(queries),'answers':grounded,'scope':scope}
     if query_scopes is not None:visible['query_scopes']=deepcopy(query_scopes)
+    if complete_source_absence_choices is not None:
+        visible['complete_source_absence_choices']=deepcopy(complete_source_absence_choices)
     facts=[fact('source_text',source_text)];unknown=[];nodes={};roots={};term_supports={};json_count=0
 
     def json_tree(value):
@@ -146,6 +154,7 @@ def encode_source_observations(source_id, *, source_text, units, source_output,
     return {'context':context,'visible_inputs':visible,'visible_inputs_sha256':digest(visible),
         'contract_sha256':digest({'version':1,'signatures':SIGNATURES,'scope':scope,
             'query_scope_policy':'explicit' if query_scopes is not None else 'global',
+            'source_absence_policy':'explicit' if complete_source_absence_choices is not None else 'quoted_only',
             'raw_text_retained':True,'old_reader_is_upstream':True}),
         'legacy_roots':roots,'term_nodes':nodes,'term_supports':term_supports,
         'grounding_certifies_source_meaning':False,'new_model_requests':0}

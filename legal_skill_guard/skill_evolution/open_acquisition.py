@@ -124,12 +124,14 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
             if save_event:save_event(event)
             events.append(event)
             if result['finish_reason']!='stop':raise ValueError('Incomplete concept read; no hidden retry')
-            _,grounded=decode_answers(library['operations'],batch,units,result['content'])
+            _,grounded=decode_answers(library['operations'],batch,units,result['content'],scope=batch_scope,
+                complete_source_absence_choices=library.get('complete_source_absence_choices'))
             answers.update({a['id']:a for a in grounded})
     encoded=encode_source_observations(source_id,source_text=source_text,units=units,
         source_output=source_output,operations=library['operations'],queries=queries,
         answers=[answers[q['id']] for q in queries],scope=scope,
-        query_scopes={q['id']:current_scope(q) for q in queries})
+        query_scopes={q['id']:current_scope(q) for q in queries},
+        complete_source_absence_choices=library.get('complete_source_absence_choices'))
     encoded['execution']={'events':events,'reused_query_ids':reused,
         'planned_queries':len(queries),'new_logical_queries':new_logical,'planning_rounds':rounds,
         'new_physical_requests':sum(not e['result'].get('cache_hit',False) for e in events),

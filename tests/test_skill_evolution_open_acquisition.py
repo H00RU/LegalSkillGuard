@@ -184,6 +184,41 @@ class OpenAcquisitionTests(unittest.TestCase):
         self.assertNotIn(fact('query_focus','s',9),result['context']['facts'])
         self.assertIn(fact('query_focus','d',9),result['context']['facts'])
 
+    def test_complete_source_absence_survives_encoder_revalidation_and_lossless_roundtrip(self):
+        from legal_skill_guard.skill_evolution.source_observations import decode_visible_inputs
+        library=deepcopy(self.library)
+        library['operations'][0]['choices'].append({'name':'absent','meaning':'Absent after inspecting the complete source.'})
+        library['complete_source_absence_choices']={'meaning':['absent']}
+        library['scope']='focus_last';library['operation_scopes']={'meaning':'window'}
+        library['planner_program']="def apply(inputs,premises):\n    return {'queries':[{'id':'q','operation':'meaning','unit_ids':[4,9]}]}\n"
+        calls=[]
+        class Client:
+            def generate(self,*args,**kwargs):
+                calls.append(args)
+                return {'finish_reason':'stop','content':json.dumps({'answers':{'q':{'choice':'absent','evidence':[]}}})}
+        source=self.observation('one','Alpha.','first')['visible_inputs']['source_output']
+        result=observe(Client(),'fixture','one',library,source_text='Alpha. Beta.',
+            units=[{'id':4,'text':'Alpha.'},{'id':9,'text':'Beta.'}],source_output=source)
+        self.assertEqual(len(calls),1)
+        self.assertEqual(result['visible_inputs'],decode_visible_inputs(result))
+        answer=result['visible_inputs']['answers'][0]
+        self.assertEqual(answer['choice'],'absent');self.assertEqual(answer['evidence'],[])
+        self.assertEqual(answer['complete_source_evidence']['unit_ids'],[4,9])
+        self.assertIn(fact('query_choice','q','absent'),result['context']['facts'])
+        self.assertNotIn(fact('query_focus','q',9),result['context']['facts'])
+        self.assertFalse(answer['source_semantics_verified'])
+
+        # The encoder cannot trust a prior claim of completeness when the
+        # actual current query or its scope is different.
+        visible=result['visible_inputs']
+        for queries,scopes in [([{**visible['queries'][0],'unit_ids':[4]}],{'q':'window'}),
+                               (visible['queries'],{'q':'focus_last'})]:
+            with self.subTest(scopes=scopes,queries=queries),self.assertRaisesRegex(ValueError,'complete current source'):
+                encode_source_observations('one',source_text=visible['source_text'],units=visible['units'],
+                    source_output=source,operations=visible['operations'],queries=queries,
+                    answers=visible['answers'],scope='focus_last',query_scopes=scopes,
+                    complete_source_absence_choices=library['complete_source_absence_choices'])
+
     def test_changed_scope_cannot_reuse_a_different_previous_interpretation(self):
         old=self.observation('one','Alpha.','unknown');library=deepcopy(self.library)
         library['operation_scopes']={'meaning':'window'};calls=[]

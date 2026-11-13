@@ -32,12 +32,20 @@ from legal_skill_guard.inference.codex_cli_client import render_structured_codex
 from experiments.legal_skill_evolution_role_TRAIN import physical_snapshot
 
 ROOT=Path(__file__).resolve().parents[1]
-RUN='legal_skill_evolution_open_acquisition_semantic_route_recovery_20261113'
-REPLAY_RUNS=('legal_skill_evolution_open_acquisition_semantic_route_grounded_20261113',
+RUN='legal_skill_evolution_open_acquisition_semantic_route_absence_encoded_20261113'
+REPLAY_RUNS=('legal_skill_evolution_open_acquisition_semantic_route_absence_20261113',
+    'legal_skill_evolution_open_acquisition_semantic_route_recovery_20261113',
+    'legal_skill_evolution_open_acquisition_semantic_route_grounded_20261113',
     'legal_skill_evolution_open_acquisition_semantic_route_scoped_20261113')
 TEACHER_RUN='legal_skill_evolution_open_acquisition_semantic_route_v3_20261113'
 PARENT_RUN='legal_skill_evolution_open_acquisition_native_loss_20261113'
 ARMS=('ConstraintAcquire','FreeUpdate')
+ABSENCE_CHOICES={
+    'ConstraintAcquire':{'disclosure_permission_scout':['none_in_complete_source'],
+        'disposal_obligation_scout':['none_in_complete_source']},
+    'FreeUpdate':{'protected_disclosure_structure':['no_disclosure_norm'],
+        'source_disposal_trigger_structure':['no_disposal_duty'],
+        'post_disposal_retention_structure':['no_retention_rule']}}
 read=lambda p:json.loads(Path(p).read_text())
 SCHEMA=record_schema({'rationale':{'type':'string'},'operations':{'type':'array','items':OPERATION},
     'planner_functions':{'type':'array','items':{'type':'string'}},'scope':{'type':'string','enum':['focus_last','window']},
@@ -139,13 +147,26 @@ def prepare():
         'data_sha256':{str(q.relative_to(ROOT)):hashlib.sha256(q.read_bytes()).hexdigest() for q in data},
         'no_full_training_DEV_TEST_paper':True,'no_new_mechanical_request_cap':True,'automatic_retries':0,
         'reuse_annotations_not_used_for_learning':True,
-        'change':'Preserve a rejected reading as a failed source with all native views in the denominator; continue the remaining fixed sources, without retrying or adapting changed words. Fit G only from actual valid observations and explicitly report excluded failures. Reuse all identical settled physical requests. No teacher reacquisition, new data or weakened grounding/scoring.'}
+        'change':'Honor acquired choices that explicitly mean absence after inspecting the complete source. Require actual window scope and every current source unit; retain the actual model choice and record full-source query provenance, never invent quotes or derive negatives from unknown/unread. Same declaration mechanism in both arms; prompts, choices, meanings, learned programs and scoring unchanged. Reuse all existing identical physical requests; no teacher reacquisition.'}
     immutable_json(folder/'protocol.json',p)
     for name in ('base.json','grammar.json'):immutable_json(folder/name,read(parent/name))
     for a in ARMS:
         immutable_json(folder/'previous'/a/'learned.json',read(parent/a/'learned.json'))
         immutable_json(folder/a/'teacher.json',read(teacher/a/'teacher.json'))
-        immutable_json(folder/a/'compiled.json',read(teacher/a/'scoped_compiled.json'))
+        library=read(teacher/a/'scoped_compiled.json')
+        library['complete_source_absence_choices']=ABSENCE_CHOICES[a]
+        definitions=[]
+        by_op={o['name']:o for o in library['operations']}
+        for operation,choices in ABSENCE_CHOICES[a].items():
+            by_choice={c['name']:c for c in by_op[operation]['choices']}
+            definitions.extend({'operation':operation,'question':by_op[operation]['question'],
+                'choice':by_choice[choice]} for choice in choices)
+        immutable_json(folder/a/'compiled.json',library)
+        immutable_json(folder/a/'absence_contract_declarations.json',{
+            'grounded_in_existing_acquired_meanings':definitions,
+            'previous_library_sha256':digest(read(teacher/a/'scoped_compiled.json')),
+            'new_library_sha256':digest(library),'model_prompt_or_choice_changed':False,
+            'new_legal_rule_or_answer_added':False,'new_model_requests':0})
         immutable_json(folder/a/'scope_contract_adaptation.json',read(teacher/a/'scope_contract_adaptation.json'))
     for q in files:
         dst=folder/'source_snapshot'/q.relative_to(ROOT);dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes(q.read_bytes())

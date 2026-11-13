@@ -103,10 +103,20 @@ def messages(operations, queries, units, *, examples=True):
             {'role': 'user', 'content': json.dumps(value, ensure_ascii=False)}]
 
 
-def ground_answers(operations, queries, units, value):
+def ground_answers(operations, queries, units, value, *, scope=None,
+                   complete_source_absence_choices=None):
     """Retain all exact quote occurrences; do not invent semantic negatives."""
     jsonschema.validate(value, RESPONSE)
     ops = {o['name']: o for o in operations}
+    absence = {} if complete_source_absence_choices is None else complete_source_absence_choices
+    if not isinstance(absence, dict):
+        raise ValueError('Explicit operation/choice absence declarations required')
+    for operation, choices in absence.items():
+        if (operation not in ops or not isinstance(choices, list)
+                or any(not isinstance(c, str) for c in choices)
+                or len(set(choices)) != len(choices)
+                or not set(choices) <= {c['name'] for c in ops[operation]['choices']}):
+            raise ValueError('Absence declaration must name actual acquired choices')
     by_q = {q['id']: q for q in queries}
     by_u = {u['id']: u for u in units}
     ids = [a['id'] for a in value['answers']]
@@ -118,7 +128,19 @@ def ground_answers(operations, queries, units, value):
         choices = {c['name'] for c in ops[q['operation']]['choices']} | {'unknown'}
         if answer['choice'] not in choices:
             raise ValueError('Answer choice outside its acquired operation')
-        if answer['choice'] != 'unknown' and not answer['evidence']:
+        source_evidence = {}
+        if answer['choice'] in absence.get(q['operation'], []):
+            # This is an explicit model judgment over the entire current
+            # source, not a negative inferred from silence or missing rules.
+            # A nonexistent passage cannot be quoted. Record the actual
+            # supplied source instead; its meaning remains fallible.
+            if scope != 'window' or set(q['unit_ids']) != set(by_u):
+                raise ValueError('An explicit source-absence choice requires the complete current source in window scope')
+            source_evidence = {'complete_source_evidence': {
+                'basis': 'explicit_reader_absence_judgment',
+                'unit_ids': list(q['unit_ids']),
+                'source_units_sha256': digest([by_u[i] for i in q['unit_ids']])}}
+        if answer['choice'] != 'unknown' and not answer['evidence'] and not source_evidence:
             raise ValueError('A definite semantic judgment needs current evidence')
         evidence = []
         for witness in answer['evidence']:
@@ -143,7 +165,7 @@ def ground_answers(operations, queries, units, value):
             if not hits:
                 raise ValueError('Nonverbatim current-source evidence')
             evidence.append({**witness, **adaptation, 'unit_occurrences': [list(h) for h in hits]})
-        grounded.append({**answer, 'operation': q['operation'], 'evidence': evidence,
+        grounded.append({**answer, **source_evidence, 'operation': q['operation'], 'evidence': evidence,
                          'source_semantics_verified': False})
     by_id = {a['id']: a for a in grounded}
     return [by_id[q['id']] for q in queries]
