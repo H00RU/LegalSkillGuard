@@ -8,9 +8,9 @@
 
 新增精读SCOPE，并核对LLM2LAS、ILP-CoT、Popper、Refazer等作者实现；旧LSP/SkillWrapper、EviSkill/SkillAdam、Getafix、LAS查新和阴性证据直接复用。不可取得的SCOPE/SkillWrapper等代码明确标注，不称已复现。采用成熟算法，不主张首次谓词发明、编译、credit或补丁学习。
 
-实现已推进到[第一项可执行组件及真实旧记录接线](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/implementation_checkpoint.md)：有限诊断内核、clingo共享组合学习、完整源输入无损关系化、可执行概念更新/真实读取入口，以及当前来源类型化输出已实现；相关66项回归通过。原TRAIN一份已有真实记录的32计划/14回答经新接口保留3原规则，4任务执行与原始一致，新增0模型调用。该identity控制不算新学习收益。
+已接通[首次真实TRAIN获取/拟合/冻结执行](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_train_prototype.md)，71项相关回归通过。C真实取得并执行接收者类别、保障条件读取，新增permission支持78ad两个披露任务；获取两母核心8/8，强自由更新与NoFit也8/8，拟合未带来额外作用。两母冻结后核心0/8、执行2/8、未覆盖6/8，两臂均没有规划新读取；原分数保持，fallback未执行。当前不是两贡献实证。
 
-**下一项实际工作**：补齐原生TRAIN反馈/部分源约束到有限理论的接口，连接诊断路由和真实教师概念提议，完成首次真实新概念读取、全局G更新和后续来源使用；当前组件单元检查与旧记录接线不冒充完整C，U尚未实现。固定同信息自由获取控制。旧有效compiler/FreeReflect直接复用，不删正确输入制造冲突；完整原文可见时精确冲突可能不存在，有限bias无解不冒称表示不足。原TRAIN标签可训练。其后U从真实before/after归纳联动φ/G编辑，不只是LAS热启动。所有原始记录和对照监督保持。
+**下一项实际工作**：继续同一C，从两份真实冻结后TRAIN失败及原两份历史更新可复用窗口规划、支配/列表作用域读取和G；真实反证为局部有限输出语言无解，非表示冲突或8B误读。当前唯一入口仍为`experiments/legal_skill_evolution_open_acquisition_train.py`，run=`legal_skill_evolution_open_acquisition_update_20261113`，协议已准备、未派发教师；下一步执行`acquire --arm ConstraintAcquire`、`acquire --arm FreeUpdate`，离线编译检查后执行`acquisition`，成功冻结再`reuse`。新后续原TRAIN5cad3f37/a5b0361f已按原顺序固定，尚未评分；旧四份回查是训练，不改旧冻结分数。相同合法监督提供给强自由更新；完全相同旧观察可复用，unknown不原样重试。初版源代码与结果已保留。C仍需独立作用/复用证据，U未实现；不换机制、不另起候选。
 
 两项实现后分别通过真实开关删除C或U，保留另一项和同信息强自由能力。先C完整实现再接U；正常错误在同一设计内修复，不以单次小样本成绩改方向。当前不启动新完整训练/DEV/TEST或论文，不新增模型批队列；下一有限协议在可执行路径与来源顺序明确后固定，无需逐项重新授权。阶段目标仍是两项独立作用及完整ours超过强方法，尚未完成。
 
@@ -18,7 +18,7 @@
 
 上一轮匹配的完整产物比较C候选0/3、FreeReflect3/3，原结果保持。后续审计证实两臂实际任务/种子/法源/反馈/config/schema完全相同，12条执行精确重现；**FreeReflect也做了原始观测/计算细化，所以不是删除该机制的消融**。关闭那个失败产物，不将其泛化为整个方向无效。第三臂缺历史监督且看到较新API，仅额外诊断。两项新设计不是把这三题修好再报新成功。
 
-本轮项目模型调用0新增，仍9515E/209T、9724行、在途0。已完成[原始请求/路径审计](../reports/legal_skill_evolution_run_20261111/TEACHER_PROOF_SKILL_RESULT.md#13-对真实强对照的复核调用可信机制推断须收紧)、[真实任务适配](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/task_fit.md)及两项算法/代码查新。两项贡献尚未实证成立，Goal active。
+最新原型新增3E/2T，累计9518E/211T、9729行、在途0；此前9724行逐条保持。三次实际payload均thinking OFF、max8192、正常stop。已完成[原始请求/路径审计](../reports/legal_skill_evolution_run_20261111/TEACHER_PROOF_SKILL_RESULT.md#13-对真实强对照的复核调用可信机制推断须收紧)、[真实任务适配](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/task_fit.md)及两项算法/代码查新。两项贡献尚未实证成立，Goal active。
 
 ## 当前证据：原生语义、模型读取与规则覆盖已分开
 

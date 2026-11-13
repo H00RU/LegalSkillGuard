@@ -121,7 +121,24 @@ def validate_context(context,language):
             check_atom(atom,signatures,ground=True)
             if signatures[atom['predicate']]['kind']!='output' or atom['sign']!='positive':
                 raise ValueError('Partial supervision constrains explicit source-output relations')
+    if 'theory_constraints' in context:
+        value=context['theory_constraints']
+        if value['status']!='complete' or value['language_sha256']!=language_identity(language) \
+                or value['context_sha256']!=context_identity(context):
+            raise ValueError('Admissible theories must be complete and bound to current language/observations/constraints')
+        vocabulary={canonical(a) for a in value['vocabulary']}
+        for a in value['vocabulary']:
+            check_atom(a,signatures,ground=True)
+            if signatures[a['predicate']]['kind']!='output' or a['sign']!='positive':
+                raise ValueError('A theory is a set of grounded output relations')
+        for theory in value['allowed_theories']:
+            if len({canonical(a) for a in theory})!=len(theory) or any(canonical(a) not in vocabulary for a in theory):
+                raise ValueError('Allowed theory lies outside the frozen grounded vocabulary')
     return context
+
+
+def context_identity(context):
+    return digest({k:context[k] for k in ('id','facts','unknown_groups','required','forbidden')})
 
 
 def term(value):
