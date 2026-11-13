@@ -1,6 +1,6 @@
 # 源语义检查学习：真实比较与主体接口修复
 
-2026-11-13。原 Goal 继续 active、未完成。本轮已实现、学习并真实运行源检查技能，但固定比较未显示其增量；两项贡献均未成立。当前可落实的改进是解除获取器中不同法律效果共用一个主体的限制。该改进作为公共工程底座，不能占用创新点。
+2026-11-13。原 Goal 继续 active、未完成。**最新接续结果见第9节：已复用原有效compiler并执行分效果主体输入，原获取来源仍4/4正确，修正源主体作用域；这是缓存神经观察＋新程序的实际执行，不是新的独立获取或方法收益。** 第1至8节保留前一检查点：源检查技能已真实学习/运行，固定强对照未显示增量。两项贡献均未成立，公共接口修复不能占用创新点。
 
 ## 1. 实际学习了什么，结果如何
 
@@ -124,3 +124,52 @@ fallback未执行，不算主路径正确；也不能把6次fallback写成6次�
 [完整费用、每次请求与旧行保全](source_check_learning_evidence/cost_and_preservation.json)。代码、教师、原始请求/响应、所有失败、冻结快照和原评分均保留；当前开发分支提交与公开研究分支同步，main不改。
 
 必要工程验证：项目的unittest入口运行268项全部通过；新增/相关四模块的pytest检查11项通过。额外广域pytest会重复收集旧模块两个需参数的辅助函数而产生2个fixture错误；该模块正式unittest包装已覆盖所有参数，未为此修改冻结历史测试。[检查记录](source_check_learning_evidence/offline_checks.json)。这些检查证明实现约束，不充当方法收益。
+
+## 9. 最新接续：复用有效compiler，执行分效果主体输入
+
+**已有原程序足以保留这份合同的主要处置/保留语义，所需的是修正主体数据流。** 原SourceEffect compiler已生成单副本、监管与协议合规目的、请求触发及保留例外连接；前一阶段较新的封闭读源类别反而丢掉了这些能力。进一步重做整套生成接口没有必要。本次准确复现原程序输出后，仅修改`apply`和`parse_disposal`，其余16个函数的AST保持：
+
+- 原源程序不再自行给各效果默认同一个Receiving Party；新输入分别提供返还、保留许可、保留禁止主体。
+- 实际已有Qwen字面抽取提供两个源主体，经过同一类型/源窗口检查后被新程序消费。保留例外使用保留主体，其他数量、目的、动作、触发与例外构造逻辑复用原已学代码。
+- 缺少必要主体时保持unresolved，相应目标规范不生成；不会偷偷恢复默认主体或把有保留例外的返还义务改成无例外。
+- 旧程序、原始神经响应和历史IR均未覆盖。得到的是**新程序在真实原来源上的重新执行**，不是把错误旧actor称为无歧义格式适配。
+
+原获取来源8af、58号条款的实际新输出保留：Receiving Party返还信息及副本；其legal department或outside legal counsel可保留单副本，目的限于监管及协议合规；这一许可被连接为返还例外。两主体不同，数量/目的和请求触发与原文一致。
+
+|证据|结果|含义|
+|---|---|---|
+|新程序执行完整原来源，原生4视图|4/4执行并正确，0回退|原结果也是4/4，native增益0|
+|58号目标字段源审查|主体、动作、触发、数量、目的、例外连接得到支持|不是逐条款/逐时间事实的全合同形式化认证|
+|真实神经组件|此前已执行并计费的直接主体抽取|本次复用该精确观察，新增0E/0T；不是新一次端到端模型运行|
+|新程序空主体输入检查|目标规范不生成，保留unresolved|工程边界检查，不是机制收益消融|
+
+[真实执行与逐视图结果](source_check_learning_evidence/effect_interface_reuse/raw/reused_compiler/result.json)、[新程序版本](source_check_learning_evidence/effect_interface_reuse/raw/reused_compiler/bundle.json)、[旧结果精确重放与改动收据](source_check_learning_evidence/effect_interface_reuse/raw/reused_compiler/receipt.json)、[目标源字段审查](source_check_learning_evidence/effect_interface_reuse/raw/reused_compiler/source_review.json)。`complete=true`是原程序无unresolved的自报，不是外部认证全文每项法律语义。这里仍是原获取TRAIN，不是未见来源、完整训练或第一贡献。
+
+### 9.1 本次生成尝试保留，队列已关闭
+
+找到并复用上面的有效资产前，新增了四个有具体问题的请求。它们不能从历史中删去，也不用于宣布新接口成功：
+
+|请求|输入/输出token|秒|实际结果|
+|---|---:|---:|---|
+|独立主体＋位置式构造参数，完整源|6497/219|7.209|主体占据Action位置；还产生无来源的销毁、终止和保留禁止；严格类型拒绝|
+|带名称的源事实，完整源|4786/212|6.632|2类型有效根、2/4原生正确；保留actor过宽，未连接保留例外|
+|相同带名称事实，仅原58号源句|448/292|7.837|两个actor区分正确，但保留条件漏目的，又把同一保留条款错写成额外authorization/purpose例外|
+|直接读取保留范围/限制/关系，同58号源句|269/136|3.654|目的和例外关系读对，范围过宽；漏单副本限制并错误声称数量未说明|
+
+这组对照表明，上下文负担、字段联合生成和模型错读都存在；不能把所有问题归因于递归schema或输出上限。本次四个请求均正常stop，未截断。没有放宽检查、补造缺失语义或将局部答对升级为整体正确。其余五个预定focus没有派发；不再扩展这些提示变体。最终使用有效旧程序，而非继续要求模型重新生成已学会的事实。
+
+[字段类型失败审查](source_check_learning_evidence/effect_interface_reuse/raw/first_failure_audit.json)、[封闭条件接口审查](source_check_learning_evidence/effect_interface_reuse/raw/qualification_audit.json)、[完整源/源句与直接读取对照](source_check_learning_evidence/effect_interface_reuse/raw/factorization_check/)。
+
+### 9.2 原生答案等价不足以认证源规则
+
+零新调用的实际消费者执行检查发现：单独替换保留主体、保留信息、清空保留条件、或补上真实保留例外连接，均不改变该来源的原生答案；删除保留许可或把请求改成协议终止则改变答案。该结果来自实际P的执行，不是只看字段名。反事实项是诊断，不是新训练数据、真实预测或重计的历史分数。
+
+这解释了为何“2/4目标答对”仍可伴随错误主体及例外，也说明继续修正评分看不到的字段不能自然变成两项创新的答题提升。源语义证据和native指标须分别保留；不能添加涨分或零回退门槛，也不能用native通过认证未经检查的整个规则。
+
+[实际投影敏感性检查](source_check_learning_evidence/effect_interface_reuse/raw/native_projection_sensitivity.json)。相关问题已有成熟近邻：[跨输入一致性抑制spurious程序](https://arxiv.org/abs/2107.05833)和[基于多输入执行语义及多数过滤](https://arxiv.org/abs/2311.01161)。后者使用比单个固定native投影更丰富的执行行为；本项目不能把固定四答案的一致性当成等价的源语义保障，也不能把“发现正确答案可能对应错误程序”本身当创新。
+
+### 9.3 研究决定与当前资源
+
+**关闭接口变体小试，保留并使用已验证资产，不再以8af修好更多字段代替研究推进。** 下一项回到源语义约束怎样参与外部获取器G的学习与更新，明确学习对象、更新步骤及同信息独立自由修补/已有方法的比较。普通变量拆分、缓存、类型检查和实际程序运行属于公共底座。成熟算法能表达某机制不足以否定贡献；真实强对照吸收效果时如实处理。当前尚缺已实现且有独立作用的学习更新算法，不给工程改动冠以第一/第二创新的名称。
+
+本接续新增 **4E/0T**，累计 **9476E/194T、9670行、在途0**；原9666行逐条保持。12000输入/859输出token、25.332服务秒，thinking OFF及全部采样配置不变。最终复用compiler的执行新增模型调用0，但继承的教师获取及主体抽取已在连续账本计费，不能说整个流程免费。执行API增量现金0，GPU分摊未知；无新增教师发票。278项相关unittest通过，原冻结源/结果和账本均保留。[逐请求费用与保全](source_check_learning_evidence/effect_interface_reuse/cost_and_preservation.json)、[离线检查](source_check_learning_evidence/effect_interface_reuse/offline_checks.json)。Goal继续active、未完成，不启动完整训练、DEV/TEST或论文。
