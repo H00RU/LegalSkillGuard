@@ -134,6 +134,15 @@ def validate_context(context,language):
         for theory in value['allowed_theories']:
             if len({canonical(a) for a in theory})!=len(theory) or any(canonical(a) not in vocabulary for a in theory):
                 raise ValueError('Allowed theory lies outside the frozen grounded vocabulary')
+        if value.get('optimization')=='native_loss':
+            seen=set()
+            for row in value['scored_theories']:
+                theory=row['theory'];key=canonical(sorted(theory,key=canonical))
+                if key in seen or type(row['native_loss']) is not int or row['native_loss']<0:
+                    raise ValueError('Distinct completely checked theories with nonnegative integer native loss required')
+                seen.add(key)
+                if len({canonical(a) for a in theory})!=len(theory) or any(canonical(a) not in vocabulary for a in theory):
+                    raise ValueError('Scored theory lies outside the frozen output vocabulary')
     return context
 
 

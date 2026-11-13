@@ -6,7 +6,7 @@ from legal_skill_guard.skill_evolution.open_acquisition import execute,fit
 from legal_skill_guard.skill_evolution.relational_learning import fit_composition
 from legal_skill_guard.skill_evolution.relational_rules import context_identity,language_identity
 from legal_skill_guard.skill_evolution.source_observations import fact
-from legal_skill_guard.skill_evolution.theory_supervision import admissible_theories,attach_theories,diagnose_inputs
+from legal_skill_guard.skill_evolution.theory_supervision import admissible_theories,attach_theories,attach_scored_theories,diagnose_inputs
 from tests import test_skill_evolution_open_acquisition as fixture_module
 
 
@@ -33,6 +33,27 @@ class TheorySupervisionTests(unittest.TestCase):
         diagnosis=diagnose_inputs([a],[aa],'complete_unsat')
         self.assertEqual(diagnosis['decision'],'local_theory_or_constraint_failure')
         self.assertEqual(diagnosis['representation_certificates'],[])
+
+    def test_residual_native_errors_do_not_block_a_hard_source_consistent_library(self):
+        a=self.fixture.observation('one','Alpha.','first');b=self.fixture.observation('two','Beta.','first')
+        a['context']['required']=[fact('emit','t1',4)]
+        yes=lambda out:{'accepted':bool(out['statements']),'reason':'software_native_stub'}
+        no=lambda out:{'accepted':not out['statements'],'reason':'software_native_stub'}
+        aa=admissible_theories(self.fixture.library,a,yes);bb=admissible_theories(self.fixture.library,b,no)
+        exact,_=fit(self.fixture.library,[attach_theories(a,aa),attach_theories(b,bb)])
+        self.assertIsNone(exact['selected_rule_ids'])
+        learned,result=fit(self.fixture.library,[attach_scored_theories(a,aa),attach_scored_theories(b,bb)])
+        self.assertEqual(result['status'],'sat');self.assertEqual(result['native_loss'],1)
+        self.assertFalse(result['all_supplied_native_constraints_satisfied'])
+        self.assertTrue(result['all_supplied_partial_constraints_hold_for_every_declared_possible_observation'])
+        self.assertTrue(execute(learned,a)['source_output']['statements'])
+
+    def test_native_loss_does_not_relax_a_source_contradiction(self):
+        a=self.fixture.observation('one','Alpha.','first')
+        a['context']['required']=[fact('emit','t1',4)];a['context']['forbidden']=[fact('emit','t1',4)]
+        aa=admissible_theories(self.fixture.library,a,lambda out:{'accepted':True,'reason':'software_stub'})
+        _,result=fit(self.fixture.library,[attach_scored_theories(a,aa)])
+        self.assertEqual(result['status'],'complete_unsat')
 
     def test_timeout_cannot_supply_incomplete_allowed_set(self):
         a=self.fixture.observation('one','Alpha.','first')
@@ -67,3 +88,12 @@ class TheorySupervisionTests(unittest.TestCase):
         result=fit_composition(language,[context])
         self.assertEqual(result['status'],'sat');self.assertEqual(result['selected_rule_ids'],['c'])
         self.assertTrue(any(r.get('reason')=='deployed_cautious_theory_not_admissible' for r in result['countermodels']))
+
+        # Weighted native loss still judges the actual cautious deployment;
+        # fitting only a guessed possible world cannot obtain zero loss.
+        context['theory_constraints'].update({'optimization':'native_loss','scored_theories':[
+            {'theory':[a for i,a in enumerate(vocabulary) if n&(1<<i)],'native_loss':0 if n else 1}
+            for n in range(8)]})
+        weighted=fit_composition(language,[context])
+        self.assertEqual(weighted['selected_rule_ids'],['c']);self.assertEqual(weighted['native_loss'],0)
+        self.assertTrue(any(r.get('reason')=='deployed_cautious_native_loss_exceeds_bound' for r in weighted['countermodels']))

@@ -70,10 +70,11 @@ def validate_operations(operations, training_texts):
                 raise ValueError('Demonstration does not quote its actual TRAIN source')
 
 
-def prepare_queries(program, operations, text, units):
+def prepare_queries(program, operations, text, units, *, answers=(), source_output=None):
     """The acquired planner chooses windows; the host adds no legal routing."""
-    raw = execute_json(program, {'phase': 'plan', 'source_text': text,
-        'source_spans': units, 'semantic_answers': []}, {}, allow_helpers=True)
+    inputs={'phase':'plan','source_text':text,'source_spans':units,'semantic_answers':list(answers)}
+    if source_output is not None:inputs['source_output']=source_output
+    raw = execute_json(program, inputs, {}, allow_helpers=True)
     jsonschema.validate(raw, PLAN)
     indexed = {u['id']: u for u in units}
     if len(indexed) != len(units):

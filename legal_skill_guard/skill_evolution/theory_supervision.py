@@ -71,6 +71,29 @@ def attach_theories(observation,admission):
     return updated
 
 
+def native_loss(feedback):
+    """Original target mistakes/uncovered targets remain mistakes, not passes."""
+    if feedback['reason']=='execution_error':return None
+    if 'views' in feedback:
+        return sum(not r['core_executed'] or not (r.get('score') or {}).get('correct',False) for r in feedback['views'])
+    return int(not feedback['accepted'])
+
+
+def attach_scored_theories(observation,admission):
+    """Keep strict diagnosis, optimize native errors without a zero-error gate.
+
+    Only theories that passed hard source/type/execution checks receive loss.
+    The original allowed_theories and every original score remain unchanged.
+    """
+    updated=attach_theories(observation,admission);rows=[]
+    for evaluation in admission['evaluations']:
+        if not evaluation['partial_source_constraints_satisfied'] or 'native_feedback' not in evaluation:continue
+        loss=native_loss(evaluation['native_feedback'])
+        if loss is not None:rows.append({'theory':deepcopy(evaluation['theory']),'native_loss':loss})
+    updated['context']['theory_constraints'].update({'optimization':'native_loss','scored_theories':rows})
+    return updated
+
+
 def diagnose_inputs(observations,admissions,composition_status):
     from .observation_diagnosis import diagnose_observations
     if not observations or len(observations)!=len(admissions):raise ValueError('One admission per actual observation required')

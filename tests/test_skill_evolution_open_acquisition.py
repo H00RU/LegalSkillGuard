@@ -105,3 +105,60 @@ class OpenAcquisitionTests(unittest.TestCase):
 
     def test_incomplete_hypothesis_never_becomes_a_default_output(self):
         with self.assertRaises(ValueError):execute(self.library,self.observation('one','Alpha.','first'))
+
+    def test_semantic_scout_can_plan_a_second_read_from_actual_answers(self):
+        library=deepcopy(self.library)
+        library['planner_program']='''def apply(inputs,premises):
+    answers=inputs.get('semantic_answers',[])
+    if not answers:
+        return {'queries':[{'id':'scout','operation':'meaning','unit_ids':[4]}]}
+    if answers[0]['choice']=='first':
+        return {'queries':[{'id':'detail','operation':'meaning','unit_ids':[9]}]}
+    return {'queries':[]}
+'''
+        calls=[]
+        class RecordedClient:
+            def generate(self,*args,**kwargs):
+                current=json.loads(kwargs['messages'][1]['content'])['current_queries'];calls.append(current)
+                return {'finish_reason':'stop','content':json.dumps({'answers':{q['id']:{'choice':'first',
+                    'evidence':[{'unit_id':q['unit_ids'][-1],'quote':q['current_units'][-1]['text']}]} for q in current}})}
+        original=self.observation('one','Alpha.','first')['visible_inputs']['source_output']
+        got=observe(RecordedClient(),'fixture','one',library,source_text='Alpha. Beta.',
+            units=[{'id':4,'text':'Alpha.'},{'id':9,'text':'Beta.'}],source_output=original)
+        self.assertEqual(len(calls),2);self.assertEqual(got['execution']['planning_rounds'],[['scout'],['detail']])
+        self.assertEqual([q['id'] for q in got['visible_inputs']['queries']],['scout','detail'])
+
+    def test_renaming_an_identical_unknown_query_does_not_spend_a_request(self):
+        old=self.observation('one','Alpha.','unknown');library=deepcopy(self.library)
+        library['planner_program']=PLANNER.replace("'q'","'renamed'")
+        class NoCall:
+            def generate(self,*args,**kwargs):raise AssertionError('An unchanged semantic question was repeated')
+        got=observe(NoCall(),'fixture','one',library,source_text='Alpha.',units=[{'id':4,'text':'Alpha.'}],
+            source_output=old['visible_inputs']['source_output'],previous_observation=old)
+        self.assertEqual(got['visible_inputs']['answers'][0]['id'],'renamed')
+        self.assertEqual(got['visible_inputs']['answers'][0]['choice'],'unknown')
+        self.assertEqual(got['execution']['new_physical_requests'],0)
+
+    def test_query_id_churn_cannot_make_unknown_retries(self):
+        library=deepcopy(self.library);library['planner_program']='''def apply(inputs,premises):
+    return {'queries':[{'id':'q'+str(len(inputs.get('semantic_answers',[]))),'operation':'meaning','unit_ids':[4]}]}
+'''
+        calls=[]
+        class Unknown:
+            def generate(self,*args,**kwargs):
+                calls.append(args);return {'finish_reason':'stop','content':json.dumps({'answers':{'q0':{'choice':'unknown','evidence':[]}}})}
+        old=self.observation('one','Alpha.','unknown')
+        with self.assertRaisesRegex(ValueError,'Query ID churn'):
+            observe(Unknown(),'fixture','one',library,source_text='Alpha.',units=[{'id':4,'text':'Alpha.'}],
+                source_output=old['visible_inputs']['source_output'])
+        self.assertEqual(len(calls),1)
+
+    def test_actual_new_semantic_type_can_extend_the_seed_without_an_alias(self):
+        previous=deepcopy(self.old);previous['spec']['decision_program']='def apply(inputs,premises):\n    return {}\n'
+        added={'name':'source_event','sort':'Trigger','arguments':['text'],'meaning':'An actual source-stated event, not a preset endpoint.'}
+        semantic={'constructors':[added],'decision_functions':[]}
+        library=compile_update(previous,self.proposal,{'fixture':'Alpha. Beta.'},semantic_update=semantic)
+        self.assertIn(added,library['spec']['constructors']);self.assertNotIn(added,previous['spec']['constructors'])
+        with self.assertRaises(ValueError):
+            compile_update(previous,self.proposal,{'fixture':'Alpha. Beta.'},semantic_update={
+                'constructors':[previous['spec']['constructors'][0]],'decision_functions':[]})

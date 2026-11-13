@@ -252,11 +252,81 @@ def run_stage(reuse=False):
             'reuse_sources':p['reuse_sources'],'reuse_labels_not_used_in_learning_by_this_run':True,'goal_complete':False})
 
 
+def native_loss_reuse():
+    """Continue cached actual learning after removing the accidental zero-error gate.
+
+    No new teacher/learning data. Original strict-fit failure stays immutable.
+    Bind the changed learner separately before reading the same fixed next pair.
+    """
+    parent=ROOT/'artifacts'/RUN;old=read(parent/'protocol.json')
+    run=RUN.replace('open_acquisition_update','open_acquisition_native_loss')
+    folder=ROOT/'artifacts'/run
+    if not (folder/'protocol.json').exists():
+        counts=physical_snapshot(ROOT/'artifacts/rr_v2_preflight/research_ledger.sqlite3')
+        if any(v.get('reserved',0) for v in counts.values()):raise ValueError('Reconcile pending requests first')
+        paths=[Path(__file__).resolve(),*sorted((ROOT/'legal_skill_guard/skill_evolution').glob('*.py')),
+            *sorted((ROOT/'tests').glob('test_skill_evolution*.py'))]
+        libs={'ConstraintAcquire':parent/'post_native_loss_fit/learned.json','FreeUpdate':parent/'FreeUpdate/learned.json'}
+        data=[*libs.values(),parent/'base.json',parent/'grammar.json',
+            ROOT/'artifacts/legal_skill_evolution_20261111/prepared/train/public.json',
+            ROOT/'artifacts/legal_skill_evolution_20261111/prepared/train/grading.json']
+        p={'run_id':run,'parent_run':RUN,'same_goal':True,'goal_complete':False,
+            'acquisition_sources':old['acquisition_sources'],'reuse_sources':old['reuse_sources'],
+            'executor_profile':old['executor_profile'],'ledger_before':counts,
+            'change':'Hard type/provenance/explicit source checks unchanged. Select G by original native TRAIN error first and rule cost second; positive residual error remains failure, not success.',
+            'no_new_teacher_or_training_observations':True,'same_previously_fixed_reuse_pair':True,
+            'source_snapshot':{str(q.relative_to(ROOT)):hashlib.sha256(q.read_bytes()).hexdigest() for q in paths},
+            'data_sha256':{str(q.relative_to(ROOT)):hashlib.sha256(q.read_bytes()).hexdigest() for q in data}}
+        immutable_json(folder/'protocol.json',p)
+        for arm,path in libs.items():immutable_json(folder/arm/'learned.json',read(path))
+        for name in ('base.json','grammar.json'):immutable_json(folder/name,read(parent/name))
+        immutable_json(folder/'library_freeze.json',{'libraries':{a:digest(read(q)) for a,q in libs.items()},
+            'native_training_errors_remaining':2,'all_native_training_constraints_satisfied':False,
+            'reuse_sources':p['reuse_sources'],'reuse_annotations_not_used_for_training':True,'goal_complete':False})
+        for q in paths:
+            dest=folder/'source_snapshot'/q.relative_to(ROOT);dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(q.read_bytes())
+        with sqlite3.connect('file:'+str(ROOT/'artifacts/rr_v2_preflight/research_ledger.sqlite3')+'?mode=ro',uri=True) as db:
+            immutable_json(folder/'ledger_before.json',{'rows':db.execute('select * from calls order by id').fetchall()})
+    p=read(folder/'protocol.json')
+    for name,h in {**p['source_snapshot'],**p['data_sha256']}.items():
+        if hashlib.sha256((ROOT/name).read_bytes()).hexdigest()!=h:raise ValueError('Frozen native-loss continuation changed: '+name)
+    ledger=EvolutionLedger(ROOT/'artifacts/rr_v2_preflight/research_ledger.sqlite3',run_id=run,
+        sources={'train':p['reuse_sources'],'dev':[],'test':[]},binding=digest(p))
+    public={s['key']:s for s in read(ROOT/'artifacts/legal_skill_evolution_20261111/prepared/train/public.json')}
+    for arm in ARMS:
+        library=read(folder/arm/'learned.json');client=FrozenExecutor(ledger,folder,p['executor_profile'])
+        for key in p['reuse_sources']:
+            dest=folder/'reuse'/arm/(key.replace(':','_')+'.json')
+            if dest.exists():continue
+            pub,units,upstream=source_material(folder,p,public,key)
+            observation=observe(client,run+':reuse:'+arm+':'+key,key,library,
+                source_text=pub['source_text'],units=units,source_output=upstream,
+                save_event=lambda e:immutable_json(folder/'reuse'/arm/'events'/(digest(e['call_id'])+'.json'),e))
+            grading=read(ROOT/'artifacts/legal_skill_evolution_20261111/prepared/train/grading.json')[key]
+            checker=contract_checker(library['spec'],public[key],grading)
+            row={'source':key,'arm':arm,'observation':observation,'goal_complete':False}
+            if arm=='ConstraintAcquire':
+                execution=execute(library,observation);row.update({'execution':execution,'feedback':checker(execution['source_output'])})
+                nofit=execute({**library,'selected_rule_ids':library['suggested_rule_ids']},observation)
+                row.update({'no_fit_execution':nofit,'no_fit_feedback':checker(nofit['source_output'])})
+            else:
+                output=execute_json(library['composition_program'],{'source_text':pub['source_text'],'source_spans':units,
+                    'source_output':upstream,'semantic_answers':observation['visible_inputs']['answers']},{},allow_helpers=True)
+                jsonschema.validate(output,OUTPUT)
+                for r in output['statements']:term_sort(r['term'],constructors(library['spec']))
+                row.update({'source_output':output,'feedback':checker(output)})
+            immutable_json(dest,row)
+            print(json.dumps({'arm':arm,'source':key,'queries':observation['execution']['planned_queries'],
+                'new_physical':observation['execution']['new_physical_requests'],
+                'views':[(r['view'],r['core_executed'],(r.get('score') or {}).get('correct')) for r in row['feedback']['views']]}),flush=True)
+
+
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['prepare','acquire','acquisition','reuse'])
+    parser=argparse.ArgumentParser();parser.add_argument('phase',choices=['prepare','acquire','acquisition','reuse','native-loss-reuse'])
     parser.add_argument('--arm',choices=ARMS);args=parser.parse_args()
     with (ROOT/'artifacts/rr_v2_preflight/current_open_acquisition_client.lock').open('a+') as lock:
         fcntl.flock(lock.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB)
         if args.phase=='prepare':prepare()
         elif args.phase=='acquire':acquire(args.arm)
+        elif args.phase=='native-loss-reuse':native_loss_reuse()
         else:run_stage(reuse=args.phase=='reuse')

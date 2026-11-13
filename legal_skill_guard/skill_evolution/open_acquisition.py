@@ -14,11 +14,12 @@ from .semantic_execution import (answer_schema, decode_answers, focused_messages
                                  operation_groups)
 from .semantic_operations import prepare_queries, validate_operations
 from .source_composition import render_composition, validate_renderers
+from .scoped_grammar import constructors
 from .source_effect_update import function_update
 from .source_observations import encode_source_observations, signatures
 
 
-def compile_update(previous, proposal, training_texts):
+def compile_update(previous, proposal, training_texts, *, semantic_update=None):
     """Compile a concrete learned update without editing any previous artifact."""
     validate_operations(proposal['operations'],training_texts)
     language=deepcopy(proposal['language']);validate_language(language)
@@ -36,14 +37,23 @@ def compile_update(previous, proposal, training_texts):
     old_ops={op['name']:op for op in previous['operations']}
     changed=[op['name'] for op in proposal['operations'] if op['name'] not in old_ops or op!=old_ops[op['name']]]
     removed=sorted(set(old_ops)-{op['name'] for op in proposal['operations']})
+    spec=deepcopy(previous['spec'])
+    if semantic_update is not None:
+        # The preserved59-constructor seed is a starting asset, not a permanent
+        # output-language ceiling. The teacher supplies actual new meanings and
+        # their pure consumer code; the original benchmark scorer stays fixed.
+        spec['constructors'].extend(deepcopy(semantic_update['constructors']))
+        spec['decision_program']=function_update(spec['decision_program'],semantic_update['decision_functions'])
+        constructors(spec)
     library={
         'operations':deepcopy(proposal['operations']),'planner_program':planner,
         'language':language,'renderers':deepcopy(proposal['renderers']),
-        'scope':proposal['scope'],'spec':deepcopy(previous['spec']),
+        'scope':proposal['scope'],'spec':spec,
         'selected_rule_ids':None,
         'update':{'previous_library_sha256':digest(previous),'proposal_sha256':digest(proposal),
             'changed_operation_names':changed,'rationale':proposal['rationale'],
             'removed_operation_names':removed,
+            'semantic_update_sha256':digest(semantic_update) if semantic_update is not None else None,
             'new_model_requests_during_compilation':0,
             'current_source_or_generalization_certified':False}}
     return library
@@ -51,7 +61,7 @@ def compile_update(previous, proposal, training_texts):
 
 def _read_identity(operations,query,units,scope):
     by_op={o['name']:o for o in operations};by_unit={u['id']:u for u in units}
-    return digest({'operation':by_op[query['operation']],'query':query,
+    return digest({'operation':by_op[query['operation']],'window':query['unit_ids'],
         'units':[by_unit[i] for i in query['unit_ids']],'scope':scope})
 
 
@@ -64,7 +74,6 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
     The caller separately supplies the preserved actual upstream source output.
     """
     from .runtime import decoder_schema
-    queries=prepare_queries(library['planner_program'],library['operations'],source_text,units)
     scope=library['scope'];reusable={}
     if previous_observation:
         previous=previous_observation['visible_inputs']
@@ -74,32 +83,46 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
         for q in previous['queries']:
             if q['id'] in by_id:
                 reusable[_read_identity(previous['operations'],q,units,previous['scope'])]=by_id[q['id']]
-    answers={};pending=[];reused=[];events=[]
-    for q in queries:
-        key=_read_identity(library['operations'],q,units,scope)
-        if key in reusable:
-            answers[q['id']]=deepcopy(reusable[key]);reused.append(q['id'])
-        else:pending.append(q)
-    for batch in operation_groups(pending):
-        prompt=focused_messages(library['operations'],batch,units,scope=scope)
-        wire,_=decoder_schema(answer_schema(library['operations'],batch))
-        call_id=prefix+':concept:'+digest(prompt)
-        result=client.generate(call_id,source=source_id,purpose='skill_replay',
-            messages=prompt,thinking=False,schema=wire)
-        event={'call_id':call_id,'query_ids':[q['id'] for q in batch],'result':result,
-            'scope':scope,'library_sha256':digest(library)}
-        # Save even truncated/type-invalid responses before raising. The common
-        # client has already reserved/settled their physical request in ledger.
-        if save_event:save_event(event)
-        events.append(event)
-        if result['finish_reason']!='stop':raise ValueError('Incomplete concept read; no hidden retry')
-        _,grounded=decode_answers(library['operations'],batch,units,result['content'])
-        answers.update({a['id']:a for a in grounded})
+    answers={};reused=[];events=[];queries=[];by_id={};by_content={};rounds=[];new_logical=0
+    while True:
+        # A learned semantic scout may locate operative clauses first, then
+        # request their roles/qualifiers using actual returned judgments. The
+        # host supplies no legal routing or classifier outcomes.
+        plan=prepare_queries(library['planner_program'],library['operations'],source_text,units,
+            answers=[answers[q['id']] for q in queries],source_output=source_output)
+        pending=[];added=[]
+        for q in plan:
+            key=_read_identity(library['operations'],q,units,scope)
+            if q['id'] in by_id:
+                if q!=by_id[q['id']]:raise ValueError('A frozen planner changed the meaning/window of an issued query ID')
+                continue
+            if key in by_content:
+                raise ValueError('Query ID churn would repeat an already issued source question')
+            by_id[q['id']]=q;by_content[key]=q['id'];queries.append(q);added.append(q['id'])
+            if key in reusable:
+                answers[q['id']]={**deepcopy(reusable[key]),'id':q['id']};reused.append(q['id'])
+            else:pending.append(q)
+        if not added:break
+        rounds.append(added);new_logical+=len(pending)
+        for batch in operation_groups(pending):
+            prompt=focused_messages(library['operations'],batch,units,scope=scope)
+            wire,_=decoder_schema(answer_schema(library['operations'],batch))
+            call_id=prefix+':concept:'+digest(prompt)
+            result=client.generate(call_id,source=source_id,purpose='skill_replay',
+                messages=prompt,thinking=False,schema=wire)
+            event={'call_id':call_id,'query_ids':[q['id'] for q in batch],'result':result,
+                'scope':scope,'library_sha256':digest(library)}
+            # Preserve even truncated/type-invalid responses before raising.
+            if save_event:save_event(event)
+            events.append(event)
+            if result['finish_reason']!='stop':raise ValueError('Incomplete concept read; no hidden retry')
+            _,grounded=decode_answers(library['operations'],batch,units,result['content'])
+            answers.update({a['id']:a for a in grounded})
     encoded=encode_source_observations(source_id,source_text=source_text,units=units,
         source_output=source_output,operations=library['operations'],queries=queries,
         answers=[answers[q['id']] for q in queries],scope=scope)
     encoded['execution']={'events':events,'reused_query_ids':reused,
-        'planned_queries':len(queries),'new_logical_queries':len(pending),
+        'planned_queries':len(queries),'new_logical_queries':new_logical,'planning_rounds':rounds,
         'new_physical_requests':sum(not e['result'].get('cache_hit',False) for e in events),
         'no_unchanged_unknown_retried':True}
     return encoded

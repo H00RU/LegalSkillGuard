@@ -8,9 +8,11 @@
 
 新增精读SCOPE，并核对LLM2LAS、ILP-CoT、Popper、Refazer等作者实现；旧LSP/SkillWrapper、EviSkill/SkillAdam、Getafix、LAS查新和阴性证据直接复用。不可取得的SCOPE/SkillWrapper等代码明确标注，不称已复现。采用成熟算法，不主张首次谓词发明、编译、credit或补丁学习。
 
-已接通[首次真实TRAIN获取/拟合/冻结执行](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_train_prototype.md)，71项相关回归通过。C真实取得并执行接收者类别、保障条件读取，新增permission支持78ad两个披露任务；获取两母核心8/8，强自由更新与NoFit也8/8，拟合未带来额外作用。两母冻结后核心0/8、执行2/8、未覆盖6/8，两臂均没有规划新读取；原分数保持，fallback未执行。当前不是两贡献实证。
+最新[真实失败更新与再次冻结](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/update_train_result.md)：C实际读取原先漏掉的restrict-disclosure、统领句/列表和处置模式，四份历史核心路径原生14/16，NoFit同14/16。FreeUpdate原生16/16，但de42两项依赖目的完成的事件代入及副本范围省略，不能视为完整对应语义已通过；C其他跨条条件也未完全审查。新固定5cad/a5b两份均1/8核心路径原生正确、执行2/8、未覆盖6/8，两臂新增机制均未查询/使用；1个正确来自旧共同库。约束拟合两次都选中教师推荐的同一G，独立增量尚无证据。U未实现。
 
-**下一项实际工作**：继续同一C，从两份真实冻结后TRAIN失败及原两份历史更新可复用窗口规划、支配/列表作用域读取和G；真实反证为局部有限输出语言无解，非表示冲突或8B误读。当前唯一入口仍为`experiments/legal_skill_evolution_open_acquisition_train.py`，run=`legal_skill_evolution_open_acquisition_update_20261113`，协议已准备、未派发教师；下一步执行`acquire --arm ConstraintAcquire`、`acquire --arm FreeUpdate`，离线编译检查后执行`acquisition`，成功冻结再`reuse`。新后续原TRAIN5cad3f37/a5b0361f已按原顺序固定，尚未评分；旧四份回查是训练，不改旧冻结分数。相同合法监督提供给强自由更新；完全相同旧观察可复用，unknown不原样重试。初版源代码与结果已保留。C仍需独立作用/复用证据，U未实现；不换机制、不另起候选。
+**下一项实际工作**：不再沿同样词面门控追加小试，继续既定C，把刚实现的语义反馈驱动规划和开放语义类型接入教师schema/唯一runner，再做相关离线回归及有限真实验证。`open_acquisition.observe`现能把实际读数交回规划器，允许语义探查后再读细项；`compile_update(...,semantic_update=...)`能接收新构造子/消费者纯函数更新，未改原评分器，尚未真实验证。六份原TRAIN历史已暴露且可合法学习，保留其原冻结分数，不把回查当新验证；不因新问题换C/U或扩展数据。原定MAUD适配仍属现有范围，不受NDA59类型封闭限制。先形成完整C及独立作用，再接U。
+
+原`legal_skill_evolution_open_acquisition_update_20261113`已结束；严格全对拟合失败保留。已用完整缓存理论检查按native训练误差优先、规则成本其次重学G，类型/执行/出处/明确源约束仍为硬条件，训练剩余2错如实保存，不再误加零训练错误安装门槛。`legal_skill_evolution_open_acquisition_native_loss_20261113`仅继承该库与原Free库、冻结并执行同一预定新两份来源，新增物理调用0，现也已结束。当前代码在安全边界后更新，旧协议绑定的源码和结果保留于source_snapshot及git；**不要直接重跑旧acquire/reuse命令或因源码hash变化重启任务**。唯一入口仍是`experiments/legal_skill_evolution_open_acquisition_train.py`；下一步先更新此入口的当前协议与教师schema，不建平行项目/入口。77项相关回归通过。
 
 两项实现后分别通过真实开关删除C或U，保留另一项和同信息强自由能力。先C完整实现再接U；正常错误在同一设计内修复，不以单次小样本成绩改方向。当前不启动新完整训练/DEV/TEST或论文，不新增模型批队列；下一有限协议在可执行路径与来源顺序明确后固定，无需逐项重新授权。阶段目标仍是两项独立作用及完整ours超过强方法，尚未完成。
 
@@ -18,7 +20,7 @@
 
 上一轮匹配的完整产物比较C候选0/3、FreeReflect3/3，原结果保持。后续审计证实两臂实际任务/种子/法源/反馈/config/schema完全相同，12条执行精确重现；**FreeReflect也做了原始观测/计算细化，所以不是删除该机制的消融**。关闭那个失败产物，不将其泛化为整个方向无效。第三臂缺历史监督且看到较新API，仅额外诊断。两项新设计不是把这三题修好再报新成功。
 
-最新原型新增3E/2T，累计9518E/211T、9729行、在途0；此前9724行逐条保持。三次实际payload均thinking OFF、max8192、正常stop。已完成[原始请求/路径审计](../reports/legal_skill_evolution_run_20261111/TEACHER_PROOF_SKILL_RESULT.md#13-对真实强对照的复核调用可信机制推断须收紧)、[真实任务适配](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/task_fit.md)及两项算法/代码查新。两项贡献尚未实证成立，Goal active。
+本次更新新增20E/3T，累计9538E/214T、9752行、在途0；此前9729行逐条保持。20次实际payload均thinking OFF、max8192、正常stop。教师额外一次仅修复Free示例引文；程序和操作含义不改，原始错误及费用保留。先前[原型](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_train_prototype.md)、[请求/路径审计](../reports/legal_skill_evolution_run_20261111/TEACHER_PROOF_SKILL_RESULT.md#13-对真实强对照的复核调用可信机制推断须收紧)、任务适配和阴性证据保持。两项贡献尚未实证成立，Goal active。
 
 ## 当前证据：原生语义、模型读取与规则覆盖已分开
 
