@@ -12,7 +12,7 @@ from .relational_learning import execute_composition, fit_composition
 from .relational_rules import validate_language
 from .semantic_execution import operation_groups
 from .unit_evidence import answer_schema, decode_answers, context_batches, TRANSPORT
-from .semantic_operations import prepare_queries, validate_operations
+from .semantic_operations import prepare_queries, validate_operations, validate_queries
 from .source_composition import render_composition, validate_renderers, statement_fingerprint
 from .scoped_grammar import constructors
 from .source_effect_update import function_update
@@ -108,7 +108,7 @@ def execute_source_program(program,spec,*,source_text,units,source_output):
 
 
 def observe(client,prefix,source_id,library,*,source_text,units,source_output,
-            previous_observation=None,previous_observations=(),save_event=None):
+            previous_observation=None,previous_observations=(),save_event=None,requested_queries=()):
     """Run actual new concepts; reuse only identical current-source observations.
 
     Previously answered unknown is terminal for an unchanged operation/window.
@@ -120,6 +120,7 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
     if 'source_program' in library:
         source_output,source_execution=execute_source_program(library['source_program'],library['spec'],
             source_text=source_text,units=units,source_output=source_output)
+    requested_queries=validate_queries(list(requested_queries),library['operations'],units)
     scope=library['scope'];reusable={};operation_scopes=library.get('operation_scopes')
     if operation_scopes is not None:
         if set(operation_scopes)!={o['name'] for o in library['operations']} or any(v not in ('focus_last','window') for v in operation_scopes.values()):
@@ -128,6 +129,8 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
         return operation_scopes[query['operation']] if operation_scopes is not None else scope
     histories=([previous_observation] if previous_observation is not None else [])+list(previous_observations)
     for historical in histories:
+        if historical.get('counterfactual_only'):
+            raise ValueError('Counterfactual query branches are not reusable actual observations')
         previous=historical['visible_inputs']
         if previous['source_text']!=source_text or previous['units']!=units:
             raise ValueError('Cannot reuse readings from different current material')
@@ -147,6 +150,11 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
         # host supplies no legal routing or classifier outcomes.
         plan=prepare_queries(library['planner_program'],library['operations'],source_text,units,
             answers=[answers[q['id']] for q in queries],source_output=source_output)
+        planned={q['id']:q for q in plan}
+        for query in requested_queries:
+            if query['id'] in planned and planned[query['id']]!=query:
+                raise ValueError('A diagnostic request changed an acquired planner query identity')
+            if query['id'] not in planned:plan.append(query)
         pending=[];added=[]
         for q in plan:
             key=_read_identity(library['operations'],q,units,current_scope(q))
@@ -193,6 +201,8 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
         'context_batch_checks':batch_checks,
         'new_physical_requests':sum(not e['result'].get('cache_hit',False) for e in events),
         'no_unchanged_unknown_retried':True}
+    if requested_queries:
+        encoded['execution']['diagnostic_requested_query_ids']=[q['id'] for q in requested_queries]
     if source_execution is not None:
         encoded['execution']['acquired_source_program']=source_execution
     return encoded
@@ -200,6 +210,8 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
 
 def fit(library,observations,*,timeout_seconds=30):
     """Supervision is attached to context constraints, never observation facts."""
+    if any(o.get('counterfactual_only') for o in observations):
+        raise ValueError('Counterfactual query branches cannot supervise the learned G')
     result=fit_composition(library['language'],[o['context'] for o in observations],
                            timeout_seconds=timeout_seconds)
     updated=deepcopy(library)

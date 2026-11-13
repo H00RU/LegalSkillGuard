@@ -76,19 +76,25 @@ def prepare_queries(program, operations, text, units, *, answers=(), source_outp
     if source_output is not None:inputs['source_output']=source_output
     raw = execute_json(program, inputs, {}, allow_helpers=True)
     jsonschema.validate(raw, PLAN)
+    return validate_queries(raw['queries'], operations, units)
+
+
+def validate_queries(queries, operations, units):
+    """Validate actual acquired-planner or diagnostic-selected requests alike."""
+    jsonschema.validate({'queries':queries}, PLAN)
     indexed = {u['id']: u for u in units}
     if len(indexed) != len(units):
         raise ValueError('Duplicate current unit IDs')
     known = {o['name'] for o in operations}
-    ids = [q['id'] for q in raw['queries']]
+    ids = [q['id'] for q in queries]
     if len(set(ids)) != len(ids):
         raise ValueError('Duplicate query IDs')
-    for q in raw['queries']:
+    for q in queries:
         if q['operation'] not in known:
             raise ValueError('Unknown acquired operation')
         if len(set(q['unit_ids'])) != len(q['unit_ids']) or not set(q['unit_ids']) <= set(indexed):
             raise ValueError('Invalid or duplicate current window units')
-    return raw['queries']
+    return queries
 
 
 def messages(operations, queries, units, *, examples=True, system=SYSTEM):

@@ -17,7 +17,7 @@ from legal_skill_guard.rr.checkpoint import immutable_json
 from legal_skill_guard.skill_evolution.clients import FrozenExecutor,FrozenTeacher
 from legal_skill_guard.skill_evolution.ledger import EvolutionLedger
 from legal_skill_guard.skill_evolution.native import record_schema,source_spans
-from legal_skill_guard.skill_evolution.native_theory_feedback import contract_checker
+from legal_skill_guard.skill_evolution.native_theory_feedback import contract_checker,contract_execution
 from legal_skill_guard.skill_evolution.objects import digest
 from legal_skill_guard.skill_evolution.open_acquisition import compile_update,observe,fit,execute
 from legal_skill_guard.skill_evolution.scoped_grammar import CONSTRUCTOR,constructors,term_sort,material_public
@@ -203,7 +203,8 @@ def evaluate_source(library,observation,source,grading):
         jsonschema.validate(output,OUTPUT)
         for r in output['statements']:term_sort(r['term'],constructors(library['spec']))
         result={'source_output':output}
-    return {'execution':result,'feedback':contract_checker(library['spec'],source,grading)(output)}
+    check=contract_execution(library['spec'],source) if grading is None else contract_checker(library['spec'],source,grading)
+    return {'execution':result,'feedback':check(output)}
 
 
 def teacher_request(arm):
