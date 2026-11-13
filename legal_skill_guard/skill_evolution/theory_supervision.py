@@ -73,7 +73,7 @@ def attach_theories(observation,admission):
 
 def native_loss(feedback):
     """Original target mistakes/uncovered targets remain mistakes, not passes."""
-    if feedback['reason']=='execution_error':return None
+    if feedback['reason']=='execution_error' or feedback.get('source_review_passed') is False:return None
     if 'views' in feedback:
         return sum(not r['core_executed'] or not (r.get('score') or {}).get('correct',False) for r in feedback['views'])
     return int(not feedback['accepted'])

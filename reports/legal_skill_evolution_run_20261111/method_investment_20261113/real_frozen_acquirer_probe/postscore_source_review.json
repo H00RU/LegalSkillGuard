@@ -1,0 +1,148 @@
+{
+  "scope": "Postscore analysis of fixed original TRAIN sources; no new model calls, relabeling or program tuning",
+  "actual_source_reviews": [
+    {
+      "source": "ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3",
+      "evidence": [
+        {
+          "unit_id": 28,
+          "quote": "2.1.3 only to disclose the Confidential Information to employees of companies directly or indirectly owned or controlled by the Recipient, consultants and/or advisors to whom disclosure is necessary for the Permitted Purpose and then only on the understanding that such employees, consultants and/or advisors are expressly subject to the provisions of this Confidentiality Agreement."
+        },
+        {
+          "unit_id": 32,
+          "quote": "2.1.7 upon demand of the OSCE, to promptly return all Confidential Information (in whatever medium), together with all copies thereof or, where expressly authorised in writing by the OSCE, to destroy or delete all such Confidential Information and shall confirm to the OSCE in writing that such destruction or deletion has taken place."
+        }
+      ],
+      "actual_answers": [
+        {
+          "id": "empty_source_disclosure_scout_v4",
+          "choice": "none_in_complete_source"
+        },
+        {
+          "id": "empty_source_disposal_scout_v4",
+          "choice": "candidate_found"
+        }
+      ],
+      "findings": [
+        "Explicit consultant/adviser disclosure at28 contradicts the complete-source no-disclosure assertion, independently of how employees of controlled companies are treated.",
+        "The actual positive disposal read cites32, but no disposal rule is generated. Finding a candidate is not a completed semantic binding path."
+      ],
+      "native_predictions_and_annotations_unchanged": true
+    },
+    {
+      "source": "ContractNLI:8fb38aee9252512c6e77c4fa76440766310d1a4090d0149bff12ebf69ec972e7",
+      "evidence": [
+        {
+          "unit_id": 25,
+          "quote": "The obligations of the Parties shall be to hold and maintain the Confidential Information in the strictest of confidence at all times and to their agents, employees, representatives, affiliates, and any other individual or entity that is on a “need to know” basis."
+        },
+        {
+          "unit_id": 28,
+          "quote": "If requested, either Party shall be bound to return any and all materials to the Requesting Party within ____ days."
+        }
+      ],
+      "actual_answers": [
+        {
+          "id": "empty_source_disclosure_scout_v4",
+          "choice": "none_in_complete_source"
+        },
+        {
+          "id": "empty_source_disposal_scout_v4",
+          "choice": "none_in_complete_source"
+        }
+      ],
+      "findings": [
+        "The obligations wording at25 is grammatically elliptical; preserve native official labels and do not invent a clean permission wording.",
+        "The explicit requested-return duty at28 contradicts the complete-source no-disposal assertion. Full supplied text contains the clause."
+      ],
+      "native_predictions_and_annotations_unchanged": true
+    },
+    {
+      "source": "ContractNLI:6fce84641005b157aa8eda07d8372f5b6fd5f0f893665acfbfc3e8fdeda3597e",
+      "evidence": [
+        {
+          "unit_id": 10,
+          "quote": "3. Neither party shall disclose the Confidential Information received from the other to any person or entity, except its employees, officers, directors, independent consultants, affiliates, subsidiaries and other agents (collectively “Representatives”) involved in the performance of the Project, or to use the Confidential Information for any purpose other than fulfilling its obligations under the Project."
+        },
+        {
+          "unit_id": 15,
+          "quote": "Each party agrees that all Confidential Information of the other party, including any copies thereof, shall be returned to the disclosing party upon request or destroyed within ten (10) business days of the expiration or other termination of the Project."
+        },
+        {
+          "unit_id": 16,
+          "quote": "However, notwithstanding anything to the contrary herein, 1) neither party will be required to delete electronic Confidential Information stored in back-up/archival storage in accordance with its policies, provided that any such retained Confidential Information will continue to be subject to the terms of this Confidentiality Agreement until it is destroyed by the receiving party; and"
+        },
+        {
+          "unit_id": 20,
+          "quote": "5. Upon written demand by the disclosing party or upon termination of this Confidentiality Agreement, the receiving party shall:"
+        },
+        {
+          "unit_id": 24,
+          "quote": "Notwithstanding anything to the contrary herein, 1) neither party will be required to delete electronic Confidential Information stored in back-up/archival storage in accordance with its policies, provided that any such retained Confidential Information will continue to be subject to the terms of this Confidentiality Agreement until it is destroyed by the receiving party; and"
+        }
+      ],
+      "actual_answers": [
+        {
+          "id": "empty_source_disclosure_scout_v4",
+          "choice": "none_in_complete_source"
+        },
+        {
+          "id": "empty_source_disposal_scout_v4",
+          "choice": "candidate_found"
+        }
+      ],
+      "findings": [
+        "The prohibition with an explicit Representatives exception at10 includes employees and independent consultants; complete-source no-disclosure is unsupported.",
+        "Actual source output retains only a request trigger at15 and loses the supplied termination-related alternative and backup qualifications. Additional current-G selection cannot create these missing terms."
+      ],
+      "native_predictions_and_annotations_unchanged": true
+    },
+    {
+      "source": "ContractNLI:e82b951aca3540fe6be6bfa63cae714cb7c7d55f38631402a3b6521eb6fc9bc6",
+      "evidence": [
+        {
+          "unit_id": 26,
+          "quote": "3.1.1 only to such employees of the receiving Party as are strictly necessary for the Permitted Purpose; and/or 3.1.2 as required by any order of any court of competent jurisdiction or any competent judicial, governmental or regularly body."
+        },
+        {
+          "unit_id": 42,
+          "quote": "5.2 If the disclosing Party so requests in writing, the receiving Party shall immediately:- 5.2.1 return all Confidential Information including copies to the disclosing Party; and"
+        },
+        {
+          "unit_id": 45,
+          "quote": "5.2.2 destroy or permanently erase all copies made by the receiving Party and procure that anyone to whom the receiving Party has supplied copies destroys or permanently erases such copies and any further copies made by them."
+        }
+      ],
+      "actual_answers": [
+        {
+          "id": "empty_source_disclosure_scout_v4",
+          "choice": "none_in_complete_source"
+        },
+        {
+          "id": "empty_source_disposal_scout_v4",
+          "choice": "candidate_found"
+        }
+      ],
+      "findings": [
+        "The employee disclosure permission at26 contradicts complete-source no-disclosure even though an existing parser root lets nda-5 remain correct.",
+        "Actual candidate_found cites42/45, but no positive disposal norm is generated; the current consumer has no current disposal root to use."
+      ],
+      "native_predictions_and_annotations_unchanged": true
+    }
+  ],
+  "implementation_finding": {
+    "source_program_runs_before_neural_reading": true,
+    "source_program_receives_no_current_semantic_answers": true,
+    "all_selected_C_rules": [
+      "retain_all_actual_roots_v6",
+      "emit_explicit_no_disclosure_v4",
+      "emit_explicit_no_disposal_v4"
+    ],
+    "positive_candidate_choice_constructs_no_new_norm": true,
+    "current_operations_contain_no_fine_positive_role_effect_trigger_binding": true,
+    "needed_next_learning": "Use lawful source feedback to acquire the missing positive semantic binding operations and corresponding G, rather than append identical broad absence questions or refit current keep/absence rules."
+  },
+  "independent_C_or_U_gain_established": false,
+  "new_model_requests": 0,
+  "goal_complete": false
+}

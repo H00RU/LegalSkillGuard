@@ -2,7 +2,44 @@
 
 2026-11-14。同一Goal active。沿用C（诊断驱动开放获取）与U（源—代码联合更新程序），未换候选。**C已出现局部补读增量，完整独立贡献尚未确立；U核心及真实修订同例回放已实现，独立作用和后续来源验证仍未成立，Goal未完成。** 下方各节按检查点保留，当时的未实现/下一步不覆盖当前METHOD。
 
-## 最新：MAUD真实获取、冻结复用与已定位的失败
+## 最新：固定四母独立获取器比较与可达上限
+
+保持已冻结NDA C/Free库，按原TRAIN顺序排除当前8母获取、bc93/6d10及共同seed，先固定4607/8fb3/6fce/e82b四母，再执行和评分。C/Free同有无标签覆盖选择器，另以各自全部已学操作作eager控制；没有教师更新或调参。旧完整TRAIN和早期研究暴露披露，不称新盲测。
+
+|四母/16原生视图|C选择读取|Free选择读取|C完整读取|Free完整读取|
+|---|---:|---:|---:|---:|
+|正确|1|1|1|1|
+|实际核心执行|12|8|12|8|
+
+Fallback调用0，全部16份无标签源×版本结果先于任何评分保存。完整读取在同一已学C资产上等价，隔离执行选择的作用；它不能直接否定独立获取。本次独立C/Free库的实际分数也相同，**尚无稳定整库收益，原bc93一母的两项新增正确不能推广。** [固定协议/选择](real_frozen_acquirer_probe/protocol.json)、[逐来源答案](real_frozen_acquirer_probe/source_results.json)。
+
+**当前候选的精确上限。** 用四份真实付费观察枚举当前直接G可达理论，允许每母分别选最优规则也最多1/16；共同G最小原生错误15。C的实际拟合和建议规则集合一致，顺序不同不算机制变化。该事后诊断不更新已评分库，只针对当前读数/候选空间，不声称整个开放获取问题不可解。[每母可达理论与上限](real_frozen_acquirer_probe/postscore_diagnosis/result.json)、[共同oracle拟合](real_frozen_acquirer_probe/postscore_diagnosis/oracle_fit.json)。
+
+**需要学习的具体能力已定位。** 当前C两条宽窗口scout只提供候选/未发现，已选G只能保留旧规范或生成两个未发现根，没有正向角色、效果与触发的细读/构造通道。4607/e82b真实找到处置条款仍不生成处置规范；6fce只保留request，丢失源中的终止相关分支和备份限定。披露scout对三份有明确许可的合同返回未发现，8fb的明确返还也读成未发现；材料在实际输入中，无接口截断。8fb披露文字本身有语法省略，单列解释边界，不补造条文或改标签。类型、证据ID与可执行覆盖没有解决这些语义错误。[逐源原文/实际选择/程序路径](real_frozen_acquirer_probe/postscore_source_review.json)。
+
+**接下来的研究动作。** 完成C原设计缺失的发现→细读正向语义→G形成当前源规范，而非再追加同一scout、拟合三条保留/未发现规则。既有8母加本四母作为合法增量TRAIN，Free获得同样原文、历史、源反证、诊断和完整更新能力；下一四母已按原顺序/排除规则登记。先实现可运行调用路径与离线类型/来源/正向分支检查，再真实获取并冻结验证；构造性分支仍不当实际读数，不恢复闭式/GIVEN旧路线。U不以本轮全局表示修复凑正例，两项仍未通过，Goal继续active。[决定与下一清单](real_frozen_acquirer_probe/next_acquisition_decision.json)。
+
+缓存核查3个源×版本完全由旧实际读数执行，其余13个在首个缺项前停住，不是13次模型失败；实际补齐10E/0T，全部正常stop、thinking OFF/max8192，无重试。新增31722输入/1344输出token、41.504服务秒；从10157到10167行＝9939E/228T，在途0，原10157条逐条hash保持。前一源角色修复另有0E/1T，两个阶段共11物理请求，未重置旧账本；现金发票/GPU分摊未知。[本阶段全部10请求](real_frozen_acquirer_probe/cost_and_preservation.json)、[两阶段汇总](current_checkpoint_cost.json)、[终结保存](real_frozen_acquirer_probe/TERMINAL_PRESERVATION.json)。
+
+## 已完成：源角色缺口通过真实学习修复
+
+MAUD四母获取的两条实际错误已经修复：contract_13/41的原文支持“合理询问”，没有指定询问对象。原读取也明确返回对象未指定，旧renderer却生成询问指定知情人的条件。把两条明确源反证纳入真实12份获取记录后，当前输出映射的最小源可接受原生错误为2，诊断为局部输出/约束缺口，**没有声称表示碰撞或缺少实际读数**。
+
+教师实际新增reasonable_inquiry_with_unspecified_target(Matter)，只改变该renderer的condition及消费者识别，保持旧构造子意义、操作、规划、来源程序和G不变。所有读数来自此前真实请求，新增执行器0；原12/12保持，两条部分源审查从0/2变为2/2。[原始教师响应](real_MAUD_role_repair/teacher.json)、[实际前后](real_MAUD_role_repair/actual_repair_event.json)、[修复结果](real_MAUD_role_repair/result.json)。这两条检查只约束明确错误，不把未审查字段或unknown当假，也不认证完整法义。
+
+|在同一12份实际观察上|原生正确/12|已审查角色通过/2|
+|---|---:|---:|
+|原库|12|0|
+|仅新renderer与所需类型|10|2|
+|仅新consumer|12|0|
+|完整表示修复|12|2|
+|同一公共修复给NoFit|12|2|
+
+两个程序位置需要同步才能保留语义和可执行性；这是正常表示接口修复，**不计作U的源参数迁移或C的独立收益**。NoFit取得同一修复后相同，原MDL/NoFit/Free分数和后续两母都没有覆盖或重跑。[实际组件执行](real_MAUD_role_repair/component_comparison.json)。433项相关软件回归通过，其中native答对但明确源反证失败的理论不能被收作零损失候选。
+
+本次新增0E/1T，从10156到10157行＝9929E/228T，在途0，原10156条逐条hash保持。教师51032输入/1604输出token（含789reasoning）、37.002服务秒；现金发票/GPU分摊未知。实际输入、响应、协议和调用账本保留，[费用与保持](real_MAUD_role_repair/cost_and_preservation.json)。原MAUD冻结代码的后续变更文件也另存[frozen_changed_source](real_MAUD/frozen_changed_source)，不以新代码冒充旧冻结执行。
+
+## 已完成：MAUD真实获取、冻结复用与已定位的失败
 
 固定原TRAIN四母contract_13/41/111/80获取，两母101/70在方法冻结后复用，三视图不算三个独立来源。C和独立自由教师获得同样原材料、合法TRAIN监督、实际共同程序和12/12的简单控制源码与结果。**二者都学到了可运行来源规则；当前证据未支持C相对强对照的额外作用，U字典仍空，Goal未完成。**
 

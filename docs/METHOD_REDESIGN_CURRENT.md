@@ -2,6 +2,25 @@
 
 2026-11-14。同一Goal **active、未完成**。目标、验收、授权及边界只由[CURRENT_GOAL.md](CURRENT_GOAL.md)规定。唯一项目`/home/yndx/hhy/legal-skill-current`，开发分支`repair/lift-corev-activation-20261112`，不改main。历史暂停、Goal卡及旧PID不触发操作。
 
+## 当前终结结果与下一项真实学习
+
+四母冻结NDA检验已完成，entry为experiments/legal_skill_evolution_frozen_acquirer_probe.py，run为legal_skill_evolution_frozen_acquirer_probe_20261114。按原TRAIN顺序固定4607、8fb3、6fce、e82b四母，排除当前8母获取、bc93/6d10及共同seed，不按得分挑源。旧完整TRAIN及早期暴露保留，不称新盲测。保持C_active/Free_active已学库，不重新获取或调参。双方均有同一无标签覆盖选择器及全部本方已学操作的eager控制。
+
+|固定四母/16原生视图|C选择读取|Free选择读取|C完整读取|Free完整读取|
+|---|---:|---:|---:|---:|
+|正确|1|1|1|1|
+|核心可执行|12|8|12|8|
+
+Fallback请求0。16份无标签执行全部先于任何评分保存。cached_only先复用3个完整源×版本，其余13个在首个缺失实际读数处停在请求边界，不是模型失败；随后仅补10E/0T，全部stop、thinking OFF/max8192，无重试。当前10167行＝9939E/228T、在途0，原10157条逐条hash保持。31722输入/1344输出token、41.504服务秒；现金发票/GPU分摊未知。[逐来源](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_frozen_acquirer_probe/source_results.json)、[成本](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_frozen_acquirer_probe/cost_and_preservation.json)。原bc93一母的局部正例未在本次四母延续，不能推广为整体收益。
+
+**已精确区分两个问题。** 共享已学C资产下的eager等价本身不否定独立获取；本次独立C/Free库的实际比较也同为1/16，当前整库收益仍未成立。对四份真实观察穷举现有直接G可达理论，即使允许每母分别最优选择，最多也1/16；共同拟合最小错误15。这个上限只相对于当前已付费读数/规则候选，不声称整个开放学习问题不可解。[精确诊断](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_frozen_acquirer_probe/postscore_diagnosis/result.json)。
+
+**真正缺的是正向源语义获取通道。** 当前C只有两条宽窗口发现操作，所选G是保留旧根和两个“未发现”头；candidate_found不能生成缺失的正向规范，且没有后续角色/效果/触发绑定操作。4607和e82b已真实找到返还/销毁条款，仍无对应规范；6fce的当前规范丢失终止相关触发和备份限定。另有三份明确披露许可被读成无许可，8fb明确返还被读成无处置；原材料都在实际输入中。8fb披露文字有语法省略，单独记录，不补造干净条文。source_program运行在神经读取前，不能把找到的证据自动变成新语义；不是再加同一问题或继续拟合三条规则就能修复。[实际条款/路径核查](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_frozen_acquirer_probe/postscore_source_review.json)。
+
+**下一项工作已收敛。** 保持C/U两方向，完成C原设计中尚未实现的“发现→细读正向语义→G形成当前源规范”路径。以既有8母和这四母的合法TRAIN反馈/实际源反证作一次增量获取，Free获得相同原文、全部历史、诊断、源审查和普通完整更新能力；不能只改system口号或让一个旧parser吞掉全部正向分支。先准备可运行接口和离线类型/来源/正向分支证据，再用既有授权做真实有限获取。下一固定四母已按原TRAIN顺序和排除规则登记，未读其新评分；原始1/16不覆盖，不继续用这些四母追分，不恢复旧闭式/GIVEN或人工角色实例。旧TEST不读、不启动完整训练或评测矩阵。[具体决定与清单](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_frozen_acquirer_probe/next_acquisition_decision.json)。
+
+MAUD源角色必要修复已经terminal：新增0E/1T，原12/12保持，两条源检查0/2→2/2；433项回归通过。仅renderer会10/12，仅consumer仍错两个源角色，同公共修复的NoFit相同，因此不计C独立作用或U迁移。累计账本成本见两轮各自快照；旧分数和后续两母保持。[源角色修复](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_MAUD_role_repair/result.json)。U当前真实φ/G字典仍空，所需源对象参数修订/后续调用未取得，不把该全局表示修复凑作U。两项均未验收，Goal active，不自行暂停或重置。
+
 ## 当前实际执行与结论
 
 MAUD固定四母获取、两母后续复用已经完成并终结保存，不再运行或重发。entry为experiments/legal_skill_evolution_MAUD_rule_acquisition.py，run为legal_skill_evolution_MAUD_compact_20261114；原rule_acquisition run的教师超时也完整保留。当前没有模型客户端或reserved请求，持久推理服务不是实验队列。
