@@ -3,6 +3,14 @@ import json
 import re
 import resource
 import sys
+from pathlib import Path
+
+# Trusted, law-free calendar primitives are equally available to every arm.
+# Generated programs still have no import or filesystem capabilities.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from calendar_ops import (calendar_year, elapsed_year_overlap_days,
+                          inclusive_year_overlap_days, year_days)
+sys.path.pop(0)
 
 
 def bind_scope(template, bindings):
@@ -139,7 +147,10 @@ def main():
     names = ('min', 'max', 'sum', 'len', 'abs', 'round', 'sorted', 'all', 'any',
         'int', 'float', 'bool', 'str', 'list', 'dict', 'set', 'tuple', 'range',
         'enumerate', 'zip', 'isinstance', 'ValueError', 'KeyError', 'TypeError')
-    scope = {'__builtins__': {n: getattr(builtins, n) for n in names}, 're': re, 'bind_scope': bind_scope}
+    scope = {'__builtins__': {n: getattr(builtins, n) for n in names}, 're': re, 'bind_scope': bind_scope,
+        'calendar_year': calendar_year, 'year_days': year_days,
+        'inclusive_year_overlap_days': inclusive_year_overlap_days,
+        'elapsed_year_overlap_days': elapsed_year_overlap_days}
     exec(compile(request['procedure'], '<learned-source-procedure>', 'exec'), scope)
     if request.get('trace', False):
         calls, trace_budget = trace_functions(scope, request['procedure'])

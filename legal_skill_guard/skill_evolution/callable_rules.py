@@ -12,6 +12,7 @@ import jsonschema
 
 from .claim_scope import CITATION, clause_identifier, parts
 from .objects import digest
+from .query_scope import literal_query_arguments
 from .source_python import execute, validate
 
 
@@ -26,7 +27,7 @@ def query_frame(question):
         value = float(amounts[0].group(1).replace(',', ''))
         return {'clause': clause, 'kind': 'quantity', 'claim': value,
                 'negated': bool(re.search(r'\bnot\s+equal|\bunequal|\bdoes\s+not\s+equal', question, re.I))}
-    if not amounts and re.search(r'\bappl(?:y|ies|icable)\b|\bfalls?\s+under\b|\bcan\s+claim\s+an?\s+exemption\b', question, re.I):
+    if not amounts and re.search(r'\bappl(?:y|ies|icable)\b|\bfalls?\s+under\b|\bcan\s+claim\s+an?\s+exemption\b|\bis\s+a\s+qualifying\s+child\s+of\b', question, re.I):
         return {'clause': clause, 'kind': 'predicate', 'claim': True,
                 'negated': bool(re.search(r"\bdoes\s+not\s+apply\b|\bdoesn't\s+apply\b|\bis\s+not\s+applicable\b", question, re.I))}
     return None
@@ -63,8 +64,21 @@ def compile_library(value, law_material):
             raise ValueError('Distinct explicit factual input names required')
         if any(f['type'] not in ('boolean', 'integer', 'number', 'string') or not f['question'] for f in unit['fields']):
             raise ValueError('Explicit primitive factual interface required')
+        arguments = unit['arguments']
+        argument_names = [a['name'] for a in arguments]
+        selector_types = {'year': 'integer', 'subject': 'string', 'taxpayer': 'string',
+                          'individual': 'string', 'employer': 'string', 'employee': 'string'}
+        if len(set(argument_names)) != len(argument_names) or set(argument_names) & set(names):
+            raise ValueError('Query argument ports and case premise ports must be distinct')
+        for a in arguments:
+            if not a['name'] or a['selector'] not in selector_types or a['type'] != selector_types[a['selector']]:
+                raise ValueError('Query arguments need an explicit literal selector and matching type')
+        for f in unit['fields']:
+            if not set(re.findall(r'\{([A-Za-z_][A-Za-z0-9_]*)\}',f['question'])) <= set(argument_names):
+                raise ValueError('A factual question uses an undeclared query argument')
         units[unit['id']] = unit; heads.add(head)
-    return {'law_digest': digest(law_material), 'program': value['program'], 'units': units}
+    return {'law_digest': digest(law_material), 'law_material': dict(law_material),
+            'program': value['program'], 'units': units}
 
 
 def entry_program(library, unit_id):
@@ -97,16 +111,53 @@ they must not be smuggled into this case-premise map.
 
 
 def plan(library, question, law_material):
-    if digest(law_material) != library['law_digest']:
-        raise ValueError('Current law differs from the acquired source version')
     frame = query_frame(question)
+    if digest(law_material) != library['law_digest']:
+        def bodies(material):
+            result = {}
+            for body in material.values():
+                heading = re.match(r'^\s*§\s*(\d+)\.',body)
+                if heading:
+                    section = heading[1]
+                    if section in result and result[section] != body:
+                        raise ValueError('Conflicting supplied versions of the same source')
+                    result[section] = body
+            return result
+        learned, current = bodies(library['law_material']), bodies(law_material)
+        if any(learned[s] != current[s] for s in set(learned) & set(current)):
+            raise ValueError('Current law differs from the acquired source version')
+        section = frame['clause'].split('(')[0] if frame else None
+        if section not in learned or section not in current:
+            raise ValueError('Reuse requires the queried source version in both contexts')
     matches = [u for u in library['units'].values() if frame and
                (u['clause'], u['kind']) == (frame['clause'], frame['kind'])]
     if len(matches) != 1:
         return {'supported': False, 'frame': frame, 'unit': None, 'fields': {}}
     unit = matches[0]
-    return {'supported': True, 'frame': frame, 'unit': unit['id'],
-            'fields': {f['name']: {'type': f['type'], 'question': f['question']} for f in unit['fields']}}
+    scope = literal_query_arguments(question)
+    bound = {a['name']: scope['values'][a['selector']] for a in unit['arguments']
+             if a['selector'] in scope['values']}
+    # A native query may name one party while a fact question concerns another
+    # source role (for example, that person's employer). The reader can ground
+    # that role from facts. Requiring every name to occur literally in the query
+    # incorrectly blocks factual grounding. Role descriptions are prompt context
+    # only: they are never injected as entity names or legal premises.
+    references = {a['name']: 'the '+a['selector']+' role selected by the current query and case facts'
+                  for a in unit['arguments'] if a['type'] == 'string' and a['name'] not in bound}
+    render = {**references, **bound}
+    fields, blocked = {}, []
+    for f in unit['fields']:
+        ports = set(re.findall(r'\{([A-Za-z_][A-Za-z0-9_]*)\}',f['question']))
+        if not ports <= set(render):
+            blocked.append(f['name'])
+            continue
+        prompt = re.sub(r'\{([A-Za-z_][A-Za-z0-9_]*)\}',lambda m:str(render[m[1]]),f['question'])
+        fields[f['name']] = {'type': f['type'], 'question': prompt}
+    return {'supported': True, 'frame': frame, 'unit': unit['id'], 'fields': fields,
+            'query_arguments': bound, 'query_argument_evidence': scope['evidence'],
+            'factual_role_references': references,
+            'unresolved_query_arguments': [a['name'] for a in unit['arguments'] if a['name'] not in bound],
+            'unresolved_factual_questions': blocked}
 
 
 def evaluate(library, planned, known_case_values):
@@ -119,8 +170,14 @@ def evaluate(library, planned, known_case_values):
     declarations = {f['name']: f for f in unit['fields']}
     for name, value in known_case_values.items():
         jsonschema.validate(value, {'type': declarations[name]['type']})
+    arguments = {a['name']: a for a in unit['arguments']}
+    if not set(planned['query_arguments']) <= set(arguments):
+        raise ValueError('Query binding outside the acquired argument contract')
+    for name,value in planned['query_arguments'].items():
+        jsonschema.validate(value,{'type':arguments[name]['type']})
+    bindings = {**planned['query_arguments'], **known_case_values}
     # Neither native question/claim nor labels/source IDs enter legal execution.
-    result = execute(entry_program(library, unit['id']), {'facts': known_case_values})
+    result = execute(entry_program(library, unit['id']), {'facts': bindings})
     if set(result) != {'value', 'used_units', 'open_dependencies'}:
         raise ValueError('Callable rule must return its property and proof obligations')
     if not isinstance(result['used_units'], list) or not set(result['used_units']) <= set(library['units']):

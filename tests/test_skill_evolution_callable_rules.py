@@ -16,7 +16,7 @@ class CallableRuleTests(unittest.TestCase):
 def apply(inputs, premises):
     return property_value(inputs['facts'])
 ''', 'units': [{'id': 'observed_property', 'clause': '63(c)(6)(A)',
-            'kind': 'predicate', 'function': 'property_value', 'source_field': 'source_text',
+            'kind': 'predicate', 'function': 'property_value', 'source_field': 'source_text', 'arguments': [],
             'quote': self.material['source_text'],
             'fields': [{'name': 'observed', 'type': 'boolean', 'question': 'What observed property is given?'}]}]}
         self.library = compile_library(self.value, self.material)
@@ -103,6 +103,65 @@ def apply(inputs, premises):
             'support':[{'field':'facts','text':'Actual observed premise'}]}}})
         self.assertEqual(accepted,values)
         self.assertEqual(rejected,[])
+
+    def test_literal_query_year_is_separate_from_case_premises(self):
+        v=deepcopy(self.value)
+        v['units'][0]['arguments']=[{'name':'query_year','type':'integer','selector':'year'}]
+        v['program']=v['program'].replace("facts.get('observed')","facts.get('query_year') == 2017")
+        lib=compile_library(v,self.material);p=plan(lib,self.question,self.material)
+        self.assertEqual(p['query_arguments'],{'query_year':2017})
+        self.assertEqual(evaluate(lib,p,{})['answer'],'Entailment')
+
+    def test_factual_question_uses_declared_literal_people(self):
+        v=deepcopy(self.value);v['units'][0]['clause']='151(c)'
+        v['units'][0]['arguments']=[{'name':'claimant','type':'string','selector':'taxpayer'},
+            {'name':'person','type':'string','selector':'individual'}]
+        v['units'][0]['fields'][0]['question']='Do case facts give that {person} depends on {claimant}?'
+        lib=compile_library(v,self.material)
+        p=plan(lib,'Alice can claim an exemption with Bob the dependent for 2015 under section 151(c).',self.material)
+        self.assertEqual(p['fields']['observed']['question'],'Do case facts give that Bob depends on Alice?')
+        self.assertNotIn('observed',p['query_arguments'])
+
+    def test_argument_contract_cannot_read_the_asserted_claim(self):
+        v=deepcopy(self.value)
+        v['units'][0]['arguments']=[{'name':'claimed_value','type':'number','selector':'claim'}]
+        with self.assertRaises(ValueError):compile_library(v,self.material)
+
+    def test_source_role_can_be_grounded_from_facts_without_a_literal_query_name(self):
+        v=deepcopy(self.value)
+        v['units'][0]['arguments']=[{'name':'owner','type':'string','selector':'employer'}]
+        v['units'][0]['fields'][0]['question']='Is {owner} a university?'
+        lib=compile_library(v,self.material);p=plan(lib,self.question,self.material)
+        self.assertIn('observed',p['fields'])
+        self.assertIn('employer role',p['fields']['observed']['question'])
+        self.assertEqual(p['query_arguments'],{})
+        self.assertEqual(evaluate(lib,p,{})['answer'],'unknown')
+        self.assertEqual(evaluate(lib,p,{'observed':True})['answer'],'Entailment')
+
+    def test_an_unavailable_period_is_not_replaced_by_a_role_description(self):
+        v=deepcopy(self.value)
+        v['units'][0]['arguments']=[{'name':'period','type':'integer','selector':'year'}]
+        v['units'][0]['fields'][0]['question']='Was the event in {period}?'
+        lib=compile_library(v,self.material)
+        p=plan(lib,'Section 63(c)(6)(A) applies to Alice.',self.material)
+        self.assertEqual(p['fields'],{})
+        self.assertEqual(p['unresolved_factual_questions'],['observed'])
+
+    def test_exact_acquired_reference_can_become_a_task_main_source(self):
+        v=deepcopy(self.value);v['units'][0].update(clause='151(c)',source_field='referenced_public_sections.151')
+        body='§151. Shared source fixture.';v['units'][0]['quote']=body
+        material={'source_text':'§63. Earlier source fixture.','referenced_public_sections.151':body}
+        lib=compile_library(v,material)
+        p=plan(lib,'Alice can claim an exemption with Bob the dependent for 2015 under section 151(c).',
+            {'source_text':body,'referenced_public_sections.7703':'§7703. Additional task source.'})
+        self.assertTrue(p['supported'])
+
+    def test_changed_reference_version_is_not_silently_reused(self):
+        v=deepcopy(self.value);v['units'][0].update(clause='151(c)',source_field='referenced_public_sections.151')
+        body='§151. Shared source fixture.';v['units'][0]['quote']=body
+        lib=compile_library(v,{'source_text':'§63. Earlier source.','referenced_public_sections.151':body})
+        with self.assertRaises(ValueError):
+            plan(lib,'Section 151(c) applies to Alice.',{'source_text':'§151. Changed version.'})
 
     def test_multiple_citations_are_unresolved(self):
         self.assertIsNone(query_frame('Section 63(c)(6)(A) and section 151(b) apply to Alice.'))

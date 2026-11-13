@@ -16,6 +16,9 @@ from .span_compiler import CALLS,METHODS
 from .semantic_operations import PLAN
 from .semantic_execution import DEMAND
 
+CALENDAR_CALLS = {'year_days', 'calendar_year', 'inclusive_year_overlap_days',
+                  'elapsed_year_overlap_days'}
+
 
 def validate(code):
     tree=ast.parse(code);top=[n for n in tree.body if isinstance(n,ast.FunctionDef)]
@@ -35,7 +38,7 @@ def validate(code):
         if isinstance(node,ast.Name) and node.id.startswith('__'):raise ValueError('No introspection')
         if isinstance(node,ast.Attribute) and node.attr not in METHODS|{'setdefault'}:
             raise ValueError('Unsupported attribute: '+node.attr)
-        if isinstance(node,ast.Call) and isinstance(node.func,ast.Name) and node.func.id not in CALLS|names:
+        if isinstance(node,ast.Call) and isinstance(node.func,ast.Name) and node.func.id not in CALLS|CALENDAR_CALLS|names:
             raise ValueError('Unsupported/unlinked call: '+node.func.id)
     return code
 
