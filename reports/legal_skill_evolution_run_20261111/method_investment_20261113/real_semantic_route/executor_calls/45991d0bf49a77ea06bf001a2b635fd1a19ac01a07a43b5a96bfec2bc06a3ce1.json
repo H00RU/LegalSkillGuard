@@ -1,0 +1,109 @@
+{
+  "physical_call": {
+    "id": "legal_skill_evolution_open_acquisition_semantic_route_recovery_20261113:acquisition:FreeUpdate:ContractNLI:a5b0361fa48fe974089dfd2b7b082510d5160a744041f9ef31c1ea25fd4cfa6f:concept:e6c7cbd2b22edf9da291481790a884eb37fa33361832699315ec00bd2e5420f0",
+    "role": "executor",
+    "purpose": "skill_replay",
+    "source": "ContractNLI:a5b0361fa48fe974089dfd2b7b082510d5160a744041f9ef31c1ea25fd4cfa6f",
+    "request_hash": "27d23189c4835e7048ccf6afdb739ad8d3f0529d0a7705e3a3c2d8ed52985544",
+    "status": "completed",
+    "reserved_at": 1794578884.3470855,
+    "usage": {
+      "prompt_tokens": 1819,
+      "total_tokens": 2554,
+      "completion_tokens": 735,
+      "prompt_tokens_details": null
+    },
+    "elapsed_seconds": 20.122253097593784,
+    "finish_reason": "stop",
+    "thinking_requested": false
+  },
+  "actual_payload": {
+    "model": "Qwen/Qwen3-8B",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nFor every non-unknown choice, quote the actual current words supporting that\nclassification, inside the query's supplied unit IDs. Quotes may fold whitespace\nbut may not change words. Negative alternatives also need actual evidence; mere\nabsence is insufficient unless the declared operation explicitly asks whether\nsomething appears in the complete supplied window. No extra IDs or fields."
+      },
+      {
+        "role": "user",
+        "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"At least one operative return-or-destroy duty is triggered by a source-stated contractual endpoint, and none is triggered by a supplier request.\", \"name\": \"endpoint_only\"}, {\"meaning\": \"At least one operative return-or-destroy duty is triggered by a supplier request, and none is triggered by a contractual endpoint.\", \"name\": \"request_only\"}, {\"meaning\": \"The window contains endpoint-triggered and request-triggered return-or-destroy duties, whether combined in one clause or stated in separate duties.\", \"name\": \"endpoint_and_request\"}, {\"meaning\": \"After examining the complete supplied window, no operative return-or-destroy duty for the protected information is present.\", \"name\": \"no_disposal_duty\"}], \"examples\": [{\"choice\": \"endpoint_only\", \"quote\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\", \"source\": \"ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450\"}, {\"choice\": \"request_only\", \"quote\": \"Upon request of Tompkins Cortland Community College, the Company shall promptly return all copies of the Confidential Information, in whatever form or media, to Tompkins Cortland Community College, or certify the destruction of all such Confidential Information.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"endpoint_and_request\", \"quote\": \"(f) Return to theauditee, or destroy, at auditee’s discretion, any and all Confidential Information disclosed in a printed form or other permanent record, or in any other tangible form (including without limitation, all copies, notes, extracts, analyses, studies, summaries, records and reproductions thereof) immediately on (i) expiration or termination ofthis agreement, or (ii) the request of Auditee therefor.\", \"source\": \"ContractNLI:e7b78d42d1496b794104490cca4c09eedae1ac693d19144164262009cef68482\"}, {\"choice\": \"endpoint_and_request\", \"quote\": \"5. All Confidential Information in any form and any medium, including all copies thereof, disclosed to the Recipient shall be returned to UNHCR or destroyed:\\n(a) if a business relationship is not entered into with UNHCR on or before the date which is three (3) months after the date both Parties have signed the Agreement; or\\n(b) promptly upon request by the UNHCR at any time.\", \"source\": \"ContractNLI:de427b59f51cd83644fef90b773bf036b9bc33972719dc42c658e45b54c2f98e\"}], \"name\": \"source_disposal_trigger_structure\", \"question\": \"Inspect the complete supplied WINDOW for every operative duty to return or destroy protected information. Which trigger categories occur: only contractual endpoints, only supplier requests, both endpoint and request triggers, or no such duty? A business-relationship deadline or termination is an endpoint but is not purpose completion.\"}], \"current_queries\": [{\"id\": \"complete_source_disposal\", \"operation\": \"source_disposal_trigger_structure\", \"unit_ids\": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16], \"current_units\": [{\"id\": 0, \"text\": \"Facility Tour Confidentiality and Non-Disclosure Agreement This FACILITY TOUR CONFIDENTIALITY AND NONDISCLOSURE AGREEMENT (this “Agreement”) is entered into as of this date: ____________ between Hydranautics, a California corporation (“Hydranautics”) and __________________ (“Visitor”).\"}, {\"id\": 2, \"text\": \"During the facility tour(s), Visitor will observe Hydranautics’ business operations and facilities which may give Visitor access to some of Hydranautics’ Confidential Information as defined below.\"}, {\"id\": 3, \"text\": \"Accordingly, as a condition of and in consideration of touring Hydranautics’ facilities, Visitor agrees that:\"}, {\"id\": 4, \"text\": \"1. The term “Confidential Information” shall include all Hydranautics’ trade secrets and information that concerns the confidential business or affairs of Hydranautics and Nitto including without limitation, financial information and reports, business plans, design and construction plans, manufacturing processes, customer lists, employee data, forecasts, strategies, and all other proprietary business information.\"}, {\"id\": 5, \"text\": \"2. Visitor agrees and acknowledges that in the course of, or incident to, the tour of Hydranautics’ facilities, Hydranutics may provide to, or Visitor will otherwise become exposed to Hydranautics’ Confidential Information.\"}, {\"id\": 6, \"text\": \"3. Visitor agrees to hold the Confidential Information in the strictest confidence, and will exercise at least the same care with respect thereto as it exercises with respect to its’ own confidential or proprietary information and will not without Hydranautics’ consent use, divulge, copy, release, sell, loan or otherwise reveal such Confidential Information to others.\"}, {\"id\": 7, \"text\": \"4. Visitor agrees he/she will not remove any document, equipment or other materials from the premises without Hydranautics’ written consent.\"}, {\"id\": 8, \"text\": \"Visitor will not photograph, videotape, or otherwise make any record of or preserve any Confidential Information to which he/she may be given access during the facility tour(s).\"}, {\"id\": 9, \"text\": \"5. Visitor will abide by all safety regulations, stay within designated areas of the facility per the established tour, and will not leave the touring party without an escort by a Hydranautics authorized employee.\"}, {\"id\": 10, \"text\": \"6. This Agreement is governed by and construed in accordance with the laws of the State of California.\"}, {\"id\": 11, \"text\": \"7. This Agreement constitutes the entire Agreement between the parties hereto with respect to the subject matter.\"}, {\"id\": 12, \"text\": \"8. Visitor understands that his or her breach of this Agreement may subject him or her and his or her employees to liability.\"}, {\"id\": 13, \"text\": \"Title:\"}, {\"id\": 14, \"text\": \"______________________________________________ Company Name:\"}, {\"id\": 16, \"text\": \"_____________________________________ Visitor Name/Signature _______________________________ (To sign, type your name above)\"}]}]}"
+      }
+    ],
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "strict": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "answers": {
+              "type": "object",
+              "properties": {
+                "complete_source_disposal": {
+                  "type": "object",
+                  "properties": {
+                    "choice": {
+                      "type": "string",
+                      "enum": [
+                        "endpoint_only",
+                        "request_only",
+                        "endpoint_and_request",
+                        "no_disposal_duty",
+                        "unknown"
+                      ]
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "unit_id": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "quote": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "unit_id",
+                          "quote"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "complete_source_disposal"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "wire_sha256": "c8a672863f465fbf702c77431b1a62927dd7e300dd1c6cf0c2748a117ae06c6e",
+  "raw_response_content": "{\"answers\": {\"complete_source_disposal\": {\"choice\": \"no_disposal_duty\", \"evidence\": [{\"unit_id\": 0, \"quote\": \"Facility Tour Confidentiality and Non-Disclosure Agreement This FACILITY TOUR CONFIDENTITY AND NONDISCLOSURE AGREEMENT (this “Agreement”) is entered into as of this date: ____________ between Hydranautics, a California corporation (“Hydranautics”) and __________________ (“Visitor”).\"}, {\"unit_id\": 2, \"quote\": \"During the facility tour(s), Visitor will observe Hydranautics’ business operations and facilities which may give Visitor access to some of Hydranautics’ Confidential Information as defined below.\"}, {\"unit_id\": 3, \"quote\": \"Accordingly, as a condition of and in consideration of touring Hydranautics’ facilities, Visitor agrees that:\"}, {\"unit_id\": 4, \"quote\": \"1. The term “Confidential Information” shall include all Hydranautics’ trade secrets and information that concerns the confidential business or affairs of Hydranautics and Nitto including without limitation, financial information and reports, business plans, design and construction plans, manufacturing processes, customer lists, employee data, forecasts, strategies, and all other proprietary business information.\"}, {\"unit_id\": 5, \"quote\": \"2. Visitor agrees and acknowledges that in the course of, or incident to, the tour of Hydranautics’ facilities, Hydranutics may provide to, or Visitor will otherwise become exposed to Hydranautics’ Confidential Information.\"}, {\"unit_id\": 6, \"quote\": \"3. Visitor agrees to hold the Confidential Information in the strictest confidence, and will exercise at least the same care with respect thereto as it exercises with respect to its’ own confidential or proprietary information and will not without Hydranautics’ consent use, divulge, copy, release, sell, loan or otherwise reveal such Confidential Information to others.\"}, {\"unit_id\": 7, \"quote\": \"4. Visitor agrees he/she will not remove any document, equipment or other materials from the premises without Hydranautics’ written consent.\"}, {\"unit_id\": 8, \"quote\": \"Visitor will not photograph, videotape, or otherwise make any record of or preserve any Confidential Information to which he/she may be given access during the facility tour(s).\"}, {\"unit_id\": 9, \"quote\": \"5. Visitor will abide by all safety regulations, stay within designated areas of the facility per the established tour, and will not leave the touring party without an escort by a Hydranautics authorized employee.\"}, {\"unit_id\": 10, \"quote\": \"6. This Agreement is governed by and construed in accordance with the laws of the State of California.\"}, {\"unit_id\": 11, \"quote\": \"7. This Agreement constitutes the entire Agreement between the parties hereto with respect to the subject matter.\"}, {\"unit_id\": 12, \"quote\": \"8. Visitor understands that his or her breach of this Agreement may subject him or her and his or her employees to liability.\"}, {\"unit_id\": 13, \"quote\": \"Title:\"}, {\"unit_id\": 14, \"quote\": \"______________________________________________ Company Name:\"}, {\"unit_id\": 16, \"quote\": \"_____________________________________ Visitor Name/Signature _______________________________ (To sign, type your name above)\"}]}}}",
+  "source_semantics_verified": false
+}

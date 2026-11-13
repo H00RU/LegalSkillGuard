@@ -1,0 +1,107 @@
+{
+  "physical_call": {
+    "id": "legal_skill_evolution_open_acquisition_semantic_route_scoped_20261113:acquisition:ConstraintAcquire:ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450:concept:0ebed26814caf6cd94581aa8ad94cee360c0f97ceb239704ea7dc14a79861a61",
+    "role": "executor",
+    "purpose": "skill_replay",
+    "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+    "request_hash": "59f885ffd0e22af9677713257e7abe153a149759b98a155a7ea827a33869f272",
+    "status": "completed",
+    "reserved_at": 1794578042.507892,
+    "usage": {
+      "prompt_tokens": 2904,
+      "total_tokens": 3287,
+      "completion_tokens": 383,
+      "prompt_tokens_details": null
+    },
+    "elapsed_seconds": 10.882865278050303,
+    "finish_reason": "stop",
+    "thinking_requested": false
+  },
+  "actual_payload": {
+    "model": "Qwen/Qwen3-8B",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nFor every non-unknown choice, quote the actual current words supporting that\nclassification, inside the query's supplied unit IDs. Quotes may fold whitespace\nbut may not change words. Negative alternatives also need actual evidence; mere\nabsence is insufficient unless the declared operation explicitly asks whether\nsomething appears in the complete supplied window. No extra IDs or fields."
+      },
+      {
+        "role": "user",
+        "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"完整来源中存在至少一个上述实际披露许可候选，证据标出形成候选窗口所需的来源单元。\", \"name\": \"candidate_found\"}, {\"meaning\": \"已检查所供应的完整来源，其中没有上述实际披露许可候选。\", \"name\": \"none_in_complete_source\"}], \"examples\": [{\"choice\": \"candidate_found\", \"quote\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"candidate_found\", \"quote\": \"The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"disclosure_permission_scout\", \"question\": \"检查完整供应来源，是否存在向雇员、工作人员、顾问、代理人、承包商、代表或类似内部/专业服务接收者披露受保护信息的实际许可？若存在，证据应覆盖形成一个最清晰候选所需的统领句、列表项以及紧邻的前提或后续保障条款；若完整来源均不存在，才选择完整来源未发现。\"}], \"current_queries\": [{\"id\": \"scout_disclosure_complete\", \"operation\": \"disclosure_permission_scout\", \"unit_ids\": [0, 3, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26, 27, 28, 29, 30, 31, 33, 34, 35, 36, 38, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55], \"current_units\": [{\"id\": 0, \"text\": \"Non Disclosure Agreement Purpose The purpose of this policy is to ensure that those who volunteer their time in service to the Certification Council for Professional Dog Trainers agree to maintain in confidence anything they learn about the CCPDT’s examinations, processes or procedures.\"}, {\"id\": 3, \"text\": \"Policy Annually the volunteers of the Certification Council for Professional Dog Trainers shall sign the following agreement:\"}, {\"id\": 5, \"text\": \"In consideration for receiving certain confidential information in connection with providing services to or on behalf of the Certification Council for Professional Dog Trainers (CCPDT), I, herein referred to as “Volunteer”, hereby agree and acknowledge:\"}, {\"id\": 6, \"text\": \"Confidential and Proprietary Information For purposes of this Agreement, “Confidential Information” means all information and materials, in whatever form, whether tangible or intangible, disclosed by the Certification Council for Professional Dog Trainers or any of its authorized representatives to Volunteer, or to which Volunteer otherwise gains access as a result of volunteering for the Certification Council for Professional Dog Trainers, pertaining in any manner to the activities of the Certification Council for Professional Dog Trainers or its affiliates, consultants, members, or any person or entity to which the Certification Council for Professional Dog Trainers owes a duty of confidentiality, whether or not labeled or identified as proprietary or confidential.\"}, {\"id\": 8, \"text\": \"All proprietary information of the Certification Council for Professional Dog Trainers that is not known generally to the public is Confidential Information.\"}, {\"id\": 9, \"text\": \"Without limiting the generality of the foregoing, the following are deemed Confidential Information:\"}, {\"id\": 10, \"text\": \" Ideas for research and development;\"}, {\"id\": 11, \"text\": \" Information submitted in the investigation of complaints or involving ethics cases;\"}, {\"id\": 12, \"text\": \" Computer records and software (including software that is proprietary to third parties);\"}, {\"id\": 13, \"text\": \" Any other information which the Certification Council for Professional Dog Trainers must keep confidential as a result of obligations to third parties;\"}, {\"id\": 14, \"text\": \" Information regarding the administration of components of the certification programs;\"}, {\"id\": 15, \"text\": \" Exam-related technologies and components;\"}, {\"id\": 16, \"text\": \" Item content, characteristics, development or other aspects of the examinations and their development, maintenance and administration;\"}, {\"id\": 17, \"text\": \" Identities of Certificants, candidates, customers, suppliers, or third party contractors, including without limitation any media, advertising, or public relations firms;\"}, {\"id\": 18, \"text\": \" The Certification Council for Professional Dog Trainers’ e-mail distribution list(s);\"}, {\"id\": 19, \"text\": \" Human resources data and information about employees, contractors and other volunteers;\"}, {\"id\": 20, \"text\": \" Cost and other financial data;\"}, {\"id\": 21, \"text\": \" Polling and focus group information;\"}, {\"id\": 22, \"text\": \" Any goods or services Volunteer provides to the Certification Council for Professional Dog Trainers under this Agreement.\"}, {\"id\": 23, \"text\": \" Any other information to which Volunteer has access while involved in the Certification Council for Professional Dog Trainers’ activities.\"}, {\"id\": 24, \"text\": \"Non-Disclosure  Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information.\"}, {\"id\": 26, \"text\": \"In no event shall Volunteer use Confidential Information in a manner that is in any way detrimental to the Certification Council for Professional Dog Trainers.\"}, {\"id\": 27, \"text\": \" Volunteer agrees to maintain the confidentiality of all Confidential Information and not misuse, misappropriate, or disclose in writing, orally or by electronic means, any Confidential Information, directly or indirectly, to any other person or use them in any way, either during the term of this Agreement or at any other time thereafter, except as is required in the course of service to the CCPDT.\"}, {\"id\": 28, \"text\": \" Volunteer acknowledges and agrees that all Confidential Information and similar items whether maintained in hard copy, electronically or on-line relating to CCPDT’s business shall remain exclusively the property of the Certification Council for Professional Dog Trainers and shall only be used by Volunteer for the purpose(s) permitted by the Certification Council for Professional Dog Trainers.\"}, {\"id\": 29, \"text\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"}, {\"id\": 30, \"text\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}, {\"id\": 31, \"text\": \"Volunteer Conflict of Interest  Volunteers shall avoid personal and professional conflicts of interest in all matters pertaining to the Certification program.\"}, {\"id\": 33, \"text\": \"Conflicting interests may include but are not limited to such areas as financial, personal relationships, and/or professional relationships.\"}, {\"id\": 34, \"text\": \" If a situation arises where it is unclear as to whether a conflict of interest exists, Volunteer shall discuss the issue with the President of the Certification Council for Professional Dog Trainers (or the Vice President if the Volunteer is the President).\"}, {\"id\": 35, \"text\": \" Depending on the type of volunteer work required from the individual, a volunteer may be asked to sign the CCPDT Conflict of Interest Policy prior to commencing service with the CCPDT.\"}, {\"id\": 36, \"text\": \"Volunteer Code of Conduct  Volunteers shall act fairly and be impartial and unbiased in their service to the Certification Council for Professional Dog Trainers and to the population of Certificants and candidates.\"}, {\"id\": 38, \"text\": \" Volunteers shall conduct themselves in a professional manner during the conduct of certification business and shall treat all stakeholders with courtesy and respect.\"}, {\"id\": 39, \"text\": \"Volunteers shall not speak or act on behalf of the Certification Council for Professional Dog Trainers without proper written authorization from the CCPDT.\"}, {\"id\": 40, \"text\": \" Volunteers shall support the decisions of the Certification Council for Professional Dog Trainers.\"}, {\"id\": 41, \"text\": \" Volunteers shall participate in the activities required of them to fulfill their charge(s) and serve the mission of the Certification Council for Professional Dog Trainers.\"}, {\"id\": 42, \"text\": \" Volunteers shall be an advocate for the CCPDT’s certification programs and support its mission.\"}, {\"id\": 43, \"text\": \" Volunteers shall acknowledge that failure to uphold and abide by the Volunteer Code of Conduct may result in removal from participation in the certification program and volunteers shall willingly accept their termination as discussed in the next section.\"}, {\"id\": 44, \"text\": \"Remedies  Violation of this Agreement will be grounds for termination of service with the Certification Council for Professional Dog Trainers.\"}, {\"id\": 46, \"text\": \"A Committee Chair plus any two members of the Executive Committee may elect to remove a volunteer at any time.\"}, {\"id\": 47, \"text\": \" The provisions of this Agreement and Volunteer’s obligations hereunder shall survive any expiration, termination, or rescission of this Agreement and remain even after Volunteer’s relationship with the Certification Council for Professional Dog Trainers ends.\"}, {\"id\": 48, \"text\": \"Except as provided herein, Volunteer is prohibited from disclosing or using any confidential information in all circumstances, including but not limited to subsequent engagements or employment with third parties.\"}, {\"id\": 49, \"text\": \" This Agreement shall be binding upon Volunteer and Volunteer’s personal representatives and successors in interest, and shall inure to the benefit of the CCPDT, its successors and assigns.\"}, {\"id\": 50, \"text\": \" Volunteer acknowledges that a violation of the terms of this Agreement may cause damage and harm to CCPDT and that any such damage or harm will be difficult if not impossible to calculate in monetary terms and will be irreparable to CCPDT.\"}, {\"id\": 51, \"text\": \"Volunteer agrees that, upon notice from CCPDT declaring a breach of this Agreement, Volunteer shall immediately cease all further activities which are, or are claimed by CCPDT to be, a breach of this Agreement.\"}, {\"id\": 52, \"text\": \"The Certification Council for Professional Dog Trainers may also avail itself of any other remedies available by law.\"}, {\"id\": 53, \"text\": \" If any of the provisions of this Agreement are found to be unenforceable, the remainder shall be enforced as fully as possible and the unenforceable provision(s) shall be deemed modified to the limited extent required to permit enforcement of the Agreement as a whole.\"}, {\"id\": 54, \"text\": \"By:\"}, {\"id\": 55, \"text\": \"____________________________________________________________________________________ Volunteer Signature _______________________________________________________________________________________ Volunteer’s Name (Print)\"}]}]}"
+      }
+    ],
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "strict": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "answers": {
+              "type": "object",
+              "properties": {
+                "scout_disclosure_complete": {
+                  "type": "object",
+                  "properties": {
+                    "choice": {
+                      "type": "string",
+                      "enum": [
+                        "candidate_found",
+                        "none_in_complete_source",
+                        "unknown"
+                      ]
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "unit_id": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "quote": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "unit_id",
+                          "quote"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "scout_disclosure_complete"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "wire_sha256": "68b34df8069009310383e879c0338085c605a131a33d660f06489ffbd42fc068",
+  "raw_response_content": "{\"answers\": {\"scout_disclosure_complete\": {\"choice\": \"candidate_found\", \"evidence\": [{\"unit_id\": 24, \"quote\": \"Non-Disclosure  Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information.\"}, {\"unit_id\": 27, \"quote\": \" Volunteer agrees to maintain the confidentiality of all Confidential Information and not misuse, misappropriate, or disclose in writing, orally or by electronic means, any Confidential Information, directly or indirectly, to any other person or use them in any way, either during the term of this Agreement or at any other time thereafter, except as is required in the course of service to the CCPDT.\"}, {\"unit_id\": 28, \"quote\": \" Volunteer acknowledges and agrees that all Confidential Information and similar items whether maintained in hard copy, electronically or on-line relating to CCPDT’s business shall remain exclusively the property of the Certification Council for Professional Dog Trainers and shall only be used by Volunteer for the purpose(s) permitted by the Certification Council for Professional Dog Trainers.\"}, {\"unit_id\": 29, \"quote\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"}, {\"unit_id\": 48, \"quote\": \"Except as provided herein, Volunteer is prohibited from disclosing or using any confidential information in all circumstances, including but not limited to subsequent engagements or employment with third parties.\"}]}}}",
+  "source_semantics_verified": false
+}

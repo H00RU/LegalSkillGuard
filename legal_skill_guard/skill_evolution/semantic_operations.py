@@ -125,9 +125,24 @@ def ground_answers(operations, queries, units, value):
             if witness['unit_id'] not in q['unit_ids']:
                 raise ValueError('Evidence outside this query window')
             hits = occurrences(by_u[witness['unit_id']]['text'], witness['quote'])
+            adaptation = {}
+            if not hits:
+                # Some real readers render typographic quotation marks as
+                # ASCII. Recover only a unique otherwise-identical current
+                # span; never repair words, case, numbers or missing clauses.
+                text = by_u[witness['unit_id']]['text']
+                quotes = str.maketrans({'“': '"', '”': '"', '‘': "'", '’': "'"})
+                adapted = occurrences(text.translate(quotes), witness['quote'].translate(quotes))
+                if len(adapted) == 1:
+                    start, end = adapted[0]
+                    actual_quote = text[start:end]
+                    adaptation = {'raw_quote': witness['quote'],
+                        'quote_adaptation': 'unique_typographic_quotes_only'}
+                    witness = {**witness, 'quote': actual_quote}
+                    hits = occurrences(text, actual_quote)
             if not hits:
                 raise ValueError('Nonverbatim current-source evidence')
-            evidence.append({**witness, 'unit_occurrences': [list(h) for h in hits]})
+            evidence.append({**witness, **adaptation, 'unit_occurrences': [list(h) for h in hits]})
         grounded.append({**answer, 'operation': q['operation'], 'evidence': evidence,
                          'source_semantics_verified': False})
     by_id = {a['id']: a for a in grounded}

@@ -1,0 +1,107 @@
+{
+  "physical_call": {
+    "id": "legal_skill_evolution_open_acquisition_semantic_route_scoped_20261113:acquisition:ConstraintAcquire:ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583:concept:d8ba480a34acac174c5a1a56d05dcfc09ef8a6634b99fbf086db5c3652dc73dd",
+    "role": "executor",
+    "purpose": "skill_replay",
+    "source": "ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583",
+    "request_hash": "f966a373fe0ae7c6257f9a88840d906809dc0e3e4434e6de4a4e74f94d382821",
+    "status": "completed",
+    "reserved_at": 1794578062.1760526,
+    "usage": {
+      "prompt_tokens": 2397,
+      "total_tokens": 2482,
+      "completion_tokens": 85,
+      "prompt_tokens_details": null
+    },
+    "elapsed_seconds": 2.662372632883489,
+    "finish_reason": "stop",
+    "thinking_requested": false
+  },
+  "actual_payload": {
+    "model": "Qwen/Qwen3-8B",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nFor every non-unknown choice, quote the actual current words supporting that\nclassification, inside the query's supplied unit IDs. Quotes may fold whitespace\nbut may not change words. Negative alternatives also need actual evidence; mere\nabsence is insufficient unless the declared operation explicitly asks whether\nsomething appears in the complete supplied window. No extra IDs or fields."
+      },
+      {
+        "role": "user",
+        "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"完整来源中存在至少一个实际返还或销毁义务候选，证据标出其动作和触发条款。\", \"name\": \"candidate_found\"}, {\"meaning\": \"已检查所供应的完整来源，其中没有实际返还或销毁义务候选。\", \"name\": \"none_in_complete_source\"}], \"examples\": [{\"choice\": \"candidate_found\", \"quote\": \"(f) Return to theauditee, or destroy, at auditee’s discretion, any and all Confidential Information disclosed in a printed form or other permanent record, or in any other tangible form (including without limitation, all copies, notes, extracts, analyses, studies, summaries, records and reproductions thereof) immediately on (i) expiration or termination ofthis agreement, or (ii) the request of Auditee therefor.\", \"source\": \"ContractNLI:e7b78d42d1496b794104490cca4c09eedae1ac693d19144164262009cef68482\"}, {\"choice\": \"candidate_found\", \"quote\": \"5.3 The Receiving Party shall return to SINTEC any and all information disclosed by SINTEC as well as any copies thereof automatically upon termination/expiration of the business relation- ship.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"disposal_obligation_scout\", \"question\": \"检查完整供应来源，是否存在要求返还或销毁受保护信息、其副本或相关材料的实际义务？若存在，证据应列出每个相关候选的动作统领句和触发条款；若完整来源均不存在，才选择完整来源未发现。\"}], \"current_queries\": [{\"id\": \"scout_disposal_complete\", \"operation\": \"disposal_obligation_scout\", \"unit_ids\": [0, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 26, 27, 28, 30, 31, 32, 33, 35, 37, 39, 41, 43, 45, 47], \"current_units\": [{\"id\": 0, \"text\": \"Tompkins Cortland Community College Non-Disclosure Agreement This is a Nondisclosure Agreement made as of _______________________ (\\\"Effective Date\\\") between Tompkins Cortland Community College, an educational corporation organized and existing under the New York State Education Law, herein after referred to as \\\"Tompkins Cortland Community College, a member of the State University of New York, with its principal place of business at 170 North Street, PO Box 139, Dryden NY 13053, and _______________ (“Company”), a ______________ corporation with its principal place of business at _______________________________________________________ for the purpose of protecting and preserving the confidential and/or proprietary nature of information to be disclosed or made available by Tompkins Cortland Community College to the Company under this Agreement.\"}, {\"id\": 7, \"text\": \"For purposes of this Agreement Tompkins Cortland Community College and Company are sometimes collectively referred to as the “Parties” and individually referred to as a “Party”.\"}, {\"id\": 8, \"text\": \"As used herein, “Recipient” shall mean the Party who has been given “Confidential Information” (as hereinafter defined) by and of the other Party.\"}, {\"id\": 9, \"text\": \"Discloser shall mean the Party who gives Confidential Information to the other Party.\"}, {\"id\": 10, \"text\": \"1. The Parties agree to use the Confidential Information received hereunder solely for the purpose of performing the service or services for which the Company and Tompkins Cortland Community College have made an agreement (“Purpose”), and only to the extent necessary for the stated Purpose.\"}, {\"id\": 11, \"text\": \"The Recipient agrees that it will not provide Confidential Information to any third parties or business partners without prior written agreement from Tompkins Cortland Community College.\"}, {\"id\": 12, \"text\": \"2. “Confidential Information” means any business and/or personally identifiable information relating to Tompkins Cortland Community College's students, employees or other parties contained in files or storage systems to which the Company will be provided access by Tompkins Cortland Community College.\"}, {\"id\": 13, \"text\": \"3. “Confidential Information” shall include, without limitation, printed or electronically recorded matter, personally identifiable information, customer and employee information, business information, and other information of a non-public nature.\"}, {\"id\": 14, \"text\": \"Confidential Information also includes information generated as a result of the activities of the parties hereunder, and information whether disclosed in writing or orally, that is marked “confidential” or should be deemed by its nature to be confidential.\"}, {\"id\": 15, \"text\": \"4. All Confidential Information shall remain the property of Tompkins Cortland Community College.\"}, {\"id\": 16, \"text\": \"No rights or license therein is granted except a limited right to use the Confidential Information solely for the Purpose.\"}, {\"id\": 17, \"text\": \"5. The Company agrees that for Confidential Information it shall use the same degree of care and means it utilizes to protect its own information of a similar nature, but in any event not less than reasonable care and means, to prevent unauthorized use or disclosure of such Confidential Information to third parties.\"}, {\"id\": 18, \"text\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\"}, {\"id\": 19, \"text\": \"6. This Agreement shall be effective on the date of its full execution by the Parties.\"}, {\"id\": 20, \"text\": \"Upon request of Tompkins Cortland Community College, the Company shall promptly return all copies of the Confidential Information, in whatever form or media, to Tompkins Cortland Community College, or certify the destruction of all such Confidential Information.\"}, {\"id\": 21, \"text\": \"7. All notices shall be in writing and delivered by hand or sent by certified or registered mail, return receipt requested, or reputable overnight courier service to the above address of the other party, to the attention of the Recipient’s Legal Department unless otherwise directed in writing by Recipient, and shall be deemed received on the earlier of actual receipt or five days after deposit in the mail.\"}, {\"id\": 22, \"text\": \"8. If any of this Agreement is held to be unenforceable, such unenforceable part shall be deemed modified or eliminated to the extent necessary to make the remaining parts enforceable.\"}, {\"id\": 23, \"text\": \"Any waiver of a default in performance hereunder shall be deemed a waiver of the particular instance only and shall not be deemed consent to continuing default.\"}, {\"id\": 24, \"text\": \"9. Company agrees that there may not be an adequate remedy at law for any breach of the obligations hereunder and upon any such breach or any threat thereof by Company, Tompkins Cortland Community College shall be entitled to seek appropriate equitable relief without necessity of posting bond, in addition to whatever other remedies it might be entitled 10. This Agreement shall be governed by and construed in accordance with the laws of the state of New York, without regard to its conflict of law provisions.\"}, {\"id\": 26, \"text\": \"Neither Party may assign its rights or delegate its duties or obligations under this Agreement without the other Party’s prior written consent.\"}, {\"id\": 27, \"text\": \"This Agreement constitutes the entire agreement of the Parties with respect to the subject matter and supersedes all prior agreements or understandings, written or oral, between the Parties with respect thereto.\"}, {\"id\": 28, \"text\": \"11. All laws governing the \\\"Confidential Information\\\" of the College, including FERPA - Family Educational Rights and Privacy Act, HIPPA - Health Insurance Portability Act, Gramm-Leach-Bliley Act, New York State Information Security Breach and Notification Act, Sarbanes-Oxley Act and others that may apply will be strictly followed.\"}, {\"id\": 30, \"text\": \"12. Company shall comply with the provisions of the New York State Information Security Breach and Notification Act (General Business Law Section 889-aa; State Technology Law Section 208).\"}, {\"id\": 31, \"text\": \"Company shall be liable for the costs associated with such breach if caused by Company's negligent or willful acts or omissions, or the negligent or willful acts or omissions of Company's agents, officers, employees or subcontractors.\"}, {\"id\": 32, \"text\": \"IN WITNESS WHEREOF, the Parties have caused this Agreement to be signed by their duly authorized representatives.\"}, {\"id\": 33, \"text\": \"Tompkins Cortland Community College, SUNY Company:\"}, {\"id\": 35, \"text\": \"_______________ Signature:\"}, {\"id\": 37, \"text\": \"____________________________ Signature:\"}, {\"id\": 39, \"text\": \"____________________________ Name:\"}, {\"id\": 41, \"text\": \"_______________________________ Name:\"}, {\"id\": 43, \"text\": \"_______________________________ Title:\"}, {\"id\": 45, \"text\": \"_________________________________ Title:\"}, {\"id\": 47, \"text\": \"_______________________________ Date:___________________________________ Date:__________________________________\"}]}]}"
+      }
+    ],
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "strict": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "answers": {
+              "type": "object",
+              "properties": {
+                "scout_disposal_complete": {
+                  "type": "object",
+                  "properties": {
+                    "choice": {
+                      "type": "string",
+                      "enum": [
+                        "candidate_found",
+                        "none_in_complete_source",
+                        "unknown"
+                      ]
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "unit_id": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "quote": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "unit_id",
+                          "quote"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "scout_disposal_complete"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "wire_sha256": "1a094943250b2e21e4ecb3915ca82cdb66bae024c316a60e9cf75f4270e92364",
+  "raw_response_content": "{\"answers\": {\"scout_disposal_complete\": {\"choice\": \"candidate_found\", \"evidence\": [{\"unit_id\": 20, \"quote\": \"Upon request of Tompkins Cortland Community College, the Company shall promptly return all copies of the Confidential Information, in whatever form or media, to Tompkins Cortland Community College, or certify the destruction of all such Confidential Information.\"}]}}}",
+  "source_semantics_verified": false
+}

@@ -5,6 +5,7 @@ import unittest
 from legal_skill_guard.skill_evolution.relational_learning import execute_composition
 from legal_skill_guard.skill_evolution.source_observations import (
     decode_visible_inputs, encode_source_observations, fact, retain_legacy_roots, signatures)
+from legal_skill_guard.skill_evolution.source_composition import render_composition
 
 
 class SourceObservationTests(unittest.TestCase):
@@ -75,3 +76,19 @@ class SourceObservationTests(unittest.TestCase):
         self.assertTrue(result['complete'])
         self.assertLess(result['solver']['models'],1000)
         self.assertEqual(len(result['certain_outputs']),1)
+
+    def test_whole_window_claim_cites_its_actual_definite_query(self):
+        encoded=encode_source_observations('one',**self.inputs)
+        lang={'signatures':{**signatures(),'scope_claim':{'arguments':['query'],'kind':'output'}},
+            'constants':{},'rules':[]}
+        renderer={'predicate':'scope_claim','term':['checked_scope'],
+            'support_arguments':[],'support_from_terms':[],'support_from_queries':[0]}
+        result={'status':'sat','complete':True,'certain_outputs':[fact('scope_claim','q1')],
+            'possible_outputs':[fact('scope_claim','q1')],'unknown_observations_preserved':[]}
+        spec={'constructors':[{'name':'checked_scope','sort':'Scope','arguments':[],
+            'meaning':'Software fixture for an actually inspected window.'}]}
+        out=render_composition(lang,[renderer],encoded,result,spec)
+        self.assertEqual(out['statements'][0]['support_ids'],[4,9])
+        self.inputs['answers'][0]['choice']='unknown';self.inputs['answers'][0]['evidence']=[]
+        unknown=encode_source_observations('one',**self.inputs)
+        with self.assertRaises(ValueError):render_composition(lang,[renderer],unknown,result,spec)

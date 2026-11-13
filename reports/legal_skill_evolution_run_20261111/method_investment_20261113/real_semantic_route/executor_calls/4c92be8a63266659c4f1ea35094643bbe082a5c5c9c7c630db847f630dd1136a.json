@@ -1,0 +1,109 @@
+{
+  "physical_call": {
+    "id": "legal_skill_evolution_open_acquisition_semantic_route_scoped_20261113:acquisition:ConstraintAcquire:ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583:concept:e31506e8b8bcb46434bb69542efcd3a9438c2fca83027d825fd4f6e436ebd41a",
+    "role": "executor",
+    "purpose": "skill_replay",
+    "source": "ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583",
+    "request_hash": "6fc53f4f8f8cf9af1179576d7ba3cb2cde7748af11ad51e69d022554b15ed1a1",
+    "status": "completed",
+    "reserved_at": 1794578068.7082894,
+    "usage": {
+      "prompt_tokens": 1188,
+      "total_tokens": 1246,
+      "completion_tokens": 58,
+      "prompt_tokens_details": null
+    },
+    "elapsed_seconds": 1.7217126358300447,
+    "finish_reason": "stop",
+    "thinking_requested": false
+  },
+  "actual_payload": {
+    "model": "Qwen/Qwen3-8B",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nFor every non-unknown choice, quote the actual current words supporting that\nclassification, inside the query's supplied unit IDs. Quotes may fold whitespace\nbut may not change words. Negative alternatives also need actual evidence; mere\nabsence is insufficient unless the declared operation explicitly asks whether\nsomething appears in the complete supplied window. No extra IDs or fields.\nThe focus_unit_id identifies the clause to classify. Other supplied units are context for resolving its references, not additional effects to merge into that focus. Interpret the acquired operation for that focus clause, using its actual context."
+      },
+      {
+        "role": "user",
+        "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"获准接收者必须受书面保密协议或书面保密约束。\", \"name\": \"written_confidentiality_required\"}, {\"meaning\": \"获准接收者须承担或被告知保密义务，但窗口未明确要求书面形式。\", \"name\": \"confidentiality_duty_without_written_form\"}, {\"meaning\": \"完整许可窗口没有明确施加上述保密保障。\", \"name\": \"no_confidentiality_safeguard_in_complete_window\"}, {\"meaning\": \"窗口没有形成可评价保障条件的实际披露许可。\", \"name\": \"no_operational_permission\"}], \"examples\": [{\"choice\": \"written_confidentiality_required\", \"quote\": \"who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"confidentiality_duty_without_written_form\", \"quote\": \"and advise such employees and/or consultants of the obligations assumed herein\", \"source\": \"ContractNLI:e7b78d42d1496b794104490cca4c09eedae1ac693d19144164262009cef68482\"}, {\"choice\": \"written_confidentiality_required\", \"quote\": \"Provided that the Recipient has a written agreement with the following persons or entities requiring them to treat the Confidential Information in accordance with this Agreement\", \"source\": \"ContractNLI:de427b59f51cd83644fef90b773bf036b9bc33972719dc42c658e45b54c2f98e\"}, {\"choice\": \"confidentiality_duty_without_written_form\", \"quote\": \"To the extent permitted by law, the Receiving Party shall ensure that said employees are bound to a duty of confidentiality for the term of their respective employment relationship in accordance with the terms and conditions of this Agreement and that such duty of confidentiality shall survive the termination/expiration of the respective employment relationship.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"confidentiality_safeguard\", \"question\": \"若供应窗口形成实际披露许可，它对获准接收者明确施加哪种保密保障？可继承统领句中的前提或使用紧邻的后续保障条款，但必须以当前窗口的精确文字为证。\"}], \"current_queries\": [{\"id\": \"confidentiality_18\", \"operation\": \"confidentiality_safeguard\", \"unit_ids\": [14, 15, 16, 17, 18], \"current_units\": [{\"id\": 14, \"text\": \"Confidential Information also includes information generated as a result of the activities of the parties hereunder, and information whether disclosed in writing or orally, that is marked “confidential” or should be deemed by its nature to be confidential.\"}, {\"id\": 15, \"text\": \"4. All Confidential Information shall remain the property of Tompkins Cortland Community College.\"}, {\"id\": 16, \"text\": \"No rights or license therein is granted except a limited right to use the Confidential Information solely for the Purpose.\"}, {\"id\": 17, \"text\": \"5. The Company agrees that for Confidential Information it shall use the same degree of care and means it utilizes to protect its own information of a similar nature, but in any event not less than reasonable care and means, to prevent unauthorized use or disclosure of such Confidential Information to third parties.\"}, {\"id\": 18, \"text\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\"}], \"focus_unit_id\": 18}]}"
+      }
+    ],
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "strict": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "answers": {
+              "type": "object",
+              "properties": {
+                "confidentiality_18": {
+                  "type": "object",
+                  "properties": {
+                    "choice": {
+                      "type": "string",
+                      "enum": [
+                        "written_confidentiality_required",
+                        "confidentiality_duty_without_written_form",
+                        "no_confidentiality_safeguard_in_complete_window",
+                        "no_operational_permission",
+                        "unknown"
+                      ]
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "unit_id": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "quote": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "unit_id",
+                          "quote"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "confidentiality_18"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "wire_sha256": "406bcc8792be67a82326f54d0a89038190a7101f341dbe09bf2dac184a069aa0",
+  "raw_response_content": "{\"answers\": {\"confidentiality_18\": {\"choice\": \"written_confidentiality_required\", \"evidence\": [{\"unit_id\": 18, \"quote\": \"who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\"}]}}}",
+  "source_semantics_verified": false
+}

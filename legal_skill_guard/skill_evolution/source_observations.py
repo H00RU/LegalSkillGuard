@@ -48,7 +48,7 @@ def signatures():
 
 
 def encode_source_observations(source_id, *, source_text, units, source_output,
-                               operations, queries, answers, scope):
+                               operations, queries, answers, scope, query_scopes=None):
     """Retain every G-visible value, including order, text and unknown/unread.
 
     Only the actual answered subset is quote-grounded. Completion branches are
@@ -78,6 +78,8 @@ def encode_source_observations(source_id, *, source_text, units, source_output,
     by_query={q['id']:q for q in queries}
     if len(by_query)!=len(queries) or any(not isinstance(q['id'],str) or not q['id'] for q in queries):
         raise ValueError('Distinct current queries required')
+    if query_scopes is not None and (set(query_scopes)!=set(by_query) or any(v not in ('focus_last','window') for v in query_scopes.values())):
+        raise ValueError('Record the actual scope of every current query')
     for q in queries:
         if q['operation'] not in ops or not q['unit_ids'] or len(set(q['unit_ids']))!=len(q['unit_ids']) \
                 or not set(q['unit_ids'])<=set(by_unit):
@@ -92,6 +94,7 @@ def encode_source_observations(source_id, *, source_text, units, source_output,
     by_answer={a['id']:a for a in grounded}
     visible={'source_text':source_text,'units':deepcopy(units),'source_output':deepcopy(source_output),
         'operations':deepcopy(operations),'queries':deepcopy(queries),'answers':grounded,'scope':scope}
+    if query_scopes is not None:visible['query_scopes']=deepcopy(query_scopes)
     facts=[fact('source_text',source_text)];unknown=[];nodes={};roots={};term_supports={};json_count=0
 
     def json_tree(value):
@@ -128,7 +131,8 @@ def encode_source_observations(source_id, *, source_text, units, source_output,
     for q in queries:
         qid=q['id'];facts.append(fact('reader_query',qid,q['operation']))
         facts.extend(fact('query_window',qid,u) for u in q['unit_ids'])
-        if scope=='focus_last':facts.append(fact('query_focus',qid,q['unit_ids'][-1]))
+        actual_scope=query_scopes[qid] if query_scopes is not None else scope
+        if actual_scope=='focus_last':facts.append(fact('query_focus',qid,q['unit_ids'][-1]))
         a=by_answer.get(qid)
         if a:
             facts.append(fact('reader_observed_value',qid,a['choice']))
@@ -141,6 +145,7 @@ def encode_source_observations(source_id, *, source_text, units, source_output,
     context={'id':source_id,'facts':facts,'unknown_groups':unknown,'required':[],'forbidden':[]}
     return {'context':context,'visible_inputs':visible,'visible_inputs_sha256':digest(visible),
         'contract_sha256':digest({'version':1,'signatures':SIGNATURES,'scope':scope,
+            'query_scope_policy':'explicit' if query_scopes is not None else 'global',
             'raw_text_retained':True,'old_reader_is_upstream':True}),
         'legacy_roots':roots,'term_nodes':nodes,'term_supports':term_supports,
         'grounding_certifies_source_meaning':False,'new_model_requests':0}

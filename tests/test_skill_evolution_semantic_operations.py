@@ -94,6 +94,36 @@ def test_truncation_does_not_retry_or_implicitly_execute_later_batches():
 
 
 class SemanticOperationTests(unittest.TestCase):
+    def test_real_typographic_quote_failure_has_unique_verbatim_recovery(self):
+        # Minimized from the saved e7b scout response. Its legal choice is
+        # untouched; only the two quotation-mark glyphs differ from the source.
+        text = '(a) The term “Confidential Information” shall include all information.'
+        raw_quote = 'The term "Confidential Information" shall include all information.'
+        units = [{'id': 24, 'text': text}]
+        queries = [{**QUERIES[0], 'unit_ids': [24]}]
+        value = {'answers': [{'id': 'q', 'choice': 'duty',
+            'evidence': [{'unit_id': 24, 'quote': raw_quote}]}]}
+        grounded = ground_answers(OPS, queries, units, value)[0]
+        self.assertEqual(grounded['choice'], 'duty')
+        self.assertFalse(grounded['source_semantics_verified'])
+        witness = grounded['evidence'][0]
+        self.assertEqual(witness['raw_quote'], raw_quote)
+        self.assertEqual(witness['quote'], text[4:])
+        self.assertEqual(witness['unit_occurrences'], [[4, len(text)]])
+        self.assertEqual(value['answers'][0]['evidence'][0]['quote'], raw_quote)
+
+    def test_typographic_recovery_rejects_ambiguous_spans_and_word_changes(self):
+        text = 'The “recipient” shall return material.'
+        for current, quote in [
+            (text + ' ' + text, 'The "recipient" shall return material.'),
+            (text, 'The "recipient" shall not return material.'),
+            (text, 'The "Recipient" shall return material.'),
+        ]:
+            with self.subTest(quote=quote, current=current), self.assertRaisesRegex(ValueError, 'Nonverbatim'):
+                ground_answers(OPS, QUERIES, [{'id': 7, 'text': current}],
+                    {'answers': [{'id': 'q', 'choice': 'duty',
+                        'evidence': [{'unit_id': 7, 'quote': quote}]}]})
+
     def test_pure_boundary(self): test_real_pure_planner_model_answer_finisher_boundary()
     def test_acquisition_grounding(self):
         for change in ['source', 'quote', 'choice', 'duplicate']:

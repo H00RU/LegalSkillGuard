@@ -1,0 +1,112 @@
+{
+  "physical_call": {
+    "id": "legal_skill_evolution_open_acquisition_semantic_route_grounded_20261113:acquisition:ConstraintAcquire:ContractNLI:e7b78d42d1496b794104490cca4c09eedae1ac693d19144164262009cef68482:concept:ae7cb44e5e8a4aacc3645aea049c01a9b8294c65d25b0533b9af1bb634896927",
+    "role": "executor",
+    "purpose": "skill_replay",
+    "source": "ContractNLI:e7b78d42d1496b794104490cca4c09eedae1ac693d19144164262009cef68482",
+    "request_hash": "d76c572f18494465126eb3426b31319da9e1e969384591c8b7d31522fd49acd7",
+    "status": "completed",
+    "reserved_at": 1794578575.177906,
+    "usage": {
+      "prompt_tokens": 1340,
+      "total_tokens": 1414,
+      "completion_tokens": 74,
+      "prompt_tokens_details": null
+    },
+    "elapsed_seconds": 2.1828670175746083,
+    "finish_reason": "stop",
+    "thinking_requested": false
+  },
+  "actual_payload": {
+    "model": "Qwen/Qwen3-8B",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nFor every non-unknown choice, quote the actual current words supporting that\nclassification, inside the query's supplied unit IDs. Quotes may fold whitespace\nbut may not change words. Negative alternatives also need actual evidence; mere\nabsence is insufficient unless the declared operation explicitly asks whether\nsomething appears in the complete supplied window. No extra IDs or fields.\nThe focus_unit_id identifies the clause to classify. Other supplied units are context for resolving its references, not additional effects to merge into that focus. Interpret the acquired operation for that focus clause, using its actual context."
+      },
+      {
+        "role": "user",
+        "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"许可至少明确覆盖接收方的雇员和承包商。\", \"name\": \"employees_and_contractors\"}, {\"meaning\": \"许可至少明确覆盖接收方的雇员和顾问。\", \"name\": \"employees_and_consultants\"}, {\"meaning\": \"许可至少明确覆盖接收方的雇员和代理人。\", \"name\": \"employees_and_agents\"}, {\"meaning\": \"许可明确覆盖雇员、工作人员或职员，但窗口未明确覆盖承包商、顾问或代理人。\", \"name\": \"employees_only\"}, {\"meaning\": \"许可明确覆盖承包商、顾问或代理人中的至少一类，但未明确覆盖雇员、工作人员或职员。\", \"name\": \"service_recipients_without_employees\"}, {\"meaning\": \"窗口仅有定义、描述、禁令或其他非许可文字，没有形成上述实际披露许可。\", \"name\": \"no_operational_permission\"}, {\"meaning\": \"窗口形成实际许可，但其明确接收者下界不属于上述类别。\", \"name\": \"other_recipient_bound\"}], \"examples\": [{\"choice\": \"no_operational_permission\", \"quote\": \" Volunteer agrees not to, without prior written consent from the Certification Council for Professional Dog Trainers, divulge any Confidential Information to third parties or copy documents containing any Confidential Information.\", \"source\": \"ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450\"}, {\"choice\": \"employees_and_contractors\", \"quote\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"employees_and_consultants\", \"quote\": \"Auditor shall restrict disclosure of such Confidential Information to its employees and/or consultants with a need to know (and advise such employees and/or consultants of the obligations assumed herein), shall use the Confidential Information only for the purposes set forth in the Agreement, and shall not disclose such Confidential Information to any affiliates, subsidiaries, associates and/or third party without prior written approval of the Auditee.\", \"source\": \"ContractNLI:e7b78d42d1496b794104490cca4c09eedae1ac693d19144164262009cef68482\"}, {\"choice\": \"employees_and_agents\", \"quote\": \"2.3.2 the Recipient’s employees, officials, representatives and agents who have a strict need to know the contents of the Confidential Information, and employees, officials, representatives and agents of any legal entity that it controls, controls it, or with which it is under common control, who have a similar need to know the contents of the Confidential Information, provided that, for these purposes a controlled legal entity means:\", \"source\": \"ContractNLI:de427b59f51cd83644fef90b773bf036b9bc33972719dc42c658e45b54c2f98e\"}, {\"choice\": \"employees_only\", \"quote\": \"The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"disclosure_recipient_bound\", \"question\": \"结合完整供应窗口中的统领句、焦点条款和紧邻保障条款，该窗口是否形成实际的受保护信息披露许可？仅报告明确出现的充分接收者下界；选择不宣称穷尽条款中的其他接收者。\"}], \"current_queries\": [{\"id\": \"recipient_62\", \"operation\": \"disclosure_recipient_bound\", \"unit_ids\": [62], \"current_units\": [{\"id\": 62, \"text\": \"Auditor shall restrict disclosure of such Confidential Information to its employees and/or consultants with a need to know (and advise such employees and/or consultants of the obligations assumed herein), shall use the Confidential Information only for the purposes set forth in the Agreement, and shall not disclose such Confidential Information to any affiliates, subsidiaries, associates and/or third party without prior written approval of the Auditee.\"}], \"focus_unit_id\": 62}]}"
+      }
+    ],
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "strict": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "answers": {
+              "type": "object",
+              "properties": {
+                "recipient_62": {
+                  "type": "object",
+                  "properties": {
+                    "choice": {
+                      "type": "string",
+                      "enum": [
+                        "employees_and_contractors",
+                        "employees_and_consultants",
+                        "employees_and_agents",
+                        "employees_only",
+                        "service_recipients_without_employees",
+                        "no_operational_permission",
+                        "other_recipient_bound",
+                        "unknown"
+                      ]
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "unit_id": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "quote": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "unit_id",
+                          "quote"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "recipient_62"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "wire_sha256": "b9b81a1b818f98620792e05b5815ac7d4c1d2150ec35078bbed0004138b91bf2",
+  "raw_response_content": "{\"answers\": {\"recipient_62\": {\"choice\": \"employees_and_consultants\", \"evidence\": [{\"unit_id\": 62, \"quote\": \"Auditor shall restrict disclosure of such Confidential Information to its employees and/or consultants with a need to know (and advise such employees and/or consultants of the obligations assumed herein)\"}]}}}",
+  "source_semantics_verified": false
+}

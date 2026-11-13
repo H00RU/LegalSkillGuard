@@ -74,7 +74,12 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
     The caller separately supplies the preserved actual upstream source output.
     """
     from .runtime import decoder_schema
-    scope=library['scope'];reusable={}
+    scope=library['scope'];reusable={};operation_scopes=library.get('operation_scopes')
+    if operation_scopes is not None:
+        if set(operation_scopes)!={o['name'] for o in library['operations']} or any(v not in ('focus_last','window') for v in operation_scopes.values()):
+            raise ValueError('Every acquired operation needs its explicit actual reading scope')
+    def current_scope(query):
+        return operation_scopes[query['operation']] if operation_scopes is not None else scope
     if previous_observation:
         previous=previous_observation['visible_inputs']
         if previous['source_text']!=source_text or previous['units']!=units:
@@ -82,7 +87,8 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
         by_id={a['id']:a for a in previous['answers']}
         for q in previous['queries']:
             if q['id'] in by_id:
-                reusable[_read_identity(previous['operations'],q,units,previous['scope'])]=by_id[q['id']]
+                actual_scope=previous.get('query_scopes',{}).get(q['id'],previous['scope'])
+                reusable[_read_identity(previous['operations'],q,units,actual_scope)]=by_id[q['id']]
     answers={};reused=[];events=[];queries=[];by_id={};by_content={};rounds=[];new_logical=0
     while True:
         # A learned semantic scout may locate operative clauses first, then
@@ -92,7 +98,7 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
             answers=[answers[q['id']] for q in queries],source_output=source_output)
         pending=[];added=[]
         for q in plan:
-            key=_read_identity(library['operations'],q,units,scope)
+            key=_read_identity(library['operations'],q,units,current_scope(q))
             if q['id'] in by_id:
                 if q!=by_id[q['id']]:raise ValueError('A frozen planner changed the meaning/window of an issued query ID')
                 continue
@@ -105,13 +111,15 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
         if not added:break
         rounds.append(added);new_logical+=len(pending)
         for batch in operation_groups(pending):
-            prompt=focused_messages(library['operations'],batch,units,scope=scope)
+            batch_scope=current_scope(batch[0])
+            if any(current_scope(q)!=batch_scope for q in batch):raise ValueError('Mixed actual query scopes in one operation batch')
+            prompt=focused_messages(library['operations'],batch,units,scope=batch_scope)
             wire,_=decoder_schema(answer_schema(library['operations'],batch))
             call_id=prefix+':concept:'+digest(prompt)
             result=client.generate(call_id,source=source_id,purpose='skill_replay',
                 messages=prompt,thinking=False,schema=wire)
             event={'call_id':call_id,'query_ids':[q['id'] for q in batch],'result':result,
-                'scope':scope,'library_sha256':digest(library)}
+                'scope':batch_scope,'library_sha256':digest(library)}
             # Preserve even truncated/type-invalid responses before raising.
             if save_event:save_event(event)
             events.append(event)
@@ -120,7 +128,8 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
             answers.update({a['id']:a for a in grounded})
     encoded=encode_source_observations(source_id,source_text=source_text,units=units,
         source_output=source_output,operations=library['operations'],queries=queries,
-        answers=[answers[q['id']] for q in queries],scope=scope)
+        answers=[answers[q['id']] for q in queries],scope=scope,
+        query_scopes={q['id']:current_scope(q) for q in queries})
     encoded['execution']={'events':events,'reused_query_ids':reused,
         'planned_queries':len(queries),'new_logical_queries':new_logical,'planning_rounds':rounds,
         'new_physical_requests':sum(not e['result'].get('cache_hit',False) for e in events),

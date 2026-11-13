@@ -1,0 +1,107 @@
+{
+  "physical_call": {
+    "id": "legal_skill_evolution_open_acquisition_semantic_route_recovery_20261113:acquisition:ConstraintAcquire:ContractNLI:a5b0361fa48fe974089dfd2b7b082510d5160a744041f9ef31c1ea25fd4cfa6f:concept:b22866b8900c562aeaf063bf71d9c42077f73009b9466b1e48ebbe771d58d91b",
+    "role": "executor",
+    "purpose": "skill_replay",
+    "source": "ContractNLI:a5b0361fa48fe974089dfd2b7b082510d5160a744041f9ef31c1ea25fd4cfa6f",
+    "request_hash": "906f3a86baf8941ec43025a4e25c3a809cedbffc60e23836edfc7a7ba979925f",
+    "status": "completed",
+    "reserved_at": 1794578796.1805174,
+    "usage": {
+      "prompt_tokens": 1376,
+      "total_tokens": 1403,
+      "completion_tokens": 27,
+      "prompt_tokens_details": null
+    },
+    "elapsed_seconds": 0.9164531156420708,
+    "finish_reason": "stop",
+    "thinking_requested": false
+  },
+  "actual_payload": {
+    "model": "Qwen/Qwen3-8B",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nFor every non-unknown choice, quote the actual current words supporting that\nclassification, inside the query's supplied unit IDs. Quotes may fold whitespace\nbut may not change words. Negative alternatives also need actual evidence; mere\nabsence is insufficient unless the declared operation explicitly asks whether\nsomething appears in the complete supplied window. No extra IDs or fields."
+      },
+      {
+        "role": "user",
+        "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"完整来源中存在至少一个上述实际披露许可候选，证据标出形成候选窗口所需的来源单元。\", \"name\": \"candidate_found\"}, {\"meaning\": \"已检查所供应的完整来源，其中没有上述实际披露许可候选。\", \"name\": \"none_in_complete_source\"}], \"examples\": [{\"choice\": \"candidate_found\", \"quote\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"candidate_found\", \"quote\": \"The Receiving Party will disclose information it receives from SINTEC only to selected members of its staff and only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"disclosure_permission_scout\", \"question\": \"检查完整供应来源，是否存在向雇员、工作人员、顾问、代理人、承包商、代表或类似内部/专业服务接收者披露受保护信息的实际许可？若存在，证据应覆盖形成一个最清晰候选所需的统领句、列表项以及紧邻的前提或后续保障条款；若完整来源均不存在，才选择完整来源未发现。\"}], \"current_queries\": [{\"id\": \"scout_disclosure_complete\", \"operation\": \"disclosure_permission_scout\", \"unit_ids\": [0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16], \"current_units\": [{\"id\": 0, \"text\": \"Facility Tour Confidentiality and Non-Disclosure Agreement This FACILITY TOUR CONFIDENTIALITY AND NONDISCLOSURE AGREEMENT (this “Agreement”) is entered into as of this date: ____________ between Hydranautics, a California corporation (“Hydranautics”) and __________________ (“Visitor”).\"}, {\"id\": 2, \"text\": \"During the facility tour(s), Visitor will observe Hydranautics’ business operations and facilities which may give Visitor access to some of Hydranautics’ Confidential Information as defined below.\"}, {\"id\": 3, \"text\": \"Accordingly, as a condition of and in consideration of touring Hydranautics’ facilities, Visitor agrees that:\"}, {\"id\": 4, \"text\": \"1. The term “Confidential Information” shall include all Hydranautics’ trade secrets and information that concerns the confidential business or affairs of Hydranautics and Nitto including without limitation, financial information and reports, business plans, design and construction plans, manufacturing processes, customer lists, employee data, forecasts, strategies, and all other proprietary business information.\"}, {\"id\": 5, \"text\": \"2. Visitor agrees and acknowledges that in the course of, or incident to, the tour of Hydranautics’ facilities, Hydranutics may provide to, or Visitor will otherwise become exposed to Hydranautics’ Confidential Information.\"}, {\"id\": 6, \"text\": \"3. Visitor agrees to hold the Confidential Information in the strictest confidence, and will exercise at least the same care with respect thereto as it exercises with respect to its’ own confidential or proprietary information and will not without Hydranautics’ consent use, divulge, copy, release, sell, loan or otherwise reveal such Confidential Information to others.\"}, {\"id\": 7, \"text\": \"4. Visitor agrees he/she will not remove any document, equipment or other materials from the premises without Hydranautics’ written consent.\"}, {\"id\": 8, \"text\": \"Visitor will not photograph, videotape, or otherwise make any record of or preserve any Confidential Information to which he/she may be given access during the facility tour(s).\"}, {\"id\": 9, \"text\": \"5. Visitor will abide by all safety regulations, stay within designated areas of the facility per the established tour, and will not leave the touring party without an escort by a Hydranautics authorized employee.\"}, {\"id\": 10, \"text\": \"6. This Agreement is governed by and construed in accordance with the laws of the State of California.\"}, {\"id\": 11, \"text\": \"7. This Agreement constitutes the entire Agreement between the parties hereto with respect to the subject matter.\"}, {\"id\": 12, \"text\": \"8. Visitor understands that his or her breach of this Agreement may subject him or her and his or her employees to liability.\"}, {\"id\": 13, \"text\": \"Title:\"}, {\"id\": 14, \"text\": \"______________________________________________ Company Name:\"}, {\"id\": 16, \"text\": \"_____________________________________ Visitor Name/Signature _______________________________ (To sign, type your name above)\"}]}]}"
+      }
+    ],
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "strict": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "answers": {
+              "type": "object",
+              "properties": {
+                "scout_disclosure_complete": {
+                  "type": "object",
+                  "properties": {
+                    "choice": {
+                      "type": "string",
+                      "enum": [
+                        "candidate_found",
+                        "none_in_complete_source",
+                        "unknown"
+                      ]
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "unit_id": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "quote": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "unit_id",
+                          "quote"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "scout_disclosure_complete"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "wire_sha256": "912c3e31eea405169c137fe4fd9f9a815e9fdce3c92b22d66f0854e41237ea4d",
+  "raw_response_content": "{\"answers\": {\"scout_disclosure_complete\": {\"choice\": \"none_in_complete_source\", \"evidence\": []}}}",
+  "source_semantics_verified": false
+}

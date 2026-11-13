@@ -162,3 +162,34 @@ class OpenAcquisitionTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             compile_update(previous,self.proposal,{'fixture':'Alpha. Beta.'},semantic_update={
                 'constructors':[previous['spec']['constructors'][0]],'decision_functions':[]})
+
+    def test_complete_source_scout_and_local_detail_keep_different_actual_scopes(self):
+        library=deepcopy(self.library);scout=deepcopy(library['operations'][0]);scout['name']='scout'
+        library['operations'].append(scout);library['operation_scopes']={'scout':'window','meaning':'focus_last'}
+        library['planner_program']='''def apply(inputs,premises):
+    return {'queries':[{'id':'s','operation':'scout','unit_ids':[4,9]},
+                       {'id':'d','operation':'meaning','unit_ids':[4,9]}]}
+'''
+        calls=[]
+        class Client:
+            def generate(self,*args,**kwargs):
+                calls.append(kwargs['messages']);current=json.loads(kwargs['messages'][1]['content'])['current_queries']
+                return {'finish_reason':'stop','content':json.dumps({'answers':{q['id']:{'choice':'first',
+                    'evidence':[{'unit_id':9,'quote':'Beta.'}]} for q in current}})}
+        source=self.observation('one','Alpha.','first')['visible_inputs']['source_output']
+        result=observe(Client(),'fixture','one',library,source_text='Alpha. Beta.',
+            units=[{'id':4,'text':'Alpha.'},{'id':9,'text':'Beta.'}],source_output=source)
+        self.assertNotIn('focus_unit_id',calls[0][0]['content']);self.assertIn('focus_unit_id',calls[1][0]['content'])
+        self.assertEqual(result['visible_inputs']['query_scopes'],{'s':'window','d':'focus_last'})
+        self.assertNotIn(fact('query_focus','s',9),result['context']['facts'])
+        self.assertIn(fact('query_focus','d',9),result['context']['facts'])
+
+    def test_changed_scope_cannot_reuse_a_different_previous_interpretation(self):
+        old=self.observation('one','Alpha.','unknown');library=deepcopy(self.library)
+        library['operation_scopes']={'meaning':'window'};calls=[]
+        class Client:
+            def generate(self,*args,**kwargs):
+                calls.append(args);return {'finish_reason':'stop','content':json.dumps({'answers':{'q':{'choice':'unknown','evidence':[]}}})}
+        result=observe(Client(),'fixture','one',library,source_text='Alpha.',units=[{'id':4,'text':'Alpha.'}],
+            source_output=old['visible_inputs']['source_output'],previous_observation=old)
+        self.assertEqual(len(calls),1);self.assertEqual(result['execution']['new_physical_requests'],1)

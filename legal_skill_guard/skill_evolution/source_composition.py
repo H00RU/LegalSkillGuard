@@ -32,13 +32,14 @@ def validate_renderers(language, renderers):
             else:
                 raise ValueError('Source-dependent scalars must be bound from current input, not stored in a renderer')
         visit(renderer['term'])
-        for field,sort in (('support_arguments','unit'),('support_from_terms','term')):
-            if len(set(renderer[field]))!=len(renderer[field]):raise ValueError('Distinct provenance argument positions required')
-            for i in renderer[field]:
+        for field,sort in (('support_arguments','unit'),('support_from_terms','term'),('support_from_queries','query')):
+            indices=renderer.get(field,[]) if field=='support_from_queries' else renderer[field]
+            if len(set(indices))!=len(indices):raise ValueError('Distinct provenance argument positions required')
+            for i in indices:
                 if type(i) is not int or i<0 or i>=len(sorts) or sorts[i]!=sort:
-                    raise ValueError('Provenance must name a current unit or term argument')
+                    raise ValueError('Provenance must name a current unit, term or actual query argument')
                 used.add(i)
-        if not renderer['support_arguments'] and not renderer['support_from_terms']:
+        if not renderer['support_arguments'] and not renderer['support_from_terms'] and not renderer.get('support_from_queries',[]):
             raise ValueError('Constructed norms need current-source provenance')
         if used!=set(range(len(sorts))):raise ValueError('Unused output arguments hide distinctions from rendering')
     outputs={p for p,s in signatures.items() if s['kind']=='output'}-{'keep_root'}
@@ -84,6 +85,13 @@ def render_composition(language, renderers, encoded, result, spec):
         for i in renderer['support_from_terms']:
             if args[i] not in encoded['term_supports']:raise ValueError('Not a current term provenance')
             supports.extend(encoded['term_supports'][args[i]])
+        for i in renderer.get('support_from_queries',[]):
+            qid=args[i];visible=encoded['visible_inputs']
+            query=next((q for q in visible['queries'] if q['id']==qid),None)
+            answer=next((a for a in visible['answers'] if a['id']==qid),None)
+            if query is None or answer is None or answer['choice']=='unknown':
+                raise ValueError('Query provenance requires an actual definite current-source reading')
+            supports.extend(query['unit_ids'])
         add({'term':instantiate(renderer['term']),'support_ids':supports},
             {'predicate':name,'arguments':args,'retained_old_root':False})
     return {'statements':rows,'complete':False,

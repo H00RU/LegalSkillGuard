@@ -1,0 +1,109 @@
+{
+  "physical_call": {
+    "id": "legal_skill_evolution_open_acquisition_semantic_route_recovery_20261113:reuse:FreeUpdate:ContractNLI:8fb38aee9252512c6e77c4fa76440766310d1a4090d0149bff12ebf69ec972e7:concept:b945055264b965506f8b0ebdce6eb58a9b88dd6c8c1b8962e44d04c7ba61e965",
+    "role": "executor",
+    "purpose": "skill_replay",
+    "source": "ContractNLI:8fb38aee9252512c6e77c4fa76440766310d1a4090d0149bff12ebf69ec972e7",
+    "request_hash": "7a5dc842f22edf45164ba25502934df19ded2f141f650c689ff72f531600badc",
+    "status": "completed",
+    "reserved_at": 1794579028.0807402,
+    "usage": {
+      "prompt_tokens": 2625,
+      "total_tokens": 2688,
+      "completion_tokens": 63,
+      "prompt_tokens_details": null
+    },
+    "elapsed_seconds": 2.1207210700958967,
+    "finish_reason": "stop",
+    "thinking_requested": false
+  },
+  "actual_payload": {
+    "model": "Qwen/Qwen3-8B",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nFor every non-unknown choice, quote the actual current words supporting that\nclassification, inside the query's supplied unit IDs. Quotes may fold whitespace\nbut may not change words. Negative alternatives also need actual evidence; mere\nabsence is insufficient unless the declared operation explicitly asks whether\nsomething appears in the complete supplied window. No extra IDs or fields."
+      },
+      {
+        "role": "user",
+        "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"At least one operative return-or-destroy duty is triggered by a source-stated contractual endpoint, and none is triggered by a supplier request.\", \"name\": \"endpoint_only\"}, {\"meaning\": \"At least one operative return-or-destroy duty is triggered by a supplier request, and none is triggered by a contractual endpoint.\", \"name\": \"request_only\"}, {\"meaning\": \"The window contains endpoint-triggered and request-triggered return-or-destroy duties, whether combined in one clause or stated in separate duties.\", \"name\": \"endpoint_and_request\"}, {\"meaning\": \"After examining the complete supplied window, no operative return-or-destroy duty for the protected information is present.\", \"name\": \"no_disposal_duty\"}], \"examples\": [{\"choice\": \"endpoint_only\", \"quote\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\", \"source\": \"ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450\"}, {\"choice\": \"request_only\", \"quote\": \"Upon request of Tompkins Cortland Community College, the Company shall promptly return all copies of the Confidential Information, in whatever form or media, to Tompkins Cortland Community College, or certify the destruction of all such Confidential Information.\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"endpoint_and_request\", \"quote\": \"(f) Return to theauditee, or destroy, at auditee’s discretion, any and all Confidential Information disclosed in a printed form or other permanent record, or in any other tangible form (including without limitation, all copies, notes, extracts, analyses, studies, summaries, records and reproductions thereof) immediately on (i) expiration or termination ofthis agreement, or (ii) the request of Auditee therefor.\", \"source\": \"ContractNLI:e7b78d42d1496b794104490cca4c09eedae1ac693d19144164262009cef68482\"}, {\"choice\": \"endpoint_and_request\", \"quote\": \"5. All Confidential Information in any form and any medium, including all copies thereof, disclosed to the Recipient shall be returned to UNHCR or destroyed:\\n(a) if a business relationship is not entered into with UNHCR on or before the date which is three (3) months after the date both Parties have signed the Agreement; or\\n(b) promptly upon request by the UNHCR at any time.\", \"source\": \"ContractNLI:de427b59f51cd83644fef90b773bf036b9bc33972719dc42c658e45b54c2f98e\"}], \"name\": \"source_disposal_trigger_structure\", \"question\": \"Inspect the complete supplied WINDOW for every operative duty to return or destroy protected information. Which trigger categories occur: only contractual endpoints, only supplier requests, both endpoint and request triggers, or no such duty? A business-relationship deadline or termination is an endpoint but is not purpose completion.\"}], \"current_queries\": [{\"id\": \"complete_source_disposal\", \"operation\": \"source_disposal_trigger_structure\", \"unit_ids\": [0, 2, 5, 6, 7, 8, 10, 11, 12, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43], \"current_units\": [{\"id\": 0, \"text\": \"FLORIDA NON-DISCLOSURE AGREEMENT (NDA) I. THE PARTIES.\"}, {\"id\": 2, \"text\": \"This Non-Disclosure Agreement, hereinafter known as the “Agreement”, created on the ___ day of _________________________, 20___ is by and between _________________________, hereinafter known as “1st Party”, and _________________________, hereinafter known as “2nd Party”, and collectively known as the “Parties”.\"}, {\"id\": 5, \"text\": \"WHEREAS, this Agreement is created for the purpose of preventing the unauthorized disclosure of the confidential and proprietary information.\"}, {\"id\": 6, \"text\": \"The Parties agree as follows:\"}, {\"id\": 7, \"text\": \"II. TYPE OF AGREEMENT.\"}, {\"id\": 8, \"text\": \"Check One (1) ☐ - Unilateral – This Agreement shall be Unilateral, whereas, 1st Party shall have sole ownership of the Confidential Information with 2nd Party being prohibited from disclosing confidential and proprietary information that is to be released by the 1st Party.\"}, {\"id\": 10, \"text\": \"☐ - Mutual – This Agreement shall be Mutual, whereas, the Parties shall be prohibited from disclosing confidential and proprietary information that is to be shared between one another.\"}, {\"id\": 11, \"text\": \"III. RELATIONSHIP.\"}, {\"id\": 12, \"text\": \"The Party A’s relationship to Party B can be described as _________________________ and Party B’s relationship to Party A can be described as _________________________.\"}, {\"id\": 16, \"text\": \"IV. DEFINITION.\"}, {\"id\": 17, \"text\": \"For the purposes of this Agreement, the term “Confidential Information” shall include, but not be limited to, documents, records, information and data (whether verbal, electronic or written), drawings, models, apparatus, sketches, designs, schedules, product plans, marketing plans, technical procedures, manufacturing processes, analyses, compilations, studies, software, prototypes, samples, formulas, methodologies, formulations, product developments, patent applications, know-how, experimental results, specifications and other business information, relating to the Party’s business, assets, operations or contracts, furnished to the other Party and/or the other Party’s affiliates, employees, officers, owners, agents, consultants or representatives, in the course of their work contemplated in this Agreement, regardless of whether such Confidential Information has been expressly designated as confidential or proprietary.\"}, {\"id\": 18, \"text\": \"Confidential Information also includes any and all, work products, studies and other material prepared by or in the possession or control of the other Party, which contain, include, refer to or otherwise reflect or are generated from any Confidential Information.\"}, {\"id\": 19, \"text\": \"However, Confidential Information does not include:\"}, {\"id\": 20, \"text\": \"(a) information generally available to the public;\"}, {\"id\": 21, \"text\": \"(b) widely used programming practices or algorithms;\"}, {\"id\": 22, \"text\": \"(c) information rightfully in the possession of the Parties prior to signing this Agreement; and\"}, {\"id\": 23, \"text\": \"(d) information independently developed without the use of any of the provided Confidential Information.\"}, {\"id\": 24, \"text\": \"V. OBLIGATIONS.\"}, {\"id\": 25, \"text\": \"The obligations of the Parties shall be to hold and maintain the Confidential Information in the strictest of confidence at all times and to their agents, employees, representatives, affiliates, and any other individual or entity that is on a “need to know” basis.\"}, {\"id\": 26, \"text\": \"If any such Confidential Information shall reach a third (3rd) party, or become public, all liability will be on the Party that is responsible.\"}, {\"id\": 27, \"text\": \"Neither Party shall, without the written approval of the other Party, publish, copy, or use the Confidential Information for their sole benefit.\"}, {\"id\": 28, \"text\": \"If requested, either Party shall be bound to return any and all materials to the Requesting Party within ____ days.\"}, {\"id\": 29, \"text\": \"This Section shall not apply to the 1st Party if this Agreement is Unilateral as marked in Section II.\"}, {\"id\": 30, \"text\": \"VI. TIME PERIOD.\"}, {\"id\": 31, \"text\": \"The bounded Party’s(ies’) duty to hold the Confidential Information in confidence shall remain in effect until such information no longer qualifies as a trade secret or written notice is given releasing such Party from this Agreement.\"}, {\"id\": 32, \"text\": \"VII. INTEGRATION.\"}, {\"id\": 33, \"text\": \"This Agreement expresses the complete understanding of the Parties with respect to the subject matter and supersedes all prior proposals, agreements, representations, and understandings.\"}, {\"id\": 34, \"text\": \"This Agreement may not be amended except in writing with the acknowledgment of the Parties.\"}, {\"id\": 35, \"text\": \"VIII. SEVERABILITY.\"}, {\"id\": 36, \"text\": \"If a court finds that any provision of this Agreement is invalid or unenforceable, the remainder of this Agreement shall be interpreted so as best to affect the intent of the Parties.\"}, {\"id\": 37, \"text\": \"IX. ENFORCEMENT.\"}, {\"id\": 38, \"text\": \"The Parties acknowledge and agree that due to the unique and sensitive nature of the Confidential Information, any breach of this Agreement would cause irreparable harm for which damages and/or equitable relief may be sought.\"}, {\"id\": 39, \"text\": \"The harmed Party in this Agreement shall be entitled to all remedies available at law.\"}, {\"id\": 40, \"text\": \"X. GOVERNING LAW.\"}, {\"id\": 41, \"text\": \"This Agreement shall be governed under the laws in the State of Florida.\"}, {\"id\": 42, \"text\": \"IN WITNESS WHEREOF, the parties hereto have executed this Agreement as of the date written below.\"}, {\"id\": 43, \"text\": \"1st Party’s Signature ______________________________ Date _________________ Print Name ______________________________ 2nd Party’s Signature ______________________________ Date _________________ Print Name ______________________________\"}]}]}"
+      }
+    ],
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "strict": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "answers": {
+              "type": "object",
+              "properties": {
+                "complete_source_disposal": {
+                  "type": "object",
+                  "properties": {
+                    "choice": {
+                      "type": "string",
+                      "enum": [
+                        "endpoint_only",
+                        "request_only",
+                        "endpoint_and_request",
+                        "no_disposal_duty",
+                        "unknown"
+                      ]
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "unit_id": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "quote": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "unit_id",
+                          "quote"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "complete_source_disposal"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "wire_sha256": "92501c1206e78b893339bc2604e9caada7df9906f4cfbd84026abde7f7d96f81",
+  "raw_response_content": "{\"answers\": {\"complete_source_disposal\": {\"choice\": \"no_disposal_duty\", \"evidence\": [{\"unit_id\": 28, \"quote\": \"If requested, either Party shall be bound to return any and all materials to the Requesting Party within ____ days.\"}]}} }",
+  "source_semantics_verified": false
+}

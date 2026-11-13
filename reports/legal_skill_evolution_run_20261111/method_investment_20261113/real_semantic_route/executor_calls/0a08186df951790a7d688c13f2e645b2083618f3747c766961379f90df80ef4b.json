@@ -1,0 +1,110 @@
+{
+  "physical_call": {
+    "id": "legal_skill_evolution_open_acquisition_semantic_route_recovery_20261113:reuse:ConstraintAcquire:ContractNLI:6fce84641005b157aa8eda07d8372f5b6fd5f0f893665acfbfc3e8fdeda3597e:concept:11b96250f8e2cae7cc51b8a6d2d11a40719289c5775e34095c306319bcbbc115",
+    "role": "executor",
+    "purpose": "skill_replay",
+    "source": "ContractNLI:6fce84641005b157aa8eda07d8372f5b6fd5f0f893665acfbfc3e8fdeda3597e",
+    "request_hash": "651e93c8772ab30bba3222207e137f0ed4f6a123118923eaabad4753a57b7731",
+    "status": "completed",
+    "reserved_at": 1794579014.4673257,
+    "usage": {
+      "prompt_tokens": 1060,
+      "total_tokens": 1133,
+      "completion_tokens": 73,
+      "prompt_tokens_details": null
+    },
+    "elapsed_seconds": 2.1128110205754638,
+    "finish_reason": "stop",
+    "thinking_requested": false
+  },
+  "actual_payload": {
+    "model": "Qwen/Qwen3-8B",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nFor every non-unknown choice, quote the actual current words supporting that\nclassification, inside the query's supplied unit IDs. Quotes may fold whitespace\nbut may not change words. Negative alternatives also need actual evidence; mere\nabsence is insufficient unless the declared operation explicitly asks whether\nsomething appears in the complete supplied window. No extra IDs or fields.\nThe focus_unit_id identifies the clause to classify. Other supplied units are context for resolving its references, not additional effects to merge into that focus. Interpret the acquired operation for that focus clause, using its actual context."
+      },
+      {
+        "role": "user",
+        "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"许可明确要求获准接收者具有知悉必要性。\", \"name\": \"need_to_know_required\"}, {\"meaning\": \"许可明确把披露限制在为所述目的绝对必要、必要或相应范围内，但未明确使用知悉必要性要求。\", \"name\": \"extent_necessary_required\"}, {\"meaning\": \"许可同时明确要求知悉必要性并限制披露范围。\", \"name\": \"need_and_extent_required\"}, {\"meaning\": \"完整许可窗口没有明确施加上述访问范围限制。\", \"name\": \"no_need_or_extent_limit_in_complete_window\"}, {\"meaning\": \"窗口没有形成可评价访问限制的实际披露许可。\", \"name\": \"no_operational_permission\"}], \"examples\": [{\"choice\": \"need_to_know_required\", \"quote\": \"with a “need to know”\", \"source\": \"ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583\"}, {\"choice\": \"need_to_know_required\", \"quote\": \"with a need to know\", \"source\": \"ContractNLI:e7b78d42d1496b794104490cca4c09eedae1ac693d19144164262009cef68482\"}, {\"choice\": \"need_to_know_required\", \"quote\": \"who have a strict need to know the contents of the Confidential Information\", \"source\": \"ContractNLI:de427b59f51cd83644fef90b773bf036b9bc33972719dc42c658e45b54c2f98e\"}, {\"choice\": \"extent_necessary_required\", \"quote\": \"only to the extent absolutely necessary for SINTEC's specified or authorized purposes in each case.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"need_to_know_requirement\", \"question\": \"若供应窗口形成实际披露许可，该许可对获准接收者明确施加何种访问范围限制？统领句、焦点条款及紧邻保障条款共同构成完整窗口；不得从窗口外缺失文字推断。\"}], \"current_queries\": [{\"id\": \"need_12\", \"operation\": \"need_to_know_requirement\", \"unit_ids\": [10, 11, 12], \"current_units\": [{\"id\": 10, \"text\": \"3. Neither party shall disclose the Confidential Information received from the other to any person or entity, except its employees, officers, directors, independent consultants, affiliates, subsidiaries and other agents (collectively “Representatives”) involved in the performance of the Project, or to use the Confidential Information for any purpose other than fulfilling its obligations under the Project.\"}, {\"id\": 11, \"text\": \"Each party acknowledges and agrees that breach of this Confidentiality Agreement by the other and/or anyone employed by or otherwise associated with the other may also constitute a violation of applicable laws.\"}, {\"id\": 12, \"text\": \"Access to Confidential Information by the receiving party shall be limited to those Representatives who have agreed to be bound in writing under terms no less stringent than this Confidentiality Agreement.\"}], \"focus_unit_id\": 12}]}"
+      }
+    ],
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "max_tokens": 8192,
+    "seed": 45,
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "response_format": {
+      "type": "json_schema",
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "strict": true,
+        "schema": {
+          "type": "object",
+          "properties": {
+            "answers": {
+              "type": "object",
+              "properties": {
+                "need_12": {
+                  "type": "object",
+                  "properties": {
+                    "choice": {
+                      "type": "string",
+                      "enum": [
+                        "need_to_know_required",
+                        "extent_necessary_required",
+                        "need_and_extent_required",
+                        "no_need_or_extent_limit_in_complete_window",
+                        "no_operational_permission",
+                        "unknown"
+                      ]
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "unit_id": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "quote": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "unit_id",
+                          "quote"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "need_12"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "wire_sha256": "4252b3ffbebe562f14b1f965d1d626af058c1ef3d463207c0918cd624ec19e71",
+  "raw_response_content": "{\"answers\": {\"need_12\": {\"choice\": \"need_to_know_required\", \"evidence\": [{\"unit_id\": 12, \"quote\": \"Access to Confidential Information by the receiving party shall be limited to those Representatives who have agreed to be bound in writing under terms no less stringent than this Confidentiality Agreement.\"}]}} }",
+  "source_semantics_verified": false
+}
