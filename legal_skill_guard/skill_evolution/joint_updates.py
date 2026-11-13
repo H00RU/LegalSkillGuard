@@ -60,6 +60,27 @@ def _fragment(code):
     return _tree(module.body[0])
 
 
+def _retained_literal(before, after, path):
+    """Retain the same occurrence only under unchanged syntactic roles."""
+    try:
+        if not _same(_get(before, path), _get(after, path)):return False
+        for length in range(len(path)):
+            old = _get(before, path[:length]); new = _get(after, path[:length])
+            if not isinstance(new, dict) or 'ast' not in new:continue
+            if not isinstance(old, dict) or old.get('ast') != new['ast']:return False
+            kind = new['ast'];a = old['fields'];b = new['fields']
+            selectors = {'Call': ['func'], 'Subscript': ['value'], 'BinOp': ['op'],
+                         'UnaryOp': ['op'], 'BoolOp': ['op'], 'Compare': ['ops']}.get(kind, [])
+            if any(not _same(a[key], b[key]) for key in selectors):return False
+            tail = path[length:]
+            if kind == 'Dict' and len(tail) >= 3 and tail[:2] == ('fields', 'values'):
+                index = tail[2]
+                if not _same(a['keys'][index], b['keys'][index]):return False
+        return True
+    except (KeyError, IndexError, TypeError):
+        return False
+
+
 def _source_bindings(example, signatures):
     values = {}; occupied = {}
     for name, slot in example['source_slots'].items():
@@ -183,13 +204,21 @@ def learn(examples, signatures, *, source_constants=None, program_constants=()):
         if slots != {n: v['sort'] for n, v in example['source_slots'].items()}:
             raise ValueError('Corresponded source roles/types must agree between examples')
         annotated_example = _annotate(example, signatures, source_constants)
-        old_literals = [n.value for n in ast.walk(ast.parse(example['before'])) if isinstance(n, ast.Constant)]
-        for path, node in _walk(_fragment(example['after'])):
+        old_tree = _fragment(example['before']); after_tree = _fragment(example['after'])
+        for path, node in _walk(after_tree):
             if node['ast'] != 'Constant':continue
             literal = node['fields']['value']
-            if any(_same(literal, v) for v in [*old_literals, *program_constants]):continue
-            marked = _get(annotated_example[2], (*path, 'fields', 'value'))
-            if not isinstance(marked, dict) or set(marked) != {'source'}:
+            if any(_same(literal, v) for v in program_constants):continue
+            # Retention is occurrence-specific. A value used elsewhere in the
+            # old code is not a source for a new legal parameter at this site.
+            if _retained_literal(old_tree, after_tree, path):continue
+            marked = annotated_example[2]; copied = False
+            for key in (*path, 'fields', 'value'):
+                if isinstance(marked, dict) and set(marked) == {'copy', 'shape'}:
+                    copied = True;break
+                marked = marked[key]
+            copied = copied or isinstance(marked, dict) and set(marked) == {'copy', 'shape'}
+            if not copied and (not isinstance(marked, dict) or set(marked) != {'source'}):
                 raise ValueError('Every new legal literal occurrence needs its actual source binding')
         annotated.append(annotated_example)
     query = annotated[0][0]
@@ -205,8 +234,14 @@ def learn(examples, signatures, *, source_constants=None, program_constants=()):
         'meaning_or_generalization_certified': False}
     update['id'] = digest(update)
     for example in examples:
-        result = apply(update, example['source_facts'], example['before'])
-        expected = ast.parse(example['after'])
+        # A real local Return subtree is legal inside its owning function,
+        # although compiling it as a top-level module is not. Validate learning
+        # in an explicit function context; applications still compile the whole
+        # actual target program before installation.
+        def local_context(code):
+            return 'def _joint_update_learning_context():\n' + '\n'.join('    ' + line for line in code.splitlines()) + '\n'
+        result = apply(update, example['source_facts'], local_context(example['before']))
+        expected = ast.parse(local_context(example['after']))
         old_names = {n.id for n in ast.walk(ast.parse(example['before'])) if isinstance(n, ast.Name)}
         new_names = {}
         for _, node in _walk(_fragment(example['after'])):
@@ -217,7 +252,7 @@ def learn(examples, signatures, *, source_constants=None, program_constants=()):
         for node in ast.walk(expected):
             if isinstance(node, ast.Name) and node.id in new_names and new_names[node.id] is not None:
                 node.id = new_names[node.id]
-        if result['status'] != 'applied' or _fragment(result['program']) != _tree(expected.body[0]):
+        if result['status'] != 'applied' or _tree(ast.parse(result['program'])) != _tree(expected):
             raise ValueError('Learned update does not uniquely reproduce a supplied real edit')
     return update
 
@@ -310,15 +345,19 @@ def _fresh_names(template, occupied):
     return result
 
 
-def apply(update, source_facts, program):
-    """Use one shared substitution for current source and local code.
+def applications(update, source_facts, program, *, source_binding=None):
+    """Enumerate matches without discarding source bindings for equal code.
 
-    Ambiguous distinct edits are returned unresolved. No gold, teacher,
-    source-ID switch or guessed missing value is available at application.
+    Multi-component edits must join on the shared binding before deduplication.
+    Equal generated code can have different legal witnesses, one of which may
+    be the only witness consistent with another component.
     """
-    parsed = ast.parse(program);module = _tree(parsed); outcomes = {}
+    if source_binding is not None and not set(source_binding) <= set(update['source_sorts']):
+        raise ValueError('Initial bindings must name the actual learned source roles')
+    parsed = ast.parse(program);module = _tree(parsed); outcomes = []
     fresh = _fresh_names(update['after_template'], {n.id for n in ast.walk(parsed) if isinstance(n, ast.Name)})
-    bindings = _source_matches(update['source_query'] + update['guard'], source_facts, update['signatures'])
+    bindings = _source_matches(update['source_query'] + update['guard'], source_facts,
+                               update['signatures'], initial=source_binding)
     for source in bindings:
         for path, node in _walk(module):
             copies = {}
@@ -327,11 +366,19 @@ def apply(update, source_facts, program):
             if result == module:continue
             ast_result = ast.fix_missing_locations(_ast(result));compile(ast_result, '<learned_joint_update>', 'exec')
             code = ast.unparse(ast_result) + '\n'
-            outcomes.setdefault(digest(result), {'program': code, 'source_binding': source,
-                'code_path': list(path), 'code_copies_sha256': digest(copies)})
+            outcomes.append({'program': code, 'source_binding': source,
+                'code_path': list(path), 'code_copies_sha256': digest(copies), 'fresh_names': fresh})
+    return outcomes
+
+
+def apply(update, source_facts, program):
+    """Use one shared substitution; preserve ambiguity between distinct edits."""
+    outcomes = {}
+    for application in applications(update, source_facts, program):
+        outcomes.setdefault(digest(_tree(ast.parse(application['program']))), application)
     result = {'status': 'applied' if len(outcomes) == 1 else 'ambiguous' if outcomes else 'not_applicable',
         'update_id': update['id'], 'distinct_candidate_edits': len(outcomes), 'new_model_requests': 0}
-    if len(outcomes) == 1:result.update(next(iter(outcomes.values())));result['fresh_names'] = fresh
+    if len(outcomes) == 1:result.update(next(iter(outcomes.values())))
     return result
 
 

@@ -1,0 +1,31 @@
+{
+  "basis": "Direct review of actual current source units, without native labels or a new model judge. This checks only the two probed source classifications.",
+  "not_complete_source_semantics_or_method_contribution": true,
+  "rows": [
+    {
+      "arm": "ConstraintAcquire",
+      "classification": "candidate_found",
+      "reason": "25 explicitly requires return on request;30 explicitly requires automatic return at termination/expiration. Original line-break spelling is retained.",
+      "selected_units": [
+        25,
+        30
+      ],
+      "source_prefix": "5cad3f37",
+      "supported": true
+    },
+    {
+      "arm": "FreeUpdate",
+      "classification": "endpoint_and_request",
+      "nonessential_selected_units": [
+        83
+      ],
+      "reason": "34 explicitly states return/destroy immediately upon expiration/termination or auditee request.83 is a nonessential survival clause and does not itself establish a disposal trigger.",
+      "selected_units": [
+        34,
+        83
+      ],
+      "source_prefix": "e7b78d42",
+      "supported": true
+    }
+  ]
+}

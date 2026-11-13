@@ -91,7 +91,7 @@ def prepare_queries(program, operations, text, units, *, answers=(), source_outp
     return raw['queries']
 
 
-def messages(operations, queries, units, *, examples=True):
+def messages(operations, queries, units, *, examples=True, system=SYSTEM):
     by_op = {o['name']: o for o in operations}
     by_unit = {u['id']: u for u in units}
     used = dict.fromkeys(q['operation'] for q in queries)
@@ -99,7 +99,7 @@ def messages(operations, queries, units, *, examples=True):
     value = {'operations': definitions, 'current_queries': [
         {**q, 'current_units': [{'id': i, 'text': by_unit[i]['text']} for i in q['unit_ids']]}
         for q in queries]}
-    return [{'role': 'system', 'content': SYSTEM},
+    return [{'role': 'system', 'content': system},
             {'role': 'user', 'content': json.dumps(value, ensure_ascii=False)}]
 
 

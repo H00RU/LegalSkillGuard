@@ -9,6 +9,29 @@ from .relational_rules import canonical, validate_language
 from .scoped_grammar import constructors, term_sort
 
 
+def validate_template_constructors(renderers, spec):
+    """Check fixed constructor nodes using the same runtime types/arity.
+
+    Bound current subterms/scalars remain runtime checks. Root sorts remain
+    exactly those accepted by term_sort; no new Norm-only restriction is added.
+    """
+    schema = constructors(spec)
+    def visit(value, expected=None):
+        if isinstance(value, dict):
+            return  # Current argument bindings are checked on actual outputs.
+        if not isinstance(value, list) or not value or value[0] not in schema:
+            raise ValueError('An output template needs an actual acquired constructor')
+        ctor = schema[value[0]]
+        if len(value) - 1 != len(ctor['arguments']):
+            raise ValueError('Output template constructor arity mismatch: ' + value[0])
+        if expected is not None and ctor['sort'] != expected:
+            raise ValueError('Output template constructor sort mismatch: ' + value[0])
+        for child, sort in zip(value[1:], ctor['arguments']):
+            visit(child, sort)
+    for renderer in renderers:
+        visit(renderer['term'])
+
+
 def validate_renderers(language, renderers):
     validate_language(language)
     signatures=language['signatures'];seen=set()

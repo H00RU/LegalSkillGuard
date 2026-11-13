@@ -10,13 +10,14 @@ from copy import deepcopy
 from .objects import digest
 from .relational_learning import execute_composition, fit_composition
 from .relational_rules import validate_language
-from .semantic_execution import (answer_schema, decode_answers, focused_messages,
-                                 operation_groups)
+from .semantic_execution import operation_groups
+from .unit_evidence import answer_schema, decode_answers, reading_messages, TRANSPORT
 from .semantic_operations import prepare_queries, validate_operations
 from .source_composition import render_composition, validate_renderers
 from .scoped_grammar import constructors
 from .source_effect_update import function_update
 from .source_observations import encode_source_observations, signatures
+from .joint_library_updates import library_candidates
 
 
 def compile_update(previous, proposal, training_texts, *, semantic_update=None):
@@ -63,6 +64,17 @@ def _read_identity(operations,query,units,scope):
     by_op={o['name']:o for o in operations};by_unit={u['id']:u for u in units}
     return digest({'operation':by_op[query['operation']],'window':query['unit_ids'],
         'units':[by_unit[i] for i in query['unit_ids']],'scope':scope})
+
+
+def update_candidates(library, bundles, observation, training_texts, *, use_updates=True):
+    """Construct actual φ/G edits before normal observe→fit→execute.
+
+    The -U arm supplies the same observations/history and disables this call's
+    learned candidate construction and prior. Ordinary teacher proposals remain
+    available to both arms. A returned candidate has no new semantic certificate
+    and must pass the normal current-source reads and composition learning.
+    """
+    return library_candidates(library,bundles,observation,training_texts,enabled=use_updates)
 
 
 def observe(client,prefix,source_id,library,*,source_text,units,source_output,
@@ -113,13 +125,13 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
         for batch in operation_groups(pending):
             batch_scope=current_scope(batch[0])
             if any(current_scope(q)!=batch_scope for q in batch):raise ValueError('Mixed actual query scopes in one operation batch')
-            prompt=focused_messages(library['operations'],batch,units,scope=batch_scope)
+            prompt=reading_messages(library['operations'],batch,units,scope=batch_scope)
             wire,_=decoder_schema(answer_schema(library['operations'],batch))
             call_id=prefix+':concept:'+digest(prompt)
             result=client.generate(call_id,source=source_id,purpose='skill_replay',
                 messages=prompt,thinking=False,schema=wire)
             event={'call_id':call_id,'query_ids':[q['id'] for q in batch],'result':result,
-                'scope':batch_scope,'library_sha256':digest(library)}
+                'scope':batch_scope,'library_sha256':digest(library),'evidence_transport':TRANSPORT}
             # Preserve even truncated/type-invalid responses before raising.
             if save_event:save_event(event)
             events.append(event)

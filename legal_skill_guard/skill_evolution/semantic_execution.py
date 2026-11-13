@@ -54,10 +54,11 @@ def decode_answers(operations, queries, units, content, *, scope=None,
         complete_source_absence_choices=complete_source_absence_choices)
 
 
-def focused_messages(operations, queries, units, *, scope, examples=True):
+def focused_messages(operations, queries, units, *, scope, examples=True, system=None):
     if scope not in ('focus_last', 'window'):
         raise ValueError('Explicit acquired reader scope required')
-    prompt = messages(operations, queries, units, examples=examples)
+    prompt = messages(operations, queries, units, examples=examples,
+                      **({'system': system} if system is not None else {}))
     if scope == 'window':
         return prompt
     content = json.loads(prompt[1]['content'])

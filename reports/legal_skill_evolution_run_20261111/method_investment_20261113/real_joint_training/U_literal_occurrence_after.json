@@ -1,0 +1,133 @@
+{
+  "current_source_application": {
+    "code_copies_sha256": "fcd99984be60a7a0984ce044c1ca0967353867b04bea9ed4db239465c6bb4b88",
+    "code_path": [
+      "fields",
+      "body",
+      0
+    ],
+    "distinct_candidate_edits": 1,
+    "fresh_names": {},
+    "new_model_requests": 0,
+    "program": "answer = min(lookup('B', 900), 700)\n",
+    "source_binding": {
+      "actor": "B",
+      "cap": 700
+    },
+    "status": "applied",
+    "update_id": "de5f8b31762fc620c9977e079cbf03c4c52d881b8ff763dddf20a7d54ca44da5"
+  },
+  "new_model_requests": 0,
+  "software_fixture_not_legal_sample": true,
+  "source_bound_example": {
+    "after": "answer = min(lookup(\"A\", 300), 300)",
+    "before": "answer = lookup(\"A\", 300)",
+    "copies": {
+      "fallback": {
+        "after_paths": [
+          [
+            "fields",
+            "value",
+            "fields",
+            "args",
+            0,
+            "fields",
+            "args",
+            1,
+            "fields",
+            "value"
+          ]
+        ],
+        "before_paths": [
+          [
+            "fields",
+            "value",
+            "fields",
+            "args",
+            1,
+            "fields",
+            "value"
+          ]
+        ]
+      }
+    },
+    "event_id": "occurrence_software_audit",
+    "source_facts": [
+      {
+        "arguments": [
+          "A"
+        ],
+        "predicate": "active"
+      },
+      {
+        "arguments": [
+          "A",
+          300
+        ],
+        "predicate": "limit_for"
+      }
+    ],
+    "source_slots": {
+      "actor": {
+        "after_paths": [
+          [
+            "fields",
+            "value",
+            "fields",
+            "args",
+            0,
+            "fields",
+            "args",
+            0,
+            "fields",
+            "value"
+          ]
+        ],
+        "before_paths": [
+          [
+            "fields",
+            "value",
+            "fields",
+            "args",
+            0,
+            "fields",
+            "value"
+          ]
+        ],
+        "positions": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "sort": "entity"
+      },
+      "cap": {
+        "after_paths": [
+          [
+            "fields",
+            "value",
+            "fields",
+            "args",
+            1,
+            "fields",
+            "value"
+          ]
+        ],
+        "positions": [
+          [
+            1,
+            1
+          ]
+        ],
+        "sort": "amount"
+      }
+    }
+  },
+  "source_semantics_or_independent_gain_claimed": false,
+  "unbound_new_occurrence_rejected": "Every new legal literal occurrence needs its actual source binding"
+}

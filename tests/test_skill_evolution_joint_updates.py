@@ -75,6 +75,29 @@ other = lookup('A')
         item = example('A', 300);del item['source_slots']['actor']
         with self.assertRaisesRegex(ValueError, 'static query constants'):learn([item], SIGNATURES)
 
+    def test_old_equal_value_cannot_authorize_a_new_unbound_legal_occurrence(self):
+        before = 'answer = lookup("A", 300)'
+        after = 'answer = min(lookup("A", 300), 300)'
+        fallback_before = literal_paths(before, 300)
+        fallback_after, new_cap = literal_paths(after, 300)
+        item = {'event_id': 'occurrence_specific',
+            'source_facts': [{'predicate': 'active', 'arguments': ['A']}],
+            'before': before, 'after': after,
+            'source_slots': {'actor': {'sort': 'entity', 'positions': [[0, 0]],
+                'before_paths': literal_paths(before, 'A'), 'after_paths': literal_paths(after, 'A')}},
+            'copies': {'fallback': {'before_paths': fallback_before, 'after_paths': [fallback_after]}}}
+        with self.assertRaisesRegex(ValueError, 'Every new legal literal occurrence'):
+            learn([item], SIGNATURES)
+        item['source_facts'].append({'predicate': 'limit_for', 'arguments': ['A', 300]})
+        item['source_slots']['actor']['positions'].append([1, 0])
+        item['source_slots']['cap'] = {'sort': 'amount', 'positions': [[1, 1]], 'after_paths': [new_cap]}
+        update = learn([item], SIGNATURES)
+        got = apply(update, [{'predicate': 'active', 'arguments': ['B']},
+            {'predicate': 'limit_for', 'arguments': ['B', 700]}], 'answer = lookup("B", 900)')
+        self.assertEqual(got['status'], 'applied')
+        self.assertEqual(got['source_binding']['cap'], 700)
+        self.assertEqual(_fragment(got['program']), _fragment('answer = min(lookup("B", 900), 700)'))
+
     def test_multiple_distinct_local_edits_remain_ambiguous(self):
         item = example('A', 300)
         item['copies'] = {'lhs': {'before_paths': [['fields', 'targets']],

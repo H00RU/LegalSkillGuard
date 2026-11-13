@@ -74,7 +74,7 @@ class OpenAcquisitionTests(unittest.TestCase):
             def generate(self,*args,**kwargs):
                 calls.append((args,kwargs))
                 return {'finish_reason':'stop','content':json.dumps({'answers':{'q':{'choice':'first',
-                    'evidence':[{'unit_id':4,'quote':'Alpha.'}]}}})}
+                    'evidence_unit_ids':[4]}}})}
         got=observe(RecordedClient(),'fixture','one',library,
             source_text='Alpha.',units=[{'id':4,'text':'Alpha.'}],
             source_output=previous['visible_inputs']['source_output'],previous_observation=previous)
@@ -121,7 +121,7 @@ class OpenAcquisitionTests(unittest.TestCase):
             def generate(self,*args,**kwargs):
                 current=json.loads(kwargs['messages'][1]['content'])['current_queries'];calls.append(current)
                 return {'finish_reason':'stop','content':json.dumps({'answers':{q['id']:{'choice':'first',
-                    'evidence':[{'unit_id':q['unit_ids'][-1],'quote':q['current_units'][-1]['text']}]} for q in current}})}
+                    'evidence_unit_ids':[q['unit_ids'][-1]]} for q in current}})}
         original=self.observation('one','Alpha.','first')['visible_inputs']['source_output']
         got=observe(RecordedClient(),'fixture','one',library,source_text='Alpha. Beta.',
             units=[{'id':4,'text':'Alpha.'},{'id':9,'text':'Beta.'}],source_output=original)
@@ -146,7 +146,7 @@ class OpenAcquisitionTests(unittest.TestCase):
         calls=[]
         class Unknown:
             def generate(self,*args,**kwargs):
-                calls.append(args);return {'finish_reason':'stop','content':json.dumps({'answers':{'q0':{'choice':'unknown','evidence':[]}}})}
+                calls.append(args);return {'finish_reason':'stop','content':json.dumps({'answers':{'q0':{'choice':'unknown','evidence_unit_ids':[]}}})}
         old=self.observation('one','Alpha.','unknown')
         with self.assertRaisesRegex(ValueError,'Query ID churn'):
             observe(Unknown(),'fixture','one',library,source_text='Alpha.',units=[{'id':4,'text':'Alpha.'}],
@@ -175,7 +175,7 @@ class OpenAcquisitionTests(unittest.TestCase):
             def generate(self,*args,**kwargs):
                 calls.append(kwargs['messages']);current=json.loads(kwargs['messages'][1]['content'])['current_queries']
                 return {'finish_reason':'stop','content':json.dumps({'answers':{q['id']:{'choice':'first',
-                    'evidence':[{'unit_id':9,'quote':'Beta.'}]} for q in current}})}
+                    'evidence_unit_ids':[9]} for q in current}})}
         source=self.observation('one','Alpha.','first')['visible_inputs']['source_output']
         result=observe(Client(),'fixture','one',library,source_text='Alpha. Beta.',
             units=[{'id':4,'text':'Alpha.'},{'id':9,'text':'Beta.'}],source_output=source)
@@ -195,7 +195,7 @@ class OpenAcquisitionTests(unittest.TestCase):
         class Client:
             def generate(self,*args,**kwargs):
                 calls.append(args)
-                return {'finish_reason':'stop','content':json.dumps({'answers':{'q':{'choice':'absent','evidence':[]}}})}
+                return {'finish_reason':'stop','content':json.dumps({'answers':{'q':{'choice':'absent','evidence_unit_ids':[]}}})}
         source=self.observation('one','Alpha.','first')['visible_inputs']['source_output']
         result=observe(Client(),'fixture','one',library,source_text='Alpha. Beta.',
             units=[{'id':4,'text':'Alpha.'},{'id':9,'text':'Beta.'}],source_output=source)
@@ -224,7 +224,7 @@ class OpenAcquisitionTests(unittest.TestCase):
         library['operation_scopes']={'meaning':'window'};calls=[]
         class Client:
             def generate(self,*args,**kwargs):
-                calls.append(args);return {'finish_reason':'stop','content':json.dumps({'answers':{'q':{'choice':'unknown','evidence':[]}}})}
+                calls.append(args);return {'finish_reason':'stop','content':json.dumps({'answers':{'q':{'choice':'unknown','evidence_unit_ids':[]}}})}
         result=observe(Client(),'fixture','one',library,source_text='Alpha.',units=[{'id':4,'text':'Alpha.'}],
             source_output=old['visible_inputs']['source_output'],previous_observation=old)
         self.assertEqual(len(calls),1);self.assertEqual(result['execution']['new_physical_requests'],1)

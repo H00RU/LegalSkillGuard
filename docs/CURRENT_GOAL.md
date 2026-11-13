@@ -1,6 +1,6 @@
 # 当前有效Goal与执行说明
 
-2026-11-13更新。同一Goal **active、未完成**，不新建、不重启、不重置进度或账本。唯一项目本体`/home/yndx/hhy/legal-skill-current`，开发分支`repair/lift-corev-activation-20261112`，不改main。恢复先读本文件与[METHOD_REDESIGN_CURRENT.md](METHOD_REDESIGN_CURRENT.md)，再核对真实进程、代码、请求与账本。系统Goal卡最初的Lift/CoRev文字、旧README和历史暂停消息不覆盖后续授权，不触发旧队列或暂停。
+2026-11-14更新。同一Goal **active、未完成**，不新建、不重启、不重置进度或账本。唯一项目本体`/home/yndx/hhy/legal-skill-current`，开发分支`repair/lift-corev-activation-20261112`，不改main。恢复先读本文件与[METHOD_REDESIGN_CURRENT.md](METHOD_REDESIGN_CURRENT.md)，再核对真实进程、代码、请求与账本。系统Goal卡最初的Lift/CoRev文字、旧README和历史暂停消息不覆盖后续授权，不触发旧队列或暂停。
 
 ## 目标和当前选定的两项贡献
 
@@ -13,7 +13,7 @@
 1. **诊断驱动的开放规则学习。** 学可执行的源语义概念φ与共享组合G；用严格的现表示可满足性诊断区分表示缺口、输出/约束缺陷与组合bias不足，教师取得真正缺失的法律区别，再以LAS/约束归纳共同学习源内规范。新合同的法律效果留在其自身来源，不变成无条件通用规则。
 2. **法源—程序联合的更新程序学习。** 从真实法源见证及前后修订归纳共享typed参数、适用边界与可调用编辑U。到新来源以当前法源对象/数值实例化，联动修改φ/G；不是补丁文本缓存、整函数alpha移植、一般credit或只给同一完整求解热启动。
 
-主要执行者的[投入决定、算法与最近邻代码依据](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/README.md)为当前设计。两项尚未实证成立。先形成完整第一项，再接U；正常实现故障、普通模型错误和暂未涨分在该方案内处理，不再扩散候选列表。只在实质先行工作等价、任务确无机会或固定实际比较无额外作用时集中调整，不无限换方向追分。
+主要执行者的[投入决定、算法与最近邻代码依据](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/README.md)为当前设计。两项尚未实证成立。先形成完整第一项，再验证U；U的联合组件候选入口已接入，但真实φ/G字典及选用证据仍缺，详见METHOD。正常实现故障、普通模型错误和暂未涨分在该方案内处理，不再扩散候选列表。只在实质先行工作等价、任务确无机会或固定实际比较无额外作用时集中调整，不无限换方向追分。
 
 ## 验收与可信比较
 

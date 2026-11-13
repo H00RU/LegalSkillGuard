@@ -10,6 +10,7 @@ from copy import deepcopy
 from .objects import digest
 from .semantic_operations import ground_answers
 from .span_compiler import occurrences
+from .unit_evidence import TRANSPORT, ground_selected_units
 
 
 def fact(predicate,*arguments):
@@ -88,15 +89,25 @@ def encode_source_observations(source_id, *, source_text, units, source_output,
     ids=[a['id'] for a in answers]
     if len(set(ids))!=len(ids) or not set(ids)<=set(by_query):
         raise ValueError('At most one actual answer per planned query')
-    raw={'answers':[{k:deepcopy(a[k]) for k in ('id','choice','evidence')} for a in answers]}
-    for a in raw['answers']:
-        a['evidence']=[{k:w[k] for k in ('unit_id','quote')} for w in a['evidence']]
     grounded=[]
-    for answer in raw['answers']:
+    for original in answers:
+        answer={k:deepcopy(original[k]) for k in ('id','choice','evidence')}
+        answer['evidence']=[{k:w[k] for k in ('unit_id','quote')} for w in answer['evidence']]
         query=by_query[answer['id']]
         actual_scope=query_scopes[query['id']] if query_scopes is not None else scope
-        grounded.extend(ground_answers(operations,[query],units,{'answers':[answer]},scope=actual_scope,
-            complete_source_absence_choices=complete_source_absence_choices))
+        if 'evidence_transport' in original:
+            if original['evidence_transport']!=TRANSPORT:
+                raise ValueError('Undeclared source evidence transport')
+            reread=ground_selected_units(operations,[query],units,{'answers':{query['id']:{
+                'choice':answer['choice'],'evidence_unit_ids':original['selected_evidence_unit_ids']}}},
+                scope=actual_scope,complete_source_absence_choices=complete_source_absence_choices)
+            expected=[{k:w[k] for k in ('unit_id','quote')} for w in reread[0]['evidence']]
+            if answer['evidence']!=expected:
+                raise ValueError('Selected-unit evidence must retain its actual whole current unit')
+            grounded.extend(reread)
+        else:
+            grounded.extend(ground_answers(operations,[query],units,{'answers':[answer]},scope=actual_scope,
+                complete_source_absence_choices=complete_source_absence_choices))
     by_answer={a['id']:a for a in grounded}
     visible={'source_text':source_text,'units':deepcopy(units),'source_output':deepcopy(source_output),
         'operations':deepcopy(operations),'queries':deepcopy(queries),'answers':grounded,'scope':scope}
