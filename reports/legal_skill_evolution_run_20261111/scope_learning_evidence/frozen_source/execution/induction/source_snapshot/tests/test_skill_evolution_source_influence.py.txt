@@ -1,0 +1,61 @@
+import unittest
+from legal_skill_guard.skill_evolution.source_influence_learning import (
+    pair_features,fit,predict,examples,attach_retention_exceptions)
+
+class InfluenceTests(unittest.TestCase):
+    def test_incomplete_review_does_not_create_negatives(self):
+        units=[{'id':1,'text':'1. Heading'},{'id':2,'text':'text'}]
+        rows=[{'source':'s','unit_id':1,'effects':['principal_disposal'],'links':[],
+               'target_scope_complete':False},
+              {'source':'s','unit_id':2,'effects':['retention_permission'],
+               'links':[{'relation':'qualifies','target_unit_ids':[1]}],'target_scope_complete':False}]
+        result=examples({'sources':{'s':units}},rows,'qualifies')
+        self.assertEqual(len(result),1);self.assertTrue(result[0]['positive'])
+
+    def test_multiple_targets_are_preserved_without_identity_features(self):
+        units=[{'id':1,'text':'6. Return'},{'id':2,'text':'return'},
+               {'id':3,'text':'destroy'},{'id':4,'text':'Notwithstanding paragraph 6, retain'}]
+        rows=[{'source':'s','unit_id':i,'effects':[kind]} for i,kind in
+              [(2,'principal_disposal'),(3,'substitute_disposal'),(4,'retention_permission')]]
+        for target in rows[:2]:
+            f=pair_features(units,rows,rows[-1],target,'qualifies')
+            self.assertTrue(f['explicit_numbered_reference_matches'])
+            self.assertFalse(any(k in f for k in ['source','unit_id','target_id']))
+
+    def test_no_positive_is_unknown_not_false_policy(self):
+        self.assertIsNone(predict(fit([]),{'before':True}))
+
+    def test_positive_and_negative_examples_learn_an_actual_policy(self):
+        p=fit([{'features':{'before':True},'positive':True},
+               {'features':{'before':False},'positive':False}])
+        self.assertTrue(predict(p,{'before':True}))
+        self.assertFalse(predict(p,{'before':False}))
+
+    def test_positive_only_does_not_become_an_universal_scope_rule(self):
+        p=fit([{'features':{'before':True},'positive':True}])
+        self.assertIsNone(predict(p,{'before':False}))
+
+    def test_inconsistent_features_are_not_repaired_with_identity(self):
+        p=fit([{'features':{'x':True},'positive':True},
+               {'features':{'x':True},'positive':False}])
+        self.assertEqual(p['status'],'not_separable')
+
+    def test_multitarget_permission_update_preserves_existing_exception(self):
+        duty=lambda i:{'unit_id':i,'term':['disposal_obligation',['receiving_party'],
+            ['return_to',['confidential_information'],['disclosing_party']],['agreement_termination'],
+            ['exception_set',['authorization_exception','written directions']]],'support_ids':[i]}
+        rows=[duty(2),duty(3),{'unit_id':4,'term':['retention_permission',['receiving_party'],
+            ['copies_of',['confidential_information']],['retention_condition','law required']],
+            'support_ids':[4]}]
+        link={'unit_id':4,'relation':'qualifies','target_unit_ids':[2,3],'quote':'paragraph 6'}
+        result=attach_retention_exceptions(rows,[link])
+        self.assertEqual([r['term'][4][0] for r in result[:2]],['add_exception','add_exception'])
+        self.assertEqual([r['support_ids'] for r in result[:2]],[[2,4],[3,4]])
+        self.assertEqual(rows[0]['term'][4][0],'exception_set')
+        self.assertEqual(result[2],rows[2])
+
+    def test_nonqualifies_relation_does_not_create_an_exception(self):
+        row={'unit_id':1,'term':['retention_prohibition',['receiving_party'],
+             ['confidential_information'],['after_disposal']],'support_ids':[1]}
+        self.assertEqual(attach_retention_exceptions([row],[{'unit_id':1,
+            'relation':'information_antecedent','target_unit_ids':[2]}]),[row])
