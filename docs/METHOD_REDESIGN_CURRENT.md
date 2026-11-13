@@ -1,55 +1,46 @@
 # 当前证据与下一项实际工作
 
-2026-11-14。同一Goal **active、未完成**。目标、验收、授权及边界只由[CURRENT_GOAL.md](CURRENT_GOAL.md)规定。唯一项目`/home/yndx/hhy/legal-skill-current`，开发分支`repair/lift-corev-activation-20261112`，不改main。历史暂停、Goal卡和PID不触发操作。
+2026-11-14。同一Goal **active、未完成**。目标、验收、授权与边界只由[CURRENT_GOAL.md](CURRENT_GOAL.md)规定。唯一项目`/home/yndx/hhy/legal-skill-current`，开发分支`repair/lift-corev-activation-20261112`，不改main。历史暂停、Goal卡与旧PID不触发操作。
 
-## 当前状态与决定
+## 当前结论
 
-继续C（诊断驱动开放法律规则学习）与U（法源—程序联合更新程序），不换候选、不新建Goal。最近两段固定真实研究均已结束：joint_acquisition_evidence_set与diagnosed_update_scalar，各有TERMINAL_PRESERVATION.json，模型在途0。session91050、23423均正常结束，不能重复启动。当前进行确定性来源φ的离线接口补齐，尚无新的模型任务。
+继续C（诊断驱动开放法律规则学习）与U（法源—程序联合更新程序），本次未更换候选。共同来源程序实验`legal_skill_evolution_source_functions_20261114`已完成八母获取、G拟合与预先固定的后续两母复用，TERMINAL_PRESERVATION核对全部绑定输入与旧账本。session24543、31974、74626均已结束，账本在途0，不重复启动。vLLM是持久服务，不是训练队列。
 
-当前研究入口`experiments/legal_skill_evolution_diagnosed_update_train.py`保留最后scalar run；其冻结版本在该run/source_snapshot。随后源码为离线source_program接入作了修改，故不能按新源码重跑已完成scalar协议。下一次真实工作须保存新的明确continuation绑定，复用付费提议/读数与所有旧账本，不恢复旧队列或机械上限。
-
-## 已完成的真实诊断更新
-
-|范围|C共同拟合|同提议/读取NoFit|独立自由更新|
+|最新固定范围|C共同拟合|同提议/读取NoFit|同信息独立自由教师|
 |---|---:|---:|---:|
-|八母获取，原生正确/32|23|19|24|
-|获取核心程序执行/32|28|28|26|
-|冻结后c46f/96361，原生正确/8|5|4|1|
-|冻结后核心程序执行/8|6|6|4|
+|八母获取，原生正确/32|29|29|31|
+|获取核心实际执行/32|30|30|32|
+|冻结后ef7b/467e，原生正确/8|2|2|2|
+|冻结后核心实际执行/8|4|4|4|
 
-未调用fallback，未覆盖保留原分母。真实G拟合改变预测，原生层面有4个获取及1个后续正确增量；**对应法源语义核查尚不支持将该差值计为独立贡献。U真实φ/G字典仍为空，两项均未成立。** [当前报告](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/update_train_result.md)、[逐来源与实际反馈](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_diagnosed_update/source_results.json)。
+fallback物理调用0，错误与未覆盖保留原分母；未覆盖不转默认否定。**C相对NoFit无增益，强自由教师获取结果更好；U真实φ/G更新字典仍为空。两项贡献均未成立，Goal未完成。** [当前报告](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/update_train_result.md)、[逐来源结果](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_source_functions/source_results.json)。原生分数不自动认证完整法源语义。
 
-c46f的唯一NoFit→拟合额外正确依赖把返还/销毁指令读取为明示留存禁令，超出该操作定义。96361有直接支持的员工许可、协议终止触发，但选中G把advisors变成consultants并漏了明确必要用途限制。原生分数不改，不把部分片段支持写成整体语义正确。[逐路径证据](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_diagnosed_update/postfreeze_source_path_review.json)。后续两母只作冻结后一次检查，不用于反复修补和补评分；同类误读已有原八母TRAIN证据。
+## 本轮真实进展
 
-此轮两臂正文完全相同，均见原八母原文、合法监督、双方实际历史、共享C库及诊断，hash为01c67ce7ce33303bd38606c6db5e96d3678c667923314306ad9494efae1c3ef5。原先12个错误中至少11个不能靠现17条选择消除，故实际路由到开放读取/语言/消费者修订；这仅是当前候选下界，不是原文歧义或缺概念证明。严格表示冲突证书仍0。
+教师wire显式要求source_functions，双方同样能学习确定性/组合来源φ，实际执行发生在规划、神经读取和G之前。共享初态复用此前已付费Free程序及兼容词汇，原八母源输出与完整反馈逐字段保持，初始24/32；继承资产和成本双方共同获得，不算新C/U收益。两份真实提议均直接通过编译，没有补造规则或修响应。
 
-C实际提出17操作/19候选；Free选择确定性原文程序、神经操作0。C278889输入/27352输出token（含9866reasoning）、509.943服务秒；Free278384输入/11305输出token（含5765reasoning）、215.584服务秒。Free第一次在预留前因串行策略被拒、物理调用0；C结束后串行派发Free一次，C未重取。两份原始提议、失败和成本保持。
+逐根按精确类型项和证据集合区分共享旧根与来源程序新建/修改根，keep_root不再自动等于旧流程。16个实际来源程序输出均为合法构造子根和当前出处ID；结构归属不冒充法义认证。相关unittest **412项通过**。
 
-## 已解决与真正剩余的实现问题
+C新建一个e7b处置根，保留协议终止与请求的备选触发；在a5b复用两条完全相同的已付费全源读取。自由教师取得六个新增根，并对a5b、62fd各真实读取一次。原始提议、输出、调用和未覆盖全部保留，未重取历史教师或同义同窗读数。
 
-1. 源读取使用choice与当前单元ID，host取回完整原文，分类与语义仍由实际读取负责。全源absence只在实际全源及明确操作声明下成立，unknown/未读不当否定。token预检保留8192输出预留，重复同一证据ID仅作幂等集合恢复，原raw失败保持。
-2. 第二母真实类型失败已修复：关系recipient_role与choice是有限字符串域，旧术语层只认text。仅从已学词汇声明8角色/25choice值，域外、错域、数字、结构类型冒充、原生答案仍拒绝。两份教师及20次执行响应不重取，完整恢复第二母17条回答、物理请求0；第一母输出/评分完全相同，直接复用。403项相关回归通过。
-3. **当前主缺口是φ的确定性/组合读取实现。** 设计允许该类计算，旧C新增概念却只能作为神经问答执行，Free能任意执行原文程序。重复改问句没有解决许可/禁止极性和条件遗漏。现已把已学source_program接到observe的规划之前，同一类型/出处检查后进入实际关系观察；编译器可从真实source_functions更新它，U支持该组件并使旧fit失效。
+离线真实组件消融固定其余已学代码及G，不重新生成整个recipe、不调用模型：C删除来源程序更新29→28/32，删除消费者更新仍29；Free对应31→28、31→29。可学来源程序确实改变结果，**该作用也被同信息强对照取得，不能当成C独立贡献**。[实际组件消融](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_source_functions/installed_component_ablation_summary.json)。
 
-上述接入复用了本轮已付费Free程序及其真实完整函数，不写host法律分类器。在8份原TRAIN上实际执行，得到与原Free源输出逐字段相同的结果，模型新增0；[实际程序/观察等价](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_diagnosed_update/actual_program_equivalence.json)。这是公共能力补齐，不是新的独立获取或方法收益。新增3项回归后完整相关unittest **406项通过**。
+双方收到相同八母原文、合法TRAIN监督、双方真实历史、共同初态和部分来源审查，任务hash为db72cdc731439e27ea17a60a29273f6bf4e255d54cc154b66b97e2f4989fe835。上一冻结对c46f/96361反馈没有进入新教师；ef7b/467e在生成前按原TRAIN顺序固定，冻结后只执行一次。原完整TRAIN历史暴露公开，不称新盲测，不追加全局来源或种子。
 
-## 唯一下一项实际工作
+## 真正缺口与下一项实际工作
 
-先完成当前调用路径的两处离线工作，再新增模型请求：
+C选择保留实际来源根、输出明确全源无披露许可、输出明确全源无处置义务三条，与NoFit相同。完整当前候选的精确来源级枚举显示：实际错3项，即使每母独立选择仍错3项，继续选择现有G不能消掉残差。它不构成严格缺概念或表示碰撞证明。[当前实际诊断](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_source_functions/actual_postupdate_diagnosis.json)。
 
-- 在教师提议schema和唯一runner接通source_functions，显式提供真实初始source_program，允许C与Free同样学习确定性/组合来源φ；用当前已付费程序及原八母实际输入证明接口一致。当前compile_proposal的source_functions参数及observe调用已实现，**教师wire尚未启用**。
-- 记录新来源程序输出相对共同输入哪些根保持、哪些新建/修改；legacy_root目前是上游事实的存储名称，render的retained_old_root标记尚需按实际程序/逐根来源校准，不能因keep_root就把新φ算旧流程，也不能把共享Free产物冒充C学习成功。
+残差为78ad留存判断、62fd两项未覆盖。前者双方没有把全量处置改写为“明示留存禁止”，不为原生标签补造该来源断言；原生解释层的合法推论可单独学习。后者C规划器仅在整个源陈述为空时追加读取，非空但缺当前目标效果时没有取得必要信息；自由教师实际源程序及完整来源读取已覆盖。冻结后披露四项均未覆盖，2/8不支持泛化有效。
 
-随后只用原八母已有TRAIN错误、部分源审查和代码进行真实更新，原c46f/96361结果不回流调双方。新增真实验证前固定原TRAIN后续来源并明确继承全部暴露/成本；不追加全局来源或种子，不重复旧冻结对照。当前既定C/U方向不变，不仅靠问句反复试，也不将接口接通当贡献成立。
+下一项研究先用已有真实源/代码、残差和精确候选记录，定位诊断怎样实质改变局部获取/组合，而非原样追加整体修订请求。当前证据支持可用规则学习原型，尚不支持诊断独立优势；后续小试针对可区分的具体机制问题，不用扩大训练替代，原后续两母不反复修补评分。不因常规质疑换名或恢复已否定路线。
 
-U已有source/old-AST/new-AST共同typed参数、跨组件同一替换、歧义保持、有限守卫及条件编码；新位置法值须实际源绑定、明确复制或固定API常量。source_program已纳入同一候选入口。**实际φ/G更新字典、候选选用、负适用及独立迁移收益均缺**。旧Airline与de42同例被完整修复复用吸收，保持关闭，不继续扩展。
+U已有源关系、旧/新AST共同typed参数，跨组件绑定、歧义保持、有限守卫、实际源常量检查及条件编码。source_program已接入同一编辑接口并使旧fit失效。**真实φ/G字典、后续候选选用、负适用与独立复用收益均未完成**。先形成第一项完整贡献，再做U独立真实比较；当前修订保留为资产。旧Airline与de42同例收益被完整修复复用吸收，保持关闭。
 
-## 账本、公开与边界
+## 账本、费用与恢复
 
-唯一连续账本artifacts/rr_v2_preflight/research_ledger.sqlite3。最新终结 **10091行＝9869E/222T，在途0**，原9964行逐条保持。此轮新增125E/2T：执行器281400输入/11478输出token、356.653服务秒；教师557273输入/38657输出token（含15631reasoning）、725.527服务秒。执行实际wire全部thinking OFF/max8192；现金发票/GPU分摊未知。[逐请求](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_diagnosed_update/cost_and_preservation.json)。后续来源程序接入与等价检查模型新增0。
+唯一账本artifacts/rr_v2_preflight/research_ledger.sqlite3。本轮从10091行新增**2E/2T**，累计**10095行＝9871E/224T，在途0**，10091条旧记录逐条hash不变。执行器5754输入/122输出token、4.170服务秒；教师415465输入/31010输出token（含17532reasoning）、583.410服务秒。实际执行wire thinking OFF/max8192；教师温度未暴露。现金发票/GPU分摊未知，不作0费用。[逐请求和旧行保持](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_source_functions/cost_and_preservation.json)。离线接口、归属、组件消融及当前诊断新增模型请求0。
 
-前一固定片段八母C20/32、NoFit20/32、Free23/32；旧后续两母C0/8、NoFit/Free2/8，全部保留。原9807行起该片段154E/3T及600秒超时、未知token/费用保持，不能与本轮新125E/2T混淆。
+此前scalar研究获取C23/32、NoFit19/32、Free24/32，c46f/96361复用5/8、4/8、1/8。其表面G增益对应错误明示留存分类、角色和条件遗漏，语义未通过；不与本次不同后续对混算。本次共同接口补齐后的获取可比较，但不能当成C净增益。原125E/2T与更早154E/3T（含600秒超时）费用分别保持，[原证据](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_diagnosed_update/source_results.json)。
 
-最近已核验公开快照为[96b816d](https://github.com/H00RU/LegalSkillGuard/blob/96b816ddeb9d975ce9ec72563c5c22947678a7c6/reports/legal_skill_evolution_run_20261111/method_investment_20261113/update_train_result.md)，对应较早C在途时；后续本地实现/证据已提交并将同步当前研究分支，main未改。恢复优先以这份本地状态和真实账本为准。
-
-原128母/8批、七系统DEV/TEST、旧A/B/M1/M2/Lift/CoRev及反证完整保留；历史TEST已暴露，不用于当前修订或声称新盲测。此前网页偶然暴露记录保持，不作为监督。本轮只用既定原TRAIN，不启动新完整训练、DEV/TEST、论文；Goal未满足前保持active，不自行暂停或标记完成。
+唯一entry为experiments/legal_skill_evolution_diagnosed_update_train.py，绑定本轮终结协议，不用新代码重跑旧run。后续科研改动先保持终结快照，另存明确continuation绑定，复用相同付费读数，不重置账本/Goal。原128母/8批、七系统DEV/TEST、旧A/B/M1/M2/Lift/CoRev与全部反证保持。旧TEST已暴露，不用于新修订或声称盲测。不启动新完整训练、DEV/TEST矩阵或论文，Goal保持active。

@@ -5,8 +5,14 @@ containment and existing constructor checks, never a missing legal rule.
 """
 from copy import deepcopy
 
+from .objects import digest
 from .relational_rules import canonical, validate_language
 from .scoped_grammar import constructors, term_sort
+
+
+def statement_fingerprint(row):
+    """Exact term and evidence-set identity, never a semantic equivalence."""
+    return digest({'term':row['term'],'support_ids':sorted(set(row['support_ids']))})
 
 
 def validate_template_constructors(renderers, spec):
@@ -92,7 +98,15 @@ def render_composition(language, renderers, encoded, result, spec):
         if name=='keep_root':
             identity,=args
             if identity not in encoded['legacy_roots']:raise ValueError('Not an actual current root')
-            add(deepcopy(encoded['legacy_roots'][identity]),{'predicate':name,'arguments':args,'retained_old_root':True})
+            row=encoded['legacy_roots'][identity]
+            use={'predicate':name,'arguments':args,'retained_old_root':True}
+            program=encoded.get('execution',{}).get('acquired_source_program')
+            if program is not None:
+                origin=program['statement_origins'][statement_fingerprint(row)]
+                use.update({'retained_old_root':origin=='unchanged_input',
+                    'statement_origin':origin,'source_program_sha256':program['program_sha256'],
+                    'structural_origin_is_not_method_credit':True})
+            add(deepcopy(row),use)
             continue
         renderer=by_name[name]
         def instantiate(value):

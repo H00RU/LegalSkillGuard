@@ -4,6 +4,7 @@ from copy import deepcopy
 import json
 
 from .open_acquisition import compile_update
+from .objects import digest
 from .scoped_grammar import constructors
 from .semantic_operations import validate_operations
 from .source_composition import validate_template_constructors
@@ -18,7 +19,10 @@ def _functions(modules):
         tree = ast.parse(module)
         if any(not isinstance(n, ast.FunctionDef) for n in tree.body):
             raise ValueError('Only complete pure functions')
-        result.extend(ast.get_source_segment(module, n) for n in tree.body)
+        pieces=[ast.get_source_segment(module,n) for n in tree.body]
+        if ast.dump(ast.parse('\n\n'.join(pieces)),include_attributes=False)!=ast.dump(tree,include_attributes=False):
+            raise ValueError('Function extraction changed the actual supplied AST')
+        result.extend(pieces)
     return result
 
 
@@ -107,6 +111,14 @@ def compile_proposal(previous, proposal, arm, training_sources, *, source_functi
         library['source_program'] = program
     elif 'source_program' in previous:
         library['source_program'] = previous['source_program']
+    if 'source_program' in library:
+        old={n.name:ast.dump(n,include_attributes=False) for n in ast.parse(previous['source_program']).body}
+        new={n.name:ast.dump(n,include_attributes=False) for n in ast.parse(library['source_program']).body}
+        library['source_program_update']={
+            'previous_program_sha256':digest(previous['source_program']),
+            'program_sha256':digest(library['source_program']),
+            'changed_function_names':sorted(n for n in set(old)|set(new) if old.get(n)!=new.get(n)),
+            'structural_change_is_not_method_credit':True}
     return library, {'source_to_actual_supplied_seed_quotes': inherited,
         'finite_scalar_sorts_from_actual_acquired_vocabulary': scalar_declarations,
         'source_functions_installed': len(source_functions),

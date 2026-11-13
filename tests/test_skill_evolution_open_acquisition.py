@@ -140,6 +140,43 @@ class OpenAcquisitionTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 observe(object(),'fixture','one',library,source_text='Alpha.',units=[{'id':4,'text':'Alpha.'}],source_output=original)
 
+    def test_retaining_a_new_source_program_root_is_not_reported_as_an_old_root(self):
+        library=deepcopy(self.library)
+        library['source_program']="""def apply(inputs,premises):
+    rows=list(inputs['source_output']['statements'])
+    rows.append({'term':['old_ctor',['actor','Beta.']],'support_ids':[4]})
+    return {'statements':rows,'complete':False,'unresolved':[]}
+"""
+        library['planner_program']='def apply(inputs,premises):\n    return {"queries":[]}\n'
+        library['language']={'signatures':{**signatures(),'keep_root':{'arguments':['term'],'kind':'output'}},
+            'constants':{},'rules':[{'id':'keep','cost':1,'head':fact('keep_root',{'var':'R'}),
+                'body':[fact('legacy_root',{'var':'R'})]}]}
+        library['renderers']=[];library['selected_rule_ids']=['keep']
+        incoming={'statements':[{'term':['old_ctor',['actor','Alpha.']],'support_ids':[4]}],
+            'complete':False,'unresolved':[]}
+        observed=observe(object(),'fixture','one',library,source_text='Alpha. Beta.',
+            units=[{'id':4,'text':'Alpha. Beta.'}],source_output=incoming)
+        output=execute(library,observed)['source_output']
+        origins={observed['legacy_roots'][u['arguments'][0]]['term'][1][1]:u for u in output['composition_uses']}
+        self.assertTrue(origins['Alpha.']['retained_old_root'])
+        self.assertFalse(origins['Beta.']['retained_old_root'])
+        self.assertEqual(origins['Beta.']['statement_origin'],'source_program_new_or_changed')
+        self.assertTrue(origins['Beta.']['structural_origin_is_not_method_credit'])
+
+    def test_reordering_an_evidence_set_does_not_make_a_new_source_root(self):
+        library=deepcopy(self.library)
+        library['source_program']="""def apply(inputs,premises):
+    return {'statements':[{'term':['old_ctor',['actor','Alpha.']],'support_ids':[4,9]}],
+        'complete':False,'unresolved':[]}
+"""
+        library['planner_program']='def apply(inputs,premises):\n    return {"queries":[]}\n'
+        incoming={'statements':[{'term':['old_ctor',['actor','Alpha.']],'support_ids':[9,4]}],
+            'complete':False,'unresolved':[]}
+        observed=observe(object(),'fixture','one',library,source_text='Alpha. Beta.',
+            units=[{'id':4,'text':'Alpha.'},{'id':9,'text':'Beta.'}],source_output=incoming)
+        origins=observed['execution']['acquired_source_program']['statement_origins']
+        self.assertEqual(list(origins.values()),['unchanged_input'])
+
     def test_invalid_response_saved_before_failure_no_hidden_retry(self):
         saved=[];calls=[]
         class Incomplete(FixtureClient):

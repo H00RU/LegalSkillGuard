@@ -13,7 +13,7 @@ from .relational_rules import validate_language
 from .semantic_execution import operation_groups
 from .unit_evidence import answer_schema, decode_answers, context_batches, TRANSPORT
 from .semantic_operations import prepare_queries, validate_operations
-from .source_composition import render_composition, validate_renderers
+from .source_composition import render_composition, validate_renderers, statement_fingerprint
 from .scoped_grammar import constructors
 from .source_effect_update import function_update
 from .source_observations import encode_source_observations, signatures
@@ -79,6 +79,34 @@ def update_candidates(library, bundles, observation, training_texts, *, use_upda
     return library_candidates(library,bundles,observation,training_texts,enabled=use_updates)
 
 
+def execute_source_program(program,spec,*,source_text,units,source_output):
+    """Run one acquired deterministic reader with the same type/support checks."""
+    from .span_compiler import execute_json
+    from .scoped_source_program import OUTPUT
+    from .scoped_grammar import term_sort
+    import jsonschema
+    prior_digest=digest(source_output)
+    input_statements={statement_fingerprint(row) for row in source_output['statements']}
+    source_output=execute_json(program,{
+        'source_text':source_text,'source_spans':units,'source_output':source_output},{},allow_helpers=True)
+    jsonschema.validate(source_output,OUTPUT)
+    schema=constructors(spec);current={u['id'] for u in units}
+    for row in source_output['statements']:
+        term_sort(row['term'],schema)
+        if not set(row['support_ids'])<=current:
+            raise ValueError('Acquired source program cites a noncurrent source unit')
+    source_execution={'program_sha256':digest(program),
+        'input_source_output_sha256':prior_digest,'output_sha256':digest(source_output),
+        'statement_origins':{statement_fingerprint(row):
+            'unchanged_input' if statement_fingerprint(row) in input_statements else 'source_program_new_or_changed'
+            for row in source_output['statements']},
+        'removed_input_statement_fingerprints':sorted(input_statements-
+            {statement_fingerprint(row) for row in source_output['statements']}),
+        'structural_origin_is_not_method_credit':True,
+        'new_physical_requests':0,'source_semantics_verified':False}
+    return source_output,source_execution
+
+
 def observe(client,prefix,source_id,library,*,source_text,units,source_output,
             previous_observation=None,previous_observations=(),save_event=None):
     """Run actual new concepts; reuse only identical current-source observations.
@@ -90,22 +118,8 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
     from .runtime import decoder_schema
     source_execution=None
     if 'source_program' in library:
-        from .span_compiler import execute_json
-        from .scoped_source_program import OUTPUT
-        from .scoped_grammar import term_sort
-        import jsonschema
-        prior_digest=digest(source_output)
-        source_output=execute_json(library['source_program'],{
-            'source_text':source_text,'source_spans':units,'source_output':source_output},{},allow_helpers=True)
-        jsonschema.validate(source_output,OUTPUT)
-        schema=constructors(library['spec']);current={u['id'] for u in units}
-        for row in source_output['statements']:
-            term_sort(row['term'],schema)
-            if not set(row['support_ids'])<=current:
-                raise ValueError('Acquired source program cites a noncurrent source unit')
-        source_execution={'program_sha256':digest(library['source_program']),
-            'input_source_output_sha256':prior_digest,'output_sha256':digest(source_output),
-            'new_physical_requests':0,'source_semantics_verified':False}
+        source_output,source_execution=execute_source_program(library['source_program'],library['spec'],
+            source_text=source_text,units=units,source_output=source_output)
     scope=library['scope'];reusable={};operation_scopes=library.get('operation_scopes')
     if operation_scopes is not None:
         if set(operation_scopes)!={o['name'] for o in library['operations']} or any(v not in ('focus_last','window') for v in operation_scopes.values()):
