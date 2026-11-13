@@ -1,0 +1,89 @@
+{
+  "goal_complete": false,
+  "stage_complete": true,
+  "original_TRAIN_mothers": 6,
+  "distinct_main_law_texts": 1,
+  "data_scope": "Original six§63 TRAIN case groups share the same main law and referenced sections; not six independent laws and not a new blind TEST.",
+  "stages": {
+    "calibration": {
+      "Full": {
+        "n": 2,
+        "core_executed": 2,
+        "native_correct": 2,
+        "fallback_required": 0,
+        "rejected_raw_reader_bindings": 1,
+        "actual_source_functions_called": [
+          "_c3_values",
+          "_c6a_status",
+          "_married_status"
+        ]
+      },
+      "ProofFree": {
+        "n": 2,
+        "core_executed": 2,
+        "native_correct": 2,
+        "fallback_required": 0,
+        "rejected_raw_reader_bindings": 1,
+        "actual_source_functions_called": [
+          "_additional_values",
+          "_c6a_status",
+          "_married_status"
+        ]
+      },
+      "CacheFree": {
+        "n": 2,
+        "core_executed": 2,
+        "native_correct": 2,
+        "fallback_required": 0,
+        "rejected_raw_reader_bindings": 0,
+        "actual_source_functions_called": [
+          "_additional_totals",
+          "_c6a_applies",
+          "_given_additional_totals"
+        ]
+      }
+    },
+    "frozen": {
+      "Full": {
+        "n": 4,
+        "core_executed": 0,
+        "native_correct": 0,
+        "fallback_required": 4,
+        "rejected_raw_reader_bindings": 0,
+        "actual_source_functions_called": []
+      },
+      "ProofFree": {
+        "n": 4,
+        "core_executed": 0,
+        "native_correct": 0,
+        "fallback_required": 4,
+        "rejected_raw_reader_bindings": 0,
+        "actual_source_functions_called": []
+      },
+      "CacheFree": {
+        "n": 4,
+        "core_executed": 0,
+        "native_correct": 0,
+        "fallback_required": 4,
+        "rejected_raw_reader_bindings": 0,
+        "actual_source_functions_called": []
+      }
+    }
+  },
+  "initial_before_feedback": {
+    "TeacherProof": {
+      "n": 2,
+      "core_executed": 1,
+      "native_correct": 1,
+      "fallback_required": 1
+    },
+    "IndependentSourceCache": {
+      "n": 2,
+      "core_executed": 1,
+      "native_correct": 1,
+      "fallback_required": 1
+    }
+  },
+  "decision": "Same-case feedback update learned actual GIVEN-based summation in all arms; no contribution effect. All four fixed later TRAIN goals unsupported by every learned program: no core reuse. No source labels, profiles or correctness checks changed. This finite program version is closed; do not tune on these four outcomes or expand a failed matrix.",
+  "final_ablation_requirement": "The three arms are an early screen; final Full vs-minusM1 withM2 retained is missing. Do not claim full two-contribution ablation; primary method failure makes more control calls for this version unnecessary."
+}
