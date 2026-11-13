@@ -174,3 +174,25 @@ SARA原作者使用二元适用判断和Prolog；税年等于对应日历年，�
 新增**12E/3T**，累计**9515E/209T、9724行、在途0**，此前9709行逐条保持。12次执行全部thinking OFF、max8192、正常stop，19823输入/2242输出token、63.611服务秒；教师97291输入/26158输出token（含14218reasoning）、517.764服务秒。教师实付发票和GPU分摊仍未知，执行增量API现金0。没有底层自动重试遗漏、计数重置、追加来源、DEV/TEST或完整训练。
 
 [实际12条执行、逐路径语义、每次成本及账本保全](teacher_proof_skill_evidence/boundary_refinement/stage_result.json)、[实际教师和程序](teacher_proof_skill_evidence/boundary_refinement/)、[冻结](teacher_proof_skill_evidence/boundary_refinement/freeze.json)、[12条实际wire](teacher_proof_skill_evidence/boundary_refinement/executor_wire_profile_check.json)。当前两项贡献仍未成立，Goal active、未完成；下一步从已有原TRAIN失败中确定强普通教师之后仍存在的具体学习瓶颈，而不是再修这三条案例或把报告结项。
+
+## 13. 对真实强对照的复核：调用可信，机制推断须收紧
+
+用户指出目前尚未敲定两项值得持续投入的贡献，并质疑反复小试能否支撑方法判断。此次直接核对实际teacher request、无损解码后的输入、真实reader记录和全部12条函数执行，不新增模型请求，不改原分数、程序、来源、标签或账本。
+
+**实际可比性。** BoundaryRefine与FreeReflect发送的整个用户任务对象逐项完全相同，包含真实种子程序、单元、完整法源、旧反例反馈、工具和host合同；教师配置和输出schema也相同。不同的是system recipe及其生成的程序/字段。后续三条案情及完整原生问题不在实际教师输入中。这个结论来自保存的物理request反解，而非报告描述。
+
+PrimitiveGiven确实独立取得程序，但它没有种子早先三条151监督，且在公共角色读取修复后才取得程序，因此看到更新后的host合同；另外两臂的既有教师没有看到该新版说明。实际执行时三臂使用相同公共host，前两臂严格匹配；第三臂不能冒充全历史信息与获取过程匹配的端到端方法比较。保留它作额外简单诊断。
+
+**真实机制重放。** 对现有程序作只记录调用的纯函数转发插桩，逐条用原始事实绑定重放，12条value/used_units/open_dependencies与原执行完全一致。实际公共日历调用数：候选0，FreeReflect3，PrimitiveGiven2。候选四次调用共享resolver，均不能据此声称日历计算分支实际执行。
+
+两个具体诊断尤其重要：删除旧c1候选的错误GIVEN观察后，现有代码就会使用同一批已读对的日期并得到False；PrimitiveGiven死亡题删除所谓完整GIVEN后，答案仍True，但才实际调用calendar_year。以上是仅改输入副本的原因诊断，**不是恢复预测、新成功、训练例或追加得分**。真实记录均未写回。
+
+**应修正的科学推断。** FreeReflect本身已经实现了原始日期观察和确定性计算细化；它不是“没有细化”的消融。当前差距主要涉及GIVEN优先级、观察精度要求和事实模式。每个条件只有一次教师生成、后续仅三条固定TRAIN，支持当前两个产物的比较，不能估计稳定方法效果，不能判定整个细化方向无效。三个新法条根也在验证前用所供法源新取得，因此成功证明源到案情执行，不自动证明旧操作对未见法源的迁移收益。
+
+所以，**原始0/3与3/3保持；撤回将其解释为“细化机制本身被消融证伪”的更强推断。** 关闭这个失败产物、复用有效FreeReflect程序是合理的；据此不断换方向、宣称两个创新或整体就绪均不合理。FreeReflect是实际强简单控制，不是已复现的GEPA、LINC或其他完整相关方法，不能代替最终相关方法比较。
+
+后续继续同一法律规则学习问题，不扩散候选名字。下一方法必须明确学得对象与更新步骤、实现该操作，并使消融实际移除该操作；公共工具、正确性及监督保持匹配。这是落实既有“有差异、独立消融和强比较”要求，不追加涨分保证、零回退或全分支门槛。教师仍可完成学习，不要求另造独立归纳器。仅换提示或修本次GIVEN/日期问题不作为新贡献重跑这三条验证。
+
+查新复核还确认：PercepLog既评估自动规则也评估GT规则，并非只在gold规则上工作；ReaComp、LILO、LATM均已有明确的持久程序/工具学习。因此不能借“首次教师编译/复用/反馈”构造差异。近期CROWN-QA和NAFBench专门讨论覆盖及否定语义，也不把本项目刚修正的原生语义口径当新机制。[PercepLog原文](https://aclanthology.org/2026.findings-emnlp.2099.pdf)、[ReaComp](https://arxiv.org/html/2605.05485v1)、[LILO](https://arxiv.org/html/2310.19791v2)、[LATM](https://arxiv.org/abs/2305.17126)、[CROWN-QA](https://arxiv.org/abs/2608.04591)、[NAFBench](https://arxiv.org/abs/2609.27517)。此处只界定已有机制，不比较这些论文与本小试的分数。
+
+[请求逐项匹配、12条行为等价重放、调用及删除诊断](teacher_proof_skill_evidence/comparison_audit/comparison_audit.json)、[审计脚本](../../experiments/legal_skill_evolution_boundary_comparison_audit.py)。账本calls/meta/oracle_views全部逐项保持，仍9515E/209T、9724行、在途0。没有新增模型调用、来源、DEV/TEST或训练；Goal active、两项贡献尚未成立。

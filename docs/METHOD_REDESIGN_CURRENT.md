@@ -2,9 +2,23 @@
 
 同一Goal **active、未完成**。目标、验收、资源与边界统一见[CURRENT_GOAL.md](CURRENT_GOAL.md)。唯一执行目录`/home/yndx/hhy/legal-skill-current`；开发分支`repair/lift-corev-activation-20261112`，main不改。最后同步2026-11-13北京时间。系统Goal卡的旧Lift/CoRev文字不恢复旧机制或队列。
 
-**最新真实比较已结算：合同细化候选0/3，同信息自由反思3/3；独立简单控制原生2/3，其中1条绕过了应由程序完成的日期计算，不计该核心路径验证。** 旧日期校准题候选0/1、两个对照均1/1。原始结果不覆盖，方法并未获得优势。普通自由反思的4条实际对应路径通过审查，是有效工作资产；两项贡献均未成立，Goal active。[真实程序、12次读取、语义与费用](../reports/legal_skill_evolution_run_20261111/TEACHER_PROOF_SKILL_RESULT.md#12-真实合同学习强对照与阶段决定)。
+## 当前已选定的投入与实现
 
-最终验收保持：两项分别消融有可解释任务增益，完整ours在主要比较中超过强方法，并有实质机制差异。公共修复、同例恢复、成本或运行成功不能代替，不新增零回退/全分支/固定涨分门槛。
+用户最新要求先读论文/代码，固定两项理论上值得投入的贡献再实现，不再按临时recipe小试反复换方向。主要执行者现选定：**诊断驱动的开放法律规则学习C**，以及**法源—程序联合的更新程序学习U**。它们分别学源概念/组合G和可跨来源实例化的更新操作，不把概念细化/组合两个内部步骤拆成两个贡献。[投入决定与完整算法](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/README.md)。
+
+新增精读SCOPE，并核对LLM2LAS、ILP-CoT、Popper、Refazer等作者实现；旧LSP/SkillWrapper、EviSkill/SkillAdam、Getafix、LAS查新和阴性证据直接复用。不可取得的SCOPE/SkillWrapper等代码明确标注，不称已复现。采用成熟算法，不主张首次谓词发明、编译、credit或补丁学习。
+
+实现开始：`legal_skill_guard/skill_evolution/observation_diagnosis.py`已有有限诊断内核，支持允许理论交集、最小冲突核、局部无解/timeout/组合bias区分、经验下界和语言绑定；9项算法检查通过。当前仅精确完整可见JSON输入等价，不虚称已完成α图同构、真实TRAIN诊断、开放概念学习或LAS集成，也不算贡献实证。
+
+**下一项实际工作**：接入现有源观测与实际G可见输入；把合法原TRAIN native/已有部分源约束接到有限可满足性求解；实现教师可执行概念更新和全局组合归纳，形成第一项连贯端到端版本。旧有效compiler/FreeReflect原样可复用，不删正确输入制造冲突。原TRAIN标签可训练，过去no-label只是当时协议。其后U从真实before/after中归纳联动φ/G编辑，不只是LAS热启动。所有原始记录和对照监督保持。
+
+两项实现后分别通过真实开关删除C或U，保留另一项和同信息强自由能力。先C完整实现再接U；正常错误在同一设计内修复，不以单次小样本成绩改方向。当前不启动新完整训练/DEV/TEST或论文，不新增模型批队列；下一有限协议在可执行路径与来源顺序明确后固定，无需逐项重新授权。阶段目标仍是两项独立作用及完整ours超过强方法，尚未完成。
+
+## 最新可信证据
+
+上一轮匹配的完整产物比较C候选0/3、FreeReflect3/3，原结果保持。后续审计证实两臂实际任务/种子/法源/反馈/config/schema完全相同，12条执行精确重现；**FreeReflect也做了原始观测/计算细化，所以不是删除该机制的消融**。关闭那个失败产物，不将其泛化为整个方向无效。第三臂缺历史监督且看到较新API，仅额外诊断。两项新设计不是把这三题修好再报新成功。
+
+本轮项目模型调用0新增，仍9515E/209T、9724行、在途0。已完成[原始请求/路径审计](../reports/legal_skill_evolution_run_20261111/TEACHER_PROOF_SKILL_RESULT.md#13-对真实强对照的复核调用可信机制推断须收紧)、[真实任务适配](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/task_fit.md)及两项算法/代码查新。两项贡献尚未实证成立，Goal active。
 
 ## 当前证据：原生语义、模型读取与规则覆盖已分开
 
@@ -16,7 +30,7 @@
 
 数据暴露记录：定向网页查新曾意外返回第三方§151例子的形式化/negative-query及标签摘要，未打开页、未核对split、未用于修订或输入任何项目模型；上述调用完成在该搜索之前。源码审查仅打开官方statutes/prolog，不把该意外摘要当新验证，也不为核对split读取heldout。
 
-## 最新学习实例结算及下一项实际工作
+## 历史最近检查点：合同细化产物（已结算，不是执行队列）
 
 `artifacts/legal_skill_evolution_boundary_refinement_role_grounding_20261113/`已全部结束，12E/3T、累计9515E/209T、9724行、在途0，原9709行逐条保持。36项相关回归、43项共享执行组件检查通过。早期`boundary_refinement_20261113`保存两份教师获取及literal-name阻断；公共修正后两份程序原样复用，未重复调用教师，未知角色指代仅供真实reader解析、不注入姓名/法律事实；第三臂独立获取。全部冻结后才做一次旧c1校准与预先固定三条新到本机制的原TRAIN验证。
 
@@ -33,9 +47,13 @@ PrimitiveGiven多出的原生答对是reader将日期蕴含当完整GIVEN，程�
 
 比较口径：BoundaryRefine/FreeReflect共享种子、原文及反馈，是匹配的更新机制筛选。PrimitiveGiven当前法源/日期反馈相同、独立获取，但没有继承种子早先三条151校准监督，所以只作额外强简单诊断，不能冒充全历史监督匹配的端到端收益比较。共享种子的原获取/修复成本在每臂逻辑成本中均须计入，物理账只计一次。实际known-input选择器仍是离线诊断，没有把它说成在线独立贡献。
 
-**决定：关闭本合同细化实例，保留其否定结果；将实际FreeReflect程序作为当前有效共同资产，不占创新。** 两个贡献仍未成立，也没有因四条可执行路径认定整体就绪。当前最佳有限程序：`artifacts/legal_skill_evolution_boundary_refinement_role_grounding_20261113/FreeReflect/library.json`。它仍不是全库正确性/所有来源覆盖保证。
+**决定：关闭这个失败的具体合同细化产物，保留结果；将实际FreeReflect程序作为当前有效共同资产，不占创新。** 不能把该分数差距解释为整个细化机制无效，具体原因见下文比较复核。 两个贡献仍未成立，也没有因四条可执行路径认定整体就绪。当前最佳有限程序：`artifacts/legal_skill_evolution_boundary_refinement_role_grounding_20261113/FreeReflect/library.json`。它仍不是全库正确性/所有来源覆盖保证。
 
-下一项实际研究先基于已有原TRAIN实际失败，核对最强普通教师/原始量计算/正确GIVEN之后仍存在的获取与复用瓶颈，区分：缺源规则、观察粒度不足、观察语义不可信及已有对照已经解决。保留两项独立机制的目标；当前不启动新模型批队列，不继续扩这个被强控制超过的实例，不恢复旧NQG/scope/角色因子等阴性队列，也不把日期和GIVEN凑成两贡献。需要先形成能超出这个有效共同资产的具体更新算法，才固定下一有限比较。常规离线研究继续，Goal未暂停或blocked。
+### 对照可信度复核结论
+
+[实际请求/路径复核](../reports/legal_skill_evolution_run_20261111/TEACHER_PROOF_SKILL_RESULT.md#13-对真实强对照的复核调用可信机制推断须收紧)逐项确认前两臂信息匹配、12条重放一致。实际公共日历调用数为候选0、FreeReflect3、PrimitiveGiven2。删除探针仅用于原因诊断，不改变原结果或评分。
+
+该比较是单次teacher recipe的不同完整程序，FreeReflect也实现了细化；不能当作机制消融、稳定效应估计或一般方向否定。PrimitiveGiven有历史监督/API说明差异；新法条头在验证前新取得，不能自动算旧技能迁移。当前唯一后续方向/动作见本文顶部，不再恢复本实例或沿三条验证调参。
 
 ## 历史结算：教师证明技能早期版本
 
