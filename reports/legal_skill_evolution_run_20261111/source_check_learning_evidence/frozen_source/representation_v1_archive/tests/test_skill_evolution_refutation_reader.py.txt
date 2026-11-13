@@ -1,0 +1,51 @@
+import json
+import unittest
+from legal_skill_guard.skill_evolution.refutation_reader import execute
+
+OP='disposal_retention_clause_role'
+PROGRAM='''def _sr_get(answers,qid,operation,unresolved,required=False):
+    return answers.get(qid)
+
+def apply(inputs,premises):
+    if inputs.get('phase')=='plan':
+        return {'queries':[{'id':'q','operation':'disposal_retention_clause_role','unit_ids':[0]}]}
+    errors=[]
+    values={a['id']:a['choice'] for a in inputs['semantic_answers']}
+    value=_sr_get(values,'q','disposal_retention_clause_role',errors,True)
+    return {'complete':value is not None,'statements':[],'unresolved':errors}
+'''
+BUNDLE={'program':PROGRAM,'operations':[{'name':OP,'question':'Choose the supported interpretation.',
+    'choices':[{'name':'bad','meaning':'first interpretation'},{'name':'good','meaning':'second interpretation'}],'examples':[]}]}
+BANK=[{'name':'test','operation':OP,'candidate_choices':['bad','good'],
+       'question_template':'Is {candidate_meaning} supported?',
+       'window_program':"def apply(inputs,premises):\n    return {'unit_ids':inputs['query']['unit_ids']}\n"}]
+
+
+class Client:
+    def __init__(self,values):self.values=iter(values);self.requests=[]
+    def generate(self,identity,**kwargs):
+        self.requests.append(kwargs)
+        key,choice=next(self.values)
+        return {'finish_reason':'stop','content':json.dumps({'answers':{key:{'choice':choice,'support_ids':[0]}}})}
+
+
+class RefutationReaderTests(unittest.TestCase):
+    def test_refutation_causes_explicit_exclusion_and_fresh_supported_reading(self):
+        c=Client([('q','bad'),('q:test','refuted'),('q','good'),('q:test','supported')])
+        r=execute(c,'run','source',BUNDLE,'words',[{'id':0,'text':'words'}],bank=BANK)
+        self.assertEqual(r['semantic_answers'][0]['choice'],'good')
+        self.assertEqual(r['observation_history'][0]['answer']['choice'],'bad')
+        self.assertEqual(r['exclusions'],{'q':['bad']})
+        schema=c.requests[2]['schema']['properties']['answers']['properties']['q']
+        self.assertEqual(schema['anyOf'][0]['properties']['choice']['enum'],['good'])
+        self.assertIn('refutation_state',json.loads(c.requests[2]['messages'][1]['content']))
+
+    def test_unknown_does_not_exclude_or_request_replacement(self):
+        c=Client([('q','bad'),('q:test','unknown')])
+        r=execute(c,'run','source',BUNDLE,'words',[{'id':0,'text':'words'}],bank=BANK)
+        self.assertEqual(r['exclusions'],{})
+        self.assertEqual(r['semantic_answers'][0]['choice'],'bad')
+        self.assertEqual(len(c.requests),2)
+
+
+if __name__=='__main__':unittest.main()

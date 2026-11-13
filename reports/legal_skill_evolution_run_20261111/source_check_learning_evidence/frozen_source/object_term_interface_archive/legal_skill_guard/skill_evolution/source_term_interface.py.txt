@@ -1,0 +1,50 @@
+"""Wire types derived from the acquired constructor signatures.
+
+Object nodes have a lossless translation to the existing executable list terms.
+This is a shared generation interface, not a new legal ontology or method claim.
+"""
+from copy import deepcopy
+import jsonschema
+
+from .native import record_schema
+from .scoped_grammar import constructors,term_sort
+
+
+def term_schema(spec,root_sort):
+    bank=constructors(spec);by_sort={}
+    for c in bank.values():by_sort.setdefault(c['sort'],[]).append(c)
+    definitions={};pending=[root_sort]
+    while pending:
+        sort=pending.pop()
+        if sort in definitions:continue
+        if sort=='text':definitions[sort]={'type':'string'};continue
+        if sort not in by_sort:raise ValueError('Unknown acquired sort: '+sort)
+        variants=[];definitions[sort]={'anyOf':variants}
+        for c in by_sort[sort]:
+            args=c['arguments'];pending.extend(args)
+            array={'type':'array','minItems':len(args),'maxItems':len(args)}
+            if args:array['prefixItems']=[{'$ref':'#/$defs/'+a} for a in args];array['items']=False
+            else:array['items']=False
+            variants.append(record_schema({'constructor':{'type':'string','enum':[c['name']]},'arguments':array}))
+    return {'$defs':definitions,'$ref':'#/$defs/'+root_sort}
+
+
+def to_wire(term):
+    if isinstance(term,str):return term
+    if not isinstance(term,list) or not term or not isinstance(term[0],str):raise ValueError('Canonical constructor term required')
+    return {'constructor':term[0],'arguments':[to_wire(t) for t in term[1:]]}
+
+
+def from_wire(value):
+    if isinstance(value,str):return value
+    if not isinstance(value,dict) or set(value)!={'constructor','arguments'}:
+        raise ValueError('Exact constructor/arguments object required')
+    if not isinstance(value['arguments'],list):raise ValueError('Explicit ordered arguments required')
+    return [value['constructor'],*[from_wire(a) for a in value['arguments']]]
+
+
+def validate_value(spec,sort,value):
+    jsonschema.validate(value,term_schema(spec,sort))
+    term=from_wire(value)
+    if term_sort(term,constructors(spec))!=sort:raise ValueError('Wrong acquired result sort')
+    return term

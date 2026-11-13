@@ -5,7 +5,7 @@
 - [当前Goal、授权、验收与边界](docs/CURRENT_GOAL.md)
 - [当前证据、缺口与下一项工作](docs/METHOD_REDESIGN_CURRENT.md)
 - [目录与保留记录](docs/PROJECT_LAYOUT.md)
-- [最新研究结果](reports/legal_skill_evolution_run_20261111/RESIDUAL_READER_RESULT.md)
+- [最新研究结果](reports/legal_skill_evolution_run_20261111/SOURCE_CHECK_LEARNING_RESULT.md)
 - [近邻精读、组件收益与两项候选算法](reports/legal_skill_evolution_run_20261111/LITERATURE_AND_METHOD_CANDIDATES.md)
 
 当前代码：`legal_skill_guard/skill_evolution/`；当前账本：`artifacts/rr_v2_preflight/research_ledger.sqlite3`；已完成固定研究及后续有限验证：`artifacts/legal_skill_evolution*`。Goal继续active、未完成，不重建或重置。
