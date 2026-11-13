@@ -2,7 +2,7 @@
 
 同一Goal **active、未完成**。目标、验收、资源与边界统一见[CURRENT_GOAL.md](CURRENT_GOAL.md)。唯一执行目录`/home/yndx/hhy/legal-skill-current`；开发分支`repair/lift-corev-activation-20261112`，main不改。最后同步2026-11-13北京时间。系统Goal卡的旧Lift/CoRev文字不恢复旧机制或队列。
 
-**最新主体路径已通过实际程序执行：复用原有效SourceEffect compiler和已有真实神经角色观察，原获取8af保持4/4正确，源主体及例外绑定得到修正，新增模型调用0。不是新独立获取、未见来源或native提升。接口对照队列关闭；下一项回到源语义约束参与获取器G的学习更新，两贡献均未成立。**
+**最新12小时复核：尚无第一项通过强对照的贡献，第二项也未建立。** 已有真实更新/执行和公共主体修复保留；最新角色因子学习算子已取得可运行Python并原样离线执行，10个已暴露TRAIN焦点仅1个明确支持、9个unknown，平坦结构消融4个支持、6个unknown，真实组合条款仍unknown。不是独立强对照/新盲验证，不派发该版本的executor原样重试。[当前实际结论、逐条结果与账本](../reports/legal_skill_evolution_run_20261111/SOURCE_CHECK_LEARNING_RESULT.md#10-十二小时复核与新学习算子的实际离线结果)。实质缺口是有强对照增量的学习算法，不能用接口修复、单例成功或报告数补齐。
 
 ## 历史结算：源编译候选
 
@@ -190,7 +190,7 @@ Full原管线漏看新伴随输出general_third_party_prohibition，误存1个�
 
 ## 当前运行、资源与恢复
 
-最新结算累计**9476E/194T**、9670行、在途0。本接续4E/0T物理请求，原9666行逐条不变；执行12000输入/859输出token、25.332服务秒，四个请求均正常stop。最终旧compiler复用＋新主体程序执行新增模型调用0，继承的真实教师/主体获取费用保留，不称全流程免费。[最新逐请求成本与保全](../reports/legal_skill_evolution_run_20261111/source_check_learning_evidence/effect_interface_reuse/cost_and_preservation.json)。前一49E/2T、53E/2T等结算及原始成本仍保留，不能覆盖。thinking OFF及模型配置不变，发票/GPU分摊未知。278项相关unittest通过。
+最新结算累计**9476E/195T**、9671行、在途0。最新教师算法提议1T，旧9670行逐条保持；80,144输入/11,867输出token（含7,704 reasoning）、233.082秒，现金发票未知。最新真实TRAIN离线诊断0模型调用，不是独立强对照。此前主体路径接续的历史结算：本接续4E/0T物理请求，原9666行逐条不变；执行12000输入/859输出token、25.332服务秒，四个请求均正常stop。最终旧compiler复用＋新主体程序执行新增模型调用0，继承的真实教师/主体获取费用保留，不称全流程免费。[最新逐请求成本与保全](../reports/legal_skill_evolution_run_20261111/source_check_learning_evidence/effect_interface_reuse/cost_and_preservation.json)。前一49E/2T、53E/2T等结算及原始成本仍保留，不能覆盖。thinking OFF及模型配置不变，发票/GPU分摊未知。278项相关unittest通过。
 
 当前接口对照、原compiler复用与此前有限学习/固定验证均已结算，无研究客户端或在途请求。恢复先核实实际进程和唯一账本；不恢复剩余focus、旧接口变体、已结算验证或原128完整研究。下一项唯一见“最新检查点”，不是暂停、新Goal或新完整训练。两贡献未成立，Goal active。
 
