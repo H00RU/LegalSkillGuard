@@ -1,0 +1,170 @@
+"""Execute the current acquired semantic reader without mixed-operation batches.
+
+Focus/window scope is an explicit execution contract. The optional demand probe
+uses the actual acquired reader's lookup function; it adds diagnostic markers
+only and cannot create a legal value. These are ordinary runtime operations,
+not an independently claimed research contribution.
+"""
+import ast
+from collections import OrderedDict
+from copy import deepcopy
+import json
+
+import jsonschema
+
+from .objects import digest
+from .runtime import decoder_schema
+from .native import record_schema
+from .semantic_operations import (batches, finish, ground_answers,
+                                  messages, prepare_queries)
+from .source_effect_update import function_update
+
+DEMAND = '__LSG_SEMANTIC_DEMAND__:'
+FOCUS = ('\nThe focus_unit_id identifies the clause to classify. Other supplied units are context '
+         'for resolving its references, not additional effects to merge into that focus. ')
+
+
+def answer_schema(operations, queries):
+    """Query identity and legal alternatives are fixed before generation."""
+    ops = {o['name']: o for o in operations}
+    evidence = record_schema({'unit_id': {'type': 'integer', 'minimum': 0},
+                              'quote': {'type': 'string', 'minLength': 1}})
+    return record_schema({'answers': record_schema({q['id']: record_schema({
+        'choice': {'type': 'string', 'enum': [c['name'] for c in ops[q['operation']]['choices']] + ['unknown']},
+        'evidence': {'type': 'array', 'items': evidence}}) for q in queries})})
+
+
+def strict_json(content):
+    def pairs(items):
+        result = {}
+        for key, value in items:
+            if key in result:
+                raise ValueError('Duplicate JSON object key: ' + key)
+            result[key] = value
+        return result
+    return json.loads(content, object_pairs_hook=pairs)
+
+
+def decode_answers(operations, queries, units, content):
+    value = strict_json(content)
+    jsonschema.validate(value, answer_schema(operations, queries))
+    canonical = {'answers': [{'id': q['id'], **value['answers'][q['id']]} for q in queries]}
+    return value, ground_answers(operations, queries, units, canonical)
+
+
+def focused_messages(operations, queries, units, *, scope, examples=True):
+    if scope not in ('focus_last', 'window'):
+        raise ValueError('Explicit acquired reader scope required')
+    prompt = messages(operations, queries, units, examples=examples)
+    if scope == 'window':
+        return prompt
+    content = json.loads(prompt[1]['content'])
+    for row in content['current_queries']:
+        row['focus_unit_id'] = row['unit_ids'][-1]
+    # Preserve the exact already-validated retained-information request where
+    # possible. All other operation questions keep their acquired meaning.
+    if {q['operation'] for q in queries} == {'retained_information_scope'}:
+        suffix = 'Interpret only the retention scope asserted by the focus clause, using its actual context.'
+    else:
+        suffix = 'Interpret the acquired operation for that focus clause, using its actual context.'
+    prompt[0]['content'] += FOCUS + suffix
+    prompt[1]['content'] = json.dumps(content, ensure_ascii=False)
+    return prompt
+
+
+def demand_program(program, lookup):
+    """Instrument the actual acquired lookup, preserving its entire body."""
+    tree = ast.parse(program)
+    functions = {n.name:n for n in tree.body if isinstance(n,ast.FunctionDef)}
+    if lookup not in functions:
+        raise ValueError('Declared semantic lookup is absent')
+    fn = functions[lookup]
+    if len(fn.args.args) not in (4,5) or fn.args.vararg or fn.args.kwarg:
+        raise ValueError('Demand instrumentation requires the actual lookup contract')
+    # An answer-container length/iteration test would also observe unread
+    # answers without using the lookup. Do not claim lazy equivalence for it.
+    for caller in functions.values():
+        if caller.name == lookup:
+            continue
+        parent = {child:node for node in ast.walk(caller) for child in ast.iter_child_nodes(node)}
+        calls = [n for n in ast.walk(caller) if isinstance(n,ast.Call)
+                 and isinstance(n.func,ast.Name) and n.func.id == lookup]
+        containers = set()
+        for call in calls:
+            if not call.args or not isinstance(call.args[0],ast.Name):
+                raise ValueError('Semantic answer container must have explicit identity')
+            containers.add(call.args[0].id)
+        for node in ast.walk(caller):
+            if not (isinstance(node,ast.Name) and isinstance(node.ctx,ast.Load)
+                    and node.id in containers):
+                continue
+            use = parent[node]
+            if not (isinstance(use,ast.Call) and isinstance(use.func,ast.Name)
+                    and use.func.id == lookup and use.args[0] is node):
+                raise ValueError('Semantic answers are observed outside the declared lookup')
+    answer_arg, id_arg, _, unresolved_arg = [a.arg for a in fn.args.args[:4]]
+    original = ast.get_source_segment(program,fn)
+    lines = original.splitlines()
+    if len(lines[0].split(':')) != 2:
+        raise ValueError('Unsupported multiline lookup signature')
+    instrumented = '\n'.join([lines[0],
+        '    if '+id_arg+' is not None and '+id_arg+' not in '+answer_arg+':',
+        '        '+unresolved_arg+'.append('+repr(DEMAND)+'+'+id_arg+')',
+        *lines[1:]])
+    replacement = ast.parse(instrumented).body[0]
+    assert ast.dump(ast.Module(body=replacement.body[1:],type_ignores=[]),include_attributes=False) == \
+           ast.dump(ast.Module(body=fn.body,type_ignores=[]),include_attributes=False)
+    return function_update(program,[instrumented])
+
+
+def operation_groups(queries):
+    groups = OrderedDict()
+    for q in queries:
+        groups.setdefault(q['operation'],[]).append(q)
+    return [batch for group in groups.values() for batch in batches(group)]
+
+
+def execute(client, prefix, source, bundle, text, units, *, scope, lookup=None, examples=True,
+            save_event=None):
+    """One immutable answer per logical query; no retry of unknown answers."""
+    queries = prepare_queries(bundle['program'],bundle['operations'],text,units)
+    by_id = {q['id']:q for q in queries}
+    probe = demand_program(bundle['program'],lookup) if lookup else None
+    answers, events, rounds = {}, [], []
+    while True:
+        if probe:
+            provisional = finish(probe,text,units,list(answers.values()))
+            wanted = list(dict.fromkeys(s[len(DEMAND):] for s in provisional['unresolved']
+                                       if s.startswith(DEMAND)))
+            if not set(wanted) <= set(by_id):
+                raise ValueError('Acquired lookup requests an undeclared semantic query')
+            if set(wanted) & set(answers):
+                raise ValueError('An already-answered query was incorrectly requested again')
+        else:
+            wanted = [q['id'] for q in queries if q['id'] not in answers]
+        if not wanted:
+            break
+        rounds.append(wanted)
+        for batch in operation_groups([by_id[i] for i in wanted]):
+            prompt = focused_messages(bundle['operations'],batch,units,scope=scope,examples=examples)
+            wire,_ = decoder_schema(answer_schema(bundle['operations'],batch))
+            call_id = prefix+':semantic:'+digest(prompt)
+            result = client.generate(call_id,source=source,purpose='skill_replay',messages=prompt,
+                                     thinking=False,schema=wire)
+            if result['finish_reason'] != 'stop':
+                raise ValueError('Incomplete source operation; retained without automatic retry')
+            value, grounded = decode_answers(bundle['operations'],batch,units,result['content'])
+            for answer in grounded:
+                if answer['id'] in answers:
+                    raise ValueError('Repeated logical source interpretation')
+                answers[answer['id']] = answer
+            event = {'call_id':call_id,'query_ids':[q['id'] for q in batch],
+                     'result':result,'raw_answer':value,'scope':scope}
+            events.append(event)
+            if save_event:
+                save_event(event)
+    raw = finish(bundle['program'],text,units,list(answers.values()))
+    return {'source_output':raw,'semantic_answers':list(answers.values()),'events':events,
+            'query_plan':queries,'demand_rounds':rounds,'planned_queries':len(queries),
+            'answered_queries':len(answers),'unread_queries':len(queries)-len(answers),
+            'no_unknown_answer_retried':True,'new_legal_values_supplied_by_host':False}

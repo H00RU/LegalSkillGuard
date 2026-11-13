@@ -1,0 +1,161 @@
+"""Freeze and run the existing finite source-reading comparison.
+
+Only original TRAIN: one known smoke parent, then the previously fixed2 parents.
+All code and data remain separate from the preserved full study. No training,
+DEV/TEST, parameter change or new source selection is performed here.
+"""
+import argparse
+import ast
+from copy import deepcopy
+import fcntl
+import hashlib
+import json
+from pathlib import Path
+
+import jsonschema
+
+from experiments import legal_skill_evolution_semantic_operations as study
+from legal_skill_guard.rr.checkpoint import immutable_json
+from legal_skill_guard.skill_evolution.clients import FrozenExecutor
+from legal_skill_guard.skill_evolution.native import grade_view,source_spans
+from legal_skill_guard.skill_evolution.objects import digest
+from legal_skill_guard.skill_evolution.scoped_grammar import constructors,material_public,term_sort
+from legal_skill_guard.skill_evolution.scoped_reader import apply_current
+from legal_skill_guard.skill_evolution.scoped_source_program import OUTPUT
+from legal_skill_guard.skill_evolution.semantic_execution import execute,demand_program
+from legal_skill_guard.skill_evolution.semantic_operations import prepare_queries,finish
+from legal_skill_guard.skill_evolution.source_effect_update import function_update
+from legal_skill_guard.skill_evolution.span_compiler import execution_source_units,expand_unit_support
+
+ROOT=Path(__file__).resolve().parents[1]
+read=study.read
+sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+
+
+def repair_independent(bundle):
+    """Keep unknown exception/limitation fields unresolved, never no-exception."""
+    fixed=deepcopy(bundle);code=fixed['program']
+    old="            exceptions=['no_exceptions']\n            es=[]"
+    new="            exceptions=['no_exceptions']\n            exception_ready=dxc in ('no_disposal_exception','written_direction_exception','limited_retention_exception','written_direction_and_retention_exceptions')\n            es=[]"
+    assert code.count(old)==1;code=code.replace(old,new)
+    old="                    unresolved.append('The embedded retention exception could not be represented completely for source window '+str(wi)+'.')"
+    assert code.count(old)==1;code=code.replace(old,old+"\n                    exception_ready=False")
+    old="            if actor is not None and action is not None and trigger is not None:"
+    assert code.count(old)==1;code=code.replace(old,old[:-1]+" and exception_ready:")
+    old="                retention_condition=['retention_condition','source-stated limited retention']"
+    assert code.count(old)==1;code=code.replace(old,"                retention_condition=None")
+    # A missing planner position is unavailable information, not a string to
+    # concatenate or an implicit permission to construct an unqualified norm.
+    choice=next(n for n in ast.parse(code).body if n.name=='_sr_choice')
+    old_choice=ast.get_source_segment(code,choice)
+    lines=old_choice.splitlines();new_choice='\n'.join([lines[0],
+        '    if qid is None:',
+        "        unresolved.append('No declared semantic query for '+operation+'.')",
+        '        return None',*lines[1:]])
+    code=function_update(code,[new_choice])
+    # Extract the original answer-collection loop unchanged. The ordinary lazy
+    # runtime then sees an opaque answer container through the declared lookup.
+    tree=ast.parse(code);entry=next(n for n in tree.body if n.name=='apply')
+    at=next(i for i,n in enumerate(entry.body) if isinstance(n,ast.Assign)
+        and len(n.targets)==1 and isinstance(n.targets[0],ast.Name)
+        and n.targets[0].id=='answers' and isinstance(n.value,ast.Dict))
+    assignment,loop=deepcopy(entry.body[at]),deepcopy(entry.body[at+1])
+    assert isinstance(loop,ast.For)
+    original_iter=deepcopy(loop.iter);loop.iter=ast.Name(id='data',ctx=ast.Load())
+    helper=ast.FunctionDef(name='_collect_source_answers',args=ast.arguments(posonlyargs=[],
+        args=[ast.arg(arg='data'),ast.arg(arg='unresolved')],kwonlyargs=[],kw_defaults=[],defaults=[]),
+        body=[assignment,loop,ast.Return(value=ast.Name(id='answers',ctx=ast.Load()))],decorator_list=[])
+    restored=deepcopy(helper.body[1]);restored.iter=original_iter
+    assert ast.dump(restored,include_attributes=False)==ast.dump(entry.body[at+1],include_attributes=False)
+    entry.body[at:at+2]=ast.parse("answers=_collect_source_answers(inputs.get('semantic_answers',[]),unresolved)").body
+    code=function_update(code,[ast.unparse(ast.fix_missing_locations(entry)),
+                               ast.unparse(ast.fix_missing_locations(helper))])
+    fixed['program']=code
+    demand_program(code,'_sr_choice')
+    return fixed
+
+
+def material():
+    folder,p,ledger,public=study.setup()
+    if not (folder/'IndependentReader/compiled.json').exists():
+        raise ValueError('The existing independent acquisition must settle first')
+    method=read(folder/'foregoing_context_repair/bundle.json')
+    independent=repair_independent(read(folder/'IndependentReader/compiled.json'))
+    return folder,p,ledger,public,{'LearnedOperations':method,'IndependentReader':independent}
+
+
+def freeze():
+    folder,p,ledger,public,bundles=material();out=folder/'focused_execution'
+    for arm,b in bundles.items():immutable_json(out/arm/'bundle.json',b)
+    paths=[Path(__file__).resolve(),ROOT/'legal_skill_guard/skill_evolution/semantic_execution.py',
+           ROOT/'tests/test_skill_evolution_semantic_execution.py']
+    protocol={'parent_protocol_sha256':sha(folder/'protocol.json'),'same_goal':True,'goal_complete':False,
+        'source_sha256':{str(p.relative_to(ROOT)):sha(p) for p in paths},
+        'bundle_sha256':{a:digest(b) for a,b in bundles.items()},
+        'scopes':{'LearnedOperations':'focus_last','IndependentReader':'window'},
+        'lookups':{'LearnedOperations':'_sr_get','IndependentReader':'_sr_choice'},
+        'scope_reason':'Candidate plans a current focus after governing context. Independent reader explicitly groups complete operative windows, including a future in-lieu alternative. Preserve both acquired meanings; focus/window capability is public.',
+        'batch_policy':'Group actual demanded queries by acquired operation, then groups of12. Unknown is terminal, each logical query answered once. No new physical-call cap.',
+        'smoke_sources':p['teacher_sources'][:1],'reuse_sources':p['reuse_sources'],
+        'no_reuse_adaptation':True,'teacher_freeze_before_reuse':True,
+        'unknown_not_lowered_to_default_norm':True,'ordinary_runtime_not_a_separate_contribution':True}
+    immutable_json(out/'protocol.json',protocol)
+    return folder,p,ledger,public,bundles,protocol
+
+
+def evaluate(reuse=False):
+    folder,p,ledger,public,bundles,protocol=freeze();out=folder/'focused_execution'
+    if reuse:
+        if not (out/'smoke/completed.json').exists():raise ValueError('Complete the fixed-version smoke first')
+        immutable_json(out/'reuse_freeze.json',{'execution_protocol':digest(protocol),
+            'bundles':protocol['bundle_sha256'],'sources':p['reuse_sources'],'no_adaptive_repair':True})
+    for path,h in protocol['source_sha256'].items():
+        if sha(ROOT/path)!=h:raise ValueError('Focused execution source changed after freeze')
+    stage='reuse' if reuse else 'smoke';keys=protocol['reuse_sources'] if reuse else protocol['smoke_sources']
+    client=FrozenExecutor(ledger,folder,p['executor_profile']);client.exact_replay_roots=(folder,)
+    rows=[]
+    for arm,b in bundles.items():
+        for key in keys:
+            dst=out/stage/arm/(key.replace(':','_')+'.json')
+            if dst.exists():rows.append(read(dst));continue
+            source=public[key];pub=source['views'][0]['public'];spans=source_spans(material_public(pub))
+            units,supports=execution_source_units(pub['source_text'],spans)
+            def save(event):immutable_json(out/stage/arm/'events'/(digest(event['call_id'])+'.json'),event)
+            result=execute(client,study.RUN+':focused:'+stage+':'+arm+':'+key+':'+digest(protocol),key,b,
+                pub['source_text'],units,scope=protocol['scopes'][arm],lookup=protocol['lookups'][arm],save_event=save)
+            raw=result['source_output'];jsonschema.validate(raw,OUTPUT);schema=constructors(b['spec']);nodes=[]
+            for i,r in enumerate(raw['statements']):
+                nodes.append({'id':i,'sort':term_sort(r['term'],schema),'term':r['term'],
+                    'support_ids':expand_unit_support(r['support_ids'],supports),'child_ids':[],
+                    'ambiguous':False,'source_semantics_verified':False})
+            interpretation={'nodes':nodes,'roots':list(range(len(nodes))),'source_program_output':raw,
+                            'complete':raw['complete'],'unresolved':raw['unresolved']}
+            # Labels enter only after all neural/source execution has finished.
+            grading=read(ROOT/'artifacts/legal_skill_evolution_20261111/prepared/train/grading.json')
+            views=[]
+            for view in source['views']:
+                r=apply_current(b['spec'],{'rules':[],'disabled_rules':[],'acquired_pairs':[]},interpretation,view)
+                core=r['value']['handled'];proof=sorted({spans[s]['public_sentence_id'] for n in r['value']['used_nodes']
+                    for s in nodes[n]['support_ids'] if 'public_sentence_id' in spans[s]})
+                score=grade_view(source['dataset'],view,grading[key][view['id']],r['value']['answer'],proof) if core else None
+                views.append({'view':view['id'],'core_executed':core,'fallback':not core,
+                    'fallback_not_executed_in_component_test':not core,'execution':r,'score':score,
+                    'proof_sentence_ids':proof,'new_effect_target':view['id'] in ('nda-16','nda-20')})
+            row={'source':key,'arm':arm,'interpretation':interpretation,'runtime':result,'views':views,
+                'fixed_version_execution':True,'source_semantic_review_pending':True,'goal_complete':False}
+            immutable_json(dst,row);rows.append(row)
+            print(json.dumps({'stage':stage,'arm':arm,'source':key,'planned':result['planned_queries'],
+                'answered':result['answered_queries'],'physical_new':sum(not e['result'].get('cache_hit',False) for e in result['events']),
+                'core':sum(v['core_executed'] for v in views),
+                'correct':sum(bool(v['score'] and v['score']['correct']) for v in views)}),flush=True)
+    immutable_json(out/stage/'completed.json',{'sources':keys,'arms':list(bundles),
+        'result_files':[str((out/stage/r['arm']/(r['source'].replace(':','_')+'.json')).relative_to(folder)) for r in rows],
+        'semantic_review_pending':True,'goal_complete':False})
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser();parser.add_argument('stage',choices=['freeze','smoke','reuse']);args=parser.parse_args()
+    with (ROOT/'artifacts/rr_v2_preflight/current_focused_reader_client.lock').open('a+') as lock:
+        fcntl.flock(lock.fileno(),fcntl.LOCK_EX|fcntl.LOCK_NB)
+        if args.stage=='freeze':print(freeze()[0]/'focused_execution/protocol.json')
+        else:evaluate(reuse=args.stage=='reuse')
