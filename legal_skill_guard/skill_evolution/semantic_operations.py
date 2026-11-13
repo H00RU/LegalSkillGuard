@@ -66,7 +66,12 @@ def validate_operations(operations, training_texts):
                 raise ValueError('Operation demonstration outside acquisition TRAIN')
             if example['choice'] not in {*choices, 'unknown'}:
                 raise ValueError('Undeclared demonstration choice')
-            if not occurrences(training_texts[example['source']], example['quote']):
+            supplied=training_texts[example['source']]
+            materials=[supplied] if isinstance(supplied,str) else supplied
+            if (not isinstance(materials,list) or not materials
+                    or any(not isinstance(text,str) for text in materials)):
+                raise ValueError('A TRAIN example needs its actual individual source materials')
+            if not any(occurrences(text, example['quote']) for text in materials):
                 raise ValueError('Demonstration does not quote its actual TRAIN source')
 
 

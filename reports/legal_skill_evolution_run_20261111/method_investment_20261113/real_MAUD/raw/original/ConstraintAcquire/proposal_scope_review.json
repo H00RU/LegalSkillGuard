@@ -1,0 +1,43 @@
+{
+  "scope": "Conditional proposal-level review before actual reads; no response or code changed",
+  "choice": "designated_holders_after_reasonable_inquiry_unspecified_targets",
+  "renderer": {
+    "predicate": "emit_knowledge_inquiry_unspecified",
+    "term": [
+      "knowledge_definition_rule",
+      [
+        "designated_company_knowledge_holders"
+      ],
+      [
+        "reasonable_inquiry_of",
+        [
+          "designated_company_knowledge_holders"
+        ],
+        [
+          "matter_in_question"
+        ]
+      ],
+      [
+        "matter_in_question"
+      ]
+    ],
+    "support_arguments": [],
+    "support_from_terms": [],
+    "support_from_queries": [
+      0
+    ]
+  },
+  "condition_constructor_definition": {
+    "arguments": [
+      "Participant",
+      "Matter"
+    ],
+    "meaning": "An operative reasonable-inquiry condition requiring inquiry of the enclosed participant class concerning the enclosed matter.",
+    "name": "reasonable_inquiry_of",
+    "sort": "Condition"
+  },
+  "finding": "The choice declares that inquiry targets are unspecified, while its rendered reasonable_inquiry_of participant is the designated knowledge holders. That constructor means inquiry OF the participant class, not inquiry BY the holders. If this branch is actually used, check the target role; do not silently invent a target or reinterpret the constructor.",
+  "not_an_observed_model_error_yet": true,
+  "native_labels_not_used_for_this_role_check": true,
+  "new_model_requests": 0
+}

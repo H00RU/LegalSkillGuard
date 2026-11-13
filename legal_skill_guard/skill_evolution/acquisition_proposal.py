@@ -34,7 +34,8 @@ def compile_proposal(previous, proposal, arm, training_sources, *, source_functi
     """
     if arm not in ('ConstraintAcquire', 'FreeUpdate'):
         raise ValueError('Explicit acquisition architecture required')
-    texts = {k: source['views'][0]['public']['source_text'] for k, source in training_sources.items()}
+    texts = {k: [view['public']['source_text'] for view in source['views']]
+             for k, source in training_sources.items()}
     inherited = {}
     for operation in proposal['operations']:
         for example in operation['examples']:
@@ -45,7 +46,7 @@ def compile_proposal(previous, proposal, arm, training_sources, *, source_functi
             if not matches:
                 raise ValueError('An example needs current text or a genuinely supplied inherited TRAIN quote')
             inherited.setdefault(example['source'], []).append(matches[0]['quote'])
-    texts.update({source: '\n\n'.join(dict.fromkeys(quotes)) for source, quotes in inherited.items()})
+    texts.update({source: list(dict.fromkeys(quotes)) for source, quotes in inherited.items()})
     validate_operations(proposal['operations'], texts)
     contracts = {r['operation']: r for r in proposal['reading_contracts']}
     if (len(contracts) != len(proposal['reading_contracts'])

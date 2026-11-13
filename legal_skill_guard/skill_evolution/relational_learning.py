@@ -53,13 +53,20 @@ def _soft(context):
     return context.get('theory_constraints',{}).get('optimization')=='native_loss'
 
 
-def _program(language,contexts,*,selected=None,worlds=None,supervise=False,blocked=(),deployed_losses=()):
+def _program(language,contexts,*,selected=None,worlds=None,supervise=False,blocked=(),deployed_losses=(),prior_rule_ids=None):
     selectable=selected is None;lines=[]
     groups=_groups(contexts)
     if selectable:
         lines.extend('{'+PREFIX+'take('+str(i)+')}.' for i,_ in enumerate(language['rules']))
-        lines.append('#minimize {'+';'.join(str(r['cost'])+','+str(i)+':'+PREFIX+'take('+str(i)+')'
+        complexity_priority = '@-1' if prior_rule_ids is not None else ''
+        lines.append('#minimize {'+';'.join(str(r['cost'])+complexity_priority+','+str(i)+':'+PREFIX+'take('+str(i)+')'
             for i,r in enumerate(language['rules']))+'}.')
+        if prior_rule_ids is not None:
+            # A branch absent from partial supervision is not a rejected branch.
+            # Native loss and every hard constraint still outrank this prior.
+            lines.append('#minimize {'+';'.join('1@0,'+str(i)+':' +
+                ('not ' if r['id'] in prior_rule_ids else '')+PREFIX+'take('+str(i)+')'
+                for i,r in enumerate(language['rules']))+'}.')
         for rejected in blocked:
             body=[('' if r['id'] in rejected else 'not ')+PREFIX+'take('+str(i)+')'
                   for i,r in enumerate(language['rules'])]
@@ -117,12 +124,17 @@ def _supervision(context,index,*,violation=False,loss_limit=None):
     return '\n'.join(lines)
 
 
-def fit_composition(language,contexts,*,timeout_seconds=30):
+def fit_composition(language,contexts,*,timeout_seconds=30,prior_rule_ids=None):
     identity=language_identity(language)
     for context in contexts:validate_context(context,language)
     if not contexts:raise ValueError('Actual training contexts required')
     if len({c['id'] for c in contexts})!=len(contexts):raise ValueError('Distinct current-source contexts required')
     if timeout_seconds<=0:raise ValueError('Positive finite solver time allowance required')
+    if prior_rule_ids is not None:
+        if (not isinstance(prior_rule_ids,list) or any(not isinstance(r,str) for r in prior_rule_ids)
+                or len(set(prior_rule_ids)) != len(prior_rule_ids)
+                or not set(prior_rule_ids) <= {r['id'] for r in language['rules']}):
+            raise ValueError('Revision prior must name distinct actually acquired candidate rules')
     deadline=time.monotonic()+timeout_seconds;world_contexts=[];worlds=[];countermodels=[];solves=[];blocked=[];deployed_losses=[]
     # Start from one consistent completion per context. It is an assumption
     # inside the solver only; it never replaces an unknown observation.
@@ -135,7 +147,8 @@ def fit_composition(language,contexts,*,timeout_seconds=30):
         world_contexts.append(context);worlds.append(_world(result['last_model'],0,context))
     known={(c['id'],tuple(w)) for c,w in zip(world_contexts,worlds)}
     while True:
-        text=_program(language,world_contexts,worlds=worlds,supervise=True,blocked=blocked,deployed_losses=deployed_losses)
+        text=_program(language,world_contexts,worlds=worlds,supervise=True,blocked=blocked,
+            deployed_losses=deployed_losses,prior_rule_ids=prior_rule_ids)
         result=_solve(text,'optimize',deadline-time.monotonic());solves.append({'phase':'hypothesis_selection',**result})
         if result['status']!='sat' or not result['exhausted']:
             return {'status':'complete_unsat' if result['status']=='unsat' and result['exhausted'] else 'timeout',
@@ -198,6 +211,10 @@ def fit_composition(language,contexts,*,timeout_seconds=30):
                 'native_loss_by_context':native_limits,'native_loss':sum(native_limits.values()),
                 'all_supplied_native_constraints_satisfied':not any(native_limits.values()),
                 'all_supplied_partial_constraints_hold_for_every_declared_possible_observation':True,
+                'revision_prior_rule_ids':deepcopy(prior_rule_ids),
+                'selection_edits':len(set(selected)^set(prior_rule_ids)) if prior_rule_ids is not None else None,
+                'objective_order':['native_loss','selection_edits','complexity'] if prior_rule_ids is not None
+                    else ['native_loss','complexity'],
                 'source_semantics_or_generalization_certified':False,'new_model_requests':0}
 
 

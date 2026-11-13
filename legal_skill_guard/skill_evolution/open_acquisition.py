@@ -208,12 +208,12 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
     return encoded
 
 
-def fit(library,observations,*,timeout_seconds=30):
+def fit(library,observations,*,timeout_seconds=30,prior_rule_ids=None):
     """Supervision is attached to context constraints, never observation facts."""
     if any(o.get('counterfactual_only') for o in observations):
         raise ValueError('Counterfactual query branches cannot supervise the learned G')
     result=fit_composition(library['language'],[o['context'] for o in observations],
-                           timeout_seconds=timeout_seconds)
+                           timeout_seconds=timeout_seconds,prior_rule_ids=prior_rule_ids)
     updated=deepcopy(library)
     updated['selected_rule_ids']=result['selected_rule_ids']
     updated['fit']={'result':result,'training_context_sha256':[digest(o['context']) for o in observations],
