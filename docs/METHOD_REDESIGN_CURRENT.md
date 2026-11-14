@@ -1,113 +1,48 @@
 # 当前证据与下一项实际工作
 
-2026-11-14。同一Goal **active、未完成**。目标、验收、资源授权及边界只由[CURRENT_GOAL.md](CURRENT_GOAL.md)规定。唯一项目`/home/yndx/hhy/legal-skill-current`，开发分支`repair/lift-corev-activation-20261112`，main不改。旧Goal卡、暂停消息和历史下一步不构成队列。
+2026-11-14。同一Goal **active、未完成**。目标、验收与资源边界只由[CURRENT_GOAL.md](CURRENT_GOAL.md)规定。唯一项目`/home/yndx/hhy/legal-skill-current`，开发分支`repair/lift-corev-activation-20261112`，不改main。历史暂停、旧Goal卡和旧方案不构成执行队列。
 
-## 当前结论与真实进展
+## 当前执行位置
 
-最新固定8母源获取已完成两个独立真实教师调用；双方学得完整源程序，在同样原TRAIN与原评分上执行。C从先前15/32变为25/32、Free从17/32变为21/32。C实际可执行25/32，Free24/32；未覆盖分别7/32、8/32，没有fallback物理调用，全部保留分母。这是获取训练结果，不是新盲测或整体语义认证。共享C消费者、保持Free类型和实际法律项不变时为23/32；其中8fb跨消费者损失1题涉及表示兼容，不能把这项控制简单当作全部同条件获取优劣。
+用户最新明确授权五数据集完整TRAIN，继续C及第二项。已核验固定128母/280视图、8批×16；每批OpenExempt4，其余四库各3。无新增来源或种子，thinking OFF和原模型/采样不变，TEST不开。完整训练入口为`experiments/legal_skill_evolution_five_train.py`及其当前组件，不启动历史Lift/CoRev正式入口。
 
-|固定原TRAIN母来源|C正确/4|独立Free正确/4|
-|---|---:|---:|
-|e7b7|4|3|
-|de42|4|3|
-|5cad|4|4|
-|a5b0|2|0|
-|62fd|2|2|
-|bbb3|4|4|
-|8fb3|1|1|
-|6fce|4|4|
+已完成完整来源接线准备、24条SARA原题查询恢复及CNI24母候选执行；第二项累计观察库的**混合第一批SARA分支**已执行，两臂累计库开始第二批正常更新。当前不是五库全部训练完成：C的逐批学习/选择、第二项残余读取的原生核接线、其余三库共用路径仍在实施。不能将固定候选执行按来源分批展示为学习曲线。
 
-[逐来源、原生答案和实际使用根](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_source_gap/source_results.json)、[原始响应/完整科学提示与源码](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_source_gap/artifact_copy_manifest.json)。两臂操作均为空，实际源/G/消费者是确定性程序主路径，不需要增加弱执行器调用。
+实时恢复先查`artifacts/rr_v2_preflight/research_ledger.sqlite3`的reserved行、真实PID和单客户端锁。已结算小试累计10636=10382E/254T；新完整TRAIN的B1调用继续追加。当前客户端命令`python -m experiments.legal_skill_evolution_observation_library_train acquire --batch 2`，日志`/tmp/lsg_observation_library_train_B2_20261114.log`。不要重复启动；后续基于同一账本接续。模型服务为既有Qwen3-8B、thinking OFF；教师`gpt-5.6-sol/high`、retries0，温度未暴露。
 
-## C的证据和已定位缺口
+## C：实际学习及干预证据
 
-- e7b7原文34确有Agreement结束或请求触发、立即返还/销毁；C新程序取得，Free仍用request-only旧规范。这是明确的源获取改善。de42及a5b0的部分分差由消费者解释吸收，不能算全部为C算法收益。
-- 当前24开关G在最后6fce枚举超时555理论，原超时保留。其他已完整枚举的正损失来源最低错误2、2、3；其余来源建议G已经0错。建议G达到全局错误下界7且选择编辑0，故可严格认证不变最优，无需完成最后枚举；不冒称运行了整个选择求解，不证明源语义或方法贡献。[精确证书](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_source_gap/certified_revision/certificate.json)。
-- 证据传递存在工程缺陷：root_support(A,U)让整份联合证据被输出为各个单U。公共确定性适配把仅用于证据的U坐标换成实际term A、support_from_terms；所有规则body/cost、源代码、法律模板、选择保持。8母法律项集合、答案/正确与覆盖保持25/32，6fce处置证据恢复[15,16,18]；不合并不同见证的同项、不补入未取得条款。20坐标修复、10项相关回归通过。[实际修复重放](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_source_gap/unbound_provenance_replay/proof.json)。这是工程修复，不计U。
-- 真正的源遗漏仍在：de42新项只引39，缺40/41的三个月非成约与prompt请求分支证据/期限；6fce缺20/21的Agreement结束/书面请求返还，10/12的Representatives定义与书面保密资格尚未连接，61义务主体/确保affiliate履行的关系被扁平化。两臂都保留了上游15的错误“请求下返还或销毁、无例外”旧项。原生4/4不能认证这些字段已正确，不把全字段完美新增为安装门槛。
+- 原固定8母共同消费者基线：C25/32、Free23/32；消费者之前漏识别已声明的三种显式源缺失构造，公共修复已对两臂应用，基线分数不变。未知/无匹配不默认当absence。
+- 两次独立真实教师做局部源函数更新。新C31/32，Free按任务内唯一原函数/类型恢复显式引用后24/32。原失败、实际helper字节、类型声明和恢复收据保留；Free仍有8fb类型错误及6fce未解决，不借补造语义修复。
+- C只改apply/sp_disclosure并增加完整源审查函数，12个旧函数字节不变。新Norm经G产生；保留24条旧候选规则，新增5条候选、选3条。实际新φ/旧G27/32，旧φ/新G25/32，完整31/32；5个保持母来源20/20不变。
+- 固定8母的正规则最大闭包及依赖唯一性给出局部目标证书：最小原生损失1、选择编辑3、新复杂度5，当前解达到。没有跑完整枚举，不认证源语义或方法独立创新。证书仅针对这8母，不扩称24母或五库最优。
+- 新C/Free固定库已真实执行全部24份原TRAIN合同：73/96 vs63/96，均10个未解决、无fallback；原8母31/24，其余16母42/39。当前16母是当前更新未使用的原TRAIN，历史已暴露，不称盲测。该结果是固定库覆盖，并非逐批训练曲线。
+- 8fb的原生nda16仍错：原文if requested被保持，没有为追标签补Agreement termination；从未解决变为已执行NotMentioned，与原生Entailment不符。部分源审查与全部原生分母分别保留。
 
-## 最新两母定点修复已终结，候选不直接部署
+证据位于`artifacts/legal_skill_evolution_source_local_update_20261114/`，完整合同候选执行位于`artifacts/legal_skill_evolution_five_train_20261114/source_pass/`。[阶段报告与原始输出](../reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/README.md)。
 
-`experiments/legal_skill_evolution_source_scope_repair.py`，run=`legal_skill_evolution_source_scope_repair_20261114`，串行两个真实教师已完成，无executor请求。仅用上述8母的de42/6fce修复，其他6母为预先固定的原TRAIN保留检查，历史暴露披露，不称新盲测。两臂全文、TRAIN监督、当前双方库与部分源审查相同，消费者冻结。
+## 第二项：已修正的判断及现在实际实现
 
-|范围|C修复前→候选|Free修复前→候选|
-|---|---:|---:|
-|两母修复，原生正确/8|8→8|7→7|
-|其余6母保持，正确/24|17→13|14→13|
-|总计正确/32|25→21|21→20|
+事实映射＋固定核＋失败后补读已有直接近邻，不单列创新。旧四母真实主读中PG原生4/4、Free3/4；共同删除多余marriage onset gate后原始观察重放为4/4和4/4。PG死亡案例从问题虚构Bob死亡两条，未经删除/补造，语义判失败；答对不计核心成功。因此旧差值不能支持第二项。
 
-C真实取得了独立action/trigger/exception/责任/披露资格原子和共享scope/actionID连接，20规则/18建议；新Norm都由G产生。6fce错误上游“请求下任选返还销毁”已删除，20/21协议终止返还取得，10/12书面资格在员工/顾问/代理三类真实Norm上连接；61代履行与引用明确保留、未展开细节仍unresolved。de42两个触发分支有39/40及39/41联合支持，三个月以原文触发限定保留，不称已完成数值计算。6fce删除资格连接4→2、删除处置连接4→3，de42仍靠旧根保持4。局部检查不认证全源所有字段。[实际干预和部分源审查](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_scope_repair/unbound_C_actual_mechanism_and_partial_review.json)。
+公共执行核改用作者不可变statute-only代码，演员只提供当前案件事实；恢复原题查询参数，不复制原形式化案件事实或期望极性。四母两次原生图读及修schema后两次真实读保留：角色/类型错误、一次8192截断；没有继续同格式批量请求。两臂随后学得8个观察/转换提议并真实执行8次紧凑读取、无截断；新学校原语为source-only，不虚称从错误复用。
 
-整模块替换同时丢失C原e7b/a5b/8fb能力，不能把局部修复当整体升级，也不能用旧流程fallback掩盖。Free原提议引用任务中已提供的5个C原子却漏自身schema声明；确定性恢复只逐字导入既有类型/含义，源/组合/H不变，原失败/编译保留。[全部保留结果](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_scope_repair/source_results.json)、[完整响应与源码](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_scope_repair/artifact_copy_manifest.json)。
+当前整合为**一个累计观察组件库＋纯规划器＋转换程序**，按原8混合批更新。B1两臂独立教师得到相同原文、训练反馈、旧库和真实失败；后续新案例读取前保存旧库初答，再提供本批监督更新，分别保存更新后结果。第一批两臂教师已结算；13个内嵌schema各多一个终端右花括号，按完整唯一JSON对象＋唯一多余标点确定性恢复，未改任何字段值/语义，原响应与收据保留。两臂均通过实际服务grammar、规划与输入长度检查；没有观察字段时均不返回默认答案。当前B1后更新原生结果为方法1/3、普通教师2/3、固定通用表示1/3；通用表示重复类型的无歧义离线去重不改变分数。B2更新前在后续3母上已保存方法1/3、普通教师0/3，属于小批流程证据，非独立贡献结论。
 
-该阶段结束时累计10583＝10343E/240T，旧PID3022060已终结，不重启。最新结算见下文U。manifest source/data、原10581条账本hash均保持。保留两版库及候选，原八母25/21结果不覆盖。该阶段的U下一步也已按最新用户要求退役，停止用整体重写继续凑修订样本，不启动完整训练/DEV/TEST。
+第一批已生成的方法库包含payment/service、annual income/givens、marriage/returns、death、education/service、termination/benefit、family/residence组件；后续分批实际选择、转换和语义仍需完整核验，组件数量不当贡献证据。B1共同错误已定位为观察正确但native谓词lowering不符（itemize_deductions_ vs deduction_）；发现教师任务漏送实际P正文，仅有法条与接口。B2已公平提供相同11份原生程序及真实错误，保留B1，不以公共接口修复计独立收益。方法侧另一未解决是耦合观察中returns/itemizations为null，保持未知，不归为已执行答错。
 
-## U历史研究资产：影响范围学习与同信息否定证据
+固定紧凑通用事件表示已经实现：复用作者一元事件类型和二元属性角色，用公共纯序列化转为原生事实，不内置法律判定。它替代已知高负担原生图诊断作为通用表示控制。普通教师保留同样的表示、规划和程序能力。生成schema已通过实际服务xgrammar0.1.23离线编译。
 
-前一轮用户补充保持C，要求U从**真实修复和跨来源误改反馈**学习：哪些法律依赖应改变，哪些仍有效的原结论应保持，并实际约束后续编辑生成与选择。法源绑定、参数和guard只是执行支撑。旧答案如有法源反证须允许撤销，不把历史答对机械变成不可变约束。目标与验收保持原要求。
+同契约补读比较入口`case_read_comparison.py`已实现并回归：相同初始观察/契约/法律核、一次匹配读取机会，触发不看答案标签，未解决/已答错分开。已有Python残余切片可用；原生Prolog核尚无残余→观察镜头，明确计为未接通，不冒称真实残余成功。旧同母补读结果已关闭，不重跑。
 
-刚完成零调用的局部退役原型：从原de42/6fce两个修复母来源与e7b来源的已知正确能力构建203个真实源/程序绑定候选，用实际5条错误证明与明确保留见证选出2条策略。实际执行原生25/32保持，错误源Norm5→0，实际使用错误Norm的答案路径5→0。另5母在策略冻结后执行，触发0，不能声称跨来源更新成功。两种强简单控制（全精确条款覆盖、末尾声明引用字段覆盖）同样25/32及5→0，效果被吸收。该原型保留为确定性维护资产，**不算U独立实证，不扩展同一实例**。原learned_U、原始DP原型和修正、所有结果均在`artifacts/legal_skill_evolution_bound_edits_20261114`；旧AST核心及全部否定证据保持。
+## 固定比较与最近邻差异
 
-这次范围检查还发现新φ4仅在修补的两母产生新原子，其他六母均0；这限制了当前U可验证的后续适用机会。不能据此新增“每源都要新分支”的门槛，也不能用未触发来源充当迁移成功。C保留，未启动完整训练。
+1. 学得观察/转换 vs 固定通用表示及同信息普通教师；开发修复与后续案例复用分开，记录真实父组件、错误→变更→后续调用及输出。
+2. 同一冻结观察契约下，残余引导 vs 普通补读；相同前态、程序、合法信息和资源机会，覆盖不到的路径和fallback单列。
+3. 即使上述比较有效，仍须审查具体更新/学习机制相对ACL2021、NLLP2023、SymBa等的实质新增。当前程序组件版本化和累计学习是实现进展，独立科学贡献尚未成立；不将比较结果自动提升为创新结论。
 
-**历史U实现：修订影响事件与执行约束（不再作为当前队列）。** 合并既有真实证据，而非造错误案例：e82b不同动作的材料/触发修复；6fce资格与动作责任、de42期限修复及整模块改动误伤e7b/a5b/8fb；MAUD目标角色修复中仅改renderer导致12→10、同步解释器恢复12的真实联动记录。全局同一库更新跨母应用不重复计为多个独立修订事件。源字段未知、未审查或旧答案碰巧正确不标成必须保持。
+## 下一项实际工作
 
-实现先形成带证据的法律依赖/程序依赖与影响标签，学习可改变、必须修复、应保持及需重查的范围；将它们传入编辑生成、组件联动与候选选择。范围约束保护的是仍有效的法律结论/语义，不固定旧AST或接口。必要强控制包括通用最小编辑/静态依赖切片、同信息正确修复缓存、源图统一闭包及绑定型U；不把额外人工监督只给ours。
+先结算在途B2两臂教师，沿用现有源/schema编译及实际服务预检，保存第二批更新后结果；按相同固定批次继续GenericView及后续新案件初答。随后按原八批接续观察库学习，并将C逐批诊断/φ/G更新及其他三库公共适配接入统一checkpoint。必要修复在安全批次边界进行，对照公平应用；不在4例上反复补实验。
 
-当前已实现`repair_impact_learning.py`、约束接口及真实编辑调用路径。学习对象是有来源/代码见证的依赖路径和当前字段形状上的`must_change/preserve/recheck`规则，复用原精确DNF/set-cover核心；只用正向可见谓词，避免把部分图缺边当反证，未审查不补负标签。源合法性与执行仍独立检查，预测不是法律证明。
-
-**一次真实同信息配对已完成。** 用旧3父修订、28条监督学得V1，将其范围真正放入编辑请求，修复原八母中62fd的“带例外规范＋无例外副本”真实问题。FreeHistory获得相同原文、真实历史/图/反馈、底座和联合修改能力，独立编辑。双方都编译并走真实主路径，删除错误副本且保留带例外规范和主体；八母均25/32→25/32。ImpactGuided改5个source函数、Free改4个；此次没有U额外准确率或成本优势，不扩展同一副本删除例子，不把接口打通当贡献成立。[真实配对](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_impact_guided_edit/README.md)。
-
-实际反馈继续进入离线学习：原4条跨源Native误改来自3母；逐一审查原文后取得4条法律字段保持见证，保护e7b终止/请求触发、a5b主体/同意例外、8fb请求/空白期限，不把旧答案当法律真值。补齐原先已明确的必要修正监督后，V2为3父/50标签。随后在本次真实配对发现两个同源条件字段的图特征完全相同，却一条应保留、一条应修正；字段已有的`add_exception/no_exceptions`程序形状未进入观察。最小补入真实名义构造子，并把实际修复当后续TRAIN反馈，V3为4父/60标签，三类策略均可识别，训练监督无冲突。[学习与真实反例修正](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_impact_scope_learning/README.md)。
-
-须区分：真实配对使用V1；V2/V3是随后离线反馈更新，未重跑或改写配对结果。V3尚无后续独立真实编辑证据。部分规则仍可能只是共同修复中的共变，不能写成已经发现因果依赖；当前源检查和有效结论约束继续决定候选是否可接受。47项相关回归通过，不替代方法收益。
-
-## 当前第二方向：正确技能的实例化与执行，C保持
-
-用户最新明确希望尝试解决“律师拿到正确技能仍做不对题”；第二研究方向据此调整，U不再作为第二贡献主线，代码/原始结果/否定证据完整保留。不是新Goal，也不新增来源、模型配置、主训练或TEST授权。
-
-已有历史症状可复用：11月5日原32源上下文诊断中，21条新错金额有13条超过原事实资产值，包括18元袜子填600；原技能已规定不超过资产值。此前已有原文锚定执行示范、程序数值技能、强制算术、同库位置/编码、局部源绑定等尝试，不能再把这些当未经尝试的新方法。这些是历史诊断，不冒称当前128池的新增结果。[历史事实绑定证据](reports/EV_OWN_EC_CONTEXT_DIAGNOSTIC_20261105.md)、[旧执行示范设计](research/OPENEXEMPT_CODE_GUIDED_EXECUTION_REPAIR_20261028.md)。
-
-刚核查的直接近邻包括[SkillSentry](https://arxiv.org/html/2608.09253v1)：技能规范与成功/失败轨迹生成DSL运行时指导，按步骤检查和更新指导；[SkillAligner](https://arxiv.org/abs/2608.06880)：执行前联合适配技能；[Faithful CoT](https://arxiv.org/abs/2301.13379)、[SatLM](https://arxiv.org/abs/2305.09656)及[BINDER](https://github.com/xlang-ai/Binder)已有符号/程序执行与神经接口。因此泛称“正确技能＋执行监督/编译”不够作为差异。当前不宣布新方法已成立。
-
-已开始零调用原TRAIN定位：原Full八批280视图中37实际走技能核心，31个非完全正确视图来自21母，仅作为待审候选；已剔除2条SARA实际§3306(b)技能运行于§3306(c)问题的作用范围错配，不当作“正确相关技能执行失败”。当前原池的正确技能执行失败集合尚在核验，历史18元→600只作问题证据。[当前方向、近邻与候选原始索引](../reports/legal_skill_evolution_run_20261111/correct_skill_execution_20261114/README.md)。
-
-**当前已落实的第二方向最小实现**：原真实付费记录确认§3306(c)(5)(A)程序和法源常量正确，8B已收到明确雇主/雇员，仍将“Bob是Alice的父亲”直接填为“雇主相对于雇员是father”。固定原程序的子女两种关系视图均得到同一正结论；这是零调用源码审查与重放，普通关系投影也能修好，不能作为独立贡献。[逐字段原始证据](../reports/legal_skill_evolution_run_20261111/correct_skill_execution_20261114/verified_source_frame_error.json)。
-
-已实现`case_observation_contract.py`：学习案件观察schema及纯事实适配程序，法律核固定；每个带当前原文见证的相容参数赋值都实际执行，有相关未知/分歧/未覆盖则保持unresolved。类型、quote及结果一致不自动认证事实覆盖。24项相关回归通过。共同法源核取得与一次明确源/接口修复共2T：修正跨年20k门槛不能跨年相加、原生有限案件与神经未读取的区分；共享日历函数接口修复公平开放。原坏程序、软件反例和修改后回归完整保存，未派发坏核给8B。
-
-固定原TRAIN三母`3e22604a20/d9d6b23646/5c29a3a22f`，分别为亲属方向、工资事件、居住时间。第一母真实错误提供获取反馈，后两母只给教师法源/固定核，不给案件事实或标签；三母均为历史暴露TRAIN，不称新盲测。两臂教师独立获取、信息与观察/适配容量相同，强Free可使用关系投影、程序、历史正确修复与歧义；DirectRead将共享同一正确核与反馈。静态普通关系投影已恢复首母，应单列该简单控制。未来两母核的法源获取不算从首母学会迁移。
-
-**三母真实小试已经终结**：ProgramGuided 3/3、独立FreeHistory 3/3、DirectRead 2/3；两学习臂2E/臂，DirectRead 3E，共7E。DirectRead在相同正确核和真实错误—修复反馈下仍填反father，公共范围检查使其unhandled，不用fallback代答。两学习臂实际工资归属和时间裁剪均正确；首母关系投影被Free及静态关系控制吸收，当前专门机制没有独立增益。相关未知保持、两种关系备选的一致执行已真实使用；分歧澄清、多轮更新及C联合收益尚无实证。不会继续重复这三母或把3/3当整体通过。[完整真实结果、算法、原始请求/响应与费用](../reports/legal_skill_evolution_run_20261111/correct_skill_execution_20261114/real_observation_pilot/README.md)。
-
-**C路径核验已经完成**：四条消费者变化均来自固定程序的覆盖/解释，不是弱8B的案件字段执行。a5b的源内“Visitor…不得未经同意披露给others”已存在，Free消费者因未分类接收对象而没有将它加入relevant；de42/8fb的同一处置规范在两个固定消费者下得到不同保持判断。来源法律项及原句需要继续保留，不能由标签差异直接认证法义，也不把它们强行算第二贡献的四条成功机会。C保持，第二机制不为接入它而改造合同任务。
-
-**当前实际学习与实现**：四母原TRAIN预先固定为a519/8175用于开发，743a/a308用于教师更新输入隔离后的冻结检查。两条原开发真实8B读取均已结束，a519有向given正确；8175把“have been married since Feb 3rd, 2017”读成婚姻始末同日，实际核返回Contradiction且原生错误。新source-only核接口还额外要求实际列举选择。已只读官方SARA法条程序（未读任何case/TEST成员），核实该任务以给定deduction事件为条件，故公共metadata删除额外选择声明要求，P的字节保持；所有臂共享，不能算新机制收益。官方程序未送入模型，解释依据与原坏定义已保存。
-
-候选学习对象继续是事实观察契约，现针对**源文状态/事件形式到固定法律核端口的转换**，保护关系方向、since/封闭区间/时点状态，不再强迫8B直接猜全套旧端口。纯程序可以先读当前源文；不足才调用学习的事实观察。新增`binding_refinement.py`以给定一致绑定集和已学事实投影，计算区分程序结果的最坏声明成本最小读取树；未知或未覆盖保持unresolved。6项相关单元检查通过，这是离线执行组件，不是贡献实证，报价单位不是实际费用。没有把旧M2误读通道改名恢复。
-
-近邻进一步核查到[NLLP2023作者论文](https://aclanthology.org/2023.nllp-1.12/)及作者代码：已有正确法条＋案件事件/参数抽取，且明确指出start/end接口难表达ongoing状态；因此单纯换事件表示或接求解器也不是独立贡献，当前需要验证学到的观察/转换及程序相关读取是否确实有效。原native评分保持，不按严格FOL重标合同。
-
-**本轮四母真实研究已经关闭**：ProgramGuided开发1/2、冻结原TRAIN1/2（合计2/4）；Free0/2、1/2（1/4）；Direct1/2、2/2（3/4），均无fallback。两教师都返回0refinement，新增规划器没有真实主路径使用，不能当核心创新实证。官方native分居核过度要求持续性，公共离线修复后相同原响应重放为3/4、1/4、3/4；原冻结结果不替换，该工程收益不归给方法。a308真实使用了学得ongoing_since转换；尚无反馈消融及总体胜于Direct的证据。[完整四母结果、前后核、原始响应和费用](../reports/legal_skill_evolution_run_20261111/correct_skill_execution_20261114/temporal_frontier/README.md)。
-
-随后只对8175开发母例做1E公共存在性读取，真实返回当前facts未陈述法令。给三臂同一事实结果、只更新该通道后，ProgramGuided原转换/P实际得到Entailment，另两者仍因onset_only未知而未处理。它是共享输入控制干预，不改写四母表，也不冒充允许各自自由补读的强比较。没有删除unresolved或把未读None直接当[]。
-
-**新增运行路径与强控制已完成**：实际未解决返回的动态依赖切片、沿已学绑定程序反向定位事实字段、原子补读及原适配器/P再执行已经实现。8175的学得路径指向decree_facts，Direct在更早的婚姻持续性端口阻断。复用既有付费缺席观察的新路径离线得到Entailment，不称新生成成功。五次真实同母开发控制依次为：全契约旧端口联合未解决、相关契约联合未解决、共享新视图联合未解决、Direct残余婚姻端口未解决、同source-status的新视图联合输出足够事实但缺法令见证而严格拒绝。最后一条载荷单独执行可以得到Entailment，但未接受、不计核心成功；源状态语法可能吸收本例效果，不能把少量失败当定点读取的独立优势。具体schema/host不一致已离线修复：records/none_stated明确要求非空见证，unread保持；原坏响应保留、不补引文。新执行模块独立命名kernel_residual_reader，旧合同来源residual_reader按原字节保留。相关21项回归通过。[实现、全部闭合控制、严格失败与载荷诊断](../reports/legal_skill_evolution_run_20261111/correct_skill_execution_20261114/residual_instantiation/README.md)。
-
-**下一项实际工作**：不继续补读8175、不重跑关闭四母。用已有原TRAIN失败与契约定位在共同source-status、源/接口修复开放后，学得观察/映射及程序相关读取各自仍有作用的具体路径，再固定有限真实比较及独立消融。不把确定性动态切片或格式修复当第二贡献成立。C保持，未证明两个贡献，当前不启完整训练/DEV/TEST。
-
-当前研究客户端均已终结，单客户端锁可取得。累计10619＝10370E/249T、在途0；原10614条逐行hash保持。新增5E/0T均为同一已有开发母例的有具体配置差异的闭合控制，0新来源、无重试；第五条模型已完成后host拒绝，不漏计物理费用。原10596截面的15E/3T及可避免缓存调用仍保持，不重新启动已关闭run。当前Goal active、未完成。
-
-## 费用与保存
-
-已终结源获取阶段10579→10581：0E/2T，原10579行逐条hash保持；356915输入、43894输出（含22023 reasoning）token，826.159教师服务秒。编译适配、8母实际代码执行、共享消费者、下界证明和证据修复新增0调用。现金发票/GPU分摊未知。[逐请求与保存](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_source_gap/cost_and_preservation.json)。两母scope repair另新增0E/2T，201230输入、34826输出（含17724 reasoning），675.810服务秒，原10581行保持。两阶段共0E/4T；该截面累计10583。[两母费用与保存](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_scope_repair/cost_and_preservation.json)。
-
-原完整128来源8批与七系统DEV/TEST、旧A/B、M1/M2、Lift/CoRev、MAUD四/二母、12/4、两母源原子及冻结复用结果均保存，旧测试暴露不指导当前修补。2母冻结复用虽然双方8/8，删新增G仍8/8，不能认定迁移。旧24/48等分数及失败不重新命名为当前方法成绩。[完整历史结果与当前报告](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/update_train_result.md)。后续只更新本文件的当前状态，不恢复历史执行队列。
-
-本次范围学习配对另新增0E/2T，219387输入、7722输出（含4868 reasoning）token，167.902教师服务秒；累计10585、在途0，旧10583行逐条hash保持。实际现金/GPU分摊未知。V2/V3离线反馈和全部执行检查未新增调用。费用和逐请求见[本次配对费用与保存](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_impact_guided_edit/unbound_actual_check/cost_and_preservation.json)。
-
-本次正确技能观察契约小试新增7E/4T：共同法源核及源/接口修复2T，独立两臂契约各1T；教师81202输入/37476输出（含23466reasoning）、732.454服务秒，executor30674输入/2998输出、87.408服务秒。原10585行hash保持，所有请求终结，无失败/重试或DEV/TEST调用。现金发票/GPU分摊未知。[本轮逐请求与保存](../reports/legal_skill_evolution_run_20261111/correct_skill_execution_20261114/real_observation_pilot/cost_and_preservation.json)。
-
-本轮四母状态观察契约与一次公共诊断新增15E/3T，累计10614。教师77853输入/30560输出（含15623 reasoning）、592.484服务秒；executor41626输入/3602输出、104.760服务秒。无失败/底层重试，1次可避免序列化差异调用保留计费。现金发票/GPU分摊未知。[本轮逐请求与保存](../reports/legal_skill_evolution_run_20261111/correct_skill_execution_20261114/temporal_frontier/cost_and_preservation.json)。
-
-本轮残余编译与强控制新增5E/0T：42360输入、1491输出token，49.777执行服务秒；累计10619。GPU资源分摊未知，执行服务逐请求新增API现金费0不代表总成本0。[本轮逐请求、原10614条保持及原始文件](../reports/legal_skill_evolution_run_20261111/correct_skill_execution_20261114/residual_instantiation/cost_and_preservation.json)。
+同时补原生核的残余观察接线，并将每次真实使用/不支持路径写进完整覆盖表。最终交付完整训练曲线、逐来源分库原生结果、独立消融、强对照、机制实际使用及连续成本。保留全部否定结果，不以少量成功/报告完成Goal；不启动TEST或论文。

@@ -71,6 +71,9 @@ def apply_adapter(contract, kernel, public, raw_observation, *, literal_context)
 
 
 def kernel_execution(kernel, binding):
+    if kernel.get('backend') == 'sara_statute_program':
+        from .sara_statute_kernel import execute
+        return execute(kernel, binding)
     value = execute_json(kernel['program'], deepcopy(binding), deepcopy(kernel.get('premises', {})), allow_helpers=True)
     if 'answer' not in value:
         raise ValueError('Legal kernel did not return its declared answer')
