@@ -1,4 +1,4 @@
-"""Original ContractNLI TRAIN feedback on executed current-source theories.
+"""ContractNLI unlabeled execution and original TRAIN-only learning feedback.
 
 Uses the unchanged native consumer/scorer. It never turns an answer label into
 an observed legal fact. Other dataset adapters stay in their existing paths.
@@ -21,8 +21,10 @@ def contract_execution(spec,source,*,view_ids=None):
 
 
 def _contract_feedback(spec,source,grading,*,view_ids=None):
-    if source['split']!='train' or source['dataset']!='ContractNLI':
-        raise ValueError('This feedback adapter accepts original ContractNLI TRAIN only')
+    if source['dataset']!='ContractNLI':
+        raise ValueError('This execution adapter accepts original ContractNLI only')
+    if grading is not None and source['split']!='train':
+        raise ValueError('Learning feedback accepts original ContractNLI TRAIN only')
     public=source['views'][0]['public'];text=public['source_text']
     if any(v['public']['source_text']!=text for v in source['views']):
         raise ValueError('Never combine distinct per-view materials')

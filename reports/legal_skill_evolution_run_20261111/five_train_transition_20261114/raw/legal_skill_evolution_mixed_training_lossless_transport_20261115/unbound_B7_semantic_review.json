@@ -1,0 +1,503 @@
+{
+  "source_file_sha256": "531bf884fb0dad2259f1442202948a4b02bc4f2accaffd3789e6784f4942b910",
+  "source_audits": [
+    {
+      "source": "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+      "arm": "ProgramGuided",
+      "row_sha256": "a9ec251ebc17ee72b3f6b0951d85bc8233d00e1ead937a06d288938bd82886b2",
+      "actual_source_facts": "Alice has paid $3200 to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017, in Caracas, Venezuela. Alice is an American employer.",
+      "actual_native_query": [
+        {
+          "arguments": [
+            "domestic service",
+            2017
+          ],
+          "predicate": "s3306_c_1"
+        }
+      ],
+      "native_correct": true,
+      "actual_component_ids": [
+        "payment_service_events"
+      ],
+      "actual_reads": 1,
+      "source_semantic_issue": "private-home venue not stated; domestic-service label alone does not establish venue",
+      "actual_new_country_used_in_lowering": true,
+      "removed_facts": [
+        {
+          "arguments": [
+            "domestic service",
+            "private home"
+          ],
+          "predicate": "location_"
+        },
+        {
+          "arguments": [
+            "Caracas",
+            "Venezuela"
+          ],
+          "predicate": "country_"
+        }
+      ],
+      "offline_diagnostic_only": true,
+      "original_model_record_unchanged": true,
+      "diagnostic_execution": {
+        "handled": true,
+        "answer": "Contradiction",
+        "binding_executions": [
+          {
+            "inputs": {
+              "extraction_status": "complete",
+              "facts": [
+                {
+                  "arguments": [
+                    "domestic service"
+                  ],
+                  "predicate": "service_"
+                },
+                {
+                  "arguments": [
+                    "domestic service",
+                    "Bob"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "domestic service",
+                    "Alice"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "domestic service",
+                    "domestic service"
+                  ],
+                  "predicate": "purpose_"
+                },
+                {
+                  "arguments": [
+                    "domestic service",
+                    "Caracas"
+                  ],
+                  "predicate": "location_"
+                },
+                {
+                  "arguments": [
+                    "domestic service",
+                    "Feb 1st, 2017"
+                  ],
+                  "predicate": "start_"
+                },
+                {
+                  "arguments": [
+                    "domestic service",
+                    "Sep 2nd, 2017"
+                  ],
+                  "predicate": "end_"
+                },
+                {
+                  "arguments": [
+                    "payment_0"
+                  ],
+                  "predicate": "payment_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    "Alice"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    "Bob"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    "domestic service"
+                  ],
+                  "predicate": "purpose_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    3200
+                  ],
+                  "predicate": "amount_"
+                }
+              ],
+              "negative_givens": []
+            },
+            "witnesses": [
+              {
+                "field": "facts",
+                "quote": "Alice has paid $3200 to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017, in Caracas, Venezuela."
+              }
+            ],
+            "execution": {
+              "backend": "official_statute_program_with_model_facts",
+              "fact_count": 12,
+              "source_program_unchanged": true,
+              "literal_transport_adaptations": [
+                {
+                  "predicate": "start_",
+                  "argument": 1,
+                  "original": "Feb 1st, 2017",
+                  "normalized": "2017-02-01",
+                  "basis": "Fully specified unambiguous literal calendar date"
+                },
+                {
+                  "predicate": "end_",
+                  "argument": 1,
+                  "original": "Sep 2nd, 2017",
+                  "normalized": "2017-09-02",
+                  "basis": "Fully specified unambiguous literal calendar date"
+                }
+              ],
+              "case_truth_not_certified_by_types_or_quotes": true,
+              "handled": true,
+              "answer": "Contradiction"
+            }
+          }
+        ],
+        "answer_relevant_binding_differences": [],
+        "unresolved": [],
+        "kernel_sha256": "3948d598e1c3ce858dc6a0a8de1c00c12baac82c4b3abdaa383fa36cf8408da8",
+        "not_a_binding_coverage_or_source_semantics_certificate": true,
+        "no_favorable_binding_or_default_answer_selected": true
+      },
+      "country_or_venue_effect_on_this_query": false,
+      "learning_advantage_credit": false
+    },
+    {
+      "source": "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+      "arm": "FreeHistory",
+      "row_sha256": "15f85fc387db7dd886c514eb88041f7ec7c890c4f4150333ac1bf69a59890711",
+      "actual_source_facts": "Alice has paid $3200 to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017, in Caracas, Venezuela. Alice is an American employer.",
+      "actual_native_query": [
+        {
+          "arguments": [
+            "domestic service",
+            2017
+          ],
+          "predicate": "s3306_c_1"
+        }
+      ],
+      "native_correct": true,
+      "actual_component_ids": [
+        "payment_service_events"
+      ],
+      "actual_reads": 1,
+      "source_semantic_issue": "private-home venue not stated; domestic-service label alone does not establish venue",
+      "actual_new_country_used_in_lowering": false,
+      "removed_facts": [
+        {
+          "arguments": [
+            "domestic service",
+            "private home"
+          ],
+          "predicate": "location_"
+        }
+      ],
+      "offline_diagnostic_only": true,
+      "original_model_record_unchanged": true,
+      "diagnostic_execution": {
+        "handled": true,
+        "answer": "Contradiction",
+        "binding_executions": [
+          {
+            "inputs": {
+              "extraction_status": "complete",
+              "facts": [
+                {
+                  "arguments": [
+                    "domestic service"
+                  ],
+                  "predicate": "service_"
+                },
+                {
+                  "arguments": [
+                    "domestic service",
+                    "Bob"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "domestic service",
+                    "Alice"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "domestic service",
+                    "domestic service"
+                  ],
+                  "predicate": "purpose_"
+                },
+                {
+                  "arguments": [
+                    "domestic service",
+                    "Caracas, Venezuela"
+                  ],
+                  "predicate": "location_"
+                },
+                {
+                  "arguments": [
+                    "domestic service",
+                    "Feb 1st, 2017"
+                  ],
+                  "predicate": "start_"
+                },
+                {
+                  "arguments": [
+                    "domestic service",
+                    "Sep 2nd, 2017"
+                  ],
+                  "predicate": "end_"
+                },
+                {
+                  "arguments": [
+                    "payment_0"
+                  ],
+                  "predicate": "payment_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    "Alice"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    "Bob"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    "domestic service"
+                  ],
+                  "predicate": "purpose_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    3200
+                  ],
+                  "predicate": "amount_"
+                }
+              ],
+              "negative_givens": []
+            },
+            "witnesses": [
+              {
+                "field": "facts",
+                "quote": "Alice has paid $3200 to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017, in Caracas, Venezuela. Alice is an American employer."
+              }
+            ],
+            "execution": {
+              "backend": "official_statute_program_with_model_facts",
+              "fact_count": 12,
+              "source_program_unchanged": true,
+              "literal_transport_adaptations": [
+                {
+                  "predicate": "start_",
+                  "argument": 1,
+                  "original": "Feb 1st, 2017",
+                  "normalized": "2017-02-01",
+                  "basis": "Fully specified unambiguous literal calendar date"
+                },
+                {
+                  "predicate": "end_",
+                  "argument": 1,
+                  "original": "Sep 2nd, 2017",
+                  "normalized": "2017-09-02",
+                  "basis": "Fully specified unambiguous literal calendar date"
+                }
+              ],
+              "case_truth_not_certified_by_types_or_quotes": true,
+              "handled": true,
+              "answer": "Contradiction"
+            }
+          }
+        ],
+        "answer_relevant_binding_differences": [],
+        "unresolved": [],
+        "kernel_sha256": "3948d598e1c3ce858dc6a0a8de1c00c12baac82c4b3abdaa383fa36cf8408da8",
+        "not_a_binding_coverage_or_source_semantics_certificate": true,
+        "no_favorable_binding_or_default_answer_selected": true
+      },
+      "country_or_venue_effect_on_this_query": false,
+      "learning_advantage_credit": false
+    },
+    {
+      "source": "SARA_v2_Binary:cd2ab8fce3d25740d6ad04c3da6bdf402d073fbda38e436514495535e29d54d2",
+      "arm": "ProgramGuided",
+      "row_sha256": "07994872d6eb6f4f563ef1e482970cda7cf478e4c1a79f6fe5f41e9b3ef3da6f",
+      "actual_source_facts": "Alice and Bob got married on Feb 3rd, 1992. Alice died on July 9th, 2014.",
+      "actual_native_query": [
+        {
+          "arguments": [
+            "Bob",
+            {
+              "variable": "_"
+            },
+            {
+              "variable": "_"
+            },
+            {
+              "variable": "_"
+            },
+            2015
+          ],
+          "predicate": "s2_a_1_A"
+        }
+      ],
+      "native_correct": true,
+      "actual_component_ids": [
+        "marriage_events",
+        "death_events"
+      ],
+      "actual_reads": 1,
+      "source_supported_used_observations": [
+        "marriage of Alice and Bob on1992-02-03",
+        "Alice death2014-07-09"
+      ],
+      "not_a_complete_semantic_annotation": true,
+      "ordinary_teacher_also_reads_relevant_death": true,
+      "independent_advantage_credit": false
+    },
+    {
+      "source": "SARA_v2_Binary:cd2ab8fce3d25740d6ad04c3da6bdf402d073fbda38e436514495535e29d54d2",
+      "arm": "FreeHistory",
+      "row_sha256": "696fba35053084a3f896ff77112a97f26834c1060e166e78fc36f86975c4c5df",
+      "actual_source_facts": "Alice and Bob got married on Feb 3rd, 1992. Alice died on July 9th, 2014.",
+      "actual_native_query": [
+        {
+          "arguments": [
+            "Bob",
+            {
+              "variable": "_"
+            },
+            {
+              "variable": "_"
+            },
+            {
+              "variable": "_"
+            },
+            2015
+          ],
+          "predicate": "s2_a_1_A"
+        }
+      ],
+      "native_correct": true,
+      "actual_component_ids": [
+        "marriage_events",
+        "death_events"
+      ],
+      "actual_reads": 1,
+      "source_supported_used_observations": [
+        "marriage of Alice and Bob on1992-02-03",
+        "Alice death2014-07-09"
+      ],
+      "not_a_complete_semantic_annotation": true,
+      "ordinary_teacher_also_reads_relevant_death": true,
+      "independent_advantage_credit": false
+    },
+    {
+      "source": "SARA_v2_Binary:ff37f276befe4d94c75a66194216350a28d62ca83570c13e77928d9df5a4aff0",
+      "arm": "ProgramGuided",
+      "row_sha256": "03ad72b8fa8c91858e6fc6f8f63b4f57fc7f2b6d15f7ed17b3b5e65004ccb661",
+      "actual_source_facts": "In 2019, Alice was paid $33200. Alice and Bob have been married since Feb 3rd, 2019.  Alice and Bob file separate returns in 2019.",
+      "actual_native_query": [
+        {
+          "arguments": [
+            2019,
+            3000
+          ],
+          "predicate": "s63_c_7_ii"
+        }
+      ],
+      "native_correct": true,
+      "actual_component_ids": [],
+      "actual_reads": 0,
+      "public_direct_calculation_certificate": {
+        "certified_fact_independent": true,
+        "scope": "All direct clause bodies are pure arithmetic/type/control operations; no custom calls accepted.",
+        "statute_sha256": {
+          "events.pl": "aed56ad9b0569d91328b2e2932621bc49911791f5a343dca7c2af7a87a5af85c",
+          "section1.pl": "76ad42975e9156b8e235319bab8510056f558df9c023be0947f48599fcb63a32",
+          "section151.pl": "0fb696ea96821ada3d8aa287597e6cab2588937ed213fc59aa495b943340b092",
+          "section152.pl": "6d653a12197a64967f686ad0f4f751e2c9876d3804a45c93fb7df09effc747f3",
+          "section2.pl": "b149f3e5530fe96b79ac22ce0613cfb5323b7483c5f13bed49483c23976f03c9",
+          "section3301.pl": "f053e7e0b9ed17b73a4d81530cb64532388221581323478d4b81d21b8aa35662",
+          "section3306.pl": "6d283f999cfb578d704aa5586a593dd78b89b834006d4277af81f2008a094455",
+          "section63.pl": "337bfedc2ad36cf29466c7b2004d1e5420a396bd6648c1a89e3073ca2d939b07",
+          "section68.pl": "c201d79eb92963c0e12dbb6ddf0c6557281cbbb2074abfb38feb64fc99a31715",
+          "section7703.pl": "97fbf81a032baf28c40f4404c969d24919a9d8ed5cde1ff3aa5f08b9dd0f3f1a",
+          "utils.pl": "2f5471c5ea65ee4b032322cc894d9338f6749820577f5303fa2924121bf308c8"
+        },
+        "query_heads": [
+          "s63_c_7_ii/2"
+        ],
+        "not_a_learned_mechanism": true,
+        "new_model_calls": 0
+      },
+      "fact_observation_learning_credit": false
+    },
+    {
+      "source": "SARA_v2_Binary:ff37f276befe4d94c75a66194216350a28d62ca83570c13e77928d9df5a4aff0",
+      "arm": "FreeHistory",
+      "row_sha256": "de91ba27de7379dc2e7539334a4eb8f697921fc479e9b07ee1693dd63670899c",
+      "actual_source_facts": "In 2019, Alice was paid $33200. Alice and Bob have been married since Feb 3rd, 2019.  Alice and Bob file separate returns in 2019.",
+      "actual_native_query": [
+        {
+          "arguments": [
+            2019,
+            3000
+          ],
+          "predicate": "s63_c_7_ii"
+        }
+      ],
+      "native_correct": true,
+      "actual_component_ids": [],
+      "actual_reads": 0,
+      "public_direct_calculation_certificate": {
+        "certified_fact_independent": true,
+        "scope": "All direct clause bodies are pure arithmetic/type/control operations; no custom calls accepted.",
+        "statute_sha256": {
+          "events.pl": "aed56ad9b0569d91328b2e2932621bc49911791f5a343dca7c2af7a87a5af85c",
+          "section1.pl": "76ad42975e9156b8e235319bab8510056f558df9c023be0947f48599fcb63a32",
+          "section151.pl": "0fb696ea96821ada3d8aa287597e6cab2588937ed213fc59aa495b943340b092",
+          "section152.pl": "6d653a12197a64967f686ad0f4f751e2c9876d3804a45c93fb7df09effc747f3",
+          "section2.pl": "b149f3e5530fe96b79ac22ce0613cfb5323b7483c5f13bed49483c23976f03c9",
+          "section3301.pl": "f053e7e0b9ed17b73a4d81530cb64532388221581323478d4b81d21b8aa35662",
+          "section3306.pl": "6d283f999cfb578d704aa5586a593dd78b89b834006d4277af81f2008a094455",
+          "section63.pl": "337bfedc2ad36cf29466c7b2004d1e5420a396bd6648c1a89e3073ca2d939b07",
+          "section68.pl": "c201d79eb92963c0e12dbb6ddf0c6557281cbbb2074abfb38feb64fc99a31715",
+          "section7703.pl": "97fbf81a032baf28c40f4404c969d24919a9d8ed5cde1ff3aa5f08b9dd0f3f1a",
+          "utils.pl": "2f5471c5ea65ee4b032322cc894d9338f6749820577f5303fa2924121bf308c8"
+        },
+        "query_heads": [
+          "s63_c_7_ii/2"
+        ],
+        "not_a_learned_mechanism": true,
+        "new_model_calls": 0
+      },
+      "fact_observation_learning_credit": false
+    }
+  ],
+  "new_model_calls": 0,
+  "no_model_native_or_source_results_changed": true,
+  "not_new_TRAIN_validation_or_DEV": true
+}

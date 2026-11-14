@@ -2,6 +2,7 @@
 import unittest
 from legal_skill_guard.skill_evolution.teacher_transport import pack, unpack, serialized, REFERENCE
 from legal_skill_guard.skill_evolution.teacher_transport import pack_programs, unpack_programs, PROGRAM_SEGMENTS
+from legal_skill_guard.skill_evolution.teacher_transport import INSTRUCTION, PROGRAM_INSTRUCTION
 
 
 class TeacherTransportTests(unittest.TestCase):
@@ -19,8 +20,9 @@ class TeacherTransportTests(unittest.TestCase):
 
     def test_reserved_key_and_cycles_are_rejected(self):
         with self.assertRaises(ValueError):pack({REFERENCE:'real_input_key'})
-        with self.assertRaises(ValueError):unpack({'encoding':'lossless_shared_JSON_values_v1',
-            'shared_values':{'v0':{REFERENCE:'v0'}},'task':{REFERENCE:'v0'}})
+        cyclic = pack({})
+        cyclic.update(shared_values={'v0':{REFERENCE:'v0'}}, task={REFERENCE:'v0'})
+        with self.assertRaisesRegex(ValueError,'Cyclic'):unpack(cyclic)
 
     def test_unique_fields_and_types_are_preserved_without_sharing(self):
         value = {'labels':['Yes','No'],'types':[False,0,0.0,None,True],'quote':'a b\n§'}
@@ -41,6 +43,27 @@ class TeacherTransportTests(unittest.TestCase):
         self.assertEqual(unpack_programs(pack_programs(task)), task)
         with self.assertRaises(ValueError):
             pack_programs({PROGRAM_SEGMENTS: ['not an encoded source']})
+
+    def test_actual_B7_over_limit_source_task_roundtrips_and_fits(self):
+        from experiments import legal_skill_evolution_source_library_train as train
+        from legal_skill_guard.inference.codex_cli_client import render_structured_codex_prompt, CODEX_TURN_INPUT_CHARACTER_LIMIT
+        task = train.read(train.OUT/'B7/teacher_task.json')
+        packed = pack_programs(task)
+        self.assertEqual(serialized(unpack_programs(packed)), serialized(task))
+        prompt = train.SYSTEM + train.previous.old.C_PART + train.previous.old.previous.prior.prior.C_SPEC + INSTRUCTION + PROGRAM_INSTRUCTION
+        self.assertLessEqual(len(render_structured_codex_prompt(prompt, serialized(packed))), CODEX_TURN_INPUT_CHARACTER_LIMIT)
+
+    def test_source_intervals_never_replace_or_invent_original_text(self):
+        text = '§1: α.\n§2: A literal rule.\n'
+        source = {'full_source_text':text,'source_units':[
+            {'start':0,'end':6,'text':text[:6]},
+            {'start':2,'end':10,'text':text[2:10]},
+            {'start':7,'end':15,'text':'NOT the source slice'}]}
+        self.assertEqual(serialized(unpack_programs(pack_programs(source))), serialized(source))
+
+    def test_failed_binding_program_remains_literal_failed_program(self):
+        failed = {'binding_program':'def apply(inputs,premises):\n    return [\n'}
+        self.assertEqual(unpack_programs(pack_programs(failed)), failed)
 
 
 if __name__ == '__main__':unittest.main()

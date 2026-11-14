@@ -1,14 +1,26 @@
 # 当前证据与下一项实际工作
 
-2026-11-14。同一Goal **active、未完成**。目标、验收、授权和资源边界由[CURRENT_GOAL.md](CURRENT_GOAL.md)集中规定。项目本体`/home/yndx/hhy/legal-skill-current`；开发分支`repair/lift-corev-activation-20261112`，不改main。历史暂停和旧Goal卡不启动旧队列。
+2026-11-15。同一Goal **active、未完成**。目标、验收、授权和资源边界由[CURRENT_GOAL.md](CURRENT_GOAL.md)集中规定。项目本体`/home/yndx/hhy/legal-skill-current`；开发分支`repair/lift-corev-activation-20261112`，不改main。历史暂停和旧Goal卡不启动旧队列。
 
 ## 当前实际执行
 
 原128母/280视图、8批×16不变，每批OpenExempt4，其余四库各3。思考OFF，Qwen/教师配置和连续账本不变，当前不开DEV/TEST。用户已授权完整五库TRAIN，无旧96/100、teacher2或修复轮次上限。
 
-统一接续：`python -m experiments.legal_skill_evolution_mixed_training_continue --start 5 --stop 8`。当前日志`/tmp/lsg_mixed_training_checkpointed_20261114.log`，主客户端启动PID4006820；PID只作查找线索，恢复必须核对真实命令、锁和账本reserved。B5四份已结算教师提议全部复用，公共修复和checkpoint索引完成后实际执行B5更新后案件，随后6—8；不因观察超时启动第二客户端。
+原8批接续、实际B8冻结及固定七系统40母/88视图DEV已全部结算。当前没有研究客户端或reserved请求，Goal active、未完成；不重跑完整训练，不开TEST或论文。原DEV RUN `legal_skill_evolution_mixed_DEV_public_execution_20261115`、日志`/tmp/lsg_mixed_DEV_public_execution_20261115.log`及原55文件冻结字节均保存。阶段退出后修复了Free空契约错误补读资格；当前driver和实际运行driver仅该安全检查不同，实际driver已另存frozen_runtime_source，原结果/原8次费用不改，不能按旧入口盲目重跑。
 
-C已到B5；第二项已结算B4并进入B5更新后执行。其余三库复用共同既有底座。完整TRAIN、B8冻结、固定七系统DEV和两项贡献仍未完成，TEST/论文不开。新的forward协议只记录安全边界之后的代码版本与调用身份，不新建Goal、重置账本或重跑已结算请求；前一semantic_feedback命名空间只有离线setup、0次物理请求。
+固定DEV原生父来源均分：ours47.509%、NoC48.134%、通用替代45.009%、Free源+普通观察45.634%。C在ContractNLI主路径覆盖12/32→22/32、主路径原生正确5→12，但含相同fallback总分20/32→19/32；不能宣布C独立主指标收益。SARA两学得库0/8主路径，6/8全由fallback；8个原DEV查询头都未作为TRAIN查询头出现，planner/converter只枚举旧条款名，实际组件[]，接口名一致而不是解析故障。残余比较0合资格机会，既无DEV额外价值证据，也不能据此强断机制完全无效。逐系统/逐源结果见报告DEV_comparisons.json。
+
+源B8：C89/96对Free92/96，当前批10/12对11/12；C4未解决、Free0。C真实语义读取24次，拟合同operation/window复用，不重发教师；Free0新读。C原93/96候选因e82的全源无许可被源反证拒绝，现候选通过既有硬检查、全局最优未证。观察B8双方1/3但成功来源不同，PG原生正确含不受支持151(b)给定。队列结束不等于两贡献成立。
+
+已修复的实际接线问题：source编译NoModel缺tokenize→显式连续账本客户端；ContractNLI无标签执行误限TRAIN→无标签执行可用，带监督学习仍限TRAIN；Free空契约8次无效补读→双方统一requires_neural_read资格。全部安全退出后修改、原协议/绑定/失败保存；最终16项真实失败回归通过。8次空补读全部保留费用，不计有效比较或成本优势；SARA24初读/16后续结果在公共ContractNLI API修复后逐字复用，0重发。冻结库和评分从未改动。
+
+下一项实际工作：在原TRAIN和完整公开法条上处理“按已见查询名枚举”的结构性路由覆盖缺口，先做必要离线验证；公共法条依赖规划须向强对照同样开放，不能当第二创新。第二项还需形成真正使错误改变观察表示/转换、参与候选生成与选择并跨案复用的更新操作，当前程序条件化提示不够。不新增数据、模型/种子或同配置完整重跑来掩盖缺口。保留C、当前第二方向和全部否定证据，不另开选题，不把本报告或公共修复作Goal完成。恢复继续此明确缺口，不能误启动旧Lift/CoRev、TRAIN或TEST队列。
+
+B6原提议、枚举90秒失败及lazy180秒未证最优均完整保存。已另用两份真实教师修订漏掉的infinitival not to disclose与作用域/员工许可，独立目录`B6/source_parser_correction`。两臂18供给母均69/72，C取得精确(loss3,edits0,complexity44)选择；B6实际源输出确认仅destroy保留书面授权。checkpoint指向`B6/post_semantic_review`，原库与旧checkpoint保留；只将大体积fit证据改为路径/hash，所有非fit字段逐字等价。原三份新交叉执行见下文。
+
+B7源任务完整证据超过CLI字符上限，首次未派发源教师；两份已付费观察提议直接复用。安全边界完成lossless transport v2：按已验证原文unit的精确字符片段共享复用，所有间隔/上下文保留，pack/unpack全对象等价；Python保持精确代码，不修复非法语法。压缩后两个源任务正常发送。不是截断、减少监督或新模型配置。后续当前RUN同run最多两份独立教师并行、执行器串行；观察后执行先于源离线求解，避免相互空等。
+
+固定DEV及阶段复核已结算，后续只按首段处理明确缺口，不打开TEST。后续DEV公共纯算术预检已用TRAIN验证，观察三臂同样使用，既有闭批结果不改；不计学得表示/转换收益。DEV脚本冻结前拒读数据，不由旧Lift/CoRev入口接续。
 
 ## C：已学、已用与公共修复
 
@@ -21,7 +33,9 @@ C已到B5；第二项已结算B4并进入B5更新后执行。其余三库复用�
 - B5 C教师未编辑φ/G，当前原生结果不是新学习。Free教师实际取得有条件的销毁替代动作，但旧公共消费者漏接此既有类型；同样给两臂接入，保留所有源语义/正政策/旧库，17母变为C65/68、Free63/68（当前双方11/12）。Free错误的全源“无披露许可”节点仅通过已有permission根守卫修复，不补规则；原始付费提议不动。C仍将销毁须书面授权丢成普通OR，已入pending，后续即使原生全对也不跳过该真实问题。
 - B0—B5 checkpoint.json只引用库版本及hash；公共修复另存新库，原始库/评分不覆盖。检查结果不能外推全源语义。
 
-C后续有真实残余时继续当前φ/G路径、同信息独立自由教师及必要精确求解。已有类型/执行/源审查保持；Native可达不等于语义可达，禁止用错误拆OR追标签。B4未派发的旧教师任务保留，不误称已调用。
+- B6同信息真实解析修订补回infinitival禁止原子、按分支保持授权及员工许可。18供给母两臂均69/72。新版本真实交叉执行完整69/72、新φ/旧G68/72、旧φ/新G67/72；旧φ会丢授权，两个新φ版本均保持。0模型调用，原执行/原文不改。它支持两个组成部分有实际作用，不提供相对强控制的新优势。
+- B7源初答两臂4/12（C4未解决、Free0），更新后当前11/12对12/12，21供给母80/84对81/84，均0未解决。C新增internal-personnel许可组合，源更新涉及trigger/retention/disclosure；C所存最佳候选全部现有硬检查通过，优化未完成单列，不能称精确全局最优。B7 checkpoint无已知未解的授权遗漏，不等于全源语义全通过。
+- B8源初答C5/12、4未解决，对Free7/12、0未解决；更新后当前10/12对11/12，24供给母89/96对92/96。C24真实读取全额计账，拟合复用原请求。原C93/96候选源反证失败未接纳；当前C4未解决、Free0，不以原高分候选代替现有源检查。
 
 ## 第二项：真实结果及机制覆盖
 
@@ -32,6 +46,9 @@ C后续有真实残余时继续当前φ/G路径、同信息独立自由教师及
 |B3|1/3|1/3|1/3|2/3|3/3|
 |B4|2/3|2/3|2/3|2/3|2/3|
 |B5|3/3|3/3|3/3|3/3|1/3|
+|B6|0/3|0/3|1/3|1/3|0/3|
+|B7|3/3|3/3|3/3|3/3|2/3|
+|B8|0/3|0/3|1/3|1/3|1/3|
 
 这些是原生分数，语义与学习贡献另核；B2一案是纯程序算术，不算学得观察成功。B1 lowering的deduction_共同错误、旧婚姻onset额外门槛及旧四母4/4对3/4被推翻等否定证据继续保留。
 
@@ -41,11 +58,21 @@ B3方法库有不真实父组件引用；全部保留并单列lineage_issues，�
 
 B5原生双方3/3、通用1/3不能直接算语义成功：学生案把查询Jan1捏成服务起日，删该事实不影响实际学生路径；私宅雇佣案漏掉原文“in her home”，补回这条原文事实会翻转结论，正确native掩盖了转换遗漏；离婚法令案有实际受支持的关系转换，但普通教师也做到，且该组件原为source-only，不是新错误学习增量。这些离线反事实不是模型输出、修复后分数或新案例。B6双方正常更新获得完全相同的源审查，不重跑B5追分。
 
+B6实际教师已修订并执行：PG扣除组件新增basis区分§151与§63(d)，30b162的观察确为section151，转换不再emit deduction_，该案原生正确；Free仍emit2000扣除而答错。Free却解决另一父亲服务案，双方总分1/3相同。服务组件新增venue/country、显式152(c)(1)按原方向，查询日期不作服务起日。是否形成后案额外收益仍须与普通教师实际比较。
+
+B7旧库初答双方3/3，更新后同样3/3。PG6新country在Caracas/Venezuela案的后续真实初答被读取并lower为country_，但查询是农业排除条款、不使用country，因此不能当作用性收益。两臂从domestic service捏造private-home地点，该原观察不算语义全过。Alice死亡/婚姻事实路径双方都有源支持；s63_c_7_ii纯算术双方0读，不计学习。通用表示在该纯算术案的引文错误是公共执行门槛问题，未来DEV三臂同样先执行已证明直接纯算术条款，不回写TRAIN分数。
+
+真实版本—后案使用链已更新至B8初答：方法106个变化/新增组件版本中32版被后案选中，18版具有效错误引用且有真实观察；普通教师104/32/23。它们是使用覆盖，不是成功数量；native、语义与机制增益单列，错误引用/未审计/纯source-only不冒称错误学习。
+
+B8实际更新后仍各1/3，但并非同案：普通教师窄规划只读152(c)(1)给定并解出a519；PG仍读不相关收入/婚姻/死亡通道而未解决。PG在1ff7把两条收入观察成§151(b)免税额，类型与逐字引文仍通过，这是模型语义误读，不是converter凭空生成；Free还把目标s63_c_5抄进给定，schema严格拒绝。不能把PG该原生正确算语义成功。两臂在工资案因缺付款日期而未解决，是学得转换策略/原生时间表示边界，不证明原任务不可解。原响应/原分数不改，0模型调用的逐源审查另存`mixed_training_semantic_reads.../unbound_B8_observation_semantic_review.json`。
+
 ### 同契约残余比较
 
 实际转换程序的opcode跟踪已接通，要求诊断前后转换结果完全一致；从未解决字符串写入追到实际观察路径。B3真实Free工资案最初因helper/list传递及Python CALL缓存偏移丢依赖，已修复并用原失败回归：只定位termination_benefit_events的extraction_status/记录，不选已正确付款组件；PG151缺乏可支持的未读路径，明确不支持。旧B1耦合returns/itemizations镜头仍通过，无新增模型请求。
 
 正式读取比较接在后续批次的旧库初答：同一个观察契约、初始观察、转换与法律核，一次匹配机会；普通补读也可使用已有错误消息所指组件。B4三个方法案例均已执行，其中一个原生答错，不触发补读；两政策额外调用0。不能制造unknown获取机制样例。当前是转换阶段残余，未实现Prolog证明级残余，不改名声称已经有实证。
+
+B6真实两案合资格：父亲雇佣案的残余不支持，未派发，普通补读一次仍未解决；依赖人案两政策各一次读取，仍未解决；第三案已执行但答错不触发补读。0/2额外解决、无残余优势。B8已保存依赖人案：残余不支持、0新读，普通补读1次仍未解决；类型失败单列，不伪装成程序残余。全部原观察、动作、转换及费用保存，不制造unknown或修改已有比较。
 
 ### 新增机制与近邻
 
@@ -61,6 +88,12 @@ OpenExempt32、Airline24、MAUD24，共80母160视图，逐批对应原FreeEvolu
 
 ## 证据、成本和下一项工作
 
-[阶段报告](../reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/README.md)汇总；[实时截面](../reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/training_progress.json)、[成本与保存核验](../reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/cost_and_preservation.json)提供精确账本快照。唯一连续DB是artifacts/rr_v2_preflight/research_ledger.sqlite3，恢复使用DB而非文档旧计数；前10619条历史行持续校验不变。现金发票/GPU分摊及教师token未知，不报虚构费用。
+[阶段报告](../reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/README.md)汇总；[实时截面](../reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/training_progress.json)、[成本与保存核验](../reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/cost_and_preservation.json)提供精确账本快照。唯一连续DB是artifacts/rr_v2_preflight/research_ledger.sqlite3，恢复使用DB而非文档旧计数；前10619条历史行持续校验不变。教师token可从invocation.usage取得，已纠正旧报告只读顶层usage造成的漏计；按字段汇总并保留覆盖率。现金发票/GPU分摊未知，不报虚构美元费用。教师请求数是账本CLI invocation，底层服务HTTP数不从该记录猜测。
 
-当前队列执行B5观察更新后的案件，随后原6—8。44项相关回归通过（含真实有条件销毁动作及部分材料反例）；原历史AST-lock问题不动。B5教师在途曾误编辑两份绑定源码，已在候选编译前逐字恢复并核对全部manifest，未中断/重发请求；原事件收据保存在当前报告raw，后续只在终止边界作科学修改。继续保存学习曲线、逐源语义、真实错误→版本→后案使用链、同契约读取与成本；不能以原生3/3、公共修复、旧底座或报告完成Goal。
+当前原TRAIN接续与DEV均已结算，实际下一项工作见本文件首段。全部模型提议、失败求解、完整source-check、组件变化/使用及费用同步到报告；前10619条账本行逐条不变。新增6项DEV工程回归通过（冻结前拒读、真实TRAIN执行一致、handled-wrong不回退、公平纯算术），另有21项transport/并发队列/授权作用域/原选择证书针对性检查通过；它们不算方法收益。
+
+DEV入口为`experiments/legal_skill_evolution_mixed_freeze.py`与`experiments/legal_skill_evolution_mixed_dev.py`。七recipe：C+PG残余、NoC+PG残余、C+通用、Free源+普通教师观察、共同源+通用、C+普通教师观察、C+PG普通补读。只freeze实际B8，PG两读取共享同初答/契约；handled-wrong不可选回退，公共直接纯算术三观察臂公平开放且无学习信用。矩阵复用相同实际预测、不做七次重训，不把普通教师改名成完整SymBa复现。旧DEV已暴露事实如实披露，当前结果不称新盲测；不利用DEV改库/选择最佳checkpoint，不打开TEST。
+
+B5教师在途误编辑两份绑定源码的原事件收据保留；已在编译前逐字恢复，未中断/重发。后续源码变更均在对应客户端退出边界完成；源解析修订客户端只绑定取得提议的文件/任务，未调用后续编译器。当前仅可在不改其manifest的前提下准备后续编译。
+
+继续保存学习曲线、逐源语义、真实错误→版本→后案使用链、同契约读取与成本；不能以原生3/3、公共修复、旧底座、最优性证书或报告完成Goal。

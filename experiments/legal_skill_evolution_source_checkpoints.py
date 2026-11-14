@@ -45,10 +45,8 @@ def remaining(pending, rows_by_arm):
         if row is None:
             result.append(issue)
             continue
-        terms = [r['term'] for r in row['actual']['execution']['source_output']['statements']
-            if r['term'][0] == 'disposal_obligation' and set(r['support_ids']) & set(issue['source_unit_ids'])]
-        guarded = [t for t in terms if t[2][0] == 'authorized_action_alternative']
-        plain = [t for t in terms if t[2][0] in ('action_alternative', 'acquired_action_alternative_v3', 'destroy')]
-        if not guarded or plain:
+        from legal_skill_guard.skill_evolution.source_disposal_review import branch_authorization_preserved
+        if not branch_authorization_preserved(row['actual']['execution']['source_output'], issue['source_unit_ids']):
             result.append(issue)
+
     return result

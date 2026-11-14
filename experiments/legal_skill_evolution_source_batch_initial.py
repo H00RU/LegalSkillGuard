@@ -2,7 +2,7 @@
 
 Actual source extraction, composition and native consumers are executed; a
 static pass with a different library hash cannot stand in for these results.
-No model transport is available. Zero current-batch error commits an unchanged
+Model reads require an explicit ledger-bound client. Zero current-batch error commits an unchanged
 library, recording no new learning credit or claim of complete source truth.
 """
 import argparse
@@ -16,7 +16,7 @@ from legal_skill_guard.rr.checkpoint import immutable_json
 from legal_skill_guard.skill_evolution.objects import digest
 
 
-def evaluate(library, sid, arm, batch, target):
+def evaluate(library, sid, arm, batch, target, *, client=None):
     if target.exists():
         row = train.read(target)
         assert row['library_sha256'] == digest(library)
@@ -28,21 +28,29 @@ def evaluate(library, sid, arm, batch, target):
     units = old_row['observation']['visible_inputs']['units']
     row = {'source': sid, 'arm': arm, 'batch': batch, 'library_sha256': digest(library),
         'new_model_calls': 0, 'fallback': False}
+    events = []
+    def save_event(event):
+        immutable_json(target.parent / (target.stem + '_read_events') / (digest(event['call_id']) + '.json'), event)
+        events.append(event)
     try:
-        observation = train.previous.old.observe(NoModel(), f'{train.RUN}:B{batch}:initial:{arm}:{sid}',
+        if library['operations'] and client is None:
+            raise ValueError('Learned semantic source operations require an explicit ledger-bound executor')
+        namespace = client.ledger.run_id if client is not None else train.RUN
+        observation = train.previous.old.observe(client if client is not None else NoModel(), f'{namespace}:B{batch}:source:{arm}:{sid}',
             sid, library, source_text=public[sid]['views'][0]['public']['source_text'],
-            units=units, source_output=upstream)
-        assert observation['new_model_requests'] == 0
+            units=units, source_output=upstream, save_event=save_event)
+        row['new_model_calls'] = observation['execution']['new_physical_requests']
         primary = train.previous.old.previous.prior.prior.evaluate_source(library, observation, public[sid], None)
         immutable_json(target.with_name(target.stem + '_primary.json'), {
             'source': sid, 'observation': observation, 'actual_unscored': primary,
-            'library_sha256': digest(library), 'new_model_calls': 0})
+            'library_sha256': digest(library), 'new_model_calls': row['new_model_calls']})
         actual = train.previous.old.previous.prior.prior.evaluate_source(library, observation, public[sid], grading[sid])
         row.update(observation=observation, actual=actual,
             correct=sum(bool(v['score'] and v['score']['correct']) for v in actual['feedback']['views']),
             unresolved=sum(not v['core_executed'] for v in actual['feedback']['views']))
     except (ValueError, KeyError, TypeError) as error:
         row.update(error=type(error).__name__ + ': ' + str(error), correct=0, unresolved=len(public[sid]['views']))
+        row['new_model_calls'] = sum(not e['result'].get('cache_hit', False) for e in events)
     immutable_json(target, row)
     return row
 

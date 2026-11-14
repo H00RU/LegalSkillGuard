@@ -14,7 +14,7 @@ from experiments import legal_skill_evolution_source_batch_initial as initial
 from experiments import legal_skill_evolution_source_library_train as train
 from experiments import legal_skill_evolution_source_checkpoints as checkpoints
 from legal_skill_guard.rr.checkpoint import immutable_json
-from legal_skill_guard.skill_evolution.clients import FrozenTeacher
+from legal_skill_guard.skill_evolution.clients import FrozenTeacher, FrozenExecutor
 from legal_skill_guard.skill_evolution.ledger import EvolutionLedger
 from legal_skill_guard.skill_evolution.objects import digest
 from legal_skill_guard.skill_evolution.source_function_patch import apply_function_edits
@@ -62,11 +62,18 @@ def make_task(protocol, batch):
     if review_path.exists():
         task['shared_reviewed_source_scope_checks'] = train.read(review_path)
         task['source_scope_check_code'] = (train.ROOT / 'legal_skill_guard/skill_evolution/source_disposal_review.py').read_text()
+    guard_path = train.OUT / 'B6/post_semantic_review/branch_authorization_review.json'
+    if guard_path.exists():
+        review = train.read(guard_path)
+        task['shared_branch_authorization_review'] = {
+            'source':review['issue']['source'], 'source_unit_ids':review['issue']['source_unit_ids'],
+            'requirement':'Only destruction requires express written authorization; return remains unconditional on authorization.',
+            'actual_repaired_norms':review['actual_source_norms'], 'constructor_definition':review['existing_constructor_definition']}
     task.update(batch=batch, current_sources=current_ids, tasks=tasks, current_libraries=libraries,
         pending_source_semantics=checkpoints.state(batch-1)['pending_source_semantics'],
         actual_current_batch_results={a: train.read(train.OUT / f'B{batch}' / a / 'initial_summary.json') for a in train.ARMS},
-        previous_repair_receipts={f'B{b}/{a}': train.read(train.OUT / f'B{b}' / a / 'update_result.json')
-            for b in range(2, batch) for a in train.ARMS if (train.OUT / f'B{b}' / a / 'update_result.json').exists()},
+        previous_repair_receipts={str(path.relative_to(train.OUT)): train.read(path)
+            for b in range(2, batch) for path in (train.OUT / f'B{b}').rglob('update_result.json')},
         source_function_updates_allowed_to_fix_actual_errors_not_only_one_phrase=True,
         new_sources_or_synthetic_cases=0, inherited_exposure_not_a_blind_new_split=True,
         future_source_texts_or_labels_not_in_this_update=True)
@@ -74,7 +81,8 @@ def make_task(protocol, batch):
     return task
 
 
-def acquire(protocol, batch, ledger):
+def acquire_one(protocol, batch, ledger, arm):
+    assert arm in train.ARMS
     task = make_task(protocol, batch)
     # Remove the closed B2-specific diagnosis; retain the original architecture,
     # strong-control freedoms, source semantic constraints and public repairs.
@@ -83,31 +91,37 @@ def acquire(protocol, batch, ledger):
     end = system.index('Keep old valid source abilities', start)
     system = system[:start] + 'Diagnose the actual current-batch residuals in the task, using the full source and the current complete libraries.\n\n' + system[end:]
     user = json.dumps(pack_programs(task), ensure_ascii=False, separators=(',', ':'))
-    for arm in train.ARMS:
-        path = train.OUT / f'B{batch}' / arm / 'teacher.json'
-        if path.exists():
-            continue
-        prompt = system + '\n' + (train.previous.old.C_PART + '\n' + train.previous.old.previous.prior.prior.C_SPEC
-            if arm == 'ConstraintAcquire' else train.previous.old.FREE_PART)
-        prompt += '\n' + INSTRUCTION + '\n' + PROGRAM_INSTRUCTION
-        prompt += '\nAllowed attributes: ' + ','.join(sorted(train.previous.old.METHODS))
-        prompt += '\nAllowed calls: ' + ','.join(sorted(train.previous.old.CALLS))
-        size = len(render_structured_codex_prompt(prompt, user))
-        assert size <= CODEX_TURN_INPUT_CHARACTER_LIMIT
-        immutable_json(path.with_name('preflight.json'), {'task_sha256': digest(task),
-            'characters': size, 'same_information_both_arms': True, 'schema_issues': []})
-        result = FrozenTeacher(ledger, train.OUT, protocol['teacher_profile']).propose(
-            ledger.run_id + f':B{batch}:' + arm + ':update', source_ids=[t['source_id'] for t in task['tasks']],
-            system_prompt=prompt, user_prompt=user, output_schema=train.previous.schema_for(arm))
-        immutable_json(path, result)
-        print(json.dumps({'source_teacher_saved': arm, 'batch': batch}), flush=True)
-
-
-def compile_candidate(protocol, batch, arm):
-    task = train.read(train.OUT / f'B{batch}/teacher_task.json')
-    folder = train.OUT / f'B{batch}' / arm
-    if (folder / 'library.json').exists():
+    path = train.OUT / f'B{batch}' / arm / 'teacher.json'
+    if path.exists():
         return
+    prompt = system + '\n' + (train.previous.old.C_PART + '\n' + train.previous.old.previous.prior.prior.C_SPEC
+        if arm == 'ConstraintAcquire' else train.previous.old.FREE_PART)
+    prompt += '\n' + INSTRUCTION + '\n' + PROGRAM_INSTRUCTION
+    prompt += '\nAllowed attributes: ' + ','.join(sorted(train.previous.old.METHODS))
+    prompt += '\nAllowed calls: ' + ','.join(sorted(train.previous.old.CALLS))
+    size = len(render_structured_codex_prompt(prompt, user))
+    assert size <= CODEX_TURN_INPUT_CHARACTER_LIMIT
+    immutable_json(path.with_name('preflight.json'), {'task_sha256': digest(task),
+        'characters': size, 'same_information_both_arms': True, 'schema_issues': []})
+    result = FrozenTeacher(ledger, train.OUT, protocol['teacher_profile']).propose(
+        ledger.run_id + f':B{batch}:' + arm + ':update', source_ids=[t['source_id'] for t in task['tasks']],
+        system_prompt=prompt, user_prompt=user, output_schema=train.previous.schema_for(arm))
+    immutable_json(path, result)
+    print(json.dumps({'source_teacher_saved': arm, 'batch': batch}), flush=True)
+
+
+def acquire(protocol, batch, ledger):
+    for arm in train.ARMS:
+        acquire_one(protocol, batch, ledger, arm)
+
+
+def compile_candidate(protocol, batch, arm, *, task_path, folder, client=None):
+    task = train.read(task_path)
+    if (folder / 'library.json').exists():
+        completed = folder / 'fitted_results'
+        if not completed.exists():
+            completed = folder / 'candidate_results'
+        return [train.read(completed / train.previous.old.name_for(t['source_id'])) for t in task['tasks']]
     old = task['current_libraries'][arm]
     raw = deepcopy(train.read(folder / 'teacher.json')['value'])
     program, preservation = apply_function_edits(old['source_program'], raw.pop('source_function_edits'))
@@ -123,14 +137,17 @@ def compile_candidate(protocol, batch, arm):
     immutable_json(folder / 'function_patch_preservation.json', preservation)
     immutable_json(folder / 'compilation_receipt.json', receipt)
     rows = [initial.evaluate(library, t['source_id'], arm, batch,
-        folder / 'candidate_results' / train.previous.old.name_for(t['source_id'])) for t in task['tasks']]
+        folder / 'candidate_results' / train.previous.old.name_for(t['source_id']), client=client) for t in task['tasks']]
+    acquisition_calls = sum(r['new_model_calls'] for r in rows)
     if any('observation' not in row for row in rows):
         raise ValueError('Actual candidate execution failed; preserve raw output before a specific repair')
+    optimization_complete = None
     from legal_skill_guard.skill_evolution.source_disposal_review import with_disposal_review
     reviews = task.get('shared_reviewed_source_scope_checks', [])
     def checker_for(sid):
         original = train.previous.old.previous.prior.prior.checker(library, public[sid], grading[sid])
-        return with_disposal_review(original, sid, reviews, library['spec']['decision_program'])
+        return with_disposal_review(original, sid, reviews, library['spec']['decision_program'],
+            authorization_review=task.get('shared_branch_authorization_review'))
     if arm == 'ConstraintAcquire':
         from legal_skill_guard.skill_evolution.projected_composition_profiles import admissible_projected_compositions
         from legal_skill_guard.skill_evolution.open_acquisition import fit
@@ -146,7 +163,38 @@ def compile_candidate(protocol, batch, arm):
         certificate = certify_unchanged_selection(library, old['selected_rule_ids'], rows, checker_for, profile_for)
         immutable_json(folder / 'current_selection_diagnosis.json', certificate)
         if certificate['certified']:
+            optimization_complete = True
             immutable_json(folder / 'selection_certificate.json', certificate)
+        elif all(not r['observation']['context']['unknown_groups'] for r in rows):
+            from legal_skill_guard.skill_evolution.lazy_native_selection import select
+            samples = [{'source': r['source'], 'profile': train.read(folder / 'source_checked_profiles' / train.previous.old.name_for(r['source']))}
+                for r in rows if (folder / 'source_checked_profiles' / train.previous.old.name_for(r['source'])).exists()]
+            result_path = folder / 'lazy_native_selection.json'
+            binding = digest({'candidate': library, 'task': task, 'rows': rows,
+                'source_review_code': (train.ROOT / 'legal_skill_guard/skill_evolution/source_disposal_review.py').read_text()})
+            if result_path.exists():
+                saved = train.read(result_path)
+                assert saved['input_binding'] == binding
+                result = saved['result']
+            else:
+                result = select(library, rows, checker_for, old['selected_rule_ids'], samples=samples, timeout_seconds=180)
+                immutable_json(result_path, {'input_binding': binding, 'result': result})
+            immutable_json(folder / 'fit.json', result)
+            exact = result['status'] == 'sat' and result['exact_optimum']
+            optimization_complete = exact
+            selected = result if exact else result.get('best_validated_selection')
+            assert selected and (exact or selected['all_supplied_partial_source_type_and_execution_checks_passed']), 'No fully checked executable candidate; retain failure'
+            library = deepcopy(library)
+            library['selected_rule_ids'] = selected['selected_rule_ids']
+            library['fit'] = {'evidence_path': str(result_path.relative_to(train.ROOT)),
+                'evidence_sha256': digest(train.read(result_path)), 'new_model_requests': 0,
+                'optimization_complete': exact, 'selection_is_global_optimum': exact,
+                'fully_checked_selection': {k: selected[k] for k in
+                    ('selected_rule_ids', 'native_loss', 'native_loss_by_context', 'selection_edits', 'complexity')},
+                'bounded_verified_update_does_not_certify_global_optimality': not exact}
+            rows = [initial.evaluate(library, t['source_id'], arm, batch,
+                folder / 'fitted_results' / train.previous.old.name_for(t['source_id']), client=client) for t in task['tasks']]
+            acquisition_calls += sum(r['new_model_calls'] for r in rows)
         else:
             observations = []
             for row in rows:
@@ -156,8 +204,10 @@ def compile_candidate(protocol, batch, arm):
             library, result = fit(library, observations, prior_rule_ids=old['selected_rule_ids'], timeout_seconds=90)
             immutable_json(folder / 'fit.json', result)
             assert result['status'] == 'sat', 'Keep incomplete fit and candidate; no fitted checkpoint is invented'
+            optimization_complete = True
             rows = [initial.evaluate(library, t['source_id'], arm, batch,
-                folder / 'fitted_results' / train.previous.old.name_for(t['source_id'])) for t in task['tasks']]
+                folder / 'fitted_results' / train.previous.old.name_for(t['source_id']), client=client) for t in task['tasks']]
+            acquisition_calls += sum(r['new_model_calls'] for r in rows)
     source_checks = []
     for row in rows:
         feedback = checker_for(row['source'])(row['actual']['execution']['source_output'])
@@ -172,7 +222,8 @@ def compile_candidate(protocol, batch, arm):
         'current_correct': sum(r['correct'] for r in rows if r['source'] in task['current_sources']),
         'current_total': len(task['current_sources']) * 4, 'unresolved': sum(r['unresolved'] for r in rows),
         'row_summary': [{k: r[k] for k in ('source', 'correct', 'unresolved')} for r in rows],
-        'native_accuracy_not_source_semantic_certification': True, 'new_model_calls_during_compile': 0,
+        'native_accuracy_not_source_semantic_certification': True, 'new_model_calls_during_compile': acquisition_calls,
+        'optimization_complete': optimization_complete,
         'goal_complete': False})
     return rows
 
@@ -184,13 +235,16 @@ def finalize(batch, rows_by_arm):
 
 def run(start, stop, ledger):
     protocol = train.prepare()
+    client = FrozenExecutor(ledger, train.OUT, protocol['executor_profile'])
     for batch in range(start, stop + 1):
         initial.run(batch)
         if not checkpoints.exists(batch):
             acquire(protocol, batch, ledger)
             rows_by_arm = {}
             for arm in train.ARMS:
-                rows_by_arm[arm] = compile_candidate(protocol, batch, arm) or []
+                rows_by_arm[arm] = compile_candidate(protocol, batch, arm,
+                    task_path=train.OUT / f'B{batch}/teacher_task.json',
+                    folder=train.OUT / f'B{batch}' / arm, client=client) or []
             finalize(batch, rows_by_arm)
         print(json.dumps({'source_batch_completed': batch}), flush=True)
 

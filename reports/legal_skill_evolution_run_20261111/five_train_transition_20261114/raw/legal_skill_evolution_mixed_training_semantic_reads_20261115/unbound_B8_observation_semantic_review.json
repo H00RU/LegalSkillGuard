@@ -1,0 +1,1107 @@
+{
+  "source_file_sha256": "1677151a893dc5f1351c2b242e190361e4c8befd123398636f88042b63be74f3",
+  "audits": [
+    {
+      "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+      "arm": "ProgramGuided",
+      "original_row_sha256": "2a4a032957bc2c38406ea08415b29ce40ad003c60dcb4f56ed65a3ea21abd153",
+      "facts": "Alice has a son, Bob, who satisfies section 152(c)(1) for the year 2015. Bob has a son, Charlie, who satisfies section 152(c)(1) for the year 2015.",
+      "native_correct": false,
+      "handled": false,
+      "component_ids": [
+        "explicit_legal_givens",
+        "annual_income_events",
+        "family_relationship_residence",
+        "marriage_events",
+        "return_events",
+        "death_events"
+      ],
+      "grounded": {
+        "bindings": [
+          {
+            "inputs": {
+              "extraction_status": "unread",
+              "facts": [
+                {
+                  "arguments": [
+                    "Bob",
+                    "Alice",
+                    2015
+                  ],
+                  "predicate": "s152_c_1"
+                },
+                {
+                  "arguments": [
+                    "Charlie",
+                    "Bob",
+                    2015
+                  ],
+                  "predicate": "s152_c_1"
+                },
+                {
+                  "arguments": [
+                    "relationship_0"
+                  ],
+                  "predicate": "son_"
+                },
+                {
+                  "arguments": [
+                    "relationship_0",
+                    "Bob"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "relationship_0",
+                    "Alice"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "relationship_1"
+                  ],
+                  "predicate": "son_"
+                },
+                {
+                  "arguments": [
+                    "relationship_1",
+                    "Charlie"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "relationship_1",
+                    "Bob"
+                  ],
+                  "predicate": "patient_"
+                }
+              ],
+              "negative_givens": []
+            },
+            "witnesses": [
+              {
+                "field": "question",
+                "quote": "Section 152(b)(1) applies to Bob for the year 2015."
+              },
+              {
+                "field": "facts",
+                "quote": "Alice has a son, Bob, who satisfies section 152(c)(1) for the year 2015."
+              },
+              {
+                "field": "facts",
+                "quote": "Bob has a son, Charlie, who satisfies section 152(c)(1) for the year 2015."
+              }
+            ]
+          }
+        ],
+        "case_semantics_certified_by_types_and_quotes": false,
+        "unresolved": [
+          "annual_income_events_unread_or_ambiguous",
+          "death_events_unread_or_ambiguous",
+          "marriage_events_unread_or_ambiguous",
+          "return_events_unread_or_ambiguous"
+        ]
+      },
+      "error": null,
+      "finding": "Both original152(c)(1) givens are present. PG still requests income/marriage/return/death channels and blocks on unread; ordinary teacher chooses the direct legal-given channel and executes.",
+      "category": "learned planning/conversion policy; not missing original facts or a required new host gate",
+      "ordinary_teacher_absorbs_relevance_selection": true
+    },
+    {
+      "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+      "arm": "FreeHistory",
+      "original_row_sha256": "ba5059a32fca3df5de906f67b397c743a9996948cd64bf670316a2bed5aa87df",
+      "facts": "Alice has a son, Bob, who satisfies section 152(c)(1) for the year 2015. Bob has a son, Charlie, who satisfies section 152(c)(1) for the year 2015.",
+      "native_correct": true,
+      "handled": true,
+      "component_ids": [
+        "explicit_legal_givens"
+      ],
+      "grounded": {
+        "bindings": [
+          {
+            "inputs": {
+              "extraction_status": "complete",
+              "facts": [
+                {
+                  "arguments": [
+                    "Charlie",
+                    "Bob",
+                    2015
+                  ],
+                  "predicate": "s152_c_1"
+                },
+                {
+                  "arguments": [
+                    "Bob",
+                    "Alice",
+                    2015
+                  ],
+                  "predicate": "s152_c_1"
+                }
+              ],
+              "negative_givens": []
+            },
+            "witnesses": [
+              {
+                "field": "facts",
+                "quote": "Alice has a son, Bob, who satisfies section 152(c)(1) for the year 2015."
+              },
+              {
+                "field": "facts",
+                "quote": "Bob has a son, Charlie, who satisfies section 152(c)(1) for the year 2015."
+              }
+            ]
+          }
+        ],
+        "case_semantics_certified_by_types_and_quotes": false,
+        "unresolved": []
+      },
+      "error": null,
+      "finding": "Both original152(c)(1) givens are present. PG still requests income/marriage/return/death channels and blocks on unread; ordinary teacher chooses the direct legal-given channel and executes.",
+      "category": "learned planning/conversion policy; not missing original facts or a required new host gate",
+      "ordinary_teacher_absorbs_relevance_selection": true
+    },
+    {
+      "source": "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+      "arm": "ProgramGuided",
+      "original_row_sha256": "22c6681992cbfa3a03a5ca3557e1d78d134f9e437897043727f74724d9012f3b",
+      "facts": "In 2017, Alice was paid $33200. Alice and Bob have been married since Feb 3rd, 2017. Bob earned $10 in 2017. Alice and Bob file separate returns. Alice is not entitled to a deduction for Bob under section 151.",
+      "native_correct": true,
+      "handled": true,
+      "component_ids": [
+        "annual_income_events",
+        "explicit_legal_givens"
+      ],
+      "grounded": {
+        "bindings": [
+          {
+            "inputs": {
+              "extraction_status": "complete",
+              "facts": [
+                {
+                  "arguments": [
+                    "annual_income_1"
+                  ],
+                  "predicate": "income_"
+                },
+                {
+                  "arguments": [
+                    "annual_income_1",
+                    "Alice"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "annual_income_1",
+                    33200
+                  ],
+                  "predicate": "amount_"
+                },
+                {
+                  "arguments": [
+                    "annual_income_1",
+                    "2017-01-01"
+                  ],
+                  "predicate": "start_"
+                },
+                {
+                  "arguments": [
+                    "annual_income_1",
+                    "2017-12-31"
+                  ],
+                  "predicate": "end_"
+                },
+                {
+                  "arguments": [
+                    "annual_income_2"
+                  ],
+                  "predicate": "income_"
+                },
+                {
+                  "arguments": [
+                    "annual_income_2",
+                    "Bob"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "annual_income_2",
+                    10
+                  ],
+                  "predicate": "amount_"
+                },
+                {
+                  "arguments": [
+                    "annual_income_2",
+                    "2017-01-01"
+                  ],
+                  "predicate": "start_"
+                },
+                {
+                  "arguments": [
+                    "annual_income_2",
+                    "2017-12-31"
+                  ],
+                  "predicate": "end_"
+                },
+                {
+                  "arguments": [
+                    "Alice",
+                    33200,
+                    2017
+                  ],
+                  "predicate": "s151_b"
+                },
+                {
+                  "arguments": [
+                    "Bob",
+                    10,
+                    2017
+                  ],
+                  "predicate": "s151_b"
+                }
+              ],
+              "negative_givens": [
+                {
+                  "arguments": [
+                    "Alice",
+                    "Bob",
+                    2017
+                  ],
+                  "predicate": "s151_b_applies"
+                }
+              ]
+            },
+            "witnesses": [
+              {
+                "field": "facts",
+                "quote": "In 2017, Alice was paid $33200."
+              },
+              {
+                "field": "facts",
+                "quote": "Bob earned $10 in 2017."
+              },
+              {
+                "field": "facts",
+                "quote": "Alice is not entitled to a deduction for Bob under section 151."
+              }
+            ]
+          }
+        ],
+        "case_semantics_certified_by_types_and_quotes": false,
+        "unresolved": []
+      },
+      "error": null,
+      "actual_explicit_legal_givens": {
+        "views": [
+          {
+            "boundary_statements": [],
+            "extraction_status": "complete",
+            "givens": [
+              {
+                "arguments": [
+                  "Alice",
+                  33200,
+                  2017
+                ],
+                "polarity": "positive",
+                "predicate": "s151_b",
+                "witnesses": [
+                  {
+                    "field": "facts",
+                    "quote": "In 2017, Alice was paid $33200."
+                  }
+                ]
+              },
+              {
+                "arguments": [
+                  "Bob",
+                  10,
+                  2017
+                ],
+                "polarity": "positive",
+                "predicate": "s151_b",
+                "witnesses": [
+                  {
+                    "field": "facts",
+                    "quote": "Bob earned $10 in 2017."
+                  }
+                ]
+              },
+              {
+                "arguments": [
+                  "Alice",
+                  "Bob",
+                  2017
+                ],
+                "polarity": "negative",
+                "predicate": "s151_b_applies",
+                "witnesses": [
+                  {
+                    "field": "facts",
+                    "quote": "Alice is not entitled to a deduction for Bob under section 151."
+                  }
+                ]
+              }
+            ],
+            "witnesses": [
+              {
+                "field": "facts",
+                "quote": "In 2017, Alice was paid $33200."
+              },
+              {
+                "field": "facts",
+                "quote": "Bob earned $10 in 2017."
+              },
+              {
+                "field": "facts",
+                "quote": "Alice is not entitled to a deduction for Bob under section 151."
+              }
+            ]
+          }
+        ]
+      },
+      "finding": "Observed income33200/10 does not establish a self-exemption under151(b). PG accepts typed exact quotes for these unsupported legal assertions; Free additionally emits the target s63_c_5 from the question and is strictly rejected.",
+      "category": "model semantic misclassification; Free also has a caught schema/target leakage error",
+      "native_correct_not_semantic_success": true,
+      "source_semantic_pass": false,
+      "no_evidence_that_converter_itself_invented_these_givens": true
+    },
+    {
+      "source": "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+      "arm": "FreeHistory",
+      "original_row_sha256": "994548264c2f50bdc2c98eaf0cf6199539a2230b7d46441715685a6358ff98c7",
+      "facts": "In 2017, Alice was paid $33200. Alice and Bob have been married since Feb 3rd, 2017. Bob earned $10 in 2017. Alice and Bob file separate returns. Alice is not entitled to a deduction for Bob under section 151.",
+      "native_correct": false,
+      "handled": false,
+      "component_ids": [
+        "annual_income_events",
+        "explicit_legal_givens"
+      ],
+      "grounded": null,
+      "error": "ValidationError: {'predicate': 's63_c_5', 'arguments': ['Bob', '_', '_', 2017, 500], 'polarity': 'positive', 'witnesses': [{'field': 'question', 'quote': \"Section 63(c)(5) applies to Bob's basic standard deduction in 2017.\"}]} is not valid under any of the given schemas\n\nFailed validating 'oneOf' in schema['properties']['explicit_legal_givens']['properties']['views']['items']['properties']['givens']['items']:\n    {'oneOf': [{'type': 'object',\n                'additionalProperties': False,\n                'required': ['predicate',\n                             'arguments',\n                             'polarity',\n                             'witnesses'],\n                'properties': {'predicate': {'const': 's151_b'},\n                               'arguments': {'type': 'array',\n                                             'prefixItems': [{'type': 'string'},\n                                                             {'type': 'number'},\n                                                             {'type': 'integer'}],\n                                             'items': False,\n                                             'minItems': 3,\n                                             'maxItems': 3},\n                               'polarity': {'enum': ['positive',\n                                                     'negative']},\n                               'witnesses': {'type': 'array',\n                                             'minItems': 1,\n                                             'items': {'type': 'object',\n                                                       'required': ['field',\n                                                                    'quote'],\n                                                       'properties': {'field': {'const': 'facts'},\n                                                                      'quote': {'type': 'string',\n                                                                                'minLength': 1}}}}}},\n               {'type': 'object',\n                'additionalProperties': False,\n                'required': ['predicate',\n                             'arguments',\n                             'polarity',\n                             'witnesses'],\n                'properties': {'predicate': {'enum': ['s151_b_applies',\n                                                      's151_c_applies',\n                                                      's152_c_1',\n                                                      's63_f_1_B']},\n                               'arguments': {'type': 'array',\n                                             'prefixItems': [{'type': 'string'},\n                                                             {'type': 'string'},\n                                                             {'type': 'integer'}],\n                                             'items': False,\n                                             'minItems': 3,\n                                             'maxItems': 3},\n                               'polarity': {'enum': ['positive',\n                                                     'negative']},\n                               'witnesses': {'type': 'array',\n                                             'minItems': 1,\n                                             'items': {'type': 'object',\n                                                       'required': ['field',\n                                                                    'quote'],\n                                                       'properties': {'field': {'const': 'facts'},\n                                                                      'quote': {'type': 'string',\n                                                                                'minLength': 1}}}}}},\n               {'type': 'object',\n                'additionalProperties': False,\n                'required': ['predicate',\n                             'arguments',\n                             'polarity',\n                             'witnesses'],\n                'properties': {'predicate': {'const': 's63_f_1_A'},\n                               'arguments': {'type': 'array',\n                                             'prefixItems': [{'type': 'string'},\n                                                             {'type': 'integer'}],\n                                             'items': False,\n                                             'minItems': 2,\n                                             'maxItems': 2},\n                               'polarity': {'enum': ['positive',\n                                                     'negative']},\n                               'witnesses': {'type': 'array',\n                                             'minItems': 1,\n                                             'items': {'type': 'object',\n                                                       'required': ['field',\n                                                                    'quote'],\n                                                       'properties': {'field': {'const': 'facts'},\n                                                                      'quote': {'type': 'string',\n                                                                                'minLength': 1}}}}}}]}\n\nOn instance['explicit_legal_givens']['views'][0]['givens'][2]:\n    {'predicate': 's63_c_5',\n     'arguments': ['Bob', '_', '_', 2017, 500],\n     'polarity': 'positive',\n     'witnesses': [{'field': 'question',\n                    'quote': \"Section 63(c)(5) applies to Bob's basic \"\n                             'standard deduction in 2017.'}]}",
+      "actual_explicit_legal_givens": {
+        "views": [
+          {
+            "boundary_statements": [
+              {
+                "kind": "section151_other",
+                "other_person": "Bob",
+                "polarity": "negative",
+                "taxpayer": "Alice",
+                "witnesses": [
+                  {
+                    "field": "facts",
+                    "quote": "Alice is not entitled to a deduction for Bob under section 151."
+                  }
+                ],
+                "year": 2017
+              }
+            ],
+            "extraction_status": "complete",
+            "givens": [
+              {
+                "arguments": [
+                  "Alice",
+                  33200,
+                  2017
+                ],
+                "polarity": "positive",
+                "predicate": "s151_b",
+                "witnesses": [
+                  {
+                    "field": "facts",
+                    "quote": "Alice is not entitled to a deduction for Bob under section 151."
+                  }
+                ]
+              },
+              {
+                "arguments": [
+                  "Alice",
+                  "Bob",
+                  2017
+                ],
+                "polarity": "negative",
+                "predicate": "s151_b_applies",
+                "witnesses": [
+                  {
+                    "field": "facts",
+                    "quote": "Alice is not entitled to a deduction for Bob under section 151."
+                  }
+                ]
+              },
+              {
+                "arguments": [
+                  "Bob",
+                  "_",
+                  "_",
+                  2017,
+                  500
+                ],
+                "polarity": "positive",
+                "predicate": "s63_c_5",
+                "witnesses": [
+                  {
+                    "field": "question",
+                    "quote": "Section 63(c)(5) applies to Bob's basic standard deduction in 2017."
+                  }
+                ]
+              }
+            ],
+            "witnesses": [
+              {
+                "field": "facts",
+                "quote": "Alice is not entitled to a deduction for Bob under section 151."
+              },
+              {
+                "field": "question",
+                "quote": "Section 63(c)(5) applies to Bob's basic standard deduction in 2017."
+              }
+            ]
+          }
+        ]
+      },
+      "finding": "Observed income33200/10 does not establish a self-exemption under151(b). PG accepts typed exact quotes for these unsupported legal assertions; Free additionally emits the target s63_c_5 from the question and is strictly rejected.",
+      "category": "model semantic misclassification; Free also has a caught schema/target leakage error",
+      "native_correct_not_semantic_success": true,
+      "source_semantic_pass": false,
+      "no_evidence_that_converter_itself_invented_these_givens": true
+    },
+    {
+      "source": "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "arm": "ProgramGuided",
+      "original_row_sha256": "0200a0caa7972d085ce66f8afba88a1b7dd11351bf3eafecdd32021c17ffab36",
+      "facts": "Alice has paid wages of $6771 to Bob, $6954 to Charlie, and $6872 to Dan for agricultural labor done from Feb 1st, 2017 to Sep 2nd, 2017. Bob has paid wages of $4520 to Alice for work done from Apr 1st, 2017 to Sep 2nd, 2018.",
+      "native_correct": false,
+      "handled": false,
+      "component_ids": [
+        "payment_service_events"
+      ],
+      "grounded": {
+        "bindings": [
+          {
+            "inputs": {
+              "extraction_status": "complete",
+              "facts": [
+                {
+                  "arguments": [
+                    "payment_service_0"
+                  ],
+                  "predicate": "service_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_0",
+                    "Bob"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_0",
+                    "Alice"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_0",
+                    "2017-02-01"
+                  ],
+                  "predicate": "start_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_0",
+                    "2017-09-02"
+                  ],
+                  "predicate": "end_"
+                },
+                {
+                  "arguments": [
+                    "payment_0"
+                  ],
+                  "predicate": "payment_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    "Alice"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    "Bob"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    "payment_service_0"
+                  ],
+                  "predicate": "purpose_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    6771
+                  ],
+                  "predicate": "amount_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_1"
+                  ],
+                  "predicate": "service_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_1",
+                    "Charlie"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_1",
+                    "Alice"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_1",
+                    "2017-02-01"
+                  ],
+                  "predicate": "start_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_1",
+                    "2017-09-02"
+                  ],
+                  "predicate": "end_"
+                },
+                {
+                  "arguments": [
+                    "payment_1"
+                  ],
+                  "predicate": "payment_"
+                },
+                {
+                  "arguments": [
+                    "payment_1",
+                    "Alice"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_1",
+                    "Charlie"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_1",
+                    "payment_service_1"
+                  ],
+                  "predicate": "purpose_"
+                },
+                {
+                  "arguments": [
+                    "payment_1",
+                    6954
+                  ],
+                  "predicate": "amount_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_2"
+                  ],
+                  "predicate": "service_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_2",
+                    "Dan"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_2",
+                    "Alice"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_2",
+                    "2017-02-01"
+                  ],
+                  "predicate": "start_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_2",
+                    "2017-09-02"
+                  ],
+                  "predicate": "end_"
+                },
+                {
+                  "arguments": [
+                    "payment_2"
+                  ],
+                  "predicate": "payment_"
+                },
+                {
+                  "arguments": [
+                    "payment_2",
+                    "Alice"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_2",
+                    "Dan"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_2",
+                    "payment_service_2"
+                  ],
+                  "predicate": "purpose_"
+                },
+                {
+                  "arguments": [
+                    "payment_2",
+                    6872
+                  ],
+                  "predicate": "amount_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_3"
+                  ],
+                  "predicate": "service_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_3",
+                    "Alice"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_3",
+                    "Bob"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_3",
+                    "2017-04-01"
+                  ],
+                  "predicate": "start_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_3",
+                    "2018-09-02"
+                  ],
+                  "predicate": "end_"
+                },
+                {
+                  "arguments": [
+                    "payment_3"
+                  ],
+                  "predicate": "payment_"
+                },
+                {
+                  "arguments": [
+                    "payment_3",
+                    "Bob"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_3",
+                    "Alice"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_3",
+                    "payment_service_3"
+                  ],
+                  "predicate": "purpose_"
+                },
+                {
+                  "arguments": [
+                    "payment_3",
+                    4520
+                  ],
+                  "predicate": "amount_"
+                }
+              ],
+              "negative_givens": []
+            },
+            "witnesses": [
+              {
+                "field": "facts",
+                "quote": "Alice has paid wages of $6771 to Bob, $6954 to Charlie, and $6872 to Dan for agricultural labor done from Feb 1st, 2017 to Sep 2nd, 2017."
+              },
+              {
+                "field": "facts",
+                "quote": "Bob has paid wages of $4520 to Alice for work done from Apr 1st, 2017 to Sep 2nd, 2018."
+              }
+            ]
+          }
+        ],
+        "case_semantics_certified_by_types_and_quotes": false,
+        "unresolved": [
+          "payment_date_not_stated_for_native_period_test"
+        ]
+      },
+      "error": null,
+      "finding": "Source explicitly dates services, not payments. Both learned converters now preserve payment-date uncertainty and leave the statutory period test unresolved. This is a converter-policy outcome, not proof that the native task is impossible.",
+      "category": "source-to-native temporal representation boundary / conservative learned converter",
+      "not_necessarily_unavoidable_failure": true
+    },
+    {
+      "source": "SARA_v2_Binary:d9d6b23646a3f184a2bed9113b2dcd459fa4a1d088ae4e303a19d6873619ea48",
+      "arm": "FreeHistory",
+      "original_row_sha256": "49c9ae0c9f1ad2aaae3b0c07075a4d963f8d0bcc6d8e2efe8c9206a16b1e53e9",
+      "facts": "Alice has paid wages of $6771 to Bob, $6954 to Charlie, and $6872 to Dan for agricultural labor done from Feb 1st, 2017 to Sep 2nd, 2017. Bob has paid wages of $4520 to Alice for work done from Apr 1st, 2017 to Sep 2nd, 2018.",
+      "native_correct": false,
+      "handled": false,
+      "component_ids": [
+        "payment_service_events"
+      ],
+      "grounded": {
+        "bindings": [
+          {
+            "inputs": {
+              "extraction_status": "unread",
+              "facts": [
+                {
+                  "arguments": [
+                    "payment_service_0"
+                  ],
+                  "predicate": "service_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_0",
+                    "Bob"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_0",
+                    "Alice"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_0",
+                    "2017-02-01"
+                  ],
+                  "predicate": "start_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_0",
+                    "2017-09-02"
+                  ],
+                  "predicate": "end_"
+                },
+                {
+                  "arguments": [
+                    "payment_0"
+                  ],
+                  "predicate": "payment_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    "Alice"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    "Bob"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    "payment_service_0"
+                  ],
+                  "predicate": "purpose_"
+                },
+                {
+                  "arguments": [
+                    "payment_0",
+                    6771
+                  ],
+                  "predicate": "amount_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_1"
+                  ],
+                  "predicate": "service_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_1",
+                    "Charlie"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_1",
+                    "Alice"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_1",
+                    "2017-02-01"
+                  ],
+                  "predicate": "start_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_1",
+                    "2017-09-02"
+                  ],
+                  "predicate": "end_"
+                },
+                {
+                  "arguments": [
+                    "payment_1"
+                  ],
+                  "predicate": "payment_"
+                },
+                {
+                  "arguments": [
+                    "payment_1",
+                    "Alice"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_1",
+                    "Charlie"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_1",
+                    "payment_service_1"
+                  ],
+                  "predicate": "purpose_"
+                },
+                {
+                  "arguments": [
+                    "payment_1",
+                    6954
+                  ],
+                  "predicate": "amount_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_2"
+                  ],
+                  "predicate": "service_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_2",
+                    "Dan"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_2",
+                    "Alice"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_2",
+                    "2017-02-01"
+                  ],
+                  "predicate": "start_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_2",
+                    "2017-09-02"
+                  ],
+                  "predicate": "end_"
+                },
+                {
+                  "arguments": [
+                    "payment_2"
+                  ],
+                  "predicate": "payment_"
+                },
+                {
+                  "arguments": [
+                    "payment_2",
+                    "Alice"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_2",
+                    "Dan"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_2",
+                    "payment_service_2"
+                  ],
+                  "predicate": "purpose_"
+                },
+                {
+                  "arguments": [
+                    "payment_2",
+                    6872
+                  ],
+                  "predicate": "amount_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_3"
+                  ],
+                  "predicate": "service_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_3",
+                    "Alice"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_3",
+                    "Bob"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_3",
+                    "2017-04-01"
+                  ],
+                  "predicate": "start_"
+                },
+                {
+                  "arguments": [
+                    "payment_service_3",
+                    "2018-09-02"
+                  ],
+                  "predicate": "end_"
+                },
+                {
+                  "arguments": [
+                    "payment_3"
+                  ],
+                  "predicate": "payment_"
+                },
+                {
+                  "arguments": [
+                    "payment_3",
+                    "Bob"
+                  ],
+                  "predicate": "agent_"
+                },
+                {
+                  "arguments": [
+                    "payment_3",
+                    "Alice"
+                  ],
+                  "predicate": "patient_"
+                },
+                {
+                  "arguments": [
+                    "payment_3",
+                    "payment_service_3"
+                  ],
+                  "predicate": "purpose_"
+                },
+                {
+                  "arguments": [
+                    "payment_3",
+                    4520
+                  ],
+                  "predicate": "amount_"
+                }
+              ],
+              "negative_givens": []
+            },
+            "witnesses": [
+              {
+                "field": "facts",
+                "quote": "Alice has paid wages of $6771 to Bob, $6954 to Charlie, and $6872 to Dan for agricultural labor done from Feb 1st, 2017 to Sep 2nd, 2017."
+              },
+              {
+                "field": "facts",
+                "quote": "Bob has paid wages of $4520 to Alice for work done from Apr 1st, 2017 to Sep 2nd, 2018."
+              }
+            ]
+          }
+        ],
+        "case_semantics_certified_by_types_and_quotes": false,
+        "unresolved": [
+          "payment_service_events_one_or_more_records_unread_or_invalid",
+          "source_does_not_state_payment_date_needed_by_native_year_or_threshold_path"
+        ]
+      },
+      "error": null,
+      "finding": "Source explicitly dates services, not payments. Both learned converters now preserve payment-date uncertainty and leave the statutory period test unresolved. This is a converter-policy outcome, not proof that the native task is impossible.",
+      "category": "source-to-native temporal representation boundary / conservative learned converter",
+      "not_necessarily_unavoidable_failure": true
+    }
+  ],
+  "no_new_model_calls": true,
+  "no_raw_native_or_model_result_changed": true,
+  "not_new_grading_or_acceptance_gate": true
+}

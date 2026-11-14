@@ -3,10 +3,11 @@ from collections import Counter
 import ast
 import json
 
-REFERENCE = '__lsg_shared_value__'
+REFERENCE = '@v'
 PROGRAM_SEGMENTS = '__lsg_program_segments__'
+SOURCE_SEGMENTS = '@s'
 INSTRUCTION = ('The input is losslessly reference-encoded JSON. Read task as the original input; '
-    'each singleton object {"__lsg_shared_value__":"vN"} denotes shared_values["vN"], '
+    'each singleton object {"@v":"vN"} denotes shared_values["vN"], '
     'recursively. Repeated source text, programs and execution records are shared, never omitted. '
     'References are storage identifiers, not legal rules, labels or source identities. '
     'All instructions and requested output schema remain unchanged.')
@@ -15,7 +16,7 @@ PROGRAM_INSTRUCTION = ('A program string may additionally be encoded as '
     'shared-value references, concatenate those string segments in order, '
     'without adding separators, to recover the exact complete Python program. '
     'Segments preserve original whitespace, comments and function bodies. '
-    'This shares unchanged helpers across actual libraries; it adds no rule.')
+    'Source text may use {"@s":[segment,...]} under the same exact-concatenation rule; its segments use only verified original source-unit intervals. This shares unchanged helpers and original source clauses; it adds no rule.')
 
 
 def serialized(value):
@@ -46,11 +47,11 @@ def pack(value):
             pool[identity] = children(node)
         return {REFERENCE: identities[body]}
     task = encode(value)
-    return {'encoding': 'lossless_shared_JSON_values_v1', 'shared_values': pool, 'task': task}
+    return {'encoding': 'lossless_shared_JSON_values_v2', 'shared_values': pool, 'task': task}
 
 
 def unpack(envelope):
-    if envelope['encoding'] != 'lossless_shared_JSON_values_v1':raise ValueError('Unknown teacher transport')
+    if envelope['encoding'] != 'lossless_shared_JSON_values_v2':raise ValueError('Unknown teacher transport')
     visiting = set()
     def decode(node):
         if isinstance(node, dict):
@@ -67,9 +68,12 @@ def unpack(envelope):
 
 def pack_programs(value):
     """Share real unchanged helpers without normalizing any program bytes."""
-    fields = {'source_program', 'planner_program', 'composition_program', 'decision_program'}
+    fields = {'source_program', 'planner_program', 'composition_program', 'decision_program', 'binding_program'}
     def split(code):
-        tree = ast.parse(code)
+        try:
+            tree = ast.parse(code)
+        except SyntaxError:
+            return code  # A preserved failed program is data, not a transport failure.
         functions = [n for n in tree.body if isinstance(n, ast.FunctionDef)]
         if len(functions) < 2:
             return code
@@ -82,27 +86,47 @@ def pack_programs(value):
         segments.append(code[cursor:])
         assert ''.join(segments) == code
         return {PROGRAM_SEGMENTS: segments}
+    def source_segments(node):
+        text, units = node.get('full_source_text'), node.get('source_units')
+        if not isinstance(text, str) or not isinstance(units, list):
+            return None
+        intervals = [u for u in units if isinstance(u, dict) and type(u.get('start')) is int
+            and type(u.get('end')) is int and isinstance(u.get('text'), str)]
+        cursor, segments = 0, []
+        for unit in sorted(intervals, key=lambda u: (u['start'], u['end'])):
+            start, end = unit['start'], unit['end']
+            if start < cursor or end <= start or end > len(text) or text[start:end] != unit['text']:
+                continue
+            segments.extend([text[cursor:start], unit['text']])
+            cursor = end
+        if not segments:
+            return None
+        segments.append(text[cursor:])
+        assert ''.join(segments) == text
+        return segments
     def factor(node):
         if isinstance(node, dict):
-            if PROGRAM_SEGMENTS in node:
+            if PROGRAM_SEGMENTS in node or SOURCE_SEGMENTS in node:
                 raise ValueError('Original task contains the reserved program-segment key')
-            return {k: split(v) if k in fields and isinstance(v, str) else factor(v)
+            parts = source_segments(node)
+            return {k: {SOURCE_SEGMENTS:parts} if k=='full_source_text' and parts is not None else
+                    split(v) if k in fields and isinstance(v, str) else factor(v)
                     for k, v in node.items()}
         if isinstance(node, list):
             return [factor(v) for v in node]
         return node
     result = pack(factor(value))
-    result['program_encoding'] = 'exact_python_segments_v1'
+    result['program_encoding'] = 'exact_python_and_source_segments_v2'
     return result
 
 
 def unpack_programs(envelope):
-    if envelope.get('program_encoding') != 'exact_python_segments_v1':
+    if envelope.get('program_encoding') != 'exact_python_and_source_segments_v2':
         raise ValueError('Explicit exact-program encoding required')
     def restore(node):
         if isinstance(node, dict):
-            if set(node) == {PROGRAM_SEGMENTS}:
-                parts = node[PROGRAM_SEGMENTS]
+            if set(node) in ({PROGRAM_SEGMENTS}, {SOURCE_SEGMENTS}):
+                parts = node[next(iter(node))]
                 if not isinstance(parts, list) or any(not isinstance(p, str) for p in parts):
                     raise ValueError('Program segments must remain literal strings')
                 return ''.join(parts)

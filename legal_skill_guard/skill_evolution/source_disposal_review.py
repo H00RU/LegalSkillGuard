@@ -43,14 +43,34 @@ def validate_reviewed_disposal(output, reviews, consumer_program, *, cache=None)
     return issues
 
 
-def with_disposal_review(check, source_id, reviews, consumer_program):
+def branch_authorization_preserved(output, source_unit_ids):
+    terms = [r['term'] for r in output['statements']
+        if r['term'][0] == 'disposal_obligation' and set(r['support_ids']) & set(source_unit_ids)]
+    def scoped_alternative(term):
+        action, scope = term[2], term[4]
+        return (action[0] in ('action_alternative', 'acquired_action_alternative_v3')
+            and action[1][0] == 'return_to' and action[2][0] == 'destroy'
+            and scope[0] == 'acquired_joint_exception_scope_v3' and len(scope) == 7
+            and scope[1:4] == ['no_acquired_exception', '', '']
+            and scope[4] == 'written_authorization'
+            and 'authoris' in scope[5].lower() and 'in writing' in scope[5].lower())
+    guarded = [t for t in terms if t[2][0] == 'authorized_action_alternative' or scoped_alternative(t)]
+    plain = [t for t in terms if t[2][0] in ('action_alternative', 'acquired_action_alternative_v3', 'destroy')
+        and not scoped_alternative(t)]
+    return bool(guarded) and not plain
+
+
+def with_disposal_review(check, source_id, reviews, consumer_program, *, authorization_review=None):
     selected = [r for r in reviews if r['source'] == source_id]
-    if not selected:
+    authorization = authorization_review if authorization_review and authorization_review['source']==source_id else None
+    if not selected and not authorization:
         return check
     cache = {}
     def checked(output):
         feedback = check(output)
         issues = validate_reviewed_disposal(output, selected, consumer_program, cache=cache)
+        if authorization and not branch_authorization_preserved(output, authorization['source_unit_ids']):
+            issues.append({'source':source_id,'violation':'Reviewed destruction-only written authorization missing or attached to return'})
         feedback['reviewed_disposal_scope_passed'] = not issues
         feedback['reviewed_disposal_scope_violations'] = issues
         feedback['source_review_passed'] = feedback.get('source_review_passed', True) and not issues

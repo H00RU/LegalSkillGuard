@@ -20,13 +20,14 @@ from experiments import legal_skill_evolution_mixed_residual_reads as residual_r
 from experiments import legal_skill_evolution_source_batch_update as source_updates
 from legal_skill_guard.rr.checkpoint import immutable_json
 from legal_skill_guard.skill_evolution.objects import digest
+from legal_skill_guard.skill_evolution.clients import FrozenExecutor
 from legal_skill_guard.skill_evolution.ledger import EvolutionLedger
 from legal_skill_guard.skill_evolution.sara_statute_kernel import current_case_interface, GIVENS
 from legal_skill_guard.skill_evolution.native_case_encoding import FACTUAL_ENCODING
 
 
 ROOT = learned.ROOT
-RUN = 'legal_skill_evolution_mixed_training_checkpointed_20261114'
+RUN = 'legal_skill_evolution_mixed_public_execution_binding_20261115'
 OUT = ROOT / 'artifacts' / RUN
 read = learned.read
 
@@ -43,6 +44,7 @@ def setup():
         files += [ROOT / 'legal_skill_guard/skill_evolution' / name for name in (
             'sara_statute_kernel.py', 'generic_event_observation.py', 'native_case_encoding.py', 'case_observation_contract.py',
             'source_selection_certificate.py', 'source_disposal_review.py', 'clients.py', 'ledger.py',
+            'lazy_native_selection.py',
             'teacher_transport.py', 'runtime.py', 'source_function_patch.py', 'acquisition_proposal.py',
             'open_acquisition.py', 'source_composition.py', 'native_theory_feedback.py',
             'span_compiler.py', 'span_compiler_worker.py')]
@@ -61,8 +63,16 @@ def setup():
         protocol['source_compiler_accepts_only_ContractNLI_public_records'] = True
         for folder, arms in ((source_updates.train.OUT, source_updates.train.ARMS), (learned.OUT, learned.ARMS)):
             for arm in arms:
-                inherited = folder / 'B5' / arm / 'teacher.json'
-                protocol['data_sha256'][str(inherited.relative_to(ROOT))] = hashlib.sha256(inherited.read_bytes()).hexdigest()
+                for batch in (5, 6):
+                    inherited = folder / f'B{batch}' / arm / 'teacher.json'
+                    protocol['data_sha256'][str(inherited.relative_to(ROOT))] = hashlib.sha256(inherited.read_bytes()).hexdigest()
+        protocol['B6_closed_four_teacher_responses_reused_no_repeat'] = True
+        for arm in source_updates.train.ARMS:
+            inherited = source_updates.train.OUT / 'B6/source_parser_correction' / arm / 'teacher.json'
+            protocol['data_sha256'][str(inherited.relative_to(ROOT))] = hashlib.sha256(inherited.read_bytes()).hexdigest()
+        protocol['exact_optimality_only_claimed_when_proved_not_added_goal_gate'] = True
+        guard = source_updates.train.OUT / 'B6/post_semantic_review/branch_authorization_review.json'
+        protocol['data_sha256'][str(guard.relative_to(ROOT))] = hashlib.sha256(guard.read_bytes()).hexdigest()
         immutable_json(path, protocol)
         for p in files:
             target = OUT / 'source_snapshot' / p.resolve().relative_to(ROOT)
@@ -186,30 +196,34 @@ def run(start, stop):
         source_needed = not source_updates.checkpoints.exists(batch)
         if source_needed:
             source_updates.make_task(source_protocol, batch)
-            # One controller, at most two authorized teacher requests, all in
-            # the same bound physical ledger namespace. Each branch's two
-            # independent proposals remain serial with its fixed common input.
-            with ThreadPoolExecutor(max_workers=2) as pool:
-                jobs = [pool.submit(source_updates.acquire, source_protocol, batch, ledger),
-                    pool.submit(learned.acquire, protocol, ledger, public, kernels, batch)]
-                failures = []
-                for job in jobs:
-                    try:
-                        job.result()
-                    except Exception as error:
-                        failures.append(error)
-                if failures:
-                    raise failures[0]
-            rows_by_arm = {arm: source_updates.compile_candidate(source_protocol, batch, arm) or []
-                for arm in source_updates.train.ARMS}
-            source_updates.finalize(batch, rows_by_arm)
-        else:
-            learned.acquire(protocol, ledger, public, kernels, batch)
+        # Independent proposals use one frozen task per branch. Two workers
+        # fill the same authorized teacher slots; executor calls wait for both.
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            jobs = [pool.submit(learned.acquire_one, protocol, ledger, public, kernels, batch, arm)
+                for arm in learned.ARMS]
+            if source_needed:
+                jobs += [pool.submit(source_updates.acquire_one, source_protocol, batch, ledger, arm)
+                    for arm in source_updates.train.ARMS]
+            failures = []
+            for job in jobs:
+                try:
+                    job.result()
+                except Exception as error:
+                    failures.append(error)
+            if failures:
+                raise failures[0]
         for arm in learned.ARMS:
             if not (learned.OUT / f'B{batch}' / arm / 'unbound_library_preflight.json').exists():
                 preflight.run(arm, batch, context=(protocol, ledger, public, kernels))
             actor.execute(actor_protocol, batch, arm)
         learned.score(protocol, public, batch)
+        if source_needed:
+            source_client = FrozenExecutor(ledger, OUT, protocol['executor_profile'])
+            rows_by_arm = {arm: source_updates.compile_candidate(source_protocol, batch, arm,
+                task_path=source_updates.train.OUT / f'B{batch}/teacher_task.json',
+                folder=source_updates.train.OUT / f'B{batch}' / arm, client=source_client) or []
+                for arm in source_updates.train.ARMS}
+            source_updates.finalize(batch, rows_by_arm)
         immutable_json(OUT / f'B{batch}/observation_branch_complete.json', {
             'batch': batch, 'learning_update_executed': True,
             'not_all_five_training_complete': True, 'goal_complete': False})

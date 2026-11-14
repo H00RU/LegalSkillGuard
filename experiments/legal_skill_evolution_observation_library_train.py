@@ -27,7 +27,7 @@ from legal_skill_guard.skill_evolution.native import record_schema, grade_view
 from legal_skill_guard.skill_evolution.objects import digest
 from legal_skill_guard.skill_evolution.runtime import decoder_schema, render_messages
 from legal_skill_guard.skill_evolution.span_compiler import CALLS, METHODS, execute_json
-from legal_skill_guard.skill_evolution.teacher_transport import pack_programs, unpack_programs, PROGRAM_INSTRUCTION
+from legal_skill_guard.skill_evolution.teacher_transport import pack_programs, unpack_programs, INSTRUCTION, PROGRAM_INSTRUCTION
 from legal_skill_guard.inference.codex_cli_client import strict_output_schema_issues, render_structured_codex_prompt, CODEX_TURN_INPUT_CHARACTER_LIMIT
 
 
@@ -186,27 +186,32 @@ def make_task(protocol, batch, public, kernels):
     return task
 
 
-def acquire(protocol, ledger, public, kernels, batch):
+def acquire_one(protocol, ledger, public, kernels, batch, arm):
+    assert arm in ARMS
     task = make_task(protocol, batch, public, kernels)
     user = json.dumps(pack_programs(task), ensure_ascii=False, separators=(',', ':'))
+    path = OUT / f'B{batch}' / arm / 'teacher.json'
+    if path.exists():
+        return
+    difference = ('Learn joint program-conditioned factual distinctions and conversion updates from the real binding/execution errors, preserve coherent alternatives and explicitly share primitive components across clauses.'
+        if arm == 'ProgramGuided' else
+        'Independently generate the strongest ordinary teacher library with the SAME full information and code/representation/planning capacity. Program-aware extraction, error repair, shared views, pure parsing and all same modules are allowed. Do not deliberately weaken the control.')
+    system = SYSTEM + '\n' + difference + '\n' + INSTRUCTION + '\n' + PROGRAM_INSTRUCTION
+    system += '\nAllowed calls: ' + ','.join(sorted(CALLS)) + '\nAllowed attributes: ' + ','.join(sorted(METHODS))
+    size = len(render_structured_codex_prompt(system, user))
+    assert size <= CODEX_TURN_INPUT_CHARACTER_LIMIT
+    immutable_json(path.with_name('preflight.json'), {'task_sha256': digest(task),
+        'request_characters': size, 'schema_issues': strict_output_schema_issues(SCHEMA)})
+    result = FrozenTeacher(ledger, OUT, protocol['teacher_profile']).propose(
+        ledger.run_id + ':B' + str(batch) + ':' + arm + ':update', source_ids=keys_seen(protocol, batch),
+        system_prompt=system, user_prompt=user, output_schema=SCHEMA)
+    immutable_json(path, result)
+    print(json.dumps({'batch': batch, 'arm': arm, 'cumulative_observation_library_saved': True}), flush=True)
+
+
+def acquire(protocol, ledger, public, kernels, batch):
     for arm in ARMS:
-        path = OUT / f'B{batch}' / arm / 'teacher.json'
-        if path.exists():
-            continue
-        difference = ('Learn joint program-conditioned factual distinctions and conversion updates from the real binding/execution errors, preserve coherent alternatives and explicitly share primitive components across clauses.'
-            if arm == 'ProgramGuided' else
-            'Independently generate the strongest ordinary teacher library with the SAME full information and code/representation/planning capacity. Program-aware extraction, error repair, shared views, pure parsing and all same modules are allowed. Do not deliberately weaken the control.')
-        system = SYSTEM + '\n' + difference + '\n' + PROGRAM_INSTRUCTION
-        system += '\nAllowed calls: ' + ','.join(sorted(CALLS)) + '\nAllowed attributes: ' + ','.join(sorted(METHODS))
-        size = len(render_structured_codex_prompt(system, user))
-        assert size <= CODEX_TURN_INPUT_CHARACTER_LIMIT
-        immutable_json(path.with_name('preflight.json'), {'task_sha256': digest(task),
-            'request_characters': size, 'schema_issues': strict_output_schema_issues(SCHEMA)})
-        result = FrozenTeacher(ledger, OUT, protocol['teacher_profile']).propose(
-            ledger.run_id + ':B' + str(batch) + ':' + arm + ':update', source_ids=keys_seen(protocol, batch),
-            system_prompt=system, user_prompt=user, output_schema=SCHEMA)
-        immutable_json(path, result)
-        print(json.dumps({'batch': batch, 'arm': arm, 'cumulative_observation_library_saved': True}), flush=True)
+        acquire_one(protocol, ledger, public, kernels, batch, arm)
 
 
 def keys_seen(protocol, batch):
