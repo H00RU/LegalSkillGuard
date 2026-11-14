@@ -203,7 +203,7 @@ def acquire(protocol, ledger, public, kernels, batch):
         immutable_json(path.with_name('preflight.json'), {'task_sha256': digest(task),
             'request_characters': size, 'schema_issues': strict_output_schema_issues(SCHEMA)})
         result = FrozenTeacher(ledger, OUT, protocol['teacher_profile']).propose(
-            RUN + ':B' + str(batch) + ':' + arm + ':update', source_ids=keys_seen(protocol, batch),
+            ledger.run_id + ':B' + str(batch) + ':' + arm + ':update', source_ids=keys_seen(protocol, batch),
             system_prompt=system, user_prompt=user, output_schema=SCHEMA)
         immutable_json(path, result)
         print(json.dumps({'batch': batch, 'arm': arm, 'cumulative_observation_library_saved': True}), flush=True)

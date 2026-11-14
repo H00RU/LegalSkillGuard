@@ -26,10 +26,12 @@ from legal_skill_guard.skill_evolution.native import record_schema, grade_view
 from legal_skill_guard.skill_evolution.objects import digest
 from legal_skill_guard.skill_evolution.runtime import decoder_schema, render_messages
 from legal_skill_guard.skill_evolution.span_compiler import execute_json
+from legal_skill_guard.skill_evolution.sara_statute_kernel import current_case_interface
+from legal_skill_guard.skill_evolution.native_case_encoding import FACTUAL_ENCODING
 
 
 ROOT = learned.ROOT
-RUN = 'legal_skill_evolution_mixed_case_actor_20261114'
+RUN = 'legal_skill_evolution_mixed_case_actor_givens6_20261114'
 OUT = ROOT / 'artifacts' / RUN
 ARMS = (*learned.ARMS, 'GenericView')
 read = learned.read
@@ -41,6 +43,7 @@ def prepare():
     prior = read(learned.OUT / 'protocol.json')
     paths = [Path(__file__), ROOT / 'legal_skill_guard/skill_evolution/runtime.py',
         ROOT / 'legal_skill_guard/skill_evolution/generic_event_observation.py',
+        ROOT / 'legal_skill_guard/skill_evolution/native_case_encoding.py',
         ROOT / 'legal_skill_guard/skill_evolution/case_observation_contract.py',
         ROOT / 'legal_skill_guard/skill_evolution/sara_statute_kernel.py']
     protocol = {'run_id': RUN, 'same_goal': True, 'continuation_of': [learned.RUN, generic.RUN],
@@ -70,7 +73,7 @@ def execute(protocol, batch, arm, *, initial=False):
     client = FrozenExecutor(ledger, OUT, protocol['executor_profile'])
     client.exact_replay_roots = [OUT]
     public = {s['key']: s for s in read(learned.parent.OUT / 'SARA_corrected_TRAIN_views.json')}
-    kernels = {r['source']: r['kernel'] for r in read(learned.parent.OUT / 'SARA_native_kernel_bank.json')}
+    kernels = {r['source']: current_case_interface(r['kernel']) for r in read(learned.parent.OUT / 'SARA_native_kernel_bank.json')}
     stage = 'initial_results' if initial else 'results'
     target_root = (generic.OUT if arm == 'GenericView' else learned.OUT) / f'B{batch}'
     if arm != 'GenericView':
@@ -90,7 +93,7 @@ def execute(protocol, batch, arm, *, initial=False):
         try:
             if arm == 'GenericView':
                 schema = schema_for(kernel)
-                prompt = PROMPT + '\nShared native event meanings: ' + generic.native_encoding.ONTOLOGY
+                prompt = PROMPT + '\nShared native event meanings: ' + FACTUAL_ENCODING
             else:
                 components = {c['id']: c for c in library['components']}
                 plan = execute_json(library['planner_program'], {'kernel': kernel, 'public_case': pub}, {}, allow_helpers=True)

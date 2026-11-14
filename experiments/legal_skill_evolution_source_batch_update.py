@@ -12,6 +12,7 @@ import json
 
 from experiments import legal_skill_evolution_source_batch_initial as initial
 from experiments import legal_skill_evolution_source_library_train as train
+from experiments import legal_skill_evolution_source_checkpoints as checkpoints
 from legal_skill_guard.rr.checkpoint import immutable_json
 from legal_skill_guard.skill_evolution.clients import FrozenTeacher
 from legal_skill_guard.skill_evolution.ledger import EvolutionLedger
@@ -26,12 +27,12 @@ def make_task(protocol, batch):
     if target.exists():
         return train.read(target)
     prior = train.read(train.OUT / 'B2/teacher_task.json')
-    public = {s['key']: s for s in train.read(train.parent.PREPARED / 'public.json')}
+    public = {s['key']: s for s in train.read(train.parent.PREPARED / 'public.json') if s['dataset'] == 'ContractNLI'}
     grading = train.read(train.parent.PREPARED / 'grading.json')
     current_ids = [s for s in protocol['mixed_batches'][batch-1] if s in protocol['sources']]
     seen = list(dict.fromkeys(protocol['inherited_warmstart_sources'] + [
         s for b in protocol['mixed_batches'][:batch] for s in b if s in protocol['sources']]))
-    libraries = {a: train.read(train.OUT / f'B{batch-1}' / a / 'library.json') for a in train.ARMS}
+    libraries = {a: checkpoints.load(batch-1, a) for a in train.ARMS}
     tasks = []
     for sid in seen:
         units = train.read(train.parent.OUT / 'source_pass/ConstraintAcquire' /
@@ -57,7 +58,12 @@ def make_task(protocol, batch):
         'prior_partial_source_reviews_and_failed_replacements')}
     assert libraries['ConstraintAcquire']['spec']['decision_program'] == libraries['FreeUpdate']['spec']['decision_program']
     task['common_frozen_consumer'] = libraries['ConstraintAcquire']['spec']['decision_program']
+    review_path = train.OUT / 'B5/shared_source_disposal_reviews.json'
+    if review_path.exists():
+        task['shared_reviewed_source_scope_checks'] = train.read(review_path)
+        task['source_scope_check_code'] = (train.ROOT / 'legal_skill_guard/skill_evolution/source_disposal_review.py').read_text()
     task.update(batch=batch, current_sources=current_ids, tasks=tasks, current_libraries=libraries,
+        pending_source_semantics=checkpoints.state(batch-1)['pending_source_semantics'],
         actual_current_batch_results={a: train.read(train.OUT / f'B{batch}' / a / 'initial_summary.json') for a in train.ARMS},
         previous_repair_receipts={f'B{b}/{a}': train.read(train.OUT / f'B{b}' / a / 'update_result.json')
             for b in range(2, batch) for a in train.ARMS if (train.OUT / f'B{b}' / a / 'update_result.json').exists()},
@@ -68,10 +74,8 @@ def make_task(protocol, batch):
     return task
 
 
-def acquire(protocol, batch):
+def acquire(protocol, batch, ledger):
     task = make_task(protocol, batch)
-    ledger = EvolutionLedger(train.ROOT / 'artifacts/rr_v2_preflight/research_ledger.sqlite3', run_id=train.RUN,
-        sources={'train': protocol['sources'], 'dev': [], 'test': []}, binding=digest(protocol))
     # Remove the closed B2-specific diagnosis; retain the original architecture,
     # strong-control freedoms, source semantic constraints and public repairs.
     system = train.SYSTEM
@@ -93,7 +97,7 @@ def acquire(protocol, batch):
         immutable_json(path.with_name('preflight.json'), {'task_sha256': digest(task),
             'characters': size, 'same_information_both_arms': True, 'schema_issues': []})
         result = FrozenTeacher(ledger, train.OUT, protocol['teacher_profile']).propose(
-            train.RUN + f':B{batch}:' + arm + ':update', source_ids=[t['source_id'] for t in task['tasks']],
+            ledger.run_id + f':B{batch}:' + arm + ':update', source_ids=[t['source_id'] for t in task['tasks']],
             system_prompt=prompt, user_prompt=user, output_schema=train.previous.schema_for(arm))
         immutable_json(path, result)
         print(json.dumps({'source_teacher_saved': arm, 'batch': batch}), flush=True)
@@ -109,7 +113,7 @@ def compile_candidate(protocol, batch, arm):
     program, preservation = apply_function_edits(old['source_program'], raw.pop('source_function_edits'))
     raw['source_program'] = program
     assert raw['decision_functions'] == []
-    public = {s['key']: s for s in train.read(train.parent.PREPARED / 'public.json')}
+    public = {s['key']: s for s in train.read(train.parent.PREPARED / 'public.json') if s['dataset'] == 'ContractNLI'}
     grading = train.read(train.parent.PREPARED / 'grading.json')
     library, receipt, proposal = train.previous.old.compile_raw(old, raw, arm, public)
     library['spec']['decision_program'] = task['common_frozen_consumer']
@@ -122,34 +126,31 @@ def compile_candidate(protocol, batch, arm):
         folder / 'candidate_results' / train.previous.old.name_for(t['source_id'])) for t in task['tasks']]
     if any('observation' not in row for row in rows):
         raise ValueError('Actual candidate execution failed; preserve raw output before a specific repair')
+    from legal_skill_guard.skill_evolution.source_disposal_review import with_disposal_review
+    reviews = task.get('shared_reviewed_source_scope_checks', [])
+    def checker_for(sid):
+        original = train.previous.old.previous.prior.prior.checker(library, public[sid], grading[sid])
+        return with_disposal_review(original, sid, reviews, library['spec']['decision_program'])
     if arm == 'ConstraintAcquire':
-        prior_certificate = train.read(train.OUT / 'B2/ConstraintAcquire/selection_certificate.json')
-        witness = next(r for r in rows if '8fb38aee' in r['source'])
-        before = train.read(train.OUT / 'B2/ConstraintAcquire/candidate_results' / train.previous.old.name_for(witness['source']))
-        unchanged_bias = all(library[k] == old[k] for k in ('language', 'renderers', 'selected_rule_ids'))
-        loss = sum(4 - r['correct'] for r in rows)
-        if unchanged_bias and loss == 1 and witness['observation']['context'] == before['observation']['context']:
-            immutable_json(folder / 'selection_certificate.json', {
-                'scope_sources': [r['source'] for r in rows], 'native_loss': 1, 'native_loss_lower_bound': 1,
-                'selection_edits': 0, 'selection_edit_lower_bound': 0,
-                'same_G_renderers_consumer_and_certified_residual_context': True,
-                'reused_residual_certificate_sha256': digest(prior_certificate),
-                'only_phi_changed_in_this_batch': True, 'not_a_new_G_update_or_semantic_certificate': True,
-                'exact_objective_minimum_given_current_phi': True, 'new_model_calls': 0})
+        from legal_skill_guard.skill_evolution.projected_composition_profiles import admissible_projected_compositions
+        from legal_skill_guard.skill_evolution.open_acquisition import fit
+        from legal_skill_guard.skill_evolution.theory_supervision import attach_scored_theories
+        from legal_skill_guard.skill_evolution.source_selection_certificate import certify_unchanged_selection
+        def profile_for(sid, observation):
+            path = folder / 'source_checked_profiles' / train.previous.old.name_for(sid)
+            if path.exists():
+                return train.read(path)
+            profile = admissible_projected_compositions(library, observation, checker_for(sid), timeout_seconds=90)
+            immutable_json(path, profile)
+            return profile
+        certificate = certify_unchanged_selection(library, old['selected_rule_ids'], rows, checker_for, profile_for)
+        immutable_json(folder / 'current_selection_diagnosis.json', certificate)
+        if certificate['certified']:
+            immutable_json(folder / 'selection_certificate.json', certificate)
         else:
-            from legal_skill_guard.skill_evolution.projected_composition_profiles import admissible_projected_compositions
-            from legal_skill_guard.skill_evolution.open_acquisition import fit
-            from legal_skill_guard.skill_evolution.theory_supervision import attach_scored_theories
             observations = []
             for row in rows:
-                sid = row['source']
-                path = folder / 'projected_profiles' / train.previous.old.name_for(sid)
-                if path.exists():
-                    profile = train.read(path)
-                else:
-                    profile = admissible_projected_compositions(library, row['observation'],
-                        train.previous.old.previous.prior.prior.checker(library, public[sid], grading[sid]), timeout_seconds=90)
-                    immutable_json(path, profile)
+                profile = profile_for(row['source'], row['observation'])
                 assert profile['status'] == 'complete', 'Incomplete search cannot become scored training constraints'
                 observations.append(attach_scored_theories(row['observation'], profile))
             library, result = fit(library, observations, prior_rule_ids=old['selected_rule_ids'], timeout_seconds=90)
@@ -157,6 +158,14 @@ def compile_candidate(protocol, batch, arm):
             assert result['status'] == 'sat', 'Keep incomplete fit and candidate; no fitted checkpoint is invented'
             rows = [initial.evaluate(library, t['source_id'], arm, batch,
                 folder / 'fitted_results' / train.previous.old.name_for(t['source_id'])) for t in task['tasks']]
+    source_checks = []
+    for row in rows:
+        feedback = checker_for(row['source'])(row['actual']['execution']['source_output'])
+        source_checks.append({'source': row['source'], 'source_review_passed': feedback.get('source_review_passed', True),
+            'reviewed_disposal_scope_violations': feedback.get('reviewed_disposal_scope_violations', [])})
+    immutable_json(folder / 'shared_source_review_results.json', {'rows': source_checks,
+        'same_checks_both_arms': True, 'unreviewed_fields_not_negatives': True})
+    assert all(r['source_review_passed'] for r in source_checks), 'Candidate fails actual shared source review; keep raw proposal and failures'
     immutable_json(folder / 'library.json', library)
     immutable_json(folder / 'update_result.json', {'arm': arm, 'batch': batch,
         'all_supplied_correct': sum(r['correct'] for r in rows), 'all_supplied_total': len(rows) * 4,
@@ -165,16 +174,24 @@ def compile_candidate(protocol, batch, arm):
         'row_summary': [{k: r[k] for k in ('source', 'correct', 'unresolved')} for r in rows],
         'native_accuracy_not_source_semantic_certification': True, 'new_model_calls_during_compile': 0,
         'goal_complete': False})
+    return rows
 
 
-def run(start, stop):
+def finalize(batch, rows_by_arm):
+    pending = checkpoints.remaining(checkpoints.state(batch-1)['pending_source_semantics'], rows_by_arm)
+    checkpoints.record(batch, {a: train.OUT / f'B{batch}' / a / 'library.json' for a in train.ARMS}, pending=pending)
+
+
+def run(start, stop, ledger):
     protocol = train.prepare()
     for batch in range(start, stop + 1):
         initial.run(batch)
-        if not (train.OUT / f'B{batch}/ConstraintAcquire/library.json').exists():
-            acquire(protocol, batch)
+        if not checkpoints.exists(batch):
+            acquire(protocol, batch, ledger)
+            rows_by_arm = {}
             for arm in train.ARMS:
-                compile_candidate(protocol, batch, arm)
+                rows_by_arm[arm] = compile_candidate(protocol, batch, arm) or []
+            finalize(batch, rows_by_arm)
         print(json.dumps({'source_batch_completed': batch}), flush=True)
 
 
@@ -185,4 +202,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     with (train.ROOT / 'artifacts/rr_v2_preflight/current_open_acquisition_client.lock').open('a+') as lock:
         fcntl.flock(lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
-        run(args.start, args.stop)
+        from experiments.legal_skill_evolution_mixed_training_continue import setup
+        run(args.start, args.stop, setup()[1])

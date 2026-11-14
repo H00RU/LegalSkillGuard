@@ -13,26 +13,42 @@ from pathlib import Path
 import re
 import subprocess
 import tempfile
+import jsonschema
+from datetime import datetime
 
 
 ROOT = Path(__file__).resolve().parents[2]
-GIVENS = {'s151_b_applies': 3, 's151_c_applies': 3}
+GIVENS = {
+    's151_b_applies': [{'role': 'taxpayer', 'type': 'string'}, {'role': 'spouse', 'type': 'string'}, {'role': 'year', 'type': 'integer'}],
+    's151_c_applies': [{'role': 'taxpayer', 'type': 'string'}, {'role': 'dependent', 'type': 'string'}, {'role': 'year', 'type': 'integer'}],
+    's63_f_1_A': [{'role': 'taxpayer', 'type': 'string'}, {'role': 'year', 'type': 'integer'}],
+    's63_f_1_B': [{'role': 'taxpayer', 'type': 'string'}, {'role': 'spouse', 'type': 'string'}, {'role': 'year', 'type': 'integer'}],
+    's151_b': [{'role': 'taxpayer', 'type': 'string'}, {'role': 'exemption_amount', 'type': 'number'}, {'role': 'year', 'type': 'integer'}],
+    's152_c_1': [{'role': 'dependent', 'type': 'string'}, {'role': 'taxpayer', 'type': 'string'}, {'role': 'year', 'type': 'integer'}]}
+
+
+def current_case_interface(kernel):
+    """Expose the actual current shared case predicates to all callers."""
+    from copy import deepcopy
+    value = deepcopy(kernel)
+    value['fact_arities'] = {**value['fact_arities'], **{p: len(types) for p, types in GIVENS.items()}}
+    value['input_schema_json'] = json.dumps(input_schema(value), ensure_ascii=False)
+    return value
 
 
 def input_schema(kernel):
     """Expose the existing native predicate arities/types to guided decoding."""
     from .native import record_schema
     def record(name, arity):
-        types = ['string'] * arity
+        types = [arg['type'] for arg in GIVENS[name]] if name in GIVENS else ['string'] * arity
         if name == 'amount_':
             types[-1] = 'number'
-        elif name in GIVENS:
-            types[-1] = 'integer'
         return record_schema({'predicate': {'type': 'string', 'enum': [name]},
             'arguments': {'type': 'array', 'prefixItems': [{'type': value} for value in types],
                           'items': False, 'minItems': arity, 'maxItems': arity}})
-    facts = {'oneOf': [record(name, arity) for name, arity in sorted(kernel['fact_arities'].items())]}
-    negatives = {'oneOf': [record(name, arity) for name, arity in sorted(GIVENS.items())]}
+    arities = {p: len(types) for p, types in GIVENS.items()}
+    facts = {'oneOf': [record(name, arity) for name, arity in sorted({**kernel['fact_arities'], **arities}.items())]}
+    negatives = {'oneOf': [record(name, arity) for name, arity in sorted(arities.items())]}
     return record_schema({'facts': {'type': 'array', 'items': facts},
         'negative_givens': {'type': 'array', 'items': negatives},
         'extraction_status': {'type': 'string', 'enum': ['complete', 'unread']}})
@@ -52,6 +68,20 @@ def scalar(value):
     if type(value) is int or type(value) is float and math.isfinite(value):
         return repr(value)
     raise ValueError('Native factual arguments are finite numbers or literal strings')
+
+
+def literal_date(value):
+    """Canonicalize a fully specified English date, never infer missing parts."""
+    if not isinstance(value, str) or not re.fullmatch(
+        r'(?:[A-Za-z]+ \d{1,2}(?:st|nd|rd|th)?,? \d{4}|\d{1,2}(?:st|nd|rd|th)? [A-Za-z]+ \d{4})', value):
+        return value
+    plain = re.sub(r'(?<=\d)(?:st|nd|rd|th)\b', '', value)
+    for pattern in ('%b %d, %Y', '%B %d, %Y', '%b %d %Y', '%B %d %Y', '%d %b %Y', '%d %B %Y'):
+        try:
+            return datetime.strptime(plain, pattern).date().isoformat()
+        except ValueError:
+            continue
+    return value
 
 
 def fact_term(record, vocabulary):
@@ -83,6 +113,7 @@ def execute(kernel, binding):
         return {'handled': False, 'answer': None, 'reason': 'Case extraction is unread or incomplete'}
     if set(binding) != {'facts', 'negative_givens', 'extraction_status'}:
         raise ValueError('Native case binding has undeclared or missing fields')
+    jsonschema.validate(binding, input_schema(kernel))
     source = ROOT / kernel['statute_directory']
     sources = {}
     for name, expected in kernel['statute_sha256'].items():
@@ -93,19 +124,31 @@ def execute(kernel, binding):
             raise ValueError('Immutable official statute source changed')
         sources[name] = body.decode()
     primitive = fact_vocabulary(sources['events.pl'])
-    vocabulary = {**primitive, **GIVENS}
+    givens = {p: len(types) for p, types in GIVENS.items()}
+    vocabulary = {**primitive, **givens}
     targets = {call['predicate'] for call in kernel['native_query']}
     if not isinstance(binding['facts'], list) or not isinstance(binding['negative_givens'], list):
         raise ValueError('Factual channels must be arrays')
-    terms = [fact_term(record, vocabulary) for record in binding['facts']]
+    adaptations, normalized = [], []
+    for record in binding['facts']:
+        row = {'predicate': record['predicate'], 'arguments': list(record['arguments'])}
+        if row['predicate'] in ('start_', 'end_'):
+            before = row['arguments'][1]
+            after = literal_date(before)
+            if before != after:
+                row['arguments'][1] = after
+                adaptations.append({'predicate': row['predicate'], 'argument': 1, 'original': before,
+                    'normalized': after, 'basis': 'Fully specified unambiguous literal calendar date'})
+        normalized.append(row)
+    terms = [fact_term(record, vocabulary) for record in normalized]
     if len(terms) != len(set(terms)):
         raise ValueError('Duplicate factual assertions are not separate events')
     if any(record['predicate'] in targets for record in binding['facts']):
         raise ValueError('The target query cannot be asserted as a case fact')
-    negatives = [fact_term(record, GIVENS) for record in binding['negative_givens']]
+    negatives = [fact_term(record, givens) for record in binding['negative_givens']]
     goal = ','.join(query_term(call) for call in kernel['native_query'])
     order = ['events.pl', 'utils.pl', *sorted(name for name in sources if name.startswith('section'))]
-    declarations = '\n'.join(':- discontiguous ' + name + '/' + str(arity) + '.' for name, arity in GIVENS.items())
+    declarations = '\n'.join(':- discontiguous ' + name + '/' + str(arity) + '.' for name, arity in givens.items())
     body = ':- style_check(-singleton).\n:- use_module(library(lists)).\n' + declarations + '\n'
     body += '\n'.join(sources[name] for name in order) + '\n'
     body += '\n'.join(term + '.' for term in terms) + '\n'
@@ -126,6 +169,7 @@ def execute(kernel, binding):
             env=env, text=True, capture_output=True, timeout=35)
     receipt = {'backend': 'official_statute_program_with_model_facts',
                'fact_count': len(terms), 'source_program_unchanged': True,
+               'literal_transport_adaptations': adaptations,
                'case_truth_not_certified_by_types_or_quotes': True}
     if result.returncode or 'ERROR' in result.stderr or 'LSG_ERROR:' in result.stdout or 'LSG_NEGATIVE_GIVEN_CONFLICT' in result.stdout:
         return {**receipt, 'handled': False, 'answer': None,

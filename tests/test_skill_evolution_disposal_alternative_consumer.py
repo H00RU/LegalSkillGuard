@@ -4,6 +4,7 @@ import ast
 import unittest
 
 from experiments import legal_skill_evolution_source_disposal_consumer as study
+from experiments import legal_skill_evolution_authorized_disposal_consumer as authorized
 from legal_skill_guard.skill_evolution.span_compiler import execute_json
 
 
@@ -35,6 +36,31 @@ class DisposalAlternativeTests(unittest.TestCase):
             ['return_to', ['confidential_information'], ['disclosing_party']],
             ['destroy', ['confidential_information']], 'return or destroy ALL COPIES']
         self.assertFalse(self.result(action))
+
+
+class AuthorizedDisposalTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        library = study.train.read(study.train.OUT / 'B5/FreeUpdate/library.json')
+        code = authorized.repair(library['spec']['decision_program'])
+        definitions = [ast.get_source_segment(code, n) for n in ast.parse(code).body if n.name != 'apply']
+        cls.probe = '\n\n'.join(definitions) + '\n\ndef apply(inputs,premises):\n    return {"full":d_full_disposal(inputs["action"])}\n'
+        task = study.train.read(study.train.OUT / 'B5/teacher_task.json')
+        sid = next(t['source_id'] for t in task['tasks'] if '4607c94' in t['source_id'])
+        row = study.train.read(study.train.OUT / 'B5/FreeUpdate/candidate_results' / study.train.previous.old.name_for(sid))
+        cls.action = next(r['term'][2] for r in row['actual']['execution']['source_output']['statements']
+            if r['term'][0] == 'disposal_obligation')
+
+    def test_real_authorization_preserved_while_common_disposal_effect_executes(self):
+        before = deepcopy(self.action)
+        self.assertEqual(self.action[0], 'authorized_action_alternative')
+        self.assertTrue(execute_json(self.probe, {'action': self.action}, {}, allow_helpers=True)['full'])
+        self.assertEqual(self.action, before)
+
+    def test_authorization_does_not_make_partial_destroy_cover_all_material(self):
+        action = deepcopy(self.action)
+        action[2][1] = ['confidential_information']
+        self.assertFalse(execute_json(self.probe, {'action': action}, {}, allow_helpers=True)['full'])
 
 
 if __name__ == '__main__':

@@ -17,10 +17,11 @@ from legal_skill_guard.skill_evolution.ledger import EvolutionLedger
 from legal_skill_guard.skill_evolution.native import grade_view, record_schema
 from legal_skill_guard.skill_evolution.objects import digest
 from legal_skill_guard.skill_evolution.runtime import decoder_schema, render_messages
+from legal_skill_guard.skill_evolution.sara_statute_kernel import current_case_interface
 
 
 ROOT = actor.ROOT
-RUN = 'legal_skill_evolution_mixed_residual_reads_20261114'
+RUN = 'legal_skill_evolution_mixed_residual_reads_givens6_20261114'
 OUT = ROOT / 'artifacts' / RUN
 read = actor.read
 
@@ -32,7 +33,8 @@ def prepare():
     prior = actor.prepare()
     files = [__file__, str(ROOT / 'legal_skill_guard/skill_evolution/case_read_comparison.py'),
         str(ROOT / 'legal_skill_guard/skill_evolution/conversion_residual.py'),
-        str(ROOT / 'legal_skill_guard/skill_evolution/conversion_residual_worker.py')]
+        str(ROOT / 'legal_skill_guard/skill_evolution/conversion_residual_worker.py'),
+        str(ROOT / 'legal_skill_guard/skill_evolution/sara_statute_kernel.py')]
     protocol = {'run_id': RUN, 'sources': prior['sources'], 'batches': prior['batches'],
         'executor_profile': prior['executor_profile'], 'same_goal': True,
         'current_method': 'ProgramGuided', 'same_frozen_contract_and_initial_observation': True,
@@ -53,7 +55,7 @@ def run(batch):
         sources={'train': protocol['sources'], 'dev': [], 'test': []}, binding=digest(protocol))
     client = FrozenExecutor(ledger, OUT, protocol['executor_profile'])
     public = {s['key']: s for s in read(actor.learned.parent.OUT / 'SARA_corrected_TRAIN_views.json')}
-    kernels = {r['source']: r['kernel'] for r in read(actor.learned.parent.OUT / 'SARA_native_kernel_bank.json')}
+    kernels = {r['source']: current_case_interface(r['kernel']) for r in read(actor.learned.parent.OUT / 'SARA_native_kernel_bank.json')}
     library = read(actor.learned.OUT / f'B{batch-1}/ProgramGuided/library.json')
     components = {c['id']: c for c in library['components']}
     paths = []

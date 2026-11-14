@@ -7,7 +7,7 @@ import jsonschema
 
 from experiments.legal_skill_evolution_native_execution_reuse import parse_query
 from legal_skill_guard.skill_evolution.case_observation_contract import kernel_execution
-from legal_skill_guard.skill_evolution.sara_statute_kernel import scalar, fact_term, input_schema, GIVENS
+from legal_skill_guard.skill_evolution.sara_statute_kernel import scalar, fact_term, input_schema, GIVENS, current_case_interface, literal_date
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -61,9 +61,47 @@ class SaraStatuteKernelTests(unittest.TestCase):
         payload = 'name"). halt. %'
         self.assertEqual(json.loads(scalar(payload)), payload)
         with self.assertRaises(ValueError):
-            fact_term({'predicate': 'halt', 'arguments': []}, GIVENS)
+            fact_term({'predicate': 'halt', 'arguments': []}, {p: len(t) for p, t in GIVENS.items()})
         with self.assertRaises(ValueError):
-            fact_term({'predicate': 's151_b_applies', 'arguments': ['A', 'B']}, GIVENS)
+            fact_term({'predicate': 's151_b_applies', 'arguments': ['A', 'B']}, {p: len(t) for p, t in GIVENS.items()})
+
+    def test_actual_public_B4_statutory_givens_are_representable_without_fabricated_ages(self):
+        # Interface regression from the actual public TRAIN statement. This is
+        # not a model observation or evidence of learned grounding success.
+        records = json.loads((ROOT / 'artifacts/legal_skill_evolution_five_train_20261114/SARA_corrected_TRAIN_views.json').read_text())
+        public = next(s['views'][0]['public'] for s in records if '6a38111a' in s['key'])
+        self.assertIn('under section 63(f)(1)(A) and 63(f)(1)(B), respectively', public['facts'])
+        kernel = current_case_interface(self.kernel)
+        kernel['native_query'] = [{'predicate': 's63_c_3', 'arguments': ['Alice', 1200, 2017]}]
+        value = {'facts': [{'predicate': 's63_f_1_A', 'arguments': ['Alice', 2017]},
+                           {'predicate': 's63_f_1_B', 'arguments': ['Alice', 'Bob', 2017]},
+                           {'predicate': 'marriage_', 'arguments': ['marriage']},
+                           {'predicate': 'agent_', 'arguments': ['marriage', 'Alice']},
+                           {'predicate': 'agent_', 'arguments': ['marriage', 'Bob']},
+                           {'predicate': 'start_', 'arguments': ['marriage', 'Feb 3rd, 2017']}],
+                 'negative_givens': [], 'extraction_status': 'complete'}
+        jsonschema.validate(value, input_schema(kernel))
+        result = kernel_execution(kernel, value)
+        self.assertTrue(result['handled'], result)
+        self.assertEqual(result['answer'], 'Entailment')
+        self.assertTrue(result['source_program_unchanged'])
+        self.assertEqual(result['literal_transport_adaptations'][0]['normalized'], '2017-02-03')
+
+    def test_calendar_codec_does_not_invent_parts_or_choose_an_ambiguous_numeric_date(self):
+        self.assertEqual(literal_date('2 Feb 2015'), '2015-02-02')
+        for value in ('2017', 'February 2017', '03/04/2017', 'February 30th, 2017'):
+            self.assertEqual(literal_date(value), value)
+
+    def test_numeric_given_types_and_target_assertion_are_checked_before_execution(self):
+        kernel = current_case_interface(self.kernel)
+        value = {'facts': [{'predicate': 's151_b', 'arguments': ['Alice', '2000', 2017]}],
+                 'negative_givens': [], 'extraction_status': 'complete'}
+        with self.assertRaises(jsonschema.ValidationError):
+            kernel_execution(kernel, value)
+        value['facts'][0]['arguments'][1] = 2000
+        kernel['native_query'] = [{'predicate': 's151_b', 'arguments': ['Alice', 2000, 2017]}]
+        with self.assertRaises(ValueError):
+            kernel_execution(kernel, value)
 
     def test_real_failed_factual_records_are_rejected_by_generation_types(self):
         folder = ROOT / 'artifacts/legal_skill_evolution_native_observation_read_20261114/results'

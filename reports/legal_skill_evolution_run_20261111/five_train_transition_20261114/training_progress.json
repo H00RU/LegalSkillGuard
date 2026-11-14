@@ -1,5 +1,5 @@
 {
-  "captured_utc": "2026-11-14T14:04:53.855836+00:00",
+  "captured_utc": "2026-11-14T15:53:26.160272+00:00",
   "same_goal_active": true,
   "thinking": false,
   "observation_batches": [
@@ -110,8 +110,57 @@
           "reads": 2
         }
       },
+      "post": {
+        "ProgramGuided": {
+          "correct": 2,
+          "total": 3,
+          "handled": 2,
+          "reads": 2
+        },
+        "FreeHistory": {
+          "correct": 2,
+          "total": 3,
+          "handled": 2,
+          "reads": 2
+        }
+      },
       "generic": {
         "correct": 2,
+        "total": 3
+      }
+    },
+    {
+      "batch": 5,
+      "pre": {
+        "ProgramGuided": {
+          "correct": 3,
+          "total": 3,
+          "handled": 3,
+          "reads": 3
+        },
+        "FreeHistory": {
+          "correct": 3,
+          "total": 3,
+          "handled": 3,
+          "reads": 3
+        }
+      },
+      "post": {
+        "ProgramGuided": {
+          "correct": 3,
+          "total": 3,
+          "handled": 3,
+          "reads": 3
+        },
+        "FreeHistory": {
+          "correct": 3,
+          "total": 3,
+          "handled": 3,
+          "reads": 3
+        }
+      },
+      "generic": {
+        "correct": 1,
         "total": 3
       }
     }
@@ -331,6 +380,71 @@
       "source_count": 13,
       "unresolved": 0
     }
+  },
+  "source_B5_shared_authorized_consumer": {
+    "batch": 5,
+    "goal_complete": false,
+    "new_C_or_M2_learning_credit": false,
+    "new_model_calls": 0,
+    "original_libraries_and_results_preserved": true,
+    "pending_source_semantics": [
+      {
+        "arm": "ConstraintAcquire",
+        "id": "C5_destroy_written_authorization",
+        "reason": "Actual acquired plain return/destroy alternative omits written authorization required only for destruction. Native disposal label does not test this distinction.",
+        "source": "ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3",
+        "source_based_not_added_native_label": true,
+        "source_unit_ids": [
+          32
+        ],
+        "status": "unresolved"
+      }
+    ],
+    "results": {
+      "ConstraintAcquire": {
+        "current_correct": 11,
+        "current_total": 12,
+        "seen_correct": 65,
+        "seen_total": 68,
+        "unresolved": 0
+      },
+      "FreeUpdate": {
+        "current_correct": 11,
+        "current_total": 12,
+        "seen_correct": 63,
+        "seen_total": 68,
+        "unresolved": 0
+      }
+    },
+    "same_shared_consumer_both_arms": true,
+    "source_phi_G_and_positive_policies_unchanged": true
+  },
+  "source_B5_checkpoint": {
+    "batch": 5,
+    "libraries": {
+      "ConstraintAcquire": {
+        "library_sha256": "42343d0809a452752e9df4bf70fd625a9afd8dc2b9362631cd28d3049d3830e6",
+        "path": "artifacts/legal_skill_evolution_source_library_train_20261114/B5/post_shared_authorized_consumer/ConstraintAcquire/library.json"
+      },
+      "FreeUpdate": {
+        "library_sha256": "5eb4e7179f2f317b5e24ecb33897d788a2026a5779f3603b9b8b316c526b65c2",
+        "path": "artifacts/legal_skill_evolution_source_library_train_20261114/B5/post_shared_authorized_consumer/FreeUpdate/library.json"
+      }
+    },
+    "old_versions_and_calls_preserved": true,
+    "pending_source_semantics": [
+      {
+        "arm": "ConstraintAcquire",
+        "id": "C5_destroy_written_authorization",
+        "reason": "Actual acquired plain return/destroy alternative omits written authorization required only for destruction. Native disposal label does not test this distinction.",
+        "source": "ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3",
+        "source_based_not_added_native_label": true,
+        "source_unit_ids": [
+          32
+        ],
+        "status": "unresolved"
+      }
+    ]
   },
   "source_B4_common_consumer": {
     "actual_current_G_native_reachability_not_a_source_semantic_certificate": true,
@@ -746,7 +860,7 @@
     [
       "executor",
       "completed",
-      10403
+      10428
     ],
     [
       "executor",
@@ -754,26 +868,26 @@
       19
     ],
     [
+      "executor",
+      "reserved",
+      1
+    ],
+    [
       "teacher",
       "completed",
-      251
+      257
     ],
     [
       "teacher",
       "failed",
       11
-    ],
-    [
-      "teacher",
-      "reserved",
-      1
     ]
   ],
   "pending_requests": [
     [
-      "legal_skill_evolution_observation_library_train_v1_20261114:B4:ProgramGuided:update",
-      "teacher",
-      1794664987.636417
+      "legal_skill_evolution_mixed_case_actor_givens6_20261114:B6:initial_results:FreeHistory:SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+      "executor",
+      1794671586.4482012
     ]
   ],
   "goal_complete": false,

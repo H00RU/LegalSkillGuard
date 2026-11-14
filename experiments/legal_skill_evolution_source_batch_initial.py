@@ -10,6 +10,7 @@ from copy import deepcopy
 import json
 
 from experiments import legal_skill_evolution_source_library_train as train
+from experiments import legal_skill_evolution_source_checkpoints as checkpoints
 from experiments.legal_skill_evolution_source_local_preview import NoModel
 from legal_skill_guard.rr.checkpoint import immutable_json
 from legal_skill_guard.skill_evolution.objects import digest
@@ -51,7 +52,7 @@ def run(batch):
     keys = [k for k in protocol['mixed_batches'][batch-1] if k in protocol['sources']]
     summaries = []
     for arm in train.ARMS:
-        library = train.read(train.OUT / f'B{batch-1}' / arm / 'library.json')
+        library = checkpoints.load(batch-1, arm)
         rows = [evaluate(library, sid, arm, batch,
             train.OUT / f'B{batch}' / arm / 'initial' / train.previous.old.name_for(sid)) for sid in keys]
         summary = {'arm': arm, 'batch': batch, 'current_correct': sum(r['correct'] for r in rows),
@@ -62,17 +63,19 @@ def run(batch):
         summaries.append(summary)
     # A normal zero-residual batch need not call the teacher. Do not skip one
     # arm's update solely because the other arm happened to fit these cases.
-    if all(s['current_correct'] == s['current_total'] and not s['unresolved'] for s in summaries):
+    pending = checkpoints.state(batch-1)['pending_source_semantics']
+    if all(s['current_correct'] == s['current_total'] and not s['unresolved'] for s in summaries) and not pending:
         for arm in train.ARMS:
-            library = train.read(train.OUT / f'B{batch-1}' / arm / 'library.json')
+            library = checkpoints.load(batch-1, arm)
             immutable_json(train.OUT / f'B{batch}' / arm / 'library.json', library)
         immutable_json(train.OUT / f'B{batch}/update_receipt.json', {
             'operation': 'unchanged_library_no_observed_current_batch_native_residual',
             'new_teacher_calls': 0, 'actual_new_batch_execution_not_static_pass_relabeling': True,
             'source_truth_not_certified_by_native_accuracy': True,
             'new_phi_or_G_learning_credit': False, 'goal_complete': False})
+        checkpoints.record(batch, {arm: train.OUT / f'B{batch}' / arm / 'library.json' for arm in train.ARMS}, pending=[])
     print(json.dumps({'batch': batch, 'initial': summaries,
-        'library_checkpoint_saved': (train.OUT / f'B{batch}/ConstraintAcquire/library.json').exists()}), flush=True)
+        'library_checkpoint_saved': checkpoints.exists(batch), 'pending_semantic_issues': len(pending)}), flush=True)
 
 
 if __name__ == '__main__':

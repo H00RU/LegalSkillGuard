@@ -18,8 +18,8 @@ from legal_skill_guard.skill_evolution.runtime import decoder_schema, render_mes
 from legal_skill_guard.skill_evolution.span_compiler import execute_json, validate_procedure
 
 
-def run(arm, batch):
-    protocol, ledger, public, kernels = current.setup()
+def run(arm, batch, *, context):
+    protocol, ledger, public, kernels = context
     library = current.read(current.OUT / f'B{batch}' / arm / 'teacher.json')['value']
     jsonschema.validate(library, current.SCHEMA)
     adaptations = []
@@ -136,4 +136,5 @@ if __name__ == '__main__':
     parser.add_argument('--arm', choices=current.ARMS, required=True)
     parser.add_argument('--batch', type=int, choices=range(1, 9), default=1)
     args = parser.parse_args()
-    run(args.arm, args.batch)
+    from experiments.legal_skill_evolution_mixed_training_continue import setup
+    run(args.arm, args.batch, context=setup())

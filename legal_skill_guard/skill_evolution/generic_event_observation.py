@@ -30,22 +30,24 @@ given needs a nonempty verbatim facts witness. No quoted statute as case proof.
 Use status=unread if relevant extraction is unresolved; complete means this
 finite case was read, not that the real world contains no other facts. A past
 onset is a valid event without asserting a future interval or inventing an end.
-Only explicitly stated intermediate section151 givens go in givens, in their
-original argument order/polarity. Do not emit a target applicability answer.
+Only explicitly stated intermediate statutory givens go in givens, in their
+original argument order/polarity. Their signatures are supplied by the same
+public native case interface. Do not emit a target applicability answer.
 '''
 
 
 def schema_for(kernel):
-    vocabulary = kernel['fact_arities']
+    vocabulary = {p: arity for p, arity in kernel['fact_arities'].items() if p not in GIVENS}
     unary = [p for p, arity in vocabulary.items() if arity == 1]
     binary = [p for p, arity in vocabulary.items() if arity == 2]
     witness = {'type': 'array', 'minItems': 1, 'items': record_schema({
         'field': {'type': 'string', 'enum': ['facts']}, 'quote': {'type': 'string', 'minLength': 1}})}
     attributes = {'oneOf': [record_schema({'predicate': {'type': 'string', 'enum': [p]},
         'value': {'type': 'number' if p == 'amount_' else 'string'}}) for p in binary]}
-    given = record_schema({'predicate': {'type': 'string', 'enum': sorted(GIVENS)},
-        'person_a': {'type': 'string'}, 'person_b': {'type': 'string'}, 'year': {'type': 'integer'},
-        'positive': {'type': 'boolean'}, 'witnesses': witness})
+    given = {'oneOf': [record_schema({'predicate': {'type': 'string', 'enum': [name]},
+        'arguments': {'type': 'array', 'prefixItems': [{'type': arg['type']} for arg in types],
+            'items': False, 'minItems': len(types), 'maxItems': len(types)},
+        'positive': {'type': 'boolean'}, 'witnesses': witness}) for name, types in sorted(GIVENS.items())]}
     return record_schema({'status': {'type': 'string', 'enum': ['complete', 'unread']},
         'events': {'type': 'array', 'items': record_schema({
             'id': {'type': 'string', 'minLength': 1},
@@ -71,7 +73,7 @@ def lower(value, kernel, public):
             add_fact({'predicate': attribute['predicate'], 'arguments': [event['id'], attribute['value']]})
     for given in value['givens']:
         witnesses.extend(checked_witnesses(given['witnesses'], public))
-        row = {'predicate': given['predicate'], 'arguments': [given['person_a'], given['person_b'], given['year']]}
+        row = {'predicate': given['predicate'], 'arguments': deepcopy(given['arguments'])}
         if given['positive']:
             add_fact(row)
         elif row not in negatives:
