@@ -1,0 +1,113 @@
+{
+  "id": "legal_skill_evolution_field_binding_20261114:acquisition:ConstraintAcquire:ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3:concept:039ecce6efd83916552ff21891bc289f2f7aaa15e211f1b0e3e3f0339c58350c",
+  "source": "ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3",
+  "purpose": "skill_replay",
+  "request_hash": "6fa1cc515d2f232091c4ffa7838108c45fb8dc5a133d1ac795fef8203d00fa3a",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"窗口明确覆盖承包商或独立承包商。\", \"name\": \"stated\"}, {\"meaning\": \"完整供应窗口没有明确覆盖承包商。\", \"name\": \"not_stated_in_window\"}], \"examples\": [], \"name\": \"recipient_contractors_v2\", \"question\": \"判断供应披露窗口是否明确覆盖承包商或独立承包商，不得由员工、顾问或代理人推断。原始 TRAIN（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.”\"}], \"current_queries\": [{\"id\": \"disclosure_recipient_contractors_v2__11_14\", \"operation\": \"recipient_contractors_v2\", \"unit_ids\": [11, 12, 14], \"current_units\": [{\"id\": 11, \"text\": \"NOW, THEREFORE, the Parties have agreed as follows:\"}, {\"id\": 12, \"text\": \"1 DEFINITIONS 1.1 “Confidential Information” means any data, documents, specifications, and other information or materials in whatever form disclosed by the OSCE to the Recipient, whether documentary, orally, visually, or otherwise (including computerised form) except information which was:\"}, {\"id\": 14, \"text\": \"(a) in the public domain at the time of disclosure;\"}]}, {\"id\": \"disclosure_recipient_contractors_v2__23_29\", \"operation\": \"recipient_contractors_v2\", \"unit_ids\": [23, 26, 27, 28, 29], \"current_units\": [{\"id\": 23, \"text\": \"2 OBLIGATIONS OF THE RECIPIENT 2.1 In respect to the Confidential Information, the Recipient hereby undertakes;\"}, {\"id\": 26, \"text\": \"2.1.1 to hold in trust and confidence and not to disclose the Confidential Information to any third party without the express, prior written consent of the OSCE.\"}, {\"id\": 27, \"text\": \"2.1.2 not to use the Confidential Information for any purpose whatsoever other than for the Permitted Purpose.\"}, {\"id\": 28, \"text\": \"2.1.3 only to disclose the Confidential Information to employees of companies directly or indirectly owned or controlled by the Recipient, consultants and/or advisors to whom disclosure is necessary for the Permitted Purpose and then only on the understanding that such employees, consultants and/or advisors are expressly subject to the provisions of this Confidentiality Agreement.\"}, {\"id\": 29, \"text\": \"2.1.4 not at any time other than to the extent that is necessary for the Permitted Purpose to make copies of or reduce the Confidential Information to any electronic form or to store it in a database or other electronic media.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_recipient_contractors_v2__11_14": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "stated",
+                        "not_stated_in_window",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          11,
+                          12,
+                          14
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "disclosure_recipient_contractors_v2__23_29": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "stated",
+                        "not_stated_in_window",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          23,
+                          26,
+                          27,
+                          28,
+                          29
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_recipient_contractors_v2__11_14",
+                "disclosure_recipient_contractors_v2__23_29"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "full_original_request_and_wire_preserved_locally": true
+}

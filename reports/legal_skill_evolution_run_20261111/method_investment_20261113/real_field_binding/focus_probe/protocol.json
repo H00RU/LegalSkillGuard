@@ -1,0 +1,321 @@
+{
+  "all_original_units_retained": true,
+  "decision": "If concrete fields remain wrong, do not scale the same fine-question path; use the authorized program-concept route.",
+  "executor_profile": {
+    "concurrency": 1,
+    "context_tokens": 32768,
+    "enable_thinking": false,
+    "max_tokens": 8192,
+    "model": "Qwen/Qwen3-8B",
+    "model_retries": 0,
+    "model_root": "/media/sangfor/vdb/legal-skill-runtime/models/Qwen3-8B/b968826d9c46dd6066d109eabc6255188de91218",
+    "seed": 45,
+    "temperature": 0.6,
+    "timeout_seconds": 600,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "focus_fragment": {
+    "end": 2542,
+    "start": 2430,
+    "text": "3.1.1 only to such employees of the receiving Party as are strictly necessary for the Permitted Purpose; and/or\n",
+    "unit_id": 74
+  },
+  "native_labels_loaded": false,
+  "new_source_count": 0,
+  "no_native_score_or_fit": true,
+  "operations": [
+    {
+      "choices": [
+        {
+          "meaning": "窗口明示实际生效的类别化披露许可。",
+          "name": "operative_permission"
+        },
+        {
+          "meaning": "窗口给出披露禁令并对列明接收者类别形成真实许可例外。",
+          "name": "prohibition_with_class_permission"
+        },
+        {
+          "meaning": "窗口只有实际披露禁令，没有列明接收者类别许可。",
+          "name": "operative_prohibition_only"
+        },
+        {
+          "meaning": "窗口把人员类别置于保密义务范围，但没有足够许可措辞。",
+          "name": "elliptical_recipient_confidentiality_scope"
+        },
+        {
+          "meaning": "窗口不是实际披露规范。",
+          "name": "not_an_operative_disclosure_norm"
+        }
+      ],
+      "examples": [],
+      "name": "disclosure_effect_v2",
+      "question": "The LAST source unit is the target clause. Other units are current-source context. Read this field of that target and its actual conditions/references; do not aggregate separate norms. 判断目标条款及关联上下文的披露规范效力，不把定义、序言或省略文字补成许可。原始 TRAIN（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.” 原始 TRAIN（逐字）：“(c) not to disclose the same whether to its employees or to third parties except in confidence to such of its employees, directors or contractors who need to know the same for the Purpose and that (i) such employees, directors and contractors are obliged by their contracts of employment or services not to disclose the same, (ii) the receiving party shall enforce such obligations at its expense and at the request of the disclosing party in so far as breach thereof relates to the disclosing party's Confidential Information;”"
+    },
+    {
+      "choices": [
+        {
+          "meaning": "窗口明确覆盖接收方自己的员工或工作人员。",
+          "name": "stated"
+        },
+        {
+          "meaning": "完整供应窗口没有明确覆盖接收方自己的员工或工作人员。",
+          "name": "not_stated_in_window"
+        }
+      ],
+      "examples": [],
+      "name": "recipient_employees_v2",
+      "question": "The LAST source unit is the target clause. Other units are current-source context. Read this field of that target and its actual conditions/references; do not aggregate separate norms. 判断目标披露条款是否明确覆盖接收方自己的员工或工作人员；不得把受控实体员工、承包商或顾问改写为接收方员工。原始 TRAIN（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.”"
+    },
+    {
+      "choices": [
+        {
+          "meaning": "销毁由请求或要求触发。",
+          "name": "request"
+        },
+        {
+          "meaning": "销毁由协议终止或到期触发。",
+          "name": "agreement_end"
+        },
+        {
+          "meaning": "销毁由业务、工作或项目关系终止或到期触发。",
+          "name": "relationship_or_project_end"
+        },
+        {
+          "meaning": "销毁由人员服务终止触发。",
+          "name": "service_end"
+        },
+        {
+          "meaning": "销毁由未建立预期关系的期限触发。",
+          "name": "relationship_nonformation_deadline"
+        },
+        {
+          "meaning": "销毁具有多个明示触发。",
+          "name": "multiple_explicit_triggers"
+        },
+        {
+          "meaning": "销毁有其他逐字明示触发。",
+          "name": "other_explicit_trigger"
+        },
+        {
+          "meaning": "窗口没有销毁动作或没有陈述销毁触发。",
+          "name": "no_trigger_for_action"
+        }
+      ],
+      "examples": [],
+      "name": "destroy_trigger_v2",
+      "question": "The LAST source unit is the target clause. Other units are current-source context. Read this field of that target and its actual conditions/references; do not aggregate separate norms. 只判断销毁或永久擦除动作的实际触发，不把返还动作的触发复制给销毁。原始 TRAIN（逐字）：“Each party agrees that all Confidential Information of the other party, including any copies thereof, shall be returned to the disclosing party upon request or destroyed within ten (10) business days of the expiration or other termination of the Project.”"
+    },
+    {
+      "choices": [
+        {
+          "meaning": "销毁范围只明示受保护信息本身。",
+          "name": "confidential_information_only"
+        },
+        {
+          "meaning": "销毁范围明示信息及副本。",
+          "name": "confidential_information_and_copies"
+        },
+        {
+          "meaning": "销毁范围明示信息、副本及衍生材料。",
+          "name": "information_copies_and_derivatives"
+        },
+        {
+          "meaning": "销毁动作只针对副本或复制件。",
+          "name": "copies_only"
+        },
+        {
+          "meaning": "销毁全部来源所述相关材料，边界由逐字证据限定。",
+          "name": "all_source_stated_materials"
+        },
+        {
+          "meaning": "销毁有其他明确材料范围。",
+          "name": "other_explicit_scope"
+        },
+        {
+          "meaning": "窗口没有销毁动作。",
+          "name": "action_not_present"
+        }
+      ],
+      "examples": [],
+      "name": "destroy_material_scope_v2",
+      "question": "The LAST source unit is the target clause. Other units are current-source context. Read this field of that target and its actual conditions/references; do not aggregate separate norms. 只判断销毁或永久擦除动作明示覆盖的材料，不把返还材料范围复制给销毁。原始 TRAIN（逐字）：“5.2.2 destroy or permanently erase all copies made by the receiving Party and procure that anyone to whom the receiving Party has supplied copies destroys or permanently erases such copies and any further copies made by them.”"
+    }
+  ],
+  "original_source_sha256": "fe7779c49e441f0e675c6293468350cc99c13bf739901b06622c2377f69cc3aa",
+  "purpose": "Test explicit source-clause focus versus current mixed-window field reading.",
+  "queries": [
+    {
+      "id": "target_disclosure_effect_v2",
+      "operation": "disclosure_effect_v2",
+      "unit_ids": [
+        0,
+        5,
+        10,
+        13,
+        16,
+        17,
+        18,
+        21,
+        22,
+        23,
+        26,
+        28,
+        29,
+        32,
+        33,
+        34,
+        36,
+        39,
+        41,
+        42,
+        45,
+        46,
+        48,
+        50,
+        52,
+        55,
+        57,
+        59,
+        60,
+        61,
+        62,
+        65,
+        67,
+        69,
+        71,
+        73,
+        74
+      ]
+    },
+    {
+      "id": "target_recipient_employees_v2",
+      "operation": "recipient_employees_v2",
+      "unit_ids": [
+        0,
+        5,
+        10,
+        13,
+        16,
+        17,
+        18,
+        21,
+        22,
+        23,
+        26,
+        28,
+        29,
+        32,
+        33,
+        34,
+        36,
+        39,
+        41,
+        42,
+        45,
+        46,
+        48,
+        50,
+        52,
+        55,
+        57,
+        59,
+        60,
+        61,
+        62,
+        65,
+        67,
+        69,
+        71,
+        73,
+        74
+      ]
+    },
+    {
+      "id": "target_destroy_trigger_v2",
+      "operation": "destroy_trigger_v2",
+      "unit_ids": [
+        0,
+        5,
+        10,
+        13,
+        16,
+        17,
+        18,
+        21,
+        22,
+        23,
+        26,
+        28,
+        29,
+        32,
+        33,
+        34,
+        36,
+        39,
+        41,
+        42,
+        46,
+        48,
+        50,
+        52,
+        55,
+        57,
+        59,
+        60,
+        61,
+        62,
+        65,
+        67,
+        69,
+        71,
+        73,
+        45
+      ]
+    },
+    {
+      "id": "target_destroy_material_scope_v2",
+      "operation": "destroy_material_scope_v2",
+      "unit_ids": [
+        0,
+        5,
+        10,
+        13,
+        16,
+        17,
+        18,
+        21,
+        22,
+        23,
+        26,
+        28,
+        29,
+        32,
+        33,
+        34,
+        36,
+        39,
+        41,
+        42,
+        46,
+        48,
+        50,
+        52,
+        55,
+        57,
+        59,
+        60,
+        61,
+        62,
+        65,
+        67,
+        69,
+        71,
+        73,
+        45
+      ]
+    }
+  ],
+  "source": "ContractNLI:e82b951aca3540fe6be6bfa63cae714cb7c7d55f38631402a3b6521eb6fc9bc6",
+  "source_code_sha256": "de5cc1525febf8cef6b15ff609a242688bc2ec90d9f32ed3b64e8b5a4005e6d9"
+}

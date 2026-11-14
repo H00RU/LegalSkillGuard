@@ -1,6 +1,20 @@
 # 真实失败更新、训练损失修复与再次冻结结果
 
-2026-11-14。同一Goal active。沿用C（诊断驱动开放获取）与U（源—代码联合更新程序），未换候选。**C已出现局部补读增量，完整独立贡献尚未确立；U核心及真实修订同例回放已实现，独立作用和后续来源验证仍未成立，Goal未完成。** 下方各节按检查点保留，当时的未实现/下一步不覆盖当前METHOD。
+2026-11-14。同一Goal active。沿用C（诊断驱动开放获取）与U（源—代码联合更新程序），未换候选。**C已有真实正向获取与使用，但独立组合收益尚未成立；U真实φ/G更新字典仍空，两项均未验收，Goal未完成。** 下方各节按检查点保留，当时的未实现/下一步不覆盖当前METHOD。
+
+## 最新：字段化小试完成，关联组合缺口已定位
+
+在已固定获取TRAIN4607/e82b上，C得到5/8原生正确、8/8可执行，独立Free得到3/8正确、6/8可执行；0次fallback物理调用。双方都完成真实教师更新，不是手构原型。C有20类读取、4条整模块G，Free14类读取、22个有标签原文演示及完整普通程序。它们仍会错误绑定销毁触发和材料，且部分native正确通过旧根获得，因此不能认定C额外能力，更不能据此认定两项贡献成立。原计划12母没有沿相同失败方式展开。[逐母实际结果](real_field_binding/field_typed/unbound_field_checkpoint_results.json)、[C真实提议](real_field_binding/field_original/ConstraintAcquire/teacher.json)、[独立Free真实提议](real_field_binding/field_typed/FreeUpdate/teacher.json)。
+
+**有效修复与未解决之处分开。** C消费者曾使用明确标注非操作性的字段包支持法律结论，已在安全边界对两个构造子加明确排除，原读数不变，仍为5/8；这不算U。Free原600秒请求无可恢复输出，后经函数协议改变及12个真实旧输出/完整AST等价证据才重试，获得真实程序，失败保留且计费。各自的源程序仍未新增（提议source_functions为空），C4个G开关会把窗口包复制给多个单位，不能从现有坏读数纠正关联；复用已付费完整profile，即便每源独立选最优仍5/8，未再枚举/调用。[修复前后与协议等价](real_field_binding/field_typed/offline_resume_proof.json)、[现空间诊断](real_field_binding/field_typed/unbound_C_probe_current_space_bounds.json)。
+
+**实际源错误。** 4607把本方员工误判为stated、将普通受保密协议约束误读为written要求；授权二选一的处置读数还出现action_not_present材料。e82b现已读出“返还且销毁”，但把请求下销毁的触发读为关系/项目结束，销毁范围读为信息/副本/派生物，而原条款是特定制作方副本。Free在e82b读对请求/AND仍有披露源错误，4607把销毁触发读成project_termination_only。原生正确与源语义逐项记录，不把8份可执行视图称为8个新增机制成功。
+
+**目标界面检验已完成。** 仅一次执行请求，在真实e82b全文保留的同时，加入原文连续子条款作为明确焦点，不用native标签打分。员工角色由错变对，销毁触发仍读为协议结束、材料仍读为信息及副本。因此不是只需改JSON或再加焦点；实际字段问题含跨条款条件与材料关联。[1次真实响应](real_field_binding/focus_probe/result.json)。原TRAIN原始标注对齐审查未发现准备数据错配，不修改原生答案、不虚构终止条件。[原TRAIN对齐](real_field_binding/field_original/unbound_original_TRAIN_nda16_alignment.json)。
+
+**当前实际实现。** 同一C方向补出源原子获取入口、源支持路由及可执行G组合，条件/动作/材料保持当前条款身份，让G承担真实父子关联；程序范围编译是双方共用基础设施，不算新贡献。Free独立取得同信息原文/历史/监督与完整普通程序表达力。24个真实旧源输出/未激活路由保持，4份实际评分/答案/使用法律根保持，0新增离线请求；源原子教师请求已串行启动。只有实际原子、主路径和同信息对照支持才计入C，当前不预报收益；U字典仍空。不重跑此前4母复用，不扩大完整训练/DEV/TEST。
+
+**成本。** 本终结小试与焦点诊断10436→10514，75E/3T，含Free600秒失败；旧10436行hash保持，阶段在途0。执行器113541输入/5479输出token、163.992秒；教师已知492275输入/39335输出（含12523reasoning）、含失败1342.448秒，失败usage未知。现金发票/GPU分摊未知，新源原子调用独立追加。[逐请求账本和费用依据](real_field_binding/field_typed/unbound_field_checkpoint_cost.json)。[原始响应及文件校验清单](real_field_binding/artifact_copy_manifest.json)。
 
 ## 最新：正向规则获取、12母学习与4母冻结复用已完成
 

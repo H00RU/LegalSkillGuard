@@ -1,0 +1,88 @@
+{
+  "id": "legal_skill_evolution_field_binding_20261114:acquisition:ConstraintAcquire:ContractNLI:e82b951aca3540fe6be6bfa63cae714cb7c7d55f38631402a3b6521eb6fc9bc6:concept:32ea5adc354c0f021a4f88906a3ba9debcd16aa2b813d4413a338763f556c4df",
+  "source": "ContractNLI:e82b951aca3540fe6be6bfa63cae714cb7c7d55f38631402a3b6521eb6fc9bc6",
+  "purpose": "skill_replay",
+  "request_hash": "4717226a127e16c9a52df78b599c4c58331ce82b6fc695d8bf95125ffa959354",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"销毁由请求或要求触发。\", \"name\": \"request\"}, {\"meaning\": \"销毁由协议终止或到期触发。\", \"name\": \"agreement_end\"}, {\"meaning\": \"销毁由业务、工作或项目关系终止或到期触发。\", \"name\": \"relationship_or_project_end\"}, {\"meaning\": \"销毁由人员服务终止触发。\", \"name\": \"service_end\"}, {\"meaning\": \"销毁由未建立预期关系的期限触发。\", \"name\": \"relationship_nonformation_deadline\"}, {\"meaning\": \"销毁具有多个明示触发。\", \"name\": \"multiple_explicit_triggers\"}, {\"meaning\": \"销毁有其他逐字明示触发。\", \"name\": \"other_explicit_trigger\"}, {\"meaning\": \"窗口没有销毁动作或没有陈述销毁触发。\", \"name\": \"no_trigger_for_action\"}], \"examples\": [], \"name\": \"destroy_trigger_v2\", \"question\": \"只判断销毁或永久擦除动作的实际触发，不把返还动作的触发复制给销毁。原始 TRAIN（逐字）：“Each party agrees that all Confidential Information of the other party, including any copies thereof, shall be returned to the disclosing party upon request or destroyed within ten (10) business days of the expiration or other termination of the Project.”\"}], \"current_queries\": [{\"id\": \"disposal_destroy_trigger_v2__41_46\", \"operation\": \"destroy_trigger_v2\", \"unit_ids\": [41, 42, 45, 46], \"current_units\": [{\"id\": 41, \"text\": \"The receiving Party will clearly label all copies of Confidential Information as confidential.\"}, {\"id\": 42, \"text\": \"5.2 If the disclosing Party so requests in writing, the receiving Party shall immediately:- 5.2.1 return all Confidential Information including copies to the disclosing Party; and\"}, {\"id\": 45, \"text\": \"5.2.2 destroy or permanently erase all copies made by the receiving Party and procure that anyone to whom the receiving Party has supplied copies destroys or permanently erases such copies and any further copies made by them.\"}, {\"id\": 46, \"text\": \"6. GENERAL 6.1 Each Party shall indemnify and hold harmless the other Party against all loss, damage and expense (including legal expenses) whatsoever and howsoever arising out of or in connection with any breach by the first Party or its employees of this Agreement.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disposal_destroy_trigger_v2__41_46": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "request",
+                        "agreement_end",
+                        "relationship_or_project_end",
+                        "service_end",
+                        "relationship_nonformation_deadline",
+                        "multiple_explicit_triggers",
+                        "other_explicit_trigger",
+                        "no_trigger_for_action",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          41,
+                          42,
+                          45,
+                          46
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disposal_destroy_trigger_v2__41_46"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "full_original_request_and_wire_preserved_locally": true
+}

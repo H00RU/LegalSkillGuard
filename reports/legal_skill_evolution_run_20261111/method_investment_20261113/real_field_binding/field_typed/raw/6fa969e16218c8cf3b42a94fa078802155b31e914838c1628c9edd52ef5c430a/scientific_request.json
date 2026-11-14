@@ -1,0 +1,88 @@
+{
+  "id": "legal_skill_evolution_field_binding_function_reuse_20261114:acquisition:FreeUpdate:ContractNLI:e82b951aca3540fe6be6bfa63cae714cb7c7d55f38631402a3b6521eb6fc9bc6:concept:f9789480064d353a4edce4193ae6af83029ba8cab7f24b2785066a076b002495",
+  "source": "ContractNLI:e82b951aca3540fe6be6bfa63cae714cb7c7d55f38631402a3b6521eb6fc9bc6",
+  "purpose": "skill_replay",
+  "request_hash": "83f558d88e1bd9a966372a47b7358cea00925dede9bfaaedd960f53011b3c8d8",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"窗口明示允许在处置过程后保留限定材料。\", \"name\": \"explicit_retention_permission\"}, {\"meaning\": \"窗口明示禁止在处置过程后保留限定材料。\", \"name\": \"explicit_retention_prohibition\"}, {\"meaning\": \"窗口对不同材料或条件同时明示有限留存许可和留存禁止。\", \"name\": \"both_permission_and_prohibition\"}, {\"meaning\": \"完整供应窗口没有明示处置后的留存许可或禁止；全量处置本身不改变此选择。\", \"name\": \"no_explicit_retention_effect_in_window\"}], \"examples\": [{\"choice\": \"explicit_retention_permission\", \"quote\": \"However, notwithstanding anything to the contrary herein, 1) neither party will be required to delete electronic Confidential Information stored in back-up/archival storage in accordance with its policies, provided that any such retained Confidential Information will continue to be subject to the terms of this Confidentiality Agreement until it is destroyed by the receiving party; and\", \"source\": \"ContractNLI:6fce84641005b157aa8eda07d8372f5b6fd5f0f893665acfbfc3e8fdeda3597e\"}, {\"choice\": \"explicit_retention_prohibition\", \"quote\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\", \"source\": \"ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450\"}], \"name\": \"post_disposal_retention_effect_v2\", \"question\": \"判断供应窗口是否明示处置后的有限留存许可或留存禁止。备份例外只覆盖其明示材料；不得仅因要求处置全部材料就选择留存禁止。原始 TRAIN（逐字）：“However, notwithstanding anything to the contrary herein, 1) neither party will be required to delete electronic Confidential Information stored in back-up/archival storage in accordance with its policies, provided that any such retained Confidential Information will continue to be subject to the terms of this Confidentiality Agreement until it is destroyed by the receiving party; and” 原始 TRAIN（逐字）：“Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.”\"}], \"current_queries\": [{\"id\": \"disposal_post_disposal_retention_effect_v2__39_52\", \"operation\": \"post_disposal_retention_effect_v2\", \"unit_ids\": [39, 41, 42, 45, 46, 48, 50, 52], \"current_units\": [{\"id\": 39, \"text\": \"5.1.1 The receiving Party may only make such copies of Confidential Information as are expressly authorised by the disclosing Party for the Permitted Purpose and for disclosures that are not in breach of this Agreement.\"}, {\"id\": 41, \"text\": \"The receiving Party will clearly label all copies of Confidential Information as confidential.\"}, {\"id\": 42, \"text\": \"5.2 If the disclosing Party so requests in writing, the receiving Party shall immediately:- 5.2.1 return all Confidential Information including copies to the disclosing Party; and\"}, {\"id\": 45, \"text\": \"5.2.2 destroy or permanently erase all copies made by the receiving Party and procure that anyone to whom the receiving Party has supplied copies destroys or permanently erases such copies and any further copies made by them.\"}, {\"id\": 46, \"text\": \"6. GENERAL 6.1 Each Party shall indemnify and hold harmless the other Party against all loss, damage and expense (including legal expenses) whatsoever and howsoever arising out of or in connection with any breach by the first Party or its employees of this Agreement.\"}, {\"id\": 48, \"text\": \"6.2 Each Party acknowledges and agrees that damages alone may not be an adequate remedy for a breach of this Agreement and that each Party shall be entitled to an order for injunctive relief in the event of any actual, threatened or anticipated breach of this Agreement by the other Party.\"}, {\"id\": 50, \"text\": \"6.3 Nothing in this Agreement or its operation shall constitute an obligation on either Party to enter into any proposed joint venture, consortium or partnership or pursue any commercial arrangement with the other Party.\"}, {\"id\": 52, \"text\": \"7. GOVERNING LAW 7.1 No amendments, changes or modifications to this Agreement shall be valid except if the same are agreed in writing and signed by a duly authorised representative or each of the Parties hereto.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disposal_post_disposal_retention_effect_v2__39_52": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "explicit_retention_permission",
+                        "explicit_retention_prohibition",
+                        "both_permission_and_prohibition",
+                        "no_explicit_retention_effect_in_window",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          39,
+                          41,
+                          42,
+                          45,
+                          46,
+                          48,
+                          50,
+                          52
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disposal_post_disposal_retention_effect_v2__39_52"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "full_original_request_and_wire_preserved_locally": true
+}

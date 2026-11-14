@@ -1,0 +1,95 @@
+{
+  "id": "legal_skill_evolution_field_binding_function_reuse_20261114:acquisition:FreeUpdate:ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3:concept:e53559e8f6fa75dd81e38894aff96e0f4f127f955aed642cf928569f736b812e",
+  "source": "ContractNLI:4607c94ccc67dee14eeed59b1e3fb9149bda4c8ddd1601bba8017bcbd5fca9d3",
+  "purpose": "skill_replay",
+  "request_hash": "21fbf0b5fbe868b03ebf3ea0bca3c6c03b19619a36e61c349e9771da90779f35",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"窗口没有返还动作。\", \"name\": \"action_not_present\"}, {\"meaning\": \"返还仅由请求或要求触发。\", \"name\": \"request_only\"}, {\"meaning\": \"返还仅由协议终止或到期触发。\", \"name\": \"agreement_termination_only\"}, {\"meaning\": \"返还仅由业务或工作关系终止或到期触发。\", \"name\": \"relationship_termination_only\"}, {\"meaning\": \"返还仅由项目终止或到期触发。\", \"name\": \"project_termination_only\"}, {\"meaning\": \"返还仅由人员服务终止触发。\", \"name\": \"service_termination_only\"}, {\"meaning\": \"返还仅由规定期限内未建立预期关系触发。\", \"name\": \"relationship_nonformation_only\"}, {\"meaning\": \"协议终止或到期与请求均可触发返还。\", \"name\": \"agreement_termination_or_request\"}, {\"meaning\": \"关系终止与请求均可触发返还。\", \"name\": \"relationship_termination_or_request\"}, {\"meaning\": \"关系未建立期限与请求均可触发返还。\", \"name\": \"relationship_nonformation_or_request\"}, {\"meaning\": \"返还有其他明示触发，须由逐字证据保留。\", \"name\": \"other_explicit_trigger\"}, {\"meaning\": \"窗口含返还动作，但没有陈述其触发。\", \"name\": \"no_trigger_stated_in_window\"}], \"examples\": [{\"choice\": \"request_only\", \"quote\": \"Each party agrees that all Confidential Information of the other party, including any copies thereof, shall be returned to the disclosing party upon request or destroyed within ten (10) business days of the expiration or other termination of the Project.\", \"source\": \"ContractNLI:6fce84641005b157aa8eda07d8372f5b6fd5f0f893665acfbfc3e8fdeda3597e\"}, {\"choice\": \"relationship_termination_only\", \"quote\": \"5.3 The Receiving Party shall return to SINTEC any and all information disclosed by SINTEC as well as any copies thereof automatically upon termination/expiration of the business relation- ship.\", \"source\": \"ContractNLI:5cad3f377b9be1bb3405ca63053a7fc38e690444ec13d9f8a52884246b4f84ad\"}], \"name\": \"return_trigger_binding_v1\", \"question\": \"只判断供应窗口中返还动作的实际触发；不得把销毁动作的触发复制给返还。原始 TRAIN（逐字）：“Each party agrees that all Confidential Information of the other party, including any copies thereof, shall be returned to the disclosing party upon request or destroyed within ten (10) business days of the expiration or other termination of the Project.” 原始 TRAIN（逐字）：“5.3 The Receiving Party shall return to SINTEC any and all information disclosed by SINTEC as well as any copies thereof automatically upon termination/expiration of the business relation- ship.”\"}], \"current_queries\": [{\"id\": \"disposal_return_trigger_binding_v1__30_40\", \"operation\": \"return_trigger_binding_v1\", \"unit_ids\": [30, 31, 32, 33, 35, 38, 40], \"current_units\": [{\"id\": 30, \"text\": \"2.1.5 to comply with all requirements of the OSCE for the security of the Confidential Information.\"}, {\"id\": 31, \"text\": \"2.1.6 to treat Confidential Information as being confidential and proprietary to the OSCE by using the same degree of care, but in any case no less than a reasonable degree of care, to prevent unauthorised use, dissemination or publication thereof, as it uses to protect its own Confidential Information of a similar nature.\"}, {\"id\": 32, \"text\": \"2.1.7 upon demand of the OSCE, to promptly return all Confidential Information (in whatever medium), together with all copies thereof or, where expressly authorised in writing by the OSCE, to destroy or delete all such Confidential Information and shall confirm to the OSCE in writing that such destruction or deletion has taken place.\"}, {\"id\": 33, \"text\": \"3 INDEMNIFICATION The Recipient agrees to indemnify the OSCE in respect of any expenses, losses, damages, costs, claims, liabilities the OSCE may suffer or incur as a result of an act or omission by the Recipient or its employees in connection with the Confidential Information and the Recipient’s obligations under this Agreement.\"}, {\"id\": 35, \"text\": \"4 ACCRUED RIGHTS Nothing in this Confidentiality Agreement shall be construed as granting the Recipient, by implication or otherwise, any right whatsoever with respect to the Confidential Information or part thereof.\"}, {\"id\": 38, \"text\": \"5 PRIVILEGES AND IMMUNITIES No provision of this Confidentiality Agreement shall be deemed, or interpreted as, a waiver of the privileges and immunities enjoyed by the OSCE.\"}, {\"id\": 40, \"text\": \"6 SETTLEMENT OF DISPUTES The Parties shall use their best efforts to settle amicably all disputes arising out of or in connection with the Contract or its interpretation.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disposal_return_trigger_binding_v1__30_40": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "action_not_present",
+                        "request_only",
+                        "agreement_termination_only",
+                        "relationship_termination_only",
+                        "project_termination_only",
+                        "service_termination_only",
+                        "relationship_nonformation_only",
+                        "agreement_termination_or_request",
+                        "relationship_termination_or_request",
+                        "relationship_nonformation_or_request",
+                        "other_explicit_trigger",
+                        "no_trigger_stated_in_window",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          30,
+                          31,
+                          32,
+                          33,
+                          35,
+                          38,
+                          40
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disposal_return_trigger_binding_v1__30_40"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "full_original_request_and_wire_preserved_locally": true
+}

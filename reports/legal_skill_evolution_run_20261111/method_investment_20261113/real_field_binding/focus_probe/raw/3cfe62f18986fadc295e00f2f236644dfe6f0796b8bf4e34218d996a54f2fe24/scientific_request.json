@@ -1,0 +1,319 @@
+{
+  "id": "legal_skill_evolution_field_scope_probe_20261114:fields:76ac7afea9b13d6ae0e60ae3f576f411b4d45753258055f17ab2a321c4e7adc6",
+  "source": "ContractNLI:e82b951aca3540fe6be6bfa63cae714cb7c7d55f38631402a3b6521eb6fc9bc6",
+  "purpose": "skill_replay",
+  "request_hash": "2011eb416896fc9719bf32649870eda6ea1a3f9cef832edf10b81242ae3a3d15",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.\nThe focus_unit_id identifies the clause to classify. Other supplied units are context for resolving its references, not additional effects to merge into that focus. Interpret the acquired operation for that focus clause, using its actual context.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"窗口明示实际生效的类别化披露许可。\", \"name\": \"operative_permission\"}, {\"meaning\": \"窗口给出披露禁令并对列明接收者类别形成真实许可例外。\", \"name\": \"prohibition_with_class_permission\"}, {\"meaning\": \"窗口只有实际披露禁令，没有列明接收者类别许可。\", \"name\": \"operative_prohibition_only\"}, {\"meaning\": \"窗口把人员类别置于保密义务范围，但没有足够许可措辞。\", \"name\": \"elliptical_recipient_confidentiality_scope\"}, {\"meaning\": \"窗口不是实际披露规范。\", \"name\": \"not_an_operative_disclosure_norm\"}], \"examples\": [], \"name\": \"disclosure_effect_v2\", \"question\": \"The LAST source unit is the target clause. Other units are current-source context. Read this field of that target and its actual conditions/references; do not aggregate separate norms. 判断目标条款及关联上下文的披露规范效力，不把定义、序言或省略文字补成许可。原始 TRAIN（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.” 原始 TRAIN（逐字）：“(c) not to disclose the same whether to its employees or to third parties except in confidence to such of its employees, directors or contractors who need to know the same for the Purpose and that (i) such employees, directors and contractors are obliged by their contracts of employment or services not to disclose the same, (ii) the receiving party shall enforce such obligations at its expense and at the request of the disclosing party in so far as breach thereof relates to the disclosing party's Confidential Information;”\"}, {\"choices\": [{\"meaning\": \"窗口明确覆盖接收方自己的员工或工作人员。\", \"name\": \"stated\"}, {\"meaning\": \"完整供应窗口没有明确覆盖接收方自己的员工或工作人员。\", \"name\": \"not_stated_in_window\"}], \"examples\": [], \"name\": \"recipient_employees_v2\", \"question\": \"The LAST source unit is the target clause. Other units are current-source context. Read this field of that target and its actual conditions/references; do not aggregate separate norms. 判断目标披露条款是否明确覆盖接收方自己的员工或工作人员；不得把受控实体员工、承包商或顾问改写为接收方员工。原始 TRAIN（逐字）：“The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.”\"}, {\"choices\": [{\"meaning\": \"销毁由请求或要求触发。\", \"name\": \"request\"}, {\"meaning\": \"销毁由协议终止或到期触发。\", \"name\": \"agreement_end\"}, {\"meaning\": \"销毁由业务、工作或项目关系终止或到期触发。\", \"name\": \"relationship_or_project_end\"}, {\"meaning\": \"销毁由人员服务终止触发。\", \"name\": \"service_end\"}, {\"meaning\": \"销毁由未建立预期关系的期限触发。\", \"name\": \"relationship_nonformation_deadline\"}, {\"meaning\": \"销毁具有多个明示触发。\", \"name\": \"multiple_explicit_triggers\"}, {\"meaning\": \"销毁有其他逐字明示触发。\", \"name\": \"other_explicit_trigger\"}, {\"meaning\": \"窗口没有销毁动作或没有陈述销毁触发。\", \"name\": \"no_trigger_for_action\"}], \"examples\": [], \"name\": \"destroy_trigger_v2\", \"question\": \"The LAST source unit is the target clause. Other units are current-source context. Read this field of that target and its actual conditions/references; do not aggregate separate norms. 只判断销毁或永久擦除动作的实际触发，不把返还动作的触发复制给销毁。原始 TRAIN（逐字）：“Each party agrees that all Confidential Information of the other party, including any copies thereof, shall be returned to the disclosing party upon request or destroyed within ten (10) business days of the expiration or other termination of the Project.”\"}, {\"choices\": [{\"meaning\": \"销毁范围只明示受保护信息本身。\", \"name\": \"confidential_information_only\"}, {\"meaning\": \"销毁范围明示信息及副本。\", \"name\": \"confidential_information_and_copies\"}, {\"meaning\": \"销毁范围明示信息、副本及衍生材料。\", \"name\": \"information_copies_and_derivatives\"}, {\"meaning\": \"销毁动作只针对副本或复制件。\", \"name\": \"copies_only\"}, {\"meaning\": \"销毁全部来源所述相关材料，边界由逐字证据限定。\", \"name\": \"all_source_stated_materials\"}, {\"meaning\": \"销毁有其他明确材料范围。\", \"name\": \"other_explicit_scope\"}, {\"meaning\": \"窗口没有销毁动作。\", \"name\": \"action_not_present\"}], \"examples\": [], \"name\": \"destroy_material_scope_v2\", \"question\": \"The LAST source unit is the target clause. Other units are current-source context. Read this field of that target and its actual conditions/references; do not aggregate separate norms. 只判断销毁或永久擦除动作明示覆盖的材料，不把返还材料范围复制给销毁。原始 TRAIN（逐字）：“5.2.2 destroy or permanently erase all copies made by the receiving Party and procure that anyone to whom the receiving Party has supplied copies destroys or permanently erases such copies and any further copies made by them.”\"}], \"current_queries\": [{\"id\": \"target_disclosure_effect_v2\", \"operation\": \"disclosure_effect_v2\", \"unit_ids\": [0, 5, 10, 13, 16, 17, 18, 21, 22, 23, 26, 28, 29, 32, 33, 34, 36, 39, 41, 42, 45, 46, 48, 50, 52, 55, 57, 59, 60, 61, 62, 65, 67, 69, 71, 73, 74], \"current_units\": [{\"id\": 0, \"text\": \"FORS CERTIFICATION BODY NON DISCLOSURE AGREEMENT This Agreement is made XX…day of XX 20XX BETWEEN AECOM Limited, company number 01846493, whose registered office is 63-77 Victoria Street, St Albans, Hertfordshire, AL1 3ER.\"}, {\"id\": 5, \"text\": \"AND [Company name, number and address.] The above parties being referred to in this Agreement as the “Parties” or individually as the “Party” BACKGROUND (A) The Parties have each requested the other to make available confidential information concerning the other for the purposes of evaluating [Company name] becoming a Fleet Operator Recognition Scheme (FORS) certification body which would mean that it would be approved by FORS to undertake fee earning audits on members who would then be accredited and recognised as FORS operators (the “Permitted Purpose”).\"}, {\"id\": 10, \"text\": \"(B) For their mutual benefit, the Parties wish to exchange such confidential information 1. CONFIDENTIAL INFORMATION “Confidential Information” means collectively and individually all or any information of whatsoever nature, disclosed in any form, whether oral, visual, written or in electronic form (including, without limitation, any documentation, reports, calculations, processes, methodologies, manuals and membership data) relating to [Company name] and FORS operators, audit processes and commercial data together with all records or copies or extracts thereof in whatever media held.\"}, {\"id\": 13, \"text\": \"2. RECEIVING PARTY’S OBLIGATIONS In consideration of the disclosing of Confidential Information to each other, each Party undertakes to the other Party:- 2.1.1 to keep the Confidential Information secret and acknowledges the proprietary nature of the Confidential Information;\"}, {\"id\": 16, \"text\": \"2.1.2 to use it only for the Permitted Purpose;\"}, {\"id\": 17, \"text\": \"2.1.3 not to disclose it to anyone or to make copies of it unless this Agreement expressly permits such disclosure or the prior written consent of the other Party is given.\"}, {\"id\": 18, \"text\": \"2.2 The above duties of confidentiality shall not apply to information that the receiving Party can demonstrate by reasonable documentary proof:- 2.2.1 to have been in the public domain at the time of receipt or to subsequently entered the public domain through no fault of the receiving Party;\"}, {\"id\": 21, \"text\": \"2.2.2 to have been lawfully known by the receiving Party prior to its receipt; or\"}, {\"id\": 22, \"text\": \"2.2.3 to have been disclosed to the receiving Party without restriction by a third party.\"}, {\"id\": 23, \"text\": \"3. PERMITTED DISCLOSURE 3.1 The receiving Party may disclose Confidential Information:\"}, {\"id\": 26, \"text\": \"3.1.1 only to such employees of the receiving Party as are strictly necessary for the Permitted Purpose; and/or 3.1.2 as required by any order of any court of competent jurisdiction or any competent judicial, governmental or regularly body.\"}, {\"id\": 28, \"text\": \"3.2 Prior to disclosure of any Confidential Information under Clause 3.1.2, the receiving Party shall (to the extent permitted by law) inform the disclosing Party of the complete circumstances and the details of the information to be disclosed.\"}, {\"id\": 29, \"text\": \"4. THIRD PARTIES 4.1 The receiving Party shall notify anyone to whom it is authorised to disclose the Confidential Information that it is confidential and procure that they comply with this Agreement.\"}, {\"id\": 32, \"text\": \"On the request of the disclosing Party, the receiving Party shall procure that they enter into a confidentiality agreement on terms and conditions no less onerous than those contained in this Agreement.\"}, {\"id\": 33, \"text\": \"4.2 Neither Party may assign this Agreement without the prior written consent of the other Party.\"}, {\"id\": 34, \"text\": \"4.3 This Agreement shall not confer and shall not purport to confer on any third party any benefit or any right to enforce any term of this Agreement for the purposes of the Contracts (Rights of Third Parties) Act 1999 or otherwise.\"}, {\"id\": 36, \"text\": \"5. COPIES 5.1 The receiving Party shall acquire no proprietary interest in or right to the Confidential Information supplied to it by the disclosing Party.\"}, {\"id\": 39, \"text\": \"5.1.1 The receiving Party may only make such copies of Confidential Information as are expressly authorised by the disclosing Party for the Permitted Purpose and for disclosures that are not in breach of this Agreement.\"}, {\"id\": 41, \"text\": \"The receiving Party will clearly label all copies of Confidential Information as confidential.\"}, {\"id\": 42, \"text\": \"5.2 If the disclosing Party so requests in writing, the receiving Party shall immediately:- 5.2.1 return all Confidential Information including copies to the disclosing Party; and\"}, {\"id\": 45, \"text\": \"5.2.2 destroy or permanently erase all copies made by the receiving Party and procure that anyone to whom the receiving Party has supplied copies destroys or permanently erases such copies and any further copies made by them.\"}, {\"id\": 46, \"text\": \"6. GENERAL 6.1 Each Party shall indemnify and hold harmless the other Party against all loss, damage and expense (including legal expenses) whatsoever and howsoever arising out of or in connection with any breach by the first Party or its employees of this Agreement.\"}, {\"id\": 48, \"text\": \"6.2 Each Party acknowledges and agrees that damages alone may not be an adequate remedy for a breach of this Agreement and that each Party shall be entitled to an order for injunctive relief in the event of any actual, threatened or anticipated breach of this Agreement by the other Party.\"}, {\"id\": 50, \"text\": \"6.3 Nothing in this Agreement or its operation shall constitute an obligation on either Party to enter into any proposed joint venture, consortium or partnership or pursue any commercial arrangement with the other Party.\"}, {\"id\": 52, \"text\": \"7. GOVERNING LAW 7.1 No amendments, changes or modifications to this Agreement shall be valid except if the same are agreed in writing and signed by a duly authorised representative or each of the Parties hereto.\"}, {\"id\": 55, \"text\": \"7.2 This Agreement comprises the full and complete agreement of the Parties hereto with respect to the Confidential Information and supersedes and cancels all prior communications, understandings and agreements between the Parties relating to the Confidential Information whether oral, express or implied.\"}, {\"id\": 57, \"text\": \"7.3 This Agreement shall be governed by and construed in accordance with the Laws of England and Wales.\"}, {\"id\": 59, \"text\": \"Each Party irrevocably agrees to submit to the exclusive jurisdiction of the Courts of England to settle any dispute that arises out of or in connection with this Agreement.\"}, {\"id\": 60, \"text\": \"IN WITNESS whereof the Parties have entered into this Agreement on the date stated at the beginning.\"}, {\"id\": 61, \"text\": \"…………………………………………..........\"}, {\"id\": 62, \"text\": \"Authorised signatory for and on behalf of AECOM Limited (Signed) …………………………………………..........\"}, {\"id\": 65, \"text\": \"(Name) …………………………………………..........\"}, {\"id\": 67, \"text\": \"(Position) …………………………………………..........\"}, {\"id\": 69, \"text\": \"(Signed) …………………………………………..........\"}, {\"id\": 71, \"text\": \"(Name) …………………………………………..........\"}, {\"id\": 73, \"text\": \"(Position) Authorised signatory for and on behalf of\"}, {\"id\": 74, \"text\": \"3.1.1 only to such employees of the receiving Party as are strictly necessary for the Permitted Purpose; and/or\\n\"}], \"focus_unit_id\": 74}, {\"id\": \"target_recipient_employees_v2\", \"operation\": \"recipient_employees_v2\", \"unit_ids\": [0, 5, 10, 13, 16, 17, 18, 21, 22, 23, 26, 28, 29, 32, 33, 34, 36, 39, 41, 42, 45, 46, 48, 50, 52, 55, 57, 59, 60, 61, 62, 65, 67, 69, 71, 73, 74], \"current_units\": [{\"id\": 0, \"text\": \"FORS CERTIFICATION BODY NON DISCLOSURE AGREEMENT This Agreement is made XX…day of XX 20XX BETWEEN AECOM Limited, company number 01846493, whose registered office is 63-77 Victoria Street, St Albans, Hertfordshire, AL1 3ER.\"}, {\"id\": 5, \"text\": \"AND [Company name, number and address.] The above parties being referred to in this Agreement as the “Parties” or individually as the “Party” BACKGROUND (A) The Parties have each requested the other to make available confidential information concerning the other for the purposes of evaluating [Company name] becoming a Fleet Operator Recognition Scheme (FORS) certification body which would mean that it would be approved by FORS to undertake fee earning audits on members who would then be accredited and recognised as FORS operators (the “Permitted Purpose”).\"}, {\"id\": 10, \"text\": \"(B) For their mutual benefit, the Parties wish to exchange such confidential information 1. CONFIDENTIAL INFORMATION “Confidential Information” means collectively and individually all or any information of whatsoever nature, disclosed in any form, whether oral, visual, written or in electronic form (including, without limitation, any documentation, reports, calculations, processes, methodologies, manuals and membership data) relating to [Company name] and FORS operators, audit processes and commercial data together with all records or copies or extracts thereof in whatever media held.\"}, {\"id\": 13, \"text\": \"2. RECEIVING PARTY’S OBLIGATIONS In consideration of the disclosing of Confidential Information to each other, each Party undertakes to the other Party:- 2.1.1 to keep the Confidential Information secret and acknowledges the proprietary nature of the Confidential Information;\"}, {\"id\": 16, \"text\": \"2.1.2 to use it only for the Permitted Purpose;\"}, {\"id\": 17, \"text\": \"2.1.3 not to disclose it to anyone or to make copies of it unless this Agreement expressly permits such disclosure or the prior written consent of the other Party is given.\"}, {\"id\": 18, \"text\": \"2.2 The above duties of confidentiality shall not apply to information that the receiving Party can demonstrate by reasonable documentary proof:- 2.2.1 to have been in the public domain at the time of receipt or to subsequently entered the public domain through no fault of the receiving Party;\"}, {\"id\": 21, \"text\": \"2.2.2 to have been lawfully known by the receiving Party prior to its receipt; or\"}, {\"id\": 22, \"text\": \"2.2.3 to have been disclosed to the receiving Party without restriction by a third party.\"}, {\"id\": 23, \"text\": \"3. PERMITTED DISCLOSURE 3.1 The receiving Party may disclose Confidential Information:\"}, {\"id\": 26, \"text\": \"3.1.1 only to such employees of the receiving Party as are strictly necessary for the Permitted Purpose; and/or 3.1.2 as required by any order of any court of competent jurisdiction or any competent judicial, governmental or regularly body.\"}, {\"id\": 28, \"text\": \"3.2 Prior to disclosure of any Confidential Information under Clause 3.1.2, the receiving Party shall (to the extent permitted by law) inform the disclosing Party of the complete circumstances and the details of the information to be disclosed.\"}, {\"id\": 29, \"text\": \"4. THIRD PARTIES 4.1 The receiving Party shall notify anyone to whom it is authorised to disclose the Confidential Information that it is confidential and procure that they comply with this Agreement.\"}, {\"id\": 32, \"text\": \"On the request of the disclosing Party, the receiving Party shall procure that they enter into a confidentiality agreement on terms and conditions no less onerous than those contained in this Agreement.\"}, {\"id\": 33, \"text\": \"4.2 Neither Party may assign this Agreement without the prior written consent of the other Party.\"}, {\"id\": 34, \"text\": \"4.3 This Agreement shall not confer and shall not purport to confer on any third party any benefit or any right to enforce any term of this Agreement for the purposes of the Contracts (Rights of Third Parties) Act 1999 or otherwise.\"}, {\"id\": 36, \"text\": \"5. COPIES 5.1 The receiving Party shall acquire no proprietary interest in or right to the Confidential Information supplied to it by the disclosing Party.\"}, {\"id\": 39, \"text\": \"5.1.1 The receiving Party may only make such copies of Confidential Information as are expressly authorised by the disclosing Party for the Permitted Purpose and for disclosures that are not in breach of this Agreement.\"}, {\"id\": 41, \"text\": \"The receiving Party will clearly label all copies of Confidential Information as confidential.\"}, {\"id\": 42, \"text\": \"5.2 If the disclosing Party so requests in writing, the receiving Party shall immediately:- 5.2.1 return all Confidential Information including copies to the disclosing Party; and\"}, {\"id\": 45, \"text\": \"5.2.2 destroy or permanently erase all copies made by the receiving Party and procure that anyone to whom the receiving Party has supplied copies destroys or permanently erases such copies and any further copies made by them.\"}, {\"id\": 46, \"text\": \"6. GENERAL 6.1 Each Party shall indemnify and hold harmless the other Party against all loss, damage and expense (including legal expenses) whatsoever and howsoever arising out of or in connection with any breach by the first Party or its employees of this Agreement.\"}, {\"id\": 48, \"text\": \"6.2 Each Party acknowledges and agrees that damages alone may not be an adequate remedy for a breach of this Agreement and that each Party shall be entitled to an order for injunctive relief in the event of any actual, threatened or anticipated breach of this Agreement by the other Party.\"}, {\"id\": 50, \"text\": \"6.3 Nothing in this Agreement or its operation shall constitute an obligation on either Party to enter into any proposed joint venture, consortium or partnership or pursue any commercial arrangement with the other Party.\"}, {\"id\": 52, \"text\": \"7. GOVERNING LAW 7.1 No amendments, changes or modifications to this Agreement shall be valid except if the same are agreed in writing and signed by a duly authorised representative or each of the Parties hereto.\"}, {\"id\": 55, \"text\": \"7.2 This Agreement comprises the full and complete agreement of the Parties hereto with respect to the Confidential Information and supersedes and cancels all prior communications, understandings and agreements between the Parties relating to the Confidential Information whether oral, express or implied.\"}, {\"id\": 57, \"text\": \"7.3 This Agreement shall be governed by and construed in accordance with the Laws of England and Wales.\"}, {\"id\": 59, \"text\": \"Each Party irrevocably agrees to submit to the exclusive jurisdiction of the Courts of England to settle any dispute that arises out of or in connection with this Agreement.\"}, {\"id\": 60, \"text\": \"IN WITNESS whereof the Parties have entered into this Agreement on the date stated at the beginning.\"}, {\"id\": 61, \"text\": \"…………………………………………..........\"}, {\"id\": 62, \"text\": \"Authorised signatory for and on behalf of AECOM Limited (Signed) …………………………………………..........\"}, {\"id\": 65, \"text\": \"(Name) …………………………………………..........\"}, {\"id\": 67, \"text\": \"(Position) …………………………………………..........\"}, {\"id\": 69, \"text\": \"(Signed) …………………………………………..........\"}, {\"id\": 71, \"text\": \"(Name) …………………………………………..........\"}, {\"id\": 73, \"text\": \"(Position) Authorised signatory for and on behalf of\"}, {\"id\": 74, \"text\": \"3.1.1 only to such employees of the receiving Party as are strictly necessary for the Permitted Purpose; and/or\\n\"}], \"focus_unit_id\": 74}, {\"id\": \"target_destroy_trigger_v2\", \"operation\": \"destroy_trigger_v2\", \"unit_ids\": [0, 5, 10, 13, 16, 17, 18, 21, 22, 23, 26, 28, 29, 32, 33, 34, 36, 39, 41, 42, 46, 48, 50, 52, 55, 57, 59, 60, 61, 62, 65, 67, 69, 71, 73, 45], \"current_units\": [{\"id\": 0, \"text\": \"FORS CERTIFICATION BODY NON DISCLOSURE AGREEMENT This Agreement is made XX…day of XX 20XX BETWEEN AECOM Limited, company number 01846493, whose registered office is 63-77 Victoria Street, St Albans, Hertfordshire, AL1 3ER.\"}, {\"id\": 5, \"text\": \"AND [Company name, number and address.] The above parties being referred to in this Agreement as the “Parties” or individually as the “Party” BACKGROUND (A) The Parties have each requested the other to make available confidential information concerning the other for the purposes of evaluating [Company name] becoming a Fleet Operator Recognition Scheme (FORS) certification body which would mean that it would be approved by FORS to undertake fee earning audits on members who would then be accredited and recognised as FORS operators (the “Permitted Purpose”).\"}, {\"id\": 10, \"text\": \"(B) For their mutual benefit, the Parties wish to exchange such confidential information 1. CONFIDENTIAL INFORMATION “Confidential Information” means collectively and individually all or any information of whatsoever nature, disclosed in any form, whether oral, visual, written or in electronic form (including, without limitation, any documentation, reports, calculations, processes, methodologies, manuals and membership data) relating to [Company name] and FORS operators, audit processes and commercial data together with all records or copies or extracts thereof in whatever media held.\"}, {\"id\": 13, \"text\": \"2. RECEIVING PARTY’S OBLIGATIONS In consideration of the disclosing of Confidential Information to each other, each Party undertakes to the other Party:- 2.1.1 to keep the Confidential Information secret and acknowledges the proprietary nature of the Confidential Information;\"}, {\"id\": 16, \"text\": \"2.1.2 to use it only for the Permitted Purpose;\"}, {\"id\": 17, \"text\": \"2.1.3 not to disclose it to anyone or to make copies of it unless this Agreement expressly permits such disclosure or the prior written consent of the other Party is given.\"}, {\"id\": 18, \"text\": \"2.2 The above duties of confidentiality shall not apply to information that the receiving Party can demonstrate by reasonable documentary proof:- 2.2.1 to have been in the public domain at the time of receipt or to subsequently entered the public domain through no fault of the receiving Party;\"}, {\"id\": 21, \"text\": \"2.2.2 to have been lawfully known by the receiving Party prior to its receipt; or\"}, {\"id\": 22, \"text\": \"2.2.3 to have been disclosed to the receiving Party without restriction by a third party.\"}, {\"id\": 23, \"text\": \"3. PERMITTED DISCLOSURE 3.1 The receiving Party may disclose Confidential Information:\"}, {\"id\": 26, \"text\": \"3.1.1 only to such employees of the receiving Party as are strictly necessary for the Permitted Purpose; and/or 3.1.2 as required by any order of any court of competent jurisdiction or any competent judicial, governmental or regularly body.\"}, {\"id\": 28, \"text\": \"3.2 Prior to disclosure of any Confidential Information under Clause 3.1.2, the receiving Party shall (to the extent permitted by law) inform the disclosing Party of the complete circumstances and the details of the information to be disclosed.\"}, {\"id\": 29, \"text\": \"4. THIRD PARTIES 4.1 The receiving Party shall notify anyone to whom it is authorised to disclose the Confidential Information that it is confidential and procure that they comply with this Agreement.\"}, {\"id\": 32, \"text\": \"On the request of the disclosing Party, the receiving Party shall procure that they enter into a confidentiality agreement on terms and conditions no less onerous than those contained in this Agreement.\"}, {\"id\": 33, \"text\": \"4.2 Neither Party may assign this Agreement without the prior written consent of the other Party.\"}, {\"id\": 34, \"text\": \"4.3 This Agreement shall not confer and shall not purport to confer on any third party any benefit or any right to enforce any term of this Agreement for the purposes of the Contracts (Rights of Third Parties) Act 1999 or otherwise.\"}, {\"id\": 36, \"text\": \"5. COPIES 5.1 The receiving Party shall acquire no proprietary interest in or right to the Confidential Information supplied to it by the disclosing Party.\"}, {\"id\": 39, \"text\": \"5.1.1 The receiving Party may only make such copies of Confidential Information as are expressly authorised by the disclosing Party for the Permitted Purpose and for disclosures that are not in breach of this Agreement.\"}, {\"id\": 41, \"text\": \"The receiving Party will clearly label all copies of Confidential Information as confidential.\"}, {\"id\": 42, \"text\": \"5.2 If the disclosing Party so requests in writing, the receiving Party shall immediately:- 5.2.1 return all Confidential Information including copies to the disclosing Party; and\"}, {\"id\": 46, \"text\": \"6. GENERAL 6.1 Each Party shall indemnify and hold harmless the other Party against all loss, damage and expense (including legal expenses) whatsoever and howsoever arising out of or in connection with any breach by the first Party or its employees of this Agreement.\"}, {\"id\": 48, \"text\": \"6.2 Each Party acknowledges and agrees that damages alone may not be an adequate remedy for a breach of this Agreement and that each Party shall be entitled to an order for injunctive relief in the event of any actual, threatened or anticipated breach of this Agreement by the other Party.\"}, {\"id\": 50, \"text\": \"6.3 Nothing in this Agreement or its operation shall constitute an obligation on either Party to enter into any proposed joint venture, consortium or partnership or pursue any commercial arrangement with the other Party.\"}, {\"id\": 52, \"text\": \"7. GOVERNING LAW 7.1 No amendments, changes or modifications to this Agreement shall be valid except if the same are agreed in writing and signed by a duly authorised representative or each of the Parties hereto.\"}, {\"id\": 55, \"text\": \"7.2 This Agreement comprises the full and complete agreement of the Parties hereto with respect to the Confidential Information and supersedes and cancels all prior communications, understandings and agreements between the Parties relating to the Confidential Information whether oral, express or implied.\"}, {\"id\": 57, \"text\": \"7.3 This Agreement shall be governed by and construed in accordance with the Laws of England and Wales.\"}, {\"id\": 59, \"text\": \"Each Party irrevocably agrees to submit to the exclusive jurisdiction of the Courts of England to settle any dispute that arises out of or in connection with this Agreement.\"}, {\"id\": 60, \"text\": \"IN WITNESS whereof the Parties have entered into this Agreement on the date stated at the beginning.\"}, {\"id\": 61, \"text\": \"…………………………………………..........\"}, {\"id\": 62, \"text\": \"Authorised signatory for and on behalf of AECOM Limited (Signed) …………………………………………..........\"}, {\"id\": 65, \"text\": \"(Name) …………………………………………..........\"}, {\"id\": 67, \"text\": \"(Position) …………………………………………..........\"}, {\"id\": 69, \"text\": \"(Signed) …………………………………………..........\"}, {\"id\": 71, \"text\": \"(Name) …………………………………………..........\"}, {\"id\": 73, \"text\": \"(Position) Authorised signatory for and on behalf of\"}, {\"id\": 45, \"text\": \"5.2.2 destroy or permanently erase all copies made by the receiving Party and procure that anyone to whom the receiving Party has supplied copies destroys or permanently erases such copies and any further copies made by them.\"}], \"focus_unit_id\": 45}, {\"id\": \"target_destroy_material_scope_v2\", \"operation\": \"destroy_material_scope_v2\", \"unit_ids\": [0, 5, 10, 13, 16, 17, 18, 21, 22, 23, 26, 28, 29, 32, 33, 34, 36, 39, 41, 42, 46, 48, 50, 52, 55, 57, 59, 60, 61, 62, 65, 67, 69, 71, 73, 45], \"current_units\": [{\"id\": 0, \"text\": \"FORS CERTIFICATION BODY NON DISCLOSURE AGREEMENT This Agreement is made XX…day of XX 20XX BETWEEN AECOM Limited, company number 01846493, whose registered office is 63-77 Victoria Street, St Albans, Hertfordshire, AL1 3ER.\"}, {\"id\": 5, \"text\": \"AND [Company name, number and address.] The above parties being referred to in this Agreement as the “Parties” or individually as the “Party” BACKGROUND (A) The Parties have each requested the other to make available confidential information concerning the other for the purposes of evaluating [Company name] becoming a Fleet Operator Recognition Scheme (FORS) certification body which would mean that it would be approved by FORS to undertake fee earning audits on members who would then be accredited and recognised as FORS operators (the “Permitted Purpose”).\"}, {\"id\": 10, \"text\": \"(B) For their mutual benefit, the Parties wish to exchange such confidential information 1. CONFIDENTIAL INFORMATION “Confidential Information” means collectively and individually all or any information of whatsoever nature, disclosed in any form, whether oral, visual, written or in electronic form (including, without limitation, any documentation, reports, calculations, processes, methodologies, manuals and membership data) relating to [Company name] and FORS operators, audit processes and commercial data together with all records or copies or extracts thereof in whatever media held.\"}, {\"id\": 13, \"text\": \"2. RECEIVING PARTY’S OBLIGATIONS In consideration of the disclosing of Confidential Information to each other, each Party undertakes to the other Party:- 2.1.1 to keep the Confidential Information secret and acknowledges the proprietary nature of the Confidential Information;\"}, {\"id\": 16, \"text\": \"2.1.2 to use it only for the Permitted Purpose;\"}, {\"id\": 17, \"text\": \"2.1.3 not to disclose it to anyone or to make copies of it unless this Agreement expressly permits such disclosure or the prior written consent of the other Party is given.\"}, {\"id\": 18, \"text\": \"2.2 The above duties of confidentiality shall not apply to information that the receiving Party can demonstrate by reasonable documentary proof:- 2.2.1 to have been in the public domain at the time of receipt or to subsequently entered the public domain through no fault of the receiving Party;\"}, {\"id\": 21, \"text\": \"2.2.2 to have been lawfully known by the receiving Party prior to its receipt; or\"}, {\"id\": 22, \"text\": \"2.2.3 to have been disclosed to the receiving Party without restriction by a third party.\"}, {\"id\": 23, \"text\": \"3. PERMITTED DISCLOSURE 3.1 The receiving Party may disclose Confidential Information:\"}, {\"id\": 26, \"text\": \"3.1.1 only to such employees of the receiving Party as are strictly necessary for the Permitted Purpose; and/or 3.1.2 as required by any order of any court of competent jurisdiction or any competent judicial, governmental or regularly body.\"}, {\"id\": 28, \"text\": \"3.2 Prior to disclosure of any Confidential Information under Clause 3.1.2, the receiving Party shall (to the extent permitted by law) inform the disclosing Party of the complete circumstances and the details of the information to be disclosed.\"}, {\"id\": 29, \"text\": \"4. THIRD PARTIES 4.1 The receiving Party shall notify anyone to whom it is authorised to disclose the Confidential Information that it is confidential and procure that they comply with this Agreement.\"}, {\"id\": 32, \"text\": \"On the request of the disclosing Party, the receiving Party shall procure that they enter into a confidentiality agreement on terms and conditions no less onerous than those contained in this Agreement.\"}, {\"id\": 33, \"text\": \"4.2 Neither Party may assign this Agreement without the prior written consent of the other Party.\"}, {\"id\": 34, \"text\": \"4.3 This Agreement shall not confer and shall not purport to confer on any third party any benefit or any right to enforce any term of this Agreement for the purposes of the Contracts (Rights of Third Parties) Act 1999 or otherwise.\"}, {\"id\": 36, \"text\": \"5. COPIES 5.1 The receiving Party shall acquire no proprietary interest in or right to the Confidential Information supplied to it by the disclosing Party.\"}, {\"id\": 39, \"text\": \"5.1.1 The receiving Party may only make such copies of Confidential Information as are expressly authorised by the disclosing Party for the Permitted Purpose and for disclosures that are not in breach of this Agreement.\"}, {\"id\": 41, \"text\": \"The receiving Party will clearly label all copies of Confidential Information as confidential.\"}, {\"id\": 42, \"text\": \"5.2 If the disclosing Party so requests in writing, the receiving Party shall immediately:- 5.2.1 return all Confidential Information including copies to the disclosing Party; and\"}, {\"id\": 46, \"text\": \"6. GENERAL 6.1 Each Party shall indemnify and hold harmless the other Party against all loss, damage and expense (including legal expenses) whatsoever and howsoever arising out of or in connection with any breach by the first Party or its employees of this Agreement.\"}, {\"id\": 48, \"text\": \"6.2 Each Party acknowledges and agrees that damages alone may not be an adequate remedy for a breach of this Agreement and that each Party shall be entitled to an order for injunctive relief in the event of any actual, threatened or anticipated breach of this Agreement by the other Party.\"}, {\"id\": 50, \"text\": \"6.3 Nothing in this Agreement or its operation shall constitute an obligation on either Party to enter into any proposed joint venture, consortium or partnership or pursue any commercial arrangement with the other Party.\"}, {\"id\": 52, \"text\": \"7. GOVERNING LAW 7.1 No amendments, changes or modifications to this Agreement shall be valid except if the same are agreed in writing and signed by a duly authorised representative or each of the Parties hereto.\"}, {\"id\": 55, \"text\": \"7.2 This Agreement comprises the full and complete agreement of the Parties hereto with respect to the Confidential Information and supersedes and cancels all prior communications, understandings and agreements between the Parties relating to the Confidential Information whether oral, express or implied.\"}, {\"id\": 57, \"text\": \"7.3 This Agreement shall be governed by and construed in accordance with the Laws of England and Wales.\"}, {\"id\": 59, \"text\": \"Each Party irrevocably agrees to submit to the exclusive jurisdiction of the Courts of England to settle any dispute that arises out of or in connection with this Agreement.\"}, {\"id\": 60, \"text\": \"IN WITNESS whereof the Parties have entered into this Agreement on the date stated at the beginning.\"}, {\"id\": 61, \"text\": \"…………………………………………..........\"}, {\"id\": 62, \"text\": \"Authorised signatory for and on behalf of AECOM Limited (Signed) …………………………………………..........\"}, {\"id\": 65, \"text\": \"(Name) …………………………………………..........\"}, {\"id\": 67, \"text\": \"(Position) …………………………………………..........\"}, {\"id\": 69, \"text\": \"(Signed) …………………………………………..........\"}, {\"id\": 71, \"text\": \"(Name) …………………………………………..........\"}, {\"id\": 73, \"text\": \"(Position) Authorised signatory for and on behalf of\"}, {\"id\": 45, \"text\": \"5.2.2 destroy or permanently erase all copies made by the receiving Party and procure that anyone to whom the receiving Party has supplied copies destroys or permanently erases such copies and any further copies made by them.\"}], \"focus_unit_id\": 45}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "target_destroy_material_scope_v2": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "confidential_information_only",
+                        "confidential_information_and_copies",
+                        "information_copies_and_derivatives",
+                        "copies_only",
+                        "all_source_stated_materials",
+                        "other_explicit_scope",
+                        "action_not_present",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          0,
+                          5,
+                          10,
+                          13,
+                          16,
+                          17,
+                          18,
+                          21,
+                          22,
+                          23,
+                          26,
+                          28,
+                          29,
+                          32,
+                          33,
+                          34,
+                          36,
+                          39,
+                          41,
+                          42,
+                          46,
+                          48,
+                          50,
+                          52,
+                          55,
+                          57,
+                          59,
+                          60,
+                          61,
+                          62,
+                          65,
+                          67,
+                          69,
+                          71,
+                          73,
+                          45
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "target_destroy_trigger_v2": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "request",
+                        "agreement_end",
+                        "relationship_or_project_end",
+                        "service_end",
+                        "relationship_nonformation_deadline",
+                        "multiple_explicit_triggers",
+                        "other_explicit_trigger",
+                        "no_trigger_for_action",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          0,
+                          5,
+                          10,
+                          13,
+                          16,
+                          17,
+                          18,
+                          21,
+                          22,
+                          23,
+                          26,
+                          28,
+                          29,
+                          32,
+                          33,
+                          34,
+                          36,
+                          39,
+                          41,
+                          42,
+                          46,
+                          48,
+                          50,
+                          52,
+                          55,
+                          57,
+                          59,
+                          60,
+                          61,
+                          62,
+                          65,
+                          67,
+                          69,
+                          71,
+                          73,
+                          45
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "target_disclosure_effect_v2": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "operative_permission",
+                        "prohibition_with_class_permission",
+                        "operative_prohibition_only",
+                        "elliptical_recipient_confidentiality_scope",
+                        "not_an_operative_disclosure_norm",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          0,
+                          5,
+                          10,
+                          13,
+                          16,
+                          17,
+                          18,
+                          21,
+                          22,
+                          23,
+                          26,
+                          28,
+                          29,
+                          32,
+                          33,
+                          34,
+                          36,
+                          39,
+                          41,
+                          42,
+                          45,
+                          46,
+                          48,
+                          50,
+                          52,
+                          55,
+                          57,
+                          59,
+                          60,
+                          61,
+                          62,
+                          65,
+                          67,
+                          69,
+                          71,
+                          73,
+                          74
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                },
+                "target_recipient_employees_v2": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "stated",
+                        "not_stated_in_window",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          0,
+                          5,
+                          10,
+                          13,
+                          16,
+                          17,
+                          18,
+                          21,
+                          22,
+                          23,
+                          26,
+                          28,
+                          29,
+                          32,
+                          33,
+                          34,
+                          36,
+                          39,
+                          41,
+                          42,
+                          45,
+                          46,
+                          48,
+                          50,
+                          52,
+                          55,
+                          57,
+                          59,
+                          60,
+                          61,
+                          62,
+                          65,
+                          67,
+                          69,
+                          71,
+                          73,
+                          74
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "target_disclosure_effect_v2",
+                "target_recipient_employees_v2",
+                "target_destroy_trigger_v2",
+                "target_destroy_material_scope_v2"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "full_original_request_and_wire_preserved_locally": true
+}
