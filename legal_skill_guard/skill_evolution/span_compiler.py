@@ -46,7 +46,8 @@ METHODS = {'lower', 'upper', 'casefold', 'strip', 'lstrip', 'rstrip', 'split', '
     'M', 'MULTILINE', 'UNICODE', 'isalnum', 'isalpha', 'isdigit', 'intersection', 'rfind'}
 CALLS = {'min', 'max', 'sum', 'len', 'abs', 'round', 'sorted', 'all', 'any', 'int',
     'float', 'bool', 'str', 'list', 'dict', 'set', 'tuple', 'range', 'enumerate',
-    'zip', 'isinstance', 'ValueError', 'KeyError', 'TypeError', 'bind_scope'}
+    'zip', 'isinstance', 'ValueError', 'KeyError', 'TypeError', 'bind_scope',
+    'calendar_year', 'year_days', 'inclusive_year_overlap_days', 'elapsed_year_overlap_days', 'type'}
 
 
 def validate_procedure(code, *, allow_helpers=False):
@@ -72,6 +73,8 @@ def validate_procedure(code, *, allow_helpers=False):
         if isinstance(n, ast.Attribute) and n.attr not in METHODS:raise ValueError('Unsupported attribute: ' + n.attr)
         if isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id not in CALLS | local_calls:
             raise ValueError('Unsupported call: ' + n.func.id)
+        if isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id == 'type' and (len(n.args) != 1 or n.keywords):
+            raise ValueError('Only pure single-value type inspection is available')
     graph = {f.name: {n.func.id for n in ast.walk(f) if isinstance(n, ast.Call)
         and isinstance(n.func, ast.Name) and n.func.id in local_calls} for f in functions}
     visited = set()

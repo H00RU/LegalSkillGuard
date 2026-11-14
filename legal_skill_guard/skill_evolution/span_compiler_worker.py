@@ -146,7 +146,7 @@ def main():
     import builtins
     names = ('min', 'max', 'sum', 'len', 'abs', 'round', 'sorted', 'all', 'any',
         'int', 'float', 'bool', 'str', 'list', 'dict', 'set', 'tuple', 'range',
-        'enumerate', 'zip', 'isinstance', 'ValueError', 'KeyError', 'TypeError')
+        'enumerate', 'zip', 'isinstance', 'ValueError', 'KeyError', 'TypeError', 'type')
     scope = {'__builtins__': {n: getattr(builtins, n) for n in names}, 're': re, 'bind_scope': bind_scope,
         'calendar_year': calendar_year, 'year_days': year_days,
         'inclusive_year_overlap_days': inclusive_year_overlap_days,
