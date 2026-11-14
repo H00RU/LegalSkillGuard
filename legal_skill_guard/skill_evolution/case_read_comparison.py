@@ -16,6 +16,31 @@ from .literal_facts import literal_bindings
 from .objects import digest
 
 
+def ordinary_action(contract, before, initial):
+    """Give ordinary rereading the component named by its existing error message.
+
+    This control needs no program dependency slice. If the message names no
+    unique known component, it reads the full active contract. No label is used.
+    """
+    full = json.loads(contract['observation_schema_json'])
+    components = list(full.get('properties', {}))
+    selected = []
+    for reason in before.get('unresolved', []):
+        matches = [cid for cid in components if reason == cid or reason.startswith(cid + '_')
+                   or reason.startswith(cid + ':') or (':' + cid) in reason or (' ' + cid) in reason]
+        if matches:
+            maximum = max(map(len, matches))
+            selected.extend(cid for cid in matches if len(cid) == maximum and cid not in selected)
+    scoped = bool(selected)
+    schema = ({'type': 'object', 'properties': {cid: deepcopy(full['properties'][cid]) for cid in selected},
+        'required': selected, 'additionalProperties': False} if scoped else full)
+    return {'schema': schema, 'component_ids': selected if scoped else components,
+        'scope_reason': 'existing_unresolved_message' if scoped else 'full_active_observation_contract',
+        'prompt': contract['observation_prompt'] + '\nRe-read the complete current case and correct the unresolved factual observation for the requested existing components. Return the SAME component schemas. Do not infer the target claim as a case fact; keep genuinely unread channels explicit.',
+        'current_observation': deepcopy(initial), 'current_execution': before,
+        'same_observation_contract_sha256': digest(contract), 'program_slice_used': False}
+
+
 def compare_reads(contract, kernel, public, observation, read):
     """Run one matched opportunity; ``read(policy, action)`` returns value, receipt.
 
@@ -48,24 +73,21 @@ def compare_reads(contract, kernel, public, observation, read):
         try:
             if policy == 'residual_guided':
                 if kernel.get('backend') == 'sara_statute_program':
-                    # The Python dependency slicer cannot trace the immutable
-                    # author Prolog program. Do not pretend otherwise or swap P.
-                    outcome = {'execution': before, 'read_requested': False,
-                        'reason': 'Native Prolog residual-to-observation lens not integrated'}
+                    from .conversion_residual import repair_step as conversion_step
+                    outcome = conversion_step(contract, kernel, public, deepcopy(initial), checked_read)
                 else:
                     outcome = repair_step(contract, kernel, public, deepcopy(initial), checked_read)
             else:
-                schema = json.loads(contract['observation_schema_json'])
-                action = {'schema': schema,
-                    'prompt': contract['observation_prompt'] + '\nRe-read the complete current case and correct the unresolved factual observation. Return the full SAME observation schema. Do not infer the target claim as a case fact; keep genuinely unread channels explicit.',
-                    'current_observation': deepcopy(initial), 'current_execution': before,
-                    'same_observation_contract_sha256': before_contract}
+                action = ordinary_action(contract, before, initial)
                 value, receipt = checked_read(action)
-                jsonschema.validate(value, schema)
-                updated_grounded = apply_adapter(contract, kernel, public, value,
+                jsonschema.validate(value, action['schema'])
+                updated = deepcopy(initial)
+                updated.update(deepcopy(value))
+                jsonschema.validate(updated, json.loads(contract['observation_schema_json']))
+                updated_grounded = apply_adapter(contract, kernel, public, updated,
                     literal_context=literal_bindings({'public': public}))
                 outcome = {'execution': execute_alternatives(kernel, updated_grounded),
-                    'read_requested': True, 'observation_after': value, 'read_receipt': receipt}
+                    'read_requested': True, 'observation_after': updated, 'read_receipt': receipt, 'action': action}
             result['policies'][policy] = {**outcome, 'calls': calls,
                 'same_initial_observation_sha256': digest(initial), 'fallback': False}
         except (ValueError, KeyError, TypeError, jsonschema.ValidationError) as error:

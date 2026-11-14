@@ -14,8 +14,11 @@ from .sara_statute_kernel import GIVENS, input_schema
 
 
 PROMPT = '''Extract the stated facts into the fixed compact native event view.
-Read the complete finite current case. Each event/entity record has an ID, one
-or more author unary types, and its stated binary attributes. Attribute values
+Read the complete finite current case. Each event/entity record has an ID, ONE
+author unary kind, and its stated binary attributes. Pick the stated event's
+kind, not the list of allowed vocabulary. If one entity has several explicitly
+stated kinds, use several records with the SAME explicit ID, one kind each.
+Attribute values
 are the second native argument; the host supplies only the event ID as first.
 Do not put a person's name where a service/payment/marriage event ID belongs.
 agent_/patient_ direction follows the supplied common native event encoding.
@@ -46,7 +49,7 @@ def schema_for(kernel):
     return record_schema({'status': {'type': 'string', 'enum': ['complete', 'unread']},
         'events': {'type': 'array', 'items': record_schema({
             'id': {'type': 'string', 'minLength': 1},
-            'types': {'type': 'array', 'minItems': 1, 'uniqueItems': True, 'items': {'type': 'string', 'enum': unary}},
+            'kind': {'type': 'string', 'enum': unary},
             'attributes': {'type': 'array', 'items': attributes}, 'witnesses': witness})},
         'givens': {'type': 'array', 'items': given}})
 
@@ -55,18 +58,24 @@ def lower(value, kernel, public):
     jsonschema.validate(value, schema_for(kernel))
     if value['status'] == 'unread':
         return {'bindings': [], 'unresolved': ['Generic event observation is unread']}
-    facts, negatives, witnesses, ids = [], [], [], set()
+    facts, negatives, witnesses, seen = [], [], [], set()
+    def add_fact(row):
+        key = (row['predicate'], tuple(row['arguments']))
+        if key not in seen:
+            facts.append(row)
+            seen.add(key)
     for event in value['events']:
-        if event['id'] in ids:
-            raise ValueError('Event identities cannot merge separately generated events implicitly')
-        ids.add(event['id'])
         witnesses.extend(checked_witnesses(event['witnesses'], public))
-        facts.extend({'predicate': p, 'arguments': [event['id']]} for p in event['types'])
-        facts.extend({'predicate': a['predicate'], 'arguments': [event['id'], a['value']]} for a in event['attributes'])
+        add_fact({'predicate': event['kind'], 'arguments': [event['id']]})
+        for attribute in event['attributes']:
+            add_fact({'predicate': attribute['predicate'], 'arguments': [event['id'], attribute['value']]})
     for given in value['givens']:
         witnesses.extend(checked_witnesses(given['witnesses'], public))
         row = {'predicate': given['predicate'], 'arguments': [given['person_a'], given['person_b'], given['year']]}
-        (facts if given['positive'] else negatives).append(row)
+        if given['positive']:
+            add_fact(row)
+        elif row not in negatives:
+            negatives.append(row)
     # The source text itself witnesses a successfully completed empty finite
     # read; no event or negative fact is fabricated from that witness.
     if not witnesses:

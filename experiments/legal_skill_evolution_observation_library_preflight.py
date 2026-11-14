@@ -52,10 +52,31 @@ def run(arm, batch):
     if batch > 1 and 'parent_component_registry' not in task:
         for a in current.ARMS:
             prior_ids.update(c['id'] for c in current.read(current.OUT / f'B{batch-1}' / a / 'library.json')['components'])
-    feedback = task['error_feedback_by_id']
+    # A cumulative component may retain a real error ID from an earlier update.
+    # Resolve it against the actual immutable task history, rather than require
+    # every old ID to be redundantly copied into each subsequent task. No missing
+    # feedback record, alias or synthetic provenance is invented.
+    feedback = {}
+    feedback_origins = {}
+    for b in range(1, batch + 1):
+        task_path = current.OUT / f'B{b}/teacher_task.json'
+        for key, value in current.read(task_path)['error_feedback_by_id'].items():
+            if key in feedback:
+                assert feedback[key] == value, 'Ambiguous historical error identifier: ' + key
+            feedback[key] = value
+            feedback_origins.setdefault(key, []).append(str(task_path.relative_to(current.ROOT)))
+    lineage_issues = []
     for component in components.values():
-        assert set(component['parent_component_ids']) <= prior_ids, component['id']
-        assert set(component['error_feedback_ids']) <= set(feedback), component['id']
+        missing_parents = sorted(set(component['parent_component_ids']) - prior_ids)
+        missing_errors = sorted(set(component['error_feedback_ids']) - set(feedback))
+        if missing_parents or missing_errors:
+            # False transfer annotations are retained and denied learning credit.
+            # They are not executable input fields or law/fact assertions: keep
+            # measuring the actual planner/converter, with this failed provenance
+            # check explicit, instead of silently fixing IDs or inventing parents.
+            lineage_issues.append({'component': component['id'],
+                'unknown_parent_ids': missing_parents, 'unknown_error_ids': missing_errors,
+                'transfer_provenance_valid': False, 'raw_component_unchanged': True})
         jsonschema.Draft202012Validator.check_schema(json.loads(component['schema_json']))
     for key in ('planner_program', 'binding_program'):
         current.validate_adapter(library[key], excluded_source_ids=protocol['sources'])
@@ -100,7 +121,12 @@ def run(arm, batch):
     receipt = {'arm': arm, 'batch': batch, 'library_sha256': digest(library),
         'rows': rows, 'serving_grammars': list(grammars.values()), 'new_model_generation_requests': 0,
         'components': len(components), 'sources_with_no_planned_channel': sum(not r['actual_planned_components'] for r in rows),
-        'checks_do_not_prove_source_truth_or_method_novelty': True}
+        'checks_do_not_prove_source_truth_or_method_novelty': True,
+        'historical_error_reference_origins': {key: feedback_origins[key]
+            for key in sorted({x for c in components.values() for x in c['error_feedback_ids']}) if key in feedback_origins},
+        'lineage_issues': lineage_issues, 'all_transfer_provenance_valid': not lineage_issues,
+        'invalid_references_excluded_from_learning_or_transfer_evidence': True,
+        'schemas_types_native_execution_and_witness_checks_unchanged': True}
     immutable_json(current.OUT / f'B{batch}' / arm / 'unbound_library_preflight.json', receipt)
     print(json.dumps({k: receipt[k] for k in ('arm', 'batch', 'components', 'sources_with_no_planned_channel', 'new_model_generation_requests')}), flush=True)
 
