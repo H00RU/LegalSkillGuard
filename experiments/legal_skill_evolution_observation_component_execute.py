@@ -24,6 +24,7 @@ from legal_skill_guard.skill_evolution.objects import digest
 from legal_skill_guard.skill_evolution.observation_component_library import (
     convert, observation_schema, plan, replace_components, validate)
 from legal_skill_guard.skill_evolution.runtime import decoder_schema, render_messages
+from legal_skill_guard.skill_evolution.statute_pure_calculation import certificate as calculation_certificate
 
 
 ROOT = acquisition.ROOT
@@ -154,6 +155,15 @@ def execute_one(client, protocol, name, library, sid, kernel, source, phase):
     row = {'source': sid, 'candidate': name, 'phase': phase, 'library_sha256': digest(library),
         'reads': [], 'fallback': False, 'not_a_semantic_certificate': True}
     try:
+        if protocol.get('shared_public_pure_calculation'):
+            certificate = calculation_certificate(kernel)
+            if certificate['certified_fact_independent']:
+                grounded = {'bindings': [{'inputs': {'facts': [], 'negative_givens': [],
+                    'extraction_status': 'complete'}, 'witnesses': []}], 'unresolved': []}
+                row.update(observation={}, grounded=grounded, execution=execute_alternatives(kernel, grounded),
+                    shared_public_calculation=certificate, not_learned_observation_success=True)
+                immutable_json(target, row)
+                return row
         validate(library, kernel)
         selection = plan(library, kernel)
         row['plan'] = selection

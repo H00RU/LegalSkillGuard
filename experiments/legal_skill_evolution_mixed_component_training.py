@@ -31,13 +31,18 @@ from legal_skill_guard.skill_evolution.native_case_encoding import FACTUAL_ENCOD
 from legal_skill_guard.skill_evolution.objects import digest
 from legal_skill_guard.skill_evolution.observation_component_library import observation_schema, validate
 from legal_skill_guard.skill_evolution.observation_source_review import review
+from legal_skill_guard.skill_evolution.observation_training_history import completed_history, teaching_rows
+from legal_skill_guard.skill_evolution.paired_observation_recombination import coordinate_candidates
+from legal_skill_guard.skill_evolution.statute_pure_calculation import certificate as calculation_certificate
+from legal_skill_guard.skill_evolution.case_observation_contract import execute_alternatives
 from legal_skill_guard.skill_evolution.runtime import render_messages
 from legal_skill_guard.skill_evolution.teacher_transport import pack_programs, INSTRUCTION, PROGRAM_INSTRUCTION
 
 
 ROOT = actor.ROOT
-RUN = 'legal_skill_evolution_mixed_component_training_source_review_20261115'
+RUN = 'legal_skill_evolution_mixed_component_training_history_20261115'
 OUT = ROOT / 'artifacts' / RUN
+PRIOR_OUT = ROOT / 'artifacts/legal_skill_evolution_mixed_component_training_source_review_20261115'
 read = actor.read
 ARMS = actor.acquisition.ARMS
 
@@ -54,6 +59,8 @@ def setup():
                 'case_observation_contract.py', 'case_read_comparison.py', 'conversion_residual.py',
                 'conversion_residual_worker.py', 'sara_statute_kernel.py', 'clients.py', 'ledger.py',
                 'span_compiler.py', 'span_compiler_worker.py', 'runtime.py', 'teacher_transport.py')]
+        files += [ROOT / 'legal_skill_guard/skill_evolution' / name for name in (
+            'observation_training_history.py', 'paired_observation_recombination.py', 'statute_pure_calculation.py')]
         inputs = [actor.acquisition.OUT / 'protocol.json', actor.acquisition.OUT / 'teacher_task.json']
         inputs += [actor.acquisition.OUT / arm / 'teacher.json' for arm in ARMS]
         inputs += [actor.acquisition.previous.parent.OUT / name for name in (
@@ -62,9 +69,11 @@ def setup():
             actor.acquisition.previous.parent.PREPARED / 'grading.json',
             ROOT / 'artifacts/legal_skill_evolution_source_count_bias_repair_20261115/result.json',
             shared.OUT / 'result.json', actor.OUT / 'acquisition/scored_results.json']
+        inputs += [p for batch in (1, 2) for p in (PRIOR_OUT / f'B{batch}').rglob('*.json')]
         protocol = {'run_id': RUN, 'same_goal': True, 'sources': prior['sources'], 'batches': prior['batches'],
             'executor_profile': prior['executor_profile'], 'teacher_profile': prior['teacher_profile'],
             'thinking': False, 'shared_native_event_encoding': FACTUAL_ENCODING,
+            'shared_public_pure_calculation': True,
             'continuation_not_new_blind_training': True, 'original_B8_exposure_all128_disclosed': True,
             'eight_mixed_batches_16_mothers_each': True, 'new_sources_seeds_or_model_settings': False,
             'completed_C_updates_and_unchanged_boundary_routes_reused_not_retrained': True,
@@ -74,7 +83,11 @@ def setup():
             'fixed_generic_predictions_preserved_no_unchanged_resampling': True,
             'selection': 'Shared partial source counterevidence failures, then native TRAIN correctness, then unresolved, then actual logical reads.',
             'candidate_retention_is_not_semantic_certification': True,
-            'safe_boundary_continuation_of': 'legal_skill_evolution_mixed_component_training_20261115',
+            'safe_boundary_continuation_of': str(PRIOR_OUT.relative_to(ROOT)),
+            'first_two_checkpoints_and_all_calls_preserved': True,
+            'completed_rejected_updates_enter_next_teacher_context': True,
+            'actual_paired_version_coordinate_neighbors_not_just_new_component_IDs': True,
+            'coordinate_operator_alone_not_novelty_or_GEPA_reproduction': True,
             'source_annotation_correction_before_first_teacher': 'The original source says Alice was paid; do not forbid source-stated payment_ merely because no payer or date is stated. All prior calls remain charged and exact wire outputs reusable.',
             'no_zero_fallback_or_all_branches_success_acceptance_threshold': True,
             'DEV_TEST_opened': False, 'goal_complete': False,
@@ -114,9 +127,18 @@ def inherited_routes(batch, keys):
             generic_path = generic.OUT / f'B{batch}/scored_results.json'
             value = read(generic_path)
             original = next(r for r in value['rows'] if r['source'] == sid)
-            rows.append({'source': sid, 'dataset': dataset, 'route': 'actual_new_observation_learning',
+            row = {'source': sid, 'dataset': dataset, 'route': 'actual_new_observation_learning',
                 'fixed_generic_actual_result': original, 'fixed_generic_path': str(generic_path.relative_to(ROOT)),
-                'generic_new_calls': 0, 'same_original_case_and_native_query': True})
+                'generic_new_calls': 0, 'same_original_case_and_native_query': True}
+            kernel = next(actor.acquisition.current_case_interface(r['kernel']) for r in read(
+                actor.acquisition.previous.parent.OUT / 'SARA_native_kernel_bank.json') if r['source'] == sid)
+            certificate = calculation_certificate(kernel)
+            if certificate['certified_fact_independent']:
+                grounded = {'bindings': [{'inputs': {'facts': [], 'negative_givens': [],
+                    'extraction_status': 'complete'}, 'witnesses': []}], 'unresolved': []}
+                row['common_calculation_override'] = {'execution': execute_alternatives(kernel, grounded),
+                    'certificate': certificate, 'not_learned_observation_success': True, 'new_model_calls': 0}
+            rows.append(row)
         elif dataset == 'ContractNLI':
             free_path = source_train.OUT / 'B8/FreeUpdate/candidate_results' / source_train.previous.old.name_for(sid)
             rows.append({'source': sid, 'dataset': dataset, 'route': 'completed_C_and_Free_source_acquisition',
@@ -187,10 +209,15 @@ def acquire(protocol, ledger, batch, libraries, initial, public, kernels, gradin
             'acquisition_cases': [{'source': sid, 'public_case': public[sid]['views'][0]['public'],
                 'kernel': kernels[sid], 'original_TRAIN_supervision': grading[sid]} for sid in keys],
             'current_actual_initial_results': initial,
-            'shared_past_actual_probe_errors': read(actor.OUT / 'acquisition/scored_results.json'),
+            'shared_past_actual_probe_errors': teaching_rows(read(actor.OUT / 'acquisition/scored_results.json')),
             'shared_past_source_reviews': [review(r['source'], r.get('grounded', {}))
                 for r in read(actor.OUT / 'acquisition/scored_results.json')['rows']],
             'error_feedback_by_id': {f'B{batch}_actual_{i}': r for i, r in enumerate(initial)},
+            'completed_prior_TRAIN_updates': completed_history(OUT, batch, ARMS, prior_folders=[PRIOR_OUT]),
+            'public_dependency_reader_code': common['public_dependency_reader_code'],
+            'shared_prior_probe_public_cases': [{k: c[k] for k in ('source', 'public_case', 'kernel')}
+                for c in common['acquisition_cases']],
+            'shared_public_calculation_is_not_observation_learning': True,
             'shared_factual_representation_not_a_new_method': True,
             'prior_B8_and_three_probe_sources_exposed_not_first_exposure': True,
             'new_DEV_TEST_information': False,
@@ -231,20 +258,16 @@ def candidates(base, response, arm):
             result[arm + '/' + str(i)] = actor.candidate_library(base, proposal)
         except (ValueError, KeyError, TypeError) as error:
             result[arm + '/invalid_' + str(i)] = {'proposal_error': type(error).__name__ + ': ' + str(error)}
-    if arm == ARMS[0] and arm + '/0' in result and arm + '/1' in result:
-        left, right = result[arm + '/0'], result[arm + '/1']
-        index = {c['id']: deepcopy(c) for c in left['components']}
-        new = [c for c in right['components'] if c['id'] not in index]
-        if new:
-            index.update({c['id']: deepcopy(c) for c in new})
-            result[arm + '/recombined'] = {**deepcopy(left), 'components': list(index.values())}
+    if arm == ARMS[0]:
+        valid = {name: value for name, value in result.items() if 'components' in value}
+        result.update(coordinate_candidates(valid))
     return result
 
 
 def run(stop):
     protocol, ledger = setup()
     client = FrozenExecutor(ledger, OUT, protocol['executor_profile'])
-    client.exact_replay_roots = [OUT, ROOT / 'artifacts/legal_skill_evolution_mixed_component_training_20261115',
+    client.exact_replay_roots = [OUT, PRIOR_OUT, ROOT / 'artifacts/legal_skill_evolution_mixed_component_training_20261115',
         actor.OUT, ROOT / 'artifacts/legal_skill_evolution_mixed_case_actor_givens6_20261114']
     public = {s['key']: s for s in read(actor.acquisition.previous.parent.OUT / 'SARA_corrected_TRAIN_views.json')}
     kernels = {r['source']: actor.acquisition.current_case_interface(r['kernel'])
