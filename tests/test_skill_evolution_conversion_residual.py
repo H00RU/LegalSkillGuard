@@ -87,6 +87,29 @@ class ConversionResidualTests(unittest.TestCase):
         self.assertNotIn('payment_service_events', action['component_ids'])
         self.assertEqual(action['trace']['result']['unresolved'], row['grounded']['unresolved'])
 
+    def test_actual_present_role_error_is_a_conversion_blocker_not_a_native_label(self):
+        from legal_skill_guard.skill_evolution.component_binding_program import binding_program
+        from legal_skill_guard.skill_evolution.observation_component_library import observation_schema
+        from legal_skill_guard.skill_evolution.sara_statute_kernel import current_case_interface
+        root = Path('artifacts/legal_skill_evolution_mixed_component_training_status_schema_20261115/B3')
+        row = next(r for r in study.read(root / 'candidate_scores/CoverageRecombine/0.json')['rows']
+            if 'd5e1138c' in r['source'])
+        library = study.read(root / 'candidate_libraries/CoverageRecombine/0.json')
+        ids = row['plan']['component_ids']
+        contract = {'binding_program': binding_program(library, ids),
+            'observation_schema_json': json.dumps(observation_schema(library, ids)),
+            'observation_prompt': '', 'requires_neural_read': True}
+        kernel = current_case_interface(self.kernels[row['source']])
+        public = self.public[row['source']]['views'][0]['public']
+        before = deepcopy(row['observation'])
+        action = component_action(contract, kernel, public, row['observation'])
+        self.assertEqual(action['component_ids'], ['special_native_states'])
+        self.assertTrue(any(p[-1] == 'related_text' for p in action['blocking_observation_paths']))
+        self.assertTrue(any(w['guards'] for w in action['observed_failed_guards']))
+        self.assertEqual(action['trace']['result']['bindings'], row['grounded']['bindings'])
+        self.assertEqual(action['trace']['result']['unresolved'], row['grounded']['unresolved'])
+        self.assertEqual(before, row['observation'])
+
 
 if __name__ == '__main__':
     unittest.main()

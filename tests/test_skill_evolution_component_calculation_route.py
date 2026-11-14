@@ -14,7 +14,7 @@ def test_existing_pure_statute_certificate_bypasses_empty_observation_without_le
     client = SimpleNamespace(artifacts=tmp_path)
     library = actor.libraries()['CoverageRecombine/0']
     row = actor.execute_one(client, {'shared_public_pure_calculation': True}, 'same_public_path',
-        library, entry['source'], kernel, source, 'TRAIN')
+        library, entry['source'], kernel, source, 'TRAIN', purpose='skill_actor')
     assert row['execution']['handled'] and row['reads'] == []
     assert row['not_learned_observation_success'] is True
     assert row['grounded']['bindings'][0]['witnesses'] == []

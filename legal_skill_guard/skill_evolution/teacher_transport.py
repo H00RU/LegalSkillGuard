@@ -2,12 +2,13 @@
 from collections import Counter
 import ast
 import json
+import re
 
 REFERENCE = '@v'
 PROGRAM_SEGMENTS = '__lsg_program_segments__'
 SOURCE_SEGMENTS = '@s'
 INSTRUCTION = ('The input is losslessly reference-encoded JSON. Read task as the original input; '
-    'each singleton object {"@v":"vN"} denotes shared_values["vN"], '
+    'each string "@N" consisting of @ followed only by decimal digits denotes shared_values["N"], '
     'recursively. Repeated source text, programs and execution records are shared, never omitted. '
     'References are storage identifiers, not legal rules, labels or source identities. '
     'All instructions and requested output schema remain unchanged.')
@@ -25,12 +26,13 @@ def serialized(value):
 
 def pack(value):
     counts = Counter()
-    smallest_reference = len(serialized({REFERENCE: 'v0'}))
+    smallest_reference = len(serialized('@0'))
     def count(node):
+        if isinstance(node, str) and re.fullmatch(r'@[0-9]+', node):
+            raise ValueError('Original input contains a reserved compact reference string')
         body = serialized(node)
         if len(body) > smallest_reference:counts[body] += 1
         if isinstance(node, dict):
-            if REFERENCE in node:raise ValueError('Original input contains the reserved transport key')
             for child in node.values():count(child)
         elif isinstance(node, list):
             for child in node:count(child)
@@ -38,8 +40,8 @@ def pack(value):
     # Actual dependency edges are often 86--95 characters: the old96-character
     # cutoff duplicated them throughout complete TRAIN histories. Share a value
     # when its repeated literal cost exceeds a conservative reference+pool cost.
-    largest_identity = 'v' + str(len(counts))
-    reference_cost = len(serialized({REFERENCE: largest_identity}))
+    largest_identity = str(len(counts))
+    reference_cost = len(serialized('@' + largest_identity))
     entry_cost = len(serialized(largest_identity)) + 2
     eligible = {body for body, n in counts.items() if n > 1
         and n * len(body) > len(body) + entry_cost + n * reference_cost}
@@ -52,47 +54,51 @@ def pack(value):
         body = serialized(node)
         if body not in eligible:return children(node)
         if body not in identities:
-            identity = 'v' + str(len(identities));identities[body] = identity
+            identity = str(len(identities));identities[body] = identity
             pool[identity] = children(node)
-        return {REFERENCE: identities[body]}
+        return '@' + identities[body]
     task = encode(value)
     # Collapsing a repeated parent can leave a child referenced only once.
     # Inline those entries: they no longer save storage, and their contents
     # remain exact. The reference syntax and teacher instructions do not change.
     references = Counter()
     def references_in(node):
-        if isinstance(node, dict):
-            if set(node) == {REFERENCE}:
-                references[node[REFERENCE]] += 1
-            else:
-                for child in node.values():references_in(child)
+        if isinstance(node, str) and re.fullmatch(r'@[0-9]+', node):
+            references[node[1:]] += 1
+        elif isinstance(node, dict):
+            for child in node.values():references_in(child)
         elif isinstance(node, list):
             for child in node:references_in(child)
     references_in(task)
     for node in pool.values():references_in(node)
     inline = {key for key, n in references.items() if n == 1}
     def compact(node):
+        if isinstance(node, str) and re.fullmatch(r'@[0-9]+', node) and node[1:] in inline:
+            return compact(pool[node[1:]])
         if isinstance(node, dict):
-            if set(node) == {REFERENCE} and node[REFERENCE] in inline:
-                return compact(pool[node[REFERENCE]])
             return {key: compact(child) for key, child in node.items()}
         if isinstance(node, list):return [compact(child) for child in node]
         return node
     task = compact(task)
     pool = {key: compact(node) for key, node in pool.items() if key not in inline}
-    return {'encoding': 'lossless_shared_JSON_values_v2', 'shared_values': pool, 'task': task}
+    return {'encoding': 'lossless_shared_JSON_values_v3', 'shared_values': pool, 'task': task}
 
 
 def unpack(envelope):
-    if envelope['encoding'] != 'lossless_shared_JSON_values_v2':raise ValueError('Unknown teacher transport')
+    encoding = envelope['encoding']
+    if encoding not in ('lossless_shared_JSON_values_v2', 'lossless_shared_JSON_values_v3'):
+        raise ValueError('Unknown teacher transport')
     visiting = set()
+    def reference(identity):
+        if identity in visiting:raise ValueError('Cyclic teacher transport reference')
+        visiting.add(identity);value = decode(envelope['shared_values'][identity]);visiting.remove(identity)
+        return value
     def decode(node):
+        if encoding == 'lossless_shared_JSON_values_v3' and isinstance(node, str) and re.fullmatch(r'@[0-9]+', node):
+            return reference(node[1:])
         if isinstance(node, dict):
-            if set(node) == {REFERENCE}:
-                identity = node[REFERENCE]
-                if identity in visiting:raise ValueError('Cyclic teacher transport reference')
-                visiting.add(identity);value = decode(envelope['shared_values'][identity]);visiting.remove(identity)
-                return value
+            if encoding == 'lossless_shared_JSON_values_v2' and set(node) == {REFERENCE}:
+                return reference(node[REFERENCE])
             return {key: decode(child) for key, child in node.items()}
         if isinstance(node, list):return [decode(child) for child in node]
         return node

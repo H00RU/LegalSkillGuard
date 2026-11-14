@@ -101,7 +101,7 @@ def libraries():
     return result
 
 
-def read_component(client, protocol, sid, component, kernel, public):
+def read_component(client, protocol, sid, component, kernel, public, *, purpose):
     root, run_id = client.artifacts, client.ledger.run_id
     schema = observation_schema({'components': [component]}, [component['id']])
     task = {'current_case': {k: public[k] for k in ('facts', 'question')},
@@ -126,7 +126,7 @@ def read_component(client, protocol, sid, component, kernel, public):
         count = client.tokenize(messages, thinking=False)['count']
         if count + protocol['executor_profile']['max_tokens'] > protocol['executor_profile']['context_tokens']:
             raise ValueError('Full component request exceeds the frozen context')
-        response = client.generate(run_id + ':read:' + key, source=sid, purpose='skill_actor',
+        response = client.generate(run_id + ':read:' + key, source=sid, purpose=purpose,
             thinking=False, messages=messages, schema=wire_schema)
         # Raw provider content is saved before decode/schema/execution checks.
         immutable_json(root / 'raw_responses' / (key + '.json'), response)
@@ -147,10 +147,13 @@ def read_component(client, protocol, sid, component, kernel, public):
     return result['value'], result['receipt']
 
 
-def execute_one(client, protocol, name, library, sid, kernel, source, phase):
+def execute_one(client, protocol, name, library, sid, kernel, source, phase, *, purpose):
     target = client.artifacts / phase / name / (digest(sid) + '.json')
     if target.exists():
-        return read(target)
+        saved = read(target)
+        if saved['library_sha256'] != digest(library):
+            raise ValueError('Saved component execution belongs to a different library')
+        return saved
     public = source['views'][0]['public']
     row = {'source': sid, 'candidate': name, 'phase': phase, 'library_sha256': digest(library),
         'reads': [], 'fallback': False, 'not_a_semantic_certificate': True}
@@ -177,7 +180,7 @@ def execute_one(client, protocol, name, library, sid, kernel, source, phase):
             by_id = {c['id']: c for c in library['components']}
             observation = {}
             for cid in selection['component_ids']:
-                value, receipt = read_component(client, protocol, sid, by_id[cid], kernel, public)
+                value, receipt = read_component(client, protocol, sid, by_id[cid], kernel, public, purpose=purpose)
                 observation.update(value)
                 row['reads'].append({'component_id': cid, **receipt})
             row['observation'] = observation
@@ -211,7 +214,7 @@ def run(phase):
         frozen = read(OUT / 'selected_after_acquisition.json')
         bank = {name: bank[name] for name in frozen['selected_candidates']}
     sources = protocol['acquisition_sources'] if phase == 'acquisition' else protocol['reuse_sources']
-    rows = [execute_one(client, protocol, name, library, sid, kernels[sid], public[sid], phase)
+    rows = [execute_one(client, protocol, name, library, sid, kernels[sid], public[sid], phase, purpose='skill_actor')
         for sid in sources for name, library in bank.items()]
     grading = read(acquisition.previous.parent.PREPARED / 'grading.json')
     scored = [{**row, 'native_score': grade_view(public[row['source']]['dataset'],

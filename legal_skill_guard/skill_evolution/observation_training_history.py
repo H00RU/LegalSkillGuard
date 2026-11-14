@@ -47,6 +47,12 @@ def completed_history(folder, before_batch, arms, *, prior_folders=()):
         history.append({'batch': batch, 'actual_initial_rows': teaching_rows(read(root / 'initial_scored_results.json')),
             'original_public_TRAIN_cases': read(root / 'teacher_task.json')['acquisition_cases'],
             'actual_candidate_execution_and_source_reviews': scores,
+            'actual_proposal_validation_failures': {str(p.relative_to(root / 'invalid_proposals')): read(p)
+                for p in sorted((root / 'invalid_proposals').rglob('*.json'))},
+            'original_before_format_repair_validation_failures': {str(p.relative_to(root / 'pre_repair_invalid_proposals')): read(p)
+                for p in sorted((root / 'pre_repair_invalid_proposals').rglob('*.json'))},
+            'actual_deterministic_format_recovery_receipts': {p.stem: read(p)
+                for p in sorted((root / 'proposal_format_recovery').glob('*.json'))},
             'actual_teacher_proposals': {arm: read(root / arm / 'teacher.json')['value']
                 if (root / arm / 'teacher.json').exists() else None for arm in arms},
             'actual_teacher_failures': {arm: read(root / arm / 'teacher_failure.json')

@@ -37,8 +37,9 @@ def test_failed_teacher_retains_library_and_is_not_implicitly_retried(tmp_path, 
     failure = training.read(folder / 'FreeGlobalUpdate/teacher_failure.json')
     assert failure['status'] == 'no_trustworthy_proposal'
     assert not (folder / 'FreeGlobalUpdate/teacher.json').exists()
-    bank = training.candidates(before, None, 'FreeGlobalUpdate')
+    bank, recoveries = training.candidates(before, None, 'FreeGlobalUpdate')
     assert bank == {'FreeGlobalUpdate/retained': before}
+    assert recoveries == []
 
 
 def test_completed_history_keeps_missing_proposal_distinct_from_empty_rules(tmp_path):

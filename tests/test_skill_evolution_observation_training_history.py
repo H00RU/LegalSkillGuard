@@ -16,3 +16,12 @@ def test_actual_rejected_birth_null_revision_reaches_next_teacher():
     # A failure in a rejected candidate is present even though its fields/code
     # are absent from the selected retained library.
     assert history[0]['failed_revisions_retained_even_when_old_library_selected']
+
+
+def test_actual_B5_schema_and_coverage_rejections_reach_later_updates():
+    root = Path('artifacts/legal_skill_evolution_mixed_component_training_line_transport_20261115')
+    prior = Path('artifacts/legal_skill_evolution_mixed_component_training_source_review_20261115')
+    history = completed_history(root, 6, ('CoverageRecombine', 'FreeGlobalUpdate'), prior_folders=[prior])
+    failures = history[-1]['actual_proposal_validation_failures']
+    assert any('Extra data' in row.get('error', '') for row in failures.values())
+    assert any('Exactly one coverage contract' in row.get('proposal_error', '') for row in failures.values())

@@ -83,6 +83,17 @@ def main():
             ancestor = parent.get(id(ancestor))
         return result
 
+    def executed_guards(node):
+        result = []
+        child = node
+        ancestor = parent.get(id(child))
+        while ancestor is not None and not isinstance(ancestor, ast.FunctionDef):
+            if isinstance(ancestor, ast.If) and (child in ancestor.body or child in ancestor.orelse):
+                result.append({'condition': ast.unparse(ancestor.test),
+                    'taken_branch': 'true' if child in ancestor.body else 'false'})
+            child, ancestor = ancestor, parent.get(id(ancestor))
+        return result
+
     def node_at(instruction, kind):
         pos = instruction.positions
         if pos.lineno is None:
@@ -122,7 +133,8 @@ def main():
             added = sorted(after - before)
             if added:
                 mutations.append({'function': frame.f_code.co_name, 'line': node.lineno,
-                    'expression': ast.unparse(node), 'added_strings': added, 'cause_paths': cause})
+                    'expression': ast.unparse(node), 'added_strings': added, 'cause_paths': cause,
+                    'executed_guards': executed_guards(node)})
 
     def trace(frame, event, arg):
         if frame.f_code.co_filename != filename:

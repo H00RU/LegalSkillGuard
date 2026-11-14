@@ -31,6 +31,7 @@ from legal_skill_guard.skill_evolution.native_case_encoding import FACTUAL_ENCOD
 from legal_skill_guard.skill_evolution.objects import digest
 from legal_skill_guard.skill_evolution.observation_component_library import observation_schema, validate
 from legal_skill_guard.skill_evolution.observation_source_review import review
+from legal_skill_guard.skill_evolution.observation_proposal_format import recover_format
 from legal_skill_guard.skill_evolution.observation_training_history import completed_history, teaching_rows
 from legal_skill_guard.skill_evolution.paired_observation_recombination import coordinate_candidates
 from legal_skill_guard.skill_evolution.statute_pure_calculation import certificate as calculation_certificate
@@ -41,10 +42,10 @@ from legal_skill_guard.skill_evolution.observation_teacher_transport import pack
 
 
 ROOT = actor.ROOT
-RUN = 'legal_skill_evolution_mixed_component_training_line_transport_20261115'
+RUN = 'legal_skill_evolution_mixed_component_training_compact_refs_20261115'
 OUT = ROOT / 'artifacts' / RUN
 PRIOR_OUT = ROOT / 'artifacts/legal_skill_evolution_mixed_component_training_source_review_20261115'
-PREVIOUS_OUT = ROOT / 'artifacts/legal_skill_evolution_mixed_component_training_status_schema_20261115'
+PREVIOUS_OUT = ROOT / 'artifacts/legal_skill_evolution_mixed_component_training_validated_updates_20261115'
 read = actor.read
 ARMS = actor.acquisition.ARMS
 
@@ -64,6 +65,7 @@ def setup():
         files += [ROOT / 'legal_skill_guard/skill_evolution' / name for name in (
             'observation_training_history.py', 'paired_observation_recombination.py', 'statute_pure_calculation.py',
             'observation_status_schema.py', 'observation_teacher_transport.py')]
+        files += [ROOT / 'legal_skill_guard/skill_evolution/observation_proposal_format.py']
         inputs = [actor.acquisition.OUT / 'protocol.json', actor.acquisition.OUT / 'teacher_task.json']
         inputs += [actor.acquisition.OUT / arm / 'teacher.json' for arm in ARMS]
         inputs += [actor.acquisition.previous.parent.OUT / name for name in (
@@ -74,9 +76,9 @@ def setup():
             shared.OUT / 'result.json', actor.OUT / 'acquisition/scored_results.json']
         inputs += [p for batch in (1, 2) for p in (PRIOR_OUT / f'B{batch}').rglob('*.json')]
         inputs += [PREVIOUS_OUT / 'protocol.json']
-        inputs += [PREVIOUS_OUT / f'B{batch}/checkpoint.json' for batch in range(1, 5)]
-        inputs += [OUT / 'resume_receipt.json', OUT / 'B5/teacher_task.json',
-            OUT / 'B5/initial_scored_results.json']
+        inputs += [PREVIOUS_OUT / f'B{batch}/checkpoint.json' for batch in range(1, 8)]
+        inputs += [OUT / 'resume_receipt.json', OUT / 'B8/teacher_task.json',
+            OUT / 'B8/initial_scored_results.json']
         inputs += list((OUT / 'component_reads').glob('*.json'))
         protocol = {'run_id': RUN, 'same_goal': True, 'sources': prior['sources'], 'batches': prior['batches'],
             'executor_profile': prior['executor_profile'], 'teacher_profile': prior['teacher_profile'],
@@ -92,11 +94,15 @@ def setup():
             'selection': 'Shared partial source counterevidence failures, then native TRAIN correctness, then unresolved, then actual logical reads.',
             'candidate_retention_is_not_semantic_certification': True,
             'safe_boundary_continuation_of': str(PREVIOUS_OUT.relative_to(ROOT)),
-            'first_four_checkpoints_and_all_calls_preserved': True,
-            'fifth_batch_initial_and_matched_reads_preserved': True,
+            'first_seven_checkpoints_and_all_calls_preserved': True,
+            'eighth_batch_initial_and_matched_reads_preserved': True,
             'ordinary_teacher_failure_records_unavailable_update_not_goal_stop': True,
             'teacher_serialization_roundtrip_exact_no_data_or_code_omitted': True,
             'exact_program_lines_and_single_reference_inlining': True,
+            'compact_string_references_roundtrip_full_task_and_key_order': True,
+            'observed_unambiguous_format_recovery_same_both_arms': True,
+            'invalid_proposal_diagnostics_in_next_teacher_feedback': True,
+            'actual_present_values_can_block_conversion_and_guide_rereading': True,
             'required_status_guards_compiled_to_equivalent_disjunctions': True,
             'completed_rejected_updates_enter_next_teacher_context': True,
             'actual_paired_version_coordinate_neighbors_not_just_new_component_IDs': True,
@@ -276,17 +282,21 @@ def acquire(protocol, ledger, batch, libraries, initial, public, kernels, gradin
 
 def candidates(base, response, arm):
     result = {arm + '/retained': deepcopy(base)}
+    recoveries = []
     if response is None:
-        return result
+        return result, recoveries
     for i, proposal in enumerate(response['value']['candidates']):
         try:
-            result[arm + '/' + str(i)] = actor.candidate_library(base, proposal)
-        except (ValueError, KeyError, TypeError) as error:
+            recovered, receipts = recover_format(base, proposal)
+            result[arm + '/' + str(i)] = actor.candidate_library(base, recovered)
+            recoveries.append({'candidate_index': i, 'original_proposal_sha256': digest(proposal),
+                'recovered_proposal_sha256': digest(recovered), 'receipts': receipts})
+        except (ValueError, KeyError, TypeError, jsonschema.SchemaError) as error:
             result[arm + '/invalid_' + str(i)] = {'proposal_error': type(error).__name__ + ': ' + str(error)}
     if arm == ARMS[0]:
         valid = {name: value for name, value in result.items() if 'components' in value}
         result.update(coordinate_candidates(valid))
-    return result
+    return result, recoveries
 
 
 def run(stop):
@@ -316,7 +326,7 @@ def run(stop):
         initial = []
         for sid in current:
             for arm in ARMS:
-                row = actor.execute_one(client, protocol, arm, libraries[arm], sid, kernels[sid], public[sid], f'B{batch}/initial')
+                row = actor.execute_one(client, protocol, arm, libraries[arm], sid, kernels[sid], public[sid], f'B{batch}/initial', purpose='skill_actor')
                 initial.append(scored(row, public, grading))
                 if arm == ARMS[0]:
                     matched_read(client, protocol, batch, libraries[arm], row, public[sid], kernels[sid])
@@ -325,7 +335,8 @@ def run(stop):
         selected = {}
         for arm in ARMS:
             proposal_path = OUT / f'B{batch}' / arm / 'teacher.json'
-            bank = candidates(libraries[arm], read(proposal_path) if proposal_path.exists() else None, arm)
+            bank, recoveries = candidates(libraries[arm], read(proposal_path) if proposal_path.exists() else None, arm)
+            immutable_json(OUT / f'B{batch}/proposal_format_recovery' / (arm + '.json'), recoveries)
             choices = []
             for name, library in bank.items():
                 if library.get('proposal_error'):
@@ -338,7 +349,7 @@ def run(stop):
                     continue
                 immutable_json(OUT / f'B{batch}/candidate_libraries' / (name + '.json'), library)
                 rows = [scored(actor.execute_one(client, protocol, name, library, sid,
-                    kernels[sid], public[sid], f'B{batch}/post'), public, grading) for sid in current]
+                    kernels[sid], public[sid], f'B{batch}/post', purpose='skill_actor'), public, grading) for sid in current]
                 metrics = {'partial_source_failures': sum(r['partial_source_review']['failures'] for r in rows),
                     'native_correct': sum(r['native_score']['correct'] for r in rows),
                     'unresolved': sum(not r['execution']['handled'] for r in rows),

@@ -14,7 +14,7 @@ import tarfile
 import jsonschema
 
 from experiments import legal_skill_evolution_mixed_freeze as frozen
-from experiments import legal_skill_evolution_mixed_training_continue as current
+from experiments import legal_skill_evolution_mixed_component_training as current
 from experiments import legal_skill_evolution_source_library_train as source_train
 from experiments import legal_skill_evolution_five_train as parent
 from legal_skill_guard.rr.checkpoint import immutable_json
@@ -24,20 +24,23 @@ from legal_skill_guard.skill_evolution.clients import FrozenExecutor, Generation
 from legal_skill_guard.skill_evolution.generic_event_observation import PROMPT, schema_for, lower
 from legal_skill_guard.skill_evolution.ledger import EvolutionLedger
 from legal_skill_guard.skill_evolution.literal_facts import literal_bindings
-from legal_skill_guard.skill_evolution.native import grade_view, record_schema, source_spans
+from legal_skill_guard.skill_evolution.native import grade_view, source_spans
 from legal_skill_guard.skill_evolution.native_case_encoding import FACTUAL_ENCODING
 from legal_skill_guard.skill_evolution.objects import digest, Library
-from legal_skill_guard.skill_evolution.runtime import decoder_schema, render_messages
+from legal_skill_guard.skill_evolution.runtime import render_messages
+from legal_skill_guard.skill_evolution.decoder_constraints import decoding_schema
+from legal_skill_guard.skill_evolution.component_binding_program import binding_program
+from legal_skill_guard.skill_evolution.observation_component_library import observation_schema
 from legal_skill_guard.skill_evolution.sara_statute_kernel import current_case_interface, query_term
 from legal_skill_guard.skill_evolution.scoped_grammar import material_public
 from legal_skill_guard.skill_evolution.scoped_source_program import run_source
-from legal_skill_guard.skill_evolution.span_compiler import execution_source_units, execute_json
+from legal_skill_guard.skill_evolution.span_compiler import execution_source_units
 from legal_skill_guard.skill_evolution.native_theory_feedback import contract_execution
 from legal_skill_guard.skill_evolution.statute_pure_calculation import certificate as calculation_certificate
 
 
 ROOT = parent.ROOT
-RUN = 'legal_skill_evolution_mixed_DEV_public_execution_20261115'
+RUN = 'legal_skill_evolution_mixed_component_DEV_profile_fix_20261115'
 OUT = ROOT / 'artifacts' / RUN
 PREPARED = ROOT / 'artifacts/legal_skill_evolution_20261111/prepared/dev'
 read = parent.read
@@ -51,7 +54,7 @@ def prepare():
     public = {s['key']: s for s in read(PREPARED / 'public.json')}
     assert len(public) == 40 and all(s['split'] == 'dev' for s in public.values())
     assert not set(public) & set(manifest['original_128_TRAIN_sources'])
-    common_path = current.source_updates.train.ROOT / 'artifacts/legal_skill_evolution_20261111/formal_v5/dev/FreeEvolution/B8.json'
+    common_path = ROOT / 'artifacts/legal_skill_evolution_20261111/formal_v5/dev/FreeEvolution/B8.json'
     common = read(common_path)
     assert common['library_hash'] == Library.load(frozen.shared.COMMON / 'B8.json').hash
     common_rows = {r['source']: r for r in common['results']}
@@ -72,6 +75,7 @@ def prepare():
         sources={'train': protocol['train_sources'], 'dev': protocol['dev_sources'], 'test': []},
         binding=digest(protocol), freeze={'batch': 8, 'artifact_sha256': digest(manifest)})
     client = FrozenExecutor(ledger, OUT, manifest['executor_profile'])
+    client.exact_replay_roots = [OUT, ROOT / 'artifacts/legal_skill_evolution_mixed_DEV_public_execution_20261115']
     return manifest, public, common_rows, client
 
 
@@ -108,7 +112,7 @@ def generate(client, sid, name, prompt, task, schema):
     tokens = client.tokenize(messages, thinking=False)['count']
     assert tokens + client.config['max_tokens'] <= client.config['context_tokens']
     value = client.generate(RUN + ':' + name + ':' + sid, source=sid, purpose='skill_dev',
-        thinking=False, messages=messages, schema=decoder_schema(schema)[0])
+        thinking=False, messages=messages, schema=decoding_schema(schema)[0])
     if value['finish_reason'] != 'stop':
         raise ValueError('generation_truncated: ' + value['finish_reason'])
     decoded = json.loads(value['content'])
@@ -117,6 +121,12 @@ def generate(client, sid, name, prompt, task, schema):
 
 
 def observe_case(client, source, kernel, arm, library):
+    if arm != 'GenericView':
+        return current.actor.execute_one(client,
+            {'shared_public_pure_calculation': True,
+             'executor_profile': client.config,
+             'shared_native_event_encoding': FACTUAL_ENCODING},
+            arm, library, source['key'], kernel, source, 'initial', purpose='skill_dev')
     target = OUT / 'initial' / arm / (digest(source['key']) + '.json')
     if target.exists():
         return read(target)
@@ -130,36 +140,18 @@ def observe_case(client, source, kernel, arm, library):
                 execution=execute_alternatives(kernel,grounded),shared_public_calculation=calc)
             immutable_json(target,row)
             return row
-        if arm == 'GenericView':
-            ids, schema = [], schema_for(kernel)
-            prompt = PROMPT + '\nShared native event meanings: ' + FACTUAL_ENCODING
-        else:
-            components = {c['id']: c for c in library['components']}
-            plan = execute_json(library['planner_program'], {'kernel': kernel, 'public_case': pub}, {}, allow_helpers=True)
-            assert set(plan) == {'component_ids'}
-            ids = plan['component_ids']
-            assert len(ids) == len(set(ids)) and set(ids) <= set(components)
-            schema = record_schema({cid: json.loads(components[cid]['schema_json']) for cid in ids})
-            prompt = '\n\n'.join(components[cid]['prompt'] for cid in ids)
-            row['library_sha256'] = digest(library)
+        ids, schema = [], schema_for(kernel)
+        prompt = PROMPT + '\nShared native event meanings: ' + FACTUAL_ENCODING
         row['actual_component_ids'] = ids
         observation = {}
         if arm == 'GenericView' or ids:
             task = {'current_case': {k: pub[k] for k in ('facts', 'question')},
                 'current_legal_query': {k: kernel[k] for k in ('native_query', 'query_clause')}}
-            if arm != 'GenericView':
-                task['component_meanings'] = {cid: components[cid]['meaning'] for cid in ids}
             observation, receipt = generate(client, sid, 'initial:' + arm, prompt, task, schema)
             row['reads'].append(receipt)
         row['observation'] = observation
-        grounded = (lower(observation, kernel, pub) if arm == 'GenericView' else
-            apply_adapter({'binding_program': library['binding_program']}, kernel, pub, observation,
-                literal_context=literal_bindings({'public': pub})))
+        grounded = lower(observation, kernel, pub)
         row.update(grounded=grounded, execution=execute_alternatives(kernel, grounded))
-        if arm != 'GenericView':
-            row['contract'] = {'binding_program': library['binding_program'],
-                'observation_schema_json': json.dumps(schema), 'observation_prompt': prompt,
-                'requires_neural_read': bool(ids)}
     except GenerationHold:
         raise
     except (ValueError, KeyError, TypeError, AssertionError, jsonschema.ValidationError) as error:
@@ -168,16 +160,24 @@ def observe_case(client, source, kernel, arm, library):
     return row
 
 
-def followup(client, source, kernel, initial, arm):
+def followup(client, source, kernel, initial, arm, library):
     target = OUT / 'followup' / arm / (digest(source['key']) + '.json')
     if target.exists():
         return read(target)
-    if ('contract' not in initial or initial['execution']['handled'] or
-            not initial['contract']['requires_neural_read']):
+    ids = initial.get('plan', {}).get('component_ids', [])
+    if ('grounded' not in initial or initial['execution']['handled'] or not ids):
         result = {'eligible': False, 'reason': 'Already handled, invalid initial conversion, or no declared neural channel', 'policies': {}}
     else:
         sid, pub = source['key'], source['views'][0]['public']
-        contract, observation = initial['contract'], initial['observation']
+        observation = initial['observation']
+        contract = {'binding_program': binding_program(library, ids),
+            'observation_schema_json': json.dumps(observation_schema(library, ids)),
+            'observation_prompt': '\n\n'.join(c['prompt'] for c in library['components'] if c['id'] in ids)
+                + '\nShared native event meanings: ' + FACTUAL_ENCODING,
+            'requires_neural_read': True}
+        parity = apply_adapter(contract, kernel, pub, observation, literal_context=literal_bindings({'public': pub}))
+        if parity != initial['grounded']:
+            raise ValueError('Frozen DEV residual adapter changed the actual component conversion')
 
         def dispatch(policy, action):
             return generate(client, sid, arm + ':' + policy, action['prompt'],
@@ -186,7 +186,7 @@ def followup(client, source, kernel, initial, arm):
                  'current_observation': observation,
                  'existing_unresolved_messages': initial['grounded']['unresolved']}, action['schema'])
 
-        if arm == 'ProgramGuided':
+        if arm == 'CoverageRecombine':
             result = compare_reads(contract, kernel, pub, deepcopy(observation), dispatch)
         else:
             action = ordinary_action(contract, initial['execution'], observation)
@@ -262,16 +262,16 @@ def score_view(source, view, actual, inherited, grading):
 
 def run():
     manifest, public, common, client = prepare()
-    libraries = {a: frozen.source.load(8, a) for a in source_train.ARMS}
-    observation_libraries = {a: read(ROOT / manifest['libraries']['observation/' + a]['path']) for a in current.learned.ARMS}
+    libraries = {a: read(ROOT / manifest['libraries']['source/' + a]['path']) for a in source_train.ARMS}
+    observation_libraries = {a: read(ROOT / manifest['libraries']['observation/' + a]['path']) for a in current.ARMS}
     kernels, actor_sources = sara_interfaces(public)
     # Execute and save all primary records before loading the scoring file here.
     for sid, source in public.items():
         if source['dataset'] == 'SARA_v2_Binary':
-            for arm in ('GenericView', *current.learned.ARMS):
+            for arm in ('GenericView', *current.ARMS):
                 row = observe_case(client, actor_sources[sid], kernels[sid], arm, observation_libraries.get(arm))
                 if arm != 'GenericView':
-                    followup(client, actor_sources[sid], kernels[sid], row, arm)
+                    followup(client, actor_sources[sid], kernels[sid], row, arm, observation_libraries[arm])
         elif source['dataset'] == 'ContractNLI':
             source_case(client, source, libraries)
         print(json.dumps({'DEV_primary_saved': sid, 'updates': False}), flush=True)
@@ -291,7 +291,7 @@ def run():
                 core = {source['views'][0]['id']: {'core_executed': execution['handled'], 'answer': execution['answer'],
                     'shared_public_calculation':bool(initial.get('shared_public_calculation')),
                     'current_learned_mechanism_executed':arm!='GenericView' and
-                        bool(initial.get('actual_component_ids')) and bool(initial.get('observation')) and
+                        bool(initial.get('plan', {}).get('component_ids')) and bool(initial.get('observation')) and
                         not initial.get('shared_public_calculation')}}
             elif source['dataset'] == 'ContractNLI':
                 record = read(OUT / 'source' / (digest(sid) + '.json'))['rows'][recipe['source']]
@@ -309,7 +309,7 @@ def run():
             sum(v['score']['grade'] for v in r['views'])/len(r['views']) for r in rows)/len(rows),
             'fallback_views': sum(v['fallback'] for r in rows for v in r['views']),
             'native_backend_correct_views': sum(v['core_execution']['core_executed'] and v['core_score']['correct'] for r in rows for v in r['views']),
-            'learned_mechanism_correct_views': sum(v['core_execution']['core_executed'] and v['core_score']['correct'] and v['current_learned_mechanism_executed'] for r in rows for v in r['views'])}
+            'learned_path_native_correct_views': sum(v['core_execution']['core_executed'] and v['core_score']['correct'] and v['current_learned_mechanism_executed'] for r in rows for v in r['views'])}
     immutable_json(OUT / 'scored_results.json', {'recipes': recipes, 'frozen_B8_not_best_DEV': True,
         'teacher_or_updates': False, 'fallback_not_core_success': True,
         'native_correctness_not_source_semantic_or_novelty_certification': True, 'goal_complete': False})

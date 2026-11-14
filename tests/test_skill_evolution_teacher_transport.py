@@ -19,10 +19,17 @@ class TeacherTransportTests(unittest.TestCase):
         self.assertEqual(serialized(unpack(pack(value))), serialized(value))
 
     def test_reserved_key_and_cycles_are_rejected(self):
-        with self.assertRaises(ValueError):pack({REFERENCE:'real_input_key'})
+        with self.assertRaises(ValueError):pack({'literal_value':'@123'})
         cyclic = pack({})
-        cyclic.update(shared_values={'v0':{REFERENCE:'v0'}}, task={REFERENCE:'v0'})
+        cyclic.update(shared_values={'0':'@0'}, task='@0')
         with self.assertRaisesRegex(ValueError,'Cyclic'):unpack(cyclic)
+
+    def test_paid_prior_transport_and_literal_at_strings_remain_exact(self):
+        prior = {'encoding': 'lossless_shared_JSON_values_v2', 'shared_values': {'v0': '@123'},
+            'task': {'source': {REFERENCE: 'v0'}}}
+        self.assertEqual(unpack(prior), {'source': '@123'})
+        value = {'email': '@legal', 'program': 'return "@123"', '@123': 'ordinary field', REFERENCE: 'ordinary key'}
+        self.assertEqual(unpack(pack(value)), value)
 
     def test_unique_fields_and_types_are_preserved_without_sharing(self):
         value = {'labels':['Yes','No'],'types':[False,0,0.0,None,True],'quote':'a b\n§'}

@@ -40,9 +40,11 @@ def component_action(contract, kernel, public, observation):
     roots = json.loads(contract['observation_schema_json'])['properties']
     selected, paths = [], []
     for write in traced['blocking_writes']:
+        observed, unread = [], []
         for path in write['cause_paths']:
             if len(path) < 2 or path[0] != 'observation' or path[1] not in roots:
                 continue
+            observed.append(path)
             value = {'observation': observation}
             try:
                 for key in path:
@@ -50,19 +52,28 @@ def component_action(contract, kernel, public, observation):
             except (KeyError, IndexError, TypeError):
                 value = None
             if value is None or value == 'unread':
-                if path not in paths:
-                    paths.append(path)
-                if path[1] not in selected:
-                    selected.append(path[1])
+                unread.append(path)
+        # Keep an actual unread guard narrow when possible. A failed role,
+        # source or type guard may instead depend entirely on present values.
+        for path in unread or observed:
+            if path not in paths:
+                paths.append(path)
+            if path[1] not in selected:
+                selected.append(path[1])
+    paths = [p for p in paths if not any(len(q) > len(p) and q[:len(p)] == p for q in paths)]
     if not selected:
-        raise ValueError('No executed unresolved write has a supported unread observation cause')
+        raise ValueError('No executed unresolved write has a supported observation cause')
     schema = {'type': 'object', 'properties': {cid: deepcopy(roots[cid]) for cid in selected},
         'required': selected, 'additionalProperties': False}
     jsonschema.Draft202012Validator.check_schema(schema)
     return {'residual_stage': 'learned_conversion_program', 'component_ids': selected,
         'blocking_observation_paths': paths, 'schema': schema,
+        'observed_failed_guards': [{'reason': w['added_strings'], 'guards': w.get('executed_guards', [])}
+            for w in traced['blocking_writes']],
         'prompt': contract['observation_prompt'] + '\nThe actual conversion program is blocked on these observation paths: '
-            + json.dumps(paths) + '\nRe-read ONLY the selected existing observation components. Return their unchanged schemas. Preserve genuinely unread values; an unmentioned fact is not automatically an unknown or a world-negative. Do not invent facts, clear guards, or answer the legal claim.',
+            + json.dumps(paths) + '\nActual conversion guards: '
+            + json.dumps([{'reasons': w['added_strings'], 'guards': w.get('executed_guards', [])}
+                for w in traced['blocking_writes']]) + '\nRe-read ONLY the selected existing observation components. Return their unchanged schemas. A present value may fail a source/role/type guard; correct it only from current source evidence. Preserve genuinely unread values; an unmentioned fact is not automatically an unknown or a world-negative. Do not invent facts, clear guards, or answer the legal claim.',
         'trace': traced, 'binding_program_sha256': digest(contract['binding_program']),
         'no_native_label_or_factual_completion': True,
         'not_a_Prolog_proof_trace_or_minimality_certificate': True}

@@ -33,3 +33,18 @@ def test_actual_fifth_batch_full_history_fits_without_omission():
         assert unpack_task(packed) == payload
         # Leave ample room for the unchanged system instruction and wrapper.
         assert len(json.dumps(packed, ensure_ascii=False, separators=(',', ':'))) < CODEX_TURN_INPUT_CHARACTER_LIMIT - 20000
+
+
+def test_actual_eighth_batch_full_history_fits_with_exact_key_order_and_full_prompt():
+    from experiments import legal_skill_evolution_observation_component_acquire as acquisition
+    from legal_skill_guard.inference.codex_cli_client import render_structured_codex_prompt, CODEX_TURN_INPUT_CHARACTER_LIMIT
+    from legal_skill_guard.skill_evolution.teacher_transport import INSTRUCTION, PROGRAM_INSTRUCTION
+    from legal_skill_guard.skill_evolution.observation_teacher_transport import INSTRUCTION as SCHEMA_INSTRUCTION
+    task = json.loads(Path('artifacts/legal_skill_evolution_mixed_component_training_validated_updates_20261115/B8/teacher_task.json').read_text())
+    system = acquisition.SYSTEM + INSTRUCTION + PROGRAM_INSTRUCTION + SCHEMA_INSTRUCTION + (' ' * 2000)
+    for arm, library in task['current_libraries_both_available'].items():
+        payload = {**task, 'seed_for_this_arm': library}
+        packed = pack_task(payload)
+        dump = lambda value: json.dumps(value, ensure_ascii=False, separators=(',', ':'))
+        assert dump(unpack_task(packed)) == dump(payload)
+        assert len(render_structured_codex_prompt(system, dump(packed))) <= CODEX_TURN_INPUT_CHARACTER_LIMIT
