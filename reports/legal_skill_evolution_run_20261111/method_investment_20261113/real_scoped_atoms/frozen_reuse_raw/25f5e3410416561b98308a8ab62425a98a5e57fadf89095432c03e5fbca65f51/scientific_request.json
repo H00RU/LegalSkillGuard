@@ -1,0 +1,87 @@
+{
+  "id": "legal_skill_evolution_scoped_atom_frozen_reuse_20261114:ConstraintAcquire:ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450:concept:2a963d8f85e7ae661e3813198b5b7bd3978efa88538585ae58ba27716a25a87d",
+  "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+  "purpose": "skill_replay",
+  "request_hash": "8821ea8c095a048ef1cf4d4c4d2d27bc79d9aba257ba2f706751d60343a72caf",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"许可限于常规备份或档案存储。\", \"name\": \"backup_or_archive\"}, {\"meaning\": \"许可限于法律或监管要求的记录副本。\", \"name\": \"legally_required_record\"}, {\"meaning\": \"许可限于争议解决用途的单一或限定副本。\", \"name\": \"dispute_resolution_record\"}, {\"meaning\": \"许可限于内部合规用途。\", \"name\": \"internal_compliance_record\"}, {\"meaning\": \"窗口明示多个不同留存依据。\", \"name\": \"multiple_explicit_bases\"}, {\"meaning\": \"窗口明示其他留存依据。\", \"name\": \"other_explicit_basis\"}, {\"meaning\": \"窗口没有明示留存许可依据。\", \"name\": \"no_permission_basis\"}], \"examples\": [], \"name\": \"retention_basis_v2\", \"question\": \"若窗口明示留存许可，分类其依据；不得把备份例外扩展成所有材料的留存许可。原始 TRAIN（逐字）：“Notwithstanding anything in this paragraph 6 to the contrary, a Participating Entity may retain a record copy of any Confidential Information if required to do so by applicable law. ” 原始 TRAIN（逐字）：“2) a single copy of all Confidential Information may be retained by the Receiving Party’s legal department for dispute resolution purposes only, provided, however, that such Confidential Information shall remain subject to the terms and conditions of this Confidentiality Agreement.”\"}], \"current_queries\": [{\"id\": \"disposal_retention_basis_v2__28_31\", \"operation\": \"retention_basis_v2\", \"unit_ids\": [28, 29, 30, 31], \"current_units\": [{\"id\": 28, \"text\": \" Volunteer acknowledges and agrees that all Confidential Information and similar items whether maintained in hard copy, electronically or on-line relating to CCPDT’s business shall remain exclusively the property of the Certification Council for Professional Dog Trainers and shall only be used by Volunteer for the purpose(s) permitted by the Certification Council for Professional Dog Trainers.\"}, {\"id\": 29, \"text\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"}, {\"id\": 30, \"text\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}, {\"id\": 31, \"text\": \"Volunteer Conflict of Interest  Volunteers shall avoid personal and professional conflicts of interest in all matters pertaining to the Certification program.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disposal_retention_basis_v2__28_31": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "backup_or_archive",
+                        "legally_required_record",
+                        "dispute_resolution_record",
+                        "internal_compliance_record",
+                        "multiple_explicit_bases",
+                        "other_explicit_basis",
+                        "no_permission_basis",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          28,
+                          29,
+                          30,
+                          31
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disposal_retention_basis_v2__28_31"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "full_original_request_retained_locally": true
+}

@@ -2,6 +2,29 @@
 
 2026-11-14。同一Goal active。沿用C（诊断驱动开放获取）与U（源—代码联合更新程序），未换候选。**C已有真实正向获取与使用，但独立组合收益尚未成立；U真实φ/G更新字典仍空，两项均未验收，Goal未完成。** 下方各节按检查点保留，当时的未实现/下一步不覆盖当前METHOD。
 
+## 最新：源原子程序取得真实执行，冻结复用没有机制增量
+
+当前不只是字段问答：C真实学得11个源原子提取函数、23条候选G，两个原TRAIN获取来源的原生正确从字段化5/8变为8/8，独立Free从3/8变为6/8。使用既有真实读数，不重问执行器；源程序真实解析请求、动作/材料分别绑定、AND与授权二选一，并真实生成法律Norm及原生执行。C/NoFit同为8/8，独立拟合收益尚未成立。共享C消费者时Free为7/8，原2分差有1分来自消费者差异。删除新增G规范、保留同消费者与既有根，C8→1，显示新增政策被用，不能把这种删除实验等同于完整学习算法消融。[真实组件与见证](real_scoped_atoms/execution/unbound_component_and_witness_checks.json)。
+
+|协议|C|独立Free|能支持的结论|
+|---|---:|---:|---|
+|两母真实获取，正确/8|8|6|源原子/组合路径已实现，局部新规范实际使用|
+|同φ建议G与共同拟合|8 vs8|—|未证明G拟合额外作用|
+|另两母冻结复用，正确/8|8|8|无法据满分认定核心迁移|
+|删除C新增G后的冻结复用|8|—|旧规范已能支持；新增机制独占0/8|
+|剩余固定8母源程序离线，正确/32|15|17|0模型调用的执行/表示定位，Free为单列普通程序控制|
+|该8母C精确再拟合|15|—|当前G不能弥补未取得的源区别|
+
+**真实与离线分开。** 两个获取教师为真实独立调用；源原子/G和消费者是真实可执行代码。获取执行复用了实际已付费神经答案，额外执行器调用0。冻结复用共63个新执行器物理请求；4份无标签执行全部先保存，再评分，库hash保持。这2母取自原12母剩余顺序，不是旧4母复用重跑，也不是新盲测。新G删除后复用仍8/8，C5个视图只用既有根、3个混合，原生答对不是新机制成功；不因此扩展完整训练。选择未先排除旧库已覆盖来源，63次请求未提供预期的机制增量，这部分费用照实保留。[原始冻结结果](real_scoped_atoms/frozen_reuse/scores)、[机制覆盖](real_scoped_atoms/frozen_reuse/unbound_component_coverage.json)、[先执行后评分](real_scoped_atoms/frozen_reuse/execution_before_scoring.json)。
+
+**确定性接口修复保留原语义。** C的泛型源encoder将term_scalar声明为scalar，而新G误声明text；已对齐名义声明，源构造子text检查仍严格。仅删除既不参与渲染也不参与出处的输出坐标，所有规则条件、成本、法律常量和源/消费者代码保持，逐点法律项与出处替换保持。Free两处无捕获排序lambda提升为完全相同参数/返回AST的纯函数，四个重复同义构造子沿用实际已有声明；16个已有操作演示都核对原TRAIN，不给教师追加来源。原响应、适配程序和证明均可访问。Free连接原子长度声明6却要求>=7，已有AND/OR/授权代码不可达，按类型修复为6；原主结果与冻库保留，四份已付费观察工程重放单列，0新调用，没有由host补造法律连接。[C适配](real_scoped_atoms/ConstraintAcquire/unbound_paid_compilation_proof.json)、[Free适配](real_scoped_atoms/FreeUpdate/unbound_paid_compilation_proof.json)、[连接分支修复](real_scoped_atoms/arity_repair/repair_proof.json)。
+
+**G搜索已可执行，但没有制造收益。** 旧逐子集求解23开关在90秒未完成。使用clingo显式输出投影，规则选择空间和所有约束不变，只合并输出完全相同的子集；两个真实源分别64/16理论，9.346/2.539秒完成，80个真实子集见证逐个重执行一致。递归及冗余路径与旧精确枚举对齐，未知不填值、部分搜索不当完整监督。[回归](real_scoped_atoms/lsg_projected_profiles_regression_20261114.log)。此为公共确定性基础设施，参考[clingo官方实现](https://github.com/potassco/clingo)及本地5.x CLI显式project语义，不计方法贡献。
+
+**下一步已定位到源获取。** 所有剩余8母固定原TRAIN被离线检查，没有新模型调用；C实际四份路径删除全部reader事实后，法律Norm和消费者结果保持，说明当前G根本未使用保留的神经读数。C15/32、Free源程序17/32；C各母最优理论也等于当前，再拟合仍15，未部署候选或按这些标签修补冻结来源。a5b0缺已取得规范时不能默认答案；6fce真实文本包含请求返还、Project结束销毁、另一个Agreement结束/请求返还、备份与单一法律留档，当前表示/提取未完整取得。8fb请求-only事实及省略原文保持，不为native标签补终止事件。下一项在同C/U与同信息强对照下修源概念与残余通道，不继续拟合同一候选空间、不支付不会参与G的重复读取。[无读取依赖证明](real_scoped_atoms/offline_remaining_TRAIN/actual_C_reader_independence.json)、[精确拟合](real_scoped_atoms/offline_remaining_TRAIN/fit.json)、[原文/路径/下一实际诊断包](real_scoped_atoms/next_acquisition_diagnosis.json)。
+
+**费用与阶段结论。** 本检查点10514→10579，新增63E/2T，原10514行hash保持，在途0；累计10343E/236T。执行器63份实际wire均thinking OFF/max8192/固定采样/stop；两次教师已知214126输入/46510输出（含20176reasoning），871.633服务秒。执行器实际token/秒及逐请求见[费用账本](real_scoped_atoms/cost_and_preservation.json)，现金发票/GPU分摊未知。所有格式恢复、80见证、8母离线和接口修复新增0调用。源原子获取和有限执行已有真实产出，C独立学习收益未成立，U真实φ/G字典仍空。两项均未验收，Goal继续active；不启动完整训练、DEV/TEST或论文，不以诊断报告结项。[原始文件/源码校验清单](real_scoped_atoms/artifact_copy_manifest.json)。
+
 ## 最新：字段化小试完成，关联组合缺口已定位
 
 在已固定获取TRAIN4607/e82b上，C得到5/8原生正确、8/8可执行，独立Free得到3/8正确、6/8可执行；0次fallback物理调用。双方都完成真实教师更新，不是手构原型。C有20类读取、4条整模块G，Free14类读取、22个有标签原文演示及完整普通程序。它们仍会错误绑定销毁触发和材料，且部分native正确通过旧根获得，因此不能认定C额外能力，更不能据此认定两项贡献成立。原计划12母没有沿相同失败方式展开。[逐母实际结果](real_field_binding/field_typed/unbound_field_checkpoint_results.json)、[C真实提议](real_field_binding/field_original/ConstraintAcquire/teacher.json)、[独立Free真实提议](real_field_binding/field_typed/FreeUpdate/teacher.json)。

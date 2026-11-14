@@ -1,0 +1,81 @@
+{
+  "id": "legal_skill_evolution_scoped_atom_frozen_reuse_20261114:ConstraintAcquire:ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583:concept:abf86bfa6923fffa9199725797c5aea0ba29229c3b1bc51cc2d4eea8ae349fd9",
+  "source": "ContractNLI:78adf3b331962862d6b5becfd6a3eaec7314b1005fc21198f53282c69411f583",
+  "purpose": "skill_replay",
+  "request_hash": "653c2883a42d0320d799cad2b8149eee4dc4c6c9f7872b045aa1d6a0800cb0b7",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"窗口明确覆盖代理人 agents。\", \"name\": \"stated\"}, {\"meaning\": \"完整供应窗口没有明确覆盖 agents。\", \"name\": \"not_stated_in_window\"}], \"examples\": [], \"name\": \"recipient_agents_v2\", \"question\": \"判断供应披露窗口是否明确覆盖 agents，不得由 representatives 或其他专业人员自动推断。原始 TRAIN（逐字）：“The Receiving Party shall take all practical steps to keep the Disclosing Party’s Confidential Information confidential and shall restrict access to the Confidential Information to those agents and professional advisers to whom disclosure is necessary in pursuit of the Approved Purpose.”\"}], \"current_queries\": [{\"id\": \"disclosure_recipient_agents_v2__17_19\", \"operation\": \"recipient_agents_v2\", \"unit_ids\": [17, 18, 19], \"current_units\": [{\"id\": 17, \"text\": \"5. The Company agrees that for Confidential Information it shall use the same degree of care and means it utilizes to protect its own information of a similar nature, but in any event not less than reasonable care and means, to prevent unauthorized use or disclosure of such Confidential Information to third parties.\"}, {\"id\": 18, \"text\": \"The Confidential Information may be disclosed only to employees or contractors of the Recipient with a “need to know” who are subject to written confidentiality agreements sufficient to carry out the intent of this Agreement.\"}, {\"id\": 19, \"text\": \"6. This Agreement shall be effective on the date of its full execution by the Parties.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disclosure_recipient_agents_v2__17_19": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "stated",
+                        "not_stated_in_window",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          17,
+                          18,
+                          19
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disclosure_recipient_agents_v2__17_19"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "full_original_request_retained_locally": true
+}

@@ -1,0 +1,91 @@
+{
+  "id": "legal_skill_evolution_scoped_atom_frozen_reuse_20261114:FreeUpdate:ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450:concept:f0506e27bfbc2f0b71a34a5b676fe47e0833eb7fb671d37187ea0321e4274586",
+  "source": "ContractNLI:354623271a5433b9d6fe42ec70538acd25e9f7e37aee568c81e2e7d4912f9450",
+  "purpose": "skill_replay",
+  "request_hash": "7a59962e2cae61b495205e57d5ea0b6b69c4ec21949afe64591884c01627eaa0",
+  "messages": [
+    {
+      "content": "Execute the acquired semantic reading operations on the CURRENT\nsource windows. All operation meanings, alternatives and examples are learned\nassets, not current-source facts. Classify the operation's actual question;\ndo not answer a downstream task or copy an old example's choice. Preserve who\nacts, the legal modality, trigger, scope and qualifications. A heading, mention\nor hypothetical event is not automatically an operative duty or permission.\nReturn exactly one answer for every supplied query ID. Select a declared choice\nor \"unknown\". Missing information is unknown, never an implicit negative.\nReturn {\"answers\": {query_id: {\"choice\": choice, \"evidence_unit_ids\": [unit_id]}}}.\nSelect the IDs of the current supplied units that support your classification.\nThe host retrieves those units exactly. Do not copy, rewrite or repair quotes.\nSelect all units needed to resolve actors, conditions and cross-references.\nEvery definite classification needs supporting units. Only an explicitly\ndeclared alternative meaning absence after inspecting the complete supplied\nsource may have no supporting unit. Unknown may have no evidence. Demonstration\nquotes belong to their original sources, never the current source. No extra IDs\nor fields. Selecting a unit does not make its interpretation automatically true.",
+      "role": "system"
+    },
+    {
+      "content": "{\"operations\": [{\"choices\": [{\"meaning\": \"窗口没有返还动作。\", \"name\": \"action_not_present\"}, {\"meaning\": \"返还仅明示覆盖受保护信息本身。\", \"name\": \"confidential_information_only\"}, {\"meaning\": \"返还明示覆盖受保护信息及其副本。\", \"name\": \"confidential_information_and_copies\"}, {\"meaning\": \"返还明示覆盖信息、副本及笔记、分析、摘要或其他衍生材料。\", \"name\": \"information_copies_and_derivatives\"}, {\"meaning\": \"返还仅针对副本或复制件。\", \"name\": \"copies_or_reproductions_only\"}, {\"meaning\": \"返还覆盖来源明示的全部相关材料，具体边界由逐字证据限定。\", \"name\": \"all_source_stated_materials\"}, {\"meaning\": \"返还有其他明确材料范围，须由逐字证据保留。\", \"name\": \"other_explicit_material_scope\"}], \"examples\": [{\"choice\": \"all_source_stated_materials\", \"quote\": \"If requested, either Party shall be bound to return any and all materials to the Requesting Party within ____ days.\", \"source\": \"ContractNLI:8fb38aee9252512c6e77c4fa76440766310d1a4090d0149bff12ebf69ec972e7\"}], \"name\": \"return_material_scope_v1\", \"question\": \"只判断返还动作明示覆盖的材料范围；不得把销毁动作的材料复制给返还。原始 TRAIN（逐字）：“If requested, either Party shall be bound to return any and all materials to the Requesting Party within ____ days.”\"}], \"current_queries\": [{\"id\": \"disposal_return_material_scope_v1__27_35\", \"operation\": \"return_material_scope_v1\", \"unit_ids\": [27, 28, 29, 30, 31, 33, 34, 35], \"current_units\": [{\"id\": 27, \"text\": \" Volunteer agrees to maintain the confidentiality of all Confidential Information and not misuse, misappropriate, or disclose in writing, orally or by electronic means, any Confidential Information, directly or indirectly, to any other person or use them in any way, either during the term of this Agreement or at any other time thereafter, except as is required in the course of service to the CCPDT.\"}, {\"id\": 28, \"text\": \" Volunteer acknowledges and agrees that all Confidential Information and similar items whether maintained in hard copy, electronically or on-line relating to CCPDT’s business shall remain exclusively the property of the Certification Council for Professional Dog Trainers and shall only be used by Volunteer for the purpose(s) permitted by the Certification Council for Professional Dog Trainers.\"}, {\"id\": 29, \"text\": \" Volunteer further agrees that upon termination of service with CCPDT, Volunteer shall return within ten (10) business days all documents, files, electronic or otherwise, and property comprising Confidential Information of CCPDT and all copies, electronic or otherwise, thereof relating in any way to the Certification Council for Professional Dog Trainers’ business, or in any way obtained during the course of service.\"}, {\"id\": 30, \"text\": \"Volunteer further agrees that no copies, electronic or otherwise, notes or abstracts of the foregoing shall be retained and that all information will be returned not destroyed.\"}, {\"id\": 31, \"text\": \"Volunteer Conflict of Interest  Volunteers shall avoid personal and professional conflicts of interest in all matters pertaining to the Certification program.\"}, {\"id\": 33, \"text\": \"Conflicting interests may include but are not limited to such areas as financial, personal relationships, and/or professional relationships.\"}, {\"id\": 34, \"text\": \" If a situation arises where it is unclear as to whether a conflict of interest exists, Volunteer shall discuss the issue with the President of the Certification Council for Professional Dog Trainers (or the Vice President if the Volunteer is the President).\"}, {\"id\": 35, \"text\": \" Depending on the type of volunteer work required from the individual, a volunteer may be asked to sign the CCPDT Conflict of Interest Policy prior to commencing service with the CCPDT.\"}]}]}",
+      "role": "user"
+    }
+  ],
+  "scientific_generation": {
+    "chat_template_kwargs": {
+      "enable_thinking": false
+    },
+    "max_tokens": 8192,
+    "response_format": {
+      "json_schema": {
+        "name": "rr_joint_proposal",
+        "schema": {
+          "additionalProperties": false,
+          "properties": {
+            "answers": {
+              "additionalProperties": false,
+              "properties": {
+                "disposal_return_material_scope_v1__27_35": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "choice": {
+                      "enum": [
+                        "action_not_present",
+                        "confidential_information_only",
+                        "confidential_information_and_copies",
+                        "information_copies_and_derivatives",
+                        "copies_or_reproductions_only",
+                        "all_source_stated_materials",
+                        "other_explicit_material_scope",
+                        "unknown"
+                      ],
+                      "type": "string"
+                    },
+                    "evidence_unit_ids": {
+                      "items": {
+                        "enum": [
+                          27,
+                          28,
+                          29,
+                          30,
+                          31,
+                          33,
+                          34,
+                          35
+                        ],
+                        "type": "integer"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "choice",
+                    "evidence_unit_ids"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "disposal_return_material_scope_v1__27_35"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "answers"
+          ],
+          "type": "object"
+        },
+        "strict": true
+      },
+      "type": "json_schema"
+    },
+    "seed": 45,
+    "temperature": 0.6,
+    "top_k": 20,
+    "top_p": 0.95
+  },
+  "full_original_request_retained_locally": true
+}
