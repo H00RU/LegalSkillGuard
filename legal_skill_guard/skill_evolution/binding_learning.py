@@ -107,7 +107,7 @@ def features(claim, assignment):
     return out
 
 
-def fit_dnf(examples, *, max_literals=3):
+def fit_dnf(examples, *, max_literals=3, positive_literals_only=False):
     """Exact finite set cover of positive assignments, excluding all negatives.
 
     Literal count then clause count determine description length. If the
@@ -123,7 +123,7 @@ def fit_dnf(examples, *, max_literals=3):
     clauses={}
     for n in range(min(max_literals,len(keys))+1):
         for chosen in combinations(keys,n):
-            for values in product((False,True),repeat=n):
+            for values in product((True,) if positive_literals_only else (False,True),repeat=n):
                 clause=list(zip(chosen,values))
                 match=lambda row:all(row[k]==v for k,v in clause)
                 if any(match(row) for row in negatives):continue
