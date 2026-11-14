@@ -26,20 +26,34 @@
 - 证据传递存在工程缺陷：root_support(A,U)让整份联合证据被输出为各个单U。公共确定性适配把仅用于证据的U坐标换成实际term A、support_from_terms；所有规则body/cost、源代码、法律模板、选择保持。8母法律项集合、答案/正确与覆盖保持25/32，6fce处置证据恢复[15,16,18]；不合并不同见证的同项、不补入未取得条款。20坐标修复、10项相关回归通过。[实际修复重放](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_source_gap/unbound_provenance_replay/proof.json)。这是工程修复，不计U。
 - 真正的源遗漏仍在：de42新项只引39，缺40/41的三个月非成约与prompt请求分支证据/期限；6fce缺20/21的Agreement结束/书面请求返还，10/12的Representatives定义与书面保密资格尚未连接，61义务主体/确保affiliate履行的关系被扁平化。两臂都保留了上游15的错误“请求下返还或销毁、无例外”旧项。原生4/4不能认证这些字段已正确，不把全字段完美新增为安装门槛。
 
-## 当前运行及下一项实质工作
+## 最新两母定点修复已终结，候选不直接部署
 
-`experiments/legal_skill_evolution_source_scope_repair.py`，run=`legal_skill_evolution_source_scope_repair_20261114`。只用上述8母中的de42、6fce两份原TRAIN进行有限源语义修复；不增加来源、不回放受保护的已评分复用，不改消费者/模型配置。两臂获得完全相同的两份全文、合法TRAIN监督、当前双方库与实际部分源审查，Free保留完整普通程序能力。C应真实连接局部成员/资格、父子动作和引用，不丢已有有用信息来制造G需求；错误旧项只能由实际法源依据修订，不能靠保留正确新项掩盖冲突旧项。
+`experiments/legal_skill_evolution_source_scope_repair.py`，run=`legal_skill_evolution_source_scope_repair_20261114`，串行两个真实教师已完成，无executor请求。仅用上述8母的de42/6fce修复，其他6母为预先固定的原TRAIN保留检查，历史暴露披露，不称新盲测。两臂全文、TRAIN监督、当前双方库与部分源审查相同，消费者冻结。
 
-离线schema、完整程序传输回环及source hash均通过；请求约35万字符，小于上次约67万。串行教师正在运行，执行器计划0次，不重复启动。调用前账本10581＝10343E/238T；实时10582含C教师reserved1，主客户端PID3022060。恢复必须查真实PID、账本及call文件，旧PID只是身份线索。冻结manifest里的代码/协议/数据保持，观察只写非绑定文件。修复完成后先核对实际源语义、共同信息控制和使用路径，再决定后续，不沿原错误方式批量请求。
+|范围|C修复前→候选|Free修复前→候选|
+|---|---:|---:|
+|两母修复，原生正确/8|8→8|7→7|
+|其余6母保持，正确/24|17→13|14→13|
+|总计正确/32|25→21|21→20|
+
+C真实取得了独立action/trigger/exception/责任/披露资格原子和共享scope/actionID连接，20规则/18建议；新Norm都由G产生。6fce错误上游“请求下任选返还销毁”已删除，20/21协议终止返还取得，10/12书面资格在员工/顾问/代理三类真实Norm上连接；61代履行与引用明确保留、未展开细节仍unresolved。de42两个触发分支有39/40及39/41联合支持，三个月以原文触发限定保留，不称已完成数值计算。6fce删除资格连接4→2、删除处置连接4→3，de42仍靠旧根保持4。局部检查不认证全源所有字段。[实际干预和部分源审查](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_scope_repair/unbound_C_actual_mechanism_and_partial_review.json)。
+
+整模块替换同时丢失C原e7b/a5b/8fb能力，不能把局部修复当整体升级，也不能用旧流程fallback掩盖。Free原提议引用任务中已提供的5个C原子却漏自身schema声明；确定性恢复只逐字导入既有类型/含义，源/组合/H不变，原失败/编译保留。[全部保留结果](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_scope_repair/source_results.json)、[完整响应与源码](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_scope_repair/artifact_copy_manifest.json)。
+
+当前无模型客户端/在途，真实旧PID3022060已终结，不重启；累计10583＝10343E/240T。manifest source/data、原10581条账本hash均保持。保留两版库及候选，原八母25/21结果不覆盖。下一项实质工作见下节U，停止用整体重写继续凑修订样本，不启动完整训练/DEV/TEST。
 
 ## U为何没有实证及当前检验任务
 
 `joint_updates.py`和`joint_library_updates.py`已实现共享typed角色、源/前后AST绑定、跨组件编辑、歧义保持与有限守卫；**真实φ/G更新字典仍为空，没有后续正确实例化记录**。已有全局接口、arity/lambda、标点及证据传递修复不能冒充U。旧Airline/de42同例收益已被完整修复缓存吸收，保留关闭，不再重跑。
 
-目前缺的是实际语义修订里的共同源—代码参数，以及相对直接完整修复复用的必要性，不能只称“尚待更多训练”。这次两母修复保存完整before/after和实际源见证，接着检验现有U表示能否抽出真实跨组件编辑，并与正确修复缓存/错误—修复检索/同信息普通更新比较。若当前generic程序修复没有源参数化需求或被强控制吸收，应据此调整U具体机制；不把这种结果包装成U成功，不再只累积C接口检查或继续空字典完整训练。
+两母修复已经留下真实before/after，但每臂只有**一份整体库更新应用于两母**，不是两个不同参数化局部编辑。源—代码角色对应尚未取得，不能从整体泛型程序直接宣称归纳出了U。这是学习事件/编辑粒度未打通，不只是训练不够。[实际事件诊断](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_scope_repair/unbound_U_actual_event_diagnosis.json)。
+
+**下一项实际工作：**在现有真实修订及源见证中分离局部语义编辑，核对共同参数与代码位置，接现有typed AST核心得到真实U；同信息完整正确修复缓存与普通自由更新继续作为强对照。如果实际局部编辑没有源参数化必要性或效果被其吸收，依证据处理U具体机制，不把一般代码保留、整模块选择或旧流程回退冒称贡献。不得为凑U制造错误程序、删已有字段或额外造来源。当前未验证U额外作用，Goal active；不以报告、部分满分或软件测试完成。
+
+用户要求的[两项方法详细报告：问题、算法、实现、真实证据与未完成部分](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/TWO_METHODS_EXPLAINED_20261114.md)已写入，当前定位和算法说明以该报告与CURRENT_GOAL为准，不增加方向或新验收门槛。
 
 ## 费用与保存
 
-已终结源获取阶段10579→10581：0E/2T，原10579行逐条hash保持；356915输入、43894输出（含22023 reasoning）token，826.159教师服务秒。编译适配、8母实际代码执行、共享消费者、下界证明和证据修复新增0调用。现金发票/GPU分摊未知。[逐请求与保存](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_source_gap/cost_and_preservation.json)。正在进行的scope repair调用独立追加，不混入上述终结费用。
+已终结源获取阶段10579→10581：0E/2T，原10579行逐条hash保持；356915输入、43894输出（含22023 reasoning）token，826.159教师服务秒。编译适配、8母实际代码执行、共享消费者、下界证明和证据修复新增0调用。现金发票/GPU分摊未知。[逐请求与保存](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_source_gap/cost_and_preservation.json)。两母scope repair另新增0E/2T，201230输入、34826输出（含17724 reasoning），675.810服务秒，原10581行保持。两阶段共0E/4T；累计10583、在途0。[两母费用与保存](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/real_scope_repair/cost_and_preservation.json)。
 
 原完整128来源8批与七系统DEV/TEST、旧A/B、M1/M2、Lift/CoRev、MAUD四/二母、12/4、两母源原子及冻结复用结果均保存，旧测试暴露不指导当前修补。2母冻结复用虽然双方8/8，删新增G仍8/8，不能认定迁移。旧24/48等分数及失败不重新命名为当前方法成绩。[完整历史结果与当前报告](../reports/legal_skill_evolution_run_20261111/method_investment_20261113/update_train_result.md)。后续只更新本文件的当前状态，不恢复历史执行队列。

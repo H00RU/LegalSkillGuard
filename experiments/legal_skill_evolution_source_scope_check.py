@@ -4,6 +4,7 @@ No model client is available here. The other original six mothers are fixed
 regressions with known historical exposure, not a fresh held-out experiment.
 """
 import ast
+import argparse
 from copy import deepcopy
 import json
 import traceback
@@ -28,7 +29,7 @@ def changed_functions(before, after):
     return sorted(n for n in set(old) | set(new) if old.get(n) != new.get(n))
 
 
-def run():
+def run(*, free_schema_imports=False):
     protocol, _ = repair.setup()
     task = e.read(repair.OUT / 'teacher_task.json')
     old_protocol, _, public = e.setup()
@@ -40,7 +41,12 @@ def run():
             continue
         old = task['actual_current_libraries_both_available'][arm]
         raw = e.read(path)['value']
-        compiled = repair.OUT / arm / 'compiled.json'
+        target = repair.OUT / arm
+        compiled = target / 'compiled.json'
+        if free_schema_imports and arm == 'FreeUpdate':
+            target = target / 'unbound_schema_imports'
+            compiled = target / 'library.json'
+            assert compiled.exists(), 'Create and verify explicit schema import evidence first'
         if compiled.exists():
             library = e.read(compiled)
         else:
@@ -59,7 +65,7 @@ def run():
                 print(json.dumps({'arm': arm, 'compile_failed': str(error)}), flush=True)
                 continue
         for key in old_protocol['acquisition_sources']:
-            dst = repair.OUT / arm / 'execution' / e.name_for(key)
+            dst = target / 'execution' / e.name_for(key)
             if dst.exists():
                 continue
             pub, units, _ = e.previous.prior.prior.source_material(e.previous.PARENT, public, key)
@@ -74,7 +80,7 @@ def run():
             direct = deepcopy(library)
             if arm == 'ConstraintAcquire':
                 direct['selected_rule_ids'] = library['suggested_rule_ids']
-            actual = e.previous.prior.prior.evaluate_source(direct, observation, pub, grading[key])
+            actual = e.previous.prior.prior.evaluate_source(direct, observation, public[key], grading[key])
             immutable_json(dst, {'source': key, 'observation': observation, 'actual': actual,
                 'repair_acquisition': key in protocol['acquisition_sources'],
                 'previously_exposed_original_TRAIN_not_new_blind_validation': True,
@@ -87,7 +93,7 @@ def run():
         events = []
         for key in protocol['acquisition_sources']:
             before = e.read(e.OUT / 'unbound_pure_preview' / arm / e.name_for(key))
-            after = e.read(repair.OUT / arm / 'execution' / e.name_for(key))
+            after = e.read(target / 'execution' / e.name_for(key))
             events.append({'source': key, 'actual_source_facts_before_update': before['observation']['context']['facts'],
                 'before_visible_inputs_sha256': before['observation']['visible_inputs_sha256'],
                 'after_visible_inputs_sha256': after['observation']['visible_inputs_sha256'],
@@ -96,9 +102,11 @@ def run():
                 'source_functions_changed': changed_functions(old['source_program'], library['source_program']),
                 'source_parameter_correspondences_acquired': False,
                 'not_an_automatically_valid_U_training_example': True})
-        immutable_json(repair.OUT / arm / 'actual_source_program_repair_events.json',
+        immutable_json(target / 'actual_source_program_repair_events.json',
             {'events': events, 'U_learned': False, 'new_model_requests': 0})
 
 
 if __name__ == '__main__':
-    run()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--free-schema-imports', action='store_true')
+    run(free_schema_imports=parser.parse_args().free_schema_imports)
