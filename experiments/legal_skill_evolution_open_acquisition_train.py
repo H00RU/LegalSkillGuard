@@ -198,8 +198,12 @@ def evaluate_source(library,observation,source,grading):
     if 'language' in library:result=execute(library,observation);output=result['source_output']
     else:
         v=observation['visible_inputs']
-        output=execute_json(library['composition_program'],{'source_text':v['source_text'],'source_spans':v['units'],
-            'source_output':v['source_output'],'semantic_answers':v['answers']},{},allow_helpers=True)
+        inputs = {'source_text':v['source_text'],'source_spans':v['units'],
+            'source_output':v['source_output'],'semantic_answers':v['answers']}
+        if 'structural_projection_receipt' in observation:
+            inputs['input_projection_counts'] = {row['projection']['name']: row['count']
+                for row in observation['structural_projection_receipt']['projections']}
+        output=execute_json(library['composition_program'],inputs,{},allow_helpers=True)
         jsonschema.validate(output,OUTPUT)
         for r in output['statements']:term_sort(r['term'],constructors(library['spec']))
         result={'source_output':output}

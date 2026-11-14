@@ -18,6 +18,7 @@ from .scoped_grammar import constructors
 from .source_effect_update import function_update
 from .source_observations import encode_source_observations, signatures
 from .joint_library_updates import library_candidates
+from .source_projection_counts import add_counts, validate_projections, SIGNATURE as PROJECTION_SIGNATURE
 
 
 def compile_update(previous, proposal, training_texts, *, semantic_update=None):
@@ -25,6 +26,10 @@ def compile_update(previous, proposal, training_texts, *, semantic_update=None):
     validate_operations(proposal['operations'],training_texts)
     language=deepcopy(proposal['language']);validate_language(language)
     base=signatures()
+    projections = previous.get('input_projection_definitions', [])
+    if projections:
+        validate_projections(projections, constructors(previous['spec']))
+        base['input_projection_count'] = deepcopy(PROJECTION_SIGNATURE)
     for name,signature in base.items():
         if language['signatures'].get(name)!=signature:
             raise ValueError('Learned compositions must preserve their complete source interface')
@@ -59,6 +64,8 @@ def compile_update(previous, proposal, training_texts, *, semantic_update=None):
             'semantic_update_sha256':digest(semantic_update) if semantic_update is not None else None,
             'new_model_requests_during_compilation':0,
             'current_source_or_generalization_certified':False}}
+    if projections:
+        library['input_projection_definitions'] = deepcopy(projections)
     return library
 
 
@@ -195,6 +202,10 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
         answers=[answers[q['id']] for q in queries],scope=scope,
         query_scopes={q['id']:current_scope(q) for q in queries},
         complete_source_absence_choices=library.get('complete_source_absence_choices'))
+    projections = library.get('input_projection_definitions', [])
+    if projections:
+        validate_projections(projections, constructors(library['spec']))
+        encoded = add_counts(encoded, projections)
     encoded['execution']={'events':events,'reused_query_ids':reused,
         'reuse_history_inputs_sha256':[digest(o['visible_inputs']) for o in histories],
         'planned_queries':len(queries),'new_logical_queries':new_logical,'planning_rounds':rounds,

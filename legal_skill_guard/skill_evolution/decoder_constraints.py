@@ -2,15 +2,18 @@
 
 The installed xgrammar converter prioritizes allOf over sibling properties.
 For an allOf containing only if/then/else clauses, it consequently accepts an
-unconstrained item and loses the enclosing object's declared fields. Conditional
-clauses remain mandatory in the ORIGINAL prompt and host schema; removing them
-only from the wire grammar restores enforcement of the supported siblings.
+unconstrained item and loses the enclosing object's declared fields. Supported
+complete/unread conditions are compiled into exact disjunctions. Other clauses
+remain mandatory in the ORIGINAL prompt and host schema; deferring them in the
+wire grammar restores enforcement of the supported siblings.
 """
 from .runtime import decoder_schema
+from .observation_status_schema import compile_status_conditions
 
 
 def decoding_schema(schema):
-    wire, host_checks = decoder_schema(schema)
+    compiled, _ = compile_status_conditions(schema)
+    wire, host_checks = decoder_schema(compiled)
 
     def visit(node, path):
         if not isinstance(node, dict):

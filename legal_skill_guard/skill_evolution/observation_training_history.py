@@ -37,7 +37,8 @@ def completed_history(folder, before_batch, arms, *, prior_folders=()):
     for batch in range(1, before_batch):
         choices = [Path(p) / f'B{batch}' for p in (folder, *prior_folders)]
         root = next((p for p in choices if (p / 'checkpoint.json').exists()
-            and all((p / arm / 'teacher.json').exists() for arm in arms)), choices[0])
+            and all((p / arm / 'teacher.json').exists() or (p / arm / 'teacher_failure.json').exists()
+                for arm in arms)), choices[0])
         checkpoint = root / 'checkpoint.json'
         if not checkpoint.exists():
             raise ValueError('Do not learn from an unfinished preceding batch')
@@ -46,7 +47,10 @@ def completed_history(folder, before_batch, arms, *, prior_folders=()):
         history.append({'batch': batch, 'actual_initial_rows': teaching_rows(read(root / 'initial_scored_results.json')),
             'original_public_TRAIN_cases': read(root / 'teacher_task.json')['acquisition_cases'],
             'actual_candidate_execution_and_source_reviews': scores,
-            'actual_teacher_proposals': {arm: read(root / arm / 'teacher.json')['value'] for arm in arms},
+            'actual_teacher_proposals': {arm: read(root / arm / 'teacher.json')['value']
+                if (root / arm / 'teacher.json').exists() else None for arm in arms},
+            'actual_teacher_failures': {arm: read(root / arm / 'teacher_failure.json')
+                for arm in arms if (root / arm / 'teacher_failure.json').exists()},
             'actual_selected_checkpoint': read(checkpoint),
             'only_repeated_deterministic_graph_metadata_projected_not_source_or_error': True,
             'failed_revisions_retained_even_when_old_library_selected': True})

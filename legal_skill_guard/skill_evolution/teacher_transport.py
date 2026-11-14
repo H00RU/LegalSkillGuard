@@ -25,15 +25,24 @@ def serialized(value):
 
 def pack(value):
     counts = Counter()
+    smallest_reference = len(serialized({REFERENCE: 'v0'}))
     def count(node):
         body = serialized(node)
-        if len(body) >= 96:counts[body] += 1
+        if len(body) > smallest_reference:counts[body] += 1
         if isinstance(node, dict):
             if REFERENCE in node:raise ValueError('Original input contains the reserved transport key')
             for child in node.values():count(child)
         elif isinstance(node, list):
             for child in node:count(child)
     count(value)
+    # Actual dependency edges are often 86--95 characters: the old96-character
+    # cutoff duplicated them throughout complete TRAIN histories. Share a value
+    # when its repeated literal cost exceeds a conservative reference+pool cost.
+    largest_identity = 'v' + str(len(counts))
+    reference_cost = len(serialized({REFERENCE: largest_identity}))
+    entry_cost = len(serialized(largest_identity)) + 2
+    eligible = {body for body, n in counts.items() if n > 1
+        and n * len(body) > len(body) + entry_cost + n * reference_cost}
     pool, identities = {}, {}
     def children(node):
         if isinstance(node, dict):return {key: encode(child) for key, child in node.items()}
@@ -41,12 +50,36 @@ def pack(value):
         return node
     def encode(node):
         body = serialized(node)
-        if counts[body] < 2:return children(node)
+        if body not in eligible:return children(node)
         if body not in identities:
             identity = 'v' + str(len(identities));identities[body] = identity
             pool[identity] = children(node)
         return {REFERENCE: identities[body]}
     task = encode(value)
+    # Collapsing a repeated parent can leave a child referenced only once.
+    # Inline those entries: they no longer save storage, and their contents
+    # remain exact. The reference syntax and teacher instructions do not change.
+    references = Counter()
+    def references_in(node):
+        if isinstance(node, dict):
+            if set(node) == {REFERENCE}:
+                references[node[REFERENCE]] += 1
+            else:
+                for child in node.values():references_in(child)
+        elif isinstance(node, list):
+            for child in node:references_in(child)
+    references_in(task)
+    for node in pool.values():references_in(node)
+    inline = {key for key, n in references.items() if n == 1}
+    def compact(node):
+        if isinstance(node, dict):
+            if set(node) == {REFERENCE} and node[REFERENCE] in inline:
+                return compact(pool[node[REFERENCE]])
+            return {key: compact(child) for key, child in node.items()}
+        if isinstance(node, list):return [compact(child) for child in node]
+        return node
+    task = compact(task)
+    pool = {key: compact(node) for key, node in pool.items() if key not in inline}
     return {'encoding': 'lossless_shared_JSON_values_v2', 'shared_values': pool, 'task': task}
 
 
@@ -66,10 +99,16 @@ def unpack(envelope):
     return decode(envelope['task'])
 
 
-def pack_programs(value):
+def pack_programs(value, *, extra_program_fields=(), program_line_segments=False):
     """Share real unchanged helpers without normalizing any program bytes."""
     fields = {'source_program', 'planner_program', 'composition_program', 'decision_program', 'binding_program'}
+    fields.update(extra_program_fields)
     def split(code):
+        if program_line_segments:
+            # Revision histories contain many nearly identical functions. Exact
+            # lines expose their unchanged interiors to the existing dictionary;
+            # this also preserves failed Python programs without parsing them.
+            return {PROGRAM_SEGMENTS: code.splitlines(keepends=True)}
         try:
             tree = ast.parse(code)
         except SyntaxError:

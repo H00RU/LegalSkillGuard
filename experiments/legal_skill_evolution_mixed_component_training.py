@@ -18,7 +18,7 @@ from experiments import legal_skill_evolution_observation_component_execute as a
 from experiments import legal_skill_evolution_mixed_shared_routes as shared
 from experiments import legal_skill_evolution_generic_view_train as generic
 from experiments import legal_skill_evolution_source_library_train as source_train
-from legal_skill_guard.inference.codex_cli_client import strict_output_schema_issues
+from legal_skill_guard.inference.codex_cli_client import strict_output_schema_issues, CodexInvocationError
 from legal_skill_guard.rr.checkpoint import immutable_json
 from legal_skill_guard.skill_evolution.case_observation_contract import apply_adapter
 from legal_skill_guard.skill_evolution.case_read_comparison import compare_reads
@@ -37,12 +37,14 @@ from legal_skill_guard.skill_evolution.statute_pure_calculation import certifica
 from legal_skill_guard.skill_evolution.case_observation_contract import execute_alternatives
 from legal_skill_guard.skill_evolution.runtime import render_messages
 from legal_skill_guard.skill_evolution.teacher_transport import pack_programs, INSTRUCTION, PROGRAM_INSTRUCTION
+from legal_skill_guard.skill_evolution.observation_teacher_transport import pack_task, unpack_task, INSTRUCTION as SCHEMA_TRANSPORT_INSTRUCTION
 
 
 ROOT = actor.ROOT
-RUN = 'legal_skill_evolution_mixed_component_training_history_20261115'
+RUN = 'legal_skill_evolution_mixed_component_training_line_transport_20261115'
 OUT = ROOT / 'artifacts' / RUN
 PRIOR_OUT = ROOT / 'artifacts/legal_skill_evolution_mixed_component_training_source_review_20261115'
+PREVIOUS_OUT = ROOT / 'artifacts/legal_skill_evolution_mixed_component_training_status_schema_20261115'
 read = actor.read
 ARMS = actor.acquisition.ARMS
 
@@ -53,14 +55,15 @@ def setup():
         protocol = read(path)
     else:
         prior = read(actor.acquisition.previous.OUT / 'protocol.json')
-        files = [Path(__file__), Path(actor.__file__)] + [ROOT / 'legal_skill_guard/skill_evolution' / name
+        files = [Path(__file__), Path(actor.__file__), ROOT / 'experiments/legal_skill_evolution_component_transport_resume.py'] + [ROOT / 'legal_skill_guard/skill_evolution' / name
             for name in ('observation_component_library.py', 'component_binding_program.py',
                 'statute_input_dependencies.py', 'observation_source_review.py', 'decoder_constraints.py',
                 'case_observation_contract.py', 'case_read_comparison.py', 'conversion_residual.py',
                 'conversion_residual_worker.py', 'sara_statute_kernel.py', 'clients.py', 'ledger.py',
                 'span_compiler.py', 'span_compiler_worker.py', 'runtime.py', 'teacher_transport.py')]
         files += [ROOT / 'legal_skill_guard/skill_evolution' / name for name in (
-            'observation_training_history.py', 'paired_observation_recombination.py', 'statute_pure_calculation.py')]
+            'observation_training_history.py', 'paired_observation_recombination.py', 'statute_pure_calculation.py',
+            'observation_status_schema.py', 'observation_teacher_transport.py')]
         inputs = [actor.acquisition.OUT / 'protocol.json', actor.acquisition.OUT / 'teacher_task.json']
         inputs += [actor.acquisition.OUT / arm / 'teacher.json' for arm in ARMS]
         inputs += [actor.acquisition.previous.parent.OUT / name for name in (
@@ -70,6 +73,11 @@ def setup():
             ROOT / 'artifacts/legal_skill_evolution_source_count_bias_repair_20261115/result.json',
             shared.OUT / 'result.json', actor.OUT / 'acquisition/scored_results.json']
         inputs += [p for batch in (1, 2) for p in (PRIOR_OUT / f'B{batch}').rglob('*.json')]
+        inputs += [PREVIOUS_OUT / 'protocol.json']
+        inputs += [PREVIOUS_OUT / f'B{batch}/checkpoint.json' for batch in range(1, 5)]
+        inputs += [OUT / 'resume_receipt.json', OUT / 'B5/teacher_task.json',
+            OUT / 'B5/initial_scored_results.json']
+        inputs += list((OUT / 'component_reads').glob('*.json'))
         protocol = {'run_id': RUN, 'same_goal': True, 'sources': prior['sources'], 'batches': prior['batches'],
             'executor_profile': prior['executor_profile'], 'teacher_profile': prior['teacher_profile'],
             'thinking': False, 'shared_native_event_encoding': FACTUAL_ENCODING,
@@ -83,8 +91,13 @@ def setup():
             'fixed_generic_predictions_preserved_no_unchanged_resampling': True,
             'selection': 'Shared partial source counterevidence failures, then native TRAIN correctness, then unresolved, then actual logical reads.',
             'candidate_retention_is_not_semantic_certification': True,
-            'safe_boundary_continuation_of': str(PRIOR_OUT.relative_to(ROOT)),
-            'first_two_checkpoints_and_all_calls_preserved': True,
+            'safe_boundary_continuation_of': str(PREVIOUS_OUT.relative_to(ROOT)),
+            'first_four_checkpoints_and_all_calls_preserved': True,
+            'fifth_batch_initial_and_matched_reads_preserved': True,
+            'ordinary_teacher_failure_records_unavailable_update_not_goal_stop': True,
+            'teacher_serialization_roundtrip_exact_no_data_or_code_omitted': True,
+            'exact_program_lines_and_single_reference_inlining': True,
+            'required_status_guards_compiled_to_equivalent_disjunctions': True,
             'completed_rejected_updates_enter_next_teacher_context': True,
             'actual_paired_version_coordinate_neighbors_not_just_new_component_IDs': True,
             'coordinate_operator_alone_not_novelty_or_GEPA_reproduction': True,
@@ -228,7 +241,8 @@ def acquire(protocol, ledger, batch, libraries, initial, public, kernels, gradin
 
     def one(arm):
         target = OUT / f'B{batch}' / arm / 'teacher.json'
-        if target.exists():
+        failure = target.with_name('teacher_failure.json')
+        if target.exists() or failure.exists():
             return
         mode = ('Decompose revisions into paired schema/conversion versions. The host can recombine newly acquired components with existing local repairs using actual reads and the same source/native feedback.'
             if arm == ARMS[0] else 'Independently propose the two strongest ordinary teacher updates; the best complete candidate is selected. All same modular code, coverage reasoning and joint repairs are allowed. Do not weaken the control.')
@@ -237,11 +251,20 @@ def acquire(protocol, ledger, batch, libraries, initial, public, kernels, gradin
         payload = {**task, 'seed_for_this_arm': libraries[arm]}
         system = actor.acquisition.SYSTEM.replace('Both arms have the same seed, full author program,',
             'Both arms share the original B8 seed and exposure, full author program,')
-        response = FrozenTeacher(ledger, OUT, protocol['teacher_profile']).propose(
-            RUN + f':B{batch}:' + arm + ':update', source_ids=[s for s in protocol['sources'] if s in kernels],
-            system_prompt=system + '\n' + mode + '\n' + INSTRUCTION + '\n' + PROGRAM_INSTRUCTION,
-            user_prompt=json.dumps(pack_programs(payload), ensure_ascii=False, separators=(',', ':')),
-            output_schema=actor.acquisition.SCHEMA)
+        packed = pack_task(payload)
+        assert unpack_task(packed) == payload
+        try:
+            response = FrozenTeacher(ledger, OUT, protocol['teacher_profile']).propose(
+                RUN + f':B{batch}:' + arm + ':update', source_ids=[s for s in protocol['sources'] if s in kernels],
+                system_prompt=system + '\n' + mode + '\n' + INSTRUCTION + '\n' + PROGRAM_INSTRUCTION + '\n' + SCHEMA_TRANSPORT_INSTRUCTION,
+                user_prompt=json.dumps(packed, ensure_ascii=False, separators=(',', ':')),
+                output_schema=actor.acquisition.SCHEMA)
+        except CodexInvocationError as error:
+            immutable_json(failure, {'batch': batch, 'arm': arm, 'error': str(error),
+                'status': 'no_trustworthy_proposal', 'reserved_and_charged': True,
+                'retained_library_is_not_a_new_update': True, 'no_implicit_retry': True})
+            print(json.dumps({'batch': batch, 'teacher_failed': arm, 'retained_library_available': True}), flush=True)
+            return
         immutable_json(target, response)
         print(json.dumps({'batch': batch, 'teacher_saved': arm}), flush=True)
 
@@ -253,6 +276,8 @@ def acquire(protocol, ledger, batch, libraries, initial, public, kernels, gradin
 
 def candidates(base, response, arm):
     result = {arm + '/retained': deepcopy(base)}
+    if response is None:
+        return result
     for i, proposal in enumerate(response['value']['candidates']):
         try:
             result[arm + '/' + str(i)] = actor.candidate_library(base, proposal)
@@ -267,7 +292,7 @@ def candidates(base, response, arm):
 def run(stop):
     protocol, ledger = setup()
     client = FrozenExecutor(ledger, OUT, protocol['executor_profile'])
-    client.exact_replay_roots = [OUT, PRIOR_OUT, ROOT / 'artifacts/legal_skill_evolution_mixed_component_training_20261115',
+    client.exact_replay_roots = [OUT, PREVIOUS_OUT, PRIOR_OUT, ROOT / 'artifacts/legal_skill_evolution_mixed_component_training_20261115',
         actor.OUT, ROOT / 'artifacts/legal_skill_evolution_mixed_case_actor_givens6_20261114']
     public = {s['key']: s for s in read(actor.acquisition.previous.parent.OUT / 'SARA_corrected_TRAIN_views.json')}
     kernels = {r['source']: actor.acquisition.current_case_interface(r['kernel'])
@@ -299,7 +324,8 @@ def run(stop):
         acquire(protocol, ledger, batch, libraries, initial, public, kernels, grading)
         selected = {}
         for arm in ARMS:
-            bank = candidates(libraries[arm], read(OUT / f'B{batch}' / arm / 'teacher.json'), arm)
+            proposal_path = OUT / f'B{batch}' / arm / 'teacher.json'
+            bank = candidates(libraries[arm], read(proposal_path) if proposal_path.exists() else None, arm)
             choices = []
             for name, library in bank.items():
                 if library.get('proposal_error'):
