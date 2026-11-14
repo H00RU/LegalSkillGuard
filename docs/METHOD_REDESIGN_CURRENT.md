@@ -92,9 +92,11 @@ C真实取得了独立action/trigger/exception/责任/披露资格原子和共�
 
 随后只对8175开发母例做1E公共存在性读取，真实返回当前facts未陈述法令。给三臂同一事实结果、只更新该通道后，ProgramGuided原转换/P实际得到Entailment，另两者仍因onset_only未知而未处理。它是共享输入控制干预，不改写四母表，也不冒充允许各自自由补读的强比较。没有删除unresolved或把未读None直接当[]。
 
-**下一项实际工作**：沿当前事实观察契约方向，实现从不变程序残余选择原子事实观察的学习和调用，而不是继续一次填全套字段及置信标志；把按端口/联合补读作为同资源强简单控制，并补独立消融。先用已明确的开发错误离线定位，必要小试前固定队列，关闭的四母保留，不批量重跑或更换方向。C保持，未证明两个贡献，当前不启完整训练/DEV/TEST。
+**新增运行路径与强控制已完成**：实际未解决返回的动态依赖切片、沿已学绑定程序反向定位事实字段、原子补读及原适配器/P再执行已经实现。8175的学得路径指向decree_facts，Direct在更早的婚姻持续性端口阻断。复用既有付费缺席观察的新路径离线得到Entailment，不称新生成成功。五次真实同母开发控制依次为：全契约旧端口联合未解决、相关契约联合未解决、共享新视图联合未解决、Direct残余婚姻端口未解决、同source-status的新视图联合输出足够事实但缺法令见证而严格拒绝。最后一条载荷单独执行可以得到Entailment，但未接受、不计核心成功；源状态语法可能吸收本例效果，不能把少量失败当定点读取的独立优势。具体schema/host不一致已离线修复：records/none_stated明确要求非空见证，unread保持；原坏响应保留、不补引文。新执行模块独立命名kernel_residual_reader，旧合同来源residual_reader按原字节保留。相关21项回归通过。[实现、全部闭合控制、严格失败与载荷诊断](../reports/legal_skill_evolution_run_20261111/correct_skill_execution_20261114/residual_instantiation/README.md)。
 
-当前客户端均已终结、请求全部结算，累计10614＝10365E/249T、在途0。原10596行保持。新增15E/3T中1E因schema字符串键序不同未命中本可复用的wire缓存，已如实计账并用原wire字节回归修复，未追加模型验证。实际冻结旧源码与当前缓存修复版本分开保留；不要重新启动已终结原run，当前Goal active、未完成。
+**下一项实际工作**：不继续补读8175、不重跑关闭四母。用已有原TRAIN失败与契约定位在共同source-status、源/接口修复开放后，学得观察/映射及程序相关读取各自仍有作用的具体路径，再固定有限真实比较及独立消融。不把确定性动态切片或格式修复当第二贡献成立。C保持，未证明两个贡献，当前不启完整训练/DEV/TEST。
+
+当前研究客户端均已终结，单客户端锁可取得。累计10619＝10370E/249T、在途0；原10614条逐行hash保持。新增5E/0T均为同一已有开发母例的有具体配置差异的闭合控制，0新来源、无重试；第五条模型已完成后host拒绝，不漏计物理费用。原10596截面的15E/3T及可避免缓存调用仍保持，不重新启动已关闭run。当前Goal active、未完成。
 
 ## 费用与保存
 
@@ -107,3 +109,5 @@ C真实取得了独立action/trigger/exception/责任/披露资格原子和共�
 本次正确技能观察契约小试新增7E/4T：共同法源核及源/接口修复2T，独立两臂契约各1T；教师81202输入/37476输出（含23466reasoning）、732.454服务秒，executor30674输入/2998输出、87.408服务秒。原10585行hash保持，所有请求终结，无失败/重试或DEV/TEST调用。现金发票/GPU分摊未知。[本轮逐请求与保存](../reports/legal_skill_evolution_run_20261111/correct_skill_execution_20261114/real_observation_pilot/cost_and_preservation.json)。
 
 本轮四母状态观察契约与一次公共诊断新增15E/3T，累计10614。教师77853输入/30560输出（含15623 reasoning）、592.484服务秒；executor41626输入/3602输出、104.760服务秒。无失败/底层重试，1次可避免序列化差异调用保留计费。现金发票/GPU分摊未知。[本轮逐请求与保存](../reports/legal_skill_evolution_run_20261111/correct_skill_execution_20261114/temporal_frontier/cost_and_preservation.json)。
+
+本轮残余编译与强控制新增5E/0T：42360输入、1491输出token，49.777执行服务秒；累计10619。GPU资源分摊未知，执行服务逐请求新增API现金费0不代表总成本0。[本轮逐请求、原10614条保持及原始文件](../reports/legal_skill_evolution_run_20261111/correct_skill_execution_20261114/residual_instantiation/cost_and_preservation.json)。
