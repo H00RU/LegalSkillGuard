@@ -43,7 +43,7 @@ def answer_schema(operations, queries):
             raise ValueError('Actual current unit IDs required')
         fields[q['id']] = record_schema({
             'choice': {'type': 'string', 'enum': [c['name'] for c in ops[q['operation']]['choices']] + ['unknown']},
-            'evidence_unit_ids': {'type': 'array', 'uniqueItems': True,
+            'evidence_unit_ids': {'type': 'array', 'uniqueItems': True, 'maxItems': len(q['unit_ids']),
                 'items': {'type': 'integer', 'enum': q['unit_ids']}}})
     return record_schema({'answers': record_schema(fields)})
 
@@ -84,6 +84,10 @@ def ground_selected_units(operations, queries, units, value, *, scope,
     raw_schema = deepcopy(schema)
     for q in queries:
         del raw_schema['properties']['answers']['properties'][q['id']]['properties']['evidence_unit_ids']['uniqueItems']
+        # Both bounds are checked after the same idempotent set recovery. The
+        # finite bound is redundant for distinct members of this finite enum,
+        # but prevents an unsupported-uniqueItems decoder from looping forever.
+        del raw_schema['properties']['answers']['properties'][q['id']]['properties']['evidence_unit_ids']['maxItems']
     jsonschema.validate(value, raw_schema)
     raw = value; value = deepcopy(value)
     for row in value['answers'].values():

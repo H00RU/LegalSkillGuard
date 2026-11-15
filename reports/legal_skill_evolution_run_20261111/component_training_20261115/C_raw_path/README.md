@@ -46,3 +46,5 @@
 - `artifacts/legal_skill_evolution_C_fragment_update_20261115`：预先固定后续源、修订任务、原始新响应及离线失败。
 
 公开原始副本及hash见上级[证据索引](../artifact_copy_manifest.json)；若修订仍在途，标为截面，不把在途请求当作已完成验证。Goal保持active、未完成。
+
+后续实际工程证据：片段修订首运行的第三条读取在重复证据ID中耗尽8192 token，233.32秒；已保存并结算。共享证据schema增加与集合唯一性等价的`maxItems=窗口大小`，原20条完整判断恢复，截断不恢复。相同完整提示和采样的真实重试14.27秒、495 token、stop；唯一payload差异为maxItems，详见新有界运行的`wire_bound_before_after.json`。22项测试和7个子测试通过。当前继续原固定六TRAIN源，尚未有新方法指标；这项生成修复公平开放，不算C贡献。

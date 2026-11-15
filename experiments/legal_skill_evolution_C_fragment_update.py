@@ -30,7 +30,7 @@ from legal_skill_guard.skill_evolution.teacher_transport import pack_programs,IN
 
 ROOT=base.ROOT
 GENERATION=ROOT/'artifacts/legal_skill_evolution_C_fragment_update_20261115'
-RUN='legal_skill_evolution_C_fragment_runtime_20261115'
+RUN='legal_skill_evolution_C_fragment_bounded_evidence_20261115'
 OUT=ROOT/'artifacts'/RUN
 SCHEMA=record_schema({**base.SCHEMA['properties'],'fragment_program':{'type':'string'}})
 SYSTEM=base.SYSTEM+'''
@@ -102,7 +102,7 @@ def prepare_runtime():
         if target.exists():assert target.read_bytes()==payload
         else:target.write_bytes(payload)
     p.update(run_id=RUN,generation_run=p['run_id'],ledger_before=base.lineage.ledger_snapshot(),
-        runtime_change='Shared pure dict.setdefault support preserving unresolved field protection; fragments restricted to proper semantic parts, excluding Norm/Description/Definition; teacher responses byte-identical')
+        runtime_change='Finite evidence set has redundant maxItems=window size in decoding, preventing repeated-ID loops without changing any valid evidence set; reuse only fully returned actual prior judgments; proposals byte-identical; strict semantic-part types and unresolved protection retained')
     files=[Path(__file__),Path(base.__file__),Path(base.history.__file__)]+sorted((ROOT/'legal_skill_guard/skill_evolution').glob('*.py'))+[OUT/n for n in names]
     p['source_sha256']={str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest()for f in files}
     immutable_json(OUT/'protocol.json',p)
@@ -261,7 +261,7 @@ def execute():
             target=folder/'observations'/(digest(sid)+'.json')
             if target.exists():return read(target)
             prior=[]
-            for origin in (base.OUT/arm/'observations',ROOT/'artifacts/legal_skill_evolution_C_guard_learning_20261115/observations'if arm=='C'else base.OUT/arm/'observations'):
+            for origin in (base.OUT/arm/'observations',ROOT/'artifacts/legal_skill_evolution_C_guard_learning_20261115/observations'if arm=='C'else base.OUT/arm/'observations',ROOT/'artifacts/legal_skill_evolution_C_fragment_runtime_20261115'/arm/'recovered_partial_observations'):
                 path=origin/target.name
                 if path.exists()and not any(digest(read(path))==digest(o)for o in prior):prior.append(read(path))
             item=bank[sid]

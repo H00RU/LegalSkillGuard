@@ -25,6 +25,21 @@ def content(choice='first', ids=(4,)):
 
 
 class UnitEvidenceTests(unittest.TestCase):
+    def test_finite_evidence_bound_preserves_valid_sets_and_bounds_wire_repetition(self):
+        from itertools import product
+        from legal_skill_guard.skill_evolution.runtime import decoder_schema
+        schema = answer_schema(OPS, QUERIES)
+        previous = deepcopy(schema)
+        del previous['properties']['answers']['properties']['q']['properties']['evidence_unit_ids']['maxItems']
+        for length in range(5):
+            for ids in product((4, 9), repeat=length):
+                value = json.loads(content(ids=ids))
+                self.assertEqual(jsonschema.Draft202012Validator(schema).is_valid(value),
+                    jsonschema.Draft202012Validator(previous).is_valid(value))
+        wire, _ = decoder_schema(schema)
+        with self.assertRaises(jsonschema.ValidationError):
+            jsonschema.validate(json.loads(content(ids=(4, 4, 4))), wire)
+
     def test_context_splitting_preserves_every_complete_query_and_output_reserve(self):
         class TokenizerOnly:
             config = {'max_tokens': 20, 'context_tokens': 100}

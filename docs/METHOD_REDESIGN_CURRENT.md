@@ -6,9 +6,9 @@
 
 **当前首要工作仍为C。** 原文主路径与独立普通教师已结算，C获取8/8但最初漏掉关联方许可。通用规则条件删除候选的离线学习恢复该源检查，仍8/8；冻结复用C和NoFit均0/8，普通教师7/8且一份遗漏完整处置分支。不是正向独立贡献：整帧G不能组合已读取的动作/触发/例外，规划还漏独立留存条款。移除实际概念后0分证明通路参与，不证明算法优势。旧完整来源程序四源15/16强控制保留，固定DEV46.884%不重跑。详见[C实际指标与失败定位](../reports/legal_skill_evolution_run_20261111/component_training_20261115/C_raw_path/README.md)。
 
-当前会话7702正在`legal_skill_evolution_C_fragment_runtime_20261115`实际执行，入口`experiments/legal_skill_evolution_C_fragment_update.py`；恢复核对真实PID与DB，不重启。两教师原始提议已结算并保留在`C_fragment_update_20261115`，源与入口已冻结，在途不改。在原四TRAIN开发源上获取由实际概念生成的非规范片段，复用现有term_nodes/term_argument由G组合；后续源e671a984/35462327在教师输入前按原TRAIN银行顺序固定，旧B8暴露仍披露。运行前已修复两臂均使用的setdefault共享支持，保持SourceValues未知字段保护；C提议缺少disclose常量声明，继承双方共同公开构造子词表，规则/事实不变。原失败、原响应、0调用准备版本均保留，新执行身份不重置账本。片段只允许Participant/Information/Action/Trigger/Condition/Exception/ExceptionSet，完整Norm/Description/Definition禁止。实际两提议离线编译、六源规划和空答案不产片段/规范均通过；12项纯运行器回归通过。这些均不计学得收益。
+当前会话32773正在`legal_skill_evolution_C_fragment_bounded_evidence_20261115`实际执行，入口`experiments/legal_skill_evolution_C_fragment_update.py`；恢复核对真实PID与DB，不重启。两教师原始提议已结算并保留在`C_fragment_update_20261115`。旧运行7702已退出：第三条读取重复证据ID直到8192 token截断（233.32秒），不得重启旧运行或把截断当已读。已定位生成schema的uniqueItems后端不支持且数组无界；新增maxItems=当前窗口大小，与合法不重复集合等价，原重复ID的确定性去重复用仍保留。相同完整提示及模型/采样，唯一payload差异是maxItems，真实重试14.27秒/495 token/stop；证据`wire_bound_before_after.json`。20条完整原读取按原operation/window重建，截断部分不恢复、不补造。22项运行器/证据测试及7个子测试通过，均不计学得收益。
 
-执行前结算executor11009、teacher317，当前追加真实E，以DB为准。原服务PID536850保持，旧会话66923/12774/61222/62580/52596均结束，不根据旧PID或上下文压缩重复启动。新M2阶段22E/2T全部结算：父亲获取恢复主路径；固定5c复用通过，但旧家属缓存也通过，同契约普通补读相同1/2，未证明第二项独立增量。a519仍未解。C原文与组合修订58E/2T已结算，新片段修订2T已结算，额外运行费用持续追加。未启动新完整训练/DEV/TEST。
+当前新入口、core及协议已冻结，在途不改。原四TRAIN开发源，事前固定后续e671a984/35462327；旧B8暴露披露不变。片段只允许Participant/Information/Action/Trigger/Condition/Exception/ExceptionSet，Norm/Description/Definition禁止；共享setdefault保持未知字段保护，公共构造子词表声明修复0新增教师。原失败、原始提议和0调用准备版本均保留，不重置账本。M2暂不追加。累计费用以连续DB为准：新有界运行前executor11012、teacher317结算，后续E继续追加。旧会话52596/7702均结束，32773是真实当前客户端；原服务PID536850保持。
 
 具体修复：学得的read_constraint_program在生成前限制字段域；共享编译器无法律默认。C旧冻结组合不消费的2个新操作从计划中裁剪，四源规范/原生分数逐值保持，0调用回放只说明可避免无用读取，不算C贡献。关系逆向需求保留事件键域及原生别名，普通对照同样可识别实际未解决组件。恢复缓存时从原物理响应保留JSON键顺序，避免immutable_json排序使后续提示变化而重复调用。单独年份保持unread，只有源证据明确“for the years A to B”且既有字段已给出两端点才作精确日历边界转换。旧居住/出生循环从已生成组件中原样因子化，保持未修改的实际能力；不手写新法律规则或补充事实。
 
