@@ -21,10 +21,12 @@ EVENT_ROLE_PORTS = {'agent_', 'patient_', 'start_', 'end_', 'location_',
 
 GUARD = r'''
 :- dynamic lsg_seen/4.
-:- discontiguous lsg_case_complete/0,lsg_family_complete/1,lsg_event_complete/2,lsg_given_absent/1,lsg_fact/2.
+:- discontiguous lsg_case_complete/0,lsg_family_complete/1,lsg_event_complete/2,lsg_given_absent/1,lsg_fact/2,lsg_scan_complete/1,lsg_property_complete/2.
 lsg_case_complete :- fail.
 lsg_family_complete(_) :- fail.
 lsg_event_complete(_,_) :- fail.
+lsg_scan_complete(_) :- fail.
+lsg_property_complete(_,_) :- fail.
 lsg_given_absent(_) :- fail.
 lsg_fact(_,_) :- fail.
 
@@ -32,6 +34,9 @@ lsg_scope(P,Args) :-
     (Args=[E|_],string(E) -> Key=E ; Key=null),
     ( lsg_case_complete -> Known=true,Origin="complete_case_contract"
     ; lsg_family_complete(P) -> Known=true,Origin="acquired_family_contract"
+    ; lsg_scan_complete(P) -> Known=true,Origin="acquired_family_scan_contract"
+    ; memberchk(P,ROLE_PORTS), Args=[Event|_],ground(Event),
+      lsg_property_complete(Event,P) -> Known=true,Origin="acquired_property_contract"
     ; memberchk(P,ROLE_PORTS), Args=[Event|_],ground(Event),
       lsg_event_complete(Event,_) -> Known=true,Origin="acquired_event_contract"
     ; lsg_given_absent(P) -> Known=true,Origin="literal_given_contract"
@@ -56,7 +61,7 @@ lsg_json_rows([r(P,E,K,O)|Tail]) :-
 '''
 
 
-def execute(kernel, binding, complete_families, public):
+def execute(kernel, binding, complete_families, public, *, scope_contract=None):
     """Execute one coherent observation world; this is not a source oracle."""
     prepared = prepare_case(kernel, binding)
     validate_givens(binding, public)
@@ -74,6 +79,29 @@ def execute(kernel, binding, complete_families, public):
         return {'handled':False,'answer':None,'reason':'Reflective author code is outside factual scope instrumentation'}
 
     facts = prepared['normalized_facts']
+    scans, properties = set(), set()
+    if scope_contract is not None:
+        if set(scope_contract) != {'family_scans', 'event_properties'}:
+            raise ValueError('An explicit partial scope has family scans and event properties')
+        scans = set(scope_contract['family_scans'])
+        if not scans <= {p for p,a in primitive.items() if a==1}:
+            raise ValueError('A family scan closes only a declared unary factual predicate')
+        subjects = {r['arguments'][0] for r in facts if primitive.get(r['predicate'])==1}
+        countries = {r['arguments'][1] for r in facts if r['predicate']=='location_'}
+        countries.update(r['arguments'][0] for r in facts if r['predicate']=='country_')
+        for row in scope_contract['event_properties']:
+            if set(row) != {'event', 'predicate'}:
+                raise ValueError('A property scope names its observed referent and predicate')
+            event,predicate = row['event'],row['predicate']
+            if predicate not in EVENT_ROLE_PORTS or primitive.get(predicate)!=2:
+                raise ValueError('A property scope must be a declared factual role or property')
+            if event not in (countries if predicate=='country_' else subjects):
+                raise ValueError('Property closure cannot invent an unobserved referent')
+            properties.add((event,predicate))
+    event_families = {}
+    for row in facts:
+        if primitive.get(row['predicate'])==1:
+            event_families.setdefault(row['arguments'][0],set()).add(row['predicate'])
     complete_events = {}
     for row in facts:
         if row['predicate'] in complete and primitive.get(row['predicate'])==1:
@@ -85,6 +113,10 @@ def execute(kernel, binding, complete_families, public):
     if binding['extraction_status']=='complete':body+='lsg_case_complete.\n'
     for p in sorted(complete):
         body += 'lsg_family_complete('+scalar(p)+').\n'
+    for p in sorted(scans):
+        body += 'lsg_scan_complete('+scalar(p)+').\n'
+    for event,predicate in sorted(properties):
+        body += 'lsg_property_complete('+scalar(event)+','+scalar(predicate)+').\n'
     for event, families in sorted(complete_events.items()):
         for family in sorted(families):
             body += 'lsg_event_complete('+scalar(event)+','+scalar(family)+').\n'
@@ -115,6 +147,8 @@ lsg_case_main :-
 '''
     receipt = {**prepared['receipt'], 'backend':'guarded_official_statute_program',
         'complete_families':sorted(complete),'known_complete_events':{k:sorted(v) for k,v in complete_events.items()},
+        'explicit_family_scans':sorted(scans),
+        'explicit_event_properties':[{'event':e,'predicate':p} for e,p in sorted(properties)],
         'literal_absent_source_givens':sorted(absent_givens),
         'declared_case_extraction_status':binding['extraction_status'],
         'binding_sha256':digest(binding), 'instrumented_program_sha256':digest(body),
@@ -137,6 +171,8 @@ lsg_case_main :-
     used_families = set()
     for read in reads:
         if read['origin']=='acquired_family_contract':used_families.add(read['predicate'])
+        elif read['origin']=='acquired_family_scan_contract':used_families.add(read['predicate'])
+        elif read['origin']=='acquired_property_contract':used_families.update(event_families.get(read['event'],()))
         elif read['origin']=='acquired_event_contract':used_families.update(complete_events[read['event']])
         elif read['origin']=='complete_case_contract':used_families.update(complete)
     return {**receipt,'handled':accepted,'answer':value['verdict'] if accepted else None,

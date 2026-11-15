@@ -69,7 +69,13 @@ def validate(library,kernel):
         if len(ports)!=len(set(ports)) or not set(ports)<=vocabulary:
             raise ValueError('Coverage names an undeclared native family')
         jsonschema.Draft202012Validator.check_schema(json.loads(c['schema_json']))
-        validate_adapter(library['shared_helpers']+'\n\n'+c['conversion_program'])
+        if 'relation_contract' in c:
+            from .relational_observation_contract import validate as validate_contract
+            validate_contract(c['relation_contract'],kernel)
+            if ports:
+                raise ValueError('Relation reads close their explicit scopes, not whole event families')
+        else:
+            validate_adapter(library['shared_helpers']+'\n\n'+c['conversion_program'])
         if c.get('observation_program') is not None:
             validate_adapter(c['observation_program'])
     return library
@@ -79,7 +85,8 @@ def plan(library,kernel):
     validate(library,kernel)
     dependency = dependency_graph(kernel)
     anchors = {p for p,a in dependency['input_predicates'].items() if a==1 or p in GIVENS}
-    providers = {c['id']:set(c['complete_native_families']) & anchors for c in library['components']}
+    providers = {c['id']:set(c['relation_contract']['covered_families'] if 'relation_contract' in c
+                           else c['complete_native_families']) & anchors for c in library['components']}
     represented = set().union(*providers.values()) if providers else set()
     by_id = {c['id']:c for c in library['components']}
     ids = sorted(cid for cid,ports in providers.items() if ports)
@@ -108,6 +115,16 @@ def _program(shared,component):
 
 
 def component_value(library,component,kernel,public,view):
+    if 'relation_contract' in component:
+        from .relational_observation_contract import forward
+        value=forward(component['relation_contract'],view,public,kernel)
+        if set(component['relation_contract']['covered_families'])=={'service_'}:
+            from .source_event_binding import bind
+            value,receipt=bind(kernel,value)
+            names={r['source_event']:r['native_event'] for r in receipt['bindings']}
+            for scope in value['scope_contract']['event_properties']:
+                scope['event']=names.get(scope['event'],scope['event'])
+        return value
     source_service=component.get('facts_only',False) and set(component['complete_native_families'])=={'service_'}
     conversion_kernel=deepcopy(kernel)if source_service else kernel
     if source_service:

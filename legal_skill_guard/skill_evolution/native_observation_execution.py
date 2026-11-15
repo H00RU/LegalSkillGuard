@@ -25,7 +25,8 @@ def evaluate(library, kernel, public, observation, source_id):
     schema['required'] = []  # Missing component = unread; never an empty scan.
     jsonschema.validate(observation,schema)
     worlds = [{'facts':[],'negative_givens':[],'witnesses':[],'trusted_components':[],
-        'complete_families':[],'unread_components':sorted(set(by_id)-set(observation))}]
+        'complete_families':[],'unread_components':sorted(set(by_id)-set(observation)),
+        'relation_scopes_used':False,'scope_contract':{'family_scans':[],'event_properties':[]}}]
     parts = {}
     for cid in sorted(observation):
         value=observation[cid]
@@ -57,6 +58,13 @@ def evaluate(library, kernel, public, observation, source_id):
                             if item not in current[key]:current[key].append(deepcopy(item))
                     for family in by_id[cid]['complete_native_families']:
                         if family not in current['complete_families']:current['complete_families'].append(family)
+                    if 'scope_contract' in row['converted']:
+                        current['relation_scopes_used']=True
+                        for key in ('family_scans','event_properties'):
+                            for item in row['converted']['scope_contract'][key]:
+                                if item not in current['scope_contract'][key]:current['scope_contract'][key].append(deepcopy(item))
+                        if row['converted']['unread_relations']:
+                            current['unread_components'].append(cid)
                 else:
                     current['unread_components'].append(cid)
                 merged.append(current)
@@ -68,13 +76,15 @@ def evaluate(library, kernel, public, observation, source_id):
             # Only the explicitly acquired family/event scopes may close a lookup.
             'extraction_status':'unread'}
         grounded={'bindings':[{'inputs':binding,'witnesses':world['witnesses']}],'unresolved':[]}
-        source_review=review(source_id,grounded,complete_families=world['complete_families'])
+        scopes=world['scope_contract'] if world['relation_scopes_used'] else None
+        source_review=review(source_id,grounded,complete_families=world['complete_families'],scope_contract=scopes)
         if source_review['failures']:
             execution={'handled':False,'answer':None,'reason':'Known source-semantic violation'}
         else:
-            execution=execute_native(kernel,binding,world['complete_families'],public)
+            execution=execute_native(kernel,binding,world['complete_families'],public,scope_contract=scopes)
         executed.append({'inputs':binding,'witnesses':world['witnesses'],
             'complete_families':world['complete_families'],
+            'scope_contract':scopes,
             'unread_components':world['unread_components'],'source_review':source_review,'execution':execution})
     answers={w['execution']['answer'] for w in executed if w['execution']['handled']}
     handled=bool(executed) and all(w['execution']['handled'] for w in executed) and len(answers)==1
