@@ -1,0 +1,1395 @@
+{
+  "component": {
+    "id": "retained_family_context",
+    "meaning": "Previously acquired residence and birth observations, separate from revised kinship.",
+    "prompt": "完整读取 current facts 中明确陈述的 kinship、residence 和 birth。relationship.source_basis 必须与 relation_type 对应；source_term、related_person 和 reference_person 必须由同一 facts witness 支持。关系日期仅在原文明确赋给该关系时填写，并保留逐字日期文本。residence 只接受明确 lived/resided/shared-home 陈述；persons、location、residence_term 和日期文本必须受同一证据支持。birth 只接受明确 person、birth_term、实际日期和逐字日期文本。婚姻、dependency、付款、服务地点、问题或事件名称不能建立记录。\nRead only the residences and births channels in the supplied schema. Read current facts only; do not fill other channels.",
+    "schema_json": "{\"type\": \"object\", \"properties\": {\"views\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"object\", \"additionalProperties\": false, \"required\": [\"extraction_status\", \"residences\", \"births\", \"witnesses\"], \"properties\": {\"extraction_status\": {\"enum\": [\"complete\", \"unread\"]}, \"residences\": {\"type\": [\"array\", \"null\"], \"items\": {\"type\": \"object\", \"additionalProperties\": false, \"required\": [\"persons\", \"location\", \"residence_term\", \"start_date\", \"start_text\", \"end_date\", \"end_text\", \"witnesses\"], \"properties\": {\"persons\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"string\", \"minLength\": 1}}, \"location\": {\"type\": \"string\", \"minLength\": 1}, \"residence_term\": {\"enum\": [\"lives\", \"lived\", \"resides\", \"resided\", \"shared a home\", \"same home\", \"same principal place of abode\", \"member of the household\"]}, \"start_date\": {\"type\": [\"string\", \"null\"]}, \"start_text\": {\"type\": [\"string\", \"null\"]}, \"end_date\": {\"type\": [\"string\", \"null\"]}, \"end_text\": {\"type\": [\"string\", \"null\"]}, \"witnesses\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"object\", \"additionalProperties\": false, \"required\": [\"field\", \"quote\"], \"properties\": {\"field\": {\"const\": \"facts\"}, \"quote\": {\"type\": \"string\", \"minLength\": 1}}}}}}}, \"births\": {\"type\": [\"array\", \"null\"], \"items\": {\"type\": \"object\", \"additionalProperties\": false, \"required\": [\"person\", \"birth_term\", \"birth_date\", \"date_text\", \"witnesses\"], \"properties\": {\"person\": {\"type\": \"string\", \"minLength\": 1}, \"birth_term\": {\"enum\": [\"born\", \"birth\", \"date of birth\"]}, \"birth_date\": {\"type\": \"string\", \"minLength\": 1}, \"date_text\": {\"type\": \"string\", \"minLength\": 1}, \"witnesses\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"object\", \"additionalProperties\": false, \"required\": [\"field\", \"quote\"], \"properties\": {\"field\": {\"const\": \"facts\"}, \"quote\": {\"type\": \"string\", \"minLength\": 1}}}}}}}, \"witnesses\": {\"type\": \"array\"}}, \"allOf\": [{\"if\": {\"properties\": {\"extraction_status\": {\"const\": \"complete\"}}}, \"then\": {\"properties\": {\"residences\": {\"type\": \"array\"}, \"births\": {\"type\": \"array\"}}}}]}}}, \"required\": [\"views\"], \"additionalProperties\": false}",
+    "conversion_program": "def apply(inputs, premises):\n    component = inputs['component_id']\n    view = inputs['view']\n    public = inputs['public_case']\n    facts = []\n    witnesses = list(view.get('witnesses', []))\n    reasons = []\n    complete = True\n    if type(view) is not dict or view.get('extraction_status') != 'complete':\n        return part([], [], [], False, ['retained_context_unread'])\n    residences = view.get('residences')\n    births = view.get('births')\n    if type(residences) is not list or type(births) is not list or type(view.get('witnesses')) is not list:\n        return part([], [], [], False, ['retained_context_channels_unread'])\n    for index, record in enumerate(residences):\n        evidence = checked(record, public, True)\n        persons = record.get('persons')\n        location = record.get('location')\n        term = record.get('residence_term')\n        start = record.get('start_date')\n        start_text = record.get('start_text')\n        end = record.get('end_date')\n        end_text = record.get('end_text')\n        valid_start = start is None and start_text is None or (type(start) is str and type(start_text) is str)\n        valid_end = end is None and end_text is None or (type(end) is str and type(end_text) is str)\n        if evidence is None or type(persons) is not list or len(persons) == 0 or (not all((type(x) is str for x in persons))) or (type(location) is not str) or (type(term) is not str) or (not valid_start) or (not valid_end):\n            complete = False\n            continue\n        quote = ' '.join((row['quote'].lower() for row in evidence))\n        if term.lower() not in quote or location.lower() not in quote or (not all((person.lower() in quote for person in persons))) or (type(start_text) is str and start_text.lower() not in quote) or (type(end_text) is str and end_text.lower() not in quote):\n            complete = False\n            continue\n        for row in evidence:\n            add(witnesses, row)\n        for position, person in enumerate(persons):\n            event = 'residence_' + str(index) + '_' + str(position)\n            put(facts, 'residence_', [event])\n            put(facts, 'agent_', [event, person])\n            put(facts, 'patient_', [event, location])\n            if type(start) is str:\n                put(facts, 'start_', [event, start])\n            if type(end) is str:\n                put(facts, 'end_', [event, end])\n    for index, record in enumerate(births):\n        evidence = checked(record, public, True)\n        person = record.get('person')\n        term = record.get('birth_term')\n        date = record.get('birth_date')\n        date_text = record.get('date_text')\n        if evidence is None or type(person) is not str or term not in ('born', 'birth', 'date of birth') or (type(date) is not str) or (type(date_text) is not str):\n            complete = False\n            continue\n        quote = ' '.join((row['quote'].lower() for row in evidence))\n        if person.lower() not in quote or term.lower() not in quote or date_text.lower() not in quote:\n            complete = False\n            continue\n        for row in evidence:\n            add(witnesses, row)\n        event = 'birth_' + str(index)\n        put(facts, 'birth_', [event])\n        put(facts, 'agent_', [event, person])\n        put(facts, 'start_', [event, date])\n    if not complete:\n        add(reasons, component + '_one_or_more_records_unread_or_invalid')\n    return part(facts, [], witnesses, complete, reasons)",
+    "complete_native_families": [
+      "residence_",
+      "birth_"
+    ],
+    "facts_only": true,
+    "update": {
+      "unchanged_parent_component_sha256": "29977129d95e67c18fef4df4e06d801934d80e89681dc9aaa5e4ed3dab393e34",
+      "retained_channels": [
+        "residences",
+        "births"
+      ],
+      "learned_source_to_fact_loops_unchanged": true,
+      "existing_source_witnesses_retained": true
+    }
+  },
+  "rows": [
+    {
+      "candidate": "Method/1",
+      "source": "SARA_v2_Binary:5c29a3a22f755d6a6253919de3327553f029a75827c72238547ebb6701b5ace7",
+      "execution": {
+        "handled": false,
+        "answer": null,
+        "binding_executions": [
+          {
+            "inputs": {
+              "facts": [
+                {
+                  "predicate": "son_",
+                  "arguments": [
+                    "observed_kinship_event::kinship_001"
+                  ]
+                },
+                {
+                  "predicate": "agent_",
+                  "arguments": [
+                    "observed_kinship_event::kinship_001",
+                    "Bob"
+                  ]
+                },
+                {
+                  "predicate": "patient_",
+                  "arguments": [
+                    "observed_kinship_event::kinship_001",
+                    "Alice"
+                  ]
+                },
+                {
+                  "predicate": "residence_",
+                  "arguments": [
+                    "residence_0_0"
+                  ]
+                },
+                {
+                  "predicate": "agent_",
+                  "arguments": [
+                    "residence_0_0",
+                    "Alice"
+                  ]
+                },
+                {
+                  "predicate": "patient_",
+                  "arguments": [
+                    "residence_0_0",
+                    "the same home"
+                  ]
+                },
+                {
+                  "predicate": "start_",
+                  "arguments": [
+                    "residence_0_0",
+                    "September 1st, 2015"
+                  ]
+                },
+                {
+                  "predicate": "end_",
+                  "arguments": [
+                    "residence_0_0",
+                    "February 3rd, 2019"
+                  ]
+                },
+                {
+                  "predicate": "residence_",
+                  "arguments": [
+                    "residence_0_1"
+                  ]
+                },
+                {
+                  "predicate": "agent_",
+                  "arguments": [
+                    "residence_0_1",
+                    "Bob"
+                  ]
+                },
+                {
+                  "predicate": "patient_",
+                  "arguments": [
+                    "residence_0_1",
+                    "the same home"
+                  ]
+                },
+                {
+                  "predicate": "start_",
+                  "arguments": [
+                    "residence_0_1",
+                    "September 1st, 2015"
+                  ]
+                },
+                {
+                  "predicate": "end_",
+                  "arguments": [
+                    "residence_0_1",
+                    "February 3rd, 2019"
+                  ]
+                }
+              ],
+              "negative_givens": [],
+              "extraction_status": "unread"
+            },
+            "witnesses": [
+              {
+                "field": "facts",
+                "quote": "Alice has a son, Bob. From September 1st, 2015 to February 3rd, 2019, Alice and Bob lived in the same home. Bob married Charlie on October 23rd, 2018. Bob bears a relationship to Alice pursuant to section 152(c)(2) for the years 2015 to 2020."
+              },
+              {
+                "field": "facts",
+                "quote": "Alice has a son, Bob."
+              },
+              {
+                "field": "facts",
+                "quote": "Bob bears a relationship to Alice pursuant to section 152(c)(2) for the years 2015 to 2020."
+              },
+              {
+                "field": "facts",
+                "quote": "From September 1st, 2015 to February 3rd, 2019, Alice and Bob lived in the same home."
+              }
+            ],
+            "complete_families": [
+              "educational_institution_",
+              "enrollment_",
+              "attending_classes_",
+              "residence_",
+              "birth_"
+            ],
+            "scope_contract": {
+              "family_scans": [
+                "son_",
+                "daughter_",
+                "father_",
+                "mother_",
+                "brother_",
+                "sister_",
+                "sibling_"
+              ],
+              "event_properties": [
+                {
+                  "event": "observed_kinship_event::kinship_001",
+                  "predicate": "agent_"
+                },
+                {
+                  "event": "observed_kinship_event::kinship_001",
+                  "predicate": "patient_"
+                }
+              ]
+            },
+            "unread_components": [
+              "annual_income_events",
+              "blindness_events",
+              "death_events",
+              "deduction_events",
+              "explicit_legal_givens",
+              "institutional_status_events",
+              "legal_separation_events",
+              "marriage_events",
+              "payment_service_events",
+              "return_events",
+              "source_economic_legal_ledger_b8",
+              "special_native_states",
+              "termination_benefit_events",
+              "family_relationship_residence",
+              "service_events"
+            ],
+            "source_review": {
+              "checks": [],
+              "reviewed": false,
+              "failures": 0,
+              "pending_checks": [],
+              "partial_source_review_not_full_semantic_certification": true,
+              "source_annotations_shared_both_arms": true,
+              "native_answer_used": false
+            },
+            "execution": {
+              "backend": "guarded_official_statute_program",
+              "fact_count": 13,
+              "source_program_unchanged": true,
+              "literal_transport_adaptations": [
+                {
+                  "predicate": "start_",
+                  "argument": 1,
+                  "original": "September 1st, 2015",
+                  "normalized": "2015-09-01",
+                  "basis": "Fully specified unambiguous literal calendar date"
+                },
+                {
+                  "predicate": "end_",
+                  "argument": 1,
+                  "original": "February 3rd, 2019",
+                  "normalized": "2019-02-03",
+                  "basis": "Fully specified unambiguous literal calendar date"
+                },
+                {
+                  "predicate": "start_",
+                  "argument": 1,
+                  "original": "September 1st, 2015",
+                  "normalized": "2015-09-01",
+                  "basis": "Fully specified unambiguous literal calendar date"
+                },
+                {
+                  "predicate": "end_",
+                  "argument": 1,
+                  "original": "February 3rd, 2019",
+                  "normalized": "2019-02-03",
+                  "basis": "Fully specified unambiguous literal calendar date"
+                }
+              ],
+              "case_truth_not_certified_by_types_or_quotes": true,
+              "complete_families": [
+                "attending_classes_",
+                "birth_",
+                "educational_institution_",
+                "enrollment_",
+                "residence_"
+              ],
+              "known_complete_events": {
+                "residence_0_0": [
+                  "residence_"
+                ],
+                "residence_0_1": [
+                  "residence_"
+                ]
+              },
+              "explicit_family_scans": [
+                "brother_",
+                "daughter_",
+                "father_",
+                "mother_",
+                "sibling_",
+                "sister_",
+                "son_"
+              ],
+              "explicit_event_properties": [
+                {
+                  "event": "observed_kinship_event::kinship_001",
+                  "predicate": "agent_"
+                },
+                {
+                  "event": "observed_kinship_event::kinship_001",
+                  "predicate": "patient_"
+                }
+              ],
+              "literal_absent_source_givens": [
+                "s151_b",
+                "s151_b_applies",
+                "s151_c_applies",
+                "s152_c_1",
+                "s63_f_1_A",
+                "s63_f_1_B"
+              ],
+              "declared_case_extraction_status": "unread",
+              "binding_sha256": "17702d0f833519da2b37d2497d76fe185ef969a4f12c7f0161e82af4f973ced7",
+              "instrumented_program_sha256": "871c0080f0052c8c29e6c36a5eebacbebe912b133ec1d3f2f6d0a99b2c5ba6f2",
+              "unknown_observations_not_assumed_false": true,
+              "family_completeness_is_an_acquired_claim_not_a_source_truth_certificate": true,
+              "handled": false,
+              "answer": null,
+              "raw_native_probe_verdict": "Contradiction",
+              "factual_accesses": [
+                {
+                  "predicate": "son_",
+                  "event": "observed_kinship_event::kinship_001",
+                  "complete_scope": true,
+                  "origin": "acquired_family_scan_contract"
+                },
+                {
+                  "predicate": "agent_",
+                  "event": "observed_kinship_event::kinship_001",
+                  "complete_scope": true,
+                  "origin": "acquired_property_contract"
+                },
+                {
+                  "predicate": "patient_",
+                  "event": "observed_kinship_event::kinship_001",
+                  "complete_scope": true,
+                  "origin": "acquired_property_contract"
+                },
+                {
+                  "predicate": "start_",
+                  "event": "observed_kinship_event::kinship_001",
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "end_",
+                  "event": "observed_kinship_event::kinship_001",
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "death_",
+                  "event": null,
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "residence_",
+                  "event": "residence_0_0",
+                  "complete_scope": true,
+                  "origin": "acquired_family_contract"
+                },
+                {
+                  "predicate": "agent_",
+                  "event": "residence_0_0",
+                  "complete_scope": true,
+                  "origin": "acquired_event_contract"
+                },
+                {
+                  "predicate": "residence_",
+                  "event": "residence_0_1",
+                  "complete_scope": true,
+                  "origin": "acquired_family_contract"
+                },
+                {
+                  "predicate": "agent_",
+                  "event": "residence_0_1",
+                  "complete_scope": true,
+                  "origin": "acquired_event_contract"
+                },
+                {
+                  "predicate": "patient_",
+                  "event": "residence_0_1",
+                  "complete_scope": true,
+                  "origin": "acquired_event_contract"
+                },
+                {
+                  "predicate": "start_",
+                  "event": "residence_0_1",
+                  "complete_scope": true,
+                  "origin": "acquired_event_contract"
+                },
+                {
+                  "predicate": "end_",
+                  "event": "residence_0_1",
+                  "complete_scope": true,
+                  "origin": "acquired_event_contract"
+                },
+                {
+                  "predicate": "patient_",
+                  "event": "residence_0_0",
+                  "complete_scope": true,
+                  "origin": "acquired_event_contract"
+                },
+                {
+                  "predicate": "start_",
+                  "event": "residence_0_0",
+                  "complete_scope": true,
+                  "origin": "acquired_event_contract"
+                },
+                {
+                  "predicate": "end_",
+                  "event": "residence_0_0",
+                  "complete_scope": true,
+                  "origin": "acquired_event_contract"
+                },
+                {
+                  "predicate": "residence_",
+                  "event": null,
+                  "complete_scope": true,
+                  "origin": "acquired_family_contract"
+                },
+                {
+                  "predicate": "son_",
+                  "event": null,
+                  "complete_scope": true,
+                  "origin": "acquired_family_scan_contract"
+                },
+                {
+                  "predicate": "daughter_",
+                  "event": null,
+                  "complete_scope": true,
+                  "origin": "acquired_family_scan_contract"
+                },
+                {
+                  "predicate": "father_",
+                  "event": null,
+                  "complete_scope": true,
+                  "origin": "acquired_family_scan_contract"
+                },
+                {
+                  "predicate": "mother_",
+                  "event": null,
+                  "complete_scope": true,
+                  "origin": "acquired_family_scan_contract"
+                },
+                {
+                  "predicate": "brother_",
+                  "event": null,
+                  "complete_scope": true,
+                  "origin": "acquired_family_scan_contract"
+                },
+                {
+                  "predicate": "sister_",
+                  "event": null,
+                  "complete_scope": true,
+                  "origin": "acquired_family_scan_contract"
+                },
+                {
+                  "predicate": "s152_c_1",
+                  "event": "Bob",
+                  "complete_scope": true,
+                  "origin": "literal_given_contract"
+                }
+              ],
+              "unread_factual_scopes": [
+                {
+                  "predicate": "start_",
+                  "event": "observed_kinship_event::kinship_001",
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "end_",
+                  "event": "observed_kinship_event::kinship_001",
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "death_",
+                  "event": null,
+                  "complete_scope": false,
+                  "origin": "unread"
+                }
+              ],
+              "used_observation_families": [
+                "brother_",
+                "daughter_",
+                "father_",
+                "mother_",
+                "residence_",
+                "sister_",
+                "son_"
+              ],
+              "execution_error": null,
+              "reason": "Native proof depends on unread scopes or failed execution"
+            }
+          }
+        ],
+        "component_conversions": {
+          "education_service_states": [
+            {
+              "trusted_complete_observation": true,
+              "converted": {
+                "facts": [],
+                "negative_givens": [],
+                "witnesses": [
+                  {
+                    "field": "facts",
+                    "quote": "Alice has a son, Bob. From September 1st, 2015 to February 3rd, 2019, Alice and Bob lived in the same home. Bob married Charlie on October 23rd, 2018. Bob bears a relationship to Alice pursuant to section 152(c)(2) for the years 2015 to 2020."
+                  }
+                ],
+                "complete": true,
+                "reasons": []
+              }
+            }
+          ],
+          "family_relationship_residence": [
+            {
+              "trusted_complete_observation": true,
+              "converted": {
+                "facts": [
+                  {
+                    "predicate": "son_",
+                    "arguments": [
+                      "observed_kinship_event::kinship_001"
+                    ]
+                  },
+                  {
+                    "predicate": "agent_",
+                    "arguments": [
+                      "observed_kinship_event::kinship_001",
+                      "Bob"
+                    ]
+                  },
+                  {
+                    "predicate": "patient_",
+                    "arguments": [
+                      "observed_kinship_event::kinship_001",
+                      "Alice"
+                    ]
+                  }
+                ],
+                "negative_givens": [],
+                "witnesses": [
+                  {
+                    "field": "facts",
+                    "quote": "Alice has a son, Bob."
+                  },
+                  {
+                    "field": "facts",
+                    "quote": "Bob bears a relationship to Alice pursuant to section 152(c)(2) for the years 2015 to 2020."
+                  }
+                ],
+                "complete": true,
+                "reasons": [],
+                "scope_contract": {
+                  "family_scans": [
+                    "son_",
+                    "daughter_",
+                    "father_",
+                    "mother_",
+                    "brother_",
+                    "sister_",
+                    "sibling_"
+                  ],
+                  "event_properties": [
+                    {
+                      "event": "observed_kinship_event::kinship_001",
+                      "predicate": "agent_"
+                    },
+                    {
+                      "event": "observed_kinship_event::kinship_001",
+                      "predicate": "patient_"
+                    }
+                  ]
+                },
+                "unread_relations": [
+                  "kinship_period"
+                ],
+                "derivations": [
+                  {
+                    "rule": "kinship_son",
+                    "fact": {
+                      "predicate": "son_",
+                      "arguments": [
+                        "observed_kinship_event::kinship_001"
+                      ]
+                    },
+                    "observation_relations": [
+                      "kinship_roles"
+                    ]
+                  },
+                  {
+                    "rule": "kinship_bearer",
+                    "fact": {
+                      "predicate": "agent_",
+                      "arguments": [
+                        "observed_kinship_event::kinship_001",
+                        "Bob"
+                      ]
+                    },
+                    "observation_relations": [
+                      "kinship_roles"
+                    ]
+                  },
+                  {
+                    "rule": "kinship_reference",
+                    "fact": {
+                      "predicate": "patient_",
+                      "arguments": [
+                        "observed_kinship_event::kinship_001",
+                        "Alice"
+                      ]
+                    },
+                    "observation_relations": [
+                      "kinship_roles"
+                    ]
+                  }
+                ],
+                "explicit_scopes_not_whole_case_completeness": true,
+                "contract_sha256": "b8aed30937578d62dbffb4eff11f05a681a24d4df717c2a60927114dbba8c1c4"
+              }
+            }
+          ],
+          "retained_family_context": [
+            {
+              "trusted_complete_observation": true,
+              "converted": {
+                "facts": [
+                  {
+                    "predicate": "residence_",
+                    "arguments": [
+                      "residence_0_0"
+                    ]
+                  },
+                  {
+                    "predicate": "agent_",
+                    "arguments": [
+                      "residence_0_0",
+                      "Alice"
+                    ]
+                  },
+                  {
+                    "predicate": "patient_",
+                    "arguments": [
+                      "residence_0_0",
+                      "the same home"
+                    ]
+                  },
+                  {
+                    "predicate": "start_",
+                    "arguments": [
+                      "residence_0_0",
+                      "September 1st, 2015"
+                    ]
+                  },
+                  {
+                    "predicate": "end_",
+                    "arguments": [
+                      "residence_0_0",
+                      "February 3rd, 2019"
+                    ]
+                  },
+                  {
+                    "predicate": "residence_",
+                    "arguments": [
+                      "residence_0_1"
+                    ]
+                  },
+                  {
+                    "predicate": "agent_",
+                    "arguments": [
+                      "residence_0_1",
+                      "Bob"
+                    ]
+                  },
+                  {
+                    "predicate": "patient_",
+                    "arguments": [
+                      "residence_0_1",
+                      "the same home"
+                    ]
+                  },
+                  {
+                    "predicate": "start_",
+                    "arguments": [
+                      "residence_0_1",
+                      "September 1st, 2015"
+                    ]
+                  },
+                  {
+                    "predicate": "end_",
+                    "arguments": [
+                      "residence_0_1",
+                      "February 3rd, 2019"
+                    ]
+                  }
+                ],
+                "negative_givens": [],
+                "witnesses": [
+                  {
+                    "field": "facts",
+                    "quote": "Alice has a son, Bob."
+                  },
+                  {
+                    "field": "facts",
+                    "quote": "From September 1st, 2015 to February 3rd, 2019, Alice and Bob lived in the same home."
+                  }
+                ],
+                "complete": true,
+                "reasons": []
+              }
+            }
+          ],
+          "service_events": [
+            {
+              "trusted_complete_observation": false,
+              "error": "ValueError: A copy field cannot contain a normalized or invented source value"
+            }
+          ]
+        },
+        "unread_components": [
+          "annual_income_events",
+          "blindness_events",
+          "death_events",
+          "deduction_events",
+          "explicit_legal_givens",
+          "family_relationship_residence",
+          "institutional_status_events",
+          "legal_separation_events",
+          "marriage_events",
+          "payment_service_events",
+          "return_events",
+          "service_events",
+          "source_economic_legal_ledger_b8",
+          "special_native_states",
+          "termination_benefit_events"
+        ],
+        "used_observation_families": [
+          "brother_",
+          "daughter_",
+          "father_",
+          "mother_",
+          "residence_",
+          "sister_",
+          "son_"
+        ],
+        "all_coherent_worlds_checked": true,
+        "unknown_not_a_default_fact": true,
+        "not_a_source_truth_or_method_novelty_certificate": true
+      },
+      "native_score": {
+        "valid": false,
+        "correct": false,
+        "metric": "native_exact_match",
+        "grade": 0.0
+      },
+      "new_requests": 0,
+      "retained_source_projection": {
+        "extraction_status": "complete",
+        "residences": [
+          {
+            "end_date": "February 3rd, 2019",
+            "end_text": "February 3rd, 2019",
+            "location": "the same home",
+            "persons": [
+              "Alice",
+              "Bob"
+            ],
+            "residence_term": "lived",
+            "start_date": "September 1st, 2015",
+            "start_text": "September 1st, 2015",
+            "witnesses": [
+              {
+                "field": "facts",
+                "quote": "From September 1st, 2015 to February 3rd, 2019, Alice and Bob lived in the same home."
+              }
+            ]
+          }
+        ],
+        "births": [],
+        "witnesses": [
+          {
+            "field": "facts",
+            "quote": "Alice has a son, Bob."
+          },
+          {
+            "field": "facts",
+            "quote": "From September 1st, 2015 to February 3rd, 2019, Alice and Bob lived in the same home."
+          }
+        ]
+      }
+    },
+    {
+      "candidate": "FreeTeacher/0",
+      "source": "SARA_v2_Binary:5c29a3a22f755d6a6253919de3327553f029a75827c72238547ebb6701b5ace7",
+      "execution": {
+        "handled": false,
+        "answer": null,
+        "binding_executions": [
+          {
+            "inputs": {
+              "facts": [
+                {
+                  "predicate": "residence_",
+                  "arguments": [
+                    "residence_0_0"
+                  ]
+                },
+                {
+                  "predicate": "agent_",
+                  "arguments": [
+                    "residence_0_0",
+                    "Alice"
+                  ]
+                },
+                {
+                  "predicate": "patient_",
+                  "arguments": [
+                    "residence_0_0",
+                    "the same home"
+                  ]
+                },
+                {
+                  "predicate": "start_",
+                  "arguments": [
+                    "residence_0_0",
+                    "September 1st, 2015"
+                  ]
+                },
+                {
+                  "predicate": "end_",
+                  "arguments": [
+                    "residence_0_0",
+                    "February 3rd, 2019"
+                  ]
+                },
+                {
+                  "predicate": "residence_",
+                  "arguments": [
+                    "residence_0_1"
+                  ]
+                },
+                {
+                  "predicate": "agent_",
+                  "arguments": [
+                    "residence_0_1",
+                    "Bob"
+                  ]
+                },
+                {
+                  "predicate": "patient_",
+                  "arguments": [
+                    "residence_0_1",
+                    "the same home"
+                  ]
+                },
+                {
+                  "predicate": "start_",
+                  "arguments": [
+                    "residence_0_1",
+                    "September 1st, 2015"
+                  ]
+                },
+                {
+                  "predicate": "end_",
+                  "arguments": [
+                    "residence_0_1",
+                    "February 3rd, 2019"
+                  ]
+                },
+                {
+                  "predicate": "service_",
+                  "arguments": [
+                    "service_source_event::facts"
+                  ]
+                },
+                {
+                  "predicate": "agent_",
+                  "arguments": [
+                    "service_source_event::facts",
+                    "Bob"
+                  ]
+                }
+              ],
+              "negative_givens": [],
+              "extraction_status": "unread"
+            },
+            "witnesses": [
+              {
+                "field": "facts",
+                "quote": "Alice has a son, Bob. From September 1st, 2015 to February 3rd, 2019, Alice and Bob lived in the same home. Bob married Charlie on October 23rd, 2018. Bob bears a relationship to Alice pursuant to section 152(c)(2) for the years 2015 to 2020."
+              },
+              {
+                "field": "facts",
+                "quote": "Alice has a son, Bob."
+              },
+              {
+                "field": "facts",
+                "quote": "From September 1st, 2015 to February 3rd, 2019, Alice and Bob lived in the same home."
+              },
+              {
+                "field": "facts",
+                "quote": "Bob married Charlie on October 23rd, 2018."
+              },
+              {
+                "field": "facts",
+                "quote": "Bob bears a relationship to Alice pursuant to section 152(c)(2) for the years 2015 to 2020."
+              }
+            ],
+            "complete_families": [
+              "educational_institution_",
+              "enrollment_",
+              "attending_classes_",
+              "residence_",
+              "birth_"
+            ],
+            "scope_contract": {
+              "family_scans": [
+                "service_"
+              ],
+              "event_properties": [
+                {
+                  "event": "service_source_event::facts",
+                  "predicate": "agent_"
+                },
+                {
+                  "event": "service_source_event::facts",
+                  "predicate": "patient_"
+                },
+                {
+                  "event": "service_source_event::facts",
+                  "predicate": "purpose_"
+                },
+                {
+                  "event": "service_source_event::facts",
+                  "predicate": "type_"
+                }
+              ]
+            },
+            "unread_components": [
+              "annual_income_events",
+              "blindness_events",
+              "death_events",
+              "deduction_events",
+              "explicit_legal_givens",
+              "institutional_status_events",
+              "legal_separation_events",
+              "marriage_events",
+              "payment_service_events",
+              "return_events",
+              "source_economic_legal_ledger_b8",
+              "special_native_states",
+              "termination_benefit_events",
+              "family_relationship_residence",
+              "service_events"
+            ],
+            "source_review": {
+              "checks": [],
+              "reviewed": false,
+              "failures": 0,
+              "pending_checks": [],
+              "partial_source_review_not_full_semantic_certification": true,
+              "source_annotations_shared_both_arms": true,
+              "native_answer_used": false
+            },
+            "execution": {
+              "backend": "guarded_official_statute_program",
+              "fact_count": 12,
+              "source_program_unchanged": true,
+              "literal_transport_adaptations": [
+                {
+                  "predicate": "start_",
+                  "argument": 1,
+                  "original": "September 1st, 2015",
+                  "normalized": "2015-09-01",
+                  "basis": "Fully specified unambiguous literal calendar date"
+                },
+                {
+                  "predicate": "end_",
+                  "argument": 1,
+                  "original": "February 3rd, 2019",
+                  "normalized": "2019-02-03",
+                  "basis": "Fully specified unambiguous literal calendar date"
+                },
+                {
+                  "predicate": "start_",
+                  "argument": 1,
+                  "original": "September 1st, 2015",
+                  "normalized": "2015-09-01",
+                  "basis": "Fully specified unambiguous literal calendar date"
+                },
+                {
+                  "predicate": "end_",
+                  "argument": 1,
+                  "original": "February 3rd, 2019",
+                  "normalized": "2019-02-03",
+                  "basis": "Fully specified unambiguous literal calendar date"
+                }
+              ],
+              "case_truth_not_certified_by_types_or_quotes": true,
+              "complete_families": [
+                "attending_classes_",
+                "birth_",
+                "educational_institution_",
+                "enrollment_",
+                "residence_"
+              ],
+              "known_complete_events": {
+                "residence_0_0": [
+                  "residence_"
+                ],
+                "residence_0_1": [
+                  "residence_"
+                ]
+              },
+              "explicit_family_scans": [
+                "service_"
+              ],
+              "explicit_event_properties": [
+                {
+                  "event": "service_source_event::facts",
+                  "predicate": "agent_"
+                },
+                {
+                  "event": "service_source_event::facts",
+                  "predicate": "patient_"
+                },
+                {
+                  "event": "service_source_event::facts",
+                  "predicate": "purpose_"
+                },
+                {
+                  "event": "service_source_event::facts",
+                  "predicate": "type_"
+                }
+              ],
+              "literal_absent_source_givens": [
+                "s151_b",
+                "s151_b_applies",
+                "s151_c_applies",
+                "s152_c_1",
+                "s63_f_1_A",
+                "s63_f_1_B"
+              ],
+              "declared_case_extraction_status": "unread",
+              "binding_sha256": "eef313125a04dc9fc1f5a22fe3e0136259b9b4efffa9a07391e25d2a049049c5",
+              "instrumented_program_sha256": "d1a5751653f4bbaf28f24209543ab25b3504afbc4a6184937a7078645f70bec9",
+              "unknown_observations_not_assumed_false": true,
+              "family_completeness_is_an_acquired_claim_not_a_source_truth_certificate": true,
+              "handled": false,
+              "answer": null,
+              "raw_native_probe_verdict": "Contradiction",
+              "factual_accesses": [
+                {
+                  "predicate": "son_",
+                  "event": null,
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "daughter_",
+                  "event": null,
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "father_",
+                  "event": null,
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "mother_",
+                  "event": null,
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "brother_",
+                  "event": null,
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "sister_",
+                  "event": null,
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "s152_c_1",
+                  "event": "Bob",
+                  "complete_scope": true,
+                  "origin": "literal_given_contract"
+                }
+              ],
+              "unread_factual_scopes": [
+                {
+                  "predicate": "son_",
+                  "event": null,
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "daughter_",
+                  "event": null,
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "father_",
+                  "event": null,
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "mother_",
+                  "event": null,
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "brother_",
+                  "event": null,
+                  "complete_scope": false,
+                  "origin": "unread"
+                },
+                {
+                  "predicate": "sister_",
+                  "event": null,
+                  "complete_scope": false,
+                  "origin": "unread"
+                }
+              ],
+              "used_observation_families": [],
+              "execution_error": null,
+              "reason": "Native proof depends on unread scopes or failed execution"
+            }
+          }
+        ],
+        "component_conversions": {
+          "education_service_states": [
+            {
+              "trusted_complete_observation": true,
+              "converted": {
+                "facts": [],
+                "negative_givens": [],
+                "witnesses": [
+                  {
+                    "field": "facts",
+                    "quote": "Alice has a son, Bob. From September 1st, 2015 to February 3rd, 2019, Alice and Bob lived in the same home. Bob married Charlie on October 23rd, 2018. Bob bears a relationship to Alice pursuant to section 152(c)(2) for the years 2015 to 2020."
+                  }
+                ],
+                "complete": true,
+                "reasons": []
+              }
+            }
+          ],
+          "family_relationship_residence": [
+            {
+              "trusted_complete_observation": false,
+              "error": "ValueError: A copy field cannot contain a normalized or invented source value"
+            }
+          ],
+          "retained_family_context": [
+            {
+              "trusted_complete_observation": true,
+              "converted": {
+                "facts": [
+                  {
+                    "predicate": "residence_",
+                    "arguments": [
+                      "residence_0_0"
+                    ]
+                  },
+                  {
+                    "predicate": "agent_",
+                    "arguments": [
+                      "residence_0_0",
+                      "Alice"
+                    ]
+                  },
+                  {
+                    "predicate": "patient_",
+                    "arguments": [
+                      "residence_0_0",
+                      "the same home"
+                    ]
+                  },
+                  {
+                    "predicate": "start_",
+                    "arguments": [
+                      "residence_0_0",
+                      "September 1st, 2015"
+                    ]
+                  },
+                  {
+                    "predicate": "end_",
+                    "arguments": [
+                      "residence_0_0",
+                      "February 3rd, 2019"
+                    ]
+                  },
+                  {
+                    "predicate": "residence_",
+                    "arguments": [
+                      "residence_0_1"
+                    ]
+                  },
+                  {
+                    "predicate": "agent_",
+                    "arguments": [
+                      "residence_0_1",
+                      "Bob"
+                    ]
+                  },
+                  {
+                    "predicate": "patient_",
+                    "arguments": [
+                      "residence_0_1",
+                      "the same home"
+                    ]
+                  },
+                  {
+                    "predicate": "start_",
+                    "arguments": [
+                      "residence_0_1",
+                      "September 1st, 2015"
+                    ]
+                  },
+                  {
+                    "predicate": "end_",
+                    "arguments": [
+                      "residence_0_1",
+                      "February 3rd, 2019"
+                    ]
+                  }
+                ],
+                "negative_givens": [],
+                "witnesses": [
+                  {
+                    "field": "facts",
+                    "quote": "Alice has a son, Bob."
+                  },
+                  {
+                    "field": "facts",
+                    "quote": "From September 1st, 2015 to February 3rd, 2019, Alice and Bob lived in the same home."
+                  }
+                ],
+                "complete": true,
+                "reasons": []
+              }
+            }
+          ],
+          "service_events": [
+            {
+              "trusted_complete_observation": true,
+              "converted": {
+                "facts": [
+                  {
+                    "predicate": "service_",
+                    "arguments": [
+                      "service_source_event::facts"
+                    ]
+                  },
+                  {
+                    "predicate": "agent_",
+                    "arguments": [
+                      "service_source_event::facts",
+                      "Bob"
+                    ]
+                  }
+                ],
+                "negative_givens": [],
+                "witnesses": [
+                  {
+                    "field": "facts",
+                    "quote": "Alice has a son, Bob."
+                  },
+                  {
+                    "field": "facts",
+                    "quote": "From September 1st, 2015 to February 3rd, 2019, Alice and Bob lived in the same home."
+                  },
+                  {
+                    "field": "facts",
+                    "quote": "Bob married Charlie on October 23rd, 2018."
+                  },
+                  {
+                    "field": "facts",
+                    "quote": "Bob bears a relationship to Alice pursuant to section 152(c)(2) for the years 2015 to 2020."
+                  }
+                ],
+                "complete": true,
+                "reasons": [],
+                "scope_contract": {
+                  "family_scans": [
+                    "service_"
+                  ],
+                  "event_properties": [
+                    {
+                      "event": "service_source_event::facts",
+                      "predicate": "agent_"
+                    },
+                    {
+                      "event": "service_source_event::facts",
+                      "predicate": "patient_"
+                    },
+                    {
+                      "event": "service_source_event::facts",
+                      "predicate": "purpose_"
+                    },
+                    {
+                      "event": "service_source_event::facts",
+                      "predicate": "type_"
+                    }
+                  ]
+                },
+                "unread_relations": [
+                  "service_geography",
+                  "service_period",
+                  "service_venue"
+                ],
+                "derivations": [
+                  {
+                    "rule": "service_event",
+                    "fact": {
+                      "predicate": "service_",
+                      "arguments": [
+                        "service_source_event::facts"
+                      ]
+                    },
+                    "observation_relations": [
+                      "service_core"
+                    ]
+                  },
+                  {
+                    "rule": "service_worker",
+                    "fact": {
+                      "predicate": "agent_",
+                      "arguments": [
+                        "service_source_event::facts",
+                        "Bob"
+                      ]
+                    },
+                    "observation_relations": [
+                      "service_core"
+                    ]
+                  }
+                ],
+                "explicit_scopes_not_whole_case_completeness": true,
+                "contract_sha256": "34db36acf31e260a8ea7a1a0d6831bbe8485f98de39e3ec570fcd2965a7b214b",
+                "source_event_binding": {
+                  "source_facts_changed": false,
+                  "bindings": [],
+                  "no_source_or_answer_lookup": true,
+                  "only_nominal_event_ids_renamed": true
+                }
+              }
+            }
+          ]
+        },
+        "unread_components": [
+          "annual_income_events",
+          "blindness_events",
+          "death_events",
+          "deduction_events",
+          "explicit_legal_givens",
+          "family_relationship_residence",
+          "institutional_status_events",
+          "legal_separation_events",
+          "marriage_events",
+          "payment_service_events",
+          "return_events",
+          "service_events",
+          "source_economic_legal_ledger_b8",
+          "special_native_states",
+          "termination_benefit_events"
+        ],
+        "used_observation_families": [],
+        "all_coherent_worlds_checked": true,
+        "unknown_not_a_default_fact": true,
+        "not_a_source_truth_or_method_novelty_certificate": true
+      },
+      "native_score": {
+        "valid": false,
+        "correct": false,
+        "metric": "native_exact_match",
+        "grade": 0.0
+      },
+      "new_requests": 0,
+      "retained_source_projection": {
+        "extraction_status": "complete",
+        "residences": [
+          {
+            "end_date": "February 3rd, 2019",
+            "end_text": "February 3rd, 2019",
+            "location": "the same home",
+            "persons": [
+              "Alice",
+              "Bob"
+            ],
+            "residence_term": "lived",
+            "start_date": "September 1st, 2015",
+            "start_text": "September 1st, 2015",
+            "witnesses": [
+              {
+                "field": "facts",
+                "quote": "From September 1st, 2015 to February 3rd, 2019, Alice and Bob lived in the same home."
+              }
+            ]
+          }
+        ],
+        "births": [],
+        "witnesses": [
+          {
+            "field": "facts",
+            "quote": "Alice has a son, Bob."
+          },
+          {
+            "field": "facts",
+            "quote": "From September 1st, 2015 to February 3rd, 2019, Alice and Bob lived in the same home."
+          }
+        ]
+      }
+    }
+  ],
+  "context_native_facts_exactly_equal_old_projected_facts": true,
+  "new_model_calls": 0,
+  "not_an_independent_new_learning_gain": true
+}

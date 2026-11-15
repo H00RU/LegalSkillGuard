@@ -32,7 +32,7 @@ from legal_skill_guard.skill_evolution.ledger import EvolutionLedger
 from legal_skill_guard.skill_evolution.native import record_schema, grade_view
 from legal_skill_guard.skill_evolution.native_observation_execution import evaluate
 from legal_skill_guard.skill_evolution.objects import digest
-from legal_skill_guard.skill_evolution.relational_observation_contract import validate as validate_contract, schema, split, pullback, source_copy_schema
+from legal_skill_guard.skill_evolution.relational_observation_contract import validate as validate_contract, schema, split, pullback, source_copy_schema, constrained_read_schema
 from legal_skill_guard.skill_evolution.runtime import render_messages
 from legal_skill_guard.skill_evolution.span_compiler import execute_json
 from legal_skill_guard.skill_evolution.observation_source_review import review
@@ -263,8 +263,12 @@ def group_read(client,p,sid,component,relation,public,prior):
     contract=component['relation_contract'];group=next(r for r in contract['relations']if r['name']==relation)
     task={'current_facts':public['facts'],'actual_prior_source_records':prior,
           'requested_relation':relation,'shared_key_domain':contract['key_domain']}
-    original=(source_copy_schema(contract,[relation],public['facts'])
-              if p.get('compile_finite_copy_obligations') else schema(contract,[relation]))
+    domain_receipt={'used':False}
+    if contract.get('read_constraint_program'):
+        original,domain_receipt=constrained_read_schema(contract,relation,public,prior)
+    else:
+        original=(source_copy_schema(contract,[relation],public['facts'])
+                  if p.get('compile_finite_copy_obligations') else schema(contract,[relation]))
     wire,_=decoding_schema(original)
     messages=render_messages(group['prompt']+'\nRead facts only. Preserve current source keys. Do not infer missing dates, people or places. '
         'Complete scans enumerate every relevant source record. Ambiguity is unread. Return the named relation wrapper.',task,original)
@@ -274,8 +278,11 @@ def group_read(client,p,sid,component,relation,public,prior):
     if target.exists():
         saved=read(target)
         if saved.get('error'):raise ValueError(saved['error'])
-        return saved['value'],{**saved['receipt'],'cache_hit':True}
-    saved={'source':sid,'component':component['id'],'relation':relation,'messages':messages,'schema':original}
+        value=json.loads(saved['raw_content'])
+        assert value==saved['value'],'Raw response and saved parsed value disagree'
+        return value,{**saved['receipt'],'cache_hit':True}
+    saved={'source':sid,'component':component['id'],'relation':relation,'messages':messages,
+           'schema':original,'learned_domain_receipt':domain_receipt}
     try:
         size=client.tokenize(messages,thinking=False)['count']
         assert size+p['executor_profile']['max_tokens']<=p['executor_profile']['context_tokens']
@@ -284,6 +291,7 @@ def group_read(client,p,sid,component,relation,public,prior):
         saved['receipt']={k:raw.get(k)for k in ('usage','elapsed_seconds','finish_reason','cache_hit')}
         assert raw['finish_reason']=='stop','Incomplete relation generation'
         value=json.loads(raw['content']);jsonschema.validate(value,original)
+        saved['raw_content']=raw['content']
         saved['value']=value
     except Exception as error:
         saved['error']=type(error).__name__+': '+str(error)
@@ -292,11 +300,11 @@ def group_read(client,p,sid,component,relation,public,prior):
     return saved['value'],saved['receipt']
 
 
-def run_case(client,p,name,library,sid,public,kernel,*,policy='residual'):
+def run_case(client,p,name,library,sid,public,kernel,*,policy='residual',initial_observation=None):
     output=ROOT/'artifacts'/p['run_id']
     target=output/'cases'/name/(policy+'_'+digest(sid)+'.json')
     if target.exists():return read(target)
-    observation={};reads=[];failures=[]
+    observation=deepcopy(initial_observation or {});reads=[];failures=[]
     # Preserve already-computed independent education input; no model dispatch.
     from experiments.legal_skill_evolution_residual_reader_matched import NoNewPaidEvidence
     offline=NoNewPaidEvidence()
@@ -319,15 +327,20 @@ def run_case(client,p,name,library,sid,public,kernel,*,policy='residual'):
         legacy=[c for c in library['components']if 'relation_contract'not in c and c['id']not in observation
                 and ('legacy',c['id'])not in attempted and set(c['complete_native_families'])&requested]
         needed_new=False
+        current_demands={}
         for c in library['components']:
             if 'relation_contract'not in c:continue
+            aliases=[b for row in execution['component_conversions'].get(c['id'],[])if row['trusted_complete_observation']
+                     for b in row.get('converted',{}).get('source_event_binding',{}).get('bindings',[])]
+            wanted=set()
             for s in scopes:
                 arity=kernel['fact_arities'].get(s['predicate'])
                 if not arity:continue
                 demands=pullback(c['relation_contract'],{'predicate':s['predicate'],
-                    'arguments':[s['event']]+[{'var':'Provider'+str(i)}for i in range(arity-1)]})
-                if any((c['id'],d['relation'])not in attempted for b in demands['branches']for d in b['joined_demands']):
-                    needed_new=True
+                    'arguments':[s['event']]+[{'var':'Provider'+str(i)}for i in range(arity-1)]},event_bindings=aliases)
+                wanted.update(d['relation']for b in demands['branches']for d in b['joined_demands'])
+            current_demands[c['id']]=wanted
+            if any((c['id'],name)not in attempted for name in wanted):needed_new=True
         if legacy and not needed_new:
             c=min(legacy,key=lambda c:(len(c['schema_json']),c['id']))
             attempted.add(('legacy',c['id']))
@@ -339,14 +352,12 @@ def run_case(client,p,name,library,sid,public,kernel,*,policy='residual'):
         for c in library['components']:
             if 'relation_contract'not in c:continue
             contract=c['relation_contract'];view=observation.get(c['id'],{'views':[{}]})['views'][0]
-            wanted=set()
+            # Both controls know which existing component can supply the
+            # actual unresolved event. Only within-component group selection
+            # differs; the ordinary control is not sent to a foreign key type.
+            if p.get('stop_without_supported_demand')and not current_demands[c['id']]:continue
             if policy=='residual':
-                for s in scopes:
-                    arity=kernel['fact_arities'].get(s['predicate'])
-                    if not arity:continue
-                    demand=pullback(contract,{'predicate':s['predicate'],
-                        'arguments':[s['event']]+[{'var':'Unbound'+str(i)}for i in range(arity-1)]})
-                    wanted.update(d['relation']for b in demand['branches']for d in b['joined_demands'])
+                wanted=current_demands[c['id']]
             else:
                 wanted={a['predicate']for r in contract['rules']if r['head']['predicate']in static_inputs for a in r['body']}
             if p.get('stop_without_supported_demand') and not wanted:
@@ -377,6 +388,7 @@ def run_case(client,p,name,library,sid,public,kernel,*,policy='residual'):
     native_score=grade_view(source['dataset'],source['views'][0],grading[sid][source['views'][0]['id']],execution['answer'])
     result={'source':sid,'candidate':name,'policy':policy,'observation':observation,'execution':execution,
         'reads':reads,'failures':failures,'native_score':native_score,
+        'retained_initial_components':sorted(initial_observation or {}),
         'source_failures':sum(w['source_review']['failures']for w in execution['binding_executions']),
         'core_correct':execution['handled']and native_score['correct']and
             not any(w['source_review']['failures']for w in execution['binding_executions'])}

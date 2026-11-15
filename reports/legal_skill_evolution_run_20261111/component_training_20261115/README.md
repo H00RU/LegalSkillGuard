@@ -81,6 +81,6 @@ B8方法实际选择了新提议与保留return_events的成对版本组合，�
 
 ## 连续账本与成本
 
-截面累计executor **10929**、teacher **311**，当前0份请求在途。相对上轮已结算10816条，新增executor395次、teacher29次（含在途）；失败/重试保留，不恢复旧机械上限。[逐次请求及原usage](physical_requests.json)、[费用与10619条旧记录hash校验](cost_snapshot.json)。实际现金发票与GPU分摊未知，不虚构美元费用；原usage可能含重叠字段，不相加冒充计费总量。
+截面累计executor **11012**、teacher **317**，当前1份请求在途。相对上轮已结算10816条，新增executor478次、teacher35次（含在途）；失败/重试保留，不恢复旧机械上限。[逐次请求及原usage](physical_requests.json)、[费用与10619条旧记录hash校验](cost_snapshot.json)。实际现金发票与GPU分摊未知，不虚构美元费用；原usage可能含重叠字段，不相加冒充计费总量。
 
-[11711份原始文件与hash索引](artifact_copy_manifest.json)保留前后完整输出、真实失败、教师提议、学习代码、逐来源结果、冻结及账本快照。大文件以.gz公开，均可下载核对，不截断原始响应。公开实现与结果位于研究分支，main保持不变。
+[14766份原始文件与hash索引](artifact_copy_manifest.json)保留前后完整输出、真实失败、教师提议、学习代码、逐来源结果、冻结及账本快照。大文件以.gz公开，均可下载核对，不截断原始响应。公开实现与结果位于研究分支，main保持不变。

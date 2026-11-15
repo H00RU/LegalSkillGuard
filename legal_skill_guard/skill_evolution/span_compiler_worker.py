@@ -97,6 +97,9 @@ class SourceValues(dict):
     def get(self, key, default=None):
         self.check(key);return super().get(key, default)
 
+    def setdefault(self, key, default=None):
+        self.check(key);return super().setdefault(key, default)
+
     def __contains__(self, key):
         self.check(key);return super().__contains__(key)
 
@@ -145,7 +148,7 @@ def main():
             record['values'] = SourceValues(record['values'], record['unresolved_fields'])
     import builtins
     names = ('min', 'max', 'sum', 'len', 'abs', 'round', 'sorted', 'all', 'any',
-        'int', 'float', 'bool', 'str', 'list', 'dict', 'set', 'tuple', 'range',
+        'int', 'float', 'bool', 'str', 'repr', 'list', 'dict', 'set', 'tuple', 'range',
         'enumerate', 'zip', 'isinstance', 'ValueError', 'KeyError', 'TypeError', 'type')
     scope = {'__builtins__': {n: getattr(builtins, n) for n in names}, 're': re, 'bind_scope': bind_scope,
         'calendar_year': calendar_year, 'year_days': year_days,

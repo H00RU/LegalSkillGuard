@@ -1,0 +1,209 @@
+{
+  "component": "service_events",
+  "messages": [
+    {
+      "content": "Enumerate every source service event in current facts. Keep the explicitly stated worker and employer on the same record, using the licensed service construction rather than payment proximity alone. Copy the literal service or labor kind; do not replace it with a query label. If the employer is not stated, leave it null rather than guessing. Copy dates only when they grammatically modify this service event; payment years, enrollment periods, annual thresholds, and query dates are not service dates. Preserve a stated venue category independently from a geographic location and its country. In employer-paid wording, her home refers to the stated employer's home and must be copied as venue_cue home; it does not assert that worker and employer share a residence. Do not infer private-home venue merely from domestic service. A country must be source-stated and must not be inferred from citizenship. Use one opaque key per source service-worker occurrence, scan all current facts, and provide exact facts witnesses. Return unread for unresolved role, attachment, coordination, or event identity.\nRead facts only. Preserve current source keys. Do not infer missing dates, people or places. Complete scans enumerate every relevant source record. Ambiguity is unread. Return the named relation wrapper.",
+      "role": "system"
+    },
+    {
+      "content": "{\"task\": {\"current_facts\": \"Alice has paid $3200 to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017, in Caracas, Venezuela. Alice is an American employer.\", \"actual_prior_source_records\": {}, \"requested_relation\": \"service_source\", \"shared_key_domain\": \"observed_service_event\"}, \"output_schema\": {\"type\": \"object\", \"properties\": {\"service_source\": {\"anyOf\": [{\"type\": \"object\", \"properties\": {\"witnesses\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"object\", \"properties\": {\"field\": {\"const\": \"facts\"}, \"quote\": {\"type\": \"string\", \"minLength\": 1}}, \"required\": [\"field\", \"quote\"], \"additionalProperties\": false}}, \"status\": {\"const\": \"complete\"}, \"records\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"source_key\": {\"type\": \"string\", \"minLength\": 1}, \"worker\": {\"type\": \"string\"}, \"employer\": {\"type\": [\"string\", \"null\"]}, \"kind\": {\"type\": [\"string\", \"null\"]}, \"start\": {\"type\": [\"string\", \"null\"]}, \"end\": {\"type\": [\"string\", \"null\"]}, \"venue_cue\": {\"type\": [\"string\", \"null\"], \"enum\": [null]}, \"geographic_location\": {\"type\": [\"string\", \"null\"]}, \"country\": {\"type\": [\"string\", \"null\"]}}, \"required\": [\"source_key\", \"worker\", \"employer\", \"kind\", \"start\", \"end\", \"venue_cue\", \"geographic_location\", \"country\"], \"additionalProperties\": false}}}, \"required\": [\"witnesses\", \"status\", \"records\"], \"additionalProperties\": false}, {\"type\": \"object\", \"properties\": {\"witnesses\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"object\", \"properties\": {\"field\": {\"const\": \"facts\"}, \"quote\": {\"type\": \"string\", \"minLength\": 1}}, \"required\": [\"field\", \"quote\"], \"additionalProperties\": false}}, \"status\": {\"const\": \"unread\"}, \"records\": {\"type\": \"null\"}}, \"required\": [\"witnesses\", \"status\", \"records\"], \"additionalProperties\": false}]}}, \"required\": [\"service_source\"], \"additionalProperties\": false}}",
+      "role": "user"
+    }
+  ],
+  "raw_content": "{\n  \"service_source\": {\n    \"witnesses\": [\n      {\n        \"field\": \"facts\",\n        \"quote\": \"Alice has paid $3200 to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017, in Caracas, Venezuela.\"\n      }\n    ],\n    \"status\": \"complete\",\n    \"records\": [\n      {\n        \"source_key\": \"observed_service_event_1\",\n        \"worker\": \"Bob\",\n        \"employer\": \"Alice\",\n        \"kind\": \"domestic service\",\n        \"start\": \"Feb 1st, 2017\",\n        \"end\": \"Sep 2nd, 2017\",\n        \"venue_cue\": null,\n        \"geographic_location\": \"Caracas\",\n        \"country\": \"Venezuela\"\n      }\n    ]\n  }\n}",
+  "receipt": {
+    "cache_hit": false,
+    "elapsed_seconds": 5.213631639257073,
+    "finish_reason": "stop",
+    "usage": {
+      "completion_tokens": 192,
+      "prompt_tokens": 795,
+      "prompt_tokens_details": null,
+      "total_tokens": 987
+    }
+  },
+  "relation": "service_source",
+  "schema": {
+    "additionalProperties": false,
+    "properties": {
+      "service_source": {
+        "anyOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "records": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "country": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "employer": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "end": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "geographic_location": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "kind": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "source_key": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "start": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "venue_cue": {
+                      "enum": [
+                        null
+                      ],
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "worker": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "source_key",
+                    "worker",
+                    "employer",
+                    "kind",
+                    "start",
+                    "end",
+                    "venue_cue",
+                    "geographic_location",
+                    "country"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "status": {
+                "const": "complete"
+              },
+              "witnesses": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "field": {
+                      "const": "facts"
+                    },
+                    "quote": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "quote"
+                  ],
+                  "type": "object"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            },
+            "required": [
+              "witnesses",
+              "status",
+              "records"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "records": {
+                "type": "null"
+              },
+              "status": {
+                "const": "unread"
+              },
+              "witnesses": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "field": {
+                      "const": "facts"
+                    },
+                    "quote": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "quote"
+                  ],
+                  "type": "object"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            },
+            "required": [
+              "witnesses",
+              "status",
+              "records"
+            ],
+            "type": "object"
+          }
+        ]
+      }
+    },
+    "required": [
+      "service_source"
+    ],
+    "type": "object"
+  },
+  "source": "SARA_v2_Binary:ed3f34d32df6998b281016f4e791bff5a4d9f3a51c492bac0ea688aa5f91930f",
+  "value": {
+    "service_source": {
+      "records": [
+        {
+          "country": "Venezuela",
+          "employer": "Alice",
+          "end": "Sep 2nd, 2017",
+          "geographic_location": "Caracas",
+          "kind": "domestic service",
+          "source_key": "observed_service_event_1",
+          "start": "Feb 1st, 2017",
+          "venue_cue": null,
+          "worker": "Bob"
+        }
+      ],
+      "status": "complete",
+      "witnesses": [
+        {
+          "field": "facts",
+          "quote": "Alice has paid $3200 to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017, in Caracas, Venezuela."
+        }
+      ]
+    }
+  }
+}

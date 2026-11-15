@@ -1,0 +1,102 @@
+"""Read a source with an acquired residual interpretation program.
+
+The residual is a learned pure program, not a host supplied legal rule. Every
+replacement retains its pre-revision neural answer and must pass the same
+choice, identity and source-quote checks. Unknown is never a default fact.
+"""
+import json
+
+import jsonschema
+
+from .native import record_schema
+from .objects import digest
+from .runtime import decoder_schema
+from .semantic_execution import operation_groups
+from .source_python import plan as prepare_queries,finish,probe_program as demand_program,execute as execute_json
+from .source_evidence_codec import schema as answer_schema,decode as decode_answers,messages as focused_messages
+from .semantic_operations import ANSWER,ground_answers
+
+CORRECTIONS=record_schema({'corrections':{'type':'array','items':ANSWER}})
+
+
+def residual_answers(program,operations,queries,text,units,answers):
+    if not program:return answers,[]
+    raw=execute_json(program,{'source_text':text,'source_spans':units,
+        'operations':operations,'queries':queries,'semantic_answers':list(answers.values())},
+        {})
+    jsonschema.validate(raw,CORRECTIONS)
+    ids=[a['id'] for a in raw['corrections']]
+    if len(set(ids))!=len(ids) or not set(ids)<=set(answers):
+        raise ValueError('Residual may revise an observed query once per invocation; no invented observations')
+    by_id={q['id']:q for q in queries};selected=[by_id[i] for i in ids]
+    grounded=ground_answers(operations,selected,units,{'answers':raw['corrections']})
+    result=dict(answers);changes=[]
+    for corrected in grounded:
+        before=answers[corrected['id']]
+        if corrected['choice']==before['choice']:continue
+        result[corrected['id']]=corrected
+        changes.append({'id':corrected['id'],'before':before,'after':corrected,
+            'origin':'acquired_residual_program','program_sha256':digest(program),
+            'source_semantics_verified':False})
+    return result,changes
+
+
+def execute(client,prefix,source,bundle,text,units,*,scope,lookup,monitor=None,save_event=None,initial_observations=()):
+    queries=prepare_queries(bundle['program'],bundle['operations'],text,units)
+    by_id={q['id']:q for q in queries};answers={};events=[];rounds=[];neural_ids=set()
+    probe=demand_program(bundle['program'],lookup) if lookup else None
+    initial_ids=[a['id'] for a in initial_observations]
+    if len(set(initial_ids))!=len(initial_ids) or not set(initial_ids)<=set(by_id):
+        raise ValueError('Invalid restored observation identity')
+    if initial_ids:
+        selected=[by_id[i] for i in initial_ids]
+        canonical=[{'id':a['id'],'choice':a['choice'],'evidence':[
+            {'unit_id':w['unit_id'],'quote':w['quote']} for w in a['evidence']]} for a in initial_observations]
+        old=ground_answers(bundle['operations'],selected,units,{'answers':canonical})
+        answers={a['id']:a for a in old};neural_ids.update(answers)
+        answers,changes=residual_answers(monitor,bundle['operations'],queries,text,units,answers)
+        if changes:
+            event={'kind':'residual','after_call':'restored_observations','changes':changes}
+            events.append(event)
+            if save_event:save_event(event)
+    while True:
+        if probe:
+            from .semantic_execution import DEMAND
+            provisional=finish(probe,text,units,list(answers.values()))
+            wanted=list(dict.fromkeys(s[len(DEMAND):] for s in provisional['unresolved'] if s.startswith(DEMAND)))
+            if not set(wanted)<=set(by_id) or set(wanted)&set(answers):
+                raise ValueError('Acquired lookup requested an undeclared or already observed query')
+        else:wanted=[q['id'] for q in queries if q['id'] not in answers]
+        if not wanted:break
+        rounds.append(wanted)
+        for batch in operation_groups([by_id[i] for i in wanted]):
+            # A previous residual can change control flow, but cannot erase an
+            # observation. No original logical query is sent twice.
+            batch=[q for q in batch if q['id'] not in neural_ids]
+            if not batch:continue
+            prompt=focused_messages(bundle['operations'],batch,units,scope=scope)
+            wire,_=decoder_schema(answer_schema(bundle['operations'],batch))
+            identity=prefix+':semantic:'+digest(prompt)
+            r=client.generate(identity,source=source,purpose='skill_replay',messages=prompt,
+                              thinking=False,schema=wire)
+            if r['finish_reason']!='stop':raise ValueError('Incomplete response preserved without implicit retry')
+            value,grounded=decode_answers(bundle['operations'],batch,units,r['content'])
+            for a in grounded:
+                if a['id'] in neural_ids:raise ValueError('Repeated neural interpretation')
+                neural_ids.add(a['id']);answers[a['id']]=a
+            event={'kind':'neural','call_id':identity,'query_ids':[q['id'] for q in batch],
+                'result':r,'raw_answer':value,'scope':scope}
+            events.append(event)
+            if save_event:save_event(event)
+            answers,changes=residual_answers(monitor,bundle['operations'],queries,text,units,answers)
+            if changes:
+                event={'kind':'residual','after_call':identity,'changes':changes}
+                events.append(event)
+                if save_event:save_event(event)
+    raw=finish(bundle['program'],text,units,list(answers.values()))
+    return {'source_output':raw,'semantic_answers':list(answers.values()),'events':events,
+        'query_plan':queries,'demand_rounds':rounds,'planned_queries':len(queries),
+        'answered_queries':len(answers),'unread_queries':len(queries)-len(answers),
+        'neural_query_ids':sorted(neural_ids),'no_query_resampled':True,
+        'restored_observation_count':len(initial_ids),
+        'learned_corrections':sum(len(e['changes']) for e in events if e['kind']=='residual')}

@@ -1,0 +1,179 @@
+{
+  "component": "family_relationship_residence",
+  "messages": [
+    {
+      "content": "Enumerate every explicitly stated supported kinship occurrence in current facts. The copied cue is the literal kinship word. bearer is the person denoted by that word; reference_person is the person whose relative the bearer is. Thus in her father Bob, cue is father, bearer is Bob, and the possessive reference is the other explicitly named person. Keep these roles together even when payment or service grammar has different agent and recipient roles. Copy start or end only when the source explicitly assigns that date to the kinship itself. Work, payment, enrollment, residence, or service dates and places are not kinship dates. Do not create residence records or shared homes. Query people, dates, labels, statutes, answers, and source identifiers are unavailable. Return unread for an unresolved cue or orientation, and enumerate all relevant source occurrences with stable opaque keys and exact facts witnesses.\nRead facts only. Preserve current source keys. Do not infer missing dates, people or places. Complete scans enumerate every relevant source record. Ambiguity is unread. Return the named relation wrapper.",
+      "role": "system"
+    },
+    {
+      "content": "{\"task\": {\"current_facts\": \"Alice has paid $3200 to her father Bob for work done from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.\", \"actual_prior_source_records\": {}, \"requested_relation\": \"kinship_source\", \"shared_key_domain\": \"observed_kinship_event\"}, \"output_schema\": {\"type\": \"object\", \"properties\": {\"kinship_source\": {\"anyOf\": [{\"type\": \"object\", \"properties\": {\"witnesses\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"object\", \"properties\": {\"field\": {\"const\": \"facts\"}, \"quote\": {\"type\": \"string\", \"minLength\": 1}}, \"required\": [\"field\", \"quote\"], \"additionalProperties\": false}}, \"status\": {\"const\": \"complete\"}, \"records\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"source_key\": {\"type\": \"string\", \"minLength\": 1}, \"cue\": {\"type\": \"string\", \"enum\": [\"father\"]}, \"bearer\": {\"type\": \"string\"}, \"reference_person\": {\"type\": \"string\"}, \"start\": {\"type\": [\"string\", \"null\"]}, \"end\": {\"type\": [\"string\", \"null\"]}}, \"required\": [\"source_key\", \"cue\", \"bearer\", \"reference_person\", \"start\", \"end\"], \"additionalProperties\": false}}}, \"required\": [\"witnesses\", \"status\", \"records\"], \"additionalProperties\": false}, {\"type\": \"object\", \"properties\": {\"witnesses\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"object\", \"properties\": {\"field\": {\"const\": \"facts\"}, \"quote\": {\"type\": \"string\", \"minLength\": 1}}, \"required\": [\"field\", \"quote\"], \"additionalProperties\": false}}, \"status\": {\"const\": \"unread\"}, \"records\": {\"type\": \"null\"}}, \"required\": [\"witnesses\", \"status\", \"records\"], \"additionalProperties\": false}]}}, \"required\": [\"kinship_source\"], \"additionalProperties\": false}}",
+      "role": "user"
+    }
+  ],
+  "raw_content": "{\n  \"kinship_source\": {\n    \"witnesses\": [\n      {\n        \"field\": \"facts\",\n        \"quote\": \"Alice has paid $3200 to her father Bob for work done from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.\"\n      }\n    ],\n    \"status\": \"complete\",\n    \"records\": [\n      {\n        \"source_key\": \"1\",\n        \"cue\": \"father\",\n        \"bearer\": \"Bob\",\n        \"reference_person\": \"Alice\",\n        \"start\": \"2017-02-01\",\n        \"end\": \"2017-09-02\"\n      }\n    ]\n  }\n}",
+  "receipt": {
+    "cache_hit": false,
+    "elapsed_seconds": 4.412590431049466,
+    "finish_reason": "stop",
+    "usage": {
+      "completion_tokens": 162,
+      "prompt_tokens": 706,
+      "prompt_tokens_details": null,
+      "total_tokens": 868
+    }
+  },
+  "relation": "kinship_source",
+  "schema": {
+    "additionalProperties": false,
+    "properties": {
+      "kinship_source": {
+        "anyOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "records": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "bearer": {
+                      "type": "string"
+                    },
+                    "cue": {
+                      "enum": [
+                        "father"
+                      ],
+                      "type": "string"
+                    },
+                    "end": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "reference_person": {
+                      "type": "string"
+                    },
+                    "source_key": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "start": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "source_key",
+                    "cue",
+                    "bearer",
+                    "reference_person",
+                    "start",
+                    "end"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "status": {
+                "const": "complete"
+              },
+              "witnesses": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "field": {
+                      "const": "facts"
+                    },
+                    "quote": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "quote"
+                  ],
+                  "type": "object"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            },
+            "required": [
+              "witnesses",
+              "status",
+              "records"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "records": {
+                "type": "null"
+              },
+              "status": {
+                "const": "unread"
+              },
+              "witnesses": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "field": {
+                      "const": "facts"
+                    },
+                    "quote": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "quote"
+                  ],
+                  "type": "object"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            },
+            "required": [
+              "witnesses",
+              "status",
+              "records"
+            ],
+            "type": "object"
+          }
+        ]
+      }
+    },
+    "required": [
+      "kinship_source"
+    ],
+    "type": "object"
+  },
+  "source": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+  "value": {
+    "kinship_source": {
+      "records": [
+        {
+          "bearer": "Bob",
+          "cue": "father",
+          "end": "2017-09-02",
+          "reference_person": "Alice",
+          "source_key": "1",
+          "start": "2017-02-01"
+        }
+      ],
+      "status": "complete",
+      "witnesses": [
+        {
+          "field": "facts",
+          "quote": "Alice has paid $3200 to her father Bob for work done from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+        }
+      ]
+    }
+  }
+}

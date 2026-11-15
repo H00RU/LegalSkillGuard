@@ -111,5 +111,35 @@ class SpanCompilerChecks(unittest.TestCase):
         with self.assertRaises(ValueError):validate_procedure('def apply(inputs, premises):\n    return open("file")\n')
         with self.assertRaises(ValueError):execute(fixture()['procedure'].replace('False', 'True'), {}, {'records': []})
 
+    def test_repr_deduplication_runs_in_shared_pure_worker(self):
+        from legal_skill_guard.skill_evolution.span_compiler import execute_json
+        code = '''def apply(inputs, premises):
+    seen = set()
+    rows = []
+    for row in inputs['rows']:
+        key = repr(row['term']) + '|' + repr(sorted(row['support_ids']))
+        if key not in seen:
+            seen.add(key)
+            rows.append(row)
+    return {'rows': rows}
+'''
+        first = {'term': ['sample', 'x'], 'support_ids': [2, 1]}
+        duplicate = {**first, 'support_ids': [1, 2]}
+        other = {**first, 'term': ['sample', 'y']}
+        actual = execute_json(code, {'rows': [first, duplicate, other]}, {})
+        self.assertEqual(actual['rows'], [first, other])
+
+    def test_setdefault_support_keeps_unresolved_source_fields_protected(self):
+        from legal_skill_guard.skill_evolution.span_compiler import execute_json
+        code = '''def apply(inputs, premises):
+    values = premises['records'][0]['values']
+    return {'value': values.setdefault('amount', 0)}
+'''
+        known = {'records': [{'values': {'amount': 7}, 'unresolved_fields': []}]}
+        self.assertEqual(execute_json(code, {}, known), {'value': 7})
+        unread = {'records': [{'values': {}, 'unresolved_fields': ['amount']}]}
+        with self.assertRaisesRegex(ValueError, 'Unresolved source field accessed'):
+            execute_json(code, {}, unread)
+
 
 if __name__ == '__main__':unittest.main()

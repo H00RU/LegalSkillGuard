@@ -6,7 +6,9 @@ module supplies joins, source-witness transport and lossless key-based splitting
 It does not supply a legal rule, a factual value or a model-error correction.
 """
 from copy import deepcopy
+from datetime import date
 import json
+import re
 
 import jsonschema
 
@@ -101,6 +103,59 @@ def source_copy_schema(contract, names, facts):
     return result
 
 
+def constrained_read_schema(contract, relation, public, prior):
+    """Execute an acquired source-domain program before weak generation.
+
+    Its witnesses and values are checked against the existing field contract.
+    A learned null restriction is a fallible source claim, never a host default.
+    Subsequent source review and native scope checks remain mandatory.
+    """
+    result = source_copy_schema(contract,[relation],public['facts'])
+    program = contract.get('read_constraint_program')
+    if not program:
+        return result, {'used':False}
+    from .case_observation_contract import validate_adapter
+    from .span_compiler import execute_json
+    group = next(g for g in contract['relations'] if g['name']==relation)
+    validate_adapter(program)
+    value = execute_json(program,{'facts':public['facts'],
+        'requested_relation':relation,'record_fields':deepcopy(group['fields']),
+        'actual_prior_source_records':deepcopy(prior)}, {},allow_helpers=True)
+    if set(value)!={'status','domains','witnesses'} or value['status'] not in ('constrained','unread'):
+        raise ValueError('A learned read domain has explicit status, domains and witnesses')
+    if not isinstance(value['domains'],list) or not isinstance(value['witnesses'],list):
+        raise ValueError('Read domains and their actual source witnesses must be lists')
+    if value['status']=='unread':
+        if value['domains']:
+            raise ValueError('An unread domain program cannot restrict factual values')
+        return result, {'used':False,'program_sha256':digest(program),'response':value}
+    if not value['witnesses']:
+        raise ValueError('A factual domain restriction needs its source evidence')
+    for witness in value['witnesses']:
+        if set(witness)!={'field','quote'} or witness['field']!='facts' or not witness['quote'] or not occurrences(public['facts'],witness['quote']):
+            raise ValueError('A domain program must quote the actual current facts')
+    fields = {f['name']:f for f in group['fields']}
+    item = result['properties'][relation]['anyOf'][0]['properties']['records']['items']
+    seen=set()
+    for domain in value['domains']:
+        if set(domain)!={'field','values'} or domain['field'] not in fields or domain['field']==group['key']:
+            raise ValueError('A read domain restricts an actual non-key field only')
+        name=domain['field'];field=fields[name]
+        if name in seen or not isinstance(domain['values'],list) or not domain['values']:
+            raise ValueError('Each restricted field has one nonempty finite domain')
+        seen.add(name)
+        allowed=[]
+        for candidate in domain['values']:
+            jsonschema.validate(candidate,item['properties'][name])
+            if candidate is not None and field.get('copy') and not any(
+                occurrences(w['quote'],str(candidate))for w in value['witnesses']):
+                raise ValueError('Learned copy domains cannot add source-absent values')
+            if candidate not in allowed:allowed.append(candidate)
+        item['properties'][name]['enum']=allowed
+    return result, {'used':bool(value['domains']),'program_sha256':digest(program),
+        'response':value,'native_facts_added':False,'all_existing_checks_retained':True}
+
+
 def _match(pattern, values, environment):
     binding = dict(environment)
     for term,value in zip(pattern,values):
@@ -114,6 +169,36 @@ def _match(pattern, values, environment):
     return binding
 
 
+def _native_date(contract,group,field,row,witnesses):
+    from .sara_statute_kernel import literal_date
+    value=literal_date(row[field['name']])
+    try:
+        if date.fromisoformat(value).isoformat()==value:return value
+    except (ValueError,TypeError):pass
+    # Whole named calendar-year ranges have exact bounds. The acquired
+    # transduction identifies the start/end fields; source witnesses must
+    # contain this very range. A lone year or an unstated bound stays unread.
+    endpoints={}
+    for rule in contract['rules']:
+        if rule['head']['predicate']not in ('start_','end_'):continue
+        argument=rule['head']['arguments'][1]
+        if not _variable(argument):continue
+        for atom in rule['body']:
+            if atom['predicate']!=group['name']:continue
+            names=[f['name']for f,a in zip(group['fields'],atom['arguments'])if a==argument]
+            if len(names)==1:endpoints.setdefault(rule['head']['predicate'],set()).add(names[0])
+    if all(len(endpoints.get(p,set()))==1 for p in ('start_','end_')):
+        start=next(iter(endpoints['start_']));end=next(iter(endpoints['end_']))
+        first,last=row[start],row[end]
+        if start!=end and isinstance(first,str)and isinstance(last,str)and re.fullmatch(r'\d{4}',first)and re.fullmatch(r'\d{4}',last):
+            found={(m[0],m[1])for w in witnesses for m in re.findall(
+                r'\bfor\s+the\s+years\s+(\d{4})\s+(?:to|through)\s+(\d{4})\b',w['quote'],re.I)}
+            if (first,last)in found and int(first)<=int(last):
+                if field['name']==start:return date(int(first),1,1).isoformat()
+                if field['name']==end:return date(int(last),12,31).isoformat()
+    raise ValueError('Observed temporal granularity is not a native calendar date or an explicit year-range endpoint')
+
+
 def forward(contract, observation, public, kernel):
     validate(contract,kernel)
     actual_schema = schema(contract)
@@ -121,6 +206,7 @@ def forward(contract, observation, public, kernel):
     jsonschema.validate(observation,actual_schema)
     groups = {g['name']:g for g in contract['relations']}
     tables, witnesses, keys, complete = {}, [], {}, set()
+    unread_reasons=[]
     for name,value in observation.items():
         for witness in value['witnesses']:
             if not occurrences(public['facts'],witness['quote']):
@@ -134,6 +220,7 @@ def forward(contract, observation, public, kernel):
         if len(set(keys[name]))!=len(keys[name]):
             raise ValueError('An observation relation is functional in its source-record key')
         tables[name] = []
+        invalid_date=False
         for row in value['records']:
             values = []
             for field in group['fields']:
@@ -142,10 +229,15 @@ def forward(contract, observation, public, kernel):
                     occurrences(w['quote'],str(item)) for w in value['witnesses']):
                     raise ValueError('A copy field cannot contain a normalized or invented source value')
                 if item is not None and field.get('normalizer')=='literal_date':
-                    from .sara_statute_kernel import literal_date
-                    item=literal_date(item)
+                    try:item=_native_date(contract,group,field,row,value['witnesses'])
+                    except ValueError as error:
+                        invalid_date=True
+                        unread_reasons.append({'relation':name,'field':field['name'],'reason':str(error)})
                 values.append(contract['key_domain']+'::'+item if field['name']==group['key'] else item)
             tables[name].append(values)
+        if invalid_date:
+            tables.pop(name);keys.pop(name)
+            continue
         complete.add(name)
     if keys:
         expected = set(next(iter(keys.values())))
@@ -182,11 +274,21 @@ def forward(contract, observation, public, kernel):
     return {'facts':facts,'negative_givens':[],'witnesses':witnesses,'complete':True,'reasons':[],
         'scope_contract':{'family_scans':scans,'event_properties':properties},
         'unread_relations':sorted(set(groups)-complete),'derivations':uses,
+        'unread_temporal_observations':unread_reasons,
         'explicit_scopes_not_whole_case_completeness':True,'contract_sha256':digest(contract)}
 
 
-def pullback(contract, target, *, observed_keys=()):
+def pullback(contract, target, *, observed_keys=(), event_bindings=()):
     """All rule branches yield demands; desired values never become facts."""
+    if target['arguments']:
+        originals={r['source_event']for r in event_bindings if r['native_event']==target['arguments'][0]}
+        if originals:
+            branches=[]
+            for original in sorted(originals):
+                source_target=deepcopy(target);source_target['arguments'][0]=original
+                branches.extend(pullback(contract,source_target,observed_keys=observed_keys)['branches'])
+            return {'target':deepcopy(target),'branches':branches,'all_transduction_branches_preserved':True,
+                    'nominal_bindings_used':True,'not_an_observation_or_answer':True}
     groups = {g['name']:g for g in contract['relations']}
     demands = []
     for rule in contract['rules']:
@@ -206,6 +308,17 @@ def pullback(contract, target, *, observed_keys=()):
                 compatible=False
         if not compatible:
             continue
+        # Every observed record key is namespaced by this contract. An actual
+        # family event cannot be produced by an unrelated service relation.
+        # Public native aliases are resolved from observed bindings above.
+        prefix=contract['key_domain']+'::'
+        for atom in rule['body']:
+            group=groups[atom['predicate']]
+            key_term=atom['arguments'][next(i for i,f in enumerate(group['fields'])if f['name']==group['key'])]
+            key_value=binding.get(_variable(key_term))if _variable(key_term)else key_term
+            if isinstance(key_value,str)and '::'in key_value and not key_value.startswith(prefix):
+                compatible=False
+        if not compatible:continue
         branch = []
         for atom in rule['body']:
             group = groups[atom['predicate']]

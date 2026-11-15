@@ -1,0 +1,166 @@
+{
+  "component": "service_events",
+  "messages": [
+    {
+      "content": "For every source service occurrence, preserve the explicitly stated worker, employer, and literal service or labor kind on one opaque key. Paid-to-for-work grammar may establish payer as employer and payee as worker, but payment proximity alone may not. Unknown employer or unstated kind remains null; unresolved roles are unread. Enumerate every relevant service occurrence.\nRead facts only. Preserve current source keys. Do not infer missing dates, people or places. Complete scans enumerate every relevant source record. Ambiguity is unread. Return the named relation wrapper.",
+      "role": "system"
+    },
+    {
+      "content": "{\"task\": {\"current_facts\": \"Alice has paid $3200 to her father Bob for work done from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.\", \"actual_prior_source_records\": {}, \"requested_relation\": \"service_core\", \"shared_key_domain\": \"observed_service_event\"}, \"output_schema\": {\"type\": \"object\", \"properties\": {\"service_core\": {\"anyOf\": [{\"type\": \"object\", \"properties\": {\"witnesses\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"object\", \"properties\": {\"field\": {\"const\": \"facts\"}, \"quote\": {\"type\": \"string\", \"minLength\": 1}}, \"required\": [\"field\", \"quote\"], \"additionalProperties\": false}}, \"status\": {\"const\": \"complete\"}, \"records\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"source_key\": {\"type\": \"string\", \"minLength\": 1}, \"worker\": {\"type\": \"string\"}, \"employer\": {\"type\": [\"string\", \"null\"]}, \"kind\": {\"type\": [\"string\", \"null\"]}}, \"required\": [\"source_key\", \"worker\", \"employer\", \"kind\"], \"additionalProperties\": false}}}, \"required\": [\"witnesses\", \"status\", \"records\"], \"additionalProperties\": false}, {\"type\": \"object\", \"properties\": {\"witnesses\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"object\", \"properties\": {\"field\": {\"const\": \"facts\"}, \"quote\": {\"type\": \"string\", \"minLength\": 1}}, \"required\": [\"field\", \"quote\"], \"additionalProperties\": false}}, \"status\": {\"const\": \"unread\"}, \"records\": {\"type\": \"null\"}}, \"required\": [\"witnesses\", \"status\", \"records\"], \"additionalProperties\": false}]}}, \"required\": [\"service_core\"], \"additionalProperties\": false}}",
+      "role": "user"
+    }
+  ],
+  "raw_content": "{\n  \"service_core\": {\n    \"witnesses\": [\n      {\n        \"field\": \"facts\",\n        \"quote\": \"Alice has paid $3200 to her father Bob for work done from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.\"\n      }\n    ],\n    \"status\": \"complete\",\n    \"records\": [\n      {\n        \"source_key\": \"observed_service_event\",\n        \"worker\": \"Bob\",\n        \"employer\": \"Alice\",\n        \"kind\": \"work\"\n      }\n    ]\n  }\n}",
+  "receipt": {
+    "cache_hit": false,
+    "elapsed_seconds": 3.5672817761078477,
+    "finish_reason": "stop",
+    "usage": {
+      "completion_tokens": 131,
+      "prompt_tokens": 563,
+      "prompt_tokens_details": null,
+      "total_tokens": 694
+    }
+  },
+  "relation": "service_core",
+  "schema": {
+    "additionalProperties": false,
+    "properties": {
+      "service_core": {
+        "anyOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "records": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "employer": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "kind": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "source_key": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "worker": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "source_key",
+                    "worker",
+                    "employer",
+                    "kind"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "status": {
+                "const": "complete"
+              },
+              "witnesses": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "field": {
+                      "const": "facts"
+                    },
+                    "quote": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "quote"
+                  ],
+                  "type": "object"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            },
+            "required": [
+              "witnesses",
+              "status",
+              "records"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "records": {
+                "type": "null"
+              },
+              "status": {
+                "const": "unread"
+              },
+              "witnesses": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "field": {
+                      "const": "facts"
+                    },
+                    "quote": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "quote"
+                  ],
+                  "type": "object"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            },
+            "required": [
+              "witnesses",
+              "status",
+              "records"
+            ],
+            "type": "object"
+          }
+        ]
+      }
+    },
+    "required": [
+      "service_core"
+    ],
+    "type": "object"
+  },
+  "source": "SARA_v2_Binary:3e22604a20ba2939dd355ced668917317e33d8eddcfdba3021c7462058e3a2a0",
+  "value": {
+    "service_core": {
+      "records": [
+        {
+          "employer": "Alice",
+          "kind": "work",
+          "source_key": "observed_service_event",
+          "worker": "Bob"
+        }
+      ],
+      "status": "complete",
+      "witnesses": [
+        {
+          "field": "facts",
+          "quote": "Alice has paid $3200 to her father Bob for work done from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+        }
+      ]
+    }
+  }
+}

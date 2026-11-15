@@ -1,0 +1,163 @@
+{
+  "component": "service_events",
+  "messages": [
+    {
+      "content": "For every previously enumerated opaque service source key, copy an explicit private-home venue phrase attached to that service. ‘Her home’ and analogous possessive-home phrases are explicit private-home venues. Do not infer a home merely from domestic service, kinship, residence, payer identity, or the question. Null requires a complete scan establishing no venue phrase; ambiguous attachment is unread.\nRead facts only. Preserve current source keys. Do not infer missing dates, people or places. Complete scans enumerate every relevant source record. Ambiguity is unread. Return the named relation wrapper.",
+      "role": "system"
+    },
+    {
+      "content": "{\"task\": {\"current_facts\": \"Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.\", \"actual_prior_source_records\": {\"service_core\": {\"records\": [{\"employer\": \"Alice\", \"service_cue\": \"domestic service\", \"source_key\": \"facts\", \"worker\": \"Bob\"}], \"status\": \"complete\", \"witnesses\": [{\"field\": \"facts\", \"quote\": \"Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.\"}]}}, \"requested_relation\": \"service_venue\", \"shared_key_domain\": \"service_source_event\"}, \"output_schema\": {\"type\": \"object\", \"properties\": {\"service_venue\": {\"anyOf\": [{\"type\": \"object\", \"properties\": {\"witnesses\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"object\", \"properties\": {\"field\": {\"const\": \"facts\"}, \"quote\": {\"type\": \"string\", \"minLength\": 1}}, \"required\": [\"field\", \"quote\"], \"additionalProperties\": false}}, \"status\": {\"const\": \"complete\"}, \"records\": {\"type\": \"array\", \"items\": {\"type\": \"object\", \"properties\": {\"source_key\": {\"type\": \"string\", \"minLength\": 1}, \"venue_cue\": {\"type\": [\"string\", \"null\"], \"enum\": [\"home\", \"the home\", \"her home\", \"his home\", \"their home\", \"a private home\", \"private home\", null]}}, \"required\": [\"source_key\", \"venue_cue\"], \"additionalProperties\": false}}}, \"required\": [\"witnesses\", \"status\", \"records\"], \"additionalProperties\": false}, {\"type\": \"object\", \"properties\": {\"witnesses\": {\"type\": \"array\", \"minItems\": 1, \"items\": {\"type\": \"object\", \"properties\": {\"field\": {\"const\": \"facts\"}, \"quote\": {\"type\": \"string\", \"minLength\": 1}}, \"required\": [\"field\", \"quote\"], \"additionalProperties\": false}}, \"status\": {\"const\": \"unread\"}, \"records\": {\"type\": \"null\"}}, \"required\": [\"witnesses\", \"status\", \"records\"], \"additionalProperties\": false}]}}, \"required\": [\"service_venue\"], \"additionalProperties\": false}}",
+      "role": "user"
+    }
+  ],
+  "raw_content": "{\n  \"service_venue\": {\n    \"witnesses\": [\n      {\n        \"field\": \"facts\",\n        \"quote\": \"Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.\"\n      }\n    ],\n    \"status\": \"complete\",\n    \"records\": [\n      {\n        \"source_key\": \"facts\",\n        \"venue_cue\": \"her home\"\n      }\n    ]\n  }\n}",
+  "receipt": {
+    "cache_hit": false,
+    "elapsed_seconds": 3.345053020864725,
+    "finish_reason": "stop",
+    "usage": {
+      "completion_tokens": 122,
+      "prompt_tokens": 692,
+      "prompt_tokens_details": null,
+      "total_tokens": 814
+    }
+  },
+  "relation": "service_venue",
+  "schema": {
+    "additionalProperties": false,
+    "properties": {
+      "service_venue": {
+        "anyOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "records": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "source_key": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "venue_cue": {
+                      "enum": [
+                        "home",
+                        "the home",
+                        "her home",
+                        "his home",
+                        "their home",
+                        "a private home",
+                        "private home",
+                        null
+                      ],
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "source_key",
+                    "venue_cue"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              "status": {
+                "const": "complete"
+              },
+              "witnesses": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "field": {
+                      "const": "facts"
+                    },
+                    "quote": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "quote"
+                  ],
+                  "type": "object"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            },
+            "required": [
+              "witnesses",
+              "status",
+              "records"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "records": {
+                "type": "null"
+              },
+              "status": {
+                "const": "unread"
+              },
+              "witnesses": {
+                "items": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "field": {
+                      "const": "facts"
+                    },
+                    "quote": {
+                      "minLength": 1,
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "quote"
+                  ],
+                  "type": "object"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            },
+            "required": [
+              "witnesses",
+              "status",
+              "records"
+            ],
+            "type": "object"
+          }
+        ]
+      }
+    },
+    "required": [
+      "service_venue"
+    ],
+    "type": "object"
+  },
+  "source": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+  "value": {
+    "service_venue": {
+      "records": [
+        {
+          "source_key": "facts",
+          "venue_cue": "her home"
+        }
+      ],
+      "status": "complete",
+      "witnesses": [
+        {
+          "field": "facts",
+          "quote": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+        }
+      ]
+    }
+  }
+}

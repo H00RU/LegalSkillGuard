@@ -105,3 +105,53 @@ def test_split_preserves_repeated_variable_equality():
     result=forward(r,{'kind':reading(cue='father'),
         'people':reading(related='Parent',reference='Child')},PUBLIC,KERNEL)
     assert result['facts']==[]
+
+
+def test_concrete_foreign_event_is_not_a_provider_demand():
+    actual=pullback(refined(),{'predicate':'end_','arguments':['service::r0',{'var':'Date'}]})
+    assert actual['branches']==[]
+
+
+def test_native_alias_is_inverted_before_key_domain_check():
+    actual=pullback(refined(),{'predicate':'end_','arguments':['native::alias',{'var':'Date'}]},
+        observed_keys=['kinship::r0'],event_bindings=[{'source_event':'kinship::r0','native_event':'native::alias'}])
+    assert actual['branches']
+    assert {d['relation']for b in actual['branches']for d in b['joined_demands']}=={'kinship_cue','kinship_period'}
+    assert all(d['observed_source_key']=='r0'for b in actual['branches']for d in b['joined_demands'])
+
+
+def dated_contract():
+    c=contract()
+    c['relations'][0]['fields'][-1].update(normalizer='literal_date',copy=True)
+    c['relations'][0]['fields'].append({'name':'start','type':'string','nullable':True,'copy':True,'normalizer':'literal_date'})
+    for rule in c['rules']:rule['body'][0]['arguments'].append(v('Start'))
+    c['rules'].append({'id':'start_','cost':1,'head':{'predicate':'start_','sign':'positive','arguments':[v('K'),v('Start')]},
+        'body':deepcopy(c['rules'][0]['body'])})
+    c['covered_properties'].append('start_')
+    return c
+
+
+def test_explicit_whole_year_range_has_exact_calendar_bounds():
+    facts='Child has their father Parent for the years 2015 to 2020.'
+    row=reading(cue='father',related='Parent',reference='Child',start='2015',end='2020')
+    row['witnesses']=[{'field':'facts','quote':facts}]
+    out=forward(dated_contract(),{'kinship':row},{'facts':facts},
+        {'fact_arities':{**KERNEL['fact_arities'],'start_':2}})
+    assert {'predicate':'start_','arguments':['kinship::r0','2015-01-01']}in out['facts']
+    assert {'predicate':'end_','arguments':['kinship::r0','2020-12-31']}in out['facts']
+
+
+def test_lone_year_remains_unread_without_erasing_the_known_roles():
+    c=split(dated_contract(),'kinship',[
+        {'name':'roles','fields':['cue','related','reference'],'prompt':'Read source roles.'},
+        {'name':'period','fields':['start','end'],'prompt':'Read source periods.'}])
+    facts='Child has their father Parent. A qualifying condition is stated for the year 2015.'
+    roles=reading(cue='father',related='Parent',reference='Child')
+    period=reading(start='2015',end=None)
+    roles['witnesses']=period['witnesses']=[{'field':'facts','quote':facts}]
+    out=forward(c,{'roles':roles,'period':period},{'facts':facts},
+        {'fact_arities':{**KERNEL['fact_arities'],'start_':2}})
+    assert {'predicate':'father_','arguments':['kinship::r0']}in out['facts']
+    assert not any(f['predicate']in ('start_','end_')for f in out['facts'])
+    assert out['unread_relations']==['period']
+    assert out['unread_temporal_observations']

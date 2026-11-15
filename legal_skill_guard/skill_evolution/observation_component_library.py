@@ -55,6 +55,49 @@ def import_saved_library(saved):
         'origin_saved_library_sha256':digest(saved),'coverage_unacquired_not_assumed':True}
 
 
+def retained_family_context(library):
+    """Factor the unchanged residence/birth channels out of the acquired unit.
+
+    A new kinship representation must not silently remove these real task
+    inputs. The source-to-fact loops and field meanings are copied exactly.
+    """
+    original=next(c for c in library['components']if c['id']=='family_relationship_residence')
+    view=deepcopy(json.loads(original['schema_json'])['properties']['views']['items'])
+    nodes=[view]
+    for clause in view.get('allOf',[]):
+        nodes.extend(clause[k]for k in ('if','then','else')if k in clause)
+    for node in nodes:
+        node.get('properties',{}).pop('relationships',None)
+        if 'required'in node:node['required']=[k for k in node['required']if k!='relationships']
+    tree=ast.parse(original['conversion_program']);entry=next(n for n in tree.body if n.name=='apply')
+    assignments=[]
+    for n in entry.body:
+        if isinstance(n,ast.If):break
+        if isinstance(n,ast.Assign)and any(isinstance(t,ast.Name)and t.id=='witnesses'for t in n.targets):
+            n=ast.parse("witnesses=list(view.get('witnesses',[]))").body[0]
+        assignments.append(n)
+    guard=ast.parse("""if type(view) is not dict or view.get('extraction_status')!='complete':
+    return part([],[],[],False,['retained_context_unread'])
+residences=view.get('residences')
+births=view.get('births')
+if type(residences)is not list or type(births)is not list or type(view.get('witnesses'))is not list:
+    return part([],[],[],False,['retained_context_channels_unread'])
+""").body
+    loops=[n for n in entry.body if isinstance(n,ast.For)and isinstance(n.iter,ast.Call)
+           and any(isinstance(a,ast.Name)and a.id in ('residences','births')for a in n.iter.args)]
+    assert len(loops)==2,'Use the actual acquired residence and birth loops only'
+    entry.body=assignments+guard+loops+entry.body[-2:]
+    result={'id':'retained_family_context','meaning':'Previously acquired residence and birth observations, separate from revised kinship.',
+        'prompt':original['prompt']+'\nRead only the residences and births channels in the supplied schema. Read current facts only; do not fill other channels.',
+        'schema_json':json.dumps(record_schema({'views':{'type':'array','minItems':1,'items':view}})),
+        'conversion_program':ast.unparse(ast.fix_missing_locations(tree)),
+        'complete_native_families':['residence_','birth_'],'facts_only':True,
+        'update':{'unchanged_parent_component_sha256':digest(original),'retained_channels':['residences','births'],
+                  'learned_source_to_fact_loops_unchanged':True,'existing_source_witnesses_retained':True}}
+    validate_adapter(library['shared_helpers']+'\n\n'+result['conversion_program'])
+    return result
+
+
 def validate(library,kernel):
     ids = [c['id'] for c in library['components']]
     if len(ids)!=len(set(ids)):
@@ -124,6 +167,7 @@ def component_value(library,component,kernel,public,view):
             names={r['source_event']:r['native_event'] for r in receipt['bindings']}
             for scope in value['scope_contract']['event_properties']:
                 scope['event']=names.get(scope['event'],scope['event'])
+            value['source_event_binding']=receipt
         return value
     source_service=component.get('facts_only',False) and set(component['complete_native_families'])=={'service_'}
     conversion_kernel=deepcopy(kernel)if source_service else kernel
