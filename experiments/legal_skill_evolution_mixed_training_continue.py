@@ -114,9 +114,9 @@ def prepare_task(protocol, public, kernels, batch):
     kernel = next(iter(kernels.values()))
     for name, body in task['shared_exact_immutable_author_programs'].items():
         assert hashlib.sha256(body.encode()).hexdigest() == kernel['statute_sha256'][name]
-    from legal_skill_guard.skill_evolution.generic_event_observation import schema_for
+    from legal_skill_guard.skill_evolution.generic_event_observation import schema_template
     task['shared_fixed_generic_representation'] = {
-        'schema': schema_for(kernel),
+        'schema': schema_template(kernel),
         'common_factual_serializer': (ROOT / 'legal_skill_guard/skill_evolution/generic_event_observation.py').read_text(),
         'actual_completed_batches': [read(actor.generic.OUT / f'B{b}/scored_results.json')
             for b in range(1, batch + 1) if (actor.generic.OUT / f'B{b}/scored_results.json').exists()],

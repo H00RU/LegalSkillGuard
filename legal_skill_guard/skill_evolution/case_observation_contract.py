@@ -55,6 +55,9 @@ def check_bindings(value, fields, public):
             if actual is None:
                 raise ValueError('Unknown kernel inputs are omitted, not null factual values')
             jsonschema.validate(actual, {'type': fields[name]['type']})
+        if 'negative_givens' in row['inputs']:
+            from .literal_statutory_givens import validate_givens
+            validate_givens(row['inputs'], public)
         witnesses = checked_witnesses(row['witnesses'], public)
         result.append({'inputs': deepcopy(row['inputs']), 'witnesses': witnesses})
     return {'bindings': result, 'unresolved': deepcopy(value['unresolved']),

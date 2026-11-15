@@ -6,11 +6,21 @@
 
 固定128 TRAIN母/280视图、8批×16的接续已结算；RUN `legal_skill_evolution_mixed_component_training_compact_refs_20261115`，PID394992已退出。已有C获取和三库共同路径复用，新增观察学习集中于SARA，不能把队列覆盖当作五库新增机制覆盖。B8方法1/3、普通教师0/3，仅为TRAIN局部拟合。
 
-固定B8修复后的40母/88视图DEV也已结算：RUN `legal_skill_evolution_mixed_component_DEV_profile_fix_20261115`，原PID458179已退出，日志`/tmp/lsg_component_DEV_profile_fix_20261115.log`。executor10839（10820完成、19失败）、teacher301（289完成、12失败），reserved=0。当前无研究生成请求在途；恢复仍须查真实进程和DB，不能把本页计数当作重置基数。thinking OFF及全部模型配置不变，本阶段不打开TEST。
+固定B8修复后的40母/88视图DEV也已结算：RUN `legal_skill_evolution_mixed_component_DEV_profile_fix_20261115`，原PID458179已退出，日志`/tmp/lsg_component_DEV_profile_fix_20261115.log`。executor10853（10834完成、19失败）、teacher303（291完成、12失败），reserved=0。当前无研究生成请求在途；恢复仍须查真实进程和DB，不能把本页计数当作重置基数。thinking OFF及全部模型配置不变，本阶段不打开TEST。
 
-旧首遍新DEV漏传executor_profile，不能作第二项有效评估；原错误保留。修复只传入冻结client.config，库/模型/数据/七recipe不变，32份不受影响记录复用。实际受影响路径64次executor、0teacher已完成，费用全部计入。两次各441份冻结文件均已独立复制并逐项hash核对，后续改动不污染旧重现。
+**本轮定点研究已结算**：`legal_skill_evolution_family_source_guard_20261115`的两次真实教师已返回；`legal_skill_evolution_family_guard_validation_union_fix_20261115`的实际PID605609已退出，原失败段也已退出，reserved=0。不能重复启动已结算入口。新增executor14、teacher2，累计executor10853、teacher303；新请求包含一次HTTP完成但严格输出验证失败。模型配置、thinking OFF、数据清单不变，未重跑DEV。
 
-[最新分数、逐源反证、原始输出及费用报告](../reports/legal_skill_evolution_run_20261111/component_training_20261115/README.md)。
+已修复一般§151被读为精确§151(b)/(c)的生成接口缺口，源前提检查在三观察臂公平同步到schema；2次真实读取均不再产生这些无依据前提，未知仍未知。实际误读还包括婚姻→兄弟/父子，已把原亲属源检查漏掉的brother/sister/sibling补齐。两位教师在原两例TRAIN和相同能力下各学得两份新family schema/转换版本，真实执行选择双方版本0。另一个原TRAIN来源在当前任务前固定、未进本次教师输入，但已有B8暴露，不称新盲测。
+
+新typed失败来自`allOf`嵌`oneOf`导致解码器丢公共必填字段；已保存1次真实失败，并按原始wire字节验证旧grammar接纳、修复grammar拒绝该缺字段输出，host始终拒绝。共同对象约束已等价分配到各分支，18个候选/来源schema离线编译通过后才重试，原教师不重发。
+
+方法增量整案在原两例TRAIN由1/2主路径正确到2/2；普通教师family也修好，但原其他付款/申报组件继续阻断，整案仍0/2。只新读family，其余原付费观察经验证保留，不能称两次新整案或独立冷启动比较。相同学得契约关闭来源令牌编译的一次真实消融仍完成且局部源检查通过；新增编译机制本次增量0，不作为第二项成立依据。
+
+固定复用案的两臂转换最初均失败。已用原始值进行0调用、事实不变的恢复：只在世界属性及witness完全相同的居住描述中枚举有限语法标记，要求原转换器原样通过，所有合法解释输出同一事实集；不补人物、地点、日期、字段或规则，不按原生答案挑选。双方均恢复son与给定期间的同住事实，原始响应保留；没有完整整案新读取，所以不计整案native成功。正常actor现在在执行与残余跟踪之前保存原始观察、执行该确定性规范化并记录回执，二者消费同一规范化值。39项必要回归通过。
+
+C共享消费者的完整return/destroy范围不对称已做最小候选修复，24母/96视图在双方重执行仍93/96与92/96，原完整执行逐值一致；没有把这项修复当C学习增益、没有改写冻结源库。原三条不可表达/源约束反证直接复用，不重跑。
+
+[最新分数、逐源反证、原始输出及费用报告](../reports/legal_skill_evolution_run_20261111/component_training_20261115/README.md)；[本轮真实学习、跨案恢复与否定消融](../reports/legal_skill_evolution_run_20261111/component_training_20261115/source_guard_repair/README.md)。
 
 ## 方法和基线结论
 
@@ -44,7 +54,7 @@
 
 真实失败已用于修复：required-status条件等价编译和原host严格验证；拒绝提议进入后批反馈；同名组件完整替换；仅无歧义的多余尾括号及闲置覆盖注释恢复；纯算术公共组件公平使用；程序残余追踪保持转换等价；完整教师任务按行共享和短引用无损传输。最后B8任务1010352/1010362字符，解码逐项相同。不得删原文/错误/监督以过传输上限。
 
-最新针对实际改动回归：冻结执行/数据隔离9项、真实提议格式6项、完整传输10项，共25 passed。旧失败、原始提议、部分源语义错误及费用保留。分析入口`experiments/legal_skill_evolution_current_result_review.py`只读现有结果、0模型，核对40母/88视图、母平均、C逐视图改变及证据hash。
+此前针对格式/传输的25项通过保留；本轮真实源约束、解码组合、scope恢复、算术、原生消费者及执行/残余等价的39项针对性回归通过。旧失败、原始提议、部分源语义错误及费用保留。分析入口`experiments/legal_skill_evolution_current_result_review.py`只读现有结果、0模型，核对40母/88视图、母平均、C逐视图改变及证据hash。
 
 八批两臂16个真实曲线点`artifacts/legal_skill_evolution_mixed_component_training_compact_refs_20261115/unbound_current_curve_points.json`含初答/更新后、核心/公共算术、源失败与版本。不同批次案例不同，且已暴露旧B8，不称固定DEV或冷启动曲线。
 
@@ -52,6 +62,6 @@
 
 三库OE32、Airline24、MAUD24的共同底座80母/160视图完整保留，158 fallback、核心正确0，不计新方法成功。C早期联合φ/G、旧A/B、M1/M2、Lift/CoRev、单库结果、旧U及全部反证保留。旧方法明确定性后不因换名恢复。
 
-连续DB`artifacts/rr_v2_preflight/research_ledger.sqlite3`不重置；前10619条旧行持续逐项hash核对。相对上次已结算10816条，当前新增executor305、teacher19（含失败）。teacher按CLI invocation记账，不猜底层HTTP数；usage保留原字段和覆盖率，现金发票/GPU分摊未知。
+连续DB`artifacts/rr_v2_preflight/research_ledger.sqlite3`不重置；前10619条旧行持续逐项hash核对。相对上次已结算10816条，当前新增executor319、teacher21（含失败）；本轮开始前11140条旧行逐项hash不变。teacher按CLI invocation记账，不猜底层HTTP数；usage保留原字段和覆盖率，现金发票/GPU分摊未知。
 
-**下一项实际工作**：不重跑当前固定DEV、不新开完整训练。原TRAIN优先定位并修复C源概念—消费者衔接，再处理第二项实际覆盖规划/完整性阻断和错误→修改→后案使用；只在已有原始失败与离线证据支持明确修改时进行必要真实验证。共同修复对普通教师开放，语义检查不放宽，未知不转False，不用DEV追修库或选择checkpoint。Goal继续active、未完成；后续阶段仍止于DEV，不打开TEST或论文。
+**下一项实际工作**：本轮来源编译/亲属小试已完成，不追加同组三案生成，不重跑当前固定DEV、不新开完整训练。回到C在原TRAIN下的实际表示、G选解与共享消费者衔接：已有三条反证直接复用，检查计数守卫后的语言是否仍有真实组合/归因偏差，并据实际代码证据做必要修复；不得把请求当终止、受控员工当自身员工或强化OR来拟合标签。第二项保留本轮已学版本和普通教师吸收/编译无增量的证据，当前编译器是公共执行能力；只在已有原始失败与离线证据支持明确修改时进行必要真实验证。共同修复对普通教师开放，语义检查不放宽，未知不转False，不用DEV追修库或选择checkpoint。Goal继续active、未完成；后续阶段仍止于DEV，不打开TEST或论文。

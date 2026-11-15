@@ -92,7 +92,7 @@ def execute(protocol, batch, arm, *, initial=False):
             'corrected_runtime_actor_view_hash': source['runtime_actor_views_sha256']}
         try:
             if arm == 'GenericView':
-                schema = schema_for(kernel)
+                schema = schema_for(kernel, pub)
                 prompt = PROMPT + '\nShared native event meanings: ' + FACTUAL_ENCODING
             else:
                 components = {c['id']: c for c in library['components']}

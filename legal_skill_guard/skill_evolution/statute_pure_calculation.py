@@ -25,7 +25,7 @@ lsg_pure_calc((A->B)) :- lsg_pure_calc(A), lsg_pure_calc(B).
 lsg_pure_calc(\+ A) :- lsg_pure_calc(A).
 lsg_pure_calc(Goal) :- nonvar(Goal), functor(Goal,Name,Arity),
     memberchk(Name/Arity,[is/2,(>)/2,(<)/2,(>=)/2,(=<)/2,(=:=)/2,(=\=)/2,
-        (=)/2,(==)/2,(\==)/2,(\=)/2,nonvar/1,var/1,number/1,integer/1,float/1,ground/1]).
+        (=)/2,(==)/2,(\==)/2,(\=)/2,nonvar/1,var/1,number/1,integer/1,float/1,ground/1,between/3]).
 lsg_calc_head(Name/Arity) :- functor(Head,Name,Arity),
     findall(Body,clause(Head,Body),Bodies), Bodies\=[],
     forall(member(Body,Bodies),lsg_pure_calc(Body)).

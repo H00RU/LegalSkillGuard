@@ -127,9 +127,14 @@ class FrozenEvaluationTests(unittest.TestCase):
             def generate(self, call_id, **kwargs):
                 calls.append(kwargs['purpose'])
                 schema = json.loads(kwargs['messages'][-1]['content'])['output_schema']
-                wire, _ = decoding_schema(schema)
-                self_key = digest({'source': sid, 'messages': kwargs['messages'], 'wire_schema': wire})
-                return dev.read(prior / 'raw_responses' / (self_key + '.json'))
+                component_id = next(iter(schema['properties']))
+                # The contextual source guard changes the request schema. For
+                # this offline integration regression replay the exact paid
+                # value, without pretending the revised wire was generated.
+                expected = {component_id: actual['observation'][component_id]}
+                paid = next(dev.read(p) for p in (prior / 'component_reads').glob('*.json')
+                    if dev.read(p)['source'] == sid and dev.read(p)['value'] == expected)
+                return dev.read(prior / 'raw_responses' / (paid['wire_input_sha256'] + '.json'))
 
         with tempfile.TemporaryDirectory() as directory, patch.object(dev, 'OUT', Path(directory)):
             client = PaidResponseReplay()

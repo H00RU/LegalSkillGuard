@@ -11,6 +11,7 @@ import jsonschema
 from .case_observation_contract import checked_witnesses
 from .native import record_schema
 from .sara_statute_kernel import GIVENS, input_schema
+from .literal_statutory_givens import constrain, validate_givens
 
 
 PROMPT = '''Extract the stated facts into the fixed compact native event view.
@@ -36,7 +37,7 @@ public native case interface. Do not emit a target applicability answer.
 '''
 
 
-def schema_for(kernel):
+def schema_template(kernel):
     vocabulary = {p: arity for p, arity in kernel['fact_arities'].items() if p not in GIVENS}
     unary = [p for p, arity in vocabulary.items() if arity == 1]
     binary = [p for p, arity in vocabulary.items() if arity == 2]
@@ -48,16 +49,21 @@ def schema_for(kernel):
         'arguments': {'type': 'array', 'prefixItems': [{'type': arg['type']} for arg in types],
             'items': False, 'minItems': len(types), 'maxItems': len(types)},
         'positive': {'type': 'boolean'}, 'witnesses': witness}) for name, types in sorted(GIVENS.items())]}
-    return record_schema({'status': {'type': 'string', 'enum': ['complete', 'unread']},
+    schema = record_schema({'status': {'type': 'string', 'enum': ['complete', 'unread']},
         'events': {'type': 'array', 'items': record_schema({
             'id': {'type': 'string', 'minLength': 1},
             'kind': {'type': 'string', 'enum': unary},
             'attributes': {'type': 'array', 'items': attributes}, 'witnesses': witness})},
         'givens': {'type': 'array', 'items': given}})
+    return schema
+
+
+def schema_for(kernel, public):
+    return constrain(schema_template(kernel), public, kernel)
 
 
 def lower(value, kernel, public):
-    jsonschema.validate(value, schema_for(kernel))
+    jsonschema.validate(value, schema_for(kernel, public))
     if value['status'] == 'unread':
         return {'bindings': [], 'unresolved': ['Generic event observation is unread']}
     facts, negatives, witnesses, seen = [], [], [], set()
@@ -84,4 +90,5 @@ def lower(value, kernel, public):
         witnesses = checked_witnesses([{'field': 'facts', 'quote': public['facts']}], public)
     binding = {'facts': facts, 'negative_givens': negatives, 'extraction_status': 'complete'}
     jsonschema.validate(binding, input_schema(kernel))
+    validate_givens(binding, public)
     return {'bindings': [{'inputs': binding, 'witnesses': deepcopy(witnesses)}], 'unresolved': []}

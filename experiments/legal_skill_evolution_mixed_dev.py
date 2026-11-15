@@ -140,7 +140,7 @@ def observe_case(client, source, kernel, arm, library):
                 execution=execute_alternatives(kernel,grounded),shared_public_calculation=calc)
             immutable_json(target,row)
             return row
-        ids, schema = [], schema_for(kernel)
+        ids, schema = [], schema_for(kernel, pub)
         prompt = PROMPT + '\nShared native event meanings: ' + FACTUAL_ENCODING
         row['actual_component_ids'] = ids
         observation = {}

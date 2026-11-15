@@ -18,3 +18,17 @@ def test_existing_pure_statute_certificate_bypasses_empty_observation_without_le
     assert row['execution']['handled'] and row['reads'] == []
     assert row['not_learned_observation_success'] is True
     assert row['grounded']['bindings'][0]['witnesses'] == []
+
+
+def test_actual_TRAIN_year_range_is_public_calculation_without_model_or_factual_default(tmp_path):
+    bank = actor.read(actor.acquisition.previous.parent.OUT / 'SARA_native_kernel_bank.json')
+    entry = next(r for r in bank if r['kernel']['name'] == 's68_f')
+    source = next(s for s in actor.read(actor.acquisition.previous.parent.OUT / 'SARA_corrected_TRAIN_views.json')
+        if s['key'] == entry['source'])
+    kernel = actor.acquisition.current_case_interface(entry['kernel'])
+    row = actor.execute_one(SimpleNamespace(artifacts=tmp_path),
+        {'shared_public_pure_calculation': True}, 'same_public_path',
+        actor.libraries()['CoverageRecombine/0'], entry['source'], kernel, source,
+        'TRAIN', purpose='skill_actor')
+    assert row['execution']['handled'] and row['execution']['answer'] == 'Entailment'
+    assert row['reads'] == [] and row['not_learned_observation_success'] is True

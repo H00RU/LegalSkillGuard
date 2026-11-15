@@ -1,0 +1,38 @@
+{
+  "checks": [
+    {
+      "source": "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+      "arm": "CoverageRecombine",
+      "original_wire_order_accepted": false,
+      "same_value_current_wire_order_accepted": false,
+      "expected": false,
+      "parsed_values_identical": true,
+      "old_value_sha256": "6677eac447dd0b552339b7b0e3de6588c7c715716a6baeae309d6602f7525dc9",
+      "current_order_content": "{\"source_economic_legal_ledger_b8\":{\"views\":[{\"extraction_status\":\"complete\",\"annual_incomes\":[{\"person\":\"Alice\",\"year\":2017,\"amount\":33200,\"witnesses\":[{\"field\":\"facts\",\"quote\":\"In 2017, Alice was paid $33200.\"}]},{\"person\":\"Bob\",\"year\":2017,\"amount\":10,\"witnesses\":[{\"field\":\"facts\",\"quote\":\"Bob earned $10 in 2017.\"}]}],\"payments\":[{\"local_id\":\"payment_1\",\"payment_term\":\"annual income\",\"payer\":\"unknown\",\"payees\":[\"Alice\"],\"amount\":33200,\"medium\":null,\"payment_date\":null,\"temporal_precision\":\"year_only\",\"stated_year\":2017,\"purpose_entity\":null,\"linked_service\":null,\"is_query_payment\":false,\"witnesses\":[{\"field\":\"facts\",\"quote\":\"In 2017, Alice was paid $33200.\"}]},{\"local_id\":\"payment_2\",\"payment_term\":\"annual income\",\"payer\":\"unknown\",\"payees\":[\"Bob\"],\"amount\":10,\"medium\":null,\"payment_date\":null,\"temporal_precision\":\"year_only\",\"stated_year\":2017,\"purpose_entity\":null,\"linked_service\":null,\"is_query_payment\":false,\"witnesses\":[{\"field\":\"facts\",\"quote\":\"Bob earned $10 in 2017.\"}]}],\"exact_givens\":[{\"predicate\":\"s151_b_applies\",\"citation\":\"151(b)\",\"basis_text\":\"Alice is not entitled to a deduction for Bob under section 151.\",\"arguments\":[\"Alice\",\"Bob\",2017],\"polarity\":\"negative\",\"witnesses\":[{\"field\":\"facts\",\"quote\":\"Alice is not entitled to a deduction for Bob under section 151.\"}]}],\"boundary_statements\":[{\"kind\":\"section151_other\",\"polarity\":\"negative\",\"witnesses\":[{\"field\":\"facts\",\"quote\":\"Alice is not entitled to a deduction for Bob under section 151.\"}]}],\"witnesses\":[{\"field\":\"facts\",\"quote\":\"In 2017, Alice was paid $33200.\"},{\"field\":\"facts\",\"quote\":\"Alice and Bob have been married since Feb 3rd, 2017.\"},{\"field\":\"facts\",\"quote\":\"Bob earned $10 in 2017.\"},{\"field\":\"facts\",\"quote\":\"Alice and Bob file separate returns.\"},{\"field\":\"facts\",\"quote\":\"Alice is not entitled to a deduction for Bob under section 151.\"}]}]}}"
+    },
+    {
+      "source": "SARA_v2_Binary:1ff7d9eafcd1701076227c55ac95232bed44b8217f4a5b4158081d90d923de7b",
+      "arm": "FreeGlobalUpdate",
+      "original_wire_order_accepted": false,
+      "same_value_current_wire_order_accepted": false,
+      "expected": false,
+      "parsed_values_identical": true,
+      "old_value_sha256": "8a61dcc1517c5bc7ccc4a09371ff9cf0dc6475eb8ced5226b03fddfa469bce4d",
+      "current_order_content": "{\"explicit_legal_givens\":{\"views\":[{\"extraction_status\":\"complete\",\"exact_givens\":[{\"predicate\":\"s151_b_applies\",\"citation\":\"151(b)\",\"basis_text\":\"Alice is not entitled to a deduction for Bob under section 151.\",\"arguments\":[\"Alice\",\"Bob\",2017],\"polarity\":\"negative\",\"witnesses\":[{\"field\":\"facts\",\"quote\":\"Alice is not entitled to a deduction for Bob under section 151.\"}]},{\"predicate\":\"s151_c_applies\",\"citation\":\"151(c)\",\"basis_text\":\"Alice and Bob file separate returns.\",\"arguments\":[\"Alice\",\"Bob\",2017],\"polarity\":\"negative\",\"witnesses\":[{\"field\":\"facts\",\"quote\":\"Alice and Bob file separate returns.\"}]}],\"boundary_statements\":[{\"kind\":\"section151_other\",\"polarity\":\"descriptive\",\"witnesses\":[{\"field\":\"facts\",\"quote\":\"Alice and Bob have been married since Feb 3rd, 2017.\"},{\"field\":\"facts\",\"quote\":\"Alice and Bob file separate returns.\"}]}],\"witnesses\":[{\"field\":\"facts\",\"quote\":\"In 2017, Alice was paid $33200.\"},{\"field\":\"facts\",\"quote\":\"Alice and Bob have been married since Feb 3rd, 2017.\"},{\"field\":\"facts\",\"quote\":\"Bob earned $10 in 2017.\"},{\"field\":\"facts\",\"quote\":\"Alice and Bob file separate returns.\"},{\"field\":\"facts\",\"quote\":\"Alice is not entitled to a deduction for Bob under section 151.\"},{\"field\":\"question\",\"quote\":\"Section 63(c)(5) applies to Bob's basic standard deduction in 2017.\"}]}]}}"
+    },
+    {
+      "source": "SARA_v2_Binary:a51930fd174465a9bc8bd24887336e753d1f76990c346645a1ae5cd8c074536d",
+      "arm": "CoverageRecombine",
+      "original_wire_order_accepted": false,
+      "same_value_current_wire_order_accepted": true,
+      "expected": true,
+      "parsed_values_identical": true,
+      "old_value_sha256": "346e3590f2e36957d40e0afa1a4da235512ae14285925201facc49176f47849a",
+      "current_order_content": "{\"source_economic_legal_ledger_b8\":{\"views\":[{\"annual_incomes\":[],\"boundary_statements\":[],\"exact_givens\":[{\"arguments\":[\"Charlie\",\"Bob\",2015],\"basis_text\":\"Bob has a son, Charlie, who satisfies section 152(c)(1) for the year 2015.\",\"citation\":\"152(c)(1)\",\"polarity\":\"positive\",\"predicate\":\"s152_c_1\",\"witnesses\":[{\"field\":\"facts\",\"quote\":\"Bob has a son, Charlie, who satisfies section 152(c)(1) for the year 2015.\"}]},{\"arguments\":[\"Bob\",\"Alice\",2015],\"basis_text\":\"Alice has a son, Bob, who satisfies section 152(c)(1) for the year 2015.\",\"citation\":\"152(c)(1)\",\"polarity\":\"positive\",\"predicate\":\"s152_c_1\",\"witnesses\":[{\"field\":\"facts\",\"quote\":\"Alice has a son, Bob, who satisfies section 152(c)(1) for the year 2015.\"}]}],\"extraction_status\":\"complete\",\"payments\":[],\"witnesses\":[{\"field\":\"facts\",\"quote\":\"Alice has a son, Bob, who satisfies section 152(c)(1) for the year 2015.\"},{\"field\":\"facts\",\"quote\":\"Bob has a son, Charlie, who satisfies section 152(c)(1) for the year 2015.\"}]}]}}"
+    }
+  ],
+  "all_expected_outcomes": true,
+  "old_response_wire_order_is_not_a_current_generation": true,
+  "reordering_is_deterministic_JSON_only_no_semantic_repair": true,
+  "new_model_calls": 0
+}

@@ -57,7 +57,7 @@ def execute(protocol, batch):
         if path.exists():
             continue
         pub, kernel = public[sid]['views'][0]['public'], kernels[sid]
-        schema = schema_for(kernel)
+        schema = schema_for(kernel, pub)
         prompt = PROMPT + '\nSame author event/argument meanings: ' + native_encoding.ONTOLOGY
         messages = render_messages(prompt, {'current_case': pub, 'unchanged_legal_program': kernel}, schema)
         count = client.tokenize(messages, thinking=False)['count']

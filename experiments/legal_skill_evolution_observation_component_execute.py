@@ -25,6 +25,8 @@ from legal_skill_guard.skill_evolution.observation_component_library import (
     convert, observation_schema, plan, replace_components, validate)
 from legal_skill_guard.skill_evolution.runtime import decoder_schema, render_messages
 from legal_skill_guard.skill_evolution.statute_pure_calculation import certificate as calculation_certificate
+from legal_skill_guard.skill_evolution.literal_statutory_givens import constrain
+from legal_skill_guard.skill_evolution.observation_scope_normalization import normalize as normalize_scope
 
 
 ROOT = acquisition.ROOT
@@ -103,7 +105,7 @@ def libraries():
 
 def read_component(client, protocol, sid, component, kernel, public, *, purpose):
     root, run_id = client.artifacts, client.ledger.run_id
-    schema = observation_schema({'components': [component]}, [component['id']])
+    schema = constrain(observation_schema({'components': [component]}, [component['id']]), public, kernel)
     task = {'current_case': {k: public[k] for k in ('facts', 'question')},
         'current_legal_query': {k: kernel[k] for k in ('native_query', 'query_clause')},
         'component_meanings': {component['id']: component['meaning']}}
@@ -183,6 +185,11 @@ def execute_one(client, protocol, name, library, sid, kernel, source, phase, *, 
                 value, receipt = read_component(client, protocol, sid, by_id[cid], kernel, public, purpose=purpose)
                 observation.update(value)
                 row['reads'].append({'component_id': cid, **receipt})
+            original_observation = deepcopy(observation)
+            observation, normalizations = normalize_scope(library, kernel, public, observation)
+            if normalizations:
+                row['raw_observation'] = original_observation
+                row['scope_normalization_receipts'] = normalizations
             row['observation'] = observation
             row['grounded'] = convert(library, selection['component_ids'], kernel, public, observation)
             row['execution'] = execute_alternatives(kernel, row['grounded'])

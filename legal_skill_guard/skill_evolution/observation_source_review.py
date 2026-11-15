@@ -12,7 +12,8 @@ def review(source, grounded):
     if source.startswith('SARA_v2_Binary:1ff7d9'):
         for row in rows:
             facts = row['facts']
-            forbidden = {'father_', 'mother_', 'son_', 'daughter_', 'service_', 'joint_return_'}
+            forbidden = {'father_', 'mother_', 'son_', 'daughter_', 'brother_', 'sister_',
+                         'sibling_', 'service_', 'joint_return_'}
             checks.append({'check': 'No invented kinship, labor service or joint filing from annual income and marriage; a source-stated payment is allowed',
                 'passed': not any(f['predicate'] in forbidden for f in facts)})
             checks.append({'check': 'General negative151 entitlement and income are not exact positive or negative151b/c givens',
