@@ -78,3 +78,11 @@ def test_actual_observer_standard_string_padding_has_python_semantics():
     component['observation_program'] = "def apply(inputs,premises):\n    return inputs['facts'].encode()"
     with pytest.raises(ValueError, match='Unsupported attribute'):
         execute(component, {'facts': 'unsupported conversion'}, SCHEMA)
+
+
+def test_actual_observer_dict_fromkeys_preserves_first_occurrence_order():
+    component={'id':'reading','observation_program':'''def apply(inputs,premises):
+    return {'text':'|'.join(list(dict.fromkeys(inputs['facts'].split()))),'status':'complete'}
+'''}
+    value,_=execute(component,{'facts':'Bob Alice Bob Charlie Alice'},SCHEMA)
+    assert value['reading']['text']=='Bob|Alice|Charlie'

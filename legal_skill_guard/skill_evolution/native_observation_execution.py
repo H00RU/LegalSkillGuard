@@ -182,10 +182,16 @@ def compare_reads(library,kernel,public,source_id,observation,read,*,policies=('
             continue
         component=by_id[cid]
         prompt=component['prompt']+'\nRe-read this same factual component. Preserve unread channels and do not copy the target as a fact.'
+        failed_checks=[check['check']for w in before['binding_executions']
+            for check in w['source_review']['checks']if not check['passed']]
+        if failed_checks:prompt+='\nKnown source-semantic failures: '+json.dumps(failed_checks,ensure_ascii=False)
         if policy=='native_residual':
-            prompt+='\nActual unread native factual scopes: '+json.dumps([s for w in before['binding_executions']
-                for s in w['execution'].get('unread_factual_scopes',[])],ensure_ascii=False)
-        action={'schema':observation_schema(library,[cid]),'prompt':prompt,'component_ids':[cid]}
+            scopes=[s for w in before['binding_executions']for s in w['execution'].get('unread_factual_scopes',[])]
+            if component.get('facts_only',False):
+                scopes=[{k:v for k,v in s.items()if k!='event'}for s in scopes]
+            prompt+='\nActual unread native factual scopes: '+json.dumps(scopes,ensure_ascii=False)
+        action={'schema':observation_schema(library,[cid]),'prompt':prompt,'component_ids':[cid],
+            'facts_only':component.get('facts_only',False)}
         try:
             value,receipt=read(label,action)
             jsonschema.validate(value,action['schema'])

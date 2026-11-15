@@ -32,6 +32,7 @@ read=previous.read
 
 EDIT=record_schema({'id':{'type':'string'},'meaning':{'type':'string'},'prompt':{'type':'string'},
     'schema_json':{'type':'string'},'conversion_program':{'type':'string'},
+    'facts_only':{'type':'boolean'},'observation_program':{'type':['string','null'],'minLength':1},
     'parent_component_hash':{'type':['string','null']},
     'error_feedback_ids':{'type':'array','items':{'type':'string'}}})
 COVER=record_schema({'id':{'type':'string'},'complete_native_families':{'type':'array','items':{'type':'string'}},
@@ -48,8 +49,8 @@ legitimate TRAIN evidence, code capacity, error/source checks and resources.
 Use no tools. No DEV/TEST or unseen case labels are available. No case/person/
 source-ID lookup or target applicability fact is allowed.
 
-The public host now derives native input families from ANY author query's
-dependency graph. There is NO per-query-name planner. Learn complete-family
+The public host derives native input families from the author query's dependency
+graph and bound public native-call input ABI. Learn complete-family
 coverage contracts for source-native components, plus schema/prompt/conversion
 repairs. Coverage is substantive: merely emitting payment_ in a termination
 episode does NOT cover ordinary wages. Do not relabel a specialized view as
@@ -69,6 +70,16 @@ an asset, not an obligation to preserve an inappropriate interface. Schemas and
 conversion change TOGETHER; no separate drifting field aliases or guessed
 defaults. Alternatives in views remain alternatives; no favorable answer is
 selected. Use only the declared native factual signatures.
+
+Each edited component declares facts_only. When true, its neural reader receives
+only the current original facts, and query alignment happens in conversion. The
+optional observation_program is null for a neural reader, or a self-contained
+pure apply(inputs,premises) program receiving ONLY inputs['facts'] and empty
+premises; it returns that component's schema VALUE. Preserve a useful existing
+reader program when revising an unrelated part. Jointly revise schema, input
+scope, factual reading program and conversion when the actual error requires it.
+Do not put query-derived fields into a facts-only factual view or invent source
+roles/dates in conversion. Both arms have identical program capability.
 
 coverage_updates must include EVERY resulting component ID in each candidate.
 complete_native_families lists only unary native event/entity families or exact

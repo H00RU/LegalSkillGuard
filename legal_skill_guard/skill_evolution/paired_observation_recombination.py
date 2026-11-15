@@ -16,6 +16,7 @@ def _behavior(component):
     value = {k: sorted(component[k]) if k == 'complete_native_families' else component[k]
         for k in ('id', 'meaning', 'prompt', 'schema_json', 'conversion_program', 'complete_native_families')}
     value['observation_program'] = component.get('observation_program')
+    value['facts_only'] = component.get('facts_only',False)
     return value
 
 

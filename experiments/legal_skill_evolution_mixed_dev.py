@@ -170,11 +170,14 @@ def followup(client, source, kernel, initial, arm, library):
         from legal_skill_guard.skill_evolution.literal_statutory_givens import constrain
         sid,pub=source['key'],source['views'][0]['public']
         def native_dispatch(policy,action):
+            factual=action.get('facts_only',False)
+            task={'current_case':{k:pub[k]for k in (('facts',)if factual else ('facts','question'))},
+                'current_observation':{k:v for k,v in initial['observation'].items()
+                    if not factual or k in action['component_ids']},
+                'existing_unresolved_messages':initial['grounded']['unresolved']}
+            if not factual:task['current_legal_query']={k:kernel[k]for k in ('native_query','query_clause')}
             return generate(client,sid,arm+':native:'+policy,action['prompt'],
-                {'current_case':{k:pub[k]for k in ('facts','question')},
-                 'current_legal_query':{k:kernel[k]for k in ('native_query','query_clause')},
-                 'current_observation':initial['observation'],
-                 'existing_unresolved_messages':initial['grounded']['unresolved']},
+                task,
                 constrain(action['schema'],pub,kernel))
         result=native_compare(library,kernel,pub,sid,initial['observation'],native_dispatch,
             policies=('residual_guided','ordinary_reread') if arm=='CoverageRecombine' else ('ordinary_reread',))

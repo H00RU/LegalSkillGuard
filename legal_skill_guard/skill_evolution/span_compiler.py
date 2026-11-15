@@ -40,7 +40,7 @@ RESULT_SCHEMA = record_schema({'handled': {'type': 'boolean'},
     'used_records': {'type': 'array', 'uniqueItems': True, 'items': {'type': 'integer', 'minimum': 0}}})
 METHODS = {'lower', 'upper', 'casefold', 'strip', 'lstrip', 'rstrip', 'split', 'rsplit',
     'splitlines', 'replace', 'find', 'index', 'startswith', 'endswith', 'join', 'count', 'zfill',
-    'get', 'keys', 'values', 'items', 'append', 'extend', 'add', 'update', 'pop',
+    'get', 'keys', 'values', 'items', 'fromkeys', 'append', 'extend', 'add', 'update', 'pop',
     'compile', 'search', 'match', 'fullmatch', 'findall', 'finditer', 'escape', 'sub', 'group',
     'groups', 'groupdict', 'start', 'end', 'span', 'I', 'IGNORECASE', 'S', 'DOTALL',
     'M', 'MULTILINE', 'UNICODE', 'isalnum', 'isalpha', 'isdigit', 'intersection', 'rfind'}

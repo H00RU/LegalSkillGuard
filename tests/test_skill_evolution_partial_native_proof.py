@@ -208,3 +208,21 @@ def test_known_source_feedback_routes_to_its_family_in_both_read_policies(tmp_pa
     static={'component_ids':['reading','aaa_unrelated']}
     for policy in ('native_residual','direct_inputs_first'):
         assert next_component(lib,k,{},[],execution,static,policy)=='reading'
+
+
+def test_fact_only_followup_receives_structural_residual_without_query_literals(tmp_path):
+    from legal_skill_guard.skill_evolution.native_observation_execution import compare_reads
+    k=kernel(tmp_path,'s9001 :- service_("SECRET_QUERY_EVENT_2017_01_01").','s9001')
+    k['input_fields_json']=json.dumps({'facts':{'type':'array'},'negative_givens':{'type':'array'},
+        'extraction_status':{'type':'string'}})
+    lib=component_library();lib['components'][0]['facts_only']=True
+    public={'facts':'worker serves employer.'};calls=[]
+    def read(policy,action):
+        assert action['facts_only'] is True
+        assert 'SECRET_QUERY' not in action['prompt']
+        calls.append(policy)
+        return {'reading':{'views':[{'worker':'worker','status':'complete',
+            'witnesses':[{'field':'facts','quote':public['facts']}]}]}},{'fixture':True}
+    result=compare_reads(lib,k,public,'fixture',{},read)
+    assert result['eligible'] and calls==['residual_guided','ordinary_reread']
+    assert all(v['execution']['handled']for v in result['policies'].values())

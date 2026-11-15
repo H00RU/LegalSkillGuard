@@ -200,10 +200,12 @@ def matched_read(client, protocol, batch, library, row, source, kernel):
         public=source['views'][0]['public']
         def native_dispatch(policy,action):
             schema=constrain(action['schema'],public,kernel)
-            task={'current_case':{k:public[k]for k in ('facts','question')},
-                'current_legal_query':{k:kernel[k]for k in ('native_query','query_clause')},
-                'current_observation':row['observation'],
+            factual=action.get('facts_only',False)
+            task={'current_case':{k:public[k]for k in (('facts',)if factual else ('facts','question'))},
+                'current_observation':{k:v for k,v in row['observation'].items()
+                    if not factual or k in action['component_ids']},
                 'existing_unresolved_messages':row['grounded']['unresolved']}
+            if not factual:task['current_legal_query']={k:kernel[k]for k in ('native_query','query_clause')}
             messages=render_messages(action['prompt'],task,schema)
             response=client.generate(RUN+f':B{batch}:native_matched:'+policy+':'+row['source'],
                 source=row['source'],purpose='skill_actor',thinking=False,messages=messages,

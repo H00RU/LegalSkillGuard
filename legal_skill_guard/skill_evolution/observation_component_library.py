@@ -61,6 +61,8 @@ def validate(library,kernel):
         raise ValueError('Duplicate observation components')
     vocabulary = {p for p,a in kernel['fact_arities'].items() if a==1}|set(GIVENS)
     for c in library['components']:
+        if type(c.get('facts_only',False)) is not bool:
+            raise ValueError('Observation factual-input scope must be an explicit boolean')
         if not c['id'].isidentifier():
             raise ValueError('Invalid component identity')
         ports = c['complete_native_families']
