@@ -50,7 +50,7 @@ def signatures():
 
 def encode_source_observations(source_id, *, source_text, units, source_output,
                                operations, queries, answers, scope, query_scopes=None,
-                               complete_source_absence_choices=None):
+                               complete_source_absence_choices=None,query_aliases=None):
     """Retain every G-visible value, including order, text and unknown/unread.
 
     Only the actual answered subset is quote-grounded. Completion branches are
@@ -82,6 +82,14 @@ def encode_source_observations(source_id, *, source_text, units, source_output,
         raise ValueError('Distinct current queries required')
     if query_scopes is not None and (set(query_scopes)!=set(by_query) or any(v not in ('focus_last','window') for v in query_scopes.values())):
         raise ValueError('Record the actual scope of every current query')
+    aliases=query_aliases or {};alias_members={}
+    for alias,original in aliases.items():
+        if alias not in by_query or original not in by_query or alias==original or original in aliases:
+            raise ValueError('Read aliases require distinct current canonical queries without chains')
+        left,right=by_query[alias],by_query[original]
+        if any(left[k]!=right[k]for k in ('operation','unit_ids'))or(query_scopes and query_scopes[alias]!=query_scopes[original]):
+            raise ValueError('Read aliases must preserve exact operation, units and scope')
+        alias_members.setdefault(original,[]).append(alias)
     for q in queries:
         if q['operation'] not in ops or not q['unit_ids'] or len(set(q['unit_ids']))!=len(q['unit_ids']) \
                 or not set(q['unit_ids'])<=set(by_unit):
@@ -111,11 +119,15 @@ def encode_source_observations(source_id, *, source_text, units, source_output,
             grounded.extend(ground_answers(operations,[query],units,{'answers':[answer]},scope=actual_scope,
                 complete_source_absence_choices=complete_source_absence_choices))
     by_answer={a['id']:a for a in grounded}
+    for alias,original in aliases.items():
+        if(alias in by_answer)!=(original in by_answer)or(alias in by_answer and any(by_answer[alias][k]!=by_answer[original][k]for k in ('choice','evidence'))):
+            raise ValueError('Read aliases must preserve the same actual answer and evidence')
     visible={'source_text':source_text,'units':deepcopy(units),'source_output':deepcopy(source_output),
         'operations':deepcopy(operations),'queries':deepcopy(queries),'answers':grounded,'scope':scope}
     if query_scopes is not None:visible['query_scopes']=deepcopy(query_scopes)
     if complete_source_absence_choices is not None:
         visible['complete_source_absence_choices']=deepcopy(complete_source_absence_choices)
+    if aliases:visible['query_aliases']=deepcopy(aliases)
     facts=[fact('source_text',source_text)];unknown=[];nodes={};roots={};term_supports={};json_count=0
 
     def json_tree(value):
@@ -162,13 +174,17 @@ def encode_source_observations(source_id, *, source_text, units, source_output,
         if a and a['choice']!='unknown':facts.append(fact('query_choice',qid,a['choice']))
         else:
             facts.append(fact('query_unknown' if a else 'query_unread',qid))
-            unknown.append([[fact('query_choice',qid,c['name'])] for c in ops[q['operation']]['choices']]+[[]])
+            if qid not in aliases:
+                members=[qid]+alias_members.get(qid,[])
+                unknown.append([[fact('query_choice',member,c['name'])for member in members]
+                    for c in ops[q['operation']]['choices']]+[[]])
     context={'id':source_id,'facts':facts,'unknown_groups':unknown,'required':[],'forbidden':[]}
     return {'context':context,'visible_inputs':visible,'visible_inputs_sha256':digest(visible),
         'contract_sha256':digest({'version':1,'signatures':SIGNATURES,'scope':scope,
             'query_scope_policy':'explicit' if query_scopes is not None else 'global',
             'source_absence_policy':'explicit' if complete_source_absence_choices is not None else 'quoted_only',
-            'raw_text_retained':True,'old_reader_is_upstream':True}),
+            'raw_text_retained':True,'old_reader_is_upstream':True,
+            **({'query_alias_policy':'same_current_read_with_correlated_unknowns'}if aliases else{})}),
         'legacy_roots':roots,'term_nodes':nodes,'term_supports':term_supports,
         'grounding_certifies_source_meaning':False,'new_model_requests':0}
 

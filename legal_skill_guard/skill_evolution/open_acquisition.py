@@ -150,7 +150,7 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
                 if identity in reusable and any(reusable[identity][k]!=value[k] for k in ('choice','evidence')):
                     raise ValueError('Conflicting actual prior readings require explicit diagnosis, not label-based selection')
                 reusable.setdefault(identity,value)
-    answers={};reused=[];events=[];queries=[];by_id={};by_content={};rounds=[];new_logical=0;batch_checks=[]
+    answers={};reused=[];events=[];queries=[];by_id={};by_content={};rounds=[];new_logical=0;batch_checks=[];aliases={}
     while True:
         # A learned semantic scout may locate operative clauses first, then
         # request their roles/qualifiers using actual returned judgments. The
@@ -169,7 +169,14 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
                 if q!=by_id[q['id']]:raise ValueError('A frozen planner changed the meaning/window of an issued query ID')
                 continue
             if key in by_content:
-                raise ValueError('Query ID churn would repeat an already issued source question')
+                canonical=by_content[key]
+                if canonical not in added:
+                    raise ValueError('Query ID churn would repeat an already issued source question')
+                # Distinct current consumers may ask the exact same reading
+                # in one plan. Read once and retain both consumer identities.
+                by_id[q['id']]=q;queries.append(q);added.append(q['id']);aliases[q['id']]=canonical
+                if canonical in answers:answers[q['id']]={**deepcopy(answers[canonical]),'id':q['id']}
+                continue
             by_id[q['id']]=q;by_content[key]=q['id'];queries.append(q);added.append(q['id'])
             if key in reusable:
                 answers[q['id']]={**deepcopy(reusable[key]),'id':q['id']};reused.append(q['id'])
@@ -197,11 +204,14 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
             _,grounded=decode_answers(library['operations'],batch,units,result['content'],scope=batch_scope,
                 complete_source_absence_choices=library.get('complete_source_absence_choices'))
             answers.update({a['id']:a for a in grounded})
+            for alias,canonical in aliases.items():
+                if alias not in answers and canonical in answers:
+                    answers[alias]={**deepcopy(answers[canonical]),'id':alias}
     encoded=encode_source_observations(source_id,source_text=source_text,units=units,
         source_output=source_output,operations=library['operations'],queries=queries,
         answers=[answers[q['id']] for q in queries],scope=scope,
         query_scopes={q['id']:current_scope(q) for q in queries},
-        complete_source_absence_choices=library.get('complete_source_absence_choices'))
+        complete_source_absence_choices=library.get('complete_source_absence_choices'),query_aliases=aliases)
     projections = library.get('input_projection_definitions', [])
     if projections:
         validate_projections(projections, constructors(library['spec']))
@@ -214,6 +224,7 @@ def observe(client,prefix,source_id,library,*,source_text,units,source_output,
         'no_unchanged_unknown_retried':True}
     if requested_queries:
         encoded['execution']['diagnostic_requested_query_ids']=[q['id'] for q in requested_queries]
+    if aliases:encoded['execution']['same_plan_read_aliases']=aliases
     if source_execution is not None:
         encoded['execution']['acquired_source_program']=source_execution
     return encoded

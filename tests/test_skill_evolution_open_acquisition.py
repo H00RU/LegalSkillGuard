@@ -74,6 +74,57 @@ class OpenAcquisitionTests(unittest.TestCase):
         self.assertEqual(got['execution']['reused_query_ids'],['q'])
         self.assertEqual(got['visible_inputs']['answers'][0]['choice'],'unknown')
 
+    def test_same_plan_identical_read_serves_two_consumers_without_repeated_request(self):
+        library=deepcopy(self.library)
+        library['planner_program']='''def apply(inputs,premises):
+    return {'queries':[
+        {'id':'disposal_trigger:32:35','operation':'meaning','unit_ids':[4]},
+        {'id':'disposal_trigger:35:35','operation':'meaning','unit_ids':[4]}]}
+'''
+        for choice in ('first','unknown'):
+            calls=[]
+            class Recorded(FixtureClient):
+                def generate(self,*args,**kwargs):
+                    calls.append(args)
+                    rows=json.loads(kwargs['messages'][1]['content'])['current_queries']
+                    return {'finish_reason':'stop','content':json.dumps({'answers':{q['id']:
+                        {'choice':choice,'evidence_unit_ids':[]if choice=='unknown'else[4]}for q in rows}})}
+            got=observe(Recorded(),'fixture','one',library,source_text='Alpha.',
+                units=[{'id':4,'text':'Alpha.'}],source_output={'statements':[],'complete':False,'unresolved':[]})
+            self.assertEqual(len(calls),1)
+            self.assertEqual([a['choice']for a in got['visible_inputs']['answers']],[choice,choice])
+            self.assertEqual(got['execution']['same_plan_read_aliases'],
+                {'disposal_trigger:35:35':'disposal_trigger:32:35'})
+            if choice=='unknown':
+                self.assertEqual(len(got['context']['unknown_groups']),1)
+                self.assertEqual(len(got['context']['unknown_groups'][0][0]),2)
+
+    def test_later_query_id_churn_still_cannot_repeat_a_read(self):
+        library=deepcopy(self.library)
+        library['planner_program']='''def apply(inputs,premises):
+    identity='later' if inputs['semantic_answers'] else 'original'
+    return {'queries':[{'id':identity,'operation':'meaning','unit_ids':[4]}]}
+'''
+        calls=[]
+        class Recorded(FixtureClient):
+            def generate(self,*args,**kwargs):
+                calls.append(args)
+                return {'finish_reason':'stop','content':json.dumps({'answers':{'original':
+                    {'choice':'unknown','evidence_unit_ids':[]}}})}
+        with self.assertRaisesRegex(ValueError,'Query ID churn'):
+            observe(Recorded(),'fixture','one',library,source_text='Alpha.',
+                units=[{'id':4,'text':'Alpha.'}],source_output={'statements':[],'complete':False,'unresolved':[]})
+        self.assertEqual(len(calls),1)
+
+    def test_read_alias_cannot_hide_a_changed_source_window(self):
+        with self.assertRaisesRegex(ValueError,'exact operation, units and scope'):
+            encode_source_observations('fixture',source_text='Alpha. Beta.',
+                units=[{'id':4,'text':'Alpha.'},{'id':9,'text':'Beta.'}],
+                source_output={'statements':[],'complete':False,'unresolved':[]},
+                operations=self.library['operations'],scope='focus_last',answers=[],
+                queries=[{'id':'a','operation':'meaning','unit_ids':[4]},
+                         {'id':'b','operation':'meaning','unit_ids':[9]}],query_aliases={'b':'a'})
+
     def test_actual_histories_from_both_arms_reuse_the_exact_matching_reading(self):
         first=self.observation('one','Alpha.','first')
         first['visible_inputs']['operations'][0]['question']='A genuinely different old meaning'

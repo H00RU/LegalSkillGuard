@@ -30,7 +30,7 @@ from legal_skill_guard.skill_evolution.teacher_transport import pack_programs,IN
 
 ROOT=base.ROOT
 GENERATION=ROOT/'artifacts/legal_skill_evolution_C_fragment_update_20261115'
-RUN='legal_skill_evolution_C_fragment_bounded_evidence_20261115'
+RUN='legal_skill_evolution_C_fragment_read_reuse_20261115'
 OUT=ROOT/'artifacts'/RUN
 SCHEMA=record_schema({**base.SCHEMA['properties'],'fragment_program':{'type':'string'}})
 SYSTEM=base.SYSTEM+'''
@@ -101,8 +101,15 @@ def prepare_runtime():
         target=OUT/relative;target.parent.mkdir(parents=True,exist_ok=True);payload=(GENERATION/relative).read_bytes()
         if target.exists():assert target.read_bytes()==payload
         else:target.write_bytes(payload)
+    previous=ROOT/'artifacts/legal_skill_evolution_C_fragment_bounded_evidence_20261115'
+    for source in [previous/'C/result.json',previous/'C/selected_before_reuse.json']+sorted((previous/'C/observations').glob('*.json')):
+        relative=str(source.relative_to(previous));target=OUT/relative
+        target.parent.mkdir(parents=True,exist_ok=True);payload=source.read_bytes()
+        if target.exists():assert target.read_bytes()==payload
+        else:target.write_bytes(payload)
+        names.append(relative)
     p.update(run_id=RUN,generation_run=p['run_id'],ledger_before=base.lineage.ledger_snapshot(),
-        runtime_change='Finite evidence set has redundant maxItems=window size in decoding, preventing repeated-ID loops without changing any valid evidence set; reuse only fully returned actual prior judgments; proposals byte-identical; strict semantic-part types and unresolved protection retained')
+        runtime_change='Same-plan identical semantic reads coalesced once, with exact answer fan-out to existing consumer query IDs; correlated unknowns retained; dynamic ID churn still rejected. Original proposals and completed C study copied byte-identically, no repeated C generation or fitting.')
     files=[Path(__file__),Path(base.__file__),Path(base.history.__file__)]+sorted((ROOT/'legal_skill_guard/skill_evolution').glob('*.py'))+[OUT/n for n in names]
     p['source_sha256']={str(f.relative_to(ROOT)):hashlib.sha256(f.read_bytes()).hexdigest()for f in files}
     immutable_json(OUT/'protocol.json',p)
@@ -232,7 +239,8 @@ def fragments(library,obs):
     encoded=encode_source_observations(obs['context']['id'],source_text=v['source_text'],units=v['units'],
         source_output={'statements':rows,'complete':False,'unresolved':value['unresolved']},
         operations=v['operations'],queries=v['queries'],answers=v['answers'],scope=v['scope'],
-        query_scopes=v['query_scopes'],complete_source_absence_choices=v.get('complete_source_absence_choices'))
+        query_scopes=v['query_scopes'],complete_source_absence_choices=v.get('complete_source_absence_choices'),
+        query_aliases=v.get('query_aliases'))
     encoded['fragment_execution']={'program_sha256':digest(library['fragment_program']),'actual_fragments':value,
         'no_norm_nodes':True,'original_observation_sha256':digest(obs),'new_model_calls':0}
     return encoded
@@ -257,6 +265,8 @@ def execute():
     p=protocol();libraries=compile_proposals();bank=read(OUT/'raw_source_bank.json');client=FrozenExecutor(ledger(p),OUT,p['executor_profile']);results=[]
     for arm,library in libraries.items():
         folder=OUT/arm
+        if(folder/'result.json').exists():
+            results.append(read(folder/'result.json'));print(json.dumps({'reused_completed_arm':arm,'new_model_requests':0}),flush=True);continue
         def observation(sid):
             target=folder/'observations'/(digest(sid)+'.json')
             if target.exists():return read(target)
