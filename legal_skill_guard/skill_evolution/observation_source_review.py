@@ -81,6 +81,42 @@ def review(source, grounded, *, complete_families=None):
                     'passed':any(has(place,[e,'Johns Hopkins University']) and
                         (family=='educational_institution_' or has('agent_',[e,'Alice']) and
                             timed(e,'start_','2015-08-29') and timed(e,'end_','2019-05-30')) for e in ids)})
+    service_sources={
+        'bb6b0bc1':('domestic service','USA',True),
+        'ed3f34d3':('domestic service','Venezuela',False),
+        '3e22604a':(None,'USA',False)}
+    annotation=next((v for k,v in service_sources.items()if source.startswith('SARA_v2_Binary:'+k)),None)
+    if annotation:
+        from .sara_statute_kernel import literal_date
+        kind,country,home=annotation
+        for row in rows:
+            facts=row['facts'];observed=set(complete_families or ())
+            services=[f['arguments'][0]for f in facts if f['predicate']=='service_']
+            def has(p,args):return {'predicate':p,'arguments':args}in facts
+            if services or 'service_'in observed:
+                checks.append({'check':'Stated worker Bob and employer Alice remain on the same service',
+                    'native_families':['service_'],'passed':len(services)==1 and all(
+                        has('agent_',[e,'Bob'])and has('patient_',[e,'Alice'])for e in services)})
+                checks.append({'check':'Service period is source-stated February 1 through September 2, 2017',
+                    'native_families':['service_'],'passed':all(any(f['predicate']=='start_'and
+                        f['arguments'][0]==e and literal_date(f['arguments'][1])=='2017-02-01'for f in facts)
+                        and any(f['predicate']=='end_'and f['arguments'][0]==e and
+                            literal_date(f['arguments'][1])=='2017-09-02'for f in facts)for e in services)})
+                checks.append({'check':'Restricted service kind follows the current source clause',
+                    'native_families':['service_'],'passed':all(has('purpose_',[e,kind])if kind else
+                        not any(f['predicate']in ('purpose_','type_')and f['arguments'][0]==e and
+                            f['arguments'][1]in ('agricultural labor','domestic service')for f in facts)for e in services)})
+                locations=[f['arguments'][1]for f in facts if f['predicate']=='location_'and f['arguments'][0]in services]
+                checks.append({'check':'Explicit home is retained; domestic work alone does not invent a private-home venue',
+                    'native_families':['service_'],'passed':('private home'in locations)==home})
+                checks.append({'check':'Geographic country is not inferred from the employer citizenship',
+                    'native_families':['service_'],'passed':not any(f['predicate']=='country_'and
+                        f['arguments'][0]in locations and f['arguments'][1]!=country for f in facts)})
+            if ':3e22604a'in source and 'father_'in observed:
+                fathers=[f['arguments'][0]for f in facts if f['predicate']=='father_']
+                checks.append({'check':'Bob is the source-stated father of Alice, with parent/child direction preserved',
+                    'native_families':['father_'],'passed':any(has('agent_',[e,'Bob'])and
+                        has('patient_',[e,'Alice'])for e in fathers)})
     return {'checks': checks, 'reviewed': bool(checks), 'failures': sum(not c['passed'] for c in checks),
         'partial_source_review_not_full_semantic_certification': True,
         'source_annotations_shared_both_arms': True, 'native_answer_used': False}

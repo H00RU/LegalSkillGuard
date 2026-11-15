@@ -108,10 +108,20 @@ def _program(shared,component):
 
 
 def component_value(library,component,kernel,public,view):
+    source_service=component.get('facts_only',False) and set(component['complete_native_families'])=={'service_'}
+    conversion_kernel=deepcopy(kernel)if source_service else kernel
+    if source_service:
+        # Source encoding is independent of query identity. The shared typed
+        # linker below resolves identities after the original encoder validates.
+        conversion_kernel.update(native_query=[],query_clause='')
     value = execute_json(_program(library['shared_helpers'],component['conversion_program']),
-        {'component_id':component['id'],'view':view,'kernel':kernel,'public_case':public}, {},allow_helpers=True)
+        {'component_id':component['id'],'view':view,'kernel':conversion_kernel,
+            'public_case':{'facts':public['facts']}if source_service else public}, {},allow_helpers=True)
     if set(value)!={'facts','negative_givens','witnesses','complete','reasons'} or type(value['complete']) is not bool:
         raise ValueError('A converted observation has exact facts, witnesses, completeness and residual reasons')
+    if source_service:
+        from .source_event_binding import bind
+        value,_=bind(kernel,value)
     return value
 
 

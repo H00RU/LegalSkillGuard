@@ -16,7 +16,7 @@ from .statute_input_dependencies import _read
 
 
 EVENT_ROLE_PORTS = {'agent_', 'patient_', 'start_', 'end_', 'location_',
-    'purpose_', 'amount_', 'means_', 'beneficiary_', 'country_', 'destination_'}
+    'purpose_', 'type_', 'reason_', 'amount_', 'means_', 'beneficiary_', 'country_', 'destination_'}
 
 
 GUARD = r'''
@@ -95,7 +95,12 @@ def execute(kernel, binding, complete_families, public):
     vocabulary = {**primitive, **{p:len(args) for p,args in GIVENS.items()}}
     for name,arity in sorted(vocabulary.items()):
         args = ','.join('A'+str(i) for i in range(arity))
-        body += name+'('+args+') :- lsg_scope('+scalar(name)+',['+args+']), lsg_fact('+scalar(name)+',['+args+']).\n'
+        # Log successful witnesses after unification. If enumeration is
+        # exhausted, log the original lookup before finite failure. Positive
+        # existentials need one complete witness; negation/aggregation still
+        # require closure of their original (possibly unbound) lookup scope.
+        body += name+'('+args+') :- lsg_fact('+scalar(name)+',['+args+']), lsg_scope('+scalar(name)+',['+args+']).\n'
+        body += name+'('+args+') :- lsg_scope('+scalar(name)+',['+args+']), fail.\n'
     conflicts = ';'.join('once(('+term+'))' for term in prepared['negative_terms']) or 'fail'
     body += '''
 lsg_case_main :-

@@ -226,3 +226,46 @@ def test_fact_only_followup_receives_structural_residual_without_query_literals(
     result=compare_reads(lib,k,public,'fixture',{},read)
     assert result['eligible'] and calls==['residual_guided','ordinary_reread']
     assert all(v['execution']['handled']for v in result['policies'].values())
+
+
+def test_ordinary_reread_uses_actual_failed_component_before_unread_static_neighbor(tmp_path):
+    from copy import deepcopy
+    from legal_skill_guard.skill_evolution.native_observation_execution import compare_reads
+    k=kernel(tmp_path,'s9001 :- service_("svc"),optional_("missing").','s9001')
+    k['input_fields_json']=json.dumps({'facts':{'type':'array'},'negative_givens':{'type':'array'},
+        'extraction_status':{'type':'string'}})
+    lib=component_library();extra=deepcopy(lib['components'][0]);extra.update(id='aaa_unrelated',complete_native_families=['optional_'])
+    lib['components'].append(extra);public={'facts':'worker serves employer.'}
+    def observed(status):return {'reading':{'views':[{'worker':'worker','status':status,
+        'witnesses':[{'field':'facts','quote':public['facts']}]}]}}
+    calls=[]
+    def read(policy,action):
+        assert action['component_ids']==['reading']
+        calls.append(policy)
+        return observed('complete'),{'fixture':True}
+    result=compare_reads(lib,k,public,'fixture',observed('unread'),read)
+    assert calls==['residual_guided','ordinary_reread']
+    assert result['policies']['ordinary_reread']['action']['selection_basis']=='existing_unresolved_component'
+
+
+def test_positive_existential_uses_a_known_witness_without_closing_other_events(tmp_path):
+    from itertools import combinations
+    k=kernel(tmp_path,'s9001 :- agent_(Event,"worker"),patient_(Event,"employer").','s9001')
+    b=binding(('service_',['svc']),('agent_',['svc','worker']),('patient_',['svc','employer']))
+    actual=execute(k,b,{'service_'},{'facts':'worker serves employer.'})
+    assert actual['handled'] and actual['answer']=='Entailment'
+    assert all(r['event']=='svc'and r['complete_scope']for r in actual['factual_accesses'])
+    other=[('optional_',['other']),('agent_',['other','worker']),('patient_',['other','different'])]
+    for n in range(len(other)+1):
+        for additions in combinations(other,n):
+            completed=binding(('service_',['svc']),('agent_',['svc','worker']),('patient_',['svc','employer']),*additions)
+            completed['extraction_status']='complete'
+            assert full_execute(k,completed)['answer']==actual['answer']
+
+
+def test_exhausted_unbound_relation_remains_unread_under_negation(tmp_path):
+    k=kernel(tmp_path,'s9001 :- \\+ agent_(_,"missing").','s9001')
+    b=binding(('service_',['svc']),('agent_',['svc','worker']))
+    result=execute(k,b,{'service_'},{'facts':'Only the svc event has been fully read.'})
+    assert result['raw_native_probe_verdict']=='Entailment'
+    assert not result['handled'] and result['unread_factual_scopes'][0]['event']is None

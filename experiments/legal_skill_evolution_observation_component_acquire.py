@@ -80,6 +80,10 @@ reader program when revising an unrelated part. Jointly revise schema, input
 scope, factual reading program and conversion when the actual error requires it.
 Do not put query-derived fields into a facts-only factual view or invent source
 roles/dates in conversion. Both arms have identical program capability.
+For a facts_only component covering only service_, conversion encodes source
+events with no question/query input. The shared public typed native-call linker
+then aligns existing event IDs by observed roles or a unique literal kind match.
+Do not require query role arguments for such a source encoder to be complete.
 
 coverage_updates must include EVERY resulting component ID in each candidate.
 complete_native_families lists only unary native event/entity families or exact

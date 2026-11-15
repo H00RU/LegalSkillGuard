@@ -176,7 +176,15 @@ def compare_reads(library,kernel,public,source_id,observation,read,*,policies=('
     modes={'residual_guided':'native_residual','ordinary_reread':'direct_inputs_first'}
     for label in policies:
         policy=modes[label]
-        cid=next_component(library,kernel,choice_observation,[],before,static,policy)
+        existing_unread=set(initial)&unread
+        # A strong ordinary rereader can use the actual failed component ID;
+        # it need not guess an unrelated shorter schema from the static cover.
+        blocked=set(by_id)-existing_unread if policy=='direct_inputs_first' and existing_unread else set()
+        cid=next_component(library,kernel,choice_observation,blocked,before,static,policy)
+        selection_basis='existing_unresolved_component'if blocked else 'fixed_policy'
+        if cid is None and blocked:
+            cid=next_component(library,kernel,choice_observation,[],before,static,policy)
+            selection_basis='fixed_policy_no_existing_provider'
         if cid is None:
             result['policies'][label]={'read_requested':False,'execution':before,'reason':'No undealt-with observation provider'}
             continue
@@ -191,7 +199,7 @@ def compare_reads(library,kernel,public,source_id,observation,read,*,policies=('
                 scopes=[{k:v for k,v in s.items()if k!='event'}for s in scopes]
             prompt+='\nActual unread native factual scopes: '+json.dumps(scopes,ensure_ascii=False)
         action={'schema':observation_schema(library,[cid]),'prompt':prompt,'component_ids':[cid],
-            'facts_only':component.get('facts_only',False)}
+            'facts_only':component.get('facts_only',False),'selection_basis':selection_basis}
         try:
             value,receipt=read(label,action)
             jsonschema.validate(value,action['schema'])

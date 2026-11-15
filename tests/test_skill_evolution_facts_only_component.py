@@ -49,3 +49,21 @@ def test_component_recombination_keeps_a_real_input_scope_change():
     candidates=coordinate_candidates({'retained':base,'joint':donor})
     assert any(lib['components'][0].get('facts_only')is True and
         lib['components'][1]['conversion_program']=='old'for lib in candidates.values())
+
+
+def test_unchanged_reader_reuses_its_actual_paid_wire_record(tmp_path):
+    from shutil import copyfile
+    from experiments import legal_skill_evolution_service_observer_update as acquired
+    from experiments import legal_skill_evolution_mixed_component_training as train
+    root=acquired.ROOT
+    key='1cf3d3874d04d6e7270048176124eee47050a45504bb1c4d7a564458915ae548'
+    record=root/'artifacts/legal_skill_evolution_mixed_component_training_compact_refs_20261115/component_reads'/(key+'.json')
+    raw=json.loads(record.read_text());assert raw['error']is None
+    library=train.read(root/'artifacts/legal_skill_evolution_service_observer_dictionary_abi_20261115/selected_libraries/CoverageRecombine.json')
+    component=next(c for c in library['components']if c['id']=='death_events')
+    public,kernels=acquired.data();sid=raw['source']
+    folder=tmp_path/'component_reads';folder.mkdir();copyfile(record,folder/record.name)
+    client=SimpleNamespace(artifacts=tmp_path,ledger=SimpleNamespace(run_id='paid_replay_test'))
+    protocol=train.read(root/'artifacts/legal_skill_evolution_service_observer_dictionary_abi_20261115/protocol.json')
+    value,_=read_component(client,protocol,sid,component,kernels[sid],public[sid]['views'][0]['public'],purpose='skill_actor')
+    assert value==raw['value']

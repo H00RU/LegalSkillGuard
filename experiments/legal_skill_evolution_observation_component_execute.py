@@ -120,11 +120,14 @@ def read_component(client, protocol, sid, component, kernel, public, *, purpose)
             'source': sid, 'component_id': component['id'], 'value': value, 'receipt': receipt,
             'not_a_model_response_or_native_success': True})
         return value, receipt
-    task = {'current_case': {k: public[k] for k in
-        (('facts',) if component.get('facts_only',False) else ('facts','question'))},
-        'component_meanings': {component['id']: component['meaning']}}
-    if not component.get('facts_only',False):
-        task['current_legal_query']={k:kernel[k]for k in ('native_query','query_clause')}
+    if component.get('facts_only',False):
+        task={'current_case':{'facts':public['facts']},
+            'component_meanings':{component['id']:component['meaning']}}
+    else:
+        # Preserve the exact paid request order for unchanged current readers.
+        task={'current_case':{k:public[k]for k in ('facts','question')},
+            'current_legal_query':{k:kernel[k]for k in ('native_query','query_clause')},
+            'component_meanings':{component['id']:component['meaning']}}
     prompt = component['prompt']
     if protocol.get('shared_native_event_encoding'):
         prompt += '\nShared native event meanings: ' + protocol['shared_native_event_encoding']

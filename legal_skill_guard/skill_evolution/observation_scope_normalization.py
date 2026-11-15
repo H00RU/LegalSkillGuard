@@ -9,12 +9,14 @@ the same facts under the original acquired converter. No native label is read.
 from copy import deepcopy
 from itertools import product
 import json
+from datetime import date
 
 import jsonschema
 
 from .literal_statutory_givens import constrain
 from .objects import digest
 from .observation_component_library import component_value
+from .sara_statute_kernel import literal_date
 
 
 WORLD_FIELDS = {'persons', 'location', 'start_date', 'start_text', 'end_date',
@@ -41,6 +43,33 @@ def _domains(schema, fields):
 
 def normalize(library, kernel, public, observation):
     value, receipts = deepcopy(observation), []
+    def dates(node,path):
+        if isinstance(node,list):
+            for index,item in enumerate(node):dates(item,path+[index])
+        elif isinstance(node,dict):
+            for key,item in list(node.items()):
+                if key in {'start','end','start_date','end_date','as_of_date'}and isinstance(item,str):
+                    canonical=literal_date(item)
+                    if canonical!=item:
+                        node[key]=canonical;receipts.append({'path':path+[key],'original':item,
+                            'canonical':canonical,'repair':'same_fully_specified_calendar_date',
+                            'missing_date_parts_not_inferred':True})
+                else:dates(item,path+[key])
+            if node.get('status')in ('date','interval')and type(node.get('year'))is int:
+                try:
+                    same=date.fromisoformat(node['start']).year==date.fromisoformat(node['end']).year==node['year']
+                except (ValueError,KeyError,TypeError):same=False
+                if same:
+                    receipts.append({'path':path+['year'],'original':node['year'],'canonical':None,
+                        'repair':'remove_inactive_year_redundant_with_both_complete_dates',
+                        'calendar_information_unchanged':True})
+                    node['year']=None
+    by_id={c['id']:c for c in library.get('components',[])}
+    for component,observed in value.items():
+        contract=by_id.get(component,{})
+        if contract.get('facts_only')and set(contract.get('complete_native_families',[]))=={'service_'}:
+            for index,view in enumerate(observed.get('views',[])):
+                if view.get('extraction_status')=='complete':dates(view,[component,'views',index])
     cid = 'family_relationship_residence'
     if cid not in value:
         return value, receipts

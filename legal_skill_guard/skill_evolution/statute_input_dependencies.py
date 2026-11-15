@@ -22,7 +22,17 @@ from .sara_statute_kernel import ROOT, GIVENS, fact_vocabulary, query_term
 # This declares the input type; it adds neither a service fact nor a legal rule.
 QUERY_EVENT_INPUTS = {'s3306_c_10_A': {
     'arity': 4, 'argument': 0, 'family': 'service_', 'file': 'section3306.pl',
-    'head': r's3306_c_10_A\(\s*Service\s*,\s*Employer\s*,\s*Employee\s*,\s*Workday\s*\)\s*:-'}}
+    'head': r's3306_c_10_A\(\s*Service\s*,\s*Employer\s*,\s*Employee\s*,\s*Workday\s*\)\s*:-'},
+    's3306_c_1':{'arity':2,'argument':0,'family':'service_','file':'section3306.pl',
+        'head':r's3306_c_1\(\s*Service\s*,\s*Caly\s*\)\s*:-'},
+    's3306_c_2':{'arity':3,'argument':0,'family':'service_','file':'section3306.pl',
+        'head':r's3306_c_2\(\s*Service\s*,\s*Location\s*,\s*Caly\s*\)\s*:-'},
+    's3306_c_5':{'arity':4,'argument':0,'family':'service_','file':'section3306.pl',
+        'head':r's3306_c_5\(\s*Service\s*,\s*Employer\s*,\s*Employee\s*,\s*Workday\s*\)\s*:-'},
+    's3306_c_21':{'arity':4,'argument':0,'family':'service_','file':'section3306.pl',
+        'head':r's3306_c_21\(\s*Service\s*,\s*Employee\s*,\s*S235\s*,\s*Workday\s*\)\s*:-'},
+    's3306_b':{'arity':8,'argument':2,'family':'service_','file':'section3306.pl',
+        'head':r's3306_b\(\s*Wages\s*,\s*Remuneration\s*,\s*Employment\s*,\s*Payer\s*,\s*Payee\s*,\s*Employer\s*,\s*Employee\s*,\s*Medium\s*\)\s*:-'}}
 
 
 def query_event_inputs(kernel):
@@ -40,8 +50,12 @@ def query_event_inputs(kernel):
         head = re.search(r'(?m)^' + declaration['head'], body.decode())
         if head is None:
             raise ValueError('Native query input declaration lacks its bound author signature')
+        arguments=[a.strip()for a in head.group().split('(',1)[1].split(')',1)[0].split(',')]
+        roles={p:arguments.index(name)for p,name in
+            (('agent_','Employee'),('patient_','Employer'),('location_','Location'))if name in arguments}
         result.append({'predicate': call['predicate'], 'argument': declaration['argument'],
             'family': declaration['family'], 'source_file': name,
+            'role_arguments':roles,
             'author_head': head.group(), 'routing_input_not_a_source_fact': True})
     return result
 
