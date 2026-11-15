@@ -129,8 +129,19 @@ def next_component(library,kernel,observation,failed_components,execution,static
     return min(candidates,key=priority)['id']
 
 
-def run(library,kernel,public,source_id,read,*,policy='native_residual'):
+def run(library,kernel,public,source_id,read,*,policy='native_residual',
+        read_relation=None,initial_observation=None,project_fields=False):
     """Read each selected component at most once; stop on a guarded verdict."""
+    projection=[]
+    if project_fields:
+        from .observation_field_projection import compile_library
+        library,projection=compile_library(library)
+    if any('relation_contract'in c for c in library['components']):
+        if read_relation is None:raise ValueError('Relational contracts need a facts-only relation reader')
+        result=_run_relations(library,kernel,public,source_id,read,read_relation,
+            policy=policy,initial_observation=initial_observation)
+        result['field_projection_receipts']=projection
+        return result
     static=plan(library,kernel)
     observation,failed,reads,history={},{},[],[]
     by_id={c['id']:c for c in library['components']}
@@ -164,6 +175,104 @@ def run(library,kernel,public,source_id,read,*,policy='native_residual'):
         'reads':reads,'component_read_order':[r['component_id']for r in reads],
         'grounded':grounded,'execution':execution,'native_scope_history':history,
         'failed_observation_components':failed,'read_policy':policy,
+        'not_learned_observation_success':not bool(execution['used_observation_families'])}
+
+
+def _run_relations(library,kernel,public,source_id,read,read_relation,*,policy,initial_observation):
+    """Route actual native and nominal-binding demands through acquired rules.
+
+    Each component/group is read at most once. Both policies know the actual
+    blocked provider; ordinary reading uses its static input dependencies.
+    """
+    from .relational_observation_contract import pullback
+    from .statute_input_dependencies import dependency_graph
+    if policy not in ('native_residual','direct_inputs_first'):raise ValueError('Unknown read policy')
+    static=plan(library,kernel);static_inputs=set(dependency_graph(kernel)['input_predicates'])
+    observation=deepcopy(initial_observation or {});reads=[];failed={};attempted=set();history=[]
+    declarations=query_event_inputs(kernel);direct_families={d['family']for d in declarations}
+    query_types={}
+    for d in declarations:
+        for call in kernel['native_query']:
+            if call['predicate']!=d['predicate']:continue
+            target=call['arguments'][d['argument']]
+            if isinstance(target,str):query_types.setdefault(target,set()).add(d['family'])
+    while True:
+        observed,receipts=normalize(library,kernel,public,observation)
+        execution=evaluate(library,kernel,public,observed,source_id)
+        scopes=[s for w in execution['binding_executions']for s in w['execution'].get('unread_factual_scopes',[])]
+        binding_demands={cid:[d for row in rows for d in row.get('converted',{}).get(
+            'source_event_binding',{}).get('binding_demands',[])]
+            for cid,rows in execution['component_conversions'].items()}
+        history.append({'observed_components':sorted(observation),'handled':execution['handled'],
+            'answer':execution['answer'],'unread_scopes':scopes,'binding_demands':binding_demands,
+            'scope_normalization_receipts':receipts})
+        if execution['handled']or any(w['source_review']['failures']for w in execution['binding_executions']):break
+        if any(w['execution'].get('error')or w['execution'].get('execution_error')
+               for w in execution['binding_executions']):break
+        aliases=[b for rows in execution['component_conversions'].values()for row in rows
+            if row['trusted_complete_observation']for b in row['converted'].get('source_event_binding',{}).get('bindings',[])]
+        demands={};needed_new=False
+        for c in library['components']:
+            contract=c.get('relation_contract')
+            if not contract:continue
+            wanted=set()
+            requests=[(s['predicate'],s['event'])for s in scopes
+                if not query_types.get(s['event'])or query_types[s['event']]&set(contract['covered_families'])]
+            requests += [(d['predicate'],d['source_event'])for d in binding_demands.get(c['id'],[])]
+            for predicate,event in requests:
+                arity=kernel['fact_arities'].get(predicate)
+                if not arity:continue
+                pulled=pullback(contract,{'predicate':predicate,'arguments':[event]+
+                    [{'var':'Provider'+str(i)}for i in range(arity-1)]},event_bindings=aliases)
+                wanted.update(d['relation']for b in pulled['branches']for d in b['joined_demands'])
+            demands[c['id']]=wanted
+            view=observation.get(c['id'],{'views':[{}]})['views'][0]
+            if any((c['id'],n)not in attempted and n not in view for n in wanted):needed_new=True
+        requested={s['predicate']for s in scopes if kernel['fact_arities'].get(s['predicate'])==1 or s['predicate']in GIVENS}
+        legacy=[c for c in library['components']if 'relation_contract'not in c and c['id']not in observation
+            and (c['id'],None)not in attempted and set(c['complete_native_families'])&requested]
+        if legacy and not needed_new:
+            component=min(legacy,key=lambda c:(c.get('observation_program')is None,len(c['schema_json']),c['id']))
+            attempted.add((component['id'],None))
+            try:
+                value,receipt=read(component);observation.update(value)
+                reads.append({'component_id':component['id'],'component':component['id'],**receipt})
+            except (ValueError,KeyError,TypeError,jsonschema.ValidationError)as error:
+                failed[component['id']]=type(error).__name__+': '+str(error)
+            continue
+        choices=[]
+        closed={p for w in execution['binding_executions']for p in
+            set(w['complete_families'])|set((w.get('scope_contract')or {}).get('family_scans',[]))}
+        for c in library['components']:
+            if 'relation_contract'not in c or not demands[c['id']]:continue
+            contract=c['relation_contract'];view=observation.get(c['id'],{'views':[{}]})['views'][0]
+            wanted=demands[c['id']]if policy=='native_residual'else {
+                a['predicate']for r in contract['rules']if r['head']['predicate']in static_inputs for a in r['body']}
+            # Binding is an execution prerequisite for both policies.
+            if binding_demands.get(c['id']):wanted|=demands[c['id']]
+            for rank,group in enumerate(contract['relations']):
+                name=group['name'];enumerator=name==contract['enumerator']and name not in view
+                if (c['id'],name)in attempted or name in view or name not in wanted and not enumerator:continue
+                priority=(not bool(set(contract['covered_families'])&(direct_families-closed)),
+                    not enumerator,name not in wanted,rank,c['id'],name)
+                choices.append((priority,c,group))
+        if not choices:break
+        _,component,group=min(choices,key=lambda v:v[0]);name=group['name'];attempted.add((component['id'],name))
+        view=observation.setdefault(component['id'],{'views':[{}]})['views'][0]
+        context=deepcopy(view)
+        context['observed_related_source_events']=[{'component':cid,'facts':deepcopy(row['converted']['facts'])}
+            for cid,rows in execution['component_conversions'].items()if cid!=component['id']
+            for row in rows if row['trusted_complete_observation']]
+        try:
+            value,receipt=read_relation(component,name,context);view.update(value)
+            reads.append({'component_id':component['id'],'component':component['id'],'relation':name,**receipt})
+        except (ValueError,KeyError,TypeError,jsonschema.ValidationError)as error:
+            failed[component['id']+'/'+name]=type(error).__name__+': '+str(error)
+    grounded={'bindings':[{'inputs':w['inputs'],'witnesses':w['witnesses']}for w in execution['binding_executions']],
+        'unresolved':execution['unread_components']}
+    return {'plan':static,'observation':observed,'raw_observation':observation,'reads':reads,
+        'component_read_order':[r['component_id']for r in reads],'grounded':grounded,'execution':execution,
+        'native_scope_history':history,'failed_observation_components':failed,'read_policy':policy,
         'not_learned_observation_success':not bool(execution['used_observation_families'])}
 
 

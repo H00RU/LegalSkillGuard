@@ -74,6 +74,8 @@ def normalize(library, kernel, public, observation):
     if cid not in value:
         return value, receipts
     component = next(c for c in library['components'] if c['id'] == cid)
+    if 'relation_contract'in component:
+        return value,receipts
     schema = json.loads(component['schema_json'])
     record_schema = schema['properties']['views']['items']['properties']['residences']['items']
     projected = constrain(record_schema, public, kernel)

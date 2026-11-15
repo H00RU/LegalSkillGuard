@@ -261,16 +261,29 @@ def forward(contract, observation, public, kernel):
             uses.append({'rule':rule['id'],'fact':fact,'observation_relations':[a['predicate'] for a in rule['body']]})
     scans, properties = [], []
     subjects = {f['arguments'][0] for f in facts if kernel['fact_arities'][f['predicate']]==1}
+    def scope_closed(rule,event=None):
+        # Join the already complete tables first. A closed selector such as
+        # kind=payment can refute a plan-only producer without reading any
+        # plan attributes. Unknown tables never refute a branch.
+        subject=rule['head']['arguments'][0]
+        bindings=[{}]if event is None else ([_match([subject],[event],{})])
+        bindings=[b for b in bindings if b is not None]
+        for atom in rule['body']:
+            if atom['predicate']not in complete:continue
+            bindings=[merged for prior in bindings for row in tables[atom['predicate']]
+                if (merged:=_match(atom['arguments'],row,prior))is not None]
+        return not bindings or all(a['predicate']in complete for a in rule['body'])
     for predicate in contract['covered_families']+contract['covered_properties']:
-        needed = {a['predicate'] for r in contract['rules'] if r['head']['predicate']==predicate for a in r['body']}
-        if not needed<=complete or contract['enumerator'] not in complete:
+        producers=[r for r in contract['rules']if r['head']['predicate']==predicate]
+        if contract['enumerator'] not in complete:
             continue
         if predicate in contract['covered_families']:
-            scans.append(predicate)
+            if all(scope_closed(r)for r in producers):scans.append(predicate)
         else:
             referents=potential_subjects.get(predicate,set())
             if predicate!='country_':referents=referents|subjects
-            properties.extend({'event':event,'predicate':predicate} for event in sorted(referents))
+            properties.extend({'event':event,'predicate':predicate} for event in sorted(referents)
+                if all(scope_closed(r,event)for r in producers))
     return {'facts':facts,'negative_givens':[],'witnesses':witnesses,'complete':True,'reasons':[],
         'scope_contract':{'family_scans':scans,'event_properties':properties},
         'unread_relations':sorted(set(groups)-complete),'derivations':uses,

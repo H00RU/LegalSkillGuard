@@ -192,8 +192,12 @@ def execute_one(client, protocol, name, library, sid, kernel, source, phase, *, 
             from legal_skill_guard.skill_evolution.native_observation_execution import run as native_run
             def dispatch(component):
                 return read_component(client,protocol,sid,component,kernel,public,purpose=purpose)
+            def dispatch_relation(component,relation,prior):
+                from legal_skill_guard.skill_evolution.observation_relation_reader import read_relation
+                return read_relation(client,protocol,sid,component,relation,public,prior)
             row.update(native_run(library,kernel,public,sid,dispatch,
-                policy=protocol.get('native_read_policy','native_residual')))
+                policy=protocol.get('native_read_policy','native_residual'),read_relation=dispatch_relation,
+                project_fields=protocol.get('field_projection',False)))
             immutable_json(target,row)
             print(json.dumps({'phase':phase,'candidate':name,'source':sid,
                 'handled':row['execution']['handled'],'reads':len(row['reads']),

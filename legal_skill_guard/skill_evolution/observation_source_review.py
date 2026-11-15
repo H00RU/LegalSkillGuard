@@ -49,6 +49,18 @@ def review(source, grounded, *, complete_families=None, scope_contract=None):
             if active:checks.append(check)
             else:pending.append({'check':check['check'],'native_families':['payment_'],
                 'unread_predicates':['agent_','patient_','amount_','means_'],'status':'unread_not_certified'})
+            # Native failure may visit purpose_ before amount_. A correct gold
+            # label cannot certify a closed, empty purpose where the source
+            # explicitly says the payment is for the observed labor service.
+            services=[f['arguments'][0]for f in facts if f['predicate']=='service_']
+            purpose_closed=scope_contract is None or 'payment_'in set(complete_families or ())or any(
+                (p,'purpose_')in properties for p in payment_ids)
+            service_closed='service_'in set(complete_families or ())or (
+                scope_contract is not None and 'service_'in scope_contract['family_scans'])
+            if payment_ids and purpose_closed and service_closed:
+                checks.append({'check':'The hay payment for agricultural labor retains its source-stated service connection',
+                    'native_families':['payment_','service_'],
+                    'passed':any(has('purpose_',[p,e])for p in payment_ids for e in services)})
             checks.append({'check': 'Ordinary agricultural wage does not establish termination, disability or death',
                 'passed': not any(f['predicate'] in {'termination_', 'disability_', 'death_'} for f in facts)})
     if source.startswith('SARA_v2_Binary:d9d6b2'):
@@ -72,10 +84,18 @@ def review(source, grounded, *, complete_families=None, scope_contract=None):
             observed = set(complete_families or ())
             def has(p,args):return {'predicate':p,'arguments':args} in facts
             if 'service_' in observed or services:
-                checks.append({'check':'Source-stated service keeps Alice as worker and the named university as employer',
+                role_check={'check':'Source-stated service keeps Alice as worker and the named university as employer',
                     'native_families':['service_'],
                     'passed':bool(services) and all(has('agent_',[e,'Alice']) and
-                        has('patient_',[e,'Johns Hopkins University']) for e in services)})
+                        has('patient_',[e,'Johns Hopkins University']) for e in services)}
+                bad_role=any(f['predicate']in ('agent_','patient_')and f['arguments'][0]in services and
+                    f['arguments'][1]!=('Alice'if f['predicate']=='agent_'else 'Johns Hopkins University')for f in facts)
+                roles_closed=scope_contract is None or 'service_'in observed or bool(services)and all(
+                    {'event':e,'predicate':p}in scope_contract['event_properties']
+                    for e in services for p in ('agent_','patient_'))
+                if bad_role or roles_closed:checks.append({**role_check,'passed':role_check['passed']and not bad_role})
+                else:pending.append({'check':role_check['check'],'native_families':['service_'],
+                    'unread_predicates':['agent_','patient_'],'status':'unread_not_certified'})
                 checks.append({'check':'Enrollment/class periods and query workday are not source-stated service dates',
                     'native_families':['service_'],
                     'passed':not any(f['predicate'] in {'start_','end_','location_','country_'} and
@@ -128,30 +148,37 @@ def review(source, grounded, *, complete_families=None, scope_contract=None):
                         'native_families':['payment_','service_'],
                         'passed':any(has('agent_',[p,'Alice'])and has('patient_',[p,'Bob'])and
                             any(has('purpose_',[p,e])for e in services)for p in payment_ids)})
-            def scoped(check,ports):
+            def scoped(check,ports,*,bad_observed=False,events=None,family='service_'):
                 explicit=set(ports)
-                active=scope_contract is None or 'service_'in observed or any(
-                    f['predicate']in explicit and f['arguments'][0]in services for f in facts) or any(
-                    s['predicate']in explicit and s['event']in services for s in scope_contract['event_properties'])
-                if active:checks.append(check)
-                else:pending.append({'check':check['check'],'native_families':['service_'],
+                selected=services if events is None else events
+                closed=scope_contract is None or family in observed or bool(selected)and all(
+                    {'event':e,'predicate':p}in scope_contract['event_properties']for e in selected for p in explicit)
+                if bad_observed or closed:checks.append({**check,'passed':check['passed']and not bad_observed})
+                else:pending.append({'check':check['check'],'native_families':[family],
                     'unread_predicates':sorted(explicit),'status':'unread_not_certified'})
             if services or 'service_'in observed:
                 scoped({'check':'Stated worker Bob and employer Alice remain on the same service',
                     'native_families':['service_'],'passed':len(services)==1 and all(
-                        has('agent_',[e,'Bob'])and has('patient_',[e,'Alice'])for e in services)},('agent_','patient_'))
+                        has('agent_',[e,'Bob'])and has('patient_',[e,'Alice'])for e in services)},('agent_','patient_'),
+                    bad_observed=any(f['predicate']in ('agent_','patient_')and f['arguments'][0]in services and
+                        f['arguments'][1]!=('Bob'if f['predicate']=='agent_'else 'Alice')for f in facts))
                 scoped({'check':'Service period is source-stated February 1 through September 2, 2017',
                     'native_families':['service_'],'passed':all(any(f['predicate']=='start_'and
                         f['arguments'][0]==e and literal_date(f['arguments'][1])=='2017-02-01'for f in facts)
                         and any(f['predicate']=='end_'and f['arguments'][0]==e and
-                            literal_date(f['arguments'][1])=='2017-09-02'for f in facts)for e in services)},('start_','end_'))
+                            literal_date(f['arguments'][1])=='2017-09-02'for f in facts)for e in services)},('start_','end_'),
+                    bad_observed=any(f['predicate']in ('start_','end_')and f['arguments'][0]in services and
+                        literal_date(f['arguments'][1])!=('2017-02-01'if f['predicate']=='start_'else '2017-09-02')for f in facts))
                 scoped({'check':'Restricted service kind follows the current source clause',
                     'native_families':['service_'],'passed':all(has('purpose_',[e,kind])if kind else
                         not any(f['predicate']in ('purpose_','type_')and f['arguments'][0]==e and
-                            f['arguments'][1]in ('agricultural labor','domestic service')for f in facts)for e in services)},('purpose_','type_'))
+                            f['arguments'][1]in ('agricultural labor','domestic service')for f in facts)for e in services)},('purpose_','type_'),
+                    bad_observed=any(f['predicate']in ('purpose_','type_')and f['arguments'][0]in services and
+                        (f['arguments'][1]!=kind if kind else f['arguments'][1]in ('agricultural labor','domestic service'))for f in facts))
                 locations=[f['arguments'][1]for f in facts if f['predicate']=='location_'and f['arguments'][0]in services]
                 scoped({'check':'Explicit home is retained; domestic work alone does not invent a private-home venue',
-                    'native_families':['service_'],'passed':('private home'in locations)==home},('location_',))
+                    'native_families':['service_'],'passed':('private home'in locations)==home},('location_',),
+                    bad_observed=not home and 'private home'in locations)
                 checks.append({'check':'Geographic country is not inferred from the employer citizenship',
                     'native_families':['service_'],'passed':not any(f['predicate']=='country_'and
                         f['arguments'][0]in locations and f['arguments'][1]!=country for f in facts)})
@@ -165,11 +192,10 @@ def review(source, grounded, *, complete_families=None, scope_contract=None):
                 check={'check':'Bob is the source-stated father of Alice, with parent/child direction preserved',
                     'native_families':['father_'],'passed':any(has('agent_',[e,'Bob'])and
                         has('patient_',[e,'Alice'])for e in fathers)}
-                if scope_contract is None or 'father_'in observed or (father_scan and not fathers) or any(
-                    f['predicate']in ('agent_','patient_')and f['arguments'][0]in fathers for f in facts):
-                    checks.append(check)
-                else:pending.append({'check':check['check'],'native_families':['father_'],
-                    'unread_predicates':['agent_','patient_'],'status':'unread_not_certified'})
+                if father_scan and not fathers:checks.append(check)
+                else:scoped(check,('agent_','patient_'),events=fathers,family='father_',
+                    bad_observed=any(f['predicate']in ('agent_','patient_')and f['arguments'][0]in fathers and
+                        f['arguments'][1]!=('Bob'if f['predicate']=='agent_'else 'Alice')for f in facts))
     return {'checks': checks, 'reviewed': bool(checks), 'failures': sum(not c['passed'] for c in checks),
         'pending_checks':pending,
         'partial_source_review_not_full_semantic_certification': True,
