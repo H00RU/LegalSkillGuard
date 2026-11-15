@@ -1,9 +1,9 @@
-# LegalSkillGuard: legal-rule acquisition and case-execution learning
+# LegalSkillGuard: new-conversation handoff
 
-[Current Goal](docs/CURRENT_GOAL.md) · [Current evidence and recovery](docs/METHOD_REDESIGN_CURRENT.md) · [Completed mixed TRAIN and seven-system DEV report](reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/README.md) · [DEV paired comparisons](reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/DEV_comparisons.json) · [Learning curves](reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/pre_update_learning_curves.svg) · [Source status](reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/source_level_stage_status.json) · [Costs and ledger preservation](reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/cost_and_preservation.json)
+The previous Goal was cleared on 16 November 2026. No research job is queued.
 
-The original eight mixed TRAIN batches and fixed forty-parent DEV comparison are settled. Current C and observation learning operate on ContractNLI and SARA; OpenExempt, Airline and MAUD retain the identical inherited boundary foundation. This common history is not new mechanism success.
+[Start here](docs/NEW_CHAT_HANDOFF.md) | [Project map](PROJECT_MAP.md) | [Current status](docs/CURRENT_GOAL.md) | [Preserved research evidence](docs/METHOD_REDESIGN_CURRENT.md)
 
-The full recipe has47.509% native parent mean versus48.134% without C. The two learned observation libraries execute zero of eight DEV query heads because their routing enumerates only TRAIN query names. Their6/8 SARA score comes entirely from shared fallback. No residual read is eligible on these unsupported contracts. These results do not establish two independent contributions, and the same Goal remains active and incomplete.
+[Previous Goal retrospective](reports/legal_skill_evolution_run_20261111/component_training_20261115/GOAL_RETROSPECTIVE_20261116.md). Historical plans are evidence, not execution instructions.
 
-Actual source learning, component interventions, all failed proposals, raw model results, frozen executed sources and continuous costs are preserved. Thinking OFF, fixed data/models, original DEV only, no TEST or paper. The first10619 ledger rows are unchanged. Main remains unchanged; this is a research branch release.
+This public navigation page replaces only the research-branch landing page; the local frozen historical README remains byte-identical.

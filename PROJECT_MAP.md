@@ -1,13 +1,16 @@
-# 当前项目入口
+# 当前项目入口：旧Goal已清除，准备新对话
 
-唯一最新项目本体：`/home/yndx/hhy/legal-skill-current`。代码、当前执行文档、结果入口和唯一连续账本均从本目录访问；不再把其他工作树作为当前项目。
+唯一项目本体：`/home/yndx/hhy/legal-skill-current`。继续在本目录工作，不另建同级“最新项目”。
 
-- [当前Goal、授权、验收与边界](docs/CURRENT_GOAL.md)
-- [当前证据、缺口与下一项工作](docs/METHOD_REDESIGN_CURRENT.md)
-- [目录与保留记录](docs/PROJECT_LAYOUT.md)
-- [最新研究结果](reports/legal_skill_evolution_run_20261111/TEACHER_PROOF_SKILL_RESULT.md)
-- [近邻精读、组件收益与两项候选算法](reports/legal_skill_evolution_run_20261111/LITERATURE_AND_METHOD_CANDIDATES.md)
+2026-11-16用户已clear旧Goal。**当前没有active Goal，也没有研究执行队列。** 新任务以新对话中的用户要求为准；历史候选和待办不自动延续。
 
-当前代码：`legal_skill_guard/skill_evolution/`；当前账本：`artifacts/rr_v2_preflight/research_ledger.sqlite3`；已完成固定研究及后续有限验证：`artifacts/legal_skill_evolution*`。Goal继续active、未完成，不重建或重置。
+建议新对话按顺序读取：
 
-`history/`只保留旧工作树、未提交修改和历史版本，不是执行队列。根README及11月5日交接保留历史用途，不能覆盖上述两份当前文档。目录调整记录和副本校验位于`docs/workspace_unification_20261112.json`。
+1. [当前状态与权限边界](docs/CURRENT_GOAL.md)。
+2. [新对话交接：保留什么、旧思路如何退出](docs/NEW_CHAT_HANDOFF.md)。
+3. [已有资产与证据索引](docs/METHOD_REDESIGN_CURRENT.md)。
+4. 需要历史细节时，再读[旧Goal精炼总结](reports/legal_skill_evolution_run_20261111/component_training_20261115/GOAL_RETROSPECTIVE_20261116.md)，不遍历旧执行日志作为待办。
+
+[目录说明](docs/PROJECT_LAYOUT.md) · [本次交接前入口快照](docs/history/goal_cleared_20261116/README.md) · [保护与校验清单](docs/history/goal_cleared_20261116/preservation_manifest.json)。
+
+代码、模型环境、全部结果和唯一累计账本留在原处。根README是冻结历史，不能启动其中的旧任务。本次只更新交接文档，不启动模型、训练、DEV/TEST或论文。

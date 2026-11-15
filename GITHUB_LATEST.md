@@ -1,9 +1,9 @@
-# LegalSkillGuard: legal-rule acquisition and case-execution learning
+# 最新交接：旧Goal已清除，准备新对话
 
-[Current Goal](docs/CURRENT_GOAL.md) · [Current evidence and recovery](docs/METHOD_REDESIGN_CURRENT.md) · [Completed mixed TRAIN and seven-system DEV report](reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/README.md) · [DEV paired comparisons](reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/DEV_comparisons.json) · [Learning curves](reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/pre_update_learning_curves.svg) · [Source status](reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/source_level_stage_status.json) · [Costs and ledger preservation](reports/legal_skill_evolution_run_20261111/five_train_transition_20261114/cost_and_preservation.json)
+2026-11-16。旧Goal已由用户clear，当前无active Goal、无研究执行队列。
 
-The original eight mixed TRAIN batches and fixed forty-parent DEV comparison are settled. Current C and observation learning operate on ContractNLI and SARA; OpenExempt, Airline and MAUD retain the identical inherited boundary foundation. This common history is not new mechanism success.
+[新对话交接](docs/NEW_CHAT_HANDOFF.md) · [项目入口](PROJECT_MAP.md) · [当前状态](docs/CURRENT_GOAL.md) · [历史证据索引](docs/METHOD_REDESIGN_CURRENT.md)。
 
-The full recipe has47.509% native parent mean versus48.134% without C. The two learned observation libraries execute zero of eight DEV query heads because their routing enumerates only TRAIN query names. Their6/8 SARA score comes entirely from shared fallback. No residual read is eligible on these unsupported contracts. These results do not establish two independent contributions, and the same Goal remains active and incomplete.
+[旧Goal精炼总结](reports/legal_skill_evolution_run_20261111/component_training_20261115/GOAL_RETROSPECTIVE_20261116.md)记录参考工作、候选选择、实现困难、强对照和否定结果。它是研究资产，不是继续旧方案的指令。
 
-Actual source learning, component interventions, all failed proposals, raw model results, frozen executed sources and continuous costs are preserved. Thinking OFF, fixed data/models, original DEV only, no TEST or paper. The first10619 ledger rows are unchanged. Main remains unchanged; this is a research branch release.
+原始数据、代码、结果、连续账本和未提交工作保留；main不修改。新任务、方法和实验计划由新对话确定。本次交接不调用研究模型或启动实验。

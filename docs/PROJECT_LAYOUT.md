@@ -1,24 +1,22 @@
-# 当前项目目录
+# 当前项目目录与保留资产
 
-`/home/yndx/hhy/legal-skill-current`是唯一最新项目本体。本次将最新修复分支切入原主目录，保留同一个Git仓库和全部历史引用；没有建立新Goal或新预算。
+`/home/yndx/hhy/legal-skill-current`是唯一最新项目本体；继续使用同一个Git仓库和现有环境。2026-11-16旧Goal已clear，新任务尚未定义，不自动启动历史入口。
 
-| 路径 | 内容 |
+|路径|内容和边界|
 |---|---|
-| `legal_skill_guard/skill_evolution/` | 当前技能获取、Lift、CoRev、执行及检查代码 |
-| `experiments/`、`configs/`、`tests/` | 当前入口、固定配置与回归；历史入口不自动启动 |
-| `docs/CURRENT_GOAL.md` | 唯一当前目标、授权、验收及边界 |
-| `docs/METHOD_REDESIGN_CURRENT.md` | 当前证据、运行状态与下一项实际工作 |
-| `artifacts/legal_skill_evolution_20261111/` | 完整固定研究、数据清单、原始响应、冻结库及状态 |
-| `artifacts/legal_skill_evolution_*_20261112/` | 本Goal后续有限验证及原始失败 |
-| `artifacts/rr_v2_preflight/research_ledger.sqlite3` | 唯一连续请求账本；归并保持同一文件和全部行 |
-| `reports/legal_skill_evolution_run_20261111/` | 当前报告与公开证据 |
-| `history/legacy_workspace_20261112/` | 原主目录全部内容，包括原未提交、暂存和未跟踪修改 |
-| `history/fixed_study_20261111/` | 原固定研究代码工作树；共享记录通过链接接回主目录 |
-| `history/rr_v2_20261106/` | 旧RR工作树和原始记录 |
-| `history/ir_repair_20261108/`、`history/method_efficacy_20261109/` | 已退出当前执行的历史工作树 |
+|`AGENTS.md`、`PROJECT_MAP.md`|通用工作规范与当前导航，不绑定旧候选或批次。|
+|`docs/CURRENT_GOAL.md`|当前Goal为空的状态及事实边界。|
+|`docs/NEW_CHAT_HANDOFF.md`|本次新对话交接与可复制开场指令。|
+|`docs/METHOD_REDESIGN_CURRENT.md`|已有资产、正负证据、数据暴露和费用索引；没有执行队列。|
+|`docs/history/goal_cleared_20261116/`|本次修改前七份入口原文、已有变更清单、源码及账本校验。|
+|`legal_skill_guard/skill_evolution/`|原技能学习及执行实现；可复用资产，不是新方法默认设计。|
+|`experiments/`、`configs/`、`tests/`|既有实验入口、配置和检查；历史命令不自动启动。|
+|`artifacts/legal_skill_evolution*`|固定研究、后续有限验证、原始响应、失败和冻结库。|
+|`artifacts/rr_v2_preflight/research_ledger.sqlite3`|唯一连续请求账本，清除Goal不重置。|
+|`reports/`、`runs/`|原始及公开研究证据，旧计划的待办不生效。|
+|`history/`|旧工作树、未提交修改和历史版本；不作为新来源或动作队列。|
+|`.venv`、`.local-tools`|现有环境与本地工具，不因本次交接升级或替换。|
 
-模型权重、推理环境仍在原数据盘运行位置。`.venv`与`.local-tools`保留必要的环境/工具入口，不复制或升级模型。模型服务保持原PID，未来工作目录已指向当前主目录。
+模型权重及推理环境仍在原数据盘；当前共享推理服务不因交接关闭。原目录归并备份和迁移校验见`docs/workspace_unification_20261112.json`及旧记录，本次没有再次搬移项目。
 
-归并前的独立最新项目副本和账本快照保存在`/media/sangfor/vdb/legal-skill-backups/workspace_unification_20261112/`。原工程工作树也完整保留在该归档中。`history/`不纳入新的数据来源，也不作为当前操作队列。
-
-后续大幅替换前，先复制归档必要代码、配置、结果、数据及账本并记录版本和校验，再修改当前目录；不再以同级新项目目录积累多个“最新版本”。原Goal、资源授权与连续账本始终保持。
+后续大幅替换前，先复制必要代码、配置、结果、数据与账本并记录版本和hash，再修改当前目录。不要以新建同级项目代替版本管理；不要清除已有未提交发布回执来制造干净工作树。根README保持冻结历史原样。

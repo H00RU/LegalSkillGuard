@@ -1,8 +1,7 @@
-# 历史交接入口
+# 新对话交接入口
 
-本文件为历史参考，**不再承载当前目标、执行队列、调用限制或停止/启动规则**。恢复工作只读：
+2026-11-16，用户已clear旧Goal，准备在同一目录开启独立新对话。
 
-- [CURRENT_GOAL.md](CURRENT_GOAL.md)：唯一当前执行说明。
-- [METHOD_REDESIGN_CURRENT.md](METHOD_REDESIGN_CURRENT.md)：最新证据、缺口和下一项工作。
+请读[NEW_CHAT_HANDOFF.md](NEW_CHAT_HANDOFF.md)、[CURRENT_GOAL.md](CURRENT_GOAL.md)和[PROJECT_MAP.md](../PROJECT_MAP.md)。当前没有active Goal或研究执行队列；新任务以新对话用户要求为准。
 
-旧A/B、M1/M2、OpenExempt utility v6以及各轮预检的代码、结果、失败和原始账本继续保留在既有reports/artifacts、Git历史及原备份，不据此恢复旧Goal。合并前本文件及两份长说明的完整字节备份位于本机 `/media/sangfor/vdb/legal-skill-backups/goal_instruction_consolidation_20261109/`，并保留在提交ad02326。旧五项AST-lock失败仍是历史已知项，不以修改冻结哈希将其变绿。
+旧交接内容及进度说明已[完整保留](history/goal_cleared_20261116/README.md)。旧OpenExempt、A/B、M1/M2、Lift/CoRev、C/U及观察契约方案均为历史资产，不自动恢复。根README和旧PID、排队任务不构成当前启动指令。
