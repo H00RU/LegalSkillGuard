@@ -38,6 +38,19 @@ def review(source, grounded):
                         for f in facts) for p in payment_ids)})
             checks.append({'check': 'Ordinary agricultural wage does not establish termination, disability or death',
                 'passed': not any(f['predicate'] in {'termination_', 'disability_', 'death_'} for f in facts)})
+    if source.startswith('SARA_v2_Binary:d9d6b2'):
+        # Actual TRAIN facts state agricultural wages and service intervals.
+        # The paid education reader quoted those wages as evidence of school,
+        # enrollment and attendance; an interval end also became termination.
+        # Record the source contradiction even when another component already
+        # leaves the whole case unresolved. Do not remove or replace its facts.
+        for row in rows:
+            facts = row['facts']
+            checks.append({'check': 'Agricultural wage and service intervals do not state an educational institution, enrollment or attendance',
+                'passed': not any(f['predicate'] in {'educational_institution_', 'enrollment_', 'attending_classes_'}
+                    for f in facts)})
+            checks.append({'check': 'A source service interval end does not state employment termination',
+                'passed': not any(f['predicate'] == 'termination_' for f in facts)})
     return {'checks': checks, 'reviewed': bool(checks), 'failures': sum(not c['passed'] for c in checks),
         'partial_source_review_not_full_semantic_certification': True,
         'source_annotations_shared_both_arms': True, 'native_answer_used': False}

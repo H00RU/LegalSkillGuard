@@ -22,6 +22,10 @@ C共享消费者的完整return/destroy范围不对称已做最小候选修复�
 
 [最新分数、逐源反证、原始输出及费用报告](../reports/legal_skill_evolution_run_20261111/component_training_20261115/README.md)；[本轮真实学习、跨案恢复与否定消融](../reports/legal_skill_evolution_run_20261111/component_training_20261115/source_guard_repair/README.md)。
 
+随后0调用修复已结算：`legal_skill_evolution_source_selection_lineage_20261115`完成原24个TRAIN的三处实际G变化隔离（8组）。B8已选G89/96；恢复原子返还+2，带守卫缺失判断+2，恢复受控公司员工+0。按相对已接受B8的loss/edit/cost选择候选101（3/2/47），此前111为3/3/49；两者均93/96、现有硬源检查通过。新有限更新不冒称全G最优，不改写原冻结库。候选在TRAIN内锁定后，`legal_skill_evolution_selected_source_effect_replay_20261115`仅用已有DEV付费观察确定性追踪，所有消费者答案和七系统分数不变；已排除多余规则是当前负增益主因，不重复搜索同一空间。
+
+`legal_skill_evolution_observation_semantic_audit_20261115`保存实际d9d6b2农业工资→教育及终止误读；两臂同schema/转换都能表达complete空数组，所以不是schema强制正记录。旧共同部分源检查漏报0，现补齐两条明确源违规反馈；原观察/事实不删除，原整案未执行，不计涨分。17项相关回归通过，前后11156条请求hash相同，executor/teacher均新增0。详见[问题及修复复核](../reports/legal_skill_evolution_run_20261111/component_training_20261115/C_AND_SECOND_COMPONENT_REVIEW.md)。
+
 ## 方法和基线结论
 
 原有效DEV：ours47.509%、NoC48.134%、空库48.134%、通用45.634%、普通教师45.634%。本次有效DEV：**ours46.884%、NoC48.134%、通用45.634%、普通教师45.634%**。C+普通教师观察及C+学得观察普通补读均46.884%；C+通用44.384%。指标是母来源原生评分均值，不能都称准确率。
@@ -64,4 +68,4 @@ C共享消费者的完整return/destroy范围不对称已做最小候选修复�
 
 连续DB`artifacts/rr_v2_preflight/research_ledger.sqlite3`不重置；前10619条旧行持续逐项hash核对。相对上次已结算10816条，当前新增executor319、teacher21（含失败）；本轮开始前11140条旧行逐项hash不变。teacher按CLI invocation记账，不猜底层HTTP数；usage保留原字段和覆盖率，现金发票/GPU分摊未知。
 
-**下一项实际工作**：本轮来源编译/亲属小试已完成，不追加同组三案生成，不重跑当前固定DEV、不新开完整训练。回到C在原TRAIN下的实际表示、G选解与共享消费者衔接：已有三条反证直接复用，检查计数守卫后的语言是否仍有真实组合/归因偏差，并据实际代码证据做必要修复；不得把请求当终止、受控员工当自身员工或强化OR来拟合标签。第二项保留本轮已学版本和普通教师吸收/编译无增量的证据，当前编译器是公共执行能力；只在已有原始失败与离线证据支持明确修改时进行必要真实验证。共同修复对普通教师开放，语义检查不放宽，未知不转False，不用DEV追修库或选择checkpoint。Goal继续active、未完成；后续阶段仍止于DEV，不打开TEST或论文。
+**下一项实际工作**：原三案来源编译/亲属小试、G变化隔离和既有DEV缓存影响追踪已完成，不重复这些实验，不新开完整训练或重跑固定DEV追分。C的新有限更新候选位于`artifacts/legal_skill_evolution_source_selection_lineage_20261115/training_selected_candidate.json`；其0增量影响记录和原三条语义反证均保留。不能把请求当终止、受控员工当自身员工或强化OR拟合标签。继续在原TRAIN真实观察语义错误上推进学得表示/转换及更新选择：现有d9d6b2提供教育/终止误读反馈，必须与普通教师共享；只在明确代码或机制变化、离线证据及具体后案复用问题齐备后开展必要真实验证。第二项被普通教师吸收、来源编译消融0增量的证据继续有效，更多逐案普通教师修补不能算独立贡献；当前编译器仍是公共执行能力。语义检查不放宽，未知不转False，不用DEV追修库或选择checkpoint。Goal继续active、未完成；本阶段止于DEV，不打开TEST或论文。

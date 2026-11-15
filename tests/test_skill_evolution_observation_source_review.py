@@ -19,3 +19,17 @@ def test_actual_native_correct_target_given_is_rejected_by_source_not_answer():
     value = review('SARA_v2_Binary:1ff7d9', row)
     assert value['failures'] == 1 and value['native_answer_used'] is False
     assert review('some_other_original_TRAIN', row)['reviewed'] is False
+
+
+def test_actual_agricultural_service_cannot_become_school_or_termination():
+    facts = [{'predicate': p, 'arguments': [p + '0']} for p in
+        ('service_', 'payment_', 'educational_institution_', 'enrollment_', 'termination_')]
+    row = grounded(facts)
+    value = review('SARA_v2_Binary:d9d6b2', row)
+    assert value['failures'] == 2
+    assert value['native_answer_used'] is False
+    # Review is a rejection, not a repair that discards unsupported facts.
+    assert row['bindings'][0]['inputs']['facts'] == facts
+    assert review('some_other_original_TRAIN', row)['reviewed'] is False
+    valid = grounded([{'predicate': p, 'arguments': [p + '0']} for p in ('service_', 'payment_')])
+    assert review('SARA_v2_Binary:d9d6b2', valid)['failures'] == 0
