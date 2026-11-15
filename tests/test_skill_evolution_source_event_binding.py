@@ -6,6 +6,29 @@ from legal_skill_guard.skill_evolution.observation_scope_normalization import no
 from legal_skill_guard.skill_evolution.observation_source_review import review
 
 
+def test_real_public_remuneration_ABI_binds_payment_from_observed_roles_only():
+    k = kernel('d5e113')
+    before = part('agricultural labor')
+    before['facts'] += [
+        {'predicate':'payment_', 'arguments':['observed_payment_0']},
+        {'predicate':'agent_', 'arguments':['observed_payment_0','Alice']},
+        {'predicate':'patient_', 'arguments':['observed_payment_0','Bob']},
+        {'predicate':'purpose_', 'arguments':['observed_payment_0','fresh_event']},
+    ]
+    result, receipt = bind(k, before)
+    assert result['complete']
+    assert {'source_event':'observed_payment_0','native_event':'paid',
+            'basis':'observed_roles','public_query':'s3306_b'} in receipt['bindings']
+    assert {'predicate':'payment_', 'arguments':['paid']} in result['facts']
+    ambiguous = deepcopy(before)
+    ambiguous['facts'] += [
+        {'predicate':'payment_', 'arguments':['observed_payment_1']},
+        {'predicate':'agent_', 'arguments':['observed_payment_1','Alice']},
+        {'predicate':'patient_', 'arguments':['observed_payment_1','Bob']},
+    ]
+    assert not bind(k, ambiguous)[0]['complete']
+
+
 def kernel(prefix):
     _,kernels=acquired.data()
     return next(k for s,k in kernels.items()if ':'+prefix in s)

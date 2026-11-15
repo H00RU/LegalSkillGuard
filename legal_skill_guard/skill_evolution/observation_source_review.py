@@ -32,11 +32,23 @@ def review(source, grounded, *, complete_families=None, scope_contract=None):
             def has(predicate, arguments):
                 return {'predicate': predicate, 'arguments': arguments} in facts
             payment_ids = [f['arguments'][0] for f in facts if f['predicate'] == 'payment_']
-            checks.append({'check': 'Stated hay wage has coherent payer, payee, amount and means on its payment event',
+            observed=set(complete_families or ())
+            if scope_contract is not None:observed.update(scope_contract['family_scans'])
+            check={'check': 'Stated hay wage has coherent payer, payee, amount and means on its payment event',
+                'native_families':['payment_'],
                 'passed': any(has('agent_', [p, 'Alice']) and has('patient_', [p, 'Bob'])
                     and has('amount_', [p, 2325]) and any(f['predicate'] == 'means_'
                         and f['arguments'][0] == p and 'hay' in str(f['arguments'][1]).lower()
-                        for f in facts) for p in payment_ids)})
+                        for f in facts) for p in payment_ids)}
+            properties=set()if scope_contract is None else {
+                (s['event'],s['predicate'])for s in scope_contract['event_properties']}
+            active='payment_'in observed and not payment_ids or any(
+                scope_contract is None or 'payment_'in set(complete_families or ())or
+                all((p,predicate)in properties for predicate in ('agent_','patient_','amount_','means_'))
+                for p in payment_ids)
+            if active:checks.append(check)
+            else:pending.append({'check':check['check'],'native_families':['payment_'],
+                'unread_predicates':['agent_','patient_','amount_','means_'],'status':'unread_not_certified'})
             checks.append({'check': 'Ordinary agricultural wage does not establish termination, disability or death',
                 'passed': not any(f['predicate'] in {'termination_', 'disability_', 'death_'} for f in facts)})
     if source.startswith('SARA_v2_Binary:d9d6b2'):
@@ -97,6 +109,25 @@ def review(source, grounded, *, complete_families=None, scope_contract=None):
             if scope_contract is not None and 'service_'in scope_contract['family_scans']:
                 checks.append({'check':'The source-stated service is retained by the declared complete scan',
                     'native_families':['service_'],'passed':len(services)==1})
+            payment_ids=[f['arguments'][0]for f in facts if f['predicate']=='payment_']
+            if source.startswith(('SARA_v2_Binary:bb6b0bc1','SARA_v2_Binary:3e22604a')):
+                payment_closed='payment_'in observed or (scope_contract is not None and 'payment_'in scope_contract['family_scans'])
+                if payment_closed:
+                    checks.append({'check':'The source-stated payment remains in a declared complete payment scan',
+                        'native_families':['payment_'],'passed':bool(payment_ids)})
+                if payment_ids:
+                    checks.append({'check':'The service period does not become an unstated payment date',
+                        'native_families':['payment_'],
+                        'passed':not any(f['predicate']in ('start_','end_')and f['arguments'][0]in payment_ids for f in facts)})
+                purpose_closed=scope_contract is None or 'payment_'in observed or any(
+                    s['predicate']=='purpose_'and s['event']in payment_ids
+                    for s in scope_contract['event_properties'])
+                service_closed=scope_contract is None or 'service_'in observed or 'service_'in scope_contract['family_scans']
+                if payment_ids and purpose_closed and service_closed:
+                    checks.append({'check':'The source-stated payment for this service keeps the actual event connection',
+                        'native_families':['payment_','service_'],
+                        'passed':any(has('agent_',[p,'Alice'])and has('patient_',[p,'Bob'])and
+                            any(has('purpose_',[p,e])for e in services)for p in payment_ids)})
             def scoped(check,ports):
                 explicit=set(ports)
                 active=scope_contract is None or 'service_'in observed or any(

@@ -57,6 +57,14 @@ def query_event_inputs(kernel):
             'family': declaration['family'], 'source_file': name,
             'role_arguments':roles,
             'author_head': head.group(), 'routing_input_not_a_source_fact': True})
+        if call['predicate'] == 's3306_b':
+            # The same verified public signature also takes a remuneration
+            # event. Source payment records must not guess that nominal ID.
+            result.append({'predicate': call['predicate'], 'argument': 1,
+                'family': 'payment_', 'source_file': name,
+                'role_arguments': {'agent_': arguments.index('Payer'),
+                                   'patient_': arguments.index('Payee')},
+                'author_head': head.group(), 'routing_input_not_a_source_fact': True})
     return result
 
 

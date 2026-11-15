@@ -1,0 +1,124 @@
+"""Induce finite source influence links from acquired TRAIN annotations.
+
+The learner is ordinary exact DNF/set-cover, shared with controls. Unit kinds
+are acquired semantic input, never gold available by assumption on a new source.
+Source IDs, native labels and absolute unit IDs cannot become features. Neither
+quote inclusion nor a predicted link certifies the meaning of a legal source.
+"""
+import re
+from copy import deepcopy
+
+from .binding_learning import fit_dnf
+
+KINDS=('principal_disposal','substitute_disposal','retention_permission',
+       'retention_prohibition','linked_qualification','followup_disposal','other','unresolved')
+RELATIONS=('qualifies','substitutes','inherits_trigger','information_antecedent','followup_of')
+
+
+def section_ids(units):
+    current=None;sections={}
+    for u in units:
+        match=re.match(r'^\s*(\d{1,2})(?:\.\s*|\s+)[A-Za-z]',u['text'])
+        if match:current=match.group(1)
+        sections[u['id']]=current
+    return sections
+
+
+def eligible(relation,row):
+    kinds=set(row['effects'])
+    if relation=='followup_of':
+        return bool(kinds & {'retention_permission','linked_qualification'})
+    if relation=='information_antecedent':
+        return bool(kinds & set(KINDS[:-2]))
+    return bool(kinds & {'principal_disposal','substitute_disposal','linked_qualification'})
+
+
+def pair_features(units,rows,focus,target,relation):
+    by_id={u['id']:u for u in units};order={u['id']:i for i,u in enumerate(units)}
+    f,t=order[focus['unit_id']],order[target['unit_id']]
+    low=by_id[focus['unit_id']]['text'].casefold();sections=section_ids(units)
+    refs=set(re.findall(r'\b(?:paragraph|section)\s+(\d+)\b',low))
+    before=[r for r in rows if order[r['unit_id']]<f and eligible(relation,r)]
+    nearest=max(before,key=lambda r:order[r['unit_id']])['unit_id'] if before else None
+    out={'before':t<f,'adjacent_before':t==f-1,'adjacent_after':t==f+1,
+        'same_numbered_section':sections[focus['unit_id']] is not None and
+            sections[focus['unit_id']]==sections[target['unit_id']],
+        'explicit_numbered_reference_matches':sections[target['unit_id']] is not None and
+            sections[target['unit_id']] in refs,
+        'nearest_eligible_before':target['unit_id']==nearest,
+        'target_eligible':eligible(relation,target),
+        'focus_mentions_foregoing':'foregoing' in low,
+        'focus_mentions_lieu':'in lieu' in low,
+        'focus_mentions_instance':'such an instance' in low,
+        'focus_mentions_notwithstanding':'notwithstanding' in low}
+    out.update({'focus:'+k:k in focus['effects'] for k in KINDS})
+    out.update({'target:'+k:k in target['effects'] for k in KINDS})
+    return out
+
+
+def examples(data,annotations,relation):
+    result=[]
+    for source,units in data['sources'].items():
+        rows=[r for r in annotations if r['source']==source]
+        for focus in rows:
+            positive={t for link in focus['links'] if link['relation']==relation for t in link['target_unit_ids']}
+            for target in rows:
+                if target is focus:continue
+                yes=target['unit_id'] in positive
+                if not yes and not focus['target_scope_complete']:continue
+                result.append({'source':source,'focus':focus['unit_id'],'target':target['unit_id'],
+                    'features':pair_features(units,rows,focus,target,relation),'positive':yes})
+    return result
+
+
+def fit(rows):
+    if not any(r['positive'] for r in rows):return {'status':'no_positive_supervision','clauses':None}
+    if not any(not r['positive'] for r in rows):return {'status':'positive_only_not_identified','clauses':None}
+    try:return {'status':'learned',**fit_dnf(rows,max_literals=3)}
+    except ValueError as e:return {'status':'not_separable','clauses':None,'reason':str(e)}
+
+
+def predict(policy,features):
+    if policy['clauses'] is None:return None
+    return any(all(features[k]==v for k,v in clause) for clause in policy['clauses'])
+
+
+def baseline(features,which):
+    if which=='nearest':return features['nearest_eligible_before']
+    if which=='explicit_paragraph_or_nearest':
+        if features['explicit_numbered_reference_matches']:
+            return features['target_eligible'] and features['before']
+        # A numbered reference to some other target must suppress the nearest
+        # shortcut too; the caller handles this source-level condition.
+        return features['nearest_eligible_before']
+    raise ValueError(which)
+
+
+def attach_retention_exceptions(statements,links):
+    """Apply explicit qualifies links only. No inferred transitive scope.
+
+    A source-acquired retention permission can qualify a disposal duty only
+    when an acquired link says so. No opposite permission is created from an
+    exemption. Scope provenance is kept in each affected statement.
+    """
+    result=deepcopy(statements);by_unit={}
+    for row in result:by_unit.setdefault(row['unit_id'],[]).append(row)
+    for link in links:
+        if link['relation']!='qualifies':continue
+        for src in by_unit.get(link['unit_id'],[]):
+            term=src['term']
+            if term[0]!='retention_permission':continue
+            if len(term)!=5:raise ValueError('Actual retention permission arity required')
+            if term[3]!=['after_disposal']:
+                raise ValueError('This concrete update requires the acquired after-disposal permission')
+            exception=['retention_exception',*deepcopy([term[1],term[2],term[4]])]
+            for tid in link['target_unit_ids']:
+                for target in by_unit.get(tid,[]):
+                    duty=target['term']
+                    if duty[0]!='disposal_obligation':continue
+                    if len(duty)!=5:raise ValueError('Actual disposal obligation arity required')
+                    old=duty[4]
+                    duty[4]=['exception_set',deepcopy(exception)] if old==['no_exceptions'] else ['add_exception',old,deepcopy(exception)]
+                    target['support_ids']=sorted(set(target['support_ids'])|set(src['support_ids']))
+                    target.setdefault('applied_scope_links',[]).append(deepcopy(link))
+    return result

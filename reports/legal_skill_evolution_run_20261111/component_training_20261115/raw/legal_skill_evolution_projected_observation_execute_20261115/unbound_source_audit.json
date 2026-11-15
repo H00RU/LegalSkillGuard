@@ -1,0 +1,50 @@
+{
+  "source_facts": "Alice was paid $200 in 2017 for services performed in a hospital. Alice was committed to a psychiatric hospital from January 24, 2015 to May 5th, 2019.",
+  "rows": [
+    {
+      "candidate": "ResidualProjection",
+      "checks": [
+        {
+          "check": "Source service performer remains Alice",
+          "source_quote": "Alice was paid $200 in 2017 for services performed in a hospital.",
+          "passed": true
+        },
+        {
+          "check": "A psychiatric hospital/medical commitment is not a penal institution or incarceration",
+          "source_quote": "Alice was committed to a psychiatric hospital from January 24, 2015 to May 5th, 2019.",
+          "passed": true
+        },
+        {
+          "check": "Only the actually checked service-agent and penal-institution scopes support this verdict",
+          "passed": true
+        }
+      ],
+      "source_passed": true,
+      "native_correct": true
+    },
+    {
+      "candidate": "FixedDirectRole",
+      "checks": [
+        {
+          "check": "Source service performer remains Alice",
+          "source_quote": "Alice was paid $200 in 2017 for services performed in a hospital.",
+          "passed": true
+        },
+        {
+          "check": "A psychiatric hospital/medical commitment is not a penal institution or incarceration",
+          "source_quote": "Alice was committed to a psychiatric hospital from January 24, 2015 to May 5th, 2019.",
+          "passed": true
+        },
+        {
+          "check": "Only the actually checked service-agent and penal-institution scopes support this verdict",
+          "passed": true
+        }
+      ],
+      "source_passed": true,
+      "native_correct": true
+    }
+  ],
+  "source_only_not_native_label_used_for_checks": true,
+  "not_complete_semantic_certification_or_contribution_validation": true,
+  "new_model_calls": 0
+}

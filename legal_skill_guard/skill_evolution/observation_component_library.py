@@ -161,7 +161,7 @@ def component_value(library,component,kernel,public,view):
     if 'relation_contract' in component:
         from .relational_observation_contract import forward
         value=forward(component['relation_contract'],view,public,kernel)
-        if set(component['relation_contract']['covered_families'])=={'service_'}:
+        if set(component['relation_contract']['covered_families']) & {'service_', 'payment_'}:
             from .source_event_binding import bind
             value,receipt=bind(kernel,value)
             names={r['source_event']:r['native_event'] for r in receipt['bindings']}

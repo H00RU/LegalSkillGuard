@@ -270,6 +270,10 @@ def group_read(client,p,sid,component,relation,public,prior):
         original=(source_copy_schema(contract,[relation],public['facts'])
                   if p.get('compile_finite_copy_obligations') else schema(contract,[relation]))
     wire,_=decoding_schema(original)
+    copy_receipt={'used':False}
+    if p.get('compile_literal_copy_and_shared_keys'):
+        from legal_skill_guard.skill_evolution.observation_copy_grammar import compile_wire
+        wire,copy_receipt=compile_wire(wire,contract,relation,public['facts'],prior)
     messages=render_messages(group['prompt']+'\nRead facts only. Preserve current source keys. Do not infer missing dates, people or places. '
         'Complete scans enumerate every relevant source record. Ambiguity is unread. Return the named relation wrapper.',task,original)
     key=digest({'source':sid,'messages':messages,'schema':wire})
@@ -282,7 +286,7 @@ def group_read(client,p,sid,component,relation,public,prior):
         assert value==saved['value'],'Raw response and saved parsed value disagree'
         return value,{**saved['receipt'],'cache_hit':True}
     saved={'source':sid,'component':component['id'],'relation':relation,'messages':messages,
-           'schema':original,'learned_domain_receipt':domain_receipt}
+           'schema':original,'learned_domain_receipt':domain_receipt,'copy_grammar_receipt':copy_receipt}
     try:
         size=client.tokenize(messages,thinking=False)['count']
         assert size+p['executor_profile']['max_tokens']<=p['executor_profile']['context_tokens']
@@ -316,11 +320,19 @@ def run_case(client,p,name,library,sid,public,kernel,*,policy='residual',initial
     attempted=set()
     static_inputs=set(dependency_graph(kernel)['input_predicates'])
     direct_families={r['family']for r in query_event_inputs(kernel)}
+    query_types={}
+    for declared in query_event_inputs(kernel):
+        for call in kernel['native_query']:
+            if call['predicate']!=declared['predicate']:continue
+            native_target=call['arguments'][declared['argument']]
+            if isinstance(native_target,str):query_types.setdefault(native_target,set()).add(declared['family'])
     while True:
         execution=evaluate(library,kernel,public,observation,sid)
         if execution['handled']:break
         if any(w['source_review']['failures']for w in execution['binding_executions']):break
-        if any(v.get('error')for rows in execution['component_conversions'].values()for v in rows):break
+        # A rejected component contributes no trusted facts. Other actual
+        # demands can still be read; do not turn a foreign conversion error
+        # into a global abort. Every error remains in the saved execution.
         choices=[]
         scopes=[s for w in execution['binding_executions']for s in w['execution'].get('unread_factual_scopes',[])]
         requested={s['predicate']for s in scopes if kernel['fact_arities'].get(s['predicate'])==1}
@@ -328,14 +340,18 @@ def run_case(client,p,name,library,sid,public,kernel,*,policy='residual',initial
                 and ('legacy',c['id'])not in attempted and set(c['complete_native_families'])&requested]
         needed_new=False
         current_demands={}
+        aliases=[b for converted in execution['component_conversions'].values()
+                 for row in converted if row['trusted_complete_observation']
+                 for b in row.get('converted',{}).get('source_event_binding',{}).get('bindings',[])]
         for c in library['components']:
             if 'relation_contract'not in c:continue
-            aliases=[b for row in execution['component_conversions'].get(c['id'],[])if row['trusted_complete_observation']
-                     for b in row.get('converted',{}).get('source_event_binding',{}).get('bindings',[])]
             wanted=set()
             for s in scopes:
                 arity=kernel['fact_arities'].get(s['predicate'])
                 if not arity:continue
+                native_types=query_types.get(s['event'],set())
+                if native_types and not native_types.intersection(c['relation_contract']['covered_families']):
+                    continue
                 demands=pullback(c['relation_contract'],{'predicate':s['predicate'],
                     'arguments':[s['event']]+[{'var':'Provider'+str(i)}for i in range(arity-1)]},event_bindings=aliases)
                 wanted.update(d['relation']for b in demands['branches']for d in b['joined_demands'])
@@ -380,7 +396,13 @@ def run_case(client,p,name,library,sid,public,kernel,*,policy='residual',initial
         _,component,group=min(choices,key=lambda v:v[0]);key=(component['id'],group['name']);attempted.add(key)
         view=observation.setdefault(component['id'],{'views':[{}]})['views'][0]
         try:
-            value,receipt=group_read(client,p,sid,component,group['name'],public,view)
+            context=deepcopy(view)
+            if p.get('include_observed_event_context'):
+                context['observed_related_source_events']=[{'component':cid,
+                    'facts':deepcopy(row['converted']['facts'])}
+                    for cid,converted in execution['component_conversions'].items()if cid!=component['id']
+                    for row in converted if row['trusted_complete_observation']]
+            value,receipt=group_read(client,p,sid,component,group['name'],public,context)
             view.update(value);reads.append({'component':component['id'],'relation':group['name'],**receipt})
         except Exception as error:failures.append({'component':component['id'],'relation':group['name'],'error':type(error).__name__+': '+str(error)})
     grading=read(output/'TRAIN_grading.json')

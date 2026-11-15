@@ -1,4 +1,4 @@
-"""Bind already observed service identities to the public native-call ABI.
+"""Bind observed service/payment identities to the public native-call ABI.
 
 No source fact, role, date, event or legal rule is generated here. Ground role
 arguments filter source events; queries without such arguments require a unique
@@ -13,30 +13,30 @@ def bind(kernel,part):
     value=deepcopy(part)
     receipt={'source_facts_changed':False,'bindings':[],'no_source_or_answer_lookup':True}
     if not value['complete']or value['reasons']:return value,receipt
-    facts=value['facts'];events=[f['arguments'][0]for f in facts if f['predicate']=='service_']
+    facts=value['facts'];events=[f['arguments'][0]for f in facts if f['predicate']in ('service_','payment_')]
     mapping={}
     def values(predicate,event):return [f['arguments'][1]for f in facts
         if f['predicate']==predicate and f['arguments'][0]==event]
     declarations=query_event_inputs(kernel)
     for call in kernel['native_query']:
-        declaration=next((d for d in declarations if d['predicate']==call['predicate']),None)
-        if declaration is None:continue
-        target=call['arguments'][declaration['argument']]
-        if not isinstance(target,str):continue
-        constraints={p:call['arguments'][i]for p,i in declaration['role_arguments'].items()
-            if isinstance(call['arguments'][i],str)}
-        candidates=[event for event in events if all(v in values(p,event)for p,v in constraints.items())]
-        if not constraints:
-            candidates=[event for event in candidates if event==target or target in values('purpose_',event)
-                or target in values('type_',event)]
-        if not events:continue  # A complete empty scan does not invent a referent.
-        if len(candidates)!=1 or candidates[0]in mapping and mapping[candidates[0]]!=target:
-            value['complete']=False;value['reasons'].append('source_service_identity_unknown_or_ambiguous')
-            return value,receipt
-        event=candidates[0];mapping[event]=target
-        receipt['bindings'].append({'source_event':event,'native_event':target,
-            'basis':'observed_roles'if constraints else 'literal_observed_kind',
-            'public_query':call['predicate']})
+        for declaration in (d for d in declarations if d['predicate']==call['predicate']):
+            target=call['arguments'][declaration['argument']]
+            if not isinstance(target,str):continue
+            family_events=[f['arguments'][0]for f in facts if f['predicate']==declaration['family']]
+            constraints={p:call['arguments'][i]for p,i in declaration['role_arguments'].items()
+                if isinstance(call['arguments'][i],str)}
+            candidates=[event for event in family_events if all(v in values(p,event)for p,v in constraints.items())]
+            if not constraints:
+                candidates=[event for event in candidates if event==target or target in values('purpose_',event)
+                    or target in values('type_',event)]
+            if not family_events:continue  # Empty scans never invent a referent.
+            if len(candidates)!=1 or candidates[0]in mapping and mapping[candidates[0]]!=target:
+                value['complete']=False;value['reasons'].append('source_service_identity_unknown_or_ambiguous')
+                return value,receipt
+            event=candidates[0];mapping[event]=target
+            receipt['bindings'].append({'source_event':event,'native_event':target,
+                'basis':'observed_roles'if constraints else 'literal_observed_kind',
+                'public_query':call['predicate']})
     if len({mapping.get(e,e)for e in events})!=len(events):
         value['complete']=False;value['reasons'].append('native_service_identity_collision')
         return value,receipt
