@@ -88,6 +88,9 @@ def protocol():
 
 
 def convert(library,raw):
+    if 'source_revision' in library:
+        # Each frozen producer performs its own current-source conversion.
+        return deepcopy(raw)
     value=prior.g.program_concepts(library,raw)
     if 'source_concept_execution'not in value:return value
     links=[]

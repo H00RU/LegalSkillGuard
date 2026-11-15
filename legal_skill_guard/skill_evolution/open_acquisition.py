@@ -244,6 +244,9 @@ def fit(library,observations,*,timeout_seconds=30,prior_rule_ids=None):
 
 
 def execute(library,observation,*,timeout_seconds=30):
+    if 'source_revision' in library:
+        from .source_revision_execution import execute as execute_revision
+        return execute_revision(library,observation,timeout_seconds=timeout_seconds)
     if library['selected_rule_ids'] is None:raise ValueError('No successfully learned G to execute')
     result=execute_composition(library['language'],library['selected_rule_ids'],
                                observation['context'],timeout_seconds=timeout_seconds)

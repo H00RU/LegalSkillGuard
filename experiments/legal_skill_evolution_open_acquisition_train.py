@@ -195,7 +195,7 @@ def source_material(folder,public,key):
 
 
 def evaluate_source(library,observation,source,grading):
-    if 'language' in library:result=execute(library,observation);output=result['source_output']
+    if 'language' in library or 'source_revision' in library:result=execute(library,observation);output=result['source_output']
     else:
         v=observation['visible_inputs']
         inputs = {'source_text':v['source_text'],'source_spans':v['units'],
