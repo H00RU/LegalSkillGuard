@@ -195,3 +195,16 @@ def test_native_timeout_is_saved_as_unresolved_execution(tmp_path,monkeypatch):
     result=execute(k,binding(),set(),{'facts':'No case input.'})
     assert not result['handled'] and result['answer'] is None
     assert '35-second' in result['error']
+
+
+def test_known_source_feedback_routes_to_its_family_in_both_read_policies(tmp_path):
+    from copy import deepcopy
+    from legal_skill_guard.skill_evolution.native_observation_execution import next_component
+    k=kernel(tmp_path,'s9001 :- service_("svc");optional_("other").','s9001')
+    lib=component_library();extra=deepcopy(lib['components'][0])
+    extra.update(id='aaa_unrelated',complete_native_families=['optional_']);lib['components'].append(extra)
+    execution={'binding_executions':[{'source_review':{'checks':[
+        {'passed':False,'native_families':['service_']}]},'execution':{}}]}
+    static={'component_ids':['reading','aaa_unrelated']}
+    for policy in ('native_residual','direct_inputs_first'):
+        assert next_component(lib,k,{},[],execution,static,policy)=='reading'

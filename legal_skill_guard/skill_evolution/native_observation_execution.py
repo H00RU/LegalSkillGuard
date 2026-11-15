@@ -106,6 +106,9 @@ def next_component(library,kernel,observation,failed_components,execution,static
                     for q in kernel['native_query']:
                         if q['predicate']==pred and q['arguments'][index]==access['event']:
                             requested.add(family)
+    requested.update(family for world in execution['binding_executions']
+        for check in world.get('source_review',{}).get('checks',[]) if not check['passed']
+        for family in check.get('native_families',[]))
     candidates=[c for c in library['components'] if c['id']not in observation
         and c['id']not in failed_components and (c['id']in static_plan['component_ids']
             or set(c['complete_native_families'])&requested)]

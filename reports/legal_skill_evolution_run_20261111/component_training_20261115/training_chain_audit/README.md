@@ -44,6 +44,8 @@ flowchart TD
 
 完整性修复保留作者条款及原有限失败语义；只在原生执行实际访问的事实范围已经取得完整观察时接受结果。否定、聚合、未绑定角色查询、多解释和先失败后成功分支均有回归。源观察契约本身仍是学得声明，不能靠执行器证明原文读取为真，因此源语义检查继续独立保留。[运行时及选择器审计](../raw/legal_skill_evolution_training_chain_audit_20261115/result.json)、[必要回归记录](../raw/legal_skill_evolution_training_chain_audit_20261115/targeted_checks.json)。
 
+补齐最后一处补读路由缺口：已知源检查明确指出service_错误时，两种策略都优先重读这个家族，不能因另一schema较短而补读无关事件。该修改仅做离线回归，没有再请求模型；最终49项相关检查通过。[最终回归](../raw/legal_skill_evolution_training_chain_audit_20261115/targeted_checks_after_feedback_routing.json)。真实小试的冻结源码仍完整保留，其后这项补读修改没有被伪称已真实验证。
+
 ## 一次真实验证：把规划缺陷与模型错误分开
 
 固定原TRAIN母案250fc5，保留上一轮真实学得的两个教育观察程序、原服务schema/转换器、原模型和原采样配置。先0调用验证：两臂教育程序都执行，原生残余是当前services的patient_未取得；残余路由和直接输入强控制均选择service_events。
