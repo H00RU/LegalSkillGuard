@@ -183,6 +183,17 @@ def execute_one(client, protocol, name, library, sid, kernel, source, phase, *, 
                     shared_public_calculation=certificate, not_learned_observation_success=True)
                 immutable_json(target, row)
                 return row
+        if protocol.get('native_proof_routing'):
+            from legal_skill_guard.skill_evolution.native_observation_execution import run as native_run
+            def dispatch(component):
+                return read_component(client,protocol,sid,component,kernel,public,purpose=purpose)
+            row.update(native_run(library,kernel,public,sid,dispatch,
+                policy=protocol.get('native_read_policy','native_residual')))
+            immutable_json(target,row)
+            print(json.dumps({'phase':phase,'candidate':name,'source':sid,
+                'handled':row['execution']['handled'],'reads':len(row['reads']),
+                'native_proof_routing':True}),flush=True)
+            return row
         validate(library, kernel)
         selection = plan(library, kernel)
         row['plan'] = selection

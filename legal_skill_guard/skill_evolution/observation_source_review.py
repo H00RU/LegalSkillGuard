@@ -6,7 +6,7 @@ used. Absence from this short review is not certification of a different case.
 """
 
 
-def review(source, grounded):
+def review(source, grounded, *, complete_families=None):
     rows = [b['inputs'] for b in grounded.get('bindings', [])]
     checks = []
     if source.startswith('SARA_v2_Binary:1ff7d9'):
@@ -51,6 +51,36 @@ def review(source, grounded):
                     for f in facts)})
             checks.append({'check': 'A source service interval end does not state employment termination',
                 'passed': not any(f['predicate'] == 'termination_' for f in facts)})
+    if source.startswith('SARA_v2_Binary:250fc5'):
+        from .sara_statute_kernel import literal_date
+        for row in rows:
+            facts = row['facts']
+            services = [f['arguments'][0] for f in facts if f['predicate']=='service_']
+            observed = set(complete_families or ())
+            def has(p,args):return {'predicate':p,'arguments':args} in facts
+            if 'service_' in observed or services:
+                checks.append({'check':'Source-stated service keeps Alice as worker and the named university as employer',
+                    'native_families':['service_'],
+                    'passed':bool(services) and all(has('agent_',[e,'Alice']) and
+                        has('patient_',[e,'Johns Hopkins University']) for e in services)})
+                checks.append({'check':'Enrollment/class periods and query workday are not source-stated service dates',
+                    'native_families':['service_'],
+                    'passed':not any(f['predicate'] in {'start_','end_','location_','country_'} and
+                        f['arguments'][0] in services for f in facts)})
+                checks.append({'check':'University services do not establish agricultural or domestic service',
+                    'native_families':['service_'],
+                    'passed':not any(f['predicate']=='purpose_' and f['arguments'][0] in services and
+                        f['arguments'][1] in {'agricultural labor','domestic service'} for f in facts)})
+            for family,place in [('educational_institution_','agent_'),('enrollment_','patient_'),('attending_classes_','location_')]:
+                if family not in observed:continue
+                ids=[f['arguments'][0] for f in facts if f['predicate']==family]
+                def timed(e,p,d):return any(f['predicate']==p and f['arguments'][0]==e and
+                    literal_date(f['arguments'][1])==d for f in facts)
+                checks.append({'check':'A complete '+family+' scan retains the actual institution and source-stated period',
+                    'native_families':[family],
+                    'passed':any(has(place,[e,'Johns Hopkins University']) and
+                        (family=='educational_institution_' or has('agent_',[e,'Alice']) and
+                            timed(e,'start_','2015-08-29') and timed(e,'end_','2019-05-30')) for e in ids)})
     return {'checks': checks, 'reviewed': bool(checks), 'failures': sum(not c['passed'] for c in checks),
         'partial_source_review_not_full_semantic_certification': True,
         'source_annotations_shared_both_arms': True, 'native_answer_used': False}

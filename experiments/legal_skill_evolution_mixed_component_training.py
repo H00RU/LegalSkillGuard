@@ -66,6 +66,9 @@ def setup():
             'observation_training_history.py', 'paired_observation_recombination.py', 'statute_pure_calculation.py',
             'observation_status_schema.py', 'observation_teacher_transport.py')]
         files += [ROOT / 'legal_skill_guard/skill_evolution/observation_proposal_format.py']
+        files += [ROOT / 'legal_skill_guard/skill_evolution' / name for name in (
+            'partial_native_proof.py','native_observation_execution.py','observation_learning_signal.py',
+            'compiled_observation.py','literal_statutory_givens.py','observation_scope_normalization.py')]
         inputs = [actor.acquisition.OUT / 'protocol.json', actor.acquisition.OUT / 'teacher_task.json']
         inputs += [actor.acquisition.OUT / arm / 'teacher.json' for arm in ARMS]
         inputs += [actor.acquisition.previous.parent.OUT / name for name in (
@@ -84,6 +87,7 @@ def setup():
             'executor_profile': prior['executor_profile'], 'teacher_profile': prior['teacher_profile'],
             'thinking': False, 'shared_native_event_encoding': FACTUAL_ENCODING,
             'shared_public_pure_calculation': True,
+            'native_proof_routing':True,
             'continuation_not_new_blind_training': True, 'original_B8_exposure_all128_disclosed': True,
             'eight_mixed_batches_16_mothers_each': True, 'new_sources_seeds_or_model_settings': False,
             'completed_C_updates_and_unchanged_boundary_routes_reused_not_retrained': True,
@@ -91,7 +95,7 @@ def setup():
             'M2_actual_initial_update_postupdate_and_same_contract_read_comparison': True,
             'ordinary_teacher_same_information_and_two_whole_proposals': True,
             'fixed_generic_predictions_preserved_no_unchanged_resampling': True,
-            'selection': 'Shared partial source counterevidence failures, then native TRAIN correctness, then unresolved, then actual logical reads.',
+            'selection': 'Shared partial source counterevidence failures, then source-accepted native TRAIN correctness, then handled errors, then logical neural and component reads.',
             'candidate_retention_is_not_semantic_certification': True,
             'safe_boundary_continuation_of': str(PREVIOUS_OUT.relative_to(ROOT)),
             'first_seven_checkpoints_and_all_calls_preserved': True,
@@ -126,10 +130,20 @@ def setup():
 
 
 def scored(row, public, grading):
+    from legal_skill_guard.skill_evolution.observation_learning_signal import signal
     source = public[row['source']]
-    return {**row, 'native_score': grade_view(source['dataset'], source['views'][0],
-        grading[row['source']][source['views'][0]['id']], row['execution']['answer']),
-        'partial_source_review': review(row['source'], row.get('grounded', {}))}
+    score=grade_view(source['dataset'], source['views'][0],
+        grading[row['source']][source['views'][0]['id']], row['execution']['answer'])
+    checked=review(row['source'], row.get('grounded', {}))
+    worlds=row['execution'].get('binding_executions',[])
+    if worlds and all('source_review' in world for world in worlds):
+        checks=[{**check,'observation_world':i} for i,world in enumerate(worlds)
+            for check in world['source_review']['checks']]
+        checked={**checked,'checks':checks,'failures':sum(not c['passed'] for c in checks),
+            'reviewed':any(w['source_review']['reviewed'] for w in worlds),
+            'feedback_origin':'native_observation_world_checks'}
+    return {**row,'native_score':score,'partial_source_review':checked,
+        'learning_signal':signal(row,score,checked)}
 
 
 def inherited_routes(batch, keys):
@@ -180,6 +194,27 @@ def matched_read(client, protocol, batch, library, row, source, kernel):
     path = OUT / f'B{batch}/matched_reads' / (digest(row['source']) + '.json')
     if path.exists():
         return read(path)
+    if protocol.get('native_proof_routing'):
+        from legal_skill_guard.skill_evolution.native_observation_execution import compare_reads as native_compare
+        from legal_skill_guard.skill_evolution.literal_statutory_givens import constrain
+        public=source['views'][0]['public']
+        def native_dispatch(policy,action):
+            schema=constrain(action['schema'],public,kernel)
+            task={'current_case':{k:public[k]for k in ('facts','question')},
+                'current_legal_query':{k:kernel[k]for k in ('native_query','query_clause')},
+                'current_observation':row['observation'],
+                'existing_unresolved_messages':row['grounded']['unresolved']}
+            messages=render_messages(action['prompt'],task,schema)
+            response=client.generate(RUN+f':B{batch}:native_matched:'+policy+':'+row['source'],
+                source=row['source'],purpose='skill_actor',thinking=False,messages=messages,
+                schema=decoding_schema(schema)[0])
+            immutable_json(OUT/f'B{batch}/matched_raw'/policy/(digest(row['source'])+'.json'),response)
+            if response['finish_reason']!='stop':raise ValueError('Matched native read truncated')
+            return json.loads(response['content']),{k:response.get(k)for k in ('usage','elapsed_seconds','finish_reason')}
+        value={'source':row['source'],**native_compare(library,kernel,public,row['source'],
+            row.get('observation',{}),native_dispatch)}
+        immutable_json(path,value)
+        return value
     if not row.get('grounded') or not row.get('observation'):
         value = {'source': row['source'], 'eligible': False,
             'reason': 'No valid initial converted observation; not a residual opportunity', 'policies': {}}
@@ -350,22 +385,22 @@ def run(stop):
                 immutable_json(OUT / f'B{batch}/candidate_libraries' / (name + '.json'), library)
                 rows = [scored(actor.execute_one(client, protocol, name, library, sid,
                     kernels[sid], public[sid], f'B{batch}/post', purpose='skill_actor'), public, grading) for sid in current]
-                metrics = {'partial_source_failures': sum(r['partial_source_review']['failures'] for r in rows),
-                    'native_correct': sum(r['native_score']['correct'] for r in rows),
-                    'unresolved': sum(not r['execution']['handled'] for r in rows),
-                    'logical_component_reads': sum(len(r['reads']) for r in rows)}
+                from legal_skill_guard.skill_evolution.observation_learning_signal import metrics as learning_metrics, rank
+                metrics = learning_metrics(rows)
                 immutable_json(OUT / f'B{batch}/candidate_scores' / (name + '.json'), {'metrics': metrics, 'rows': rows})
-                choices.append((metrics['partial_source_failures'], -metrics['native_correct'],
-                    metrics['unresolved'], metrics['logical_component_reads'], name, library))
+                choices.append({'rank':rank(metrics),'name':name,'library':library,'metrics':metrics})
             if not choices:
                 raise ValueError('No executable retained or proposed library for ' + arm)
-            chosen = min(choices, key=lambda row: row[:-1])
-            libraries[arm] = chosen[-1]
+            chosen = min(choices, key=lambda row:(row['rank'],row['name']))
+            libraries[arm] = chosen['library']
             path = OUT / f'B{batch}' / arm / 'library.json'
             immutable_json(path, libraries[arm])
             selected[arm] = {'path': str(path.relative_to(ROOT)), 'sha256': digest(libraries[arm]),
-                'candidate': chosen[-2], 'known_partial_source_failures': chosen[0],
-                'native_correct': -chosen[1], 'unresolved': chosen[2],
+                'candidate': chosen['name'], 'known_partial_source_failures': chosen['metrics']['partial_source_failures'],
+                'native_correct': chosen['metrics']['native_correct'], 'unresolved': chosen['metrics']['unresolved'],
+                'handled_wrong':chosen['metrics']['handled_wrong'],
+                'validation_status':'passed_supplied_checks' if not chosen['metrics']['partial_source_failures']
+                    else 'known_source_violations_remain_unresolved',
                 'not_full_semantic_or_novelty_certification': True}
         immutable_json(checkpoint, {'batch': batch, 'libraries': selected,
             'same_original_mixed_sources': keys, 'learning_branches': current,

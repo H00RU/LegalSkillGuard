@@ -124,6 +124,7 @@ def observe_case(client, source, kernel, arm, library):
     if arm != 'GenericView':
         return current.actor.execute_one(client,
             {'shared_public_pure_calculation': True,
+             'native_proof_routing':True,
              'executor_profile': client.config,
              'shared_native_event_encoding': FACTUAL_ENCODING},
             arm, library, source['key'], kernel, source, 'initial', purpose='skill_dev')
@@ -163,6 +164,21 @@ def observe_case(client, source, kernel, arm, library):
 def followup(client, source, kernel, initial, arm, library):
     target = OUT / 'followup' / arm / (digest(source['key']) + '.json')
     if target.exists():
+        return read(target)
+    if 'native_scope_history' in initial:
+        from legal_skill_guard.skill_evolution.native_observation_execution import compare_reads as native_compare
+        from legal_skill_guard.skill_evolution.literal_statutory_givens import constrain
+        sid,pub=source['key'],source['views'][0]['public']
+        def native_dispatch(policy,action):
+            return generate(client,sid,arm+':native:'+policy,action['prompt'],
+                {'current_case':{k:pub[k]for k in ('facts','question')},
+                 'current_legal_query':{k:kernel[k]for k in ('native_query','query_clause')},
+                 'current_observation':initial['observation'],
+                 'existing_unresolved_messages':initial['grounded']['unresolved']},
+                constrain(action['schema'],pub,kernel))
+        result=native_compare(library,kernel,pub,sid,initial['observation'],native_dispatch,
+            policies=('residual_guided','ordinary_reread') if arm=='CoverageRecombine' else ('ordinary_reread',))
+        immutable_json(target,{'source':sid,'initial_row_sha256':digest(initial),**result})
         return read(target)
     ids = initial.get('plan', {}).get('component_ids', [])
     if ('grounded' not in initial or initial['execution']['handled'] or not ids):

@@ -108,9 +108,12 @@ def query_term(call):
     return predicate + '(' + ','.join(args) + ')'
 
 
-def execute(kernel, binding):
-    if binding.get('extraction_status') != 'complete':
-        return {'handled': False, 'answer': None, 'reason': 'Case extraction is unread or incomplete'}
+def prepare_case(kernel, binding):
+    """Validate and serialize data, without treating unread facts as complete.
+
+    Both the full-case executor and the guarded partial-proof executor use this
+    exact transport. This function itself produces no verdict.
+    """
     if set(binding) != {'facts', 'negative_givens', 'extraction_status'}:
         raise ValueError('Native case binding has undeclared or missing fields')
     jsonschema.validate(binding, input_schema(kernel))
@@ -151,26 +154,42 @@ def execute(kernel, binding):
     declarations = '\n'.join(':- discontiguous ' + name + '/' + str(arity) + '.' for name, arity in givens.items())
     body = ':- style_check(-singleton).\n:- use_module(library(lists)).\n' + declarations + '\n'
     body += '\n'.join(sources[name] for name in order) + '\n'
-    body += '\n'.join(term + '.' for term in terms) + '\n'
-    conflicts = ';'.join('once((' + term + '))' for term in negatives) or 'fail'
-    body += '''lsg_case_main :-
-        ( (''' + conflicts + ''') -> write('LSG_NEGATIVE_GIVEN_CONFLICT')
-        ; catch(((''' + goal + ''') -> write('LSG_ENTAILMENT') ; write('LSG_CONTRADICTION')),
-                Error,(write('LSG_ERROR:'),write_canonical(Error))) ), halt.
-'''
+    receipt = {'backend': 'official_statute_program_with_model_facts',
+               'fact_count': len(terms), 'source_program_unchanged': True,
+               'literal_transport_adaptations': adaptations,
+               'case_truth_not_certified_by_types_or_quotes': True}
+    return {'statute_program': body, 'sources': sources, 'primitive': primitive,
+        'normalized_facts': normalized, 'fact_terms': terms, 'negative_terms': negatives,
+        'goal': goal, 'receipt': receipt}
+
+
+def run_program(body):
+    """Run the bound author code with its data-only host entry point."""
     runtime = ROOT / '.local-tools/swi-prolog-reference/root'
     env = {**os.environ, 'SWI_HOME_DIR': str(runtime / 'usr/lib/swi-prolog'),
            'LD_LIBRARY_PATH': str(runtime / 'usr/lib')}
     with tempfile.TemporaryDirectory(prefix='lsg-native-factual-') as folder:
         path = Path(folder) / 'statutes_and_current_model_facts.pl'
         path.write_text(body)
-        result = subprocess.run([str(runtime / 'usr/lib/swi-prolog/bin/amd64/swipl'),
+        return subprocess.run([str(runtime / 'usr/lib/swi-prolog/bin/amd64/swipl'),
             '-q', '-s', str(path), '-g', 'lsg_case_main'], cwd=folder,
             env=env, text=True, capture_output=True, timeout=35)
-    receipt = {'backend': 'official_statute_program_with_model_facts',
-               'fact_count': len(terms), 'source_program_unchanged': True,
-               'literal_transport_adaptations': adaptations,
-               'case_truth_not_certified_by_types_or_quotes': True}
+
+
+def execute(kernel, binding):
+    if binding.get('extraction_status') != 'complete':
+        return {'handled': False, 'answer': None, 'reason': 'Case extraction is unread or incomplete'}
+    prepared = prepare_case(kernel, binding)
+    body = prepared['statute_program']
+    body += '\n'.join(term + '.' for term in prepared['fact_terms']) + '\n'
+    negatives, goal = prepared['negative_terms'], prepared['goal']
+    conflicts = ';'.join('once((' + term + '))' for term in negatives) or 'fail'
+    body += '''lsg_case_main :-
+        ( (''' + conflicts + ''') -> write('LSG_NEGATIVE_GIVEN_CONFLICT')
+        ; catch(((''' + goal + ''') -> write('LSG_ENTAILMENT') ; write('LSG_CONTRADICTION')),
+                Error,(write('LSG_ERROR:'),write_canonical(Error))) ), halt.
+'''
+    result, receipt = run_program(body), prepared['receipt']
     if result.returncode or 'ERROR' in result.stderr or 'LSG_ERROR:' in result.stdout or 'LSG_NEGATIVE_GIVEN_CONFLICT' in result.stdout:
         return {**receipt, 'handled': False, 'answer': None,
                 'error': (result.stdout + '\n' + result.stderr)[-1800:]}
