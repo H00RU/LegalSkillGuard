@@ -4,11 +4,19 @@
 
 ## 当前执行状态
 
+最新定点研究已结算：`legal_skill_evolution_compiled_observer_learning_20261115`的两位真实教师返回原程序；主PID701797已退出。纯str.zfill/组件值ABI的两次0调用失败及原源码保留，未改程序或重发教师。修复后四候选在2例获取均通过类型、转换和对应源检查，两臂各选版本0，固定复用d5e113均通过；普通教师吸收这项能力，不算第二项独立收益。只有当前facts进入程序，不传问题/法条/标签，原schema与转换器保留。
+
+`legal_skill_evolution_compiled_observer_whole_validation_20261115`的真实PID726303也已退出，整案及同契约神经消融结算；两臂3例整案均0执行，局部教育观察3/3而神经消融1/3。新增11E/2T，累计executor10864（10845完成、19失败）、teacher305（293完成、12失败），reserved0，无请求在途。原11156行完整字段hash不变，thinking OFF和其余配置未变，不打开TEST或新完整训练。所有当前入口已结算，不重复启动；恢复先核对真实进程与DB。
+
+真正定位的工程缺口：250fc5的`s3306_c_10_A(Service,Employer,Employee,Workday)`直接读取agent_/patient_，旧依赖图仅凭一元/GIVENS漏掉服务输入，已有service_events未被选中，服务被付款观察的失败连带阻断。已按冻结作者签名补公共原生输入ABI声明，只修读取需求、未插入事实/规则/答案；两臂的0调用回归均从未选变为选中service_events，分别7→8、8→9组件。全组件complete取AND的过粗阻断仍待解决，未把新计划计作整案成功。最终22项相关回归通过。`artifacts/legal_skill_evolution_native_query_route_repair_20261115/result.json`保留前后计划。
+
+B8遗忘检查在可比较的历史子集未发现下降：方法6案前后均6正确，普通教师16案前后均8正确；缺缓存15/5案单列，未加新的历史全对门槛。新增程序、普通教师强对照、固定复用、整案0/3及所有费用见[最新阶段报告](../reports/legal_skill_evolution_run_20261111/component_training_20261115/compiled_observer_repair/README.md)。
+
 固定128 TRAIN母/280视图、8批×16的接续已结算；RUN `legal_skill_evolution_mixed_component_training_compact_refs_20261115`，PID394992已退出。已有C获取和三库共同路径复用，新增观察学习集中于SARA，不能把队列覆盖当作五库新增机制覆盖。B8方法1/3、普通教师0/3，仅为TRAIN局部拟合。
 
-固定B8修复后的40母/88视图DEV也已结算：RUN `legal_skill_evolution_mixed_component_DEV_profile_fix_20261115`，原PID458179已退出，日志`/tmp/lsg_component_DEV_profile_fix_20261115.log`。executor10853（10834完成、19失败）、teacher303（291完成、12失败），reserved=0。当前无研究生成请求在途；恢复仍须查真实进程和DB，不能把本页计数当作重置基数。thinking OFF及全部模型配置不变，本阶段不打开TEST。
+固定B8修复后的40母/88视图DEV已结算：RUN `legal_skill_evolution_mixed_component_DEV_profile_fix_20261115`，原PID458179已退出，日志`/tmp/lsg_component_DEV_profile_fix_20261115.log`。随后前一轮结算executor10853（10834完成、19失败）、teacher303（291完成、12失败），当时reserved=0；最新在途见本节开头并以实时DB为准。thinking OFF及全部模型配置不变，本阶段不打开TEST。
 
-**本轮定点研究已结算**：`legal_skill_evolution_family_source_guard_20261115`的两次真实教师已返回；`legal_skill_evolution_family_guard_validation_union_fix_20261115`的实际PID605609已退出，原失败段也已退出，reserved=0。不能重复启动已结算入口。新增executor14、teacher2，累计executor10853、teacher303；新请求包含一次HTTP完成但严格输出验证失败。模型配置、thinking OFF、数据清单不变，未重跑DEV。
+**前轮family定点已结算**：`legal_skill_evolution_family_source_guard_20261115`的两次真实教师已返回；`legal_skill_evolution_family_guard_validation_union_fix_20261115`的实际PID605609已退出，原失败段也已退出，reserved=0。不能重复启动已结算入口。新增executor14、teacher2，累计executor10853、teacher303；新请求包含一次HTTP完成但严格输出验证失败。模型配置、thinking OFF、数据清单不变，未重跑DEV。
 
 已修复一般§151被读为精确§151(b)/(c)的生成接口缺口，源前提检查在三观察臂公平同步到schema；2次真实读取均不再产生这些无依据前提，未知仍未知。实际误读还包括婚姻→兄弟/父子，已把原亲属源检查漏掉的brother/sister/sibling补齐。两位教师在原两例TRAIN和相同能力下各学得两份新family schema/转换版本，真实执行选择双方版本0。另一个原TRAIN来源在当前任务前固定、未进本次教师输入，但已有B8暴露，不称新盲测。
 
@@ -66,6 +74,6 @@ C共享消费者的完整return/destroy范围不对称已做最小候选修复�
 
 三库OE32、Airline24、MAUD24的共同底座80母/160视图完整保留，158 fallback、核心正确0，不计新方法成功。C早期联合φ/G、旧A/B、M1/M2、Lift/CoRev、单库结果、旧U及全部反证保留。旧方法明确定性后不因换名恢复。
 
-连续DB`artifacts/rr_v2_preflight/research_ledger.sqlite3`不重置；前10619条旧行持续逐项hash核对。相对上次已结算10816条，当前新增executor319、teacher21（含失败）；本轮开始前11140条旧行逐项hash不变。teacher按CLI invocation记账，不猜底层HTTP数；usage保留原字段和覆盖率，现金发票/GPU分摊未知。
+连续DB`artifacts/rr_v2_preflight/research_ledger.sqlite3`不重置；前10619条旧行持续核对，本轮前11156条完整字段hash一致。相对已结算10816条，现累计新增executor330、teacher23（含失败）。本轮11E输入19774/输出3574，2T输入38546/输出22593，reasoning11213包含于输出，不重复加总。CLI按invocation记账，不猜底层HTTP数；实付现金/GPU分摊未知。
 
-**下一项实际工作**：原三案来源编译/亲属小试、G变化隔离和既有DEV缓存影响追踪已完成，不重复这些实验，不新开完整训练或重跑固定DEV追分。C的新有限更新候选位于`artifacts/legal_skill_evolution_source_selection_lineage_20261115/training_selected_candidate.json`；其0增量影响记录和原三条语义反证均保留。不能把请求当终止、受控员工当自身员工或强化OR拟合标签。继续在原TRAIN真实观察语义错误上推进学得表示/转换及更新选择：现有d9d6b2提供教育/终止误读反馈，必须与普通教师共享；只在明确代码或机制变化、离线证据及具体后案复用问题齐备后开展必要真实验证。第二项被普通教师吸收、来源编译消融0增量的证据继续有效，更多逐案普通教师修补不能算独立贡献；当前编译器仍是公共执行能力。语义检查不放宽，未知不转False，不用DEV追修库或选择checkpoint。Goal继续active、未完成；本阶段止于DEV，不打开TEST或论文。
+**下一项实际工作**：事实观察程序学习、同契约神经消融、整案验证、B8保持检查和原生服务输入路由修复均已结算，不重复这些实验。下一步围绕250fc5原TRAIN的实际原生证明输入，解决路由修复后仍存在的全组件完整性捆绑：先离线验证只有与当前证明有关的已知输入才能支撑结果，未读/不确定不转False，明确合法需要与不相关失败；再仅获取真正缺失的独立服务事实。不按native标签删事实或放宽检查，不把SymBa式执行/补读或本轮被普通教师吸收的程序学习改名算第二项。公共输入ABI与执行修复同步给控制，必须继续检验学得表示/转换及残余读取的独立作用。C的新有限更新和三条语义反证保持，不重跑相同G搜索，也不把请求当终止、受控员工当自身员工或强化OR拟合标签。Goal保持active、未完成；不新开完整训练，不重跑固定DEV追分，不打开TEST或论文。

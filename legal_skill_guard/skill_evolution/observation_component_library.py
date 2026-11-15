@@ -68,6 +68,8 @@ def validate(library,kernel):
             raise ValueError('Coverage names an undeclared native family')
         jsonschema.Draft202012Validator.check_schema(json.loads(c['schema_json']))
         validate_adapter(library['shared_helpers']+'\n\n'+c['conversion_program'])
+        if c.get('observation_program') is not None:
+            validate_adapter(c['observation_program'])
     return library
 
 

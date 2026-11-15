@@ -10,10 +10,40 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import subprocess
 import tempfile
 
 from .sara_statute_kernel import ROOT, GIVENS, fact_vocabulary, query_term
+
+
+# Public native-call ABI: the first argument denotes a source service event.
+# The author's body uses its agent_/patient_ relations without calling service_.
+# This declares the input type; it adds neither a service fact nor a legal rule.
+QUERY_EVENT_INPUTS = {'s3306_c_10_A': {
+    'arity': 4, 'argument': 0, 'family': 'service_', 'file': 'section3306.pl',
+    'head': r's3306_c_10_A\(\s*Service\s*,\s*Employer\s*,\s*Employee\s*,\s*Workday\s*\)\s*:-'}}
+
+
+def query_event_inputs(kernel):
+    result = []
+    for call in kernel['native_query']:
+        declaration = QUERY_EVENT_INPUTS.get(call['predicate'])
+        if declaration is None:
+            continue
+        if len(call['arguments']) != declaration['arity']:
+            raise ValueError('Native query does not match its declared input ABI')
+        name = declaration['file']
+        body = (ROOT/kernel['statute_directory']/name).read_bytes()
+        if hashlib.sha256(body).hexdigest() != kernel['statute_sha256'][name]:
+            raise ValueError('Immutable author code changed before query-input binding')
+        head = re.search(r'(?m)^' + declaration['head'], body.decode())
+        if head is None:
+            raise ValueError('Native query input declaration lacks its bound author signature')
+        result.append({'predicate': call['predicate'], 'argument': declaration['argument'],
+            'family': declaration['family'], 'source_file': name,
+            'author_head': head.group(), 'routing_input_not_a_source_fact': True})
+    return result
 
 
 READER = r'''
@@ -140,11 +170,14 @@ def dependency_graph(kernel):
                     target = (call['predicate'],call['arity'])
                     edges.append({**origin,'to':target[0]+'/'+str(target[1]),'negated':call['negated']})
                     queue.append(target)
+    query_inputs = query_event_inputs(kernel)
+    required.update((row['family'], 1) for row in query_inputs)
     return {'query_heads':sorted(p+'/'+str(a) for p,a in roots),
         'input_predicates':dict(sorted(required)),
+        'declared_query_event_inputs':query_inputs,
         'reachable_predicates':sorted(p+'/'+str(a) for p,a in visited),
         'edges':edges,'opaque_calls':opaque,'undefined_non_input_predicates':sorted(set(missing)),
         'graph_complete_for_supported_control_forms':not opaque and not missing,
-        'scope':'Overapproximation of every public clause branch, not a minimal current-case read or proof',
+        'scope':'Overapproximation of public clause branches and declared native-call inputs, not a minimal current-case read or proof',
         'no_case_data_or_labels_read':True,'not_a_learned_mechanism':True,
         'statute_sha256':kernel['statute_sha256'],'new_model_calls':0}

@@ -106,6 +106,20 @@ def libraries():
 def read_component(client, protocol, sid, component, kernel, public, *, purpose):
     root, run_id = client.artifacts, client.ledger.run_id
     schema = constrain(observation_schema({'components': [component]}, [component['id']]), public, kernel)
+    if component.get('observation_program') is not None:
+        from legal_skill_guard.skill_evolution.compiled_observation import execute as compiled_read
+        key = digest({'source': sid, 'component': component['id'],
+            'program': digest(component['observation_program']),
+            'facts': digest({'facts': public['facts']}), 'schema': schema})
+        path = root / 'program_observations' / (key + '.json')
+        if path.exists():
+            saved = read(path)
+            return saved['value'], saved['receipt']
+        value, receipt = compiled_read(component, public, schema)
+        immutable_json(path, {
+            'source': sid, 'component_id': component['id'], 'value': value, 'receipt': receipt,
+            'not_a_model_response_or_native_success': True})
+        return value, receipt
     task = {'current_case': {k: public[k] for k in ('facts', 'question')},
         'current_legal_query': {k: kernel[k] for k in ('native_query', 'query_clause')},
         'component_meanings': {component['id']: component['meaning']}}
@@ -181,7 +195,10 @@ def execute_one(client, protocol, name, library, sid, kernel, source, phase, *, 
         else:
             by_id = {c['id']: c for c in library['components']}
             observation = {}
-            for cid in selection['component_ids']:
+            read_order = sorted(selection['component_ids'],
+                key=lambda cid: (by_id[cid].get('observation_program') is None, cid))
+            row['component_read_order'] = read_order
+            for cid in read_order:
                 value, receipt = read_component(client, protocol, sid, by_id[cid], kernel, public, purpose=purpose)
                 observation.update(value)
                 row['reads'].append({'component_id': cid, **receipt})

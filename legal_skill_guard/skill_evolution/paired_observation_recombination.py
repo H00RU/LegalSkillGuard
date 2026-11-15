@@ -13,8 +13,10 @@ from .objects import digest
 def _behavior(component):
     if component is None:
         return None
-    return {k: sorted(component[k]) if k == 'complete_native_families' else component[k]
+    value = {k: sorted(component[k]) if k == 'complete_native_families' else component[k]
         for k in ('id', 'meaning', 'prompt', 'schema_json', 'conversion_program', 'complete_native_families')}
+    value['observation_program'] = component.get('observation_program')
+    return value
 
 
 def _library_key(library):
