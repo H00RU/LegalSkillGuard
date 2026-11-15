@@ -1,0 +1,403 @@
+{
+  "source": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+  "component_id": "source_economic_legal_ledger_b8",
+  "payment_record_required_fields": [
+    "local_id",
+    "payment_term",
+    "payer",
+    "payees",
+    "amount",
+    "medium",
+    "payment_date",
+    "temporal_precision",
+    "stated_year",
+    "purpose_entity",
+    "linked_service",
+    "is_query_payment",
+    "witnesses"
+  ],
+  "linked_service_required_fields": [
+    "worker",
+    "employer",
+    "service_kind",
+    "service_venue",
+    "location",
+    "country",
+    "start_date",
+    "end_date",
+    "is_query_service"
+  ],
+  "four_output_record_categories": [
+    "annual_incomes",
+    "payments",
+    "exact_givens",
+    "boundary_statements"
+  ],
+  "component_prompt": "完整读取 current facts，分别输出 annual_incomes、payments、exact_givens 和 boundary_statements。annual_incomes 只记录明确年度 income/earned/年度汇总，保留 person、year、amount，并生成 income_ 年度事件；不得生成 payment_、deduction_ 或 entitlement。payments 只记录明确付款措辞建立的离散付款：主动付款保留 payer；真实被动付款允许 payer=null；年度或服务区间不是付款日。linked_service 仅在同一 facts 明确说明付款用于服务时填写，且 worker/employer 与付款角色一致；domestic service 不建立 private home。exact_givens 仅允许来源逐字引用匹配精确子款、给出全部有序参数并明确 polarity 的六种签名；一般 §151 或 §151(d) 表述只进入 boundary_statements。问题、native target、婚姻、申报状态或来源事件名称不能建立记录、角色、日期或适用性。",
+  "actual_observation": {
+    "views": [
+      {
+        "annual_incomes": [],
+        "boundary_statements": [],
+        "exact_givens": [],
+        "extraction_status": "complete",
+        "payments": [
+          {
+            "amount": 3200,
+            "is_query_payment": true,
+            "linked_service": {
+              "country": "USA",
+              "employer": "Alice",
+              "end_date": "2017-09-02",
+              "is_query_service": true,
+              "location": "Baltimore",
+              "service_kind": "domestic service",
+              "service_venue": "private home",
+              "start_date": "2017-02-01",
+              "worker": "Bob"
+            },
+            "local_id": "payment_1",
+            "medium": null,
+            "payees": [
+              "Bob"
+            ],
+            "payer": "Alice",
+            "payment_date": null,
+            "payment_term": "wages paid for domestic service",
+            "purpose_entity": "domestic service",
+            "stated_year": 2017,
+            "temporal_precision": "unstated",
+            "witnesses": [
+              {
+                "field": "facts",
+                "quote": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+              }
+            ]
+          }
+        ],
+        "witnesses": [
+          {
+            "field": "facts",
+            "quote": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+          }
+        ]
+      }
+    ]
+  },
+  "actual_component_conversion": [
+    {
+      "converted": {
+        "complete": false,
+        "facts": [],
+        "negative_givens": [],
+        "reasons": [
+          "source_economic_legal_ledger_b8_one_or_more_records_unread_or_invalid"
+        ],
+        "witnesses": [
+          {
+            "field": "facts",
+            "quote": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+          }
+        ]
+      },
+      "trusted_complete_observation": false
+    }
+  ],
+  "actual_guarded_execution": [
+    {
+      "complete_families": [
+        "educational_institution_",
+        "enrollment_",
+        "attending_classes_"
+      ],
+      "execution": {
+        "answer": null,
+        "backend": "guarded_official_statute_program",
+        "binding_sha256": "03c1ae6d6767a22ab1ac8eff747749958abc8c28c3ef188976b200da41bcc7b6",
+        "case_truth_not_certified_by_types_or_quotes": true,
+        "complete_families": [
+          "attending_classes_",
+          "educational_institution_",
+          "enrollment_"
+        ],
+        "declared_case_extraction_status": "unread",
+        "execution_error": null,
+        "explicit_event_properties": [
+          {
+            "event": "Baltimore",
+            "predicate": "country_"
+          },
+          {
+            "event": "domestic service",
+            "predicate": "agent_"
+          },
+          {
+            "event": "domestic service",
+            "predicate": "location_"
+          },
+          {
+            "event": "domestic service",
+            "predicate": "patient_"
+          },
+          {
+            "event": "domestic service",
+            "predicate": "purpose_"
+          },
+          {
+            "event": "domestic service",
+            "predicate": "type_"
+          }
+        ],
+        "explicit_family_scans": [
+          "service_"
+        ],
+        "fact_count": 8,
+        "factual_accesses": [
+          {
+            "complete_scope": true,
+            "event": "domestic service",
+            "origin": "acquired_property_contract",
+            "predicate": "type_"
+          },
+          {
+            "complete_scope": true,
+            "event": "domestic service",
+            "origin": "acquired_property_contract",
+            "predicate": "patient_"
+          },
+          {
+            "complete_scope": true,
+            "event": "domestic service",
+            "origin": "acquired_property_contract",
+            "predicate": "location_"
+          },
+          {
+            "complete_scope": false,
+            "event": null,
+            "origin": "unread",
+            "predicate": "payment_"
+          }
+        ],
+        "family_completeness_is_an_acquired_claim_not_a_source_truth_certificate": true,
+        "handled": false,
+        "instrumented_program_sha256": "3266af940c83847697c9e769df0df7eb3f37275ea9fc752a78789a5c02394438",
+        "known_complete_events": {},
+        "literal_absent_source_givens": [
+          "s151_b",
+          "s151_b_applies",
+          "s151_c_applies",
+          "s152_c_1",
+          "s63_f_1_A",
+          "s63_f_1_B"
+        ],
+        "literal_transport_adaptations": [],
+        "raw_native_probe_verdict": "Entailment",
+        "reason": "Native proof depends on unread scopes or failed execution",
+        "source_program_unchanged": true,
+        "unknown_observations_not_assumed_false": true,
+        "unread_factual_scopes": [
+          {
+            "complete_scope": false,
+            "event": null,
+            "origin": "unread",
+            "predicate": "payment_"
+          }
+        ],
+        "used_observation_families": [
+          "service_"
+        ]
+      },
+      "inputs": {
+        "extraction_status": "unread",
+        "facts": [
+          {
+            "arguments": [
+              "domestic service"
+            ],
+            "predicate": "service_"
+          },
+          {
+            "arguments": [
+              "domestic service",
+              "Bob"
+            ],
+            "predicate": "agent_"
+          },
+          {
+            "arguments": [
+              "domestic service",
+              "Alice"
+            ],
+            "predicate": "patient_"
+          },
+          {
+            "arguments": [
+              "domestic service",
+              "domestic service"
+            ],
+            "predicate": "purpose_"
+          },
+          {
+            "arguments": [
+              "domestic service",
+              "domestic service"
+            ],
+            "predicate": "type_"
+          },
+          {
+            "arguments": [
+              "domestic service",
+              "Baltimore"
+            ],
+            "predicate": "location_"
+          },
+          {
+            "arguments": [
+              "Baltimore",
+              "USA"
+            ],
+            "predicate": "country_"
+          },
+          {
+            "arguments": [
+              "domestic service",
+              "private home"
+            ],
+            "predicate": "location_"
+          }
+        ],
+        "negative_givens": []
+      },
+      "scope_contract": {
+        "event_properties": [
+          {
+            "event": "domestic service",
+            "predicate": "agent_"
+          },
+          {
+            "event": "domestic service",
+            "predicate": "patient_"
+          },
+          {
+            "event": "domestic service",
+            "predicate": "purpose_"
+          },
+          {
+            "event": "domestic service",
+            "predicate": "type_"
+          },
+          {
+            "event": "domestic service",
+            "predicate": "location_"
+          },
+          {
+            "event": "Baltimore",
+            "predicate": "country_"
+          }
+        ],
+        "family_scans": [
+          "service_"
+        ]
+      },
+      "source_review": {
+        "checks": [
+          {
+            "check": "The source-stated service is retained by the declared complete scan",
+            "native_families": [
+              "service_"
+            ],
+            "passed": true
+          },
+          {
+            "check": "Stated worker Bob and employer Alice remain on the same service",
+            "native_families": [
+              "service_"
+            ],
+            "passed": true
+          },
+          {
+            "check": "Restricted service kind follows the current source clause",
+            "native_families": [
+              "service_"
+            ],
+            "passed": true
+          },
+          {
+            "check": "Explicit home is retained; domestic work alone does not invent a private-home venue",
+            "native_families": [
+              "service_"
+            ],
+            "passed": true
+          },
+          {
+            "check": "Geographic country is not inferred from the employer citizenship",
+            "native_families": [
+              "service_"
+            ],
+            "passed": true
+          }
+        ],
+        "failures": 0,
+        "native_answer_used": false,
+        "partial_source_review_not_full_semantic_certification": true,
+        "pending_checks": [
+          {
+            "check": "Service period is source-stated February 1 through September 2, 2017",
+            "native_families": [
+              "service_"
+            ],
+            "status": "unread_not_certified",
+            "unread_predicates": [
+              "end_",
+              "start_"
+            ]
+          }
+        ],
+        "reviewed": true,
+        "source_annotations_shared_both_arms": true
+      },
+      "unread_components": [
+        "annual_income_events",
+        "blindness_events",
+        "death_events",
+        "deduction_events",
+        "explicit_legal_givens",
+        "family_relationship_residence",
+        "institutional_status_events",
+        "legal_separation_events",
+        "marriage_events",
+        "payment_service_events",
+        "retained_family_context",
+        "return_events",
+        "special_native_states",
+        "termination_benefit_events",
+        "service_events",
+        "source_economic_legal_ledger_b8"
+      ],
+      "witnesses": [
+        {
+          "field": "facts",
+          "quote": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+        }
+      ]
+    }
+  ],
+  "actual_read_receipt": {
+    "cache_hit": false,
+    "component": "source_economic_legal_ledger_b8",
+    "elapsed_seconds": 11.626606318168342,
+    "finish_reason": "stop",
+    "reused_physical_call_id": null,
+    "shared_unchanged_legacy_input": true,
+    "usage": {
+      "completion_tokens": 419,
+      "prompt_tokens": 2043,
+      "prompt_tokens_details": null,
+      "total_tokens": 2462
+    }
+  },
+  "new_model_calls_for_this_review": 0,
+  "no_new_CORE_or_method_success": true,
+  "source_artifact_sha256": "455eb98f5d9d4da7beaa8ca6f695c4daf333863648af3e914394c13b631bae0f",
+  "converter_sha256": "8e857f207bbec58bd453ab3e5985d3684887c4db523e45e9bb271172c40d308b"
+}
