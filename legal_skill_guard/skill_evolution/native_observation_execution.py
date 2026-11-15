@@ -199,7 +199,8 @@ def _run_relations(library,kernel,public,source_id,read,read_relation,*,policy,i
     while True:
         observed,receipts=normalize(library,kernel,public,observation)
         execution=evaluate(library,kernel,public,observed,source_id)
-        scopes=[s for w in execution['binding_executions']for s in w['execution'].get('unread_factual_scopes',[])]
+        scopes=[s for w in execution['binding_executions']for s in
+            w['execution'].get('unread_factual_scopes',[])+w['execution'].get('alternative_refutation_demands',[])]
         binding_demands={cid:[d for row in rows for d in row.get('converted',{}).get(
             'source_event_binding',{}).get('binding_demands',[])]
             for cid,rows in execution['component_conversions'].items()}

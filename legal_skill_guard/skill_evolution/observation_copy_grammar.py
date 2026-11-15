@@ -10,6 +10,43 @@ import re
 from .span_compiler import token_spans
 
 
+def enumeration_schema(original,contract,relation,prior):
+    """Remove a purely nominal key from the first enumeration's model task.
+
+    The model still chooses how many distinct source occurrences to enumerate
+    and all their attributes. The host only names those rows. Later relations
+    use these exact keys through the existing shared-key decoder.
+    """
+    result=deepcopy(original)
+    if relation!=contract['enumerator']or any(g['name']in prior for g in contract['relations']):
+        return result,False
+    group=next(g for g in contract['relations']if g['name']==relation)
+    key=group['key'];field=next(f for f in group['fields']if f['name']==key)
+    if field.get('copy'):raise ValueError('A source-copied identity is not a host nominal key')
+    positions={g['name']:[f['name']for f in g['fields']].index(g['key'])for g in contract['relations']}
+    for rule in contract['rules']:
+        for atom in rule['body']:
+            if atom['predicate']!=relation:continue
+            variable=atom['arguments'][positions[relation]]
+            if not isinstance(variable,dict)or set(variable)!={'var'}:
+                raise ValueError('A source-key constant cannot be replaced by a nominal row identity')
+            if any(arg==variable and i!=positions[other['predicate']]
+                   for other in rule['body']for i,arg in enumerate(other['arguments'])):
+                raise ValueError('A factual attribute cannot be replaced by a nominal row identity')
+    item=result['properties'][relation]['anyOf'][0]['properties']['records']['items']
+    item['properties'].pop(key);item['required'].remove(key)
+    return result,True
+
+
+def assign_enumerator_keys(value,group,component):
+    result=deepcopy(value);observed=result[group['name']]
+    if observed['status']=='complete':
+        for index,row in enumerate(observed['records']):
+            if group['key']in row:raise ValueError('A host-keyed enumeration cannot accept model-assigned keys')
+            row[group['key']]=component+'_row_'+str(index)
+    return result
+
+
 def compile_wire(wire, contract, relation, facts, prior):
     result=deepcopy(wire)
     group=next(g for g in contract['relations']if g['name']==relation)

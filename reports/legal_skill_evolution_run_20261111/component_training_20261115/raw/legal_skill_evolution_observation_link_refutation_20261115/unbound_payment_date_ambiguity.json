@@ -1,0 +1,371 @@
+{
+  "source": "SARA_v2_Binary:6939fedab07c7376be4079ed2905a46da129282bd71c44a0b5d6d6d305079ee4",
+  "source_facts": "Alice has paid $3200 to Bob for domestic service done from Feb 1st, 2017 to Sep 2nd, 2017. Bob has paid $4500 to Alice for work done from Apr 1st, 2017 to Sep 2nd, 2018.",
+  "diagnostic_hypotheses_not_model_outputs_or_training_examples": true,
+  "new_model_calls": 0,
+  "only_undated_payment_dates_vary_same_source_stated_service_periods": true,
+  "no_hypothesis_fed_to_method_or_scored_as_core_success": true,
+  "rows": [
+    {
+      "hypothesis": "earlier_payment",
+      "payment_dates": [
+        "2017-09-02",
+        "2018-09-02"
+      ],
+      "binding": {
+        "facts": [
+          {
+            "predicate": "service_",
+            "arguments": [
+              "service_Bob"
+            ]
+          },
+          {
+            "predicate": "agent_",
+            "arguments": [
+              "service_Bob",
+              "Bob"
+            ]
+          },
+          {
+            "predicate": "patient_",
+            "arguments": [
+              "service_Bob",
+              "Alice"
+            ]
+          },
+          {
+            "predicate": "purpose_",
+            "arguments": [
+              "service_Bob",
+              "domestic service"
+            ]
+          },
+          {
+            "predicate": "start_",
+            "arguments": [
+              "service_Bob",
+              "2017-02-01"
+            ]
+          },
+          {
+            "predicate": "end_",
+            "arguments": [
+              "service_Bob",
+              "2017-09-02"
+            ]
+          },
+          {
+            "predicate": "service_",
+            "arguments": [
+              "service_Alice"
+            ]
+          },
+          {
+            "predicate": "agent_",
+            "arguments": [
+              "service_Alice",
+              "Alice"
+            ]
+          },
+          {
+            "predicate": "patient_",
+            "arguments": [
+              "service_Alice",
+              "Bob"
+            ]
+          },
+          {
+            "predicate": "start_",
+            "arguments": [
+              "service_Alice",
+              "2017-04-01"
+            ]
+          },
+          {
+            "predicate": "end_",
+            "arguments": [
+              "service_Alice",
+              "2018-09-02"
+            ]
+          },
+          {
+            "predicate": "payment_",
+            "arguments": [
+              "payment_Alice_Bob"
+            ]
+          },
+          {
+            "predicate": "agent_",
+            "arguments": [
+              "payment_Alice_Bob",
+              "Alice"
+            ]
+          },
+          {
+            "predicate": "patient_",
+            "arguments": [
+              "payment_Alice_Bob",
+              "Bob"
+            ]
+          },
+          {
+            "predicate": "amount_",
+            "arguments": [
+              "payment_Alice_Bob",
+              3200
+            ]
+          },
+          {
+            "predicate": "purpose_",
+            "arguments": [
+              "payment_Alice_Bob",
+              "service_Bob"
+            ]
+          },
+          {
+            "predicate": "payment_",
+            "arguments": [
+              "payment_Bob_Alice"
+            ]
+          },
+          {
+            "predicate": "agent_",
+            "arguments": [
+              "payment_Bob_Alice",
+              "Bob"
+            ]
+          },
+          {
+            "predicate": "patient_",
+            "arguments": [
+              "payment_Bob_Alice",
+              "Alice"
+            ]
+          },
+          {
+            "predicate": "amount_",
+            "arguments": [
+              "payment_Bob_Alice",
+              4500
+            ]
+          },
+          {
+            "predicate": "purpose_",
+            "arguments": [
+              "payment_Bob_Alice",
+              "service_Alice"
+            ]
+          },
+          {
+            "predicate": "start_",
+            "arguments": [
+              "payment_Alice_Bob",
+              "2017-09-02"
+            ]
+          },
+          {
+            "predicate": "start_",
+            "arguments": [
+              "payment_Bob_Alice",
+              "2018-09-02"
+            ]
+          }
+        ],
+        "negative_givens": [],
+        "extraction_status": "complete"
+      },
+      "native_execution": {
+        "backend": "official_statute_program_with_model_facts",
+        "fact_count": 23,
+        "source_program_unchanged": true,
+        "literal_transport_adaptations": [],
+        "case_truth_not_certified_by_types_or_quotes": true,
+        "handled": true,
+        "answer": "Contradiction"
+      }
+    },
+    {
+      "hypothesis": "later_payment",
+      "payment_dates": [
+        "2020-01-01",
+        "2020-01-02"
+      ],
+      "binding": {
+        "facts": [
+          {
+            "predicate": "service_",
+            "arguments": [
+              "service_Bob"
+            ]
+          },
+          {
+            "predicate": "agent_",
+            "arguments": [
+              "service_Bob",
+              "Bob"
+            ]
+          },
+          {
+            "predicate": "patient_",
+            "arguments": [
+              "service_Bob",
+              "Alice"
+            ]
+          },
+          {
+            "predicate": "purpose_",
+            "arguments": [
+              "service_Bob",
+              "domestic service"
+            ]
+          },
+          {
+            "predicate": "start_",
+            "arguments": [
+              "service_Bob",
+              "2017-02-01"
+            ]
+          },
+          {
+            "predicate": "end_",
+            "arguments": [
+              "service_Bob",
+              "2017-09-02"
+            ]
+          },
+          {
+            "predicate": "service_",
+            "arguments": [
+              "service_Alice"
+            ]
+          },
+          {
+            "predicate": "agent_",
+            "arguments": [
+              "service_Alice",
+              "Alice"
+            ]
+          },
+          {
+            "predicate": "patient_",
+            "arguments": [
+              "service_Alice",
+              "Bob"
+            ]
+          },
+          {
+            "predicate": "start_",
+            "arguments": [
+              "service_Alice",
+              "2017-04-01"
+            ]
+          },
+          {
+            "predicate": "end_",
+            "arguments": [
+              "service_Alice",
+              "2018-09-02"
+            ]
+          },
+          {
+            "predicate": "payment_",
+            "arguments": [
+              "payment_Alice_Bob"
+            ]
+          },
+          {
+            "predicate": "agent_",
+            "arguments": [
+              "payment_Alice_Bob",
+              "Alice"
+            ]
+          },
+          {
+            "predicate": "patient_",
+            "arguments": [
+              "payment_Alice_Bob",
+              "Bob"
+            ]
+          },
+          {
+            "predicate": "amount_",
+            "arguments": [
+              "payment_Alice_Bob",
+              3200
+            ]
+          },
+          {
+            "predicate": "purpose_",
+            "arguments": [
+              "payment_Alice_Bob",
+              "service_Bob"
+            ]
+          },
+          {
+            "predicate": "payment_",
+            "arguments": [
+              "payment_Bob_Alice"
+            ]
+          },
+          {
+            "predicate": "agent_",
+            "arguments": [
+              "payment_Bob_Alice",
+              "Bob"
+            ]
+          },
+          {
+            "predicate": "patient_",
+            "arguments": [
+              "payment_Bob_Alice",
+              "Alice"
+            ]
+          },
+          {
+            "predicate": "amount_",
+            "arguments": [
+              "payment_Bob_Alice",
+              4500
+            ]
+          },
+          {
+            "predicate": "purpose_",
+            "arguments": [
+              "payment_Bob_Alice",
+              "service_Alice"
+            ]
+          },
+          {
+            "predicate": "start_",
+            "arguments": [
+              "payment_Alice_Bob",
+              "2020-01-01"
+            ]
+          },
+          {
+            "predicate": "start_",
+            "arguments": [
+              "payment_Bob_Alice",
+              "2020-01-02"
+            ]
+          }
+        ],
+        "negative_givens": [],
+        "extraction_status": "complete"
+      },
+      "native_execution": {
+        "backend": "official_statute_program_with_model_facts",
+        "fact_count": 23,
+        "source_program_unchanged": true,
+        "literal_transport_adaptations": [],
+        "case_truth_not_certified_by_types_or_quotes": true,
+        "handled": true,
+        "answer": "Contradiction"
+      }
+    }
+  ],
+  "goal_complete": false,
+  "date_ambiguity_not_demonstrated": true,
+  "interpretation": "Both source-compatible date probes are Contradiction. Do not claim missing payment dates make the answer undetermined; the current aggregate query still visits unknown dates before its domestic-service exclusion."
+}

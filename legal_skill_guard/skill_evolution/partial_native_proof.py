@@ -1,9 +1,10 @@
 """Guard native execution by the factual scopes it actually reads.
 
 The author clauses and finite-failure semantics are unchanged. Every factual
-lookup records whether its whole family, or its specific event's family, was
-observed completely. A verdict is accepted only if the actual execution visited
-no unread scope. No unknown fact is asserted or silently assumed absent.
+lookup records its acquired closure. A verdict needs either a native execution
+with no unread lookup, or known independent negated conjuncts refuting every
+compatible author clause. The latter records the original heads and witnesses;
+unknown attributes remain unknown and no factual completion is asserted.
 """
 import json
 import re
@@ -21,6 +22,7 @@ EVENT_ROLE_PORTS = {'agent_', 'patient_', 'start_', 'end_', 'location_',
 
 GUARD = r'''
 :- dynamic lsg_seen/4.
+:- dynamic lsg_alternative_read/4.
 :- discontiguous lsg_case_complete/0,lsg_family_complete/1,lsg_event_complete/2,lsg_given_absent/1,lsg_fact/2,lsg_scan_complete/1,lsg_property_complete/2.
 lsg_case_complete :- fail.
 lsg_family_complete(_) :- fail.
@@ -43,6 +45,46 @@ lsg_scope(P,Args) :-
     ; Known=false,Origin="unread" ),
     (lsg_seen(P,Key,Known,Origin) -> true ; assertz(lsg_seen(P,Key,Known,Origin))).
 
+% An independent, known-true negated conjunct makes its author clause false.
+% Variables shared with the head or other conjuncts must already be ground.
+% No source fact is completed, and every compatible author clause must have
+% such a witness. An unknown or unsuccessful witness proves nothing.
+lsg_conjuncts((A,B),Rows) :- !,lsg_conjuncts(A,L),lsg_conjuncts(B,R),append(L,R,Rows).
+lsg_conjuncts(A,[A]).
+lsg_disjoint([], _).
+lsg_disjoint([X|Xs],Ys) :- \+ (member(Y,Ys),X==Y),lsg_disjoint(Xs,Ys).
+lsg_save_alternatives :-
+    findall(r(P,E,K,O),lsg_seen(P,E,K,O),Rows),lsg_save_unknown(Rows).
+lsg_save_unknown([]).
+lsg_save_unknown([r(P,E,false,O)|Tail]) :- !,
+    (lsg_alternative_read(P,E,false,O) -> true ; assertz(lsg_alternative_read(P,E,false,O))),
+    lsg_save_unknown(Tail).
+lsg_save_unknown([_|Tail]) :- lsg_save_unknown(Tail).
+lsg_known_witness(Goal,Reads) :-
+    retractall(lsg_seen(_,_,_,_)),
+    (catch(once(Goal),_,fail),\+ lsg_seen(_,_,false,_) ->
+        findall(r(P,E,K,O),lsg_seen(P,E,K,O),Reads)
+    ; lsg_save_alternatives,fail).
+lsg_refute_clause(Head,Body,proof(H,N,Reads)) :-
+    lsg_conjuncts(Body,Conjuncts),select(\+ Negative,Conjuncts,Others),
+    term_variables(Negative,Local),term_variables((Head,Others),Shared),
+    lsg_disjoint(Local,Shared),lsg_known_witness(Negative,Reads),
+    term_string(Head,H),term_string(Negative,N),!.
+lsg_refute_clauses([],[]).
+lsg_refute_clauses([c(H,B)|Tail],[Proof|Rest]) :-
+    lsg_refute_clause(H,B,Proof),lsg_refute_clauses(Tail,Rest).
+lsg_refute_root((A,B),Proofs) :- !,(lsg_refute_root(A,Proofs);lsg_refute_root(B,Proofs)).
+lsg_refute_root(Goal,Proofs) :-
+    findall(c(Goal,Body),clause(Goal,Body),Rows),Rows=[_|_],lsg_refute_clauses(Rows,Proofs).
+lsg_restore_reads([]).
+lsg_restore_reads([r(P,E,K,O)|Tail]) :-
+    (lsg_seen(P,E,K,O) -> true ; assertz(lsg_seen(P,E,K,O))),lsg_restore_reads(Tail).
+lsg_restore_proofs([]).
+lsg_restore_proofs([proof(_,_,Reads)|Tail]) :-lsg_restore_reads(Reads),lsg_restore_proofs(Tail).
+lsg_try_refutation(Goal,Proofs) :-
+    catch(lsg_refute_root(Goal,Proofs),_,fail),
+    retractall(lsg_seen(_,_,_,_)),lsg_restore_proofs(Proofs).
+
 % A fixed, typed result protocol; the minimal author runtime has no JSON FFI.
 lsg_json_hex(N) :- (N<10 -> C is 48+N ; C is 87+N),put_code(C).
 lsg_json_codes([]).
@@ -58,6 +100,10 @@ lsg_json_rows([r(P,E,K,O)|Tail]) :-
     write('{"predicate":'),lsg_json_string(P),write(',"event":'),lsg_json_nullable(E),
     write(',"complete_scope":'),write(K),write(',"origin":'),lsg_json_string(O),write('}'),
     (Tail=[] -> true ; write(','),lsg_json_rows(Tail)).
+lsg_json_proofs([]).
+lsg_json_proofs([proof(H,N,_)|Tail]) :-
+    write('{"author_head":'),lsg_json_string(H),write(',"known_blocking_goal":'),
+    lsg_json_string(N),write('}'),(Tail=[] -> true ; write(','),lsg_json_proofs(Tail)).
 '''
 
 
@@ -137,13 +183,20 @@ def execute(kernel, binding, complete_families, public, *, scope_contract=None):
     body += '''
 lsg_case_main :-
     catch(( (''' + conflicts + ''') -> Verdict="negative_given_conflict"
-          ; once((''' + prepared['goal'] + ''')) -> Verdict="Entailment"
+          ; lsg_try_refutation((''' + prepared['goal'] + '''),Proofs) ->
+                Verdict="Contradiction",Mode="independent_author_conjunct_refutation"
+          ; retractall(lsg_seen(_,_,_,_)),once((''' + prepared['goal'] + ''')) -> Verdict="Entailment"
           ; Verdict="Contradiction" ), Error,
           (term_string(Error,Text),Verdict="execution_error")),
     (var(Text) -> Detail=null ; Detail=Text),
+    (var(Mode) -> Mode="guarded_native_execution" ; true),
+    (var(Proofs) -> Proofs=[] ; true),
     findall(r(P,E,K,O),lsg_seen(P,E,K,O),Reads),
+    findall(r(P,E,K,O),lsg_alternative_read(P,E,K,O),Alternatives),
     write('{"verdict":'),lsg_json_string(Verdict),write(',"reads":['),lsg_json_rows(Reads),
-    write('],"error":'),lsg_json_nullable(Detail),write('}'),halt.
+    write('],"error":'),lsg_json_nullable(Detail),write(',"proof_mode":'),lsg_json_string(Mode),
+    write(',"refutations":['),lsg_json_proofs(Proofs),
+    write('],"alternative_refutation_demands":['),lsg_json_rows(Alternatives),write(']}'),halt.
 '''
     receipt = {**prepared['receipt'], 'backend':'guarded_official_statute_program',
         'complete_families':sorted(complete),'known_complete_events':{k:sorted(v) for k,v in complete_events.items()},
@@ -177,5 +230,7 @@ lsg_case_main :-
         elif read['origin']=='complete_case_contract':used_families.update(complete)
     return {**receipt,'handled':accepted,'answer':value['verdict'] if accepted else None,
         'raw_native_probe_verdict':value['verdict'],'factual_accesses':reads,'unread_factual_scopes':unread,
+        'proof_mode':value['proof_mode'],'independent_author_refutations':value['refutations'],
+        'alternative_refutation_demands':value['alternative_refutation_demands'],
         'used_observation_families':sorted(used_families), 'execution_error':value['error'],
         'reason':None if accepted else 'Native proof depends on unread scopes or failed execution'}
