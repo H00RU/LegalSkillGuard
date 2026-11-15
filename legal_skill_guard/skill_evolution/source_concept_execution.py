@@ -30,6 +30,13 @@ def convert(library, raw):
     value = execute_json(library['source_concept_program'], {
         'source_text': v['source_text'], 'source_spans': v['units'],
         'source_output': v['source_output'], 'semantic_answers': v['answers']}, {}, allow_helpers=True)
+    refinement = None
+    if library.get('source_refinement_program'):
+        from .source_local_refinement import concepts
+        delta = execute_json(library['source_refinement_program'], {'source_text': v['source_text'],
+            'source_spans': v['units'], 'semantic_answers': v['answers'], 'previous_output': deepcopy(value)},
+            {}, allow_helpers=True)
+        value, refinement = concepts(value, delta, v)
     assert set(value) == {'queries', 'answers', 'fragments', 'unresolved'}
     queries = validate_queries(value['queries'], library['operations'], v['units'])
     answers = {a['id']: a for a in value['answers']}
@@ -68,6 +75,12 @@ def convert(library, raw):
         'program_query_ids': [q['id'] for q in queries], 'program_answers_are_not_neural_readings': True,
         'whole_norms_forbidden': True, 'new_model_requests': 0}
     encoded = _typed(encoded, library['spec'])
+    if refinement:
+        retired = set(refinement['retired_neural_query_ids'])
+        encoded['context']['facts'] = [f for f in encoded['context']['facts']
+            if not (f['predicate'] in ('reader_query', 'query_choice', 'evidence_unit') and f['arguments'][0] in retired)]
+        encoded['source_concept_execution']['learned_refinement'] = refinement
+        encoded['source_concept_execution']['refinement_program_sha256'] = digest(library['source_refinement_program'])
     links = []
     for fragment in value['fragments']:
         for identity, root in encoded['legacy_roots'].items():

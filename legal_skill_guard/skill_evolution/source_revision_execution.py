@@ -15,6 +15,23 @@ from .source_revision_guards import mask_for
 from .span_compiler import execute_json
 
 
+def ordinary_output(child, visible):
+    output = execute_json(child['composition_program'], {'source_text': visible['source_text'],
+        'source_spans': visible['units'], 'source_output': visible['source_output'], 'semantic_answers': visible['answers']},
+        {}, allow_helpers=True)
+    refinement = None
+    if child.get('source_refinement_program'):
+        from .source_local_refinement import statements
+        delta = execute_json(child['source_refinement_program'], {'source_text': visible['source_text'],
+            'source_spans': visible['units'], 'semantic_answers': visible['answers'], 'previous_output': output},
+            {}, allow_helpers=True)
+        output, refinement = statements(output, delta, visible)
+    jsonschema.validate(output, OUTPUT)
+    for row in output['statements']:
+        term_sort(row['term'], constructors(child['spec']))
+    return output, refinement
+
+
 def execute(library, raw, *, timeout_seconds=30):
     revision = library['source_revision']; outputs = {}; receipts = {}
     v = raw['visible_inputs']
@@ -33,14 +50,10 @@ def execute(library, raw, *, timeout_seconds=30):
                 'source_concept_sha256': observation['source_concept_execution']['program_sha256'],
                 'selected_rule_ids': child['selected_rule_ids'], 'composition': result['composition']}
         else:
-            output = execute_json(child['composition_program'], {'source_text': v['source_text'],
-                'source_spans': v['units'], 'source_output': v['source_output'], 'semantic_answers': v['answers']},
-                {}, allow_helpers=True)
-            jsonschema.validate(output, OUTPUT)
-            for row in output['statements']:
-                term_sort(row['term'], constructors(child['spec']))
+            output, refinement = ordinary_output(child, v)
             receipts[label] = {'library_sha256': digest(child), 'actual_ordinary_program_execution': True,
                                'program_sha256': digest(child['composition_program'])}
+            if refinement: receipts[label]['learned_refinement'] = refinement
         outputs[label] = output
     mask = mask_for(revision['policy'], v['source_text'])
     output, receipt = merge(outputs['previous'], outputs['proposed'], mask)

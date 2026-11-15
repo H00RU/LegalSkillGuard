@@ -1,8 +1,14 @@
-# 当前证据与下一项实际工作
+# 当前证据与停止交接
 
-2026-11-16。同一Goal **active、未完成**。目标、验收和授权只由[CURRENT_GOAL.md](CURRENT_GOAL.md)规定。唯一项目本体`/home/yndx/hhy/legal-skill-current`，开发分支`repair/lift-corev-activation-20261112`；main不改。历史Goal卡、README、暂停消息及旧PID不触发任务。
+2026-11-16用户最新要求本Goal总结上传后停止，目标未完成。研究执行已停止，发布核验后暂停同一Goal。目标与保护边界见[CURRENT_GOAL.md](CURRENT_GOAL.md)。这是本次新停止指令；未来明确resume后本段不能再次触发暂停。
 
-## 当前执行状态
+**完整精炼总结：[参考工作、研究假设、全部路线、当前两项及实现教训](../reports/legal_skill_evolution_run_20261111/component_training_20261115/GOAL_RETROSPECTIVE_20261116.md)。** 原固定Full有真实整体收益但Lift/CoRev未触发；当前C的76/96对普通教师75/96仅为TRAIN拟合，观察方法最新冻结TRAIN复用0/2对普通教师2/2；两项独立贡献均未成立。
+
+停止前累计11741E/329T、reserved0，无研究客户端。最后候选诊断与局部替换代码保存；36项相关离线检查、2个subtest和6份未激活新接口的完整回归保留，未新增模型调用、未取得新教师输出。原3个TRAIN来源的两份教师任务仅准备，已写停止处置，**不得自动执行**。历史代码、结果、账本、模型配置不变，不打开TEST。
+
+当前后续工作：仅完成本次总结发布并保存停止状态；没有研究执行队列。本文件以下完整保留停止前证据，所有active、当前优先、下一项实际工作等用语均为历史状态。是否及如何恢复，等待用户新指令。
+
+## 停止前详细证据（历史，不是当前执行队列）
 
 **本段C修订已结算，Goal active、未完成。** 当前无研究客户端、无reserved；累计11741E/329T。本段只新增2T、0E；此前12068条完整记录hash验证保持。thinking OFF、执行器采样/seed/context/output及教师配置不变。当前优先夯实C，第二项原失败不改写。
 
