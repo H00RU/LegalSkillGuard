@@ -1,0 +1,171 @@
+{
+  "evidence_kind": "synthetic finite empirical sample software checks",
+  "model_calls": 0,
+  "server_calls": 0,
+  "target_graphs_or_labels_for_selection": 0,
+  "not_evidence_of": [
+    "real model improvement",
+    "legal benchmark performance",
+    "novelty",
+    "real-data calibration"
+  ],
+  "risk_modes": {
+    "unrestricted": {
+      "status": "supported_conditional",
+      "interval": [
+        0.0,
+        1.0
+      ],
+      "loss_coefficients": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "unknown_mode": "unrestricted",
+      "alpha": 0.05,
+      "extrapolated_worlds": 0,
+      "stationary_transfer_assumption": false
+    },
+    "detectable_residual": {
+      "status": "supported_conditional",
+      "interval": [
+        0.0,
+        0.057545185325034165
+      ],
+      "loss_coefficients": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "unknown_mode": "detectable_residual",
+      "alpha": 0.05,
+      "extrapolated_worlds": 0,
+      "stationary_transfer_assumption": false
+    }
+  },
+  "full_paired_trace_replay": {
+    "status": "supported",
+    "empirical_risk": 0.0,
+    "interval": [
+      0.0,
+      0.04801613956599604
+    ]
+  },
+  "conditional_selection_demo": {
+    "status": "selected",
+    "plan": "a",
+    "selection_mode": "minimax",
+    "certified_separation": true,
+    "reason": "minimum risk upper bound plus cost",
+    "risks": {
+      "a": {
+        "status": "supported_conditional",
+        "interval": [
+          0.0,
+          0.057545185325034165
+        ],
+        "loss_coefficients": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "unknown_mode": "detectable_residual",
+        "alpha": 0.05,
+        "extrapolated_worlds": 0,
+        "stationary_transfer_assumption": false
+      },
+      "b": {
+        "status": "supported_conditional",
+        "interval": [
+          0.9424548146749658,
+          1.0
+        ],
+        "loss_coefficients": [
+          0,
+          1,
+          1,
+          1
+        ],
+        "unknown_mode": "detectable_residual",
+        "alpha": 0.05,
+        "extrapolated_worlds": 0,
+        "stationary_transfer_assumption": false
+      }
+    },
+    "familywise_alpha_bound": 0.1
+  },
+  "source_count_sensitivity_synthetic_only": [
+    {
+      "independent_synthetic_sources": 24,
+      "interval": [
+        0.0,
+        0.3322372823797535
+      ],
+      "width": 0.3322372823797535,
+      "replicated_views_width": 0.3322372823797535
+    },
+    {
+      "independent_synthetic_sources": 128,
+      "interval": [
+        0.0,
+        0.1438629633125853
+      ],
+      "width": 0.1438629633125853,
+      "replicated_views_width": 0.1438629633125853
+    },
+    {
+      "independent_synthetic_sources": 256,
+      "interval": [
+        0.0,
+        0.10172647691992054
+      ],
+      "width": 0.10172647691992054,
+      "replicated_views_width": 0.10172647691992054
+    }
+  ],
+  "unobserved_reference_transfer": {
+    "strict_support": {
+      "status": "unsupported",
+      "reason": "reference support gap"
+    },
+    "explicit_stationarity": {
+      "status": "supported_conditional",
+      "interval": [
+        0.0,
+        0.057545185325034165
+      ],
+      "loss_coefficients": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "unknown_mode": "detectable_residual",
+      "alpha": 0.05,
+      "extrapolated_worlds": 1,
+      "stationary_transfer_assumption": true
+    },
+    "paired_replay": {
+      "status": "unsupported"
+    },
+    "interpretation": "Conditional identification calculation only; assumes same edit mixture and detectable residual behavior on unobserved reference; no observed transfer accuracy."
+  },
+  "replay_equivalence": "On same supported worlds, empirical joint-edit replay equals full paired trace replay; no demonstrated transfer advantage.",
+  "diagnostics": {
+    "independent_source_counts_by_reference": {
+      "Graph(claimant=1, respondent=0, exception_event=0, anchor='TRAIN-schema-v1')": 800
+    },
+    "pair_count": 800,
+    "simultaneous_cells": 5,
+    "ambiguous_pairs": 0,
+    "unmatched_pairs": 0
+  },
+  "checks": {
+    "run": 8,
+    "failures": 0,
+    "errors": 0
+  }
+}
