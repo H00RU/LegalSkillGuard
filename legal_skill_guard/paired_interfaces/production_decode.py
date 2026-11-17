@@ -32,6 +32,15 @@ def decode_response(source, view, plan, response):
                 from legal_skill_guard.paired_interfaces import indexed_relational_read
                 decoder = indexed_relational_read.decode(
                     plan['relational_program'], plan['indexed_evidence_binding'], raw, view['relational_public_source'])
+                if plan.get('native_evidence_codec') == 'cni_clause_ranges_v1' and raw != indexed_relational_read.UNREAD:
+                    from legal_skill_guard.paired_interfaces import cni_disclosure_relational
+                    native_view, = source['views']
+                    if source['dataset'] != 'ContractNLI' or native_view['id'] != cni_disclosure_relational.TASK:
+                        raise ValueError('The native clause evidence codec belongs to a different task')
+                    if decoder['outputs'].get(native_view['id']) is not None:
+                        anchor = raw.partition('|')[0]
+                        evidence[native_view['id']] = cni_disclosure_relational.native_evidence(
+                            native_view['public'], anchor, plan['indexed_evidence_binding']['spans'][anchor])
             else:
                 decoder=relational_program.decode(plan['relational_program'],raw,view['relational_public_source'])
             relational_native={task:{'handled':decoder['outputs'].get(task) is not None,

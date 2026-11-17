@@ -56,14 +56,15 @@ def indexed_unit(program):
 
 def bind(program, source):
     text = source['source_text']
-    spans = source_spans(text)
-    if not spans:
+    spans = source['indexed_ranges'] if 'indexed_ranges' in source else source_spans(text)
+    if not spans or any(type(start) is not int or type(end) is not int or not 0 <= start < end <= len(text)
+                        for start, end in spans.values()):
         raise ValueError('An indexed read requires exact source text')
     _, unit = indexed_unit(program)
     asset = unit['asset']
     if asset['layout'] != 'anchored' or 'source_text' not in asset['source_scope']['source_fields']:
         raise ValueError('The indexed wire requires an anchored text consumer')
-    return {'source_text_sha256': digest(text), 'spans': spans}
+    return {'source_text_sha256': digest(text), 'spans': deepcopy(spans)}
 
 
 def reader_schema(program, binding, *, factorized=False):
@@ -141,6 +142,6 @@ def reformat(view, *, factorized=False):
         plan['name'] += '_indexed'
         plan['version'] = digest({key: value for key, value in plan.items() if key != 'version'})
     view['read_input']['indexed_evidence'] = [
-        {'id': anchor, 'text': text[start:end]} for anchor, (start, end) in source_spans(text).items()
+        {'id': anchor, 'text': text[start:end]} for anchor, (start, end) in binding['spans'].items()
     ]
     return view

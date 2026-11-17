@@ -5,6 +5,7 @@ import re
 import pytest
 
 from legal_skill_guard.paired_interfaces import indexed_relational_read as indexed
+from legal_skill_guard.paired_interfaces import cni_disclosure_relational as disclosure
 from legal_skill_guard.paired_interfaces import maud_knowledge_relational as knowledge
 from legal_skill_guard.paired_interfaces import relational_program
 from legal_skill_guard.paired_interfaces.pilot_metrics import rank_external_pilot
@@ -58,6 +59,31 @@ def test_indexed_wire_preserves_consumer_and_rejects_span_exchange():
                     continue
                 restored = indexed.expand(program, binding, code, public)[name]['observation']['relations']
                 assert json.dumps(restored, sort_keys=True, separators=(',', ':')) in asset['decoder']
+
+
+def test_clause_pair_retains_both_native_evidence_ids():
+    first = 'The Receiving Party may disclose Confidential Information:'
+    second = 'only to its employees with a need to know.'
+    text = first + '\n' + second
+    source = {'key': 'cni_fixture', 'dataset': 'ContractNLI', 'views': [{
+        'id': disclosure.TASK, 'public': {'source_text': text, 'question': 'Employee sharing',
+            'sentence_spans': [[0, len(first)], [len(first) + 1, len(text)]]}}]}
+    selected, view = disclosure.build(source)
+    for plan in view['plans']:
+        program = plan['relational_program']
+        _, unit = indexed.indexed_unit(program)
+        asset = unit['asset']
+        fields, _ = indexed.encoded_relations(asset)
+        state = {'disclosure_actor': 'receiver', 'recipient_group': 'own_employees', 'permission_force': 'allow'}
+        relation = encode(asset['features'], state)
+        code = '|'.join(['n0_1', *(indexed.symbol(relation[name]) for name in fields)])
+        result = decode_response(selected, view, plan, {'content': json.dumps(code), 'finish_reason': 'stop'})
+        assert result['production_errors'] == []
+        assert result['native'][disclosure.TASK]['answer'] == 'Entailment'
+        assert result['native'][disclosure.TASK]['evidence_sentence_ids'] == [0, 1]
+        ungrounded = decode_response(selected, view, plan, {'content': '"unread"', 'finish_reason': 'stop'})
+        assert ungrounded['native'][disclosure.TASK]['answer'] is None
+        assert ungrounded['native'][disclosure.TASK]['evidence_sentence_ids'] == []
 
 
 def test_external_comparison_keeps_all_units_and_breaks_native_ties_by_logical_cost():
