@@ -5,12 +5,14 @@ explicit case facts. Its relations test nonlinear aggregation and entity
 binding but cannot establish an advantage of shared over single interpretation.
 The module says this explicitly; it never manufactures legal uncertainty.
 """
+from dataclasses import replace
 import hashlib
 import inspect
 import re
 from textwrap import dedent
 
 from legal_skill_guard.paired_interfaces.diversity import audit_source,reference_outputs,TASK_RULES
+from legal_skill_guard.paired_interfaces.diversity_relational import STATES
 from legal_skill_guard.paired_interfaces.shared_semantics import SourceCase,Theory,DerivedField,source_variant,allowed_relation
 from legal_skill_guard.skill_evolution.objects import digest
 
@@ -95,3 +97,74 @@ def group_relation(source,changes):
         'singleton_semantics':True,'shared_vs_single_signatures_identical':relation['signatures']==control['signatures'],
         'establishes_M2_shared_interpretation_advantage':False,
         'independent_native_positive_supervision_still_required':True}
+
+
+def controlled_citizenship_relation(source):
+    """A controlled TRAIN diagnostic with one withheld plaintiff state.
+
+    Withhold the underlying literal in both rendered inputs so neither
+    interpretation sees a contradictory known fact. Change one named
+    defendant's explicit state across the two inputs. The same unknown
+    plaintiff state cannot equal both different states.
+    """
+    case, theory, renderers = build(source)
+    known = case.primitives
+    claims = known['claim_bindings']
+    plaintiff = min(row['plaintiff'] for row in claims)
+    defendant = min(row['defendant'] for row in claims if row['plaintiff'] == plaintiff)
+    hidden_field = known['citizen_bindings'][plaintiff]
+    changed_field = known['citizen_bindings'][defendant]
+    states = tuple(state for state in STATES if state is not None)
+    alternative = next(state for state in states if state != known[changed_field])
+    public_field, start, end = case.spans[hidden_field]
+    original = case.public[public_field]
+    masked = source_variant(case, theory, {hidden_field: 'an unspecified U.S. state'}, renderers)
+    if masked['status'] != 'REALIZABLE':
+        raise ValueError('Controlled missingness must have an exact source span')
+    rendered = masked['case'].public[public_field]
+    shift = len(rendered) - len(original)
+    field, left, right = case.spans[changed_field]
+    if left >= end:
+        left, right = left + shift, right + shift
+    if rendered[left:right] != known[changed_field]:
+        raise ValueError('The control edit no longer points to the same defendant')
+
+    def same_citizenship(values, law):
+        citizenship = values['citizenship']
+        return citizenship[values['compared_plaintiff']] == citizenship[values['compared_defendant']]
+
+    code = '\n'.join(dedent(inspect.getsource(fn)) for fn in (same_citizenship, derive_citizenship))
+    baseline = replace(
+        masked['case'],
+        primitives={key: value for key, value in known.items() if key != hidden_field}
+        | {'compared_plaintiff': plaintiff, 'compared_defendant': defendant},
+        spans={changed_field: (field, left, right)},
+        interventions={},
+    )
+    diagnostic_theory = replace(
+        theory,
+        root_alternatives={case.root_id: [{hidden_field: state} for state in states]},
+        reference=same_citizenship,
+        reference_sha256=hashlib.sha256(code.encode()).hexdigest(),
+        provenance=theory.provenance + ({
+            'kind': 'explicit_source',
+            'evidence_sha256': digest(baseline.public),
+            'scope': 'controlled_missingness',
+        },),
+        allowed_edits=frozenset({changed_field}),
+    )
+    edit = source_variant(baseline, diagnostic_theory, {changed_field: alternative}, renderers)
+    if edit['status'] != 'REALIZABLE':
+        raise ValueError('Controlled comparison must be realizable in the source')
+    cases = [baseline, edit['case']]
+    return {
+        'cases': cases,
+        'theory': diagnostic_theory,
+        'shared': allowed_relation(diagnostic_theory, cases),
+        'independent': allowed_relation(diagnostic_theory, cases, mode='independent_completions'),
+        'diagnostic': 'controlled_source_fact_masking',
+        'local_projection': 'same_state_for_named_plaintiff_and_defendant',
+        'compared_parties': [plaintiff, defendant],
+        'controlled_mask_span': [start, end],
+        'edit_receipt': edit['receipt'],
+    }

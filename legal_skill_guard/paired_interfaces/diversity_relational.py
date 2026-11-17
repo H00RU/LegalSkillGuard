@@ -16,6 +16,8 @@ from legal_skill_guard.paired_interfaces import residual,relational_program
 from legal_skill_guard.paired_interfaces.diversity import TASK_RULES
 from legal_skill_guard.skill_evolution.objects import digest
 
+DIVERSITY_READER_PROTOCOL = 'diversity_named_pair_reader_v1'
+
 STATES=('Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware',
     'Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana',
     'Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana',
@@ -130,6 +132,9 @@ def views(source):
             'schema':relational_program.schema(p),'system':relational_program.prompt(p),
             'choices':choices,'candidate_origin':'existing_residual.propose_from_audited_local_consumer_AST',
             'is_correct_fixed_raw_control':all(i==0 for i in indices)}
+        plan['reader_template_sha256'] = relational_program.template_version(
+            p, system=plan['system'], public_rules=public.get('rules', TASK_RULES),
+            protocol=DIVERSITY_READER_PROTOCOL)
         plan['version']=digest(plan);plans.append(plan)
     # Entity requests are identical across candidates; template display IDs
     # depend only on the stable local-kind order, not on source values or gold.

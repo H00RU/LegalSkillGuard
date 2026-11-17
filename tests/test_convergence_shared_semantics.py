@@ -91,6 +91,16 @@ class SharedSemanticsTests(unittest.TestCase):
         self.assertEqual(result['refuted_candidate_classes'],['wrong'])
         self.assertFalse(result['physical_model_evidence_established_by_selection'])
 
+    def test_selects_combined_conflict_with_two_locally_admissible_signatures(self):
+        groups = [[case()], [case(3500, root='root:B')]]
+        signatures = [{'scope_switch': [True], 'consistent': [True]},
+                      {'scope_switch': [False], 'consistent': [True]}]
+        result = choose_groups(theory(), groups, signatures, max_groups=2)
+        self.assertTrue(all(not row['rejected_candidates'] for row in result['groups']))
+        self.assertEqual(result['selected_indices'], [0, 1])
+        self.assertEqual(result['refuted_candidate_classes'], ['scope_switch'])
+        self.assertEqual(choose_groups(theory(), groups, signatures, max_groups=1)['selected_indices'], [])
+
     def test_off_scope_and_physical_evidence_are_not_fabricated(self):
         t=replace(theory(),well_formed=lambda v,l:v['amount']>=0)
         self.assertIn(canonical([{'status':'off_scope'}]),allowed_relation(t,[case(-1)])['signatures'])

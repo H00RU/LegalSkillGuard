@@ -13,13 +13,14 @@ from pathlib import Path
 import time
 
 from legal_skill_guard.rr.checkpoint import immutable_json
-from legal_skill_guard.skill_evolution.clients import FrozenTeacher, configured_teacher_profile
+from legal_skill_guard.skill_evolution.clients import FrozenTeacher
 from legal_skill_guard.skill_evolution.ledger import EvolutionLedger
 from legal_skill_guard.skill_evolution.native import record_schema
 from legal_skill_guard.skill_evolution.objects import digest
 
 ROOT=Path(__file__).resolve().parents[1]
 BASE=ROOT/'artifacts/legal_skill_convergence_20261117'
+TEACHER_PROFILE=ROOT/'configs/legal_skill_convergence_teacher_v1.json'
 TEXT={'type':'string'}
 TEXTS={'type':'array','items':TEXT}
 SYSTEM=('Audit only the supplied TRAIN contract text. Do not browse, run commands, '
@@ -93,13 +94,20 @@ def public_documents(source):
         'instruction':'Audit effects, conditions and attachment; no native labels are supplied.'}
 
 
+def study_teacher_configuration():
+    """Bind the study condition independently of the orchestrator's defaults."""
+    frozen = read(TEACHER_PROFILE)
+    profile = {key: frozen[key] for key in ('transport', 'model', 'reasoning_effort')}
+    config = {key: frozen[key] for key in ('model', 'reasoning_effort', 'retries', 'timeout_seconds')}
+    config['executable'] = '/home/yndx/.local/share/codex-npm/bin/codex'
+    return profile, config
+
+
 def prepare():
     summary=read(BASE/'handoff/normalized_inputs_current.json');data=ROOT/summary['artifact_root']
     public=read(data/'train/public.json');scope=read(data/'scope_receipts.json')
     pilot=pilot_selection(public,scope)
-    profile=configured_teacher_profile('/home/yndx/.codex/config.toml',requested_effort='high')
-    config={'model':profile['model'],'reasoning_effort':'high','retries':0,'timeout_seconds':600,
-        'executable':'/home/yndx/.local/share/codex-npm/bin/codex'}
+    profile,config=study_teacher_configuration()
     by_source={s['key']:s for s in public}
     # First shared audit is a public-structure-selected MAUD pilot source with
     # expanded context. Further audit work consumes the same locked pilot20.
@@ -109,7 +117,8 @@ def prepare():
         'system':SYSTEM,'user':json.dumps(public_documents(by_source[r['source']]),ensure_ascii=False,sort_keys=True),
         'schema':SCHEMA} for r in targets[:1]]
     source_paths=['experiments/convergence_source_audit.py','legal_skill_guard/skill_evolution/clients.py',
-        'legal_skill_guard/skill_evolution/ledger.py','legal_skill_guard/inference/codex_cli_client.py']
+        'legal_skill_guard/skill_evolution/ledger.py','legal_skill_guard/inference/codex_cli_client.py',
+        str(TEACHER_PROFILE.relative_to(ROOT))]
     binding={'name':'convergence_TRAIN_independent_source_audit_01','plan_commit':'37a76ffdf9490d7d213f5a9e67553a174416d84c',
         'normalized_inputs_root':summary['artifact_root'],'source_sha256':{p:sha(ROOT/p) for p in source_paths},
         'teacher_profile':profile,'teacher_config':config,'requests_sha256':digest(requests),

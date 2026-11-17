@@ -261,7 +261,7 @@ class ExplanationState:
 
 
 def choose_groups(theory,groups,candidate_signatures,*,costs=None,max_groups=None):
-    """Greedy cover of reference-refuted patch classes, not disagreement alone.
+    """Cover patch classes refuted by a group or a shared-explanation join.
 
     Predictions here can be symbolic or cached actual traces. New physical
     execution must confirm them before they count as real update evidence.
@@ -269,19 +269,68 @@ def choose_groups(theory,groups,candidate_signatures,*,costs=None,max_groups=Non
     if len(groups)!=len(candidate_signatures):raise ValueError('Group/signature table mismatch')
     costs=costs or [1.0]*len(groups)
     if len(costs)!=len(groups) or any(v<=0 for v in costs):raise ValueError('Declare positive group costs')
-    rows=[]
+    rows = []
+    allowed_factors = {}
+    patch_factors = {}
     for i,(group,predictions) in enumerate(zip(groups,candidate_signatures)):
         relation=allowed_relation(theory,group)
-        rejected={name for name,output in predictions.items() if canonical(output) not in relation['signatures']}
+        allowed_factors[i] = [assignment for assignments in relation['supports'].values()
+                              for assignment in assignments]
+        rejected = set()
+        for name, output in predictions.items():
+            support = relation['supports'].get(canonical(output), [])
+            patch_factors.setdefault(name, {})[i] = support
+            if not support:
+                rejected.add(name)
         rows.append({'index':i,'rejected_candidates':sorted(rejected),'cost':costs[i],
                      'allowed_signatures':list(relation['signatures'].values())})
-    selected=[];covered=set();remaining=set(range(len(rows)))
-    while remaining and (max_groups is None or len(selected)<max_groups):
-        i=max(remaining,key=lambda j:(len(set(rows[j]['rejected_candidates'])-covered)/costs[j],-costs[j],-j))
-        newly=set(rows[i]['rejected_candidates'])-covered
-        if not newly:break
-        selected.append(i);covered.update(newly);remaining.remove(i)
+
+    def refuted(factors, indices):
+        return not consistent_factors([factors[i] for i in indices if i in factors])
+
+    # A candidate can appear valid in every group when each group selects a
+    # different value of the same variable. Preserve a small conflict witness.
+    # A contradictory reference pool cannot be used to reject a candidate.
+    witness_pool = {(row['index'],) for row in rows if row['rejected_candidates']}
+    for factors in patch_factors.values():
+        indices = sorted(factors)
+        if any(not support for support in factors.values()):
+            continue
+        if refuted(allowed_factors, indices) or not refuted(factors, indices):
+            continue
+        for index in sorted(indices, key=lambda i: (-costs[i], i)):
+            smaller = [i for i in indices if i != index]
+            if refuted(factors, smaller):
+                indices = smaller
+        witness_pool.add(tuple(indices))
+
+    selected = []
+    covered = set()
+    witness_receipts = []
+    while witness_pool:
+        options = []
+        for witness in sorted(witness_pool):
+            added = [i for i in witness if i not in selected]
+            if not added or (max_groups is not None and len(selected) + len(added) > max_groups):
+                continue
+            combined = selected + added
+            if refuted(allowed_factors, combined):
+                continue
+            newly = {name for name, factors in patch_factors.items()
+                     if name not in covered and refuted(factors, combined)}
+            if newly:
+                cost = sum(costs[i] for i in added)
+                options.append((-len(newly) / cost, cost, witness, added, newly))
+        if not options:
+            break
+        _, _, witness, added, newly = min(options, key=lambda option: option[:3])
+        witness_pool.remove(witness)
+        selected.extend(added)
+        covered.update(newly)
+        witness_receipts.append({'added_indices': added, 'witness_indices': list(witness),
+                                 'newly_refuted_candidate_classes': sorted(newly)})
     return {'selected_indices':selected,'refuted_candidate_classes':sorted(covered),'groups':rows,
+        'shared_explanation_witnesses': witness_receipts,
         'selection_uses_reference_violation_not_candidate_disagreement':True,
         'physical_model_evidence_established_by_selection':False,
         'no_witness_means_global_unidentifiability':False}

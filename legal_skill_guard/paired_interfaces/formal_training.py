@@ -42,6 +42,13 @@ class RelationalInterfaceLibrary:
             raise ValueError('The convergence learner requires generated consumer-program pairs')
         return tuple(sorted(plan['choices'].items()))
 
+    def reader_condition(self, plan):
+        template_hash = plan.get('reader_template_sha256')
+        if template_hash is None:
+            # Legacy snapshots can only be restored with legacy plan definitions.
+            return None
+        return digest({'template': template_hash, 'executor': self.actor.executor.config})
+
     def observe(self,source,view,plan,read,*,native_utility,source_fidelity,visible_prefix):
         from legal_skill_guard.paired_interfaces.formal_actors import verify_physical_response
         if (not set(visible_prefix)<=self.train_sources or source['key'] not in visible_prefix
@@ -60,6 +67,7 @@ class RelationalInterfaceLibrary:
                 or not source_fidelity.get('reference_evidence_sha256')):
             raise ValueError('Native scores cannot supply missing source-fidelity truth')
         profile=self.profile(plan)
+        reader_condition = self.reader_condition(plan)
         row={'source':source['key'],'dataset':source['dataset'],'view':view['view'],
             'profile':list(profile),'context_kinds':sorted(plan['choices']),
             'plan_version':plan['version'],'native_utility':float(native_utility),
@@ -67,10 +75,15 @@ class RelationalInterfaceLibrary:
             'response_content_sha256':read['response_content_sha256'],'actual_read_sha256':digest(read),
             'source_public_sha256':digest(source),'visible_prefix_sha256':digest(sorted(visible_prefix)),
             'usage':read['usage'],'reused_paid_response':read['reused_paid_response']}
-        identity=(row['source'],row['view'],tuple(profile))
-        old=[r for r in self.records if (r['source'],r['view'],tuple(map(tuple,r['profile'])))==identity]
+        if reader_condition is not None:
+            row['reader_condition_sha256'] = reader_condition
+        identity=(row['source'],row['view'],tuple(profile),reader_condition)
+        old=[r for r in self.records if (
+            r['source'], r['view'], tuple(map(tuple, r['profile'])),
+            r.get('reader_condition_sha256')) == identity]
         if old:
-            if old!=[row]:raise ValueError('A settled interface observation changed; version explicitly')
+            if len(old) != 1 or digest(old[0]) != digest(row):
+                raise ValueError('A settled interface observation changed; version explicitly')
             return old[0]
         immutable_json(self.root/'interface_learning_observations'/(digest(row)+'.json'),row)
         # Persist each distinct executable pair once, not the current case's
@@ -104,11 +117,15 @@ class RelationalInterfaceLibrary:
 
     def choose(self,source,view,*,exclude_sources=()):
         plans=view['plans'];profiles={self.profile(p):p for p in plans}
+        conditions = {profile: self.reader_condition(plan) for profile, plan in profiles.items()}
         exclude={source['key'],*exclude_sources}
-        rows=[r for r in self.records if r['dataset']==source['dataset'] and r['source'] not in exclude
-            and tuple(map(tuple,r['profile'])) in profiles]
         groups={}
-        for row in rows:groups.setdefault(tuple(map(tuple,row['profile'])),[]).append(row)
+        for row in self.records:
+            profile = tuple(map(tuple, row['profile']))
+            if (row['dataset'] == source['dataset'] and row['source'] not in exclude
+                    and profile in profiles
+                    and row.get('reader_condition_sha256') == conditions[profile]):
+                groups.setdefault(profile, []).append(row)
         # Unequal source denominators cannot create a winner; only mothers
         # measured under every candidate form the paired selection set.
         common=set.intersection(*({r['source'] for r in groups.get(p,[])} for p in profiles)) if profiles else set()
@@ -132,6 +149,8 @@ class RelationalInterfaceLibrary:
             'selection_mode':mode,'paired_learning_sources':sorted(common),'summaries':summaries,
             'current_source_gold_or_current_read_used':False,
             'unseen_mother_reuse':bool(common),'fixed_control_wins_uninformative_ties':True}
+        if 'reader_template_sha256' in chosen:
+            receipt['reader_template_sha256'] = chosen['reader_template_sha256']
         return chosen,receipt
 
 

@@ -467,13 +467,47 @@ def reader_schema(asset):
     return {'type': 'object', 'properties': fields, 'required': list(fields), 'additionalProperties': False}
 
 
-def reader_prompt(asset):
+def describe_relation(expression):
+    """Realize the certified local expression without a second rule source."""
+    comparisons = {
+        'eq': ('is equal to', 'has a different value from'),
+        'ne': ('has a different value from', 'is equal to'),
+        'lt': ('is less than', 'is at least'),
+        'le': ('is at most', 'is greater than'),
+        'gt': ('is greater than', 'is at most'),
+        'ge': ('is at least', 'is less than'),
+    }
+
+    def operand(value):
+        operator = value['op']
+        if operator == 'field':
+            return value['field']
+        if operator == 'constant':
+            return canonical(value['value'])
+        arguments = [operand(argument) for argument in value['args']]
+        if operator == 'add':
+            return '(' + ' plus '.join(arguments) + ')'
+        if operator == 'subtract':
+            return '(' + ' minus '.join(arguments) + ')'
+        raise ValueError('Unsupported relation operand: ' + operator)
+
+    positive, negative = comparisons[expression['op']]
+    left, right = map(operand, expression['args'])
+    return (f'Return true when {left} {positive} {right}. '
+            f'Return false when {left} {negative} {right}. '
+            'Return null when an operand is unavailable or ambiguous.')
+
+
+def reader_prompt(asset, *, verbalize_relations=False):
     """Realize only source-local features; never ask for consumer decisions."""
     instructions = [
         'Read the identified local source unit and return the supplied JSON schema.',
         'Local unit: ' + asset['source_scope']['local_unit'] + '.',
         'Preserve the supplied source anchor and cite contiguous evidence from the permitted source fields.',
-        'Use unread with a null observation when a required attribute is unstated or ambiguous.',
+        ('Use unread with a null observation when the local unit cannot be grounded. '
+         'For a grounded unit, follow each field’s unknown-value rule.'
+         if verbalize_relations and any(f['operation']=='relation' for f in asset['features'])
+         else 'Use unread with a null observation when a required attribute is unstated or ambiguous.'),
     ]
     meanings = asset['source_scope'].get('field_meanings', {})
     for feature in asset['features']:
@@ -496,9 +530,15 @@ def reader_prompt(asset):
                     description = canonical(members)
                 instructions.append(group['code'] + ' = ' + description + '.')
         elif feature['operation'] == 'relation':
-            instructions.append(feature['name'] + ': read only this local relation: '
-                                + canonical(feature['expression']) + '. Source field meanings: '
-                                + canonical({f:meanings.get(f,f) for f in feature['consumer_dependencies']}))
+            if verbalize_relations:
+                fields = ' '.join(f'{field} means {meanings.get(field, field)}.'
+                                  for field in feature['consumer_dependencies'])
+                instructions.append(f"{feature['name']}: {fields} "
+                                    + describe_relation(feature['expression']))
+            else:
+                instructions.append(feature['name'] + ': read only this local relation: '
+                                    + canonical(feature['expression']) + '. Source field meanings: '
+                                    + canonical({f:meanings.get(f,f) for f in feature['consumer_dependencies']}))
         elif feature['operation'] == 'bound_relations':
             instructions.append(feature['name'] + ': keep each declared source identity coupled to its own local relations: '
                                 + canonical(feature['groups']) + '. Do not exchange relations between source identities.')

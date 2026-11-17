@@ -89,11 +89,29 @@ def prompt(program):
     for name,unit in program['units'].items():
         key=unit['template_key']
         if key not in seen:
-            seen[key]=True;display[key]='T'+str(len(display));lines.append('Template '+display[key]+':\n'+residual.reader_prompt(unit['asset']))
+            seen[key] = True
+            display[key] = 'T' + str(len(display))
+            instructions = residual.reader_prompt(unit['asset'], verbalize_relations=True)
+            lines.append('Template ' + display[key] + ':\n' + instructions)
     lines.append('The user input supplies each unit request with its literal source_anchor, template and entity context. '
         'Source_anchor is the unit key, never a template ID. Complete requires a populated observation and source evidence. '
         'Unread requires observation:null and evidence:[].')
     return '\n'.join(lines)
+
+
+def template_version(program, *, system, public_rules, protocol):
+    """Version the reader and consumer family across source instantiations."""
+    templates = {unit['template_key']: {
+        'asset_sha256': unit['asset_sha256'],
+        'local_schema': residual.reader_schema(unit['asset']),
+        'context': unit.get('context', {}),
+    } for unit in program['units'].values()}
+    return digest({
+        'protocol': protocol,
+        'system': system,
+        'public_rules': public_rules,
+        'templates': templates,
+    })
 
 
 def unit_requests(program):

@@ -1,4 +1,5 @@
 from tempfile import TemporaryDirectory
+from types import SimpleNamespace
 import unittest
 
 from legal_skill_guard.paired_interfaces.formal_training import RelationalInterfaceLibrary
@@ -35,6 +36,32 @@ class LearnedInterfaceTests(unittest.TestCase):
             snapshot=learner.snapshot(batch=1,visible_prefix=['a','b'])
             restored=RelationalInterfaceLibrary.restore(root,actor=None,train_sources=['a','b'],snapshot=snapshot)
             self.assertEqual(restored.records,learner.records)
+
+    def test_revised_reader_excludes_unversioned_and_different_version_observations(self):
+        with TemporaryDirectory() as root:
+            actor = SimpleNamespace(executor=SimpleNamespace(config={'model': 'Qwen3-8B'}))
+            learner = RelationalInterfaceLibrary(root, actor=actor, train_sources=['a'],
+                                                initial_common_library_sha256='a'*64)
+            fixed = dict(plan('fixed', 0), reader_template_sha256='f'*64)
+            relation = dict(plan('relation', 1), reader_template_sha256='e'*64)
+            learner.records = [
+                dict(self.observation('a', 0, 0, True),
+                     reader_condition_sha256=learner.reader_condition(fixed)),
+                self.observation('a', 1, 1, True),
+                dict(self.observation('a', 1, 1, True),
+                     reader_condition_sha256=learner.reader_condition(
+                         dict(relation, reader_template_sha256='d'*64))),
+            ]
+            source = {'key': 'b', 'dataset': 'Diversity'}
+            view = {'plans': [fixed, relation]}
+            chosen, receipt = learner.choose(source, view)
+            self.assertEqual(chosen['name'], 'fixed')
+            self.assertEqual(receipt['paired_learning_sources'], [])
+            learner.records.append(dict(self.observation('a', 1, 1, True),
+                                        reader_condition_sha256=learner.reader_condition(relation)))
+            chosen, receipt = learner.choose(source, view)
+            self.assertEqual(chosen['name'], 'relation')
+            self.assertEqual(receipt['paired_learning_sources'], ['a'])
 
 
 if __name__=='__main__':unittest.main()

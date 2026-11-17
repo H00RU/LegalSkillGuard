@@ -28,15 +28,32 @@ def read(p):return json.loads(p.read_text())
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 
 
-def prepare(*,all_candidates=False):
+def prepare(*,all_candidates=False,reuse_library=False,diagnose_polarity=False):
     data_pointer=read(BASE/'handoff/normalized_inputs_current.json');data=ROOT/data_pointer['artifact_root']
     audit_pointer=read(BASE/'handoff/source_audit_current.json')
     pilot=read(ROOT/audit_pointer['artifact_root']/'pilot20.json')
     rows={s['key']:s for s in read(data/'train/public.json')}
     candidates=[rows[r['source']] for r in pilot if r['dataset']=='LegalBench_Diversity']
-    source=sorted(candidates,key=lambda s:(s['native_config'],digest(s)),reverse=True)[0]
+    selection=None;library=None
+    if diagnose_polarity and (reuse_library or all_candidates):
+        raise ValueError('Run the polarity diagnosis as its own paired TRAIN comparison')
+    if reuse_library or diagnose_polarity:
+        if all_candidates:raise ValueError('Reuse compares the sealed learned profile against the fixed interface')
+        library=read(BASE/'handoff/actual_interface_library_current.json')
+        selection=read(ROOT/library['artifact_root']/'next_source_selection_before_read.json')
+        if selection['current_source_gold_or_current_read_used'] or not selection['unseen_mother_reuse']:
+            raise ValueError('Seal a genuine different-mother TRAIN-only selection before reuse')
+        source=rows[selection['source']]
+        if source not in candidates or digest(source)!=selection['source_public_sha256']:
+            raise ValueError('The sealed reuse target is outside the same fixed pilot/source version')
+    else:source=sorted(candidates,key=lambda s:(s['native_config'],digest(s)),reverse=True)[0]
     views=diversity_relational.views(source);plans=views[0]['plans']
     selected=plans if all_candidates else [plans[0],plans[-1]]
+    if selection and reuse_library:
+        learned=next((p for p in plans if p['version']==selection['selected_plan_version']),None)
+        if learned is None:raise ValueError('Learned decoder/consumer changed; recertify before reuse')
+        if learned['version']==plans[0]['version']:raise ValueError('No distinct learned interface to compare; do not duplicate a fixed read')
+        selected=[plans[0],learned]
     executor=read(BASE/'handoff/executor_readiness.json')['executor_config']
     files=['experiments/convergence_diversity_reader_probe.py','experiments/convergence_replay_diversity_references.py',
         'legal_skill_guard/paired_interfaces/diversity_relational.py','legal_skill_guard/paired_interfaces/relational_program.py',
@@ -44,7 +61,8 @@ def prepare(*,all_candidates=False):
         'legal_skill_guard/paired_interfaces/production_decode.py','legal_skill_guard/paired_interfaces/formal_actors.py',
         'legal_skill_guard/skill_evolution/clients.py','legal_skill_guard/skill_evolution/ledger.py',
         'legal_skill_guard/rr/client.py','legal_skill_guard/skill_evolution/native.py']
-    binding={'name':('convergence_Diversity_all_candidate_calibration_01' if all_candidates else 'convergence_Diversity_production_reader_probe_01'),'plan_commit':'37a76ffdf9490d7d213f5a9e67553a174416d84c',
+    if reuse_library:files += ['legal_skill_guard/paired_interfaces/formal_training.py','experiments/convergence_materialize_interface_library.py']
+    binding={'name':('convergence_Diversity_learned_template_reuse_01' if reuse_library else 'convergence_Diversity_all_candidate_calibration_01' if all_candidates else 'convergence_Diversity_production_reader_probe_01'),'plan_commit':'37a76ffdf9490d7d213f5a9e67553a174416d84c',
         'normalized_input_root':data_pointer['artifact_root'],'pilot20_sha256':digest(pilot),
         'selected_source':source['key'],'source_public_sha256':digest(source),'executor':executor,
         'source_sha256':{p:sha(ROOT/p) for p in files},'selected_plan_versions':[p['version'] for p in selected],
@@ -52,6 +70,19 @@ def prepare(*,all_candidates=False):
         'same_source_information_and_one_call_per_candidate':True,
         'common_external_library_sha256':sha(LIBRARY),'common_external_library_path':str(LIBRARY.relative_to(ROOT)),
         'no_applicable_historical_Diversity_skill_preloaded':True,'not_full_pilot_or_learning_success':True}
+    if diagnose_polarity:
+        binding.update({
+            'name': 'convergence_Diversity_relation_polarity_diagnosis',
+            'comparisons': ['unchanged_fixed_coordinate_control', 'verbalized_joint_relations'],
+            'reason': 'Recheck a known TRAIN polarity error with a changed relation prompt.',
+            'prior_selection_for_target_only': selection['selected_plan_version'],
+        })
+    if selection and reuse_library:
+        binding.update({'sealed_learned_selection':selection,'learned_library_root':library['artifact_root'],
+            'learning_library_sha256':selection['library_sha256'],
+            'learning_sources':selection['paired_learning_sources'],
+            'current_source_selected_before_model_read':True,
+            'comparisons':['correct_fixed_coordinate_control','actual_TRAIN_learned_interface_template']})
     out=BASE/'diversity_reader_probe_01'/digest(binding)
     immutable_json(out/'binding.json',binding);immutable_json(out/'public_TRAIN_source.json',source)
     immutable_json(out/'selected_candidates.json',[{'name':p['name'],'version':p['version'],'choices':p['choices']} for p in selected])
@@ -64,6 +95,10 @@ def prepare(*,all_candidates=False):
 
 def run():
     pointer=read(BASE/'handoff/diversity_reader_probe_current.json');out=ROOT/pointer['artifact_root'];binding=read(out/'binding.json')
+    if (out/'terminal.json').exists():
+        print(json.dumps({'status': 'completed', 'artifact_root': pointer['artifact_root'],
+                          'reused_existing_terminal': True, 'new_requests': 0}))
+        return
     for p,h in binding['source_sha256'].items():
         if sha(ROOT/p)!=h:raise ValueError('Bound production source changed: '+p)
     source=read(out/'public_TRAIN_source.json')
@@ -80,6 +115,18 @@ def run():
     provider=diversity_relational.Provider();actor=InterfaceActor(executor,out,plan_assets={},source_inputs=None,
         pipeline_binding=binding['source_sha256'],relational_provider=provider)
     view=actor.views(source)[0];plans={p['version']:p for p in view['plans']}
+    if binding['name'] == 'convergence_Diversity_relation_polarity_diagnosis':
+        fixed = plans[binding['selected_plan_versions'][0]]
+        fixed_messages = [
+            {'role': 'system', 'content': fixed['system']},
+            {'role': 'user', 'content': json.dumps(view['read_input'], ensure_ascii=False, sort_keys=True)},
+        ]
+        wire = json.dumps(executor.payload(messages=fixed_messages, thinking=False, schema=fixed['schema']),
+                          ensure_ascii=False).encode()
+        prior = executor.replay_index(executor.exact_replay_roots)
+        key = source['key'], 'skill_actor', hashlib.sha256(wire).hexdigest()
+        if not any(record[2] == wire for record in prior.get(key, ())):
+            raise ValueError('The unchanged fixed control must reuse its settled wire response')
     status={'artifact_root':str(out.relative_to(ROOT)),'status':'running','pid':os.getpid(),
         'started_at':time.time(),'source':source['key'],'requests':len(binding['selected_plan_versions'])}
     pointer_path=BASE/'handoff/diversity_reader_probe_current.json'
@@ -112,6 +159,13 @@ def run():
                 'native_correct':actual['native']['native']['answer']==gold['answer'],
                 'source_fidelity':comparisons,'all_local_relations_source_faithful':all(r['source_fidelity_verified'] for r in comparisons),
                 'native_target_in_original_reader_input':False,'not_independent_efficacy_estimate':True}
+            if binding.get('sealed_learned_selection'):
+                selected=binding['sealed_learned_selection']
+                row.update({'library_sha256':selected['library_sha256'],
+                    'learned_from_sources':selected['paired_learning_sources'],
+                    'new_mother_selected_before_current_read':True,
+                    'learned_main_path_executed':version==selected['selected_plan_version'] and not actual['production_errors'],
+                    'fixed_control_executed':plan['is_correct_fixed_raw_control']})
             immutable_json(out/'comparison_rows'/(version+'.json'),row);completed.append(row)
         immutable_json(out/'terminal.json',{'status':'completed','completed':completed,'full_pilot_completed':False})
         status.update({'status':'completed','ended_at':time.time(),'completed':[{
@@ -124,5 +178,14 @@ def run():
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('action',choices=['prepare','run']);p.add_argument('--all-candidates',action='store_true');a=p.parse_args()
-    prepare(all_candidates=a.all_candidates) if a.action=='prepare' else run()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('action', choices=['prepare', 'run'])
+    parser.add_argument('--all-candidates', action='store_true')
+    parser.add_argument('--reuse-library', action='store_true')
+    parser.add_argument('--diagnose-polarity', action='store_true')
+    args = parser.parse_args()
+    if args.action == 'prepare':
+        prepare(all_candidates=args.all_candidates, reuse_library=args.reuse_library,
+                diagnose_polarity=args.diagnose_polarity)
+    else:
+        run()
