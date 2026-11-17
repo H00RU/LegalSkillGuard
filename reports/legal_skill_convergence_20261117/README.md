@@ -1,6 +1,6 @@
 # 法律技能进化：收敛后的两项方法
 
-> **2026-11-18 已补齐跨库实施及主动优化要求（revision 3）。** 当前正式五库为OE、ContractNLI、MAUD、Airline、LegalBench Diversity。执行以[PLAN](PLAN.md)、[跨库实施](CROSS_DATASET_IMPLEMENTATION.md)、[数据选择](DATA_SELECTION.md)、[配置](protocol.json)与[新Goal](SERVER_GOAL.md)为准。单库低分不触发停止；允许最多3轮成体系的TRAIN/DEV优化后冻结验证。实验交付齐全不自动代表Goal达成，两方法仍须有实际贡献证据。
+> **2026-11-18 最终统一执行口径（revision 4）。** 当前正式五库为OE、ContractNLI、MAUD、Airline、LegalBench Diversity。执行以[PLAN](PLAN.md)、[跨库实施](CROSS_DATASET_IMPLEMENTATION.md)、[数据选择](DATA_SELECTION.md)、[配置](protocol.json)与[新Goal](SERVER_GOAL.md)为准。取消三轮上限；按真实进展自主优化，有明确依据继续，无新依据不重复失败。实验交付齐全不自动代表Goal达成，两方法仍须有实际贡献证据。
 
 **推荐投入：法律消费者约束的关系接口学习；共享语义约束的对照监督合成。**
 
