@@ -5,6 +5,7 @@ import re
 from functools import lru_cache
 from pathlib import Path
 import subprocess
+import sys
 
 import jsonschema
 
@@ -14,7 +15,7 @@ from legal_skill_guard.rr.scoring import task_score
 
 @lru_cache(maxsize=2048)
 def official_grade(family, answer_json, target_json):
-    result = subprocess.run(['/home/yndx/hhy/legal-skill-current/.venv/bin/python', '-m',
+    result = subprocess.run([sys.executable, '-m',
         'legal_skill_guard.skill_evolution.grade_worker'], cwd=Path(__file__).resolve().parents[2],
         input=json.dumps({'family': family, 'answer': json.loads(answer_json),
                           'target': json.loads(target_json)}, ensure_ascii=False),
