@@ -53,3 +53,44 @@ def select_fixed_plans(rows, lock_rows, plan_orders, source_view_ids):
             'candidate_development_metrics': reports,
             'calibration_or_structure_evaluation_grades_used': False}
     return selections
+
+
+def rank_external_pilot(candidates, fixed_pilot, source_view_ids, eligible_families):
+    """Apply the locked equal-library utility and logical-cost ordering."""
+    by_source = {row['source']: row['dataset'] for row in fixed_pilot}
+    libraries = sorted(set(by_source.values()))
+    if (len(fixed_pilot) != 20 or len(by_source) != 20 or len(libraries) != 5
+            or any(list(by_source.values()).count(library) != 4 for library in libraries)
+            or set(source_view_ids) != set(by_source)
+            or any(not views or len(views) != len(set(views)) for views in source_view_ids.values())):
+        raise ValueError('External comparison requires the complete locked five-library TRAIN pilot')
+    families = {candidate['family'] for candidate in candidates}
+    if len(families) != len(candidates) or families != set(eligible_families) or not families:
+        raise ValueError('Every eligible prespecified external family needs one comparison')
+
+    records = []
+    for candidate in candidates:
+        rows = candidate['rows']
+        condition = candidate['matched_public_conditions_sha256']
+        tokens = candidate['comparison_logical_tokens']
+        if (type(tokens) is not int or tokens < 0 or len(condition) != 64
+                or any(by_source.get(row['source']) != row['dataset'] for row in rows)):
+            raise ValueError('An external candidate lost its comparison scope or cost')
+        per_library = {}
+        for library in libraries:
+            expected = {(source, task) for source, dataset in by_source.items() if dataset == library
+                        for task in source_view_ids[source]}
+            family_rows = [row for row in rows if row['dataset'] == library]
+            per_library[library] = summarize(family_rows, expected)['mother_macro']
+        records.append({
+            'family': candidate['family'], 'per_library_selection_utility': per_library,
+            'equal_library_selection_utility': math.fsum(per_library.values()) / len(per_library),
+            'comparison_logical_tokens': tokens,
+            'matched_public_conditions_sha256': condition,
+        })
+    if len({row['matched_public_conditions_sha256'] for row in records}) != 1:
+        raise ValueError('External pilot readers must share source information, model and comparison budget')
+    order = sorted(records, key=lambda row: (-row['equal_library_selection_utility'],
+                                              row['comparison_logical_tokens'], row['family']))
+    return {'selected_family': order[0]['family'], 'ranked_candidates': order,
+            'selection_only_not_a_headline_metric': True, 'includes_all_twenty_TRAIN_sources': True}

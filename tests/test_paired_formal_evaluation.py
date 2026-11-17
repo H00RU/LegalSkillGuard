@@ -6,8 +6,10 @@ import tempfile
 import unittest
 
 from legal_skill_guard.paired_interfaces.formal_design import ARMS, CURVES
-from legal_skill_guard.paired_interfaces.formal_evaluation import FormalEvaluation, sealed, verify
+from legal_skill_guard.paired_interfaces.formal_evaluation import ConvergenceEvaluation, FormalEvaluation, sealed, verify
 from legal_skill_guard.rr.ledger import BudgetError
+from legal_skill_guard.rr.checkpoint import immutable_json
+from legal_skill_guard.skill_evolution.objects import digest
 
 
 class FormalEvaluationTests(unittest.TestCase):
@@ -86,6 +88,7 @@ class FormalEvaluationTests(unittest.TestCase):
             self.evaluation.evaluate('dev', 'M1_only', 1,
                 {s['dataset']: self.libraries['M1_only', 1] for s in self.sources['dev']}, interrupted)
         self.assertEqual(self.grades_opened, [])
+
         self.assertFalse(list(self.root.glob('dev/B1/M1_only/scores.json')))
 
     def test_changed_saved_prediction_cannot_reuse_existing_scores(self):
@@ -105,6 +108,68 @@ class FormalEvaluationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'every native task'):
             self.evaluation.evaluate('dev', 'M1_only', 1, libraries, lambda *a: {'native': {}})
         self.assertEqual(self.grades_opened, [])
+
+
+class ConvergenceEvaluationTests(unittest.TestCase):
+    def test_b2_required_and_test_loader_receives_only_the_exact_b8_selection(self):
+        def cohort(partition, count):
+            return [{
+                'key': f'{partition}/{dataset}/{index}', 'project_split': partition, 'dataset': dataset,
+                'views': [{'id': 'native', 'public': {}, 'answer_schema': {'type': 'boolean'}}],
+            } for dataset in sorted(ConvergenceEvaluation.datasets) for index in range(count)]
+
+        dev, test = cohort('dev', 16), cohort('test', 32)
+        identities = [{'source': row['key'], 'dataset': row['dataset'], 'project_split': 'test',
+                       'native_views': ['native'], 'public_content_sha256': digest(row)} for row in test]
+        binding = {'DEV_public_sha256': digest(dev), 'TEST_identities_sha256': digest(identities),
+                   'enforce_physical_actor_audit': True}
+        loads = []
+
+        def loader():
+            loads.append(True)
+            return test
+
+        def interrupted(*args):
+            raise BudgetError('Stop after entering the synthetic TEST actor')
+        interrupted.verify_saved = lambda *args: None
+
+        with tempfile.TemporaryDirectory() as root:
+            evaluation = ConvergenceEvaluation(root, dev, identities, binding=binding,
+                grade_provider=lambda *args: self.fail('No labels should be opened'), load_test=loader)
+            libraries = {(arm, batch): sealed({'arm': arm, 'batch': batch}, 'snapshot_sha256')
+                         for arm in evaluation.arms for batch in evaluation.curves}
+            training = sealed({'batch': 8, 'study_binding': binding, 'all_five_libraries_frozen': True,
+                               'libraries': {arm: libraries[arm, 8]['snapshot_sha256'] for arm in evaluation.arms}},
+                              'training_seal_sha256')
+            arm = evaluation.arms[0]
+            final = dict.fromkeys(evaluation.datasets, libraries[arm, 8])
+            with self.assertRaisesRegex(ValueError, 'sealed fixed B8'):
+                evaluation.evaluate('test', arm, 8, final, interrupted)
+            self.assertEqual(loads, [])
+            held_out_cell = None
+            for (family, batch), library in libraries.items():
+                report = sealed({'study_binding': binding, 'arm': family, 'batch': batch,
+                    'partition': 'dev', 'public_cohort_sha256': digest(dev),
+                    'datasets': dict.fromkeys(evaluation.datasets, {'mother_macro': float(batch == 1)}),
+                    'libraries': dict.fromkeys(evaluation.datasets, library['snapshot_sha256'])}, 'cell_sha256')
+                path = evaluation.cell_path('dev', family, batch) / 'scores.json'
+                if family == arm and batch == 2:
+                    held_out_cell = path, report
+                else:
+                    immutable_json(path, report)
+            with self.assertRaises(FileNotFoundError):
+                evaluation.freeze(libraries, training_B8_seal=training)
+            immutable_json(*held_out_cell)
+            freeze = evaluation.freeze(libraries, training_B8_seal=training)
+            self.assertEqual(loads, [])
+            self.assertTrue(all(row['checkpoint_batch'] == 8 for row in freeze['choices'][arm].values()))
+            with self.assertRaisesRegex(ValueError, 'own exact arm'):
+                evaluation.evaluate('test', arm, 8, dict.fromkeys(evaluation.datasets, libraries[arm, 1]),
+                                    interrupted, freeze=freeze)
+            self.assertEqual(loads, [])
+            with self.assertRaises(BudgetError):
+                evaluation.evaluate('test', arm, 8, final, interrupted, freeze=freeze)
+            self.assertEqual(loads, [True])
 
 
 if __name__ == '__main__':

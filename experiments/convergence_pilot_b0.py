@@ -22,6 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BASE = ROOT / 'artifacts/legal_skill_convergence_20261117'
 HANDOFF = BASE / 'handoff'
 POINTER = HANDOFF / 'pilot_b0_current.json'
+CNI_INDEXED_POINTER = HANDOFF / 'cni_indexed_evidence_current.json'
 LEDGER = ROOT / 'artifacts/rr_v2_preflight/research_ledger.sqlite3'
 LEGACY_TRAIN = ROOT / 'artifacts/legal_skill_evolution_20261111/prepared/train'
 
@@ -34,11 +35,11 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def write_status(out, state):
+def write_status(out, state, pointer=POINTER):
     payload = {'artifact_root': str(out.relative_to(ROOT)), **state}
-    temp = POINTER.with_suffix('.tmp')
+    temp = pointer.with_suffix('.tmp')
     temp.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n')
-    temp.replace(POINTER)
+    temp.replace(pointer)
 
 
 def cells_for(source):
@@ -131,8 +132,54 @@ def prepare():
                       'executor_cells': count}), flush=True)
 
 
-def run():
-    out = ROOT / read(POINTER)['artifact_root']
+def prepare_cni_indexed():
+    prior = ROOT / read(POINTER)['artifact_root']
+    terminal = read(prior / 'terminal.json')
+    baseline = read(prior / 'binding.json')
+    cohort = read(prior / 'public_TRAIN_pilot.json')
+    if terminal['status'] != 'completed' or digest(cohort) != baseline['sources_digest']:
+        raise ValueError('Use the settled, exact common B0 cohort')
+    originals = [source for source in cohort if source['dataset'] == 'ContractNLI']
+    if len(originals) != 4 or any(len(source['views']) != 17 for source in originals):
+        raise ValueError('The revision must preserve all four documents and their native hypotheses')
+    sources = [{**source, 'evidence_presentation': 'explicit_zero_based_spans'} for source in originals]
+    for source in sources:
+        public = source_bundle(source)['public']
+        for view, indexed in zip(source['views'], public['native_views'], strict=True):
+            document = public['shared_documents'][indexed['public']['document_ref']]
+            text = document['source_text']
+            if (text != view['public']['source_text']
+                    or document['sentence_spans'] != view['public']['sentence_spans']
+                    or document['evidence_units'] != [
+                        {'id': index, 'start': start, 'end': end, 'text': text[start:end]}
+                        for index, (start, end) in enumerate(view['public']['sentence_spans'])
+                    ]):
+                raise ValueError('Indexed evidence must preserve every native ID and exact source span')
+    grading_paths = {'ContractNLI': baseline['grading_paths']['ContractNLI']}
+    binding = {
+        **baseline,
+        'study_id': 'convergence_CNI_common_indexed_evidence_01',
+        'prior_terminal_sha256': sha(prior / 'terminal.json'),
+        'prior_root': str(prior.relative_to(ROOT)),
+        'source_sha256': {name: sha(ROOT / name) for name in baseline['source_sha256']},
+        'sources_digest': digest(sources),
+        'grading_paths': grading_paths,
+        'grading_file_sha256': {path: baseline['grading_file_sha256'][path] for path in grading_paths.values()},
+        'per_source_model_budget': 'one native bundle of all 17 hypotheses',
+        'common_evidence_presentation_only': True,
+    }
+    out = BASE / 'cni_common_indexed_evidence' / digest(binding)
+    if (out / 'terminal.json').exists():
+        print(json.dumps({'status': 'completed', 'new_calls': 0, 'reused_terminal': True}), flush=True)
+        return
+    immutable_json(out / 'binding.json', binding)
+    immutable_json(out / 'public_TRAIN_pilot.json', sources)
+    write_status(out, {'status': 'prepared', 'mothers': 4, 'executor_cells': 4}, CNI_INDEXED_POINTER)
+    print(json.dumps({'status': 'prepared', 'binding_sha256': digest(binding), 'executor_cells': 4}), flush=True)
+
+
+def run(pointer=POINTER):
+    out = ROOT / read(pointer)['artifact_root']
     if (out / 'terminal.json').exists():
         print(json.dumps({'status': 'completed', 'reused_terminal': True, 'new_calls': 0}))
         return
@@ -143,10 +190,17 @@ def run():
     sources = read(out / 'public_TRAIN_pilot.json')
     if digest(sources) != binding['sources_digest']:
         raise ValueError('Locked TRAIN binding changed')
+    prior_metrics = None
+    if binding.get('common_evidence_presentation_only'):
+        prior_terminal = ROOT / binding['prior_root'] / 'terminal.json'
+        if sha(prior_terminal) != binding['prior_terminal_sha256']:
+            raise ValueError('The paired common B0 result changed')
+        prior_metrics = read(prior_terminal)['native_metrics_per_library']['ContractNLI']
     with sqlite3.connect(LEDGER.as_uri() + '?mode=ro', uri=True) as db:
         if db.execute("select 1 from calls where status='reserved' limit 1").fetchone():
             raise ValueError('Settle existing physical requests before starting')
-    ledger = EvolutionLedger(LEDGER, run_id='convergence-pilot-B0-' + digest(binding)[:16],
+    run_prefix = 'convergence-CNI-indexed-' if prior_metrics is not None else 'convergence-pilot-B0-'
+    ledger = EvolutionLedger(LEDGER, run_id=run_prefix + digest(binding)[:16],
                              sources={'train': [source['key'] for source in sources], 'dev': [], 'test': []},
                              binding=binding)
     executor = FrozenExecutor(ledger, out, binding['executor'])
@@ -156,7 +210,7 @@ def run():
     program = binding['program']
     grades = {dataset: read(ROOT / path) for dataset, path in binding['grading_paths'].items()}
     rows = []
-    write_status(out, {'status': 'running', 'pid': os.getpid(), 'completed': 0})
+    write_status(out, {'status': 'running', 'pid': os.getpid(), 'completed': 0}, pointer)
     try:
         for source in sources:
             predictions = {}
@@ -175,7 +229,7 @@ def run():
             row = {'source': source['key'], 'dataset': dataset, 'native': predictions, 'grades': native_grades}
             immutable_json(out / 'source_results' / (digest(source['key']) + '.json'), row)
             rows.append(row)
-            write_status(out, {'status': 'running', 'pid': os.getpid(), 'completed': len(rows)})
+            write_status(out, {'status': 'running', 'pid': os.getpid(), 'completed': len(rows)}, pointer)
         by_dataset = defaultdict(lambda: defaultdict(list))
         cni_evidence = []
         diversity_predictions = {}
@@ -191,26 +245,35 @@ def run():
                                     'mean': sum(score or 0.0 for score in scores) / len(scores)}
                             for family, scores in families.items()}
                   for dataset, families in by_dataset.items()}
-        report['LegalBench_Diversity'].update(score_diversity(
-            diversity_predictions,
-            {source: grades['LegalBench_Diversity'][source] for source in diversity_predictions}))
-        report['ContractNLI']['evidence_f1'] = {
-            'mean': sum(cni_evidence) / len(cni_evidence) if cni_evidence else None,
-            'scored_annotations': len(cni_evidence),
-        }
+        if diversity_predictions:
+            report['LegalBench_Diversity'].update(score_diversity(
+                diversity_predictions,
+                {source: grades['LegalBench_Diversity'][source] for source in diversity_predictions}))
+        if cni_evidence:
+            report['ContractNLI']['evidence_f1'] = {
+                'mean': sum(cni_evidence) / len(cni_evidence),
+                'scored_annotations': len(cni_evidence),
+            }
         terminal = {'status': 'completed', 'mothers': len(rows), 'native_metrics_per_library': report,
                     'not_independent_validation': True}
+        if prior_metrics is not None:
+            terminal.update(common_evidence_presentation_only=True,
+                            old_native_metrics=prior_metrics)
         immutable_json(out / 'terminal.json', terminal)
-        write_status(out, terminal)
+        write_status(out, terminal, pointer)
         print(json.dumps(terminal, ensure_ascii=False), flush=True)
     except Exception as error:
         write_status(out, {'status': 'interrupted_or_failed', 'completed': len(rows),
-                           'error_type': type(error).__name__})
+                           'error_type': type(error).__name__}, pointer)
         raise
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('phase', choices=('prepare', 'run'))
+    parser.add_argument('--cni-indexed', action='store_true')
     args = parser.parse_args()
-    (prepare if args.phase == 'prepare' else run)()
+    if args.phase == 'prepare':
+        (prepare_cni_indexed if args.cni_indexed else prepare)()
+    else:
+        run(CNI_INDEXED_POINTER if args.cni_indexed else POINTER)

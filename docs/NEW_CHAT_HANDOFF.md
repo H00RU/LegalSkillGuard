@@ -8,7 +8,7 @@
 
 先读AGENTS.md、PROJECT_MAP.md、docs/CURRENT_GOAL.md，调用get_goal；不创建/重置Goal。固定方案reports/legal_skill_convergence_20261117/，上游37a76ff。旧方案只作资产与失败证据。
 
-每次压缩/中断后读artifacts/legal_skill_convergence_20261117/handoff/run_state.json及最新pointer，核对实际进程、工具会话、账本reserved、冻结绑定和terminal。从未完成处继续，不凭旧PID或计划重启任务。实际账本计数及在途响应以 run_state 和当前 B0 指针为准。M2 补丁比较结算时累计 12455 条，当前 Goal 物理请求 28 次（教师 2、Qwen 26），共 140185 tokens。B0 用量继续在原账本累加。服务原PID536850/537626保留，Qwen thinking OFF；教师gpt-6.1-sol/high已真实验证。
+每次压缩/中断后读artifacts/legal_skill_convergence_20261117/handoff/run_state.json及最新pointer，核对实际进程、工具会话、账本reserved、冻结绑定和terminal。从未完成处继续，不凭旧PID或计划重启任务。实际账本计数及在途响应以 run_state 和对应的当前指针为准。M2 补丁比较结算时累计 12455 条，当前 Goal 物理请求 28 次（教师 2、Qwen 26），共 140185 tokens。B0 用量继续在原账本累加。服务原PID536850/537626保留，Qwen thinking OFF；教师gpt-6.1-sol/high已真实验证。
 
 ## 必须保留的真实结论
 
@@ -34,7 +34,7 @@ shared_semantics是新M2，旧风险选择器不用。diversity_supervision 有�
 
 固定名册128/80/160，CNI17、MAUD3，MAUD TRAIN23/72语法section扩展；旧审计输入变更须复核。读normalized_inputs_current/diversity_train_current/diversity_holdout_current/contract_nearduplicate_current获取版本。不要打开sealed_test或sealed_native，不要全目录搜索原始数据。名册锁定回执为 sealed_source_roster_current.json，模型和技能库的 B8 冻结独立完成。未做 TEST 评分。
 
-82e7994a39abd89da1afd734821bf4e7895d3991 已公开并核对分支引用；后续复用负结果、成本与离线重放器当前以本地包为准。重放命令python -m experiments.convergence_replay_public_evidence，已0新调用重现10逻辑解码/8物理响应并核150文件hash，不需私有账本或原始缓存。包只含公开TRAIN，不含DEV/TEST封存、整库账本或凭据。
+7639343311687588918ed2a6afc46fd087327a0a 已公开并核对分支引用；后续复用负结果、成本与离线重放器当前以本地包为准。重放命令python -m experiments.convergence_replay_public_evidence，已0新调用重现10逻辑解码/8物理响应并核150文件hash，不需私有账本或原始缓存。包只含公开TRAIN，不含DEV/TEST封存、整库账本或凭据。
 
 曾因疑似私密合同外发被自动审批拒绝；官方公开MAUD data.zip的Git blob74dc33bf4b8720df325d2858ea74c2790f16db20与本地完全一致，本次每段请求亦是公开原文切片证明后，同一动作重新审批获准，当前无待用户授权阻断。不要重问已授权目的地或资源。
 
@@ -42,4 +42,15 @@ shared_semantics是新M2，旧风险选择器不用。diversity_supervision 有�
 
 从共同 B0 读完后逐来源误差继续配对修订和完整小试。下一阶段沿既定方案完成 128 来源八批矩阵、DEV 曲线、冻结 TEST、消融和迁移。英文方法与开发结果初稿保存在本地 paper/METHODS_AND_DEVELOPMENT_RESULTS.md。当前Goal active且未达成，不以交报告或跑通机制宣布完成；有证据+实质变化+可检验预期才继续，不设置虚构优化轮次上限。
 
-当前无研究请求在途。连续账本 12478、reserved 0，新 Goal 51 笔物理调用（49 执行器、2 教师），合计 271996 tokens。B0 的四个 MAUD Knowledge Definition 原生答案均读成 Actual knowledge，标注均为 Constructive knowledge，证据指向判定条件。自然未知所有权的 OpenExempt EC 选择母来源原生 F1 为 0。逐来源结果和精确源码快照已封存，不能重跑共同 B0。
+
+## 最近运行核验
+
+固定 20 母来源共同 B0 已封存。MAUD Knowledge Definition 使用同四个 TRAIN 母来源和同一原生问题。八个参考输入经生产链得到对应原生答案。旧引用格式的实际读数见 `artifacts/legal_skill_convergence_20261117/handoff/maud_knowledge_probe_current.json`，会话 96236。核对时已结算 5/8 个逻辑单元，其中 4 次以长度上限拒绝。任务在途，保护全部绑定文件。
+
+从两臂的尾部空白故障实现原文索引与有限标量传输。四个来源的 8258 个合法符号经离线解码均等价，部署版 XGrammar 可编译只含字面量的语法。结算旧绑定后接入生产分支并用相同四个母来源比较。ContractNLI 公共证据索引检查已锁定原四份文档和完整 68 个原生假设，见 `cni_indexed_evidence_current.json`。两项均未产生新模型结果。
+
+OpenExempt 自然未知所有权更新已准备，见 `m2_update_probe_current.json`。已离线证明其固定原生 EC 请求与已付 B0 wire 完全一致，实际执行必须复用该响应。工具会话 43131 正在等待 MAUD 终态与零在途账本，核验并封存旧源码后接续同一个绑定。恢复时先核对该会话，避免重复启动。一次既定教师调用和九个逻辑单元，两条补丁与同一原生控制和共享投影比较。
+
+外部方法选择按完整 20 母来源的等库效用排序。正式冻结支持 B0/B1/B2/B4/B8 的完整 DEV 证据和所有臂固定 B8。离线检查覆盖外部对照缺项、成本择同分、B2 缺失和过早打开 TEST。最近定向检查为 64 项及两个子检查通过。五臂正式训练和 TEST 未启动。
+
+核对时连续账本 12484 条，含 1 条在途。原基线 12427 保留。既有远端研究分支核验至 `7639343311687588918ed2a6afc46fd087327a0a`。177 条源审与数据曝光记录保留。

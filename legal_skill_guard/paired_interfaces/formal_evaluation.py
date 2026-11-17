@@ -5,7 +5,7 @@ The grading callback is invoked after the whole cell's predictions are sealed.
 DEV chooses among B1/B4/B8 within each dataset; B0 is a curve point. A changed
 library, source cohort, prediction or freeze cannot silently reuse old scores.
 """
-from collections import defaultdict
+from collections import Counter, defaultdict
 from copy import deepcopy
 import json
 from pathlib import Path
@@ -37,6 +37,9 @@ def check_library(library, arm, batch):
 
 
 class FormalEvaluation:
+    arms = ARMS
+    curves = CURVES
+
     def __init__(self, root, sources, *, binding, grade_provider):
         self.root, self.binding = Path(root), deepcopy(binding)
         self.sources = deepcopy(sources)
@@ -56,12 +59,12 @@ class FormalEvaluation:
         return self.root / partition / ('B' + str(batch)) / arm
 
     def evaluate(self, partition, arm, batch, libraries, actor, *, freeze=None):
-        if arm not in ARMS or partition not in self.sources:
+        if arm not in self.arms or partition not in self.sources:
             raise ValueError('Use a prespecified system and evaluation partition')
         if self.binding.get('enforce_physical_actor_audit') and not callable(getattr(actor, 'verify_saved', None)):
             raise ValueError('A formal scientific actor must audit saved physical execution evidence')
-        if partition == 'dev' and batch not in CURVES:
-            raise ValueError('DEV is measured only at B0/B1/B4/B8')
+        if partition == 'dev' and batch not in self.curves:
+            raise ValueError('DEV is measured only at the recorded curve checkpoints')
         if partition == 'test':
             if batch != 8 or freeze is None:
                 raise ValueError('TEST requires the original B8 selection freeze')
@@ -208,4 +211,100 @@ class FormalEvaluation:
                 or freeze['TEST_public_sha256'] != digest(self.sources['test'])
                 or freeze['TEST_grading_opened_for_selection'] is not False):
             raise ValueError('TEST requires the exact locally sealed original-study freeze')
+        return freeze
+
+
+class ConvergenceEvaluation(FormalEvaluation):
+    """Revision 4 evaluation reuses native grading and keeps TEST closed until B8."""
+
+    arms = ('common_teacher_skill_learning', 'method_one_only', 'method_two_only', 'both',
+            'strongest_matched_external_baseline')
+    curves = (0, 1, 2, 4, 8)
+    datasets = frozenset({'OpenExempt', 'ContractNLI', 'MAUD', 'RuleArena_Airline', 'LegalBench_Diversity'})
+
+    def __init__(self, root, dev, test_identities, *, binding, grade_provider, load_test):
+        self.root, self.binding = Path(root), deepcopy(binding)
+        self.sources = {'dev': deepcopy(dev)}
+        self.test_identities = deepcopy(test_identities)
+        self.grade_provider, self.load_test = grade_provider, load_test
+        if (not binding.get('enforce_physical_actor_audit')
+                or Counter(s['dataset'] for s in dev) != {dataset: 16 for dataset in self.datasets}
+                or Counter(s['dataset'] for s in test_identities) != {dataset: 32 for dataset in self.datasets}):
+            raise ValueError('Bind audited physical execution and the fixed five-library DEV and TEST quotas')
+        keys = [source['key'] for source in dev] + [row['source'] for row in test_identities]
+        if len(set(keys)) != len(keys) or any(row['project_split'] != 'test' for row in test_identities):
+            raise ValueError('DEV and TEST require unique, split-correct mothers')
+        for source in dev:
+            tasks = [view['id'] for view in source['views']]
+            if not tasks or len(tasks) != len(set(tasks)):
+                raise ValueError('Bind all distinct DEV native tasks per source')
+        if (binding.get('DEV_public_sha256') != digest(dev)
+                or binding.get('TEST_identities_sha256') != digest(test_identities)):
+            raise ValueError('The study binding must match the sealed DEV and TEST identities')
+
+    def evaluate(self, partition, arm, batch, libraries, actor, *, freeze=None):
+        if partition == 'test':
+            self.verify_freeze(freeze)
+            if (arm not in self.arms or batch != 8 or set(libraries) != self.datasets
+                    or not callable(getattr(actor, 'verify_saved', None))):
+                raise ValueError('TEST dispatch needs an original arm, B8, and an audited actor')
+            for dataset, library in libraries.items():
+                check_library(library, arm, 8)
+                if library['snapshot_sha256'] != freeze['choices'][arm][dataset]['library_sha256']:
+                    raise ValueError('TEST cannot use a library outside the B8 freeze')
+            if 'test' not in self.sources:
+                loaded = self.load_test()
+                actual = {source['key']: (source['dataset'], digest(source), [v['id'] for v in source['views']])
+                          for source in loaded}
+                expected = {row['source']: (row['dataset'], row['public_content_sha256'], row['native_views'])
+                            for row in self.test_identities}
+                if len(loaded) != len(actual) or actual != expected:
+                    raise ValueError('The loaded TEST public data differ from the sealed identities')
+                self.sources['test'] = deepcopy(loaded)
+        return super().evaluate(partition, arm, batch, libraries, actor, freeze=freeze)
+
+    def freeze(self, libraries, *, training_B8_seal):
+        verify(training_B8_seal, 'training_seal_sha256')
+        required = {(arm, batch) for arm in self.arms for batch in self.curves}
+        if (training_B8_seal.get('study_binding') != self.binding or training_B8_seal.get('batch') != 8
+                or not training_B8_seal.get('all_five_libraries_frozen') or set(libraries) != required):
+            raise ValueError('Full five-arm training and all five DEV checkpoints must precede TEST')
+        cells = {}
+        for arm, batch in sorted(required):
+            library = check_library(libraries[arm, batch], arm, batch)
+            report = json.loads((self.cell_path('dev', arm, batch) / 'scores.json').read_text())
+            verify(report, 'cell_sha256')
+            if (report['study_binding'] != self.binding or report['arm'] != arm or report['batch'] != batch
+                    or report['partition'] != 'dev' or report['public_cohort_sha256'] != digest(self.sources['dev'])
+                    or set(report['datasets']) != self.datasets
+                    or report['libraries'] != dict.fromkeys(self.datasets, library['snapshot_sha256'])):
+                raise ValueError('DEV evidence must bind the correct cohort and exact training checkpoint')
+            cells[f'{arm}:B{batch}'] = report['cell_sha256']
+        final = {arm: libraries[arm, 8]['snapshot_sha256'] for arm in self.arms}
+        if final != training_B8_seal.get('libraries'):
+            raise ValueError('TEST must use the exact five completed B8 training libraries')
+        result = sealed({
+            'batch': 8, 'study_binding': self.binding,
+            'choices': {arm: {dataset: {'checkpoint_batch': 8, 'library_sha256': library}
+                              for dataset in sorted(self.datasets)} for arm, library in final.items()},
+            'training_B8_seal': training_B8_seal, 'DEV_cells': cells,
+            'DEV_public_sha256': digest(self.sources['dev']),
+            'TEST_identities_sha256': digest(self.test_identities),
+            'TEST_public_loaded_for_selection': False, 'TEST_grading_opened_for_selection': False,
+            'selection_rule': 'one fixed B8 checkpoint for each arm across every dataset',
+        }, 'freeze_sha256')
+        immutable_json(self.root / 'selection_freeze.json', result)
+        return result
+
+    def verify_freeze(self, freeze):
+        if freeze is None:
+            raise ValueError('TEST requires the sealed fixed B8 selection')
+        verify(freeze, 'freeze_sha256')
+        path = self.root / 'selection_freeze.json'
+        if (not path.exists() or json.loads(path.read_text()) != freeze or freeze['batch'] != 8
+                or freeze['study_binding'] != self.binding or freeze['TEST_identities_sha256'] != digest(self.test_identities)
+                or freeze['DEV_public_sha256'] != digest(self.sources['dev'])
+                or freeze['TEST_public_loaded_for_selection'] is not False
+                or freeze['TEST_grading_opened_for_selection'] is not False):
+            raise ValueError('TEST requires the exact locally sealed fixed B8 study')
         return freeze

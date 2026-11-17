@@ -21,10 +21,23 @@ def source_bundle(source):
             identity = digest(context)
             documents.setdefault(identity, context)
             fields['document_ref'] = identity
+        if source.get('evidence_presentation') == 'explicit_zero_based_spans':
+            for context in documents.values():
+                text = context['source_text']
+                spans = context['sentence_spans']
+                if any(not (0 <= start < end <= len(text)) for start, end in spans):
+                    raise ValueError('A native CNI evidence span is outside its exact source')
+                context['evidence_units'] = [
+                    {'id': index, 'start': start, 'end': end, 'text': text[start:end]}
+                    for index, (start, end) in enumerate(spans)
+                ]
         public['shared_documents'] = documents
-        public['document_reference_instruction'] = (
-            'For every hypothesis, use the document and sentence spans identified by document_ref '
-            'in shared_documents. Sentence evidence indices refer to that inventory.')
+        instruction = ('For every hypothesis, use the document and sentence spans identified by document_ref '
+                       'in shared_documents. Sentence evidence indices refer to that inventory.')
+        if source.get('evidence_presentation') == 'explicit_zero_based_spans':
+            instruction += (' Copy each cited evidence_units id as written. Evidence indices are zero-based. '
+                            'For NotMentioned, the evidence list is empty.')
+        public['document_reference_instruction'] = instruction
     return {'id': 'all_native_source_tasks',
             'public': public,
             'answer_schema': record_schema({v['id']: v['answer_schema'] for v in views}),
