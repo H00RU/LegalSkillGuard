@@ -28,7 +28,12 @@ def decode_response(source, view, plan, response):
             from legal_skill_guard.paired_interfaces import relational_program
             if digest(source)!=plan['source_public_sha256']:
                 raise ValueError('A generated consumer program lost its source binding')
-            decoder=relational_program.decode(plan['relational_program'],raw,view['relational_public_source'])
+            if 'indexed_evidence_binding' in plan:
+                from legal_skill_guard.paired_interfaces import indexed_relational_read
+                decoder = indexed_relational_read.decode(
+                    plan['relational_program'], plan['indexed_evidence_binding'], raw, view['relational_public_source'])
+            else:
+                decoder=relational_program.decode(plan['relational_program'],raw,view['relational_public_source'])
             relational_native={task:{'handled':decoder['outputs'].get(task) is not None,
                 'answer':decoder['outputs'].get(task),'reason':None if decoder['outputs'].get(task) is not None else 'unknown local consumer output',
                 'paired_relational_consumer_executed':True,'fallback_executed':False} for task in view['native_tasks']}

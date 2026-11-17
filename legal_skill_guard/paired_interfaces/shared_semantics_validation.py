@@ -7,8 +7,30 @@ single-witness controls and keeps the native TRAIN comparison separate.
 from copy import deepcopy
 
 from legal_skill_guard.paired_interfaces.shared_semantics import (
-    ExplanationState, allowed_relation, consistent_assignment, has_assertion, matches_assertions,
+    ExplanationState, allowed_relation, consistent_assignment, has_assertion, is_unobserved, matches_assertions,
 )
+
+
+def unsupported_literal_assertions(outputs, allowed_signatures, fields):
+    """Literal source assertions require entailment across all admissible readings."""
+    allowed_signatures = tuple(allowed_signatures)
+    if not allowed_signatures or any(len(signature) != len(outputs) for signature in allowed_signatures):
+        raise ValueError('Literal assertion checks require nonempty matched reference signatures')
+    fields = set(fields)
+    unsupported = []
+    for index, output in enumerate(outputs):
+        if is_unobserved(output):
+            continue
+        if type(output) is not dict or not fields <= output.keys():
+            raise ValueError('Literal assertion fields must be present in the declared local projection')
+        for field in sorted(fields):
+            observed = output[field]
+            if is_unobserved(observed):
+                continue
+            if not all(matches_assertions(observed, signature[index][field])
+                       for signature in allowed_signatures):
+                unsupported.append({'case_index': index, 'field': field})
+    return unsupported
 
 
 def validate_patch(theory, patch_sha256, group_reads, native_comparisons, *,
@@ -36,7 +58,9 @@ def validate_patch(theory, patch_sha256, group_reads, native_comparisons, *,
                 verify_projection(patch_sha256, identity, case, output),
         )
         independent = allowed_relation(theory, cases, mode='independent_completions')
-        relations.append(allowed_relation(theory, cases))
+        relation = allowed_relation(theory, cases)
+        relations.append(relation)
+        literal_fields = group.get('literal_assertion_fields', ())
         controls.append({
             'source_ids': [case.source_id for case in cases],
             'independent_per_case_compatible': any(
@@ -46,6 +70,9 @@ def validate_patch(theory, patch_sha256, group_reads, native_comparisons, *,
             'shared_prefix_compatible': verified['cumulative_shared_explanation_exists'],
             'asserted_outputs_present': has_assertion(outputs),
         })
+        if literal_fields:
+            controls[-1]['unsupported_literal_assertions'] = unsupported_literal_assertions(
+                outputs, relation['signatures'].values(), literal_fields)
 
     if relations:
         factors = [[assignment for support in relation['supports'].values() for assignment in support]
@@ -80,6 +107,8 @@ def validate_patch(theory, patch_sha256, group_reads, native_comparisons, *,
     asserted = any(row['asserted_output_present'] for row in observations)
     if refuted:
         status = 'rejected_by_shared_explanation'
+    elif any(control.get('unsupported_literal_assertions') for control in controls):
+        status = 'rejected_unsupported_literal_assertion'
     elif not asserted or not native_sources:
         status = 'insufficient_positive_supervision'
     elif native_gain <= 0:

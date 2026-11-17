@@ -66,9 +66,13 @@ def bind(program, source):
     return {'source_text_sha256': digest(text), 'spans': spans}
 
 
-def reader_schema(program, binding):
+def reader_schema(program, binding, *, factorized=False):
     _, unit = indexed_unit(program)
     _, readings = encoded_relations(unit['asset'])
+    if factorized:
+        anchors = '|'.join(map(re.escape, binding['spans']))
+        symbols = '|'.join(map(re.escape, readings))
+        return {'type': 'string', 'pattern': rf'^(?:{UNREAD}|(?:{anchors})\|(?:{symbols}))$'}
     return {'type': 'string', 'enum': [
         UNREAD, *(f'{anchor}|{reading}' for anchor in binding['spans'] for reading in readings)
     ]}
@@ -120,7 +124,7 @@ def decode(program, binding, raw, source):
     return relational_program.decode(program, expand(program, binding, raw, source), source)
 
 
-def reformat(view):
+def reformat(view, *, factorized=False):
     """Build both matched reader wires from one existing public source view."""
     view = deepcopy(view)
     source = view['relational_public_source']
@@ -129,11 +133,11 @@ def reformat(view):
         program = plan['relational_program']
         binding = bind(program, source)
         plan['indexed_evidence_binding'] = binding
-        plan['schema'] = reader_schema(program, binding)
+        plan['schema'] = reader_schema(program, binding, factorized=factorized)
         plan['system'] = instructions(program)
         plan['reader_template_sha256'] = relational_program.template_version(
             program, system=plan['system'], public_rules=plan['reader_template_sha256'],
-            protocol='indexed_source_evidence_scalar_v1')
+            protocol='indexed_source_evidence_factorized_v1' if factorized else 'indexed_source_evidence_scalar_v1')
         plan['name'] += '_indexed'
         plan['version'] = digest({key: value for key, value in plan.items() if key != 'version'})
     view['read_input']['indexed_evidence'] = [

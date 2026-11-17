@@ -1,5 +1,6 @@
 from copy import deepcopy
 import json
+import re
 
 import pytest
 
@@ -7,13 +8,15 @@ from legal_skill_guard.paired_interfaces import indexed_relational_read as index
 from legal_skill_guard.paired_interfaces import maud_knowledge_relational as knowledge
 from legal_skill_guard.paired_interfaces import relational_program
 from legal_skill_guard.paired_interfaces.pilot_metrics import rank_external_pilot
+from legal_skill_guard.paired_interfaces.production_decode import decode_response
 from legal_skill_guard.paired_interfaces.residual import encode
 
 
 def test_indexed_wire_preserves_consumer_and_rejects_span_exchange():
     public = {'source_text': 'Other defined words.\n Knowledge means information after reasonable inquiry.'}
     source = {'key': 'maud_fixture', 'views': [{'id': knowledge.TASK, 'public': public}]}
-    _, view = knowledge.build(source)
+    selected, view = knowledge.build(source)
+    view = indexed.reformat(view)
     fields = {'qualification_target': 'target_definition', 'inquiry_effect': 'required',
               'explicit_actual_restriction': None}
     for plan in view['plans']:
@@ -24,7 +27,11 @@ def test_indexed_wire_preserves_consumer_and_rejects_span_exchange():
         order, _ = indexed.encoded_relations(asset)
         relations = encode(asset['features'], fields)
         raw = '|'.join(['s2', *(indexed.symbol(relations[name]) for name in order)])
-        assert raw in indexed.reader_schema(program, binding)['enum']
+        scalar = indexed.reader_schema(program, binding)['enum']
+        factored = indexed.reader_schema(program, binding, factorized=True)['pattern']
+        assert raw in scalar
+        assert all(re.fullmatch(factored, value) for value in scalar)
+        assert not re.fullmatch(factored, raw.replace('s2|', 's99|'))
         original = {name: {'status': 'complete', 'evidence': [{
             'field': 'source_text', 'quote': ' Knowledge means information after reasonable inquiry.'}],
             'observation': {'source_anchor': name, 'relations': relations}}}
@@ -33,6 +40,12 @@ def test_indexed_wire_preserves_consumer_and_rejects_span_exchange():
             assert evidence['quote'] == public['source_text'][start:end]
         assert indexed.decode(program, binding, raw, public) == relational_program.decode(program, original, public)
         assert indexed.decode(program, binding, indexed.UNREAD, public)['outputs'][knowledge.TASK] is None
+        result = decode_response(selected, view, plan, {'content': json.dumps(raw), 'finish_reason': 'stop'})
+        assert result['production_errors'] == []
+        assert result['native'][knowledge.TASK]['answer'] == 'Constructive knowledge'
+        refused = decode_response(selected, view, plan, {'content': json.dumps(raw), 'finish_reason': 'length'})
+        assert refused['production_errors']
+        assert refused['native'][knowledge.TASK]['answer'] is None
         with pytest.raises(ValueError, match='Unknown evidence'):
             indexed.decode(program, binding, raw.replace('s2|', 's99|'), public)
         exchanged = deepcopy(binding)

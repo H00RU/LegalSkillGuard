@@ -145,6 +145,34 @@ class SharedSemanticsTests(unittest.TestCase):
         self.assertFalse(result['physical_model_evidence_verified'])
         self.assertTrue(result['native_positive_supervision_required'])
 
+    def test_possible_ownership_is_not_a_supported_literal_assertion(self):
+        source = case()
+        edited = replace(case(3500), source_id='amount_edit')
+        review = replace(theory(), root_alternatives={'root:A': [
+            {'ownership': False}, {'ownership': True}],
+        }, reference=lambda values, law: {
+            'ownership': values['ownership'], 'stated_value': values['amount'],
+        })
+        inputs = {
+            'cases': [source, edited], 'outputs': [
+                {'ownership': True, 'stated_value': 3200}, {'ownership': True, 'stated_value': 3500},
+            ],
+            'physical_call_ids': ['source', 'edit'], 'literal_assertion_fields': ('ownership', 'stated_value'),
+        }
+        arguments = {'visible_train': {'root:A'}, 'verify_projection': lambda *args: True,
+                     'verify_native_pair': lambda *args: True}
+        native = [{'source': 'root:A', 'baseline_utility': 0, 'patch_utility': 1}]
+        result = validate_patch(review, 'c' * 64, [inputs], native, **arguments)
+        assert result['matched_controls'][0]['shared_prefix_compatible']
+        assert result['status'] == 'rejected_unsupported_literal_assertion'
+        assert result['matched_controls'][0]['unsupported_literal_assertions'] == [
+            {'case_index': 0, 'field': 'ownership'}, {'case_index': 1, 'field': 'ownership'},
+        ]
+        for output in inputs['outputs']:
+            output['ownership'] = None
+        result = validate_patch(review, 'c' * 64, [inputs], native, **arguments)
+        assert result['status'] == 'eligible_train_update'
+
     def test_candidate_predictions_cannot_supply_audited_K(self):
         with self.assertRaisesRegex(ValueError,'independently'):
             replace(theory(),provenance=({'kind':'candidate_prediction','evidence_sha256':'a'*64},))

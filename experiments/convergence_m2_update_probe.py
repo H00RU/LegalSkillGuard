@@ -332,7 +332,8 @@ def run():
             receipts[name] = validate_patch(
                 group['theory'], trial['program_sha256'],
                 [{'cases': cases, 'outputs': trial['controlled_outputs'],
-                  'physical_call_ids': trial['controlled_physical_call_ids']}],
+                  'physical_call_ids': trial['controlled_physical_call_ids'],
+                  'literal_assertion_fields': ('ownership', 'stated_value') if natural_args else ()}],
                 [{'source': source['key'], 'baseline_utility': baseline['native_utility'],
                   'patch_utility': trial['native_utility']}],
                 visible_train={source['key']}, verify_projection=verify_projection, verify_native_pair=verify_native)
