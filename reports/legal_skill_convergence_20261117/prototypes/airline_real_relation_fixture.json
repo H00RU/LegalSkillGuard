@@ -1,0 +1,206 @@
+{
+  "source_key": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+  "split": "TRAIN",
+  "prompt": "Karen is a Basic Economy Class passenger flying from Phoenix to Rio de Janeiro with the following items:\n1. A backpack: 19 x 13 x 6 inches, 10 lbs;\n2. A luggage box: 38 x 18 x 9 inches, 64 lbs;\n3. A backpack: 35 x 15 x 14 inches, 53 lbs;\n4. A backpack: 43 x 24 x 20 inches, 53 lbs;\n5. A luggage box: 36 x 18 x 10 inches, 52 lbs;\n\nKaren's flight ticket is $563.",
+  "rules_sha256": "24d38221ec6d4eff4b8d81312e4e9e1542bc141891cab128d9d7b13c19311c71",
+  "prompt_sha256": "5f3bea67c9f5aa771789b8407a701df1ab130d7723923f6ef9005922bd33a3ed",
+  "record_canonical_sha256": "626f8b2e8cdf569f3fa60d0c17162ba89ebf6c6cf49ab3bf8e9aa84af06e9f20",
+  "parsed_arguments": {
+    "bag_list": [
+      {
+        "id": 1,
+        "name": "backpack",
+        "size": [
+          19,
+          13,
+          6
+        ],
+        "weight": 10
+      },
+      {
+        "id": 2,
+        "name": "luggage box",
+        "size": [
+          38,
+          18,
+          9
+        ],
+        "weight": 64
+      },
+      {
+        "id": 3,
+        "name": "backpack",
+        "size": [
+          35,
+          15,
+          14
+        ],
+        "weight": 53
+      },
+      {
+        "id": 4,
+        "name": "backpack",
+        "size": [
+          43,
+          24,
+          20
+        ],
+        "weight": 53
+      },
+      {
+        "id": 5,
+        "name": "luggage box",
+        "size": [
+          36,
+          18,
+          10
+        ],
+        "weight": 52
+      }
+    ],
+    "base_price": 563,
+    "customer_class": "Basic Economy",
+    "direction": 0,
+    "routine": "South America"
+  },
+  "source_spans": [
+    {
+      "bag_id": 1,
+      "start": 105,
+      "end": 147,
+      "quote": "1. A backpack: 19 x 13 x 6 inches, 10 lbs;"
+    },
+    {
+      "bag_id": 2,
+      "start": 148,
+      "end": 193,
+      "quote": "2. A luggage box: 38 x 18 x 9 inches, 64 lbs;"
+    },
+    {
+      "bag_id": 3,
+      "start": 194,
+      "end": 237,
+      "quote": "3. A backpack: 35 x 15 x 14 inches, 53 lbs;"
+    },
+    {
+      "bag_id": 4,
+      "start": 238,
+      "end": 281,
+      "quote": "4. A backpack: 43 x 24 x 20 inches, 53 lbs;"
+    },
+    {
+      "bag_id": 5,
+      "start": 282,
+      "end": 328,
+      "quote": "5. A luggage box: 36 x 18 x 10 inches, 52 lbs;"
+    }
+  ],
+  "source_parser": "strict finite-template regex; not learned, no LLM",
+  "context_normalization": {
+    "Phoenix": "U.S.",
+    "Rio de Janeiro": "South America"
+  },
+  "inputs": {
+    "outputs/legal_skill_evolution_plan_20261111/candidate_source_manifest.json": {
+      "sha256": "fa9c9303411d511a7eeb762c202a46127bfae174415a19756548ccd86e744453",
+      "bytes": 220888
+    },
+    "work/five-dataset-20261110/repo_evidence/public_train.json": {
+      "sha256": "c02a55191d64db026ab477102b5ea54c3bcf427e377fa66bb4b8ced64cfa9001",
+      "bytes": 2327147
+    },
+    "work/five-dataset-20261110/repo_evidence/train.json": {
+      "sha256": "8c5aef9e7da37cee9505bbd026ebe08e999faf448cdb4d009b5dd3ae01e6b59c",
+      "bytes": 139430
+    },
+    "work/five-dataset-20261110/RuleArena/airline/compute_answer.py": {
+      "sha256": "5d1703f35df56ef2cbcb38f4eeb43c418feef4200c247e7894cd6b4846f80a14",
+      "bytes": 5731
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_1/0.csv": {
+      "sha256": "c45ebc4609403656e542ea7691500703921107571b01b2c1d1b79999f758677b",
+      "bytes": 534
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_1/1.csv": {
+      "sha256": "8a43e162de7497aa63e449cad31593fc9288c53888e21a90f4564baca132b7c8",
+      "bytes": 533
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_2/0.csv": {
+      "sha256": "df0f600a5549887cdbc10516aefb62d41f14008af4813242967467e302438371",
+      "bytes": 587
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_2/1.csv": {
+      "sha256": "9aca4bc0e03afc2c24099e18c2568a8ebf6944e03ec7282b31fecf5cc6faf8f4",
+      "bytes": 583
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_3/0.csv": {
+      "sha256": "8960377620304ed3c10fa82872a81d5061764ea0105ef0b31a4f3dfccd849b80",
+      "bytes": 697
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_3/1.csv": {
+      "sha256": "8960377620304ed3c10fa82872a81d5061764ea0105ef0b31a4f3dfccd849b80",
+      "bytes": 697
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_4/0.csv": {
+      "sha256": "59c2a38fd575d3741d4c58146dd6852cafc4f64ff273ab300a19065e66b949e3",
+      "bytes": 731
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_4/1.csv": {
+      "sha256": "59c2a38fd575d3741d4c58146dd6852cafc4f64ff273ab300a19065e66b949e3",
+      "bytes": 731
+    }
+  },
+  "original_native_answer_for_independent_check": 1433,
+  "native_code_source": "https://github.com/SkyRiver-2000/RuleArena",
+  "historical_evidence_commit": "1f132108fa326d46118c3c708458fbbafec7bfb2",
+  "origin_hashes": {
+    "outputs/legal_skill_evolution_plan_20261111/candidate_source_manifest.json": {
+      "sha256": "fa9c9303411d511a7eeb762c202a46127bfae174415a19756548ccd86e744453",
+      "bytes": 220888
+    },
+    "work/five-dataset-20261110/repo_evidence/public_train.json": {
+      "sha256": "c02a55191d64db026ab477102b5ea54c3bcf427e377fa66bb4b8ced64cfa9001",
+      "bytes": 2327147
+    },
+    "work/five-dataset-20261110/repo_evidence/train.json": {
+      "sha256": "8c5aef9e7da37cee9505bbd026ebe08e999faf448cdb4d009b5dd3ae01e6b59c",
+      "bytes": 139430
+    },
+    "work/five-dataset-20261110/RuleArena/airline/compute_answer.py": {
+      "sha256": "5d1703f35df56ef2cbcb38f4eeb43c418feef4200c247e7894cd6b4846f80a14",
+      "bytes": 5731
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_1/0.csv": {
+      "sha256": "c45ebc4609403656e542ea7691500703921107571b01b2c1d1b79999f758677b",
+      "bytes": 534
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_1/1.csv": {
+      "sha256": "8a43e162de7497aa63e449cad31593fc9288c53888e21a90f4564baca132b7c8",
+      "bytes": 533
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_2/0.csv": {
+      "sha256": "df0f600a5549887cdbc10516aefb62d41f14008af4813242967467e302438371",
+      "bytes": 587
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_2/1.csv": {
+      "sha256": "9aca4bc0e03afc2c24099e18c2568a8ebf6944e03ec7282b31fecf5cc6faf8f4",
+      "bytes": 583
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_3/0.csv": {
+      "sha256": "8960377620304ed3c10fa82872a81d5061764ea0105ef0b31a4f3dfccd849b80",
+      "bytes": 697
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_3/1.csv": {
+      "sha256": "8960377620304ed3c10fa82872a81d5061764ea0105ef0b31a4f3dfccd849b80",
+      "bytes": 697
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_4/0.csv": {
+      "sha256": "59c2a38fd575d3741d4c58146dd6852cafc4f64ff273ab300a19065e66b949e3",
+      "bytes": 731
+    },
+    "work/five-dataset-20261110/RuleArena/airline/fee_tables/bag_4/1.csv": {
+      "sha256": "59c2a38fd575d3741d4c58146dd6852cafc4f64ff273ab300a19065e66b949e3",
+      "bytes": 731
+    }
+  }
+}

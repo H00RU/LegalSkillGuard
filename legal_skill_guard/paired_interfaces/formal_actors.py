@@ -163,10 +163,12 @@ from legal_skill_guard.paired_interfaces.evidence_projection import source_evide
 
 
 class InterfaceActor:
-    def __init__(self, executor, root, *, plan_assets, source_inputs, pipeline_binding, physical_verifier=None):
+    def __init__(self, executor, root, *, plan_assets, source_inputs, pipeline_binding, physical_verifier=None,
+                 relational_provider=None):
         self.executor, self.root = executor, Path(root)
         self.assets, self.source_inputs = deepcopy(plan_assets), source_inputs
         self.pipeline_binding = deepcopy(pipeline_binding)
+        self.relational_provider = relational_provider
         self.physical_verifier = physical_verifier or (lambda **kw: verify_physical_response(executor, **kw))
         if not self.pipeline_binding:
             raise ValueError('Channel versions must bind the complete frozen production/alignment pipeline')
@@ -177,6 +179,15 @@ class InterfaceActor:
                        'production_alignment_binding': self.pipeline_binding})
 
     def views(self, source):
+        if self.relational_provider is not None:
+            views = self.relational_provider.views(source)
+            if (any(v['source'] != source['key'] for v in views)
+                    or sorted(task for v in views for task in v['native_tasks']) != sorted(v['id'] for v in source['views'])):
+                raise ValueError('Generated interfaces must preserve every native task/source binding')
+            for view in views:
+                for plan in view['plans']:
+                    self.relational_provider.verify_plan(source,view,plan)
+            return views
         task, mapping = self.source_inputs(source)
         views = []
         native = {view['id']: view for view in source['views']}
@@ -210,6 +221,8 @@ class InterfaceActor:
     def measure(self, source, view, plan, purpose):
         if plan not in view['plans'] or view['source'] != source['key']:
             raise ValueError('Actual read must use the source-bound fixed candidate')
+        if self.relational_provider is not None:
+            self.relational_provider.verify_plan(source,view,plan)
         messages = [{'role': 'system', 'content': plan['system']},
                     {'role': 'user', 'content': json.dumps(view['read_input'], ensure_ascii=False, sort_keys=True)}]
         logical = self.executor.ledger.run_id + ':interface:' + digest({

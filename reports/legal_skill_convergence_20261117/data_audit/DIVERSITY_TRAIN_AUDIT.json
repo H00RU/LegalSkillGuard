@@ -1,0 +1,663 @@
+{
+  "date": "2026-11-18",
+  "dataset_revision": "daec8237410aa23e3faf4bc41ad8b3a7e1696826",
+  "license": "CC BY 4.0; cite LegalBench (Guha et al., 2023)",
+  "model_calls": 0,
+  "official_test_content_or_labels_read": false,
+  "metadata_rows_not_deduplicated_source_count": true,
+  "purpose": "TRAIN-only adapter feasibility audit; not M1/M2 performance evidence",
+  "native_task_fields_are_scoring_only": [
+    "answer",
+    "parties_are_diverse",
+    "aic_is_met"
+  ],
+  "server_history_and_cross_variant_dedup_pending": true,
+  "source_checks": 24,
+  "parsed": 24,
+  "all_three_native_fields_match": 24,
+  "exact_text_duplicates_in_selected": 0,
+  "inventory_metadata_url": "https://datasets-server.huggingface.co/size?dataset=nguha%2Flegalbench",
+  "inventory_metadata": [
+    {
+      "dataset": "nguha/legalbench",
+      "config": "diversity_1",
+      "split": "train",
+      "num_bytes_parquet_files": 3102,
+      "num_bytes_memory": 720,
+      "num_rows": 6,
+      "num_columns": 5,
+      "estimated_num_rows": null
+    },
+    {
+      "dataset": "nguha/legalbench",
+      "config": "diversity_1",
+      "split": "test",
+      "num_bytes_parquet_files": 14448,
+      "num_bytes_memory": 36510,
+      "num_rows": 300,
+      "num_columns": 5,
+      "estimated_num_rows": null
+    },
+    {
+      "dataset": "nguha/legalbench",
+      "config": "diversity_2",
+      "split": "train",
+      "num_bytes_parquet_files": 3414,
+      "num_bytes_memory": 960,
+      "num_rows": 6,
+      "num_columns": 5,
+      "estimated_num_rows": null
+    },
+    {
+      "dataset": "nguha/legalbench",
+      "config": "diversity_2",
+      "split": "test",
+      "num_bytes_parquet_files": 18082,
+      "num_bytes_memory": 48928,
+      "num_rows": 300,
+      "num_columns": 5,
+      "estimated_num_rows": null
+    },
+    {
+      "dataset": "nguha/legalbench",
+      "config": "diversity_3",
+      "split": "train",
+      "num_bytes_parquet_files": 3362,
+      "num_bytes_memory": 914,
+      "num_rows": 6,
+      "num_columns": 5,
+      "estimated_num_rows": null
+    },
+    {
+      "dataset": "nguha/legalbench",
+      "config": "diversity_3",
+      "split": "test",
+      "num_bytes_parquet_files": 16384,
+      "num_bytes_memory": 46290,
+      "num_rows": 300,
+      "num_columns": 5,
+      "estimated_num_rows": null
+    },
+    {
+      "dataset": "nguha/legalbench",
+      "config": "diversity_4",
+      "split": "train",
+      "num_bytes_parquet_files": 3502,
+      "num_bytes_memory": 992,
+      "num_rows": 6,
+      "num_columns": 5,
+      "estimated_num_rows": null
+    },
+    {
+      "dataset": "nguha/legalbench",
+      "config": "diversity_4",
+      "split": "test",
+      "num_bytes_parquet_files": 18240,
+      "num_bytes_memory": 48993,
+      "num_rows": 300,
+      "num_columns": 5,
+      "estimated_num_rows": null
+    },
+    {
+      "dataset": "nguha/legalbench",
+      "config": "diversity_5",
+      "split": "train",
+      "num_bytes_parquet_files": 3559,
+      "num_bytes_memory": 1154,
+      "num_rows": 6,
+      "num_columns": 5,
+      "estimated_num_rows": null
+    },
+    {
+      "dataset": "nguha/legalbench",
+      "config": "diversity_5",
+      "split": "test",
+      "num_bytes_parquet_files": 19692,
+      "num_bytes_memory": 58080,
+      "num_rows": 300,
+      "num_columns": 5,
+      "estimated_num_rows": null
+    },
+    {
+      "dataset": "nguha/legalbench",
+      "config": "diversity_6",
+      "split": "train",
+      "num_bytes_parquet_files": 4359,
+      "num_bytes_memory": 1936,
+      "num_rows": 6,
+      "num_columns": 5,
+      "estimated_num_rows": null
+    },
+    {
+      "dataset": "nguha/legalbench",
+      "config": "diversity_6",
+      "split": "test",
+      "num_bytes_parquet_files": 29102,
+      "num_bytes_memory": 95939,
+      "num_rows": 300,
+      "num_columns": 5,
+      "estimated_num_rows": null
+    }
+  ],
+  "variants": [
+    {
+      "variant": "diversity_1",
+      "url": "https://huggingface.co/datasets/nguha/legalbench/raw/daec8237410aa23e3faf4bc41ad8b3a7e1696826/data/diversity_1/train.tsv",
+      "file_sha256": "bae272c1e430fd3dd244d041cf63e84cfa193c705f7debd17a056595d87973fb",
+      "official_train_rows": 6,
+      "design_train_indices": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "selected_source_checks": [
+        {
+          "dataset": "diversity_1",
+          "native_index": "0",
+          "source_text_sha256": "16e98c3c38470c198fdc0d09139d427cc9c74200679a5eb2540551a76c385df8",
+          "parse": {
+            "parties_are_diverse": false,
+            "aic_is_met": false,
+            "answer": "No",
+            "entities": 2,
+            "pair_count": 1,
+            "claim_count": 1
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_1",
+          "native_index": "1",
+          "source_text_sha256": "cadcdcbe41340faa493f86ab2f94d89025aced688d44e08bb4c24805d04ddd03",
+          "parse": {
+            "parties_are_diverse": true,
+            "aic_is_met": false,
+            "answer": "No",
+            "entities": 2,
+            "pair_count": 1,
+            "claim_count": 1
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_1",
+          "native_index": "2",
+          "source_text_sha256": "e0bf5cb9b82fa389f81a5bb1e9b2b01c9f78b7653f8470374550bd92ab9c11fc",
+          "parse": {
+            "parties_are_diverse": false,
+            "aic_is_met": false,
+            "answer": "No",
+            "entities": 2,
+            "pair_count": 1,
+            "claim_count": 1
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_1",
+          "native_index": "3",
+          "source_text_sha256": "9d94300c5f740d875fdd6a096593b80b0cba75836a434abe801e8bec9e9e79a9",
+          "parse": {
+            "parties_are_diverse": false,
+            "aic_is_met": true,
+            "answer": "No",
+            "entities": 2,
+            "pair_count": 1,
+            "claim_count": 1
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        }
+      ]
+    },
+    {
+      "variant": "diversity_2",
+      "url": "https://huggingface.co/datasets/nguha/legalbench/raw/daec8237410aa23e3faf4bc41ad8b3a7e1696826/data/diversity_2/train.tsv",
+      "file_sha256": "a4a3c893b4c5423aa8e947b7dd5e57b64d8a26f6fd7ce76b000991754eb00c9e",
+      "official_train_rows": 6,
+      "design_train_indices": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "selected_source_checks": [
+        {
+          "dataset": "diversity_2",
+          "native_index": "0",
+          "source_text_sha256": "0a6436f9c6db4b17526fceb07521efe990d96094bf5fd0cb4a70c52c2a8fa748",
+          "parse": {
+            "parties_are_diverse": false,
+            "aic_is_met": true,
+            "answer": "No",
+            "entities": 3,
+            "pair_count": 2,
+            "claim_count": 2
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_2",
+          "native_index": "1",
+          "source_text_sha256": "67072cea49078e25c1526847e8ee8cde0f9a005e81ccfcf0f780e1cf42ae2a29",
+          "parse": {
+            "parties_are_diverse": false,
+            "aic_is_met": true,
+            "answer": "No",
+            "entities": 3,
+            "pair_count": 2,
+            "claim_count": 2
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_2",
+          "native_index": "2",
+          "source_text_sha256": "817fa347eca03070518d0d8becd2b9238ad6ac9159b1bc79363d69b3715e84e3",
+          "parse": {
+            "parties_are_diverse": false,
+            "aic_is_met": true,
+            "answer": "No",
+            "entities": 3,
+            "pair_count": 2,
+            "claim_count": 2
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_2",
+          "native_index": "3",
+          "source_text_sha256": "4fe87732f9026fc140ddbf935dabf1a4206628b150b52b4f5829750c3a97addc",
+          "parse": {
+            "parties_are_diverse": true,
+            "aic_is_met": true,
+            "answer": "Yes",
+            "entities": 3,
+            "pair_count": 2,
+            "claim_count": 2
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        }
+      ]
+    },
+    {
+      "variant": "diversity_3",
+      "url": "https://huggingface.co/datasets/nguha/legalbench/raw/daec8237410aa23e3faf4bc41ad8b3a7e1696826/data/diversity_3/train.tsv",
+      "file_sha256": "c9af167efa6380e6a8415d6c9172884e07b9bb2ce658e4a1f273976a84e92b82",
+      "official_train_rows": 6,
+      "design_train_indices": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "selected_source_checks": [
+        {
+          "dataset": "diversity_3",
+          "native_index": "0",
+          "source_text_sha256": "3b2a7d414bea0c761b02fed71c44040932d46b6a07bfa1f11b19d87199ed3c63",
+          "parse": {
+            "parties_are_diverse": true,
+            "aic_is_met": true,
+            "answer": "Yes",
+            "entities": 2,
+            "pair_count": 1,
+            "claim_count": 2
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_3",
+          "native_index": "1",
+          "source_text_sha256": "810045df8197d5c3763b3b60fc56f44a5599b0d01b5f27b6c631d36e4c102d29",
+          "parse": {
+            "parties_are_diverse": false,
+            "aic_is_met": true,
+            "answer": "No",
+            "entities": 2,
+            "pair_count": 1,
+            "claim_count": 2
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_3",
+          "native_index": "2",
+          "source_text_sha256": "5b2387c9c6e94b78a3e3bc7f8e74ab06d3200a8d12d84c73dd8167f9160ae0fc",
+          "parse": {
+            "parties_are_diverse": true,
+            "aic_is_met": true,
+            "answer": "Yes",
+            "entities": 2,
+            "pair_count": 1,
+            "claim_count": 2
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_3",
+          "native_index": "3",
+          "source_text_sha256": "7e216fafbb0ec9a076250dd98af07a98eef6f4d543d3fbc7ee20112ffe5f6453",
+          "parse": {
+            "parties_are_diverse": false,
+            "aic_is_met": true,
+            "answer": "No",
+            "entities": 2,
+            "pair_count": 1,
+            "claim_count": 2
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        }
+      ]
+    },
+    {
+      "variant": "diversity_4",
+      "url": "https://huggingface.co/datasets/nguha/legalbench/raw/daec8237410aa23e3faf4bc41ad8b3a7e1696826/data/diversity_4/train.tsv",
+      "file_sha256": "57dd1e8ed4a8861bc484d262caffedc099cd28f2febc417b0348ca039c348739",
+      "official_train_rows": 6,
+      "design_train_indices": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "selected_source_checks": [
+        {
+          "dataset": "diversity_4",
+          "native_index": "0",
+          "source_text_sha256": "1ecca56732a997dcb5d6b4beff3243f769e4bdcd98c7a4ac1b948f8c7e732bd6",
+          "parse": {
+            "parties_are_diverse": true,
+            "aic_is_met": true,
+            "answer": "Yes",
+            "entities": 3,
+            "pair_count": 2,
+            "claim_count": 2
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_4",
+          "native_index": "1",
+          "source_text_sha256": "f42d2a4c28288ff3956d9c3aa79fb2edd3c784f02c360c2a1203059445487a1c",
+          "parse": {
+            "parties_are_diverse": true,
+            "aic_is_met": true,
+            "answer": "Yes",
+            "entities": 3,
+            "pair_count": 2,
+            "claim_count": 2
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_4",
+          "native_index": "2",
+          "source_text_sha256": "6fa6838b62b141cb4ed1b875a1b55129e7d58fd65a1dc8559e2e46c3b57d4dd4",
+          "parse": {
+            "parties_are_diverse": true,
+            "aic_is_met": false,
+            "answer": "No",
+            "entities": 3,
+            "pair_count": 2,
+            "claim_count": 2
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_4",
+          "native_index": "3",
+          "source_text_sha256": "b11eb783f7a387fff749bb80d881f6b4448fea2a10acfc19fb2755ef7d6e0113",
+          "parse": {
+            "parties_are_diverse": true,
+            "aic_is_met": true,
+            "answer": "Yes",
+            "entities": 3,
+            "pair_count": 2,
+            "claim_count": 2
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        }
+      ]
+    },
+    {
+      "variant": "diversity_5",
+      "url": "https://huggingface.co/datasets/nguha/legalbench/raw/daec8237410aa23e3faf4bc41ad8b3a7e1696826/data/diversity_5/train.tsv",
+      "file_sha256": "d0b5a06644c76984fa57e4b6781bed2cdbe2501f7ff41de8cf22ccf68a8239a5",
+      "official_train_rows": 6,
+      "design_train_indices": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "selected_source_checks": [
+        {
+          "dataset": "diversity_5",
+          "native_index": "0",
+          "source_text_sha256": "1ae825e43d1582eb7ef2aec9c38f657c441a74676b6c1564cc1b7296bdbf0f88",
+          "parse": {
+            "parties_are_diverse": false,
+            "aic_is_met": true,
+            "answer": "No",
+            "entities": 3,
+            "pair_count": 2,
+            "claim_count": 4
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_5",
+          "native_index": "1",
+          "source_text_sha256": "fbc918d0cb0091df3a679b68adb1f8bbe63119f929f498f3a875d487fed3773a",
+          "parse": {
+            "parties_are_diverse": true,
+            "aic_is_met": true,
+            "answer": "Yes",
+            "entities": 3,
+            "pair_count": 2,
+            "claim_count": 4
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_5",
+          "native_index": "2",
+          "source_text_sha256": "05101cc32454b45e6220980ef7724d1b840ba309fddafd41f15186778880a3ae",
+          "parse": {
+            "parties_are_diverse": true,
+            "aic_is_met": true,
+            "answer": "Yes",
+            "entities": 3,
+            "pair_count": 2,
+            "claim_count": 4
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_5",
+          "native_index": "3",
+          "source_text_sha256": "acf38dcc6d85f772659e50a174d72d8da9a3635292599422a31b06d9d7126881",
+          "parse": {
+            "parties_are_diverse": true,
+            "aic_is_met": false,
+            "answer": "No",
+            "entities": 3,
+            "pair_count": 2,
+            "claim_count": 4
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        }
+      ]
+    },
+    {
+      "variant": "diversity_6",
+      "url": "https://huggingface.co/datasets/nguha/legalbench/raw/daec8237410aa23e3faf4bc41ad8b3a7e1696826/data/diversity_6/train.tsv",
+      "file_sha256": "3acb825aee59d3b7901a6bf47a2f1bb909f56146e1f3927de626b8b714c35a29",
+      "official_train_rows": 6,
+      "design_train_indices": [
+        "0",
+        "1",
+        "2",
+        "3"
+      ],
+      "selected_source_checks": [
+        {
+          "dataset": "diversity_6",
+          "native_index": "0",
+          "source_text_sha256": "8ee20373040f239b06924eebe964352e6f2333c507cce512a84f29f4235ad03e",
+          "parse": {
+            "parties_are_diverse": true,
+            "aic_is_met": false,
+            "answer": "No",
+            "entities": 4,
+            "pair_count": 4,
+            "claim_count": 8
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_6",
+          "native_index": "1",
+          "source_text_sha256": "1a84c68658963d8b771f3d02628033a78624c89aa49639d9c2225a646f68db25",
+          "parse": {
+            "parties_are_diverse": true,
+            "aic_is_met": true,
+            "answer": "Yes",
+            "entities": 4,
+            "pair_count": 4,
+            "claim_count": 8
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_6",
+          "native_index": "2",
+          "source_text_sha256": "a0dcb48d5a672a024813b0ac67815e97d348188e10274b2737b3b436de5f1a27",
+          "parse": {
+            "parties_are_diverse": false,
+            "aic_is_met": true,
+            "answer": "No",
+            "entities": 4,
+            "pair_count": 4,
+            "claim_count": 8
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        },
+        {
+          "dataset": "diversity_6",
+          "native_index": "3",
+          "source_text_sha256": "dfdb8e7210a8b95c965cb39f5f60a0aa8294a609192abab530b3c92bf07c2344",
+          "parse": {
+            "parties_are_diverse": true,
+            "aic_is_met": true,
+            "answer": "Yes",
+            "entities": 4,
+            "pair_count": 4,
+            "claim_count": 8
+          },
+          "native_matches": {
+            "answer": true,
+            "parties_are_diverse": true,
+            "aic_is_met": true
+          }
+        }
+      ]
+    }
+  ],
+  "extra_design_exposure": {
+    "official_github_diversity_6_prompts": "All six public examples in base/application prompts were inspected; exclude these and close variants from project TEST. Do not use prompt demonstrations outside the locked TRAIN set."
+  }
+}

@@ -1,0 +1,322 @@
+{
+  "status": "real_TRAIN_native_replay_and_finite_interface_synthesis",
+  "source_key": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+  "source_count": 1,
+  "model_calls": 0,
+  "prompt_sha256": "5f3bea67c9f5aa771789b8407a701df1ab130d7723923f6ef9005922bd33a3ed",
+  "source_record_sha256": "626f8b2e8cdf569f3fa60d0c17162ba89ebf6c6cf49ab3bf8e9aa84af06e9f20",
+  "thresholds_read_from_native_AST": {
+    "size": [
+      62,
+      65
+    ],
+    "weight": [
+      50,
+      53,
+      70
+    ]
+  },
+  "finite_local_states": 14800,
+  "candidate_subsets": 31,
+  "valid_candidates": 21,
+  "invalid_candidates": 10,
+  "chosen_features": [
+    "dimension_relations",
+    "weight_relations"
+  ],
+  "decoder_states": 12,
+  "grouping_candidates": {
+    "unpaired_marginals": {
+      "valid_for_per_bag_and_total_consumers": false,
+      "collision_witness": {
+        "first_world": [
+          {
+            "size": [
+              1,
+              1,
+              1
+            ],
+            "weight": 1
+          },
+          {
+            "size": [
+              1,
+              1,
+              1
+            ],
+            "weight": 51
+          }
+        ],
+        "second_world": [
+          {
+            "size": [
+              1,
+              1,
+              1
+            ],
+            "weight": 51
+          },
+          {
+            "size": [
+              1,
+              1,
+              1
+            ],
+            "weight": 1
+          }
+        ],
+        "first_output": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              30
+            ]
+          ],
+          30
+        ],
+        "second_output": [
+          [
+            [
+              0,
+              30
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          30
+        ]
+      },
+      "decoder_states_if_valid": null
+    },
+    "joint_unanchored": {
+      "valid_for_per_bag_and_total_consumers": false,
+      "collision_witness": {
+        "first_world": [
+          {
+            "size": [
+              1,
+              1,
+              1
+            ],
+            "weight": 1
+          },
+          {
+            "size": [
+              1,
+              1,
+              1
+            ],
+            "weight": 51
+          }
+        ],
+        "second_world": [
+          {
+            "size": [
+              1,
+              1,
+              1
+            ],
+            "weight": 51
+          },
+          {
+            "size": [
+              1,
+              1,
+              1
+            ],
+            "weight": 1
+          }
+        ],
+        "first_output": [
+          [
+            [
+              0,
+              0
+            ],
+            [
+              0,
+              30
+            ]
+          ],
+          30
+        ],
+        "second_output": [
+          [
+            [
+              0,
+              30
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          30
+        ]
+      },
+      "decoder_states_if_valid": null
+    },
+    "joint_anchored": {
+      "valid_for_per_bag_and_total_consumers": true,
+      "collision_witness": null,
+      "decoder_states_if_valid": 144
+    }
+  },
+  "joint_encoding": [
+    [
+      2,
+      [
+        [
+          true,
+          false
+        ],
+        [
+          true,
+          true,
+          false
+        ]
+      ]
+    ],
+    [
+      3,
+      [
+        [
+          true,
+          false
+        ],
+        [
+          true,
+          false,
+          false
+        ]
+      ]
+    ],
+    [
+      4,
+      [
+        [
+          true,
+          true
+        ],
+        [
+          true,
+          false,
+          false
+        ]
+      ]
+    ],
+    [
+      5,
+      [
+        [
+          true,
+          false
+        ],
+        [
+          true,
+          false,
+          false
+        ]
+      ]
+    ]
+  ],
+  "decoded_per_bag": [
+    {
+      "id": 2,
+      "encoding": [
+        [
+          true,
+          false
+        ],
+        [
+          true,
+          true,
+          false
+        ]
+      ],
+      "oversize": 30,
+      "overweight": 100,
+      "surcharge": 100
+    },
+    {
+      "id": 3,
+      "encoding": [
+        [
+          true,
+          false
+        ],
+        [
+          true,
+          false,
+          false
+        ]
+      ],
+      "oversize": 30,
+      "overweight": 30,
+      "surcharge": 30
+    },
+    {
+      "id": 4,
+      "encoding": [
+        [
+          true,
+          true
+        ],
+        [
+          true,
+          false,
+          false
+        ]
+      ],
+      "oversize": 150,
+      "overweight": 30,
+      "surcharge": 150
+    },
+    {
+      "id": 5,
+      "encoding": [
+        [
+          true,
+          false
+        ],
+        [
+          true,
+          false,
+          false
+        ]
+      ],
+      "oversize": 30,
+      "overweight": 30,
+      "surcharge": 30
+    }
+  ],
+  "base_fees": [
+    60,
+    100,
+    200,
+    200
+  ],
+  "relation_decoder_total": 1433,
+  "native_total": 1433,
+  "noninvertible_pair_checked": true,
+  "unpaired_histogram_counterexample": {
+    "same_unpaired_inputs": true,
+    "original_total": 1433,
+    "counterfactual_total": 1363,
+    "is_new_real_source": false
+  },
+  "gain_claimed": false,
+  "reader_conditioned_selection_tested": false,
+  "limitations": [
+    "Exact regex extraction and class/route context are fixed for this fixture.",
+    "Finite-domain preservation only; raw triples differing from domain representatives are covered by source sum-only native access, not new general theorem.",
+    "Single scalar bins are an existing baseline; actual proposed learning must select relation/grouping interfaces under native constraints and measured reader error.",
+    "Raw native functions have dataset-specific semantics; this check does not establish external airline policy correctness."
+  ]
+}

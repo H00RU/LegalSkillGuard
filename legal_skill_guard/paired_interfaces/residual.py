@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import ast
 from dataclasses import dataclass
-from itertools import product
+from itertools import combinations, product
 import json
 import re
 from textwrap import dedent
@@ -94,14 +94,192 @@ def feature_value(feature, state):
             if value in {canonical(v) for v in group['members']}:
                 return group['code']
         raise ValueError('Value outside the declared residual partition')
+    if feature['operation'] == 'relation':
+        return expression_value(feature['expression'], state)
+    if feature['operation'] == 'bound_relations':
+        rows = []
+        for group in feature['groups']:
+            rows.append({'keys': [state[k] for k in group['keys']],
+                         'relations': encode(group['features'], state)})
+        if feature.get('binding') == 'unkeyed':
+            return sorted([row['relations'] for row in rows], key=canonical)
+        if feature.get('binding') == 'marginals':
+            names = sorted({name for row in rows for name in row['relations']})
+            return {name: sorted([row['relations'].get(name) for row in rows], key=canonical)
+                    for name in names}
+        return rows
     raise ValueError('Unsupported local interface operation')
+
+
+def expression_value(expression, state):
+    """Closed, data-only local expressions; an unknown is never a false fact."""
+    op = expression['op']
+    if op == 'field':
+        return state[expression['field']]
+    if op == 'constant':
+        return expression['value']
+    values = [expression_value(arg, state) for arg in expression['args']]
+    if any(value is None for value in values):
+        return None
+    if op in ('add', 'subtract'):
+        if any(type(v) not in (int, float) for v in values):
+            raise ValueError('Local arithmetic requires known numeric source attributes')
+        return sum(values) if op == 'add' else values[0] - values[1]
+    if op in ('eq', 'ne', 'lt', 'le', 'gt', 'ge'):
+        a, b = values
+        return {'eq': lambda: a == b, 'ne': lambda: a != b,
+                'lt': lambda: a < b, 'le': lambda: a <= b,
+                'gt': lambda: a > b, 'ge': lambda: a >= b}[op]()
+    raise ValueError('Unsupported local relation expression: ' + op)
+
+
+def expression_fields(expression):
+    if expression['op'] == 'field':
+        return {expression['field']}
+    return set().union(*(expression_fields(e) for e in expression.get('args', [])))
+
+
+def consumer_relations(module):
+    """Lift local comparisons/aggregates, rather than any whole-task decision.
+
+    The AST supplies candidate dependencies only. Exhaustive multi-output
+    collisions still decide whether a representation is legal for this module.
+    No source answer, native score or current weak read enters generation.
+    """
+    if not module.program_source:
+        return []
+    tree = ast.parse(dedent(module.program_source))
+    functions = [n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)]
+    if not functions or not functions[0].args.args:
+        return []
+    local = functions[0].args.args[0].arg
+    def lift(node):
+        if (isinstance(node, ast.Subscript) and isinstance(node.value, ast.Name)
+                and node.value.id == local and isinstance(node.slice, ast.Constant)
+                and node.slice.value in module.fields):
+            return {'op': 'field', 'field': node.slice.value}
+        if isinstance(node, ast.Constant) and type(node.value) in (str, int, float, bool):
+            return {'op': 'constant', 'value': node.value}
+        if isinstance(node, ast.BinOp) and isinstance(node.op, (ast.Add, ast.Sub)):
+            args = [lift(node.left), lift(node.right)]
+            if all(a is not None for a in args):
+                return {'op': 'add' if isinstance(node.op, ast.Add) else 'subtract', 'args': args}
+        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                and node.func.id == 'sum' and len(node.args) == 1 and not node.keywords
+                and isinstance(node.args[0], (ast.List, ast.Tuple))):
+            args = [lift(v) for v in node.args[0].elts]
+            if args and all(a is not None for a in args):
+                return {'op': 'add', 'args': args}
+        return None
+    operators = {ast.Eq:'eq', ast.NotEq:'ne', ast.Lt:'lt', ast.LtE:'le', ast.Gt:'gt', ast.GtE:'ge'}
+    relations = {}
+    for node in ast.walk(functions[0]):
+        if not isinstance(node, ast.Compare):
+            continue
+        for left, op, right in zip([node.left, *node.comparators], node.ops, node.comparators):
+            a, b = lift(left), lift(right)
+            if type(op) not in operators or a is None or b is None:
+                continue
+            expression = {'op':operators[type(op)], 'args':[a,b]}
+            dependencies = sorted(expression_fields(expression))
+            if not dependencies or set(dependencies) & RESERVED:
+                continue
+            # A field-to-constant test is retained as an atomic baseline;
+            # multi-field tests, joins and aggregates carry the new operation.
+            relations[canonical(expression)] = {'name':'rel_'+digest(expression)[:12],
+                'operation':'relation', 'expression':expression,
+                'consumer_dependencies':dependencies,
+                'semantic_change_kind':'joint_consumer_relation' if len(dependencies)>1 else 'atomic_comparison'}
+    return [relations[k] for k in sorted(relations)]
+
+
+def propose_relational(module, *, max_new, baseline_fields=None):
+    """Compose consumer-derived relations with optional keyed local groups.
+
+    Search is finite in the declared grammar. This candidate bound is not a
+    research iteration/request cap. Invalid binding projections retain their
+    concrete witnesses; only complete equivalence checks produce certificates.
+    """
+    if type(max_new) is not int or max_new < 1:
+        raise ValueError('Declare a positive representation candidate budget')
+    if set(module.fields)&{'parties_are_diverse','aic_is_met','final_classification'}:
+        raise ValueError('Native annotation/decision fields cannot be relational reader inputs')
+    raw = [{'name':f, 'operation':'field', 'field':f} for f in module.fields]
+    relations = consumer_relations(module)
+    accepted, rejected, seen = [], [], set()
+    def consider(features, operation):
+        identity = canonical(features)
+        if identity in seen or not features:
+            return
+        seen.add(identity)
+        collision = witness(module, features)
+        if collision:
+            rejected.append({'operation':operation, 'features':features, 'rejected_by':collision,
+                             'legal_source_counterexample':witness(module,features,legal_worlds_only=True)})
+        else:
+            accepted.append(compile_pair(module, features, operation=operation, layout='anchored'))
+    # Exhaustive combinations, with proof-based deletion of redundant raw
+    # coordinates. Protected statuses remain first-class reader observations.
+    for width in range(1, len(relations)+1):
+        for selected in combinations(relations, width):
+            touched = set().union(*(set(r['consumer_dependencies']) for r in selected))
+            features = [f for f in raw if f['field'] not in touched or f['field'] in module.protected_status_fields] + list(selected)
+            consider(features, 'consumer_relational_projection')
+    groups = module.source_scope.get('entity_groups', [])
+    if groups:
+        for g in groups:
+            if (not g.get('keys') or not set(g['keys']) <= set(module.fields)
+                    or not set(g['fields']) <= set(module.fields)):
+                raise ValueError('A relation group needs declared local keys and fields')
+        # Each row combines actual consumer relations and its source identity.
+        # Removing the identities/matching is a checked counterfactual, never
+        # silently accepted because the JSON still has the same dimensions.
+        bound = []
+        for g in groups:
+            own = [r for r in relations if set(r['consumer_dependencies']) <= set(g['fields'])]
+            if not own:
+                own = [f for f in raw if f['field'] in g['fields'] and f['field'] not in g['keys']]
+            # Row-local names cannot leak the original slot identity into the
+            # deliberately unkeyed/marginal counterfactual representation.
+            own = [dict(f,name='relation_'+str(i)) for i,f in enumerate(own)]
+            bound.append({'keys':list(g['keys']), 'features':own})
+        covered = set().union(*(set(g['fields']) | set(g['keys']) for g in groups))
+        rest = [f for f in raw if f['field'] not in covered or f['field'] in module.protected_status_fields]
+        for binding in ('keyed', 'unkeyed', 'marginals'):
+            consider(rest+[{'name':'bound_local_relations','operation':'bound_relations',
+                'groups':bound,'binding':binding}], 'consumer_'+binding+'_binding')
+    # Keep a correct raw interface in the diagnostic pool. It is a baseline,
+    # never represented as a newly discovered relational contribution.
+    baseline = compile_pair(module, raw, operation='correct_fixed_interface', layout='anchored')
+    for asset in accepted:
+        asset['candidate_origin'] = 'fixed_consumer_AST_and_declared_entity_structure'
+        asset['version'] = digest({k:v for k,v in asset.items() if k!='version'})
+    accepted.sort(key=lambda a:(sum(len(v) for v in a['domains'].values()),len(a['features']),a['version']))
+    return {'candidates':accepted[:max_new], 'baseline':baseline, 'rejected':rejected,
+            'consumer_relation_count':len(relations), 'legally_equivalent_candidates':len(accepted),
+            'candidate_generation_uses_native_labels_or_model_outputs':False,
+            'candidate_order_is_not_real_reader_selection':True}
 
 
 def encode(features, state):
     return {f['name']: feature_value(f, state) for f in features}
 
 
-def witness(module, features):
+def witness(module, features, *, legal_worlds_only=False):
+    if legal_worlds_only:
+        for context_index,context in enumerate(module.contexts):
+            seen={}
+            for state,outcomes in zip(module.states,module.outcomes):
+                value=outcomes[context_index]
+                if not value['valid']:
+                    continue
+                code=canonical(encode(features,state));signature=canonical(value)
+                if code in seen and seen[code][1]!=signature:
+                    old,_,old_value=seen[code]
+                    return {'left_local_state':old,'right_local_state':state,'context':context,
+                            'left_output':old_value,'right_output':value,'both_worlds_legal':True}
+                seen.setdefault(code,(state,signature,value))
+        return None
     groups = {}
     for index, state in enumerate(module.states):
         code = canonical(encode(features, state))
@@ -207,7 +385,9 @@ def value_partition(module, field):
             for i, members in enumerate(classes.values())]
 
 
-def propose(module, *, baseline_fields=None, max_new=2):
+def propose(module, *, baseline_fields=None, max_new=2, relational=False):
+    if relational:
+        return propose_relational(module, max_new=max_new, baseline_fields=baseline_fields)
     if not 0 <= max_new <= 2:
         raise ValueError('The fixed pilot permits at most two new candidates per module')
     raw = [{'name': name, 'operation': 'field', 'field': name} for name in module.fields]
@@ -268,7 +448,7 @@ def propose(module, *, baseline_fields=None, max_new=2):
 
 
 def reader_schema(asset):
-    values = {'type': 'object', 'properties': {name: {'enum': domain}
+    values = {'type': 'object', 'properties': {name: finite_value_schema(domain)
                                              for name, domain in asset['domains'].items()},
               'required': list(asset['domains']), 'additionalProperties': False}
     observation = {'type': 'object', 'properties': {
@@ -315,6 +495,13 @@ def reader_prompt(asset):
                 else:
                     description = canonical(members)
                 instructions.append(group['code'] + ' = ' + description + '.')
+        elif feature['operation'] == 'relation':
+            instructions.append(feature['name'] + ': read only this local relation: '
+                                + canonical(feature['expression']) + '. Source field meanings: '
+                                + canonical({f:meanings.get(f,f) for f in feature['consumer_dependencies']}))
+        elif feature['operation'] == 'bound_relations':
+            instructions.append(feature['name'] + ': keep each declared source identity coupled to its own local relations: '
+                                + canonical(feature['groups']) + '. Do not exchange relations between source identities.')
     return '\n'.join(instructions)
 
 
@@ -334,3 +521,43 @@ def validate_read(asset, reading, public_source):
             raise ValueError('Evidence must be a contiguous source span')
     return {'supported': True, 'values': values,
             'source_fidelity_verified': False, 'evidence_contiguity_checked': True}
+
+
+def finite_value_schema(domain):
+    """Typed object/array grammar; decoder still enforces the exact finite set."""
+    if all(not isinstance(v,(dict,list)) for v in domain):
+        return {'enum':domain}
+    if all(isinstance(v,dict) for v in domain):
+        keys=list(domain[0])
+        if any(set(v)!=set(keys) for v in domain):
+            raise ValueError('Relational observations require one explicit object contract')
+        return {'type':'object','properties':{k:finite_value_schema(list({canonical(v[k]):v[k] for v in domain}.values())) for k in keys},
+                'required':keys,'additionalProperties':False}
+    if all(isinstance(v,list) for v in domain) and len({len(v) for v in domain})==1:
+        size=len(domain[0]); items=[x for v in domain for x in v]
+        return {'type':'array','items':finite_value_schema(list({canonical(v):v for v in items}.values())) if items else {},
+                'minItems':size,'maxItems':size}
+    raise ValueError('Unsupported mixed relational observation domain')
+
+
+def source_fidelity(module, asset, reading, *, admissible_states, provenance):
+    """TRAIN audit gate independent of native scores and candidate predictions.
+
+    Merely being compatible with one unknown completion is insufficient to
+    certify an asserted reading. It must follow from every audited completion.
+    This gate is not available as a hidden inference oracle on DEV/TEST.
+    """
+    permitted={'explicit_source','official_task_assumption','independent_source_audit'}
+    if not provenance or any(p.get('kind') not in permitted or not p.get('evidence_sha256') for p in provenance):
+        raise ValueError('Source fidelity needs independent source/assumption/audit provenance')
+    if asset['module_binding']!=module.binding or not admissible_states:
+        raise ValueError('The finite source constraint scope must match the consumer module')
+    known={canonical(s) for s in module.states}
+    if any(canonical(s) not in known for s in admissible_states):
+        raise ValueError('A source constraint completion lies outside the declared domain')
+    possibilities={canonical(encode(asset['features'],s)) for s in admissible_states}
+    value=canonical(reading)
+    status='entailed' if possibilities=={value} else 'underdetermined_assertion' if value in possibilities else 'violated'
+    return {'status':status,'source_fidelity_verified':status=='entailed',
+            'admissible_encodings':len(possibilities),'native_labels_used':False,
+            'unknown_completion_not_selected_to_justify_prediction':True,'provenance':provenance}

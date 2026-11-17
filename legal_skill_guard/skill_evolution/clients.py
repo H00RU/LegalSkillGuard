@@ -5,6 +5,7 @@ import time
 import json
 import base64
 import hashlib
+import tomllib
 
 from legal_skill_guard.rr.client import ExecutorClient
 from legal_skill_guard.rr.ledger import BudgetError
@@ -84,9 +85,33 @@ class FrozenExecutor(ExecutorClient):
         self.ledger.permit(source, purpose, 'executor')
 
 
+def configured_teacher_profile(config_path, *, requested_effort='high'):
+    """Read only the configured model/effort into a reproducible study profile.
+
+    Credentials/provider configuration never enter the returned artifact. The
+    requested effort is supplied per CLI call; global Codex settings are not
+    modified. This is configuration evidence, not proof of a completed call.
+    """
+    value=tomllib.loads(Path(config_path).read_text())
+    if not isinstance(value.get('model'),str) or not value['model']:
+        raise BudgetError('Resolve an explicitly configured teacher model before dispatch')
+    if requested_effort!='high':
+        raise BudgetError('The convergence protocol requests high teacher reasoning effort')
+    allowed={'model':value['model'],'observed_default_reasoning_effort':value.get('model_reasoning_effort')}
+    return {**allowed,'reasoning_effort':requested_effort,'transport':'existing_Codex_CLI',
+            'whitelisted_configuration_sha256':digest(allowed),'model_response_verified':False}
+
+
 class FrozenTeacher:
-    def __init__(self, ledger, artifacts, config):
-        if config['retries'] != 0 or config['model'] != 'gpt-5.6-sol' or config['reasoning_effort'] != 'high':
+    def __init__(self, ledger, artifacts, config, *, authorized_profile=None):
+        expected_model='gpt-5.6-sol'
+        if authorized_profile is not None:
+            bound=getattr(ledger,'policy',{}).get('execution_binding',{}).get('teacher_profile')
+            if (bound!=authorized_profile or authorized_profile.get('transport')!='existing_Codex_CLI'
+                    or authorized_profile.get('reasoning_effort')!='high'):
+                raise BudgetError('The current teacher profile must be frozen in the continuous-ledger study binding')
+            expected_model=authorized_profile['model']
+        if config['retries'] != 0 or config['model'] != expected_model or config['reasoning_effort'] != 'high':
             raise BudgetError('Teacher identity/effort or visible retry policy changed')
         self.ledger = ledger
         self.artifacts = Path(artifacts)
