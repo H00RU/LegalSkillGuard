@@ -22,6 +22,119 @@ from legal_skill_guard.skill_evolution.native import grade_view
 from legal_skill_guard.skill_evolution.objects import digest
 
 
+class RelationalInterfaceLibrary:
+    """Prefix-only empirical interface learning for convergence revision4.
+
+    This additive learner leaves historical role/risk studies unchanged. It
+    consumes actual certified-interface reads, source-fidelity audits and
+    native TRAIN utilities. A selected template is reusable on a different
+    mother; current-source truth is never an inference-time selection input.
+    """
+    def __init__(self,root,*,actor,train_sources,initial_common_library_sha256):
+        self.root,self.actor=Path(root),actor
+        self.train_sources=frozenset(train_sources)
+        self.initial_common_library_sha256=initial_common_library_sha256
+        self.records=[]
+
+    @staticmethod
+    def profile(plan):
+        if plan.get('reader_kind')!='consumer_relational_program':
+            raise ValueError('The convergence learner requires generated consumer-program pairs')
+        return tuple(sorted(plan['choices'].items()))
+
+    def observe(self,source,view,plan,read,*,native_utility,source_fidelity,visible_prefix):
+        from legal_skill_guard.paired_interfaces.formal_actors import verify_physical_response
+        if (not set(visible_prefix)<=self.train_sources or source['key'] not in visible_prefix
+                or source['key'] not in self.train_sources):
+            raise ValueError('Interface learning may use only the current TRAIN prefix')
+        if type(native_utility) not in (int,float) or not 0<=native_utility<=1:
+            raise ValueError('Supply the prespecified native0..1 selection utility')
+        if (read['source']!=source['key'] or read['view']!=view['view']
+                or read['raw_read_version']!=plan['version']
+                or read['channel_version']!=self.actor.channel_version(plan)):
+            raise ValueError('Actual TRAIN read belongs to a different consumer/reader version')
+        verify_physical_response(self.actor.executor,identity=read['physical_call_id'],
+            source=source['key'],purpose='skill_actor',content_sha256=read['response_content_sha256'],
+            usage=read['usage'],finish_reason=read['response_finish_reason'])
+        if (source_fidelity.get('native_labels_used_to_complete_unknowns') is not False
+                or not source_fidelity.get('reference_evidence_sha256')):
+            raise ValueError('Native scores cannot supply missing source-fidelity truth')
+        profile=self.profile(plan)
+        row={'source':source['key'],'dataset':source['dataset'],'view':view['view'],
+            'profile':list(profile),'context_kinds':sorted(plan['choices']),
+            'plan_version':plan['version'],'native_utility':float(native_utility),
+            'source_fidelity':deepcopy(source_fidelity),'physical_call_id':read['physical_call_id'],
+            'response_content_sha256':read['response_content_sha256'],'actual_read_sha256':digest(read),
+            'source_public_sha256':digest(source),'visible_prefix_sha256':digest(sorted(visible_prefix)),
+            'usage':read['usage'],'reused_paid_response':read['reused_paid_response']}
+        identity=(row['source'],row['view'],tuple(profile))
+        old=[r for r in self.records if (r['source'],r['view'],tuple(map(tuple,r['profile'])))==identity]
+        if old:
+            if old!=[row]:raise ValueError('A settled interface observation changed; version explicitly')
+            return old[0]
+        immutable_json(self.root/'interface_learning_observations'/(digest(row)+'.json'),row)
+        # Persist each distinct executable pair once, not the current case's
+        # answer or extracted values. Consumer/domain changes need new assets.
+        for unit in plan['relational_program']['units'].values():
+            immutable_json(self.root/'interface_pair_assets'/(unit['asset_sha256']+'.json'),unit['asset'])
+        self.records.append(row);return row
+
+    def snapshot(self,*,batch,visible_prefix):
+        if any(r['source'] not in visible_prefix for r in self.records):
+            raise ValueError('Future TRAIN source leaked into this prefix snapshot')
+        value={'kind':'convergence_consumer_relational_library_v1','batch':batch,
+            'initial_common_library_sha256':self.initial_common_library_sha256,
+            'visible_prefix':sorted(visible_prefix),'observations':deepcopy(self.records),
+            'native_gold_or_reference_used_at_new_source_selection':False}
+        value['snapshot_sha256']=digest(value)
+        immutable_json(self.root/'interface_libraries'/(value['snapshot_sha256']+'.json'),value)
+        return value
+
+    @classmethod
+    def restore(cls,root,*,actor,train_sources,snapshot):
+        verify(snapshot,'snapshot_sha256')
+        value=cls(root,actor=actor,train_sources=train_sources,
+            initial_common_library_sha256=snapshot['initial_common_library_sha256'])
+        if not set(snapshot['visible_prefix'])<=value.train_sources:
+            raise ValueError('Restored library includes an unpermitted source')
+        value.records=deepcopy(snapshot['observations'])
+        if any(r['source'] not in snapshot['visible_prefix'] for r in value.records):
+            raise ValueError('Restored prefix includes a future observation')
+        return value
+
+    def choose(self,source,view,*,exclude_sources=()):
+        plans=view['plans'];profiles={self.profile(p):p for p in plans}
+        exclude={source['key'],*exclude_sources}
+        rows=[r for r in self.records if r['dataset']==source['dataset'] and r['source'] not in exclude
+            and tuple(map(tuple,r['profile'])) in profiles]
+        groups={}
+        for row in rows:groups.setdefault(tuple(map(tuple,row['profile'])),[]).append(row)
+        # Unequal source denominators cannot create a winner; only mothers
+        # measured under every candidate form the paired selection set.
+        common=set.intersection(*({r['source'] for r in groups.get(p,[])} for p in profiles)) if profiles else set()
+        summaries={}
+        for profile,plan in profiles.items():
+            data=[r for r in groups.get(profile,[]) if r['source'] in common]
+            faithful=[r for r in data if r['source_fidelity'].get('all_local_relations_source_faithful')]
+            summaries[plan['name']]={'sources':len(data),'source_faithful_sources':len(faithful),
+                'grounded_native_utility':sum(r['native_utility'] for r in faithful)/len(data) if data else None,
+                'profile':dict(profile)}
+        fixed=next((p for p in plans if p['is_correct_fixed_raw_control']),None)
+        if not common:
+            if fixed is None:raise ValueError('A correct common fixed interface is required before learning')
+            chosen=fixed;mode='correct_fixed_initialization_no_paired_evidence'
+        else:
+            chosen=min(plans,key=lambda p:(-summaries[p['name']]['grounded_native_utility'],
+                -summaries[p['name']]['source_faithful_sources'],
+                not p['is_correct_fixed_raw_control'],p['name']))
+            mode='actual_reader_TRAIN_selected_template'
+        receipt={'selected_plan':chosen['name'],'selected_profile':deepcopy(chosen['choices']),
+            'selection_mode':mode,'paired_learning_sources':sorted(common),'summaries':summaries,
+            'current_source_gold_or_current_read_used':False,
+            'unseen_mother_reuse':bool(common),'fixed_control_wins_uninformative_ties':True}
+        return chosen,receipt
+
+
 class MissingSourceReviews(ValueError):
     pass
 

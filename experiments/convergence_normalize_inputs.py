@@ -84,7 +84,7 @@ def prepare():
                     if view['public']['source_text']!=row['text']:
                         raise ValueError('MAUD native excerpt provenance changed')
                     try:
-                        text,receipt=enclosing_section(parent,row['text'])
+                        text,receipt=enclosing_section(parent,row['text'],structural_headers=True)
                         view['public']['source_text']=text
                         local.append({'task':view['id'],'expanded':True,**receipt})
                     except SourceContextUnavailable as error:
@@ -107,15 +107,15 @@ def prepare():
     if any(len(partitions[p])!=n for p,n in quota.items()):raise ValueError('Five-source quotas changed')
     sets=[{s['key'] for s in partitions[p]} for p in quota]
     if any(sets[i]&sets[j] for i in range(3) for j in range(i)):raise ValueError('Partition source overlap')
-    protocol={'name':'convergence_common_input_scope_v1','source_candidate_root':str(prior.relative_to(ROOT)),
+    protocol={'name':'convergence_common_input_scope_v2','source_candidate_root':str(prior.relative_to(ROOT)),
         'Diversity_TRAIN_root':diversity_train['artifact_root'],'Diversity_holdout_root':diversity_holdout['artifact_root'],
         'CNI_archive_sha256':sha(CNI),'MAUD_archive_sha256':MAUD_ARCHIVE_SHA256,
         'source_sha256':{p:sha(ROOT/p) for p in ('experiments/convergence_normalize_inputs.py',
             'legal_skill_guard/paired_interfaces/source_context.py')},
-        'CNI_family':'full17','MAUD_family':list(MAUD_QUESTIONS),'scope_expansion':'unique_literal_enclosing_section',
+        'CNI_family':'full17','MAUD_family':list(MAUD_QUESTIONS),'scope_expansion':'unique_literal_enclosing_section_main_heading_v2',
         'context_closure_is_syntactic_not_legal_reference_audit':True,'all_arms_identical_public_repairs':True,
         'source_or_model_final_freeze':False,'TEST_labels_used_for_repairs_or_filtering':False,'model_calls':0}
-    out=BASE/'normalized_inputs_v1'/digest(protocol)
+    out=BASE/'normalized_inputs_v2'/digest(protocol)
     immutable_json(out/'protocol.json',protocol);immutable_json(out/'identity_metadata.json',identity)
     immutable_json(out/'scope_receipts.json',receipts)
     for split,rows in partitions.items():

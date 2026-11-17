@@ -15,6 +15,11 @@ class SourceContextUnavailable(ValueError):
 
 
 HEAD = re.compile(r'(?m)^[ \t]*Section[ \t]+(?P<number>\d+(?:\.\d+)+)[ \t]+(?=[A-Z])')
+# Optional revision for native contracts whose headings are "SECTION4.1.",
+# "Section4.1." or simply "4.1 Title". Restrict to the main two-level
+# section, preserving all lettered/sub-numbered clauses within it. Historical
+# v1 callers keep the original grammar and receipts exactly.
+STRUCTURAL_HEAD = re.compile(r'(?m)^[ \t]*(?:(?:Section|SECTION)[ \t]*)?(?P<number>\d{1,2}\.\d{1,2})\.?[ \t]+(?=[A-Z])')
 PAGE = re.compile(r'\s*\(Page\s+\d+(?:\s*[-–]\s*\d+)?\)\s*\Z')
 
 
@@ -30,7 +35,7 @@ def normalized(text):
     return ' '.join(t.group() for t in tokens),tokens,starts
 
 
-def enclosing_section(parent,excerpt,*,max_characters=32768):
+def enclosing_section(parent,excerpt,*,max_characters=32768,structural_headers=False):
     """Return the exact whole section or refuse, never a favorable truncation."""
     if not isinstance(parent,str) or not isinstance(excerpt,str) or type(max_characters) is not int or max_characters<=0:
         raise ValueError('Text inputs and a positive declared section limit are required')
@@ -49,7 +54,7 @@ def enclosing_section(parent,excerpt,*,max_characters=32768):
     raw_end=tokens[last].start()+hit.end()-starts[last]
     if ' '.join(parent[raw_start:raw_end].split())!=wanted:
         raise SourceContextUnavailable('The exact source anchor cannot be reconstructed')
-    headers=list(HEAD.finditer(parent))
+    headers=list((STRUCTURAL_HEAD if structural_headers else HEAD).finditer(parent))
     preceding=[(i,h) for i,h in enumerate(headers) if h.start()<=raw_start]
     if not preceding:
         raise SourceContextUnavailable('The excerpt has no supported enclosing section header')
@@ -61,7 +66,7 @@ def enclosing_section(parent,excerpt,*,max_characters=32768):
     if end-start>max_characters:
         raise SourceContextUnavailable('The full section exceeds its fixed input budget; no suffix is dropped')
     text=parent[start:end]
-    receipt={'protocol':'unique-literal-enclosing-section-v1',
+    receipt={'protocol':('unique-literal-enclosing-section-v2-main-heading' if structural_headers else 'unique-literal-enclosing-section-v1'),
         'parent_text_sha256':sha_text(parent),'original_excerpt_sha256':sha_text(excerpt),
         'normalized_anchor_sha256':sha_text(wanted), 'anchor_occurrences':1,
         'parent_anchor_span':[raw_start,raw_end],'parent_section_span':[start,end],

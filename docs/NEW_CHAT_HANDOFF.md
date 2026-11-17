@@ -1,28 +1,31 @@
-# 交接：从当前Goal的未完成处继续
+# 当前Goal恢复交接：实现与真实链路修复继续
 
-2026-11-18。先读 `docs/CURRENT_GOAL.md`，再读固定统一方案 `reports/legal_skill_convergence_20261117/PLAN.md`、METHOD_1、METHOD_2、protocol和REVISION_REVIEW。此交接不新建Goal、不启动另一研究方向。
+先读AGENTS.md、PROJECT_MAP.md、docs/CURRENT_GOAL.md，调用get_goal；本消息不创建/重置Goal。固定方案为reports/legal_skill_convergence_20261117/，上游37a76ff，旧方案仅资产与失败证据。
 
-## 恢复工作前必须核实
+恢复后依次读取artifacts/legal_skill_convergence_20261117/handoff/run_state.json及其中最新pointer，核实实际进程、工具会话、账本reserved、代码绑定和terminal；从未完成处继续，不重复启动或重跑有效结果。不要凭PID文件或旧进度判断任务live。
 
-1. 调用get_goal核实当前完整目标及active状态；用户新授权覆盖旧维护任务和旧方案的停止执行范围，不恢复历史队列。
-2. 检查实际研究进程、工具会话、服务、账本reserved和当前代码绑定；PID、进度文件或意图本身不足以认定任务live。live则观察同一任务，不重复启动；失效则核对账本和终态，从未完成处恢复。
-3. 核对Git分支/修改，保留全部未提交资产；读取 `artifacts/legal_skill_convergence_20261117/handoff/` 的最新回执/运行状态。
-4. 复用有效响应；精确wire、来源和模型版本不匹配时不得当新版本独立证据。失败请求仍计费，不隐式重试。
+## 当前在途任务
 
-## 当前状态（需恢复时再验证）
+Diversity完整4候选配对校准03（有效2份响应精确复用，仅新读2个混合配置），工具会话2034，pointer为handoff/diversity_reader_probe_current.json。绑定目录8e876932dd6cd9b4f22d874608ebd5ddc0d4648e158b47f4bac6c3166ac127fd；binding.json列出12个冻结文件，运行中不改。若已终结，读取terminal及comparison_rows，记录事实错误与生产拒绝，复用物理响应，不重发同一wire。Qwen服务原PID536850/537626保留。实际账本以run_state重新核验为准。
 
-固定方案上游37a76ffdf9490d7d213f5a9e67553a174416d84c已完整导入43文件并逐Git blob核验；工具会话29249和70214均exit0。未启动研究driver。Qwen服务PID536850/537626已在本轮只读检查中确认live，thinking要求关闭。累计账本12427/reserved0，新Goal研究请求0。原177源审、全部旧结果/源码快照和曝光记录保留。
+旧probe01目录18332fc82acbf5eaacb06fa64bdd6996dbff04edc82644f75c64d30ac84a71ef已终结2次，全部source_snapshot精确封存。固定接口锚点填成模板SHA，关系接口unread仍填观察；两者均拒绝，不能作为收益。已共同修复：wire限定每个来源锚点，complete/unread状态互斥，短模板显示名与相同结构化实体输入。修复后的24×4参考生产链仍全部一致。新probe只改有证据的wire，未原样重跑。
 
-M1关系合成/实体绑定/源忠实性和新M2共享解释/依赖闭包/跨组持久化均已有实现；生产InterfaceActor和decode_response已支持来源绑定的关系接口。45项离线检查已通过，包含旧18份付费响应回归；不能当成新模型效果，也不要重跑同一检查。真实五库provider、实际读者候选选择/持久化技能复用、M2真实来源独立K与教师更新闭环尚未完成。
+源审01会话86997已终结，e38bce316d85c79bf57edf72d264e2bf36e198de4a4861096bdce574541ba563中留有请求/原始响应/成本。教师gpt-6.1-sol/high确已执行1次，21367输入+24283输出tokens；引用通过不等于语义闭合，16项引用缺失、无真实歧义，不能为M2捏造共享变量或将unknown压成false。自动审批曾拒绝外发疑似私密合同；官方Git blob完全匹配及所有请求片段公开原文证明后，同一动作重新审批获准，当前无待用户授权阻断。
 
-Diversity固定24个TRAIN及独立参考核验24/24×3字段已准备；128个TRAIN/8批候选、旧4库非TRAIN DEV64、隔离的4库新TEST候选128已存档。只读 `handoff/source_metadata_current.json` 和 `handoff/diversity_train_current.json` 获取版本；**不要打开 `sealed_test_candidate/public.json`**，不要将待完成的分组/近重复核查写成最终盲测成立。Diversity DEV16/TEST32已隔离准备，CNI17任务已规范，见 `handoff/normalized_inputs_current.json`；总数据锁定及MAUD未扩展excerpt的覆盖核验待完成。
+## 已完成实现与待接通部分
 
-下一动作是固定Diversity官方公共语义/查询与版本，隔离准备剩余分区，规范CNI/MAUD；并完成两机制真实学习闭环。先锁定来源/指标/共同初始化与预算，再执行结构选择的20例小试；不要重跑旧pilot、旧M2拟合或旧教师96任务。新Goal实现尚未公开提交，需尽快沿已授权研究分支同步，排除密钥、整库账本和隔离TEST内容。
+residual.py扩展现有合成器；relational_program.py组合同一有限对，diversity_relational.py给真实来源；formal_training.RelationalInterfaceLibrary支持前缀实际读数、独立源忠实性、配对来源选择/保存/恢复/新母来源复用。类有离线验证，真实配对选择和后续母来源复用尚未完成；不能把合成候选静态顺序称学习。
 
-## 必须保留的历史边界
+shared_semantics.py为新M2，旧风险选择器不用。diversity_supervision.py提供原文数量/州籍编辑、派生DAG与独立重解析校验；此库K单解释，shared与single控制应相同，不能把它当M2共享优势。下一步接通MAUD/CNI真实条款作用域、独立K和真实教师补丁循环；不另开方向。
 
-旧M1小试columns全零与后续有限OE结果（原生F1=1/3但完整正确0/4、源审unknown→true）是失败证据。旧M2上界全1和两关未通过是失败证据。不能通过费用打平或降低unknown强行制造选择有效。新统一方案应正面解决已知原因，科学效果未成立前不称两项贡献已获支持。
+## 数据与公开状态
 
-原DEV/TEST已有曝光，SARA完整未暴露库存曾为0；新方案测试安排需按来源事实实施，不能将旧题改名为新盲测。完整训练/曲线/独立消融/强对照/冻结评价/论文和可靠归因证据尚未交付。只更新报告或离线通过不达成Goal。
+读取normalized_inputs_current.json、diversity_train_current.json、diversity_holdout_current.json、contract_nearduplicate_current.json获取不可变版本；候选128/80/160，CNI17、MAUD3。MAUD TRAIN23/72语法section扩展，其余未认证覆盖；旧177源审须按变更输入复核，不能自动搬成新真值。不要打开sealed_test或sealed_native原文/标签，也不要全目录搜索原生数据。TEST尚未评分，最终执行绑定与曝光核查待锁。
 
-最新接手回执：`artifacts/legal_skill_convergence_20261117/handoff/goal_activation_receipt_20261118.json`。旧完整交接已归档于 `docs/history/before_convergence_goal_20261118/`，不继续累加矛盾状态段落。
+b78d83784ea58caa007ba3aa82f4ec29be7fbe7d已公开73文件并独立核验；本轮后续代码与真实证据需继续沿已授权研究分支同步，排除封存TEST、私有历史、整库账本、权重和凭据。保留无关dirty文件与原177审计、连续账本。
+
+先结算候选配对校准03并核验真实读者，再完成配对候选学习/条款作用域、固定20例对照及数据锁定；随后按Goal完成训练/DEV/冻结TEST/消融/论文及两项可靠证据。有新证据+实质改动+可检验预期才继续，不设置虚构轮次上限，不以报告完成代替研究完成。
+
+最新已结算进展：共同修复后的2次Qwen读取均无格式拒绝；固定坐标接口原生0/1、全部源忠实性0/1；自动联合关系接口原生1/1、全部源忠实性1/1。仅1个TRAIN母来源，尚非总体收益。34项本轮检查通过；原45项旧付费回归及源范围检查记录保留。下一步结算4候选配对校准、保存实际学习库并核验不同既定TRAIN母来源复用，再继续合同作用域与M2真实共享解释更新闭环。
+
+最新终态：工具会话2034已exit0，4候选全部配对齐全，新增两个混合读取、精确复用原两份有效wire；仅完整联合关系在该母来源源忠实且原生正确。实际学习库已保存/恢复，下一不同母来源的选择已在新读数前封存，见handoff/actual_interface_library_current.json。当前无研究任务在途；账本12434/reserved0（新Goal共7次物理调用：1教师+6执行器，含2次共同修复前拒绝；复用不新增计数）。下一步是对已选第二母来源执行同信息同预算的固定接口/所学模板核验，不重复运行已终结的3个读者阶段。公开同步曾在临时Git read-tree超时，未发生远端写入；已定位为父提交对象缓存缺失，改用已验证公开父提交对象缓存继续准备。

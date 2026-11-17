@@ -23,7 +23,16 @@ def decode_response(source, view, plan, response):
     try:
         raw, enum = restore_enum_transport(strict_json(response['content']), plan['schema'])
         jsonschema.validate(raw, plan['schema'])
-        if plan.get('reader_kind') == 'consumer_relational':
+        if plan.get('reader_kind') == 'consumer_relational_program':
+            if errors:raise ValueError('Incomplete generation cannot execute a synthesized consumer program')
+            from legal_skill_guard.paired_interfaces import relational_program
+            if digest(source)!=plan['source_public_sha256']:
+                raise ValueError('A generated consumer program lost its source binding')
+            decoder=relational_program.decode(plan['relational_program'],raw,view['relational_public_source'])
+            relational_native={task:{'handled':decoder['outputs'].get(task) is not None,
+                'answer':decoder['outputs'].get(task),'reason':None if decoder['outputs'].get(task) is not None else 'unknown local consumer output',
+                'paired_relational_consumer_executed':True,'fallback_executed':False} for task in view['native_tasks']}
+        elif plan.get('reader_kind') == 'consumer_relational':
             if errors:
                 raise ValueError('Incomplete generation cannot execute a synthesized decoder')
             from legal_skill_guard.paired_interfaces.residual import validate_read, decode
