@@ -25,7 +25,27 @@
     "noninvertible_relations_allowed": true,
     "final_answer_reader_field_allowed": false,
     "selection_uses_actual_frozen_reader": true,
-    "coupled_partial_worlds": true
+    "coupled_partial_worlds": true,
+    "reuse_existing_residual_synthesizer": true,
+    "required_non_airline_production_paths": {
+      "entity_asset_or_claim_binding": [
+        "OpenExempt",
+        "LegalBench_Diversity"
+      ],
+      "contract_clause_exception_scope": [
+        "ContractNLI",
+        "MAUD"
+      ]
+    },
+    "requires_real_train_source_trace_for_each_path": true,
+    "positive_pilot_gain_is_progression_gate": false,
+    "format_only_counts_as_core": false,
+    "fixed_layout_selection_counts_as_core": false,
+    "formal_training_generates_and_persists_interface_candidates": true,
+    "mandatory_new_skill_every_batch": false,
+    "later_mother_source_reuse_trace_required": true,
+    "source_fidelity_gate_independent_of_native_score": true,
+    "controls_preserve_correct_entity_and_clause_binding": true
   },
   "method_two": {
     "reference_constraints_independent_of_candidate_skill": true,
@@ -45,10 +65,14 @@
       "nonlinear_quantity",
       "entity_or_exception_scope"
     ],
-    "additive_cancellation_only_is_sufficient_contribution": false
+    "additive_cancellation_only_is_sufficient_contribution": false,
+    "real_model_update_trace_required": true,
+    "symbolic_mutant_only_counts_as_model_gain": false,
+    "nontrivial_shared_explanation_relation_required": true,
+    "relation_pass_cannot_replace_native_positive_supervision": true
   },
   "data": {
-    "split_status": "planned_not_materialized",
+    "split_status": "planned_pending_server_history_and_group_dedup",
     "train_total_mother_sources": 128,
     "batches": 8,
     "train_quota": {
@@ -56,7 +80,7 @@
       "ContractNLI": 24,
       "MAUD": 24,
       "RuleArena_Airline": 24,
-      "Housing": 24
+      "LegalBench_Diversity": 24
     },
     "dev_per_dataset": 16,
     "fresh_test_per_dataset": 32,
@@ -67,12 +91,68 @@
     "reuse_177_audits_subject_to_semantic_validation": true,
     "batch_size": 16,
     "dev_can_use_exposed_nontrain_sources": true,
-    "known_inventory_warning": "MAUD only 39 fresh candidates before final group audit; do not reserve another 16 fresh DEV in addition to TEST32.",
-    "independent_dataset_reserve": "LegalBench diversity as one family; only if Housing unavailable, not automatic sixth dataset.",
-    "automatic_expansion_to_256": false
+    "known_inventory_warning": "MAUD has 39 previously reported fresh candidates before group audit; reserve fresh inventory for TEST32 and use exposed nontrain DEV.",
+    "independent_dataset_reserve": null,
+    "automatic_expansion_to_256": false,
+    "dataset_selection_status": "locked",
+    "independent_dataset_count": 5,
+    "Housing_role": "not_in_this_run_replaced_by_structurally_verified_Diversity",
+    "automatic_dataset_replacement_for_low_score": false,
+    "pilot_is_subset_of_train": true,
+    "pilot_total_mother_sources": 20,
+    "formal_all_128_enter_learning": true,
+    "seed": 45,
+    "diversity": {
+      "dataset": "nguha/legalbench",
+      "revision": "daec8237410aa23e3faf4bc41ad8b3a7e1696826",
+      "configs": [
+        "diversity_1",
+        "diversity_2",
+        "diversity_3",
+        "diversity_4",
+        "diversity_5",
+        "diversity_6"
+      ],
+      "counts_as_independent_sources": 1,
+      "native_train_indices_per_config": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "train_indices_subject_to_history_and_dedup": true,
+      "replacement_rule": "only objective duplicates/invalid sources; remaining native TRAIN in fixed index order",
+      "dev_per_config": [
+        2,
+        2,
+        3,
+        3,
+        3,
+        3
+      ],
+      "test_per_config": [
+        5,
+        5,
+        5,
+        5,
+        6,
+        6
+      ],
+      "dev_test_pool": "native_test_custom_project_group_split",
+      "official_test_data_opened_in_this_audit": false,
+      "public_prompt_examples_are_design_exposure": true,
+      "gold_fields_not_reader_input": [
+        "answer",
+        "parties_are_diverse",
+        "aic_is_met"
+      ],
+      "train_adapter_native_fields_match": "24/24",
+      "weak_model_gain_measured": false
+    },
+    "lock_tasks_views_labels_and_aggregation_before_run": true
   },
   "arms": [
-    "common_base",
+    "common_teacher_skill_learning",
     "method_one_only",
     "method_two_only",
     "both",
@@ -90,15 +170,18 @@
     "SkillEvoReg_style",
     "Synedrion_HMT_style",
     "single_interpretation",
-    "independent_completions",
-    "random_legal_edits",
-    "MCDC_boundaries"
+    "independent_completions"
   ],
   "fairness": {
     "same_source_semantics": true,
     "same_model": true,
     "common_engineering_repairs": true,
-    "record_all_teacher_and_executor_cost": true
+    "record_all_teacher_and_executor_cost": true,
+    "source_group_isolation": true,
+    "same_teacher_information_and_comparable_budget": true,
+    "corrections_apply_to_all_affected_arms": true,
+    "extra_fewshot_sources_count_as_exposure": true,
+    "adaptations_not_misrepresented_as_original_paper_reproduction": true
   },
   "resource_policy": {
     "use_existing_authorization_only": true,
@@ -124,10 +207,104 @@
     "single_dataset_nonapplicability"
   ],
   "reconsider_only_with_evidence": [
-    "same_object_and_mechanism_prior_art",
+    "same_object_assumptions_and_generation_mechanism_prior_art",
     "formal_counterexample_to_core",
-    "matched_strong_control_fully_absorbs_correctly_implemented_core"
+    "matched_strong_control_without_borrowing_new_generator_reproduces_core_claim"
   ],
   "current_package_model_calls": 0,
-  "core_code_commit": "354bece66fd9a0b1e7bc8dab1a6d7159ee141345"
+  "core_code_commit": "354bece66fd9a0b1e7bc8dab1a6d7159ee141345",
+  "revision": 2,
+  "revision_date": "2026-11-18",
+  "prior_package_commit": "e7dd07bab9883f096e2fe616bb4745cca33b3abe",
+  "execution_documents": [
+    "PLAN.md",
+    "CROSS_DATASET_IMPLEMENTATION.md",
+    "DATA_SELECTION.md",
+    "protocol.json",
+    "SERVER_GOAL.md"
+  ],
+  "study_scope": {
+    "full_training_arms": [
+      "common_teacher_skill_learning",
+      "method_one_only",
+      "method_two_only",
+      "both",
+      "strongest_matched_external_baseline"
+    ],
+    "mechanism_controls_scope": "fixed_20_TRAIN_sources_and_lawful_derivatives_only",
+    "mechanism_controls_automatically_expand_to_training_arms": false,
+    "generic_search_uses_cached_identical_candidate_reads": true,
+    "external_baseline_lock": "once_after_pilot_before_formal_training",
+    "external_baseline_selection": "equal-dataset mean of preregistered native 0..1 utilities on all 20 pilot sources; cost then stable name break ties; selection utility is not a headline accuracy",
+    "external_eligible_families": [
+      "PARSE_style_interface_optimization",
+      "SCOPE_style_skill_learning",
+      "SkillEvoReg_style_candidate_validation",
+      "Synedrion_style_HMT"
+    ],
+    "initial_empty_or_static_library": "inference_reference_only_no_extra_training",
+    "initial_library_and_allowed_historical_information_shared": true,
+    "carry_method_only_pilot_library_into_main_training": false,
+    "cache_identity": [
+      "model",
+      "prompt",
+      "interface",
+      "input",
+      "library_state"
+    ],
+    "test_checkpoint": "B8",
+    "dev_curve_checkpoints": [
+      "B0",
+      "B1",
+      "B2",
+      "B4",
+      "B8"
+    ],
+    "dev_used_for_teacher_case_correction": false,
+    "cross_dataset_transfer": "B8_same_DEV_mask_skills_learned_exclusively_from_other_datasets; no_retraining",
+    "new_seeds_or_runs_to_chase_gain": false,
+    "formal_initialization": "same_pre_pilot_common_library; no method_specific_pilot_skills_preloaded_in_any_arm"
+  },
+  "progression_policy": {
+    "continue_after_fixed_pilot_when": "production paths execute, source semantics/scoring valid, controls comparable; no significance requirement",
+    "not_stall_reasons": [
+      "single_dataset_low_or_zero_score",
+      "single_dataset_negative_delta",
+      "pilot_not_significant",
+      "isolated_parse_failure",
+      "single_source_method_not_applicable",
+      "no_cross_dataset_transfer"
+    ],
+    "repair_missing_core_instead_of_claiming_format_success": true,
+    "continue_other_work_when_one_path_has_repairable_error": true,
+    "stop_affected_path_only_for": [
+      "persistent_invalid_source_or_scoring",
+      "core_not_executable_after_concrete_repairs",
+      "unavailable_authorized_resources",
+      "specific_evidence_core_is_false_or_duplicate"
+    ],
+    "user_review_between_stages_required": false,
+    "fixed_study_outcomes_not_required_positive_to_finish_evaluation": true,
+    "reports_or_pilot_alone_complete_goal": false,
+    "development_optimization": "actively improve relation grammar, evidence grounding, unknown handling, candidate selection and update criteria using TRAIN failures within the two fixed mechanisms; do not repeat unchanged requests without a new diagnosis"
+  },
+  "completion_deliverables": [
+    "implemented_M1_M2_production_paths",
+    "fixed_pilot_and_non_airline_mechanism_traces",
+    "full_128_training_and_DEV_matrix",
+    "five_dataset_frozen_TEST",
+    "independent_ablations_and_matched_controls",
+    "cross_dataset_reuse_analysis",
+    "source_predictions_library_versions_hashes_and_reproduction",
+    "continuous_cost_ledger",
+    "method_experiment_results_and_limitations_paper_draft",
+    "pushed_code_evidence_and_handoff"
+  ],
+  "optional_cached_diagnostics": {
+    "names": [
+      "random_legal_edits",
+      "MCDC_boundaries"
+    ],
+    "new_real_requests": false
+  }
 }

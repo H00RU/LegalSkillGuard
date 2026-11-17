@@ -1,5 +1,7 @@
 # 法律技能进化：收敛后的两项方法
 
+> **2026-11-18 已补齐跨库实施要求（revision 2）。** 当前正式五库为OE、ContractNLI、MAUD、Airline、LegalBench Diversity，后者替换尚未接入的Housing。新执行顺序、数据和完成条件以[PLAN](PLAN.md)、[跨库实施](CROSS_DATASET_IMPLEMENTATION.md)、[数据选择](DATA_SELECTION.md)、[配置](protocol.json)与[新Goal](SERVER_GOAL.md)为准。单库低分不触发停止；完成固定训练测试后据实评价。
+
 **推荐投入：法律消费者约束的关系接口学习；共享语义约束的对照监督合成。**
 
 执行模型保持冻结，教师与外部技能库保留。第一项让模型更容易正确使用已有法律技能；第二项从不完整语义标注中构造可信训练关系，减少错误经验被写入技能库。两项有独立学习对象、独立消融与真实原生任务的收益路径。
