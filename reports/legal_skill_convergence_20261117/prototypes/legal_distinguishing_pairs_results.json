@@ -1,0 +1,299 @@
+{
+  "new_model_calls": 0,
+  "kind": "exact finite symbolic mechanism; not actual model accuracy",
+  "dependency_and_scope": {
+    "witness_count": 1,
+    "witness": {
+      "pair": [
+        {
+          "age": 66,
+          "wage": 80,
+          "bonus": 0,
+          "net": 80
+        },
+        {
+          "age": 66,
+          "wage": 80,
+          "bonus": 30,
+          "net": 110
+        }
+      ],
+      "reader_fix": [
+        [
+          true,
+          false
+        ]
+      ],
+      "consumer_fix": [
+        [
+          true,
+          true
+        ]
+      ]
+    },
+    "candidate_disagreement_not_truth_oracle": true,
+    "dependent_fields_updated": [
+      "net"
+    ],
+    "primitive_edit": [
+      "bonus"
+    ],
+    "age65_robustly_identifiable": false,
+    "age65_reason": "shared strict interpretation excludes scope for both hypotheses"
+  },
+  "terminal_equivalent_component_repairs": {
+    "identifiable": false,
+    "exhaustive_boolean_check": true,
+    "required_extra_observation": "reader field/source provenance, not more terminal examples"
+  },
+  "real_train_source_patch": {
+    "source_key": "SARA_v2_Binary:bb6b0bc1f7a04930f30caf8ca1a05613334ce26d79c0b11a3c6e1d25ef197aba",
+    "split": "TRAIN",
+    "source_artifact_sha256": "7ec536c3e7b2db10e61694a7afc0cc1600cb0d2d6c0232eaaa1d0734ddb21a7e",
+    "original": "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.",
+    "modified": "Alice has paid wages of $3500 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.",
+    "edit_span": [
+      24,
+      29
+    ],
+    "changed_explicit_field": "payment.amount",
+    "amounts": [
+      3200,
+      3500
+    ],
+    "frame_byte_preservation": true,
+    "payment_date_and_year": "not added; source does not state them",
+    "native_label_used": false,
+    "consumer_rule_used": "synthetic shared threshold for mechanism check only"
+  },
+  "shared_interpretation_check": {
+    "shared_valid_signatures": [
+      [
+        false,
+        false
+      ],
+      [
+        true,
+        true
+      ]
+    ],
+    "independent_per_case_signatures": [
+      [
+        false,
+        false
+      ],
+      [
+        false,
+        true
+      ],
+      [
+        true,
+        false
+      ],
+      [
+        true,
+        true
+      ]
+    ],
+    "bad_candidate_signature": [
+      [
+        true,
+        false
+      ]
+    ],
+    "shared_interpretation_rejects_bad_candidate": true,
+    "independent_completion_falsely_keeps_candidate": true
+  },
+  "automatic_relation_synthesis": {
+    "generated_pairs": [
+      {
+        "amount_pair": [
+          3200,
+          2800
+        ],
+        "allowed_signature_relation": [
+          [
+            false,
+            false
+          ],
+          [
+            true,
+            false
+          ]
+        ],
+        "candidate_violations": {
+          "decreasing_program": [
+            true,
+            true
+          ]
+        },
+        "edit_distance": 400,
+        "source_pair": [
+          "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.",
+          "Alice has paid wages of $2800 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+        ],
+        "explicit_amount_faithfulness_checked": true
+      },
+      {
+        "amount_pair": [
+          3200,
+          3500
+        ],
+        "allowed_signature_relation": [
+          [
+            false,
+            false
+          ],
+          [
+            true,
+            true
+          ]
+        ],
+        "candidate_violations": {
+          "unsupported_middle_threshold": [
+            false,
+            true
+          ],
+          "decreasing_program": [
+            true,
+            false
+          ]
+        },
+        "edit_distance": 300,
+        "source_pair": [
+          "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.",
+          "Alice has paid wages of $3500 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+        ],
+        "explicit_amount_faithfulness_checked": true
+      },
+      {
+        "amount_pair": [
+          3200,
+          3700
+        ],
+        "allowed_signature_relation": [
+          [
+            false,
+            true
+          ],
+          [
+            true,
+            true
+          ]
+        ],
+        "candidate_violations": {
+          "decreasing_program": [
+            true,
+            false
+          ]
+        },
+        "edit_distance": 500,
+        "source_pair": [
+          "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.",
+          "Alice has paid wages of $3700 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+        ],
+        "explicit_amount_faithfulness_checked": true
+      }
+    ],
+    "selected_pair": {
+      "amount_pair": [
+        3200,
+        3500
+      ],
+      "allowed_signature_relation": [
+        [
+          false,
+          false
+        ],
+        [
+          true,
+          true
+        ]
+      ],
+      "candidate_violations": {
+        "unsupported_middle_threshold": [
+          false,
+          true
+        ],
+        "decreasing_program": [
+          true,
+          false
+        ]
+      },
+      "edit_distance": 300,
+      "source_pair": [
+        "Alice has paid wages of $3200 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA.",
+        "Alice has paid wages of $3500 to Bob for domestic service done in her home from Feb 1st, 2017 to Sep 2nd, 2017, in Baltimore, Maryland, USA."
+      ],
+      "explicit_amount_faithfulness_checked": true
+    },
+    "selection": "maximize number of candidate violations, then minimize amount change",
+    "surviving_updates": [
+      "threshold3000",
+      "threshold3600"
+    ],
+    "survivors_are_not_certified_true": "They are not yet contradicted by the finite reference theory family."
+  },
+  "single_interpretation_unsoundness": {
+    "theta_used": 3000,
+    "induced_relation": [
+      [
+        true,
+        true
+      ]
+    ],
+    "legitimate_theta3600_signature": [
+      false,
+      false
+    ],
+    "falsely_rejected_if_only_one_theta": true,
+    "accepted_by_shared_family_relation": true
+  },
+  "interpretation_scope_checks": {
+    "semantic_uncertainty_may_be_incomplete_audit_not_genuine_legal_ambiguity": true,
+    "law_scope": "Law interpretation shared only by regulation version/definition/applicability scope.",
+    "root_latent": "Unedited unknown case facts shared only across variants of the same mother/root; independent cases receive independent latent variables.",
+    "independent_cases_allowed_signatures": [
+      [
+        false,
+        false
+      ],
+      [
+        false,
+        true
+      ],
+      [
+        true,
+        false
+      ],
+      [
+        true,
+        true
+      ]
+    ],
+    "within_root_unedited_allowed_signatures": [
+      [
+        false,
+        false
+      ],
+      [
+        true,
+        true
+      ]
+    ],
+    "cross_case_shared_ownership_would_spuriously_reject_TF": true,
+    "within_root_independent_ownership_would_spuriously_accept_TF": true,
+    "allowed_ownership_edit_recomputes_permission": [
+      [
+        false,
+        true
+      ],
+      [
+        true,
+        true
+      ]
+    ],
+    "source_fixture_status": "Synthetic ownership dependency, not a real law or native dataset annotation."
+  },
+  "strong_baseline_boundary": "A general constraint-based distinguishing-input solver supplied the same semantics can recover these pairs. The proposed contribution is specialized constraint construction/learning object, not a new SAT/active-learning primitive."
+}

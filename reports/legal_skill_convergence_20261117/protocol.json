@@ -1,0 +1,133 @@
+{
+  "id": "legal_skill_convergence_20261117",
+  "status": "design_selected_real_model_validation_pending",
+  "supersedes_method_selection": "two_method_followthrough_20261116 and risk-channel M2",
+  "preserve_historical_results_and_ledger": true,
+  "server_resumed_by_this_package": false,
+  "executor": {
+    "model": "Qwen3-8B",
+    "weights_frozen": true,
+    "thinking": false
+  },
+  "teacher": {
+    "transport": "existing_Codex_CLI",
+    "resolve_actual_server_model": true,
+    "requested_reasoning_effort": "high",
+    "temperature_if_unexposed": "not_exposed"
+  },
+  "methods": {
+    "one": "consumer_preserving_relational_interface_learning",
+    "two": "shared_semantics_relation_supervision_synthesis"
+  },
+  "method_one": {
+    "generate_candidates_from_consumers": true,
+    "preserve_all_declared_consumers": true,
+    "noninvertible_relations_allowed": true,
+    "final_answer_reader_field_allowed": false,
+    "selection_uses_actual_frozen_reader": true,
+    "coupled_partial_worlds": true
+  },
+  "method_two": {
+    "reference_constraints_independent_of_candidate_skill": true,
+    "source_edit_dependency_closure": true,
+    "shared_law_scope": [
+      "version",
+      "definition",
+      "applicability_scope"
+    ],
+    "shared_case_latent_scope": "same_mother_source_unedited_facts_only",
+    "automatic_allowed_output_relation": true,
+    "independent_cartesian_completion": false,
+    "relation_pass_means_correct": false,
+    "all_unknown_counts_as_success": false,
+    "native_labels_anchor_positive_learning": true,
+    "required_relation_families": [
+      "nonlinear_quantity",
+      "entity_or_exception_scope"
+    ],
+    "additive_cancellation_only_is_sufficient_contribution": false
+  },
+  "data": {
+    "split_status": "planned_not_materialized",
+    "train_total_mother_sources": 128,
+    "batches": 8,
+    "train_quota": {
+      "OpenExempt": 32,
+      "ContractNLI": 24,
+      "MAUD": 24,
+      "RuleArena_Airline": 24,
+      "Housing": 24
+    },
+    "dev_per_dataset": 16,
+    "fresh_test_per_dataset": 32,
+    "mechanism_pilot_train_per_dataset": 4,
+    "unit": "deduplicated_mother_source_not_variant",
+    "SARA_role": "historical_train_diagnostic_only_due_to_exposure",
+    "separate_natural_and_controlled_missing_annotations": true,
+    "reuse_177_audits_subject_to_semantic_validation": true,
+    "batch_size": 16,
+    "dev_can_use_exposed_nontrain_sources": true,
+    "known_inventory_warning": "MAUD only 39 fresh candidates before final group audit; do not reserve another 16 fresh DEV in addition to TEST32.",
+    "independent_dataset_reserve": "LegalBench diversity as one family; only if Housing unavailable, not automatic sixth dataset.",
+    "automatic_expansion_to_256": false
+  },
+  "arms": [
+    "common_base",
+    "method_one_only",
+    "method_two_only",
+    "both",
+    "strongest_matched_external_baseline"
+  ],
+  "mechanism_controls_one": [
+    "correct_fixed_interface",
+    "PARSE_style",
+    "partial_evaluation",
+    "same_grammar_without_reader_measurement",
+    "same_grammar_generic_search"
+  ],
+  "mechanism_controls_two": [
+    "SCOPE_style",
+    "SkillEvoReg_style",
+    "Synedrion_HMT_style",
+    "single_interpretation",
+    "independent_completions",
+    "random_legal_edits",
+    "MCDC_boundaries"
+  ],
+  "fairness": {
+    "same_source_semantics": true,
+    "same_model": true,
+    "common_engineering_repairs": true,
+    "record_all_teacher_and_executor_cost": true
+  },
+  "resource_policy": {
+    "use_existing_authorization_only": true,
+    "invented_per_repair_call_caps": false,
+    "record_failed_and_retried_requests": true
+  },
+  "progression": [
+    "implementation_and_semantic_checks",
+    "fixed_20_source_real_study",
+    "one_128_source_training_and_DEV_matrix",
+    "freeze_then_five_dataset_TEST",
+    "contribution_assessment_and_paper_draft"
+  ],
+  "not_completion": [
+    "reports_only",
+    "synthetic_prototype_only",
+    "all_unknown",
+    "new_core_operations_never_trigger"
+  ],
+  "do_not_reopen_for": [
+    "generic_component_prior_art",
+    "one_insignificant_pilot",
+    "single_dataset_nonapplicability"
+  ],
+  "reconsider_only_with_evidence": [
+    "same_object_and_mechanism_prior_art",
+    "formal_counterexample_to_core",
+    "matched_strong_control_fully_absorbs_correctly_implemented_core"
+  ],
+  "current_package_model_calls": 0,
+  "core_code_commit": "354bece66fd9a0b1e7bc8dab1a6d7159ee141345"
+}

@@ -1,0 +1,65 @@
+{
+  "status": "native_rule_partial_oracle_design_check",
+  "model_calls": 0,
+  "source_key": "RuleArena_Airline:e88c2c8f441b03bf1e690f5c49450dc95e2fa39d19e589745164f6786caf47a8",
+  "source_prompt_sha256": "5f3bea67c9f5aa771789b8407a701df1ab130d7723923f6ef9005922bd33a3ed",
+  "generated_prompt_sha256": "58a2886cd7d74964da9dfa21a9cd0204ee02ac67459a1691bcac6dea4f847c56",
+  "source_case_count": 1,
+  "eligible_source_edits": 5,
+  "setting": "controlled_missing_intermediate_annotation_not_missing_source_text",
+  "constructor_uses_native_total_labels": false,
+  "constructor_uses_reviewed_local_rule_functions": true,
+  "selected": {
+    "bag_ids": [
+      2,
+      4
+    ],
+    "source_delta": {
+      "2": 53,
+      "4": 64
+    },
+    "allowed_output_relation": {
+      "right_minus_left": -70
+    },
+    "candidate_deltas": {
+      "joint_max": -70,
+      "add_both": 0,
+      "independent_marginals": 0
+    },
+    "excluded": [
+      "add_both",
+      "independent_marginals"
+    ],
+    "new_prompt": "Karen is a Basic Economy Class passenger flying from Phoenix to Rio de Janeiro with the following items:\n1. A backpack: 19 x 13 x 6 inches, 10 lbs;\n2. A luggage box: 38 x 18 x 9 inches, 53 lbs;\n3. A backpack: 35 x 15 x 14 inches, 53 lbs;\n4. A backpack: 43 x 24 x 20 inches, 64 lbs;\n5. A luggage box: 36 x 18 x 10 inches, 52 lbs;\n\nKaren's flight ticket is $563.",
+    "edited_spans": [
+      [
+        186,
+        188,
+        "53"
+      ],
+      [
+        274,
+        276,
+        "64"
+      ]
+    ]
+  },
+  "coupled_signature_examples": [
+    [
+      1310,
+      1240
+    ],
+    [
+      1380,
+      1310
+    ]
+  ],
+  "independent_completion_adds_invalid_signatures": 2,
+  "native_total_after_construction": [
+    1433,
+    1363
+  ],
+  "native_delta_check": true,
+  "real_model_gain_measured": false,
+  "partial_oracle_pass_is_global_correctness": false
+}
