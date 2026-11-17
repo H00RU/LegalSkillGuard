@@ -1,4 +1,35 @@
+## Latest maintenance task: full core-code synchronization
+
+The user explicitly requests synchronization of all current core code, not only the M1 replay subset, to the already authorized public H00RU/LegalSkillGuard research branch. This includes source, corresponding tests/configuration/dependencies and current handoff files. See docs/CORE_CODE_SYNC_20261117.md and its file manifest. It authorizes no model call or experiment resumption. The M1/M2 stop conclusions, preserved177 cards, continuous ledger and exposure facts remain in force. Do not publish credentials, a complete private Git history, model weights or the full raw-data/cache trees.
+
+## Current M1 conclusion, 17 November 2026
+
+The locked M1 finite feasibility check is complete: two new local executor calls, all valid old reads reused. The current prototype expansion is stopped because the partial-F1 gain does not establish source-faithful semantics. See reports/two_method_followthrough_20261116/M1_FEASIBILITY_DECISION_20261117.md and its reproducible evidence packet. M2 remains stopped; no formal training/DEV/TEST or alternative direction is authorized by the result. Preserve all source, outputs,177 cards, ledger12427 and exposure facts. The whole Goal is not complete. A later explicit new user task supersedes this stop; do not recreate a queue.
+
+## Latest M1-only task, 17 November 2026
+
+The latest user explicitly authorizes M1 source/dependency/minimal sanitized evidence publication to the existing research branch, followed by offline chain repair and a locked finite real TRAIN feasibility comparison. This supersedes the earlier documents-only publication limit. M2 expansion remains stopped. No full training, DEV or frozen TEST; no alternate direction or gain-driven extra experiments. Preserve all assets,177 reviews, continuous ledger and exposure facts.
+
 # Project instructions for legal-skill-current
+
+## Latest task authority, 17 November 2026
+
+The user's latest M2 two-gate condition has been evaluated and failed. M2
+expansion is stopped; see `docs/M2_EVIDENCE_GATE_20261117.json` and
+`reports/two_method_followthrough_20261116/M2_TWO_GATE_DECISION_20261117.md`.
+Do not resume M2 fitting iterations, new validation calls or a formal matrix
+from saved commands. A conditional constructed example is not a passed gate
+or a contribution. Preserve the prototype and failures; the full Goal is not
+complete. Existing formal hold and data-exposure checks remain in force.
+
+The user reauthorized blocker revisions of the active paired-interface / structural
+transfer Goal. Read `docs/REVISION_SCOPE_20261117.md` and the latest revision receipt
+before acting on older stopped/blocked handoffs. Preserve the177 reviews, original
+128 TRAIN roles, ledger, source snapshots and all exposure facts. Formal training
+and new large-scale calls are on explicit user hold; an offline revision is not
+Goal completion. Historical unrestricted M2 and cleared older candidates remain
+failure evidence. No revision code/data publication is authorized by the earlier
+single-status-document GitHub request.
 
 ## Current entry and task authority
 
@@ -8,11 +39,14 @@ when entering a new conversation. `docs/handoff_next_stage.md` is a pointer to
 this handoff. The root `README.md` is frozen historical evidence, not a current
 Goal or launch instruction.
 
-On 16 November 2026 the user cleared the previous Goal after its retrospective
-was published. There is no active Goal and no research execution queue. This
-handoff starts no experiment and creates no Goal. The user's new task defines
-future work; do not resume the cleared Goal or recreate it from old documents.
-Do not interpret a later new task as an instruction to repeat an old pause.
+On 16 November 2026 the user cleared the previous Goal, then explicitly set a
+new active Goal to implement and evaluate the two methods in
+`reports/two_method_followthrough_20261116/PLAN.md`, pinned upstream at
+`e6796db460445bbdd60f8c0eccad716199b0edb4`. Follow this new Goal and its protocol;
+do not resume the cleared Goal or recreate its execution queue. The new Goal
+authorizes implementation, the locked real pilot, one formal five-dataset
+training/evaluation matrix and fresh frozen testing, subject to the plan's
+explicit core-refutation and resource conditions. See `docs/CURRENT_GOAL.md`.
 
 Past mechanisms (including Lift/CoRev, C/U and observation-contract learning),
 dataset mixtures, batch schedules and phase-specific acceptance language are
@@ -54,6 +88,12 @@ Use the user's brother's skills when relevant, reading each selected skill fully
   the `anti-defensive-writing-en` counterpart for English manuscript work.
 - `nature-paper` may help with concise scientific prose when applicable.
 
+Supervisor-Skills is also installed under `/home/yndx/.codex/skills/` from
+`HKUSTDial/Supervisor-Skills`. See `docs/RESEARCH_SKILLS.md` for its 12 skills,
+the pinned version, installation evidence and task-based selection. Read each
+selected skill fully before using it; use it alongside the brother's skills
+and the applicable anti-defensive-writing skill.
+
 These are authoring workflows, not learned legal libraries. Do not modify lawyer
 or teacher prompts just to activate a writing skill. Writing style never changes
 numerical results, comparison conditions, uncertainty or negative evidence.
@@ -71,5 +111,6 @@ Preserve v0.23, utility v6 and unsuccessful studies. The five historical AST-loc
 failures remain historical facts; do not alter frozen scientific hashes merely
 to make historical checks pass. Use checks relevant to actual new changes.
 
-Current development branch: `repair/lift-corev-activation-20261112`; public evidence
+Current development branch: `research/paired-interface-structural-transfer-20261116`;
+preserved predecessor: `repair/lift-corev-activation-20261112`; public evidence
 branch: `research/legal-skill-evolution-20261111`. Do not directly modify `main`.

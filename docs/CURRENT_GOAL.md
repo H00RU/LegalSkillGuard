@@ -1,20 +1,219 @@
-# 当前状态：旧Goal已clear，暂无新Goal
+2026-11-17 最新维护任务：用户已要求同步整个legal-skill-current的核心代码到已明确授权的H00RU/LegalSkillGuard研究分支。范围包括全部核心模块、实验入口、对应测试/配置/依赖及当前交接；不是只同步M1复现子集。同步本身不恢复M1/M2扩展、正式训练或冻结测试，不新建/完成Goal；科学状态仍以M1/M2停止结论为准。范围、排除项和文件哈希见docs/CORE_CODE_SYNC_20261117.md及CORE_CODE_MANIFEST_20261117.json。下列旧任务段落保留为历史记录。
 
-2026-11-16用户清除了原Goal，并要求准备同目录的新对话交接。系统核对为`goal: null`。**旧Goal没有达到两项独立贡献验收；clear不是研究完成。** 不将它自动恢复为active，也不从原Goal卡重新建目标。
+2026-11-17 当前任务结论：已完成M1源码/必要依赖/最小证据公开发布（b741b46a63cf3b95c6e99e7976b69ba7aff729fa）和固定有限可行性验证。原3个OE TRAIN来源复用18响应，新增2调用/5576 tokens；M1诊断F1=1/3但完整正确0/4，正分均涉及源审unknown→true，未建立保持源文语义的独有收益。停止当前M1版本扩展，M2继续停止，不启动正式训练/DEV/冻结TEST，不搜索替代方向。保留原分数、177参考、账本12427/reserved0和全部曝光事实。整Goal受阻未完成，不以报告或离线通过标完成。详见reports/two_method_followthrough_20261116/M1_FEASIBILITY_DECISION_20261117.md。下列旧阶段段落仅作历史记录。
 
-当前唯一任务是完成交接准备；没有研究执行队列、在途请求或已授权自动启动的准备任务。本次不启动研究模型、训练、DEV/TEST或论文。新对话用户给出的新任务定义后续工作；此处不替它预设候选、实验安排或验收标准。
+2026-11-17 用户最新任务：M2 停止扩展，保留代码与证据，不在服务器寻找替代方向。当前仅推进 M1：先发布修订源码、必要依赖、复现命令及去凭据最小证据包到既有 GitHub 研究分支；再完成同链参考/真实输出核验、自动语义接口生成审计及固定有限的 TRAIN 来源公平比较。复用有效结果；不启动完整训练、DEV/冻结 TEST，也不因涨分追加实验。新授权覆盖旧的仅说明文档上传限制。系统 Goal 当前仍 blocked、未完成；本任务不新建 Goal、不恢复 M2 或旧队列。
 
-## 状态与证据的边界
+# 当前 Goal：两项法律技能方法的实施与完整评价
 
-- 旧Lift/CoRev、C/U、观察契约、其他候选、数据配比、批次和阶段待办均属历史选择，不是新研究必须沿用的方案。
-- 旧临时停止/恢复要求不作为未来新任务的停止规则；不要重读历史暂停后再次暂停新工作。
-- 代码、已学库、原始响应、负结果、版本、累计费用与数据暴露记录保留。旧TEST已暴露，不能因clear重新称为盲测；新实验应如实记录来源重叠。
-- 累计账本不重置，不恢复已撤销的旧机械调用/修复轮次上限。未来资源使用按新任务及仍适用的用户授权判断，不凭旧日志派发请求。
+最新结论：按用户M2两关复核，现有135份图对的6族候选上界仍均1；计算例仅支持附条件外推，且在例中被同假设的完整联合差分迁移复现。两关未过，M2扩展及新真实验证已停止，整Goal受阻、未完成。共同F修复和53项检查已交付；原177参考、账本及曝光事实保留。见 [M2两关决定](../reports/two_method_followthrough_20261116/M2_TWO_GATE_DECISION_20261117.md)。以下active／待执行段落为此前历史截面，不构成新执行队列。
 
-## 接手入口
 
-[新对话交接](NEW_CHAT_HANDOFF.md)说明阅读顺序、资产和隔离方式；[METHOD_REDESIGN_CURRENT](METHOD_REDESIGN_CURRENT.md)是历史证据索引，没有“下一实验”。[旧Goal总回顾](../reports/legal_skill_evolution_run_20261111/component_training_20261115/GOAL_RETROSPECTIVE_20261116.md)保留所有主要路线的结论。
+最新进展：已将MAUD唯一“参考可执行但原生不正确”案例定位为输入上下文遗漏，交付唯一原文锚定的完整Section恢复工具与版本化TRAIN输入提案，8项检查通过。原177参考、正式输入和历史分数保留；Goal仍active，正式训练继续暂缓。见 [MAUD上下文修订](../reports/two_method_followthrough_20261116/MAUD_CONTEXT_REPAIR_20261117.md)。
 
-唯一本体`/home/yndx/hhy/legal-skill-current`。开发分支`repair/lift-corev-activation-20261112`，公开研究分支`research/legal-skill-evolution-20261111`，不直接改main。原研究模型及环境未改动。
 
-交接核对：累计executor11741（含失败19）、teacher329（含失败12），共12070条；reserved0，无研究客户端。本次新增研究请求0。所有计数均为交接截面，未来核对真实账本，不根据本文倒写账本。
+本轮交付：已修订生产解码与M2主路径，完成765份固定离线预测、70项检查和官方库存核查；真实M2仍无有效风险排序，正式训练继续暂缓。详见 [修订结果](../reports/two_method_followthrough_20261116/REVISION_RESULTS_20261117.md) 与 [数据安排](INDEPENDENT_TEST_DATA_PLAN_20261117.md)。新代码未上传GitHub。
+
+
+> 2026-11-17 最新授权：用户已要求继续同一 Goal 的阻断修订，系统状态 active。先交付 M1 同链参考输入检查与实现修复、M2 新可识别目标及算法验证、官方库存与独立测试数据方案；暂不启动正式训练或新增大规模调用。177 个参考视图、原始结果、连续账本和暴露记录保留。下文 blocked／停止扩展是修订前历史截面，不覆盖本次授权。见 [当前修订范围](REVISION_SCOPE_20261117.md)。
+
+
+2026-11-16。用户已设置新 active Goal，系统 get_goal 已核实。依据为固定提交 `e6796db460445bbdd60f8c0eccad716199b0edb4` 的[PLAN](../reports/two_method_followthrough_20261116/PLAN.md)、[protocol](../reports/two_method_followthrough_20261116/protocol.json)、[RELATED_WORK](../reports/two_method_followthrough_20261116/RELATED_WORK.md)及[IDEA_EVALUATION](../reports/two_method_followthrough_20261116/IDEA_EVALUATION.md)。21 份方案附件已逐文件验证 Git blob 哈希并导入原项目。原方案的“尚未启动服务器”是发布时状态，不覆盖用户新授权。
+
+## 范围与完成条件
+
+- M1 固定经审核法律模块，自动生成局部读取编码与确定性消费者的合法成对改写，并用真实冻结执行器选择。
+- M2 使用完整版本的真实 TRAIN 参考/读取图对；开发来源与校准来源隔离，检验未见关系结构上的风险预测和方案选择。
+- 固定最多 32 个已有 TRAIN 母来源的小试和强对照；首次新调用前锁定 pilot_lock.json，不按涨分追加候选、换题或扩展实验。
+- 实现和数据检查通过后自主进入一次五库混训，默认 128 母来源、8 批；固定七系统，DEV 在 B0/B1/B4/B8 记录曲线，冻结后用未暴露测试库存。库存不足准确报告实际规模，不重命名旧 TEST。
+- 交付代码提交、冻结外部库、真实调用与配置 hash、逐来源结果、曲线、两项独立贡献比较、成本和复现命令。完整评价可结束实施 Goal；论文双创新是否成立另据证据判断。
+
+不因小试未显著涨分、区间重叠或普通实现错误中止。允许必要重构及可定位的定点修复，不追分追加实验或擅自换方向。若存在明确机制反证或无法补齐的必要条件，保存可复现证据，报告 Goal 未完成并停止扩展。只有无法自行核实的必要信息或真实资源缺口才集中询问。
+
+## 当前真实阶段
+
+2026-11-17 Goal状态：blocked（受阻、未完成，系统update_goal已返回确认）。同一未暴露SARA库存缺口已连续三轮复核，原DEV72/TEST136暴露事实不变；当前主M2等价固定columns的明确反证也已保存。源文177/177审核和独立反证核对均已完成，原方案规定此时停止扩展；当前没有可在原目标边界内自主完成的后续研究执行，不把目标缩成审核/报告，也未宣布完成。
+
+正式TRAIN/DEV/TEST及固定诊断均未启动，无在途研究任务/reserved0，连续账本12425行，本轮新增研究端点调用0。全部代码、参考卡、失败/结果、累计账本和暴露记录保留。阻断回执为artifacts/two_method_followthrough_20261116/handoff/goal_blocked_audit_20261117_26a9f0bd3.json；实际状态返回保存在同目录goal_blocked_status_api_20261117.json。后续需用户明确新的科学任务或使必要外部条件改变；仅选择新的TEST范围不能解除M2反证。以下active字样均为此前历史截面，当前以blocked为准。
+
+2026-11-17 当前主M2可识别性反证（当前截面）：经代数证明与原真实小试24组通道复原，当前unrestricted约束对任意同模型校准规模均允许q_unknown=1；原风险上界目标因此恒为1。正式select主路径取unrestricted、候选成本均0、原五库池columns为基线且名字排序首项，M2_fixed_interfaces及M1_M2主选择等价于固定columns。24/24真实unrestricted通道显式可行解及三个有界目标均验证；该结论不依赖参考图是否补全或目标标签。条件detectable_residual分支另存，17/24通道也允许完整unknown，但不将主路径结论推广为所有条件模型不可能。
+
+六项相关检查通过（0.806秒），含完整fit_prefix→arm_snapshot→select构造流程：条件分支能依风险选records，主路径仍columns且无风险排序。8/64/1024构造来源仅为代数边界检查，不增加真实样本、独立试验或机制效果。真实约束的structural_channel.py SHA与原拟合协议相同；没有修改生产方法、参考卡、候选池、评分或unknown，也未加载DEV/TEST/grading。当前74正式生产/事实绑定与原132付费literal wires保持原状态，本轮新增研究请求0。
+
+固定PLAN第115–117、136行规定明确的可部署等价反证出现时保存证据、报告Goal未完成并停止扩展。当前按该条件停止正式双方法矩阵扩展，不能通过追加校准、切换主假设或新测试库存跳过此反证。Goal仍active、未完成；正式TRAIN/DEV/TEST和固定诊断未启动，真实曲线与两项独立贡献未交付。源文177/177参考保留；原DEV72/TEST136暴露和本地SARA未暴露库存0的事实不变。上一轮测试范围问题仍待用户答复，单独改变TEST范围不足以解除当前方法条件；后续需用户明确新的科学任务，不恢复已clear的旧Goal/候选/执行队列。
+
+完整结论、范围与复现见reports/two_method_followthrough_20261116/M2_IDENTIFIABILITY_AUDIT.md；不可变数值/源码证据在artifacts/two_method_followthrough_20261116/M2_identifiability_audit_v1/1637667ad04395b561d442a4b1c670b89b1b9970e040c72f580d8033b499a6af/，准确提交与检查回执见handoff/current_checkpoint.json。此前准备及截面保留，不再据此派发当前正式矩阵。
+
+2026-11-17 OE源文审核齐备与新的held-out暴露事实（当前截面）：原剩余19个OE母来源的38个分别供给的视图已通读全部126单元（15542字符），原6开发/7校准/6纯参考角色和批次不变。各视图保留各自的占有、所有权主张、资产申报及has措辞，不借兄弟视图确立所有权；营业相机/按摩床/圆锯覆盖个人用途默认，住宅不变成动产，Arizona首饰的wearing-apparel分类不猜定。闲置端口保持unread，EC/EV独立输出族不合并，不计算F结果或用原生标签修标注。累计extra138卡（原100+新38）进入真实索引后，源文参考ready177/177、missing0，OE44/SARA22/CNI21/Airline24/MAUD66；另18个声明域外视图、TRAIN128/八批/七系统不变。源审核仍不是整案原生金标、独立人工、自然结构新颖性或贡献证据。
+
+必须保留的新暴露事实：root本轮一次内容检索错误地遍历prepared目录，命中sealed_test/grading.json并将原生测试标签和测试源文带入工具输出。保守地将原DEV72与TEST136整库登记为本轮冻结前暴露；不因输出截断而只登记可见片段。事件原件为artifacts/two_method_followthrough_20261116/exposure/incidents/unscoped_rg_heldout_labels_20261117_0804UTC.json，版本化副本为docs/HELDOUT_EXPOSURE_20261117.json。原source_lock、全部字节、旧暴露记录和先前未暴露时的准备证据均保留；这些历史准备不再证明当前盲性。没有以这些标签修改算法、选择候选或修源卡；后续源卡/预检受禁止解析grading JSON的保护检查。源文审核完成不恢复测试盲性。
+
+完整固定SARA Binary库经原适配器按原stem/规范化facts分组重新核对：96个独立母来源，80个此前已选中/调用/历史暴露，余下16个对应本次DEV8/TEST8暴露，未暴露剩余0。审计只返回来源键/hash/计数；原适配器机械分离标签，不打印标签、原生问题或案例，不用于选择或修复。不能将登记prospective来源键本身当成标签暴露；首份误计的审计已保留并附interpretation_correction.json，正确当前审计见heldout_inventory_audit_v1/97021a423ee1033b51f9c9c3010f3b95a5f5f482e6f3fdb4c36b59ff79926449/summary.json。原五库新盲测要求在本地固定库内无法满足；已向用户集中提出“保持原要求等待独立SARA来源”或“授权其余四库重冻盲测、SARA仅作已暴露诊断”的范围问题。未收到答复，不改变评价范围，不启动正式实验。
+
+正式run现先检查单调暴露事件，原DEV72/TEST136在prepare、客户端和全局实际矩阵登记之前触发HeldoutExposureError；已知事件随源码保存，忽略artifacts目录缺失也不能重置暴露。prepare仍可做诚实的元数据预检，并在protocol明确记录heldout_source_cohorts_unexposed=false；源文ready不等于formal_dispatch_ready。实际预检证明177源参考齐、74当前源码/事实绑定、132旧paid非OE literal wires可复用，但派发被暴露门槛阻止。所有旧72绑定的科学快照保留，本轮只在无正式run的安全边界加入门槛与新事实绑定。
+
+本轮10项OE源卡检查（49.989秒）及21项暴露/正式协调/评价/设计检查通过；这是两个执行合计31项，不是全部累计245项重跑。1402份历史科学文件hash及原Airline脚本保持不变；账本12425行/reserved0，新增研究端点调用0，互动标注开销未计价，不记成免费。此前被拒96教师批次仍0调用、未重试；其原审批问题不构成新授权，现源文补齐也不需要该提案批次。
+
+Goal仍active、未完成；正式TRAIN/DEV/TEST与固定诊断仍未启动，M1/M2独立贡献未确立。先处理真实的新测试库存/范围前提，再核对部分原生损失界、真实关系结构支持与冻结绑定；不能因source-review ready而启动原暴露测试，不能用状态报告代替完整矩阵。当前精确路径/hash与检查回执见artifacts/two_method_followthrough_20261116/handoff/current_checkpoint.json；以下截面全部保留为历史。
+
+2026-11-17 MAUD剩余32个契约视图审核齐备（当前截面）：32视图均逐条通读全部56个原源单元（26690字符），对应原16母来源（6开发/6校准/4纯参考），不是32个独立样本；角色、批次及知识视图不变。全部66个主MAUD视图审核齐备，其他CNI21/SARA22/Airline24审核保留。总体ready107→139，缺审70→38，缺失母来源35→19；剩余仅OE38视图。原TRAIN128/八批/七系统、177域内视图、18声明域外视图及DEV72/TEST136不变，正式训练、DEV/TEST及固定诊断仍未启动，Goal active、未完成。
+
+新32图均保留scope_complete=false、缺失具体禁止行为/定义/披露函及Boolean作用域未知；没有从知识视图或兄弟视图补事实。195081否定条款的COVID例外只挂指定(xii)/(xvii)子集，Parent(iii)/(iv)自主裁量另存；04bc两视图各自给出覆盖Section5.1的商业合理、善意COVID行动/不行动条款。9f3及447的否定视图不导入肯定视图COVID文字；447定义的excluding不改成including，195081的including保留。ef95否定视图不补书面/事先批准；b3同意人为Buyer且不补法律例外；BancShares/CIT相互同意不改成Parent。5a跨单元written-consent/Parent不拼接引文；合理努力同时限定相应公司与子公司控制路径，REIT直接维持义务不误加努力标准。遗漏的禁止行为清单和其他努力对象不猜补。
+
+82项相关检查通过（exec18389，14.723秒；新增15项+原67项源文检查），覆盖上述视图隔离、主体/控制、狭窄例外、定义、同意、时间、源漂移、累计清单和零客户端/零F输出边界。实际run仍在客户端构造前因38缺审停止，未登记全局实际矩阵。固定grading文件只作字节hash完整性核对，未解析或使用原生标签；未用问题、答案、参考参数、弱读或F输出修图。1402历史科学文件、72生产源码/快照绑定、132旧非OE literal wire与原Airline历史脚本不变；账本12425行/reserved0，本轮研究端点请求0，互动标注开销未计价，不算免费。
+
+首份完整草稿已原字节保留，review_scope_refinement.json记录为何将已供给的经营努力标准显式同时挂到子公司控制路径；没有改变源文或用训练/评分选修订，草稿未用于训练/评分。当前累计extra100卡（原68+新32）须显式选择，旧准备和所有源码/证据保留。源文核对只是所断言局部图的root审核，不是独立人工、整案法律金标、自然结构新颖性、弱读/原生结果或M1/M2贡献证据。原32视图/16母来源清单在handoff/MAUD32_inventory_before_covenant_reviews_20261117.json。
+
+下一步补齐OE38视图；随后核对实际数据/机制前提、部分参考原生失败界、真实关系结构支持、冻结绑定和进程，再运行唯一固定正式矩阵及诊断。不能把source-review ready等同整体Goal完成或完整原生金标，也不恢复旧候选/执行队列。当前清单`artifacts/two_method_followthrough_20261116/MAUD_covenant_source_reviews_v1/d85c4cfdcd1da592872a8ce78af3f2e0006430a81d7982eeb62f3359ef00c5f4/manifest.json`；正式准备`artifacts/two_method_followthrough_20261116/formal_study_v1/801d492c07179e3153dac76c241a3fd08014eb28a179e9b2a12635d21227d8fe`；索引`artifacts/two_method_followthrough_20261116/formal_reference_registry_v1/df0eddf4f94f0feb5fd96a27713baf1c02118192c4ad1bf671a8b1d7a38c6395`；门槛回执`artifacts/two_method_followthrough_20261116/formal_study_v1/801d492c07179e3153dac76c241a3fd08014eb28a179e9b2a12635d21227d8fe/entry_gate_preflight.json`。精确hash和检查回执见handoff/current_checkpoint.json，以下旧截面保留。
+
+被拒外部96教师批次仍0调用、未重试；自动审批此前未认可该具体源文外发及费用授权，既有批准请求待处理，本地审核不构成该批准。
+
+2026-11-17 CNI剩余六份长合同审核齐备（当前截面）：原剩余六份已逐份通读全部706个原源单元（104178字符），新6条保持原2开发/3校准/1纯参考角色和批次。全部21个主CNI视图审核齐备；总体ready101→107、缺审76→70、缺失母来源41→35。剩余仅MAUD32、OE38视图。原TRAIN128/八批/七系统、177域内视图、18声明域外视图和DEV72/TEST136不变，正式训练、DEV/TEST及固定诊断未启动，Goal active、未完成。
+
+六图共789节点/793关系，均保留scope_complete=false及显式未知，不把整篇阅读当作独立人工或整案法律金标。Samsung档案副本、CSBS争议解决单副本、SHIRE监管/协议合规单副本、JLT法定/内部合规/无法合理删除的例行备份的不同留存范围分别保存；法务保管不是额外律师披露许可。CERT-In境外传输同意例外与后文绝对禁令的冲突不代判；Article2例外不移到Article7。重复备份条款保持原单元及各自处分目标。Cyber收件后五个工作日内通知与通知后七个工作日的程序条件、Project结束与NDA终止、十日/十工作日及不同起算点不混并。SHIRE缺失Exhibits A/B/C不补人名；JLT较窄Target信息与全部信息、融资方与专业顾问、联系渠道与授权同意人分开，损坏OCR日期不修成猜测日期。全部复杂Boolean、交叉引用及未供给法律附件仍在unknown中。
+
+67项相关检查通过（exec36758，10.958秒；新增15项+原52项源文检查），覆盖上述关系/材料/时间作用域、源漂移、累计清单、重复单元，以及零模型/教师/账本客户端和零F输出边界。真实run仍在客户端构造前因70缺审停止，未登记全局实际矩阵。固定grading文件仅核对字节哈希，未解析或使用原生标签；未用原生问题、答案、参考参数、弱读或F结果造图/修图。1402历史科学文件、72生产源码/快照绑定、132旧非OE literal wire及原Airline历史审核脚本不变。连续账本12425行/reserved0，本轮新增研究端点请求0，互动root标注开销未计价，不写成免费。
+
+当前累计extra68卡（原62+新6）必须显式传入；旧清单、源码快照、未完成研究和失败证据均保留。原六份完整来源长度/角色/批次/units SHA清单在handoff/CNI6_inventory_before_final_reviews_20261117.json。源卡不是新弱读、独立试验、原生分数、结构新颖性或M1/M2贡献证据。下一步审核MAUD32及OE38视图，再按科学/数据前提推进唯一正式矩阵，不以CNI审核完成替代Goal完成。
+
+当前清单`artifacts/two_method_followthrough_20261116/CNI_long_source_reviews_v1/23e4184cbbd798aa0ebb7b81dcf6761878480b2656146f59eacbdc311ac87e3a/manifest.json`；正式准备`artifacts/two_method_followthrough_20261116/formal_study_v1/74625e74ad4f51628c926b019bf5e2ad0c29162b4b1120e93355e40a08f9d52d`；索引`artifacts/two_method_followthrough_20261116/formal_reference_registry_v1/bb31445e156a6cb17d8e08267604bfe0c0197fdfc4df9b5a69c3ed922a456fd0`；门槛回执`artifacts/two_method_followthrough_20261116/formal_study_v1/74625e74ad4f51628c926b019bf5e2ad0c29162b4b1120e93355e40a08f9d52d/entry_gate_preflight.json`。精确hash和检查回执见handoff/current_checkpoint.json，以下旧截面保留。
+
+外部96教师批次仍0调用、未重试；自动审批此前未认可该具体源文外发和费用授权，既有批准请求待处理。本地审核不构成该批准。
+
+2026-11-17 CNI四份中等长度合同源文审核（当前截面）：按原剩余10份CNI的完整文本长度审核接续四份（原2校准/2纯参考，无开发来源），未按问题/得分挑选，角色和批次不变。真实索引ready97→101、缺审80→76、缺失母来源45→41；CNI主视图当前15/21。剩余OE38、MAUD32、CNI6视图，原TRAIN128/八批/七系统、177域内视图、18声明域外视图和DEV72/TEST136不变。正式训练、DEV/TEST及固定诊断尚未开始，Goal active、未完成。
+
+四份完整源文均已逐单元通读，所有图保留scope_complete=false与未知。SINTEC的业务关系结束不等于NDA到期，员工仅限/必要程度不擅自变成充分授权；保密义务例外不误挂到Information定义。UNHCR的三路接收人各留书面约束、同意和必要知悉范围；法定义务披露与定义例外分开，三个月未建立业务关系OR请求的处分条件不重命名为终止。JUST BIOFIBER具名RECIPIENT与互换角色分开，复制同意不补书面，信息本体返还OR销毁AND衍生物销毁分别保留，证明书仅限销毁本体情形。Switchdigital组合信息例外限制、搜索禁令、员工/董事责任范围、提前两个工作日通知AND事先磋商、一月内Purpose结束OR书面请求返还并证明，均保持原粒度；不补30天、销毁选项或终止触发。
+
+52项相关检查通过（exec91119，8.336秒；新增10项+原42项源文检查），覆盖源漂移、接收人分支、材料/例外作用域、同意、通知与期限，以及零模型/教师/账本客户端和零F输出边界。真实run在客户端构造前因76缺审停止，没有全局实际矩阵登记。固定grading文件仅核对字节哈希，未解析或使用原生标签；精确解释在当前study的label_access_boundary.json，门槛旧字段grading_json_not_opened指未解码标签而非完全不打开文件做哈希。1402历史科学文件、72生产源码/快照绑定、132旧非OE literal wire和原Airline历史脚本均不变。连续账本12425行/reserved0，本轮新增研究端点请求0，互动标注开销未计价，不写成免费。
+
+当前累计extra62卡（原58+新4）须显式传入，之前清单/源码快照和全部未完研究证据保留。源文核对只认证所断言局部图，不是独立人工或整案法律金标，不能充当原生得分、弱读、自然结构新颖性或贡献增益。原10份审核前的来源长度/角色/批次/units SHA清单在handoff/CNI10_inventory_before_mid4_20261117.json；下一步仍须通读其余六份CNI及MAUD/OE，数据和科学前提完成后运行唯一矩阵，不以这四份审核结束Goal。
+
+当前清单`artifacts/two_method_followthrough_20261116/CNI_mid_source_reviews_v1/00b801a987a6f13c7800853a3dd5844b2ec549252b3b8566ea849b76db3167c3/manifest.json`；正式准备`artifacts/two_method_followthrough_20261116/formal_study_v1/e8b5c0644b91e872e502b18a8b2856e70194a1be23744cb120ee23667ee62346`；索引`artifacts/two_method_followthrough_20261116/formal_reference_registry_v1/6352fb0bc36ad0ba261d9f58d82f182cfd431b97133fe57eb8e9a023edd88beb`；门槛回执`artifacts/two_method_followthrough_20261116/formal_study_v1/e8b5c0644b91e872e502b18a8b2856e70194a1be23744cb120ee23667ee62346/entry_gate_preflight.json`。精确hash和检查回执见handoff/current_checkpoint.json，以下旧截面保留。
+
+外部96教师批次仍0调用、未重试；自动审批此前未认可该具体源文外发和费用授权，既有批准请求待处理。本地审核不构成该批准。
+
+2026-11-17 CNI六份短合同源文审核（当前截面）：按完整源文长度对原缺16份CNI排序，先逐条通读并审核六份（原4开发/1校准/1纯参考），未按问题/得分挑样本，原角色、批次和其余十份要求不变。真实索引ready91→97，缺审86→80，缺失母来源51→45；CNI主视图当前11/21已审核。剩余OE38、CNI10、MAUD32视图。原TRAIN128/八批/七系统、177域内视图、18声明域外视图、DEV72/TEST136保持不变，正式训练、DEV/TEST及固定诊断仍未开始，Goal active、未完成。
+
+六份均保留scope_complete=false和明确未知。未勾选的单向/双向表单不替用户选择；空日期/返还天数不补猜；必要条件“only share/reveal only”不提升为充分披露授权。请求返还不变成终止返还，终止OR到期OR书面请求的三路触发保留原文；返还与销毁的选择及销毁确认分支分别保留。学院五日邮寄通知规则不复制成返还期限。Crane的prepared-document留存/销毁子集与其他返还材料分开，口头信息持续保密及书面信息位置台账不变成额外留存权；required-by-law只挂实际讨论事实条款，强制披露通知的书面AND口头形式保留。未注明专业的advisors/accountants不改成法律/财务顾问，业务/服务受益者不改成雇主。
+
+42项相关检查通过（exec49284，6.528秒；新增10项+原32项），覆盖完整源锁、同名跨单元的明确unit_id锚点、同意范围、未勾选表单、期限、处分选择、被动句未知主体、角色/模态、累计清单及零客户端/零原生标签/F输出边界。实际run在模型、教师或研究账本客户端构造前因80缺审停止，未登记全局真实矩阵；没有用native问题、答案、参考参数或F输出修图。1402历史科学文件、72原生产源码/快照绑定、132旧非OE literal wire及原Airline历史审核脚本均不变。账本12425行/reserved0，本轮新增研究端点请求0；root互动标注开销未计价，不写成免费。源文审核不等于独立人工认证、整案金标、弱读、准确率或两方法贡献增益。
+
+原六份审核之前的16来源长度/角色/批次/units SHA清单在handoff/CNI16_inventory_before_short6_20261117.json保留。初始Liberty姓名跨单元引文被全局唯一校验拒绝的失败及源码/部分卡保留；新版用明确原unit_id与单元内唯一引文，不合并源单元。一次中间草稿把两处only-if限制写成permission，review_erratum.json已标为不可作当前真值并保留原字节；改为未确定模态后生成新hash目录，无训练或评分使用草稿。当前累计extra58卡（原52+新6）须显式传入，旧准备与全部证据不覆盖。
+
+当前清单`artifacts/two_method_followthrough_20261116/CNI_short_source_reviews_v1/d1e7b16efad6b720411331b5fbb98f31546571b1b50fd84f139445baa8f88545/manifest.json`；正式准备`artifacts/two_method_followthrough_20261116/formal_study_v1/4a617f1531929de8b1097dfa6a433d3b31f6d36c8069d0d102fc9139ba2fd70e`；索引`artifacts/two_method_followthrough_20261116/formal_reference_registry_v1/88d2b125c84e503ce15e37fd552e19ad1db3a94f195bf3c33d62c5bba29a3d3f`；门槛回执`artifacts/two_method_followthrough_20261116/formal_study_v1/4a617f1531929de8b1097dfa6a433d3b31f6d36c8069d0d102fc9139ba2fd70e/entry_gate_preflight.json`。精确hash和检查回执见handoff/current_checkpoint.json，以下旧截面保留。下一步继续其余十份CNI及MAUD/OE，补齐科学/数据前提后运行唯一正式矩阵，不因这六份审核结束Goal。
+
+外部96教师批次仍0调用、未重试；自动审批此前未认可该具体源文外发及费用授权，既有批准请求待处理。本地审核不构成该批准。
+
+2026-11-17 Airline剩余20源视图审核（当前截面）：20条已逐条核对完整原文并接入真实参考索引，原角色8开发/8校准/4纯参考及批次保持不变。ready71→91，缺审106→86，缺失母来源71→51。全部24个主Airline单视图已审核；SARA22视图和MAUD22个knowledge v0审核保留。剩余缺口为OE38、CNI16、MAUD32视图。原TRAIN128/八批/七系统、177域内视图、18声明域外视图、DEV72/TEST136均不变。正式训练/评价/固定诊断仍未启动，Goal active、未完成。
+
+新20卡覆盖156件行李的逐件来源位置、原始维度顺序及英寸/磅数值，并保留各航线方向、舱位与票价。相同重量不合并为一件；背包/箱子名称不转成托运/随身类别，不推断行李法律所有权；票价不作总费用。航线只记录字面城市，不填费用区域，Amsterdam/Jerusalem/Mexico City等未支持路线不改成受支持路线。scope_complete只指完整给定行程/物品清单在当前本体内的覆盖，不是完整政策、费用答案或独立人工金标；未使用原生问题、答案、参考参数或F输出制作/修图。
+
+32项相关检查通过（exec77250，4.851秒；新增8项+原24项源文检查），包括原源漂移拒绝、156件物品绑定、相同重量不合并、100磅值、未排序的尺寸、倒置图节点后仍保持原行李顺序、未支持航线拒绝及零客户端/零标签边界。真实run在任何模型/教师/研究账本客户端创建前因86缺审停止，没有全局实际研究登记。1402历史科学文件、72原生产源码/快照绑定和132旧非OE literal wire不变；账本12425行/reserved0，本轮新增研究端点调用0。root互动标注开销未计价，不写成免费；小试无优势/M2非平凡选择0的原结论不因这批卡改变。
+
+累计52条extra manifest（原32+新20）须显式选择，历史39/138、41/136、55/122、71/106准备各自保留。首次门槛回执误写22的计数已保留并勘误，实际主Airline为24。新脚本曾覆盖同名历史脚本，已按原提交逐字节恢复历史文件（SHA ac1c2cfd576062b56288118f51b700b42b235e0f0b2b5382c8481238c249283b）；新审核器独立为experiments.two_method_airline_inventory_reviews。全部52张卡在路径更名后逐字节一致，旧准备、原脚本、临时新脚本及恢复回执均保留。当前新路径准备和受保护入口已重新验证91/86。当前清单`artifacts/two_method_followthrough_20261116/Airline_source_reviews_v1/eca49d57338cf02055fd98e637aa6a89ecd30f3c15badb084e711ecad52fd79d/manifest.json`；正式准备`artifacts/two_method_followthrough_20261116/formal_study_v1/27d4264873a693518b2c7a844736d1a18b867fdfd218473ca4a25808325902cc`；索引`artifacts/two_method_followthrough_20261116/formal_reference_registry_v1/54d6962c4b15a07222e5fb2edf952c05aa31748d01842e72d072fda17542b5cc`；当前门槛回执`artifacts/two_method_followthrough_20261116/formal_study_v1/27d4264873a693518b2c7a844736d1a18b867fdfd218473ca4a25808325902cc/entry_gate_preflight.json`。精确hash和检查回执见handoff/current_checkpoint.json，以下旧截面保留。
+
+被拒的外部96教师批次仍0调用、未重试；自动审批此前未认可该具体源文外发及费用授权，既有批准请求仍待处理。本地审核不构成该批准。下一步补齐其余86视图和科学前提后运行唯一固定矩阵及诊断，不为追分扩样本/轮次。
+
+2026-11-17 SARA剩余16源视图审核（当前截面）：新16条原文审核已通过实际索引和受保护入口验证，原角色为6开发/6校准/4纯参考，原批次不变。参考ready55→71，缺审122→106，缺失母来源87→71。主学习范围全部22个SARA单视图和22个MAUD knowledge v0已有审核卡；MAUD其他视图仍须分别审核。原TRAIN128、八批、七系统、域内177视图和域外拒绝18视图均不变。正式训练、DEV/TEST及固定诊断尚未启动，Goal仍active、未完成。
+
+新卡逐条绑定source_units SHA，保留付款/服务期间、亲属方向、各自金额与付款目的。诊断观察日不作残疾起始日；服务日期不复制为付款日，美元不自动变成现金、收入或雇佣关系。152(c)(1)仅记录原文明示的三条角色/年份声明，152(c)(2)、151(d)、缺年份的63(f)不擅自补成其他native given；两条600各留受益人，不合成资格推导。原始法条公共事件词表只校验数据传输，未读原生问题、答案、case Prolog或grading.json，也未用F输出改图。9条图保留局部不完整scope，全部16图保留unknown；root源文核对不等于独立人工认证或整案法律金标。
+
+24项相关检查通过（exec93219，2.615秒；新增10项SARA及此前14项MAUD检查）。真实run入口仍在任何模型、教师或研究账本客户端创建前因106缺审停止，未创建全局实际矩阵登记。1402份历史科学文件、72个原生产源码/快照绑定和132条旧非OE literal wire均未变。连续账本12425行、reserved0，本轮新增研究端点请求0；root互动标注开销未单独计价，不算免费。原32源小试和156输出的结论不变：M1尚无优势证据，M2非平凡风险驱动选择仍为0；本批卡不是新效果实验。
+
+诊断起始日错误草稿已原字节保留并附review_erratum.json，未用于训练或评分；修正为观察日后生成新hash目录。初始重复年份引文也在旧preparation_failure.json保留。当前额外清单累计32卡（原16MAUD+16SARA），须显式传入；无参数历史准备39/138、原2卡41/136、原16MAUD55/122分别保留。补齐其余106视图和科学前提后才能开始唯一正式矩阵；不扩充训练规模或按涨分增加轮次。
+
+当前extra manifest：`artifacts/two_method_followthrough_20261116/SARA_source_reviews_v1/9a453ee239626194afaca26ff2693a5e19dc6d4d64e6666015bb2229c215806d/manifest.json`；正式准备：`artifacts/two_method_followthrough_20261116/formal_study_v1/0bde9d5ca0b84514983f7e4d11332da888eaaa7216a55a5ada961472fa64baf3`；源参考索引：`artifacts/two_method_followthrough_20261116/formal_reference_registry_v1/5afbbcdd59dfcbb47dae7dd286d5ad61509c4f4241fd4c70d716b2fdc98a9b74`；受保护门槛回执：`artifacts/two_method_followthrough_20261116/formal_study_v1/0bde9d5ca0b84514983f7e4d11332da888eaaa7216a55a5ada961472fa64baf3/entry_gate_preflight.json`。精确hash及检查回执见handoff/current_checkpoint.json，以下旧截面保留。
+
+外部96教师批次仍是0调用。自动审批此前拒绝该源文外发及付费请求，理由是未认可当前可信指令对具体批次的授权；既有批准请求仍待处理。本地审核不构成该批准，也未重试或间接派发该批次。
+
+2026-11-17其余14个MAUD知识视图审核：按当前完整源文逐条完成所有尚缺的MAUD v0 knowledge视图，保持原6开发/4校准/4纯参考角色和批次；先前2份审核卡原样纳入累计16条显式manifest。当前参考ready41→55、缺审136→122，缺失母来源仍87（MAUD其他视图未补齐）；主学习范围内22个MAUD knowledge视图均已有审核卡，结构评价折未纳入主参考。原128来源/八批/七系统、177个域内视图和18个声明域外视图均不变。正式训练、DEV/TEST和固定诊断未启动，Goal保持active、未完成。
+
+每条配方只对已逐条读取并锁定source_units SHA的源文有效；未知来源或任何字节变化均拒绝自动审核标志。Company/Parent/Holdings分支、引用各自披露函的群体、知识持有人与直接下属/员工询问目标分别保存；未指明对象或询问政策的定义不改为“无需询问”。原文明确的records/employee询问有其by所指定的询问者，without further investigation只限制该询问范围。未来接替/共享职责人员保留未来时间和资格条件，不断言接替已发生，也不把时间条件挂到全部原定人员。would-have-obtained及预期知情的模态限定保持本来作用域，不改成已经知情。
+
+A. / Brent King被既有source_units划在两单元内，保留原单元与字面Brent King锚点及姓名初始成分未完整编码的未知，不合并源单元或新造一个“A.”人员。新14图有6个局部不完整范围；其余scope_complete只指所给片段在当前本体内的覆盖，不等于完整合同/法律/原生金标。未供给的披露函身份、法律雇佣关系及省略分支仍未知。root对图断言的源文核对不作为独立人工认证，也不把标注图结构差异当作自然未见结构证据。
+
+14项相关检查通过（exec4084，1.207秒；新增9项+此前2卡5项），覆盖来源漂移、分支/目标/询问者、未来条件、跨单元名字、模态未知、累计清单及零客户端/零标签边界。真实索引和受保护run入口已验证55/122，并确认无主MAUD v0缺口；入口仍在构造模型、教师或研究账本客户端前停止，全局真实矩阵登记未创建。未打开grading.json，132个旧非OE请求wire一致，1402份历史科学文件和原72个生产源码/快照绑定均未变，连续账本12425行/reserved0，本轮新增研究端点调用0。
+
+代码将root互动审核的代理开销列为未计价，不将“没有新增实验端点请求”写成零标注成本。原32来源小试、156原输出、旧失败与旧校准/结构证据保留，新卡不构成弱读、独立试验、准确率或贡献增益。初次准备中一个Company’s引文漏写the，被精确源锚点校验拒绝；原失败协议/源码和部分输出已保留，修正仅补回原文引文前缀，没有改事实、输入或评分。
+
+当前必须显式传累计16卡manifest复现55/122；此前2卡manifest仍复现41/136，历史无参数准备仍39/138，各自快照不覆盖。下一步继续对其余来源/视图作源文审核，补齐数据和科学前提后才能派发唯一正式矩阵及固定诊断、导出真实曲线和贡献比较。外部96教师批次仍因源文外发/费用授权未获自动审批认可而被拒，既有批准请求待处理；当前源码只处理本地原有源文，未派发或重试该批次，也不提供该批次批准。
+
+累计显式审核：`artifacts/two_method_followthrough_20261116/MAUD_knowledge_source_reviews_v1/45a3aa68f59727b6d731ab2639c2e0fd65775096f30b0eb1dd18fa2bd3750793/manifest.json`；当前正式准备：`artifacts/two_method_followthrough_20261116/formal_study_v1/bfa785767b85e857e34cf20824a05124b8d90419434e43b0fbeb73c1db7fea7c`；当前索引：`artifacts/two_method_followthrough_20261116/formal_reference_registry_v1/cf821cab20e8f03c8fbfff957d2ba9011a00f3d66fac2113171dbbd933f42ba1`；真实门槛回执：`artifacts/two_method_followthrough_20261116/formal_study_v1/bfa785767b85e857e34cf20824a05124b8d90419434e43b0fbeb73c1db7fea7c/entry_gate_preflight.json`。精确source/card/protocol hash和检查回执见handoff/current_checkpoint.json；以下历史截面保留。
+
+2026-11-17缓存源文审核补齐：在原分支和原TRAIN128内完成两份MAUD knowledge视图的显式root源文审核，接入当前参考索引后，ready视图39→41、缺审核视图138→136，缺失母来源仍87（这两母来源的其他视图仍缺审）；原177个域内视图、18域外拒绝及原角色不变。两母来源原定均为B1校准，未移入开发、纯参考或结构折。正式训练/DEV/TEST/固定诊断仍未启动，Goal保持active、未完成。
+
+先只读检索1056个历史review/audit/reference/source-manifest文件：248份含缺失来源ID，覆盖全部87个母来源，但当前源/视图/完整source_units绑定兼容的审核卡为0。该历史检索的全部候选路径、1056个文件hash、原checkpoint、脚本及原138视图缺口均已保留。旧局部审阅和失败分析只作线索，不自动提升为整卡真值；没有恢复旧机制或执行队列。
+
+新两卡逐字核对当前完整v0源文，锁定source_units SHA，逐节点/关系保留字面证据。第一条保留指定人员的合理询问条件，将专利意见/检索的有限例外和IP知识非归责禁止分别挂到实际作用域，不推广为全面免询问，也不添加“若未做检索”的额外条件。第二条保留所给Company分支的actual wording与合理询问条件。二者均不将知识持有人当作询问对象、不推定雇员/高管身份、补入省略分支或披露函人员。图保留scope_complete=false及显式未知；root对断言局部图的语义核验不等于独立人工金标、完整法律事实或原生正确率。旧部分审阅原字节和既有TRAIN暴露事实均保留。
+
+`experiments.two_method_cached_maud_reviews`只消费这两份锁定源文及既有局部源审，不调用教师、执行器、原生评分或提案。五项检查通过（chunk38baad，0.190秒），覆盖未知/角色边界、IP例外和非归责作用域、源文漂移拒绝、源卡持久化的零客户端/零标签边界。真实参考注册和受保护run入口已验证41/136；仍在创建任何模型/教师/研究账本客户端前停止，无全局正式矩阵登记、无标签打开。132条原非OE literal wire一致，1402历史科学文件与原72生产源码绑定未变，连续账本12425行/reserved0，本轮新增模型请求0。
+
+最新准备显式绑定这份extra-reviews manifest；不传该参数的历史默认准备仍是39/138，不能混淆为同一准备版本。当前prepare产物和旧所有快照分别保留，尚无任何真实矩阵被登记或派发。后续继续按当前源文逐条审核可核实缓存；不得为凑齐门槛制造空图、删除未知或借原生标签补图。外部96教师源文批次仍为0调用，自动审批因源文外发/费用授权未获认可而拒绝，既有明确批准请求待处理；这些本地源文审核没有重试或间接派发该批次。
+
+新源卡及显式审核清单：`artifacts/two_method_followthrough_20261116/cached_MAUD_source_reviews_v1/09eaeb93e4d1609b24b36151101a0602b44a3f3ff635a97c8e694fc0262ae0de/manifest.json`；当前正式准备：`artifacts/two_method_followthrough_20261116/formal_study_v1/c88a7c3ad6a392ed48cba7070504aca425495c5a8993ff26383a4a38a77eac5a`；当前源参考索引：`artifacts/two_method_followthrough_20261116/formal_reference_registry_v1/5210f4a83be2e0e64b1434c2d033002ee2077eddd0b4816846d6028ab54819b2`；真实入口门槛回执：`artifacts/two_method_followthrough_20261116/formal_study_v1/c88a7c3ad6a392ed48cba7070504aca425495c5a8993ff26383a4a38a77eac5a/entry_gate_preflight.json`；历史缓存检索：`artifacts/two_method_followthrough_20261116/review_cache_inventory_v1/f1d8bfdc90bec098544f0ea505d2af35ad060da157939c5af35ef43852a4c462`。精确回执见handoff/current_checkpoint.json；以下历史截面保留。
+
+2026-11-17离线交付出口接续：`experiments.two_method_delivery`和`legal_skill_guard/paired_delivery.py`已实现逐任务/逐母来源表、各库原生指标、DEV曲线、成对贡献差值、程序执行模式、TRAIN局部图分歧及比较预算的统一汇总。只读取公开manifest、原已保存的预测/评分/冻结证据和连续账本，不创建模型客户端或打开原生grading.json；不恢复队列。结果完整时核对九检查点/七臂、28+7格、原DEV选库规则、固定诊断和物理账本，再生成实际结果表与图；缺少文件时仅交付明确缺口和真实成本，不能以文件存在代替证据验证。
+
+来源重采样固定seed45、10000次，在母来源层面对齐成对差值，保留全部失败和原生任务分母，不混OE官方F1与其他库EM，不冒充五次独立训练或未见规则族的覆盖保证。原始预测、source/library/prediction seal与完整分母重新核对；篡改评分聚合或预测、遗漏来源、将未解决任务排除、改变DEV选库均会失败。比较预算按独立source/purpose/wire观测核对原物理meter，缓存和重复回调不算新物理请求或独立试验。B0/初始化/固定种子、实际已学程序、接口风险驱动选择和域外拒绝分开记录。TRAIN局部图分歧保留多对齐及未知，不据此推断完整法义或原生失败。
+
+当前真实零调用交付审计列出3475个缺失必需文件，因此没有生成正式评价表或真实曲线。新Goal累计355次物理请求＝283执行器（281完成/2失败）＋72教师，恰与原12070条基线及当前12425条连续账本对齐；正式矩阵及被拒96批次均0。执行器已计量1195221token，2次失败无meter，按原32768上下文得到总token区间[1195221,1260757]；教师token、现金与GPU价格未知处保留未知，不填0。已记录的本机增量API费用0不等于GPU免费；请求时长不当作GPU小时。账本当前仍executor12003C/21F、teacher389C/12F，reserved0。
+
+32项相关检查通过（exec48550，5.438秒），含构造完整35格、诊断路由、原生分母、篡改拒绝、逻辑/物理计量与绘图。受保护真实入口运行两次，模型/教师/研究账本构造器和评分均设为到达即失败，原生标签文件禁止读取；两次复用完全相同的交付产物，账本快照、1402份历史科学文件及当前72个科学源码绑定未变。报告模块位于paired_interfaces目录外，原正式矩阵准备协议和科学源码快照保持原样，没有另建研究矩阵。
+
+绘图依赖已固定安装到项目内隔离的`.local-tools/paired-plotting`，清单为`experiments/requirements_paired_plotting.txt`，未替换原研究环境。Matplotlib可导出矢量PDF和600dpi PNG；构造样例28点逐点一致且已视觉查看。样例明确标注CONSTRUCTED_fixture，不是实验结果；当前无真实研究曲线。Georgia未安装时用DejaVu Serif并如实写入绘图manifest。另对原117个TRAIN图对零调用重放，复核92个生产弃答、2个分析对齐未知，未打开新评分、没有新增独立来源或效果证据。
+
+真实正式训练/DEV/TEST/固定诊断仍未执行，源参考仍39视图可用、138视图/87母来源缺审核，18域外视图不删分母，自然原文未见结构仍未认证。Goal保持active、未完成。外部96源文教师批次的自动审批拒绝及既有批准请求保持待处理，自动Goal续行不是批准，本入口不获取或重试这些提案；补齐有效参考和科学前提后才运行原唯一矩阵与固定诊断，再据实际结果交付曲线、贡献归因和复现资产。
+
+最新零调用交付：`artifacts/two_method_followthrough_20261116/formal_delivery_v1/2c3b72e23be1e88e7a250e7651ba69f667bf6b681f6876d10a050a61751f0aeb`；受保护审计：`artifacts/two_method_followthrough_20261116/handoff/delivery_zerocall_audit_20261117_2c3b72e23be1.json`。精确检查、依赖和旧图对重放回执见`handoff/current_checkpoint.json`。以下阶段记录保留，当前优先本段及checkpoint。
+
+2026-11-17固定诊断实现接续：预定M1消融、M2独立字段噪声和MOAR式迁移对照、七系统内部结构评价已接入正式入口。它们仍未真实执行。原128母来源/八批/七系统、DEV72/TEST136和原候选池不变；正式训练、DEV/TEST、曲线与独立贡献结果仍未完成，Goal保持active。
+
+B8七库及原始TRAIN图对齐备后、任何DEV/TEST或诊断评分之前，先密封所有消融库和迁移选择。之后主矩阵完成，再在原12个纯参考TRAIN来源、原8个内部结构TRAIN来源及原TEST中的OE/Airline各32来源执行固定诊断；消融3变体×2库共6格。MOAR式对照须先完整保存原3候选的实际预测，再使用这些TRAIN原生分数选方案；这种适配含当前TRAIN反馈，不当作盲部署或官方MOAR复现，诊断反馈不修订主库。
+
+源文无关的真实程序检查已经运行：Airline完整101值模块经过97次合法合并、1次反例拆分，到同一4类LR端点，并重验原生产模块绑定和数组分解证书；OE五公开法制共有10个必要端口反例。refinement/compression两路径在这些固定模块上得到同一接口，不能声称一种路径更优；same-pool穷举即原M1经验选择器。以上是程序证据，没有原生准确率、实际迁移或独立效果证据。
+
+独立字段噪声基线只用全部开发/校准TRAIN图对拟合经验边际，保留整次读取弃答的概率质量、对齐未知和未定义参考的损失区间；跨结构条件独立/平稳假设及无概率覆盖保证明确记录。自然原文中未见关系结构仍未认证，不能用部分标注缺失代替。
+
+135项相关检查整体通过（exec64514，139.595秒）；最后增强Airline原生产证据绑定后，15项相关检查再次通过（exec19795，2.554秒）。这些构造检查和程序执行不计作研究模型调用或独立试验。最新默认准备和实际run入口的受保护门槛验证新增调用0，未创建模型/教师/研究账本客户端或全局执行登记，未打开原生评分；132条旧非OE字节级wire复用一致，1402份历史科学文件hash不变。
+
+源参考仍39视图可用、138视图/87母来源缺审核，18个声明域外视图保留分母。账本executor12003完成/21失败、teacher389完成/12失败，reserved0；本轮新增研究请求0。外部96教师源文批次因数据外发和费用授权未获自动审批认可而被拒，仍0调用，已提交的明确批准请求待处理；不重试或绕过。当前无研究客户端，共享Qwen3-8B服务保留。下一步补齐已授权范围内的科学前提/源审核；获得对应批准后才能获取该96份提案，随后按原绑定运行唯一正式矩阵及固定诊断，交付曲线、逐源结果、独立贡献、成本和复现资产。不能以代码和检查完成Goal。
+
+当前零调用准备：`artifacts/two_method_followthrough_20261116/formal_study_v1/0783aab70a424f367b77433ed65632cb24ea88062c6d4061ba9e7863e9994597`；源参考索引：`artifacts/two_method_followthrough_20261116/formal_reference_registry_v1/523532e81cbd413b535fd1aa9fae83baf7fe8f9dbb7680f6b9a72949d78a63ce`；程序消融资产：`artifacts/two_method_followthrough_20261116/formal_ablation_assets_v1/3f10aa194883ad46b38d9c84149c08f7963fa8fcd0802fac52cdbb1a4d1067dd`。精确门槛、快照和检查回执见 `artifacts/two_method_followthrough_20261116/handoff/current_checkpoint.json`。此前阶段记录保留，当前状态以本段及checkpoint为准。
+
+2026-11-17最新接续优先：正式普通/SCOPE逐批更新、逻辑观测预算和七臂总调度入口已实现；原128母来源/八批与七系统范围不变。普通在B1政策提炼+初始、B4/B8两次修订，SCOPE在B1分解、B4固定局部/整体变体及独立盲核验、B8第二次分解；每库各4个优化器教师阶段、每臂20个，三候选总量固定，每批按全部已见开发/校准母来源重选。该比较设计不恢复旧Goal上限。纯参考/结构留出/DEV/TEST标签不参与更新，合成变体不新增独立母来源或主校准分母。主矩阵之后仍有预定M1消融、M2迁移控制及最终交付，不能据入口代码完成Goal。
+
+119项相关检查分组通过（118组合+1全局唯一注册检查），含构造八批/七臂及28+7格的完整调度、真实程序worker、缓存物理证据复核和源审门槛。字节核查发现12个Airline请求的schema顺序在JSON落盘后变化，已恢复原编译序；132条旧非OE请求现与原实际wire逐字节一致，schema实际序列也纳入通道版本。新正式入口默认只准备，不创建模型客户端或登记执行；真实数据仍39视图可用、138缺审核/87母来源，18域外视图保留分母。正式训练、DEV/TEST、消融和迁移控制未执行；本轮新增研究请求0、账本及原18准确率未变。外部96源文教师批次仍0条、自动审批拒绝待明确批准，入口不会获取这些提案。当前实际产物路径和119检查回执见checkpoint。
+
+2026-11-17最新接续：七臂的实际推理actor与完整原生评价核心已接通，四接口臂的逐批训练入口已实现；这不等于完整七系统调度器或正式训练完成。评价先保存整格全部母来源/原生任务的预测再打开该格评分，28格DEV齐备且B8七库冻结后，按每库B1/B4/B8的DEV宏平均选库、平分取后者，之后才允许7格TEST。空库、初始化、SCOPE固定种子和已学程序执行分开记录，传输故障停止而不充作感知弃答；缓存结果须匹配连续账本的实际源/目的/原响应。M1静态选库也绑定实际读取/解码完整版本。
+
+正式源参考索引已零调用运行：当前39视图有适配审核，138视图缺审核、涉及87母来源；排除内部结构折后的18视图预先声明F域外，保留原生分母。逐批入口在首个生成前检查该prefix全部必要审核，纯参考世界不实测、不打开其原生标签，未定义参考不删除；开发/校准的全部真实读数及域外任务保留后才拟合四库。101项相关检查通过，含原18响应的零调用重放，未打开新DEV/TEST或新增原生评分。正式训练、控制教师逐批更新、消融和完整矩阵仍未完成。账本仍12003E完成/21E失败、389T完成/12T失败，无在途；被拒的外部96批次仍0请求、等待明确批准。Goal保持active，详细产物见EXECUTION_STATUS和checkpoint。
+
+2026-11-17本轮优先截面：OE到M2的端口图桥接已实现，原3个开发/校准母来源的6视图完成独立于终答的局部端口审核；3视图可完整计算参考F，另3视图保留所有权未知。已执行固定18次本机Qwen接口验证，全部结算，用量37281token；v1解码10份、原生F执行2份，未开评分。源锚点重复应保留多解的接线修正已单独版本化，对同18响应做v2离线重解码：14份解码、5份多对齐、3份F可执行，新增调用/独立样本0。原F、旧失败和旧通道不覆盖，未把可执行当正确率或机制收益。
+
+正式数据流已从原128来源内固定：44字典开发、52校准、24纯参考结构、8内部结构评价，原八批及旧32来源角色不变。纯参考24来源不在主学习阶段实测或提供原生标签，M2在其兼容结构上显式作平稳外推；完整重放获得全部96个可实测来源的联合轨迹作经验代理，不人为限制到校准子集。固定28格DEV及7格TEST、12来源迁移对照和两模块M1消融仍待执行。四个接口臂的prefix learner/独立学习产物已实现；完整七系统训练driver、参考审核、最终曲线和TEST尚未完成。83项相关检查通过，1402份历史科学文件未变。
+
+当前无在途请求；账本executor12003完成/21失败、teacher389完成/12失败。本轮新增仅本机18次，外部96教师批次仍0条，原自动审批拒绝和用户批准请求保持待处理，不重试、不视自动Goal续行为批准。Goal保持active、未完成。最新产物路径见EXECUTION_STATUS和handoff/current_checkpoint.json。
+
+2026-11-17接续进展（优先于下文旧截面）：关系组合审计已运行，13视图有标注未见的有类型关系对、10视图有标注未见的粗关系拓扑；部分TRAIN标注和表示差异仍使“原文中确实未见”无法认证，不据此宣称迁移。新OE接口从同一冻结F的实际端口生成，并在公开法制上下文下自动构造残差消费者；6个分类端口可按程序删至1–3个，EC/EV两种输出均保留，1280组离线程序输出一致。新共同工具入口使正式普通/SCOPE也能调用同一残差D；原F、旧pilot分数和通道均保留，新OE版本不与旧通道混合。
+
+完整TRAIN128/8批的624个逻辑读取槽已准备：132个旧付费读数可识别复用、564槽在声明F域内；其余60槽对应10个OE母来源的域外法制，保留未处理分母，不生成假空答案。564个可调用输入的只读token检查全在32768上下文内（含8192输出保留量，最大22391），11个xgrammar schema解析通过；本轮生成请求0。65项不同相关检查通过（分组执行），这些均不是真实弱模型效果。
+
+固定128源参考池复用原32份提案，余96份源文请求的入口和清单已准备。实际启动被自动审批拒绝，理由为未认定现有授权覆盖96次源文外发及实际费用；异步批准请求已提交，尚未收到批准、没有派发。该限制仅阻止对应外部批量调用，Goal仍active，未自行暂停。正式七系统训练/DEV/TEST、新OE到M2图对桥接及剩余参考审核均未完成，不能把这些离线进展当作Goal达成。
+
+2026-11-17当前截面（以下旧截面保留）：主小试、普通固定候选恢复和SCOPE均已终止，现场无研究客户端、账本无在途请求，共享Qwen服务保留。主小试32母来源、156个输出已全部保存预测后评分，五库M1按原D0固定候选顺序选择columns，选中方案的原生任务得分均0；所有候选共228个原生任务×计划评分行中仅2个实际可执行、1个正确，不能把输出齐备称为方法成功。M2仍为13目标视图的风险上界全部1、风险驱动选择0。主评价产物为pilot_evaluation_v1/3a847ef3…，普通/SCOPE强对照均已完成，SCOPE累计20教师、66执行器请求，计量198716token。13个结构评价源视图已在选择冻结后审核，总52个局部源视图；关系组合新颖性仍未认证。
+
+零调用对照汇总已核验相同母来源与全部原生任务分母：结构TRAIN折上，M1/普通/SCOPE分别为CNI 0/.5833/.75（3母来源）、MAUD 0/1/1（2）、OE 0/0/0（1，官方F1）、SARA 0/1/.5（2）；Airline本固定结构折无来源，不补造结果。这不是新DEV/TEST、显著性结论或信息严格同等的证明；普通早期反馈受成本故障影响，M2额外使用校准源参考的差异保留。52项本轮相关检查通过，1402份历史科学文件hash一致。完整小试仍待关系组合与实现/数据前提审计；正式五库训练、DEV曲线及新TEST均未开始，Goal保持active、未完成。详细路径及下一步见EXECUTION_STATUS和handoff/current_checkpoint.json。
+
+2026-11-17最新核对：主小试156/156输出结算，39个开发/校准源视图审核、117个图对保留。新v3通道把92个明确生产弃答与2个分析对齐未知分开，24组拟合、78份校准中仍17份未建模；未知质量不归零，旧v1/v2不覆盖或混用。部分参考原生失败界已在13个目标视图计算：生产弃答loss1，实际答案未知时保留[0,1]，对齐占位保留[0,1]；所有计划风险上界仍1，非平凡M2选择0。严格参考域旧尝试0支持保留，不把新界当作补齐参考真值。49项相关检查通过，实现提交1fc26ae11。普通20教师提案已全部冻结，原89404因usage=null汇总故障退出1；26462固定候选恢复已结束0，新增教师0，累计23个执行器完成/2个失败，原结果全部保留。成本用量已知77070token、保守上界142606，未知实际用量不填0。SCOPE72327/624884已真实启动，实际绑定7a1f8dd8；旧49520不恢复。本截面SCOPE教师7完成/1在途、执行器16完成。普通冻结后已机械评价校准和结构TRAIN折；M2选择未读取其评分、预测或结构参考图，新DEV/TEST评分仍未打开。主小试原生评分/关系组合新颖性、SCOPE完成、正式矩阵及DEV/TEST未完成。旧1402科学文件和活跃SCOPE绑定哈希一致。Goal保持active；实际进程、唯一账本与checkpoint优先于以下历史截面。
+
+2026-11-17更新：新DEV72/TEST136母来源清单及32来源小试已锁定，教师与Qwen真实调用已开始。首条教师参考提案仍待源语义审核；首个CNI来源的三个读数均输出截断。读取入口缺少模型可见schema的接线问题已在安全边界修复，v1六次读取及成本保留；同一四个Airline固定来源在v2继续，首条v2完整返回但航线超出旧技能已核验域。30项相关检查通过，但小试、真实M2校准/选择、强控制、正式训练和TEST尚未完成。当前在途状态查唯一账本与 artifacts/two_method_followthrough_20261116/handoff/current_checkpoint.json，不凭本文重复启动。下段保留此前离线截面。
+
+交接和资产保护完成。两项方法核心已实现，13项相关检查通过；M1接入真实旧技能并自动合成局部重量编码与消费者。已恢复542次物理读取；3个字典开发来源补齐2版本、8份服务参与者局部图对，并从真实错误学习联合角色交换，尚未拟合真实通道或检验迁移。其余法律适配、校准和结构留出仍在进行。OE新 prospective 库存按预先固定种子生成128母来源，尚未锁定 DEV/TEST。尚无本 Goal 的模型调用、小试、正式训练、DEV 或 TEST 结果。最新进度见[执行状态](../reports/two_method_followthrough_20261116/EXECUTION_STATUS.md)。
+
+宿主机未发现本研究客户端，共享 Qwen3-8B 服务保留。固定执行器 revision、thinking OFF、权重不更新；教师沿用已授权 Codex CLI 配置并记录实际身份。唯一账本为 artifacts/rr_v2_preflight/research_ledger.sqlite3，新 Goal 起点 executor11741、teacher329，共12070条，reserved0。
+
+## 保护与分支
+
+唯一目录 `/home/yndx/hhy/legal-skill-current`，新分支 `research/paired-interface-structural-transfer-20261116`，从实际开发 HEAD `88a48dcdc642028fe40516660f0b778b282183f9` 建立。1402 份科学文件已保存源码快照及哈希，88 份已有修改及未跟踪文件逐字节保留，见 artifacts/two_method_followthrough_20261116/handoff/baseline.json。不修改 main。
+
+旧 Goal 保持 clear，旧 Lift/CoRev、C/U、观察契约候选及待发任务不恢复。旧数据暴露、母来源关系和原评分不重置；旧 TEST 不用于方法修补。代码、原始响应、负结果及历史模型资产全部保留。请求、失败、重试和缓存复用如实记账，不归零累计成本。
