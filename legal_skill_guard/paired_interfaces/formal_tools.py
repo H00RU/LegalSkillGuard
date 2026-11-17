@@ -10,6 +10,7 @@ import math
 import jsonschema
 
 from legal_skill_guard.paired_interfaces.asset_interfaces import context_from_public, frozen_skill
+from legal_skill_guard.paired_interfaces.airline_public_fees import compile_rule, local_charges, public_domestic_scope
 from legal_skill_guard.paired_interfaces.control_tools import legal_tools as original_tools
 from legal_skill_guard.paired_interfaces.native_graph_consumers import partial_skill, unsupported
 from legal_skill_guard.paired_interfaces.program_residual import specialize
@@ -19,6 +20,35 @@ from legal_skill_guard.skill_evolution.objects import digest
 
 def legal_tools(source, bundle):
     tools, assets = original_tools(source, bundle)
+    if source['dataset'] == 'RuleArena_Airline' and source.get('enable_public_airline_fee_tool'):
+        public = source['views'][0]['public']
+        scope = public_domestic_scope(public)
+        if scope:
+            rule = compile_rule(public['source_text'], cabin=scope['cabin'])
+            measurement = {'type': 'integer', 'minimum': 1}
+            bag = record_schema({
+                'dimensions': {'type': 'array', 'items': measurement, 'minItems': 3, 'maxItems': 3},
+                'weight': measurement,
+            })
+            schema = record_schema({'bags': {'type': 'array', 'items': bag, 'minItems': 2, 'maxItems': 11}})
+            binding = digest({'rule': rule, 'scope': scope, 'input_schema': schema})
+
+            def invoke(values):
+                jsonschema.validate(values, schema)
+                try:
+                    fees = local_charges(rule, values['bags'])
+                except ValueError as error:
+                    return {'handled': False, 'reason': str(error), 'new_model_requests': 0}
+                return {'handled': True, 'item_fees': fees, 'new_model_requests': 0,
+                        'native_grading_oracle_used': False, 'rule_binding_sha256': binding,
+                        'factual_truth_certified': False}
+
+            tools['public_domestic_standard_fees'] = {
+                'binding_sha256': binding, 'input_schema': schema, 'invoke': invoke,
+                'description': ('Apply the public domestic fee tables for the bound cabin to supplied ordered measurements. '
+                                'Return each checked item’s base, oversize, and overweight charges separately.'),
+            }
+            assets['public_domestic_standard_rule'] = rule
     if source['dataset'] != 'OpenExempt':
         return tools, assets
     skill, contexts, specifications, residuals = frozen_skill(), {}, {}, {}

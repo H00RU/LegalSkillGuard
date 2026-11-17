@@ -9,6 +9,7 @@ import jsonschema
 from experiments.convergence_airline_joint_relation import BAG
 from experiments.convergence_airline_update_probe import PROBE as DIRECT_UPDATE
 from experiments.convergence_pilot_b0 import BASE, HANDOFF, LEDGER, ROOT, read, sha, write_status
+from legal_skill_guard.paired_interfaces.airline_public_fees import compile_rule, local_charges
 from legal_skill_guard.paired_interfaces.formal_actors import verify_physical_response
 from legal_skill_guard.rr.checkpoint import immutable_json
 from legal_skill_guard.skill_evolution.clients import FrozenExecutor
@@ -17,6 +18,7 @@ from legal_skill_guard.skill_evolution.native import grade_view, record_schema
 from legal_skill_guard.skill_evolution.objects import digest
 
 POINTER = HANDOFF / 'airline_structured_update_current.json'
+LITERALS = HANDOFF / 'airline_public_fee_reader_current.json'
 SYSTEM = (
     'Read this Airline calculation problem. Do not return the final amount. Copy the ticket price from the facts. '
     'Use the public rule text to report each item’s own base check-in, oversize, and overweight charges separately, '
@@ -25,6 +27,11 @@ SYSTEM = (
     'Keep the weight and dimensions attached to the same numbered item. Use compact JSON.'
 )
 MODES = ('add_charges', 'match_bag_max', 'unpaired_marginals')
+LITERAL_SYSTEM = (
+    'Copy only the ticket price and each original numbered item’s stated measurements. '
+    'Retain the exact bag IDs, the three dimensions in their listed order, and the stated weight in pounds. '
+    'This is a literal reading task. Use null for a genuinely unstated value. Return compact JSON.'
+)
 
 
 def reading_schema(bag_count):
@@ -54,7 +61,26 @@ def compose(reading, bag_count):
     }
 
 
-def prepare():
+def literal_schema(bag_count):
+    integer = {'type': ['integer', 'null'], 'minimum': 0}
+    row = record_schema({'bag_id': {'type': 'integer', 'minimum': 1, 'maximum': bag_count},
+                         'dimensions': {'type': 'array', 'items': integer, 'minItems': 3, 'maxItems': 3},
+                         'weight': integer})
+    return record_schema({'ticket': integer, 'items': {'type': 'array', 'items': row,
+                                                        'minItems': bag_count, 'maxItems': bag_count}})
+
+
+def compose_public_rules(reading, bag_count, rule):
+    bags = sorted(reading['items'], key=lambda row: row['bag_id'])
+    if [row['bag_id'] for row in bags] != list(range(1, bag_count + 1)):
+        raise ValueError('Literal source identities must be complete and unique')
+    if reading['ticket'] is None or any(row['weight'] is None or None in row['dimensions'] for row in bags):
+        return dict.fromkeys(MODES)
+    fees = [{'bag_id': 1, 'base_fee': 0, 'oversize': 0, 'overweight': 0}, *local_charges(rule, bags)]
+    return compose({'ticket': reading['ticket'], 'items': fees}, bag_count)
+
+
+def prepare(*, read_literals=False):
     prior = ROOT / read(DIRECT_UPDATE)['artifact_root']
     old = read(prior / 'binding.json')
     terminal = read(prior / 'terminal.json')
@@ -78,8 +104,24 @@ def prepare():
         'legal_skill_guard/skill_evolution/ledger.py',
         'legal_skill_guard/rr/client.py',
     ]
+    pointer = LITERALS if read_literals else POINTER
+    evidence = {}
+    if read_literals:
+        structured = ROOT / read(POINTER)['artifact_root']
+        failed = read(structured / 'terminal.json')
+        diagnosis_path = HANDOFF / 'airline_structured_field_audit_20261118.json'
+        diagnosis = read(diagnosis_path)
+        if (failed['status'] != 'completed' or any(failed['native_scores'].values())
+                or diagnosis['structured_probe_root'] != str(structured.relative_to(ROOT))
+                or len(diagnosis['rows']) != 4 or not all(r['ticket_read_correctly'] for r in diagnosis['rows'])):
+            raise ValueError('The actual first structured read must establish this source of fee error')
+        paths.append('legal_skill_guard/paired_interfaces/airline_public_fees.py')
+        evidence = {'actual_fee_read_error_sha256': sha(diagnosis_path),
+                    'compiled_rule_sha256': {digest(source): digest(compile_rule(source['views'][0]['public']['source_text']))
+                                            for pair in pairs for source in (pair['original'], pair['edited'])}}
     binding = {
-        'study_id': 'convergence_Airline_structured_arithmetic_updates_v1',
+        'study_id': ('convergence_Airline_source_compiled_fee_reader_v1' if read_literals
+                     else 'convergence_Airline_structured_arithmetic_updates_v1'),
         'actual_previous_negative_result_sha256': sha(prior / 'terminal.json'),
         'source_sha256': {name: sha(ROOT / name) for name in paths},
         'pairs_sha256': digest(pairs), 'executor': old['executor'],
@@ -87,6 +129,8 @@ def prepare():
         'candidate_pool': list(MODES), 'new_executor_cells': 4, 'new_teacher_cells': 0,
         'candidate_pool_type': 'fixed_controlled_program_level_aggregation_alternatives',
         'native_legal_reference_only_for_validation': True,
+        'read_literal_measurements': read_literals,
+        **evidence,
     }
     out = BASE / 'airline_structured_update' / digest(binding)
     if (out / 'terminal.json').exists():
@@ -94,20 +138,22 @@ def prepare():
         return
     immutable_json(out / 'binding.json', binding)
     immutable_json(out / 'cases.json', pairs)
-    write_status(out, {'status': 'prepared', 'new_executor_cells': 4}, POINTER)
+    write_status(out, {'status': 'prepared', 'new_executor_cells': 4}, pointer)
     print(json.dumps({'status': 'prepared', 'binding': digest(binding), 'new_executor_cells': 4}), flush=True)
 
 
-def measure(executor, source, out):
+def measure(executor, source, out, *, compiled_rule=None, purpose='skill_actor'):
     public = source['views'][0]['public']
     bag_count = len(BAG.findall(public['facts']))
-    schema = reading_schema(bag_count)
-    messages = [{'role': 'system', 'content': SYSTEM + '\nSchema: ' + json.dumps(schema, separators=(',', ':'))},
-                {'role': 'user', 'content': json.dumps(public, sort_keys=True, ensure_ascii=False)}]
+    schema = literal_schema(bag_count) if compiled_rule else reading_schema(bag_count)
+    system = LITERAL_SYSTEM if compiled_rule else SYSTEM
+    reader_input = {'facts': public['facts']} if compiled_rule else public
+    messages = [{'role': 'system', 'content': system + '\nSchema: ' + json.dumps(schema, separators=(',', ':'))},
+                {'role': 'user', 'content': json.dumps(reader_input, sort_keys=True, ensure_ascii=False)}]
     call_id = executor.ledger.run_id + ':coordinates:' + digest([source['key'], messages])
-    response = executor.generate(call_id, source=source['key'], purpose='skill_actor', messages=messages,
+    response = executor.generate(call_id, source=source['key'], purpose=purpose, messages=messages,
                                  schema=schema, thinking=False)
-    verify_physical_response(executor, identity=call_id, source=source['key'], purpose='skill_actor',
+    verify_physical_response(executor, identity=call_id, source=source['key'], purpose=purpose,
                              content_sha256=digest(response['content']), usage=response['usage'],
                              finish_reason=response['finish_reason'])
     error = None
@@ -116,7 +162,7 @@ def measure(executor, source, out):
             raise ValueError('The structured response was incomplete')
         record = json.loads(response['content'])
         jsonschema.validate(record, schema)
-        predictions = compose(record, bag_count)
+        predictions = compose_public_rules(record, bag_count, compiled_rule) if compiled_rule else compose(record, bag_count)
     except (ValueError, jsonschema.ValidationError) as failure:
         error = str(failure)
         predictions = dict.fromkeys(MODES)
@@ -126,8 +172,8 @@ def measure(executor, source, out):
     return row
 
 
-def run():
-    out = ROOT / read(POINTER)['artifact_root']
+def run(pointer=POINTER):
+    out = ROOT / read(pointer)['artifact_root']
     if (out / 'terminal.json').exists():
         print(json.dumps({'status': 'completed', 'new_calls': 0}), flush=True)
         return
@@ -143,12 +189,22 @@ def run():
         sources={'train': [pair['original']['key'] for pair in pairs], 'dev': [], 'test': []}, binding=binding)
     executor = FrozenExecutor(ledger, out, binding['executor'])
     executor.readiness()
+    compiled = {}
+    if binding.get('read_literal_measurements'):
+        for pair in pairs:
+            for source in (pair['original'], pair['edited']):
+                identity = digest(source)
+                rule = compile_rule(source['views'][0]['public']['source_text'])
+                if digest(rule) != binding['compiled_rule_sha256'][identity]:
+                    raise ValueError('The compiled public rules changed under the exact source')
+                compiled[identity] = rule
     rows = []
-    write_status(out, {'status': 'running', 'completed_pairs': 0}, POINTER)
+    write_status(out, {'status': 'running', 'completed_pairs': 0}, pointer)
     try:
         for pair in pairs:
-            rows.append((measure(executor, pair['original'], out), measure(executor, pair['edited'], out)))
-            write_status(out, {'status': 'running', 'completed_pairs': len(rows)}, POINTER)
+            rows.append(tuple(measure(executor, source, out, compiled_rule=compiled.get(digest(source)))
+                              for source in (pair['original'], pair['edited'])))
+            write_status(out, {'status': 'running', 'completed_pairs': len(rows)}, pointer)
         grades = read(ROOT / binding['grading_path'])
         evidence = {mode: [] for mode in MODES}
         for pair, (original, edited) in zip(pairs, rows, strict=True):
@@ -174,14 +230,19 @@ def run():
                     'method_relation_choice': vetted, 'same_actual_coordinate_reads_reused': True,
                     'evidence': evidence, 'native_mothers': len(pairs), 'theory_has_single_local_interpretation': True}
         immutable_json(out / 'terminal.json', terminal)
-        write_status(out, terminal, POINTER)
+        write_status(out, terminal, pointer)
         print(json.dumps({key: value for key, value in terminal.items() if key != 'evidence'}), flush=True)
     except Exception as error:
-        write_status(out, {'status': 'interrupted_or_failed', 'error_type': type(error).__name__}, POINTER)
+        write_status(out, {'status': 'interrupted_or_failed', 'error_type': type(error).__name__}, pointer)
         raise
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('phase', choices=('prepare', 'run'))
-    (prepare if parser.parse_args().phase == 'prepare' else run)()
+    parser.add_argument('--read-literals', action='store_true')
+    args = parser.parse_args()
+    if args.phase == 'prepare':
+        prepare(read_literals=args.read_literals)
+    else:
+        run(LITERALS if args.read_literals else POINTER)
