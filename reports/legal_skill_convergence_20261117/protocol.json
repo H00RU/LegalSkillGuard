@@ -191,7 +191,8 @@
   "progression": [
     "implementation_and_semantic_checks",
     "fixed_20_source_real_study",
-    "one_128_source_training_and_DEV_matrix",
+    "bounded_TRAIN_DEV_optimization",
+    "one_final_128_source_training_and_DEV_matrix",
     "freeze_then_five_dataset_TEST",
     "contribution_assessment_and_paper_draft"
   ],
@@ -199,7 +200,10 @@
     "reports_only",
     "synthetic_prototype_only",
     "all_unknown",
-    "new_core_operations_never_trigger"
+    "new_core_operations_never_trigger",
+    "negative_result_report_without_required_bounded_optimization",
+    "fixed_study_complete_but_two_contributions_unsupported",
+    "optimization_cycle_limit_reached_without_research_support"
   ],
   "do_not_reopen_for": [
     "generic_component_prior_art",
@@ -213,9 +217,9 @@
   ],
   "current_package_model_calls": 0,
   "core_code_commit": "354bece66fd9a0b1e7bc8dab1a6d7159ee141345",
-  "revision": 2,
+  "revision": 3,
   "revision_date": "2026-11-18",
-  "prior_package_commit": "e7dd07bab9883f096e2fe616bb4745cca33b3abe",
+  "prior_package_commit": "eddb196951525b34aaceb5fa80e65cffee807d60",
   "execution_documents": [
     "PLAN.md",
     "CROSS_DATASET_IMPLEMENTATION.md",
@@ -284,9 +288,10 @@
       "specific_evidence_core_is_false_or_duplicate"
     ],
     "user_review_between_stages_required": false,
-    "fixed_study_outcomes_not_required_positive_to_finish_evaluation": true,
     "reports_or_pilot_alone_complete_goal": false,
-    "development_optimization": "actively improve relation grammar, evidence grounding, unknown handling, candidate selection and update criteria using TRAIN failures within the two fixed mechanisms; do not repeat unchanged requests without a new diagnosis"
+    "development_optimization": "actively improve relation grammar, evidence grounding, unknown handling, candidate selection and update criteria using TRAIN failures within the two fixed mechanisms; do not repeat unchanged requests without a new diagnosis",
+    "negative_report_alone_can_achieve_research_goal": false,
+    "bounded_optimization_exhausted_without_support": "end experiment queue, preserve best valid version/evidence and report research_goal_not_achieved; do not automatically mark achieved or expand scope"
   },
   "completion_deliverables": [
     "implemented_M1_M2_production_paths",
@@ -306,5 +311,35 @@
       "MCDC_boundaries"
     ],
     "new_real_requests": false
+  },
+  "bounded_development": {
+    "max_substantive_optimization_cycles": 3,
+    "cycle_definition": "diagnosis -> substantive mechanism revision -> affected TRAIN replay -> fixed DEV/control comparison",
+    "routine_bugfix_actions_are_individual_cycles": false,
+    "algorithm_trials_cannot_be_relabelled_bugfixes_to_bypass_limit": true,
+    "per_cycle_user_approval_required": false,
+    "source_pool": "existing locked TRAIN128 and DEV80 only",
+    "teacher_supervision_source": "TRAIN only; no DEV case labels or gold evidence as training examples",
+    "DEV_usage": "predeclared metrics and aggregated error categories for development selection; not independent validation",
+    "full_five_arm_matrix_each_cycle": false,
+    "replay": "affected suffix/dependencies; reuse only identical valid state and requests",
+    "unchanged_repeat_without_new_diagnosis": false,
+    "stop_early_if_sufficient_evidence": true,
+    "test_tuning_allowed": false,
+    "new_datasets_seeds_models_or_directions_to_chase_gain": false
+  },
+  "research_success": {
+    "all_completion_deliverables_required": true,
+    "actual_native_metric_improvement_for_each_method_required": true,
+    "independent_ablation_and_matched_controls_required": true,
+    "M1_non_Airline_effect_required": true,
+    "predeclared_primary_metrics_tasks_and_comparisons": true,
+    "frozen_test_support_required": true,
+    "every_dataset_must_improve": false,
+    "isolated_positive_example_or_format_validity_is_sufficient": false,
+    "report_all_datasets_regressions_effect_size_and_source_uncertainty": true,
+    "all_experiments_done_alone_means_goal_achieved": false,
+    "budget_or_cycle_exhaustion_means_goal_achieved": false,
+    "delivery_complete_is_distinct_from_research_goal_achieved": true
   }
 }
