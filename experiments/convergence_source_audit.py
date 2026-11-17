@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import sqlite3
 import time
 
 from legal_skill_guard.rr.checkpoint import immutable_json
@@ -103,6 +104,32 @@ def study_teacher_configuration():
     return profile, config
 
 
+def existing_terminal_audit(requests, config):
+    """Reuse the same settled CLI request when binding metadata changes."""
+    for terminal_path in sorted((BASE / 'source_audit_01').glob('*/terminal.json')):
+        out = terminal_path.parent
+        terminal = read(terminal_path)
+        binding = read(out / 'binding.json')
+        if (terminal['status'] != 'completed' or binding['teacher_config'] != config
+                or digest(requests) != binding['requests_sha256']
+                or digest(read(out / 'requests.json')) != binding['requests_sha256']):
+            continue
+        rows = terminal['completed']
+        if len(rows) != len(requests):
+            raise ValueError('Matching terminal audit has a missing or extra result')
+        ledger = ROOT / 'artifacts/rr_v2_preflight/research_ledger.sqlite3'
+        with sqlite3.connect(ledger.as_uri() + '?mode=ro', uri=True) as db:
+            for row, request in zip(rows, requests):
+                settled = db.execute('select role,status,source,result from calls where id=?',
+                                     (row['call_id'],)).fetchone()
+                if (row['source'] != request['source'] or not settled
+                        or tuple(settled[:3]) != ('teacher', 'completed', request['source'])
+                        or json.loads(settled[3])['model'] != config['model']):
+                    raise ValueError('Exact teacher request has an unreconciled terminal record')
+        return out, terminal
+    return None
+
+
 def prepare():
     summary=read(BASE/'handoff/normalized_inputs_current.json');data=ROOT/summary['artifact_root']
     public=read(data/'train/public.json');scope=read(data/'scope_receipts.json')
@@ -116,6 +143,14 @@ def prepare():
     requests=[{'source':r['source'],'source_public_sha256':digest(by_source[r['source']]),
         'system':SYSTEM,'user':json.dumps(public_documents(by_source[r['source']]),ensure_ascii=False,sort_keys=True),
         'schema':SCHEMA} for r in targets[:1]]
+    prior = existing_terminal_audit(requests, config)
+    if prior:
+        out, terminal = prior
+        state = {'artifact_root': str(out.relative_to(ROOT)), 'status': terminal['status'],
+                 'exact_teacher_request_reused': True, 'new_model_calls': 0}
+        (BASE / 'handoff/source_audit_current.json').write_text(json.dumps(state, indent=2) + '\n')
+        print(json.dumps(state), flush=True)
+        return
     source_paths=['experiments/convergence_source_audit.py','legal_skill_guard/skill_evolution/clients.py',
         'legal_skill_guard/skill_evolution/ledger.py','legal_skill_guard/inference/codex_cli_client.py',
         str(TEACHER_PROFILE.relative_to(ROOT))]
@@ -159,6 +194,10 @@ def validate(result,documents):
 
 def run():
     pointer=read(BASE/'handoff/source_audit_current.json');out=ROOT/pointer['artifact_root']
+    if (out / 'terminal.json').exists():
+        print(json.dumps({'status': 'completed', 'artifact_root': pointer['artifact_root'],
+                          'reused_existing_terminal': True, 'new_requests': 0}), flush=True)
+        return
     binding=read(out/'binding.json');requests=read(out/'requests.json')
     for path,expected in binding['source_sha256'].items():
         if sha(ROOT/path)!=expected:raise ValueError('Bound audit source changed: '+path)

@@ -5,6 +5,7 @@ import unittest
 from legal_skill_guard.paired_interfaces.shared_semantics import (
     SourceCase,Theory,DerivedField,ExplanationState,allowed_relation,source_variant,
     choose_groups,canonical)
+from legal_skill_guard.paired_interfaces.shared_semantics_validation import validate_patch
 
 
 PROVENANCE=({'kind':'independent_source_audit','evidence_sha256':'a'*64},)
@@ -100,6 +101,39 @@ class SharedSemanticsTests(unittest.TestCase):
         self.assertEqual(result['selected_indices'], [0, 1])
         self.assertEqual(result['refuted_candidate_classes'], ['scope_switch'])
         self.assertEqual(choose_groups(theory(), groups, signatures, max_groups=1)['selected_indices'], [])
+
+    def test_abstention_keeps_explanations_and_concrete_contradictions_refute(self):
+        state = ExplanationState(theory(), 'c'*64)
+        group = [case(), case(3500, root='root:B')]
+        abstained = state.observe(group, [None, {'status': 'unread'}], physical_call_ids=['x', 'y'])
+        self.assertTrue(abstained['locally_allowed'])
+        self.assertFalse(abstained['asserted_output_present'])
+        self.assertFalse(abstained['all_unknown_is_positive_evidence'])
+        self.assertTrue(state.observe(group, [True, None], physical_call_ids=['u', 'v'])['locally_allowed'])
+        contradicted = state.observe(group, [None, False], physical_call_ids=['p', 'q'])
+        self.assertTrue(contradicted['locally_allowed'])
+        self.assertEqual(contradicted['status'], 'refuted')
+
+    def test_patch_gate_distinguishes_joint_refutation_from_paired_native_gain(self):
+        groups = [
+            {'cases': [case()], 'outputs': [True], 'physical_call_ids': ['read-a']},
+            {'cases': [case(3500, root='root:B')], 'outputs': [False], 'physical_call_ids': ['read-b']},
+        ]
+        native = [{'source': 'root:A', 'baseline_utility': 0, 'patch_utility': 1}]
+        kwargs = {'visible_train': {'root:A', 'root:B'}, 'verify_projection': lambda *args: True,
+                  'verify_native_pair': lambda *args: True}
+        receipt = validate_patch(theory(), 'c'*64, groups, native, **kwargs)
+        self.assertEqual(receipt['status'], 'rejected_by_shared_explanation')
+        self.assertTrue(all(group['independent_per_case_compatible'] for group in receipt['matched_controls']))
+        groups[1]['outputs'] = [True]
+        receipt = validate_patch(theory(), 'c'*64, groups, native, **kwargs)
+        self.assertEqual(receipt['status'], 'eligible_train_update')
+        groups[0]['outputs'] = [None]
+        groups[1]['outputs'] = [None]
+        self.assertEqual(validate_patch(theory(), 'c'*64, groups, native, **kwargs)['status'],
+                         'insufficient_positive_supervision')
+        with self.assertRaisesRegex(ValueError, 'visible TRAIN'):
+            validate_patch(theory(), 'c'*64, groups, native, **(kwargs | {'visible_train': {'root:A'}}))
 
     def test_off_scope_and_physical_evidence_are_not_fabricated(self):
         t=replace(theory(),well_formed=lambda v,l:v['amount']>=0)

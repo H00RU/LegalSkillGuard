@@ -2,14 +2,31 @@
 from copy import deepcopy
 
 from legal_skill_guard.skill_evolution.native import answer_wire_schema, decode_answer, record_schema
+from legal_skill_guard.skill_evolution.objects import digest
 
 
 def source_bundle(source):
     views = deepcopy(source['views'])
     if len({v['id'] for v in views}) != len(views):
         raise ValueError('Native task identities must be unique within the mother source')
+    public = {'native_views': [{'id': view['id'], 'public': deepcopy(view['public'])} for view in views]}
+    if source['dataset'] == 'ContractNLI' and len(views) == 17:
+        # A single NDA is reused by the 17 official hypotheses. Keep each
+        # hypothesis and its sentence inventory while transmitting the exact
+        # document once. Older four-view pilots retain their original wire.
+        documents = {}
+        for view in public['native_views']:
+            fields = view['public']
+            context = {name: fields.pop(name) for name in ('source_text', 'sentence_spans')}
+            identity = digest(context)
+            documents.setdefault(identity, context)
+            fields['document_ref'] = identity
+        public['shared_documents'] = documents
+        public['document_reference_instruction'] = (
+            'For every hypothesis, use the document and sentence spans identified by document_ref '
+            'in shared_documents. Sentence evidence indices refer to that inventory.')
     return {'id': 'all_native_source_tasks',
-            'public': {'native_views': [{'id': v['id'], 'public': v['public']} for v in views]},
+            'public': public,
             'answer_schema': record_schema({v['id']: v['answer_schema'] for v in views}),
             'bundle_native_views': views}
 

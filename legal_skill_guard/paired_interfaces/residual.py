@@ -119,6 +119,11 @@ def expression_value(expression, state):
     if op == 'constant':
         return expression['value']
     values = [expression_value(arg, state) for arg in expression['args']]
+    if op in ('and', 'or'):
+        deciding_value = op == 'or'
+        if any(value is deciding_value for value in values):
+            return deciding_value
+        return None if None in values else not deciding_value
     if any(value is None for value in values):
         return None
     if op in ('add', 'subtract'):
@@ -172,24 +177,44 @@ def consumer_relations(module):
                 return {'op': 'add', 'args': args}
         return None
     operators = {ast.Eq:'eq', ast.NotEq:'ne', ast.Lt:'lt', ast.LtE:'le', ast.Gt:'gt', ast.GtE:'ge'}
+
+    def lift_predicate(node):
+        if isinstance(node, ast.Compare) and len(node.ops) == 1:
+            left = lift(node.left)
+            right = lift(node.comparators[0])
+            operator = operators.get(type(node.ops[0]))
+            if operator and left is not None and right is not None:
+                return {'op': operator, 'args': [left, right]}
+        if isinstance(node, ast.BoolOp):
+            arguments = [lift_predicate(value) for value in node.values]
+            if all(argument is not None for argument in arguments):
+                return {'op': 'and' if isinstance(node.op, ast.And) else 'or', 'args': arguments}
+        return None
+
     relations = {}
+
+    def add_relation(expression):
+        dependencies = sorted(expression_fields(expression))
+        if dependencies and not (set(dependencies) & RESERVED):
+            relations[canonical(expression)] = {
+                'name': 'rel_' + digest(expression)[:12],
+                'operation': 'relation', 'expression': expression,
+                'consumer_dependencies': dependencies,
+                'semantic_change_kind': 'joint_consumer_relation' if len(dependencies)>1 else 'atomic_comparison',
+            }
+
     for node in ast.walk(functions[0]):
+        if isinstance(node, ast.BoolOp):
+            expression = lift_predicate(node)
+            if expression:
+                add_relation(expression)
         if not isinstance(node, ast.Compare):
             continue
         for left, op, right in zip([node.left, *node.comparators], node.ops, node.comparators):
             a, b = lift(left), lift(right)
             if type(op) not in operators or a is None or b is None:
                 continue
-            expression = {'op':operators[type(op)], 'args':[a,b]}
-            dependencies = sorted(expression_fields(expression))
-            if not dependencies or set(dependencies) & RESERVED:
-                continue
-            # A field-to-constant test is retained as an atomic baseline;
-            # multi-field tests, joins and aggregates carry the new operation.
-            relations[canonical(expression)] = {'name':'rel_'+digest(expression)[:12],
-                'operation':'relation', 'expression':expression,
-                'consumer_dependencies':dependencies,
-                'semantic_change_kind':'joint_consumer_relation' if len(dependencies)>1 else 'atomic_comparison'}
+            add_relation({'op': operators[type(op)], 'args': [a, b]})
     return [relations[k] for k in sorted(relations)]
 
 
@@ -491,11 +516,17 @@ def describe_relation(expression):
             return '(' + ' minus '.join(arguments) + ')'
         raise ValueError('Unsupported relation operand: ' + operator)
 
-    positive, negative = comparisons[expression['op']]
-    left, right = map(operand, expression['args'])
-    return (f'Return true when {left} {positive} {right}. '
-            f'Return false when {left} {negative} {right}. '
-            'Return null when an operand is unavailable or ambiguous.')
+    def predicate(value, expected):
+        op = value['op']
+        if op in ('and', 'or'):
+            join = (' and ' if (op == 'and') == expected else ' or ')
+            return join.join(f'({predicate(arg, expected)})' for arg in value['args'])
+        left, right = map(operand, value['args'])
+        return f'{left} {comparisons[op][0 if expected else 1]} {right}'
+
+    return (f'Return true when {predicate(expression, True)}. '
+            f'Return false when {predicate(expression, False)}. '
+            'Return null when unavailable or ambiguous operands prevent either conclusion.')
 
 
 def reader_prompt(asset, *, verbalize_relations=False):

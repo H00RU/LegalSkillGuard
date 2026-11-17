@@ -76,6 +76,13 @@ def execute_skill(skill, values):
 
 
 def module_assets(dataset):
+    if dataset == 'LegalBench_Diversity':
+        from legal_skill_guard.paired_interfaces.diversity import REVISION, TASK_RULES
+        return {
+            'dataset': dataset, 'module_binding': {'dataset_revision': REVISION},
+            'public_task_rules': TASK_RULES, 'installed_learned_tool': None,
+            'same_assets_available_to_main_method': True,
+        }
     module = read(BASE / 'pilot_lock.json')['modules'][dataset]
     path = ROOT / module['asset']
     if sha(path) != module['sha256']:
@@ -122,6 +129,10 @@ def module_assets(dataset):
 def legal_tools(source, bundle):
     dataset = source['dataset']
     assets = module_assets(dataset)
+    if dataset == 'LegalBench_Diversity':
+        # This dataset joined the convergence study after the older pilot lock.
+        # Public benchmark rules are shared context, and there is no prior tool.
+        return {}, assets
     views = {v['id']: v for v in bundle['bundle_native_views']}
     if dataset in ('RuleArena_Airline', 'OpenExempt'):
         skill = assets['skill']

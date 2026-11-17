@@ -178,19 +178,63 @@ def allowed_relation(theory,cases,*,mode='shared'):
         'reference_sha256':theory.reference_sha256,'constraint_provenance_sha256':evidence_binding(theory.provenance)}
 
 
-def consistent_factors(factors):
-    """Exact finite join. Keeps all local factors rather than a favorable ω/group."""
+def consistent_assignment(factors):
+    """Find a single assignment spanning all finite factors."""
     def search(assignment,remaining):
-        if not remaining:return True
+        if not remaining:
+            return assignment
         options=[]
         for rows in remaining:
             compatible=[r for r in rows if all(k not in assignment or assignment[k]==v for k,v in r.items())]
-            if not compatible:return False
+            if not compatible:
+                return None
             options.append(compatible)
         index=min(range(len(options)),key=lambda i:len(options[i]))
         tail=remaining[:index]+remaining[index+1:]
-        return any(search({**assignment,**row},tail) for row in options[index])
+        for row in options[index]:
+            witness = search({**assignment, **row}, tail)
+            if witness is not None:
+                return witness
+        return None
     return search({},list(factors))
+
+
+def consistent_factors(factors):
+    return consistent_assignment(factors) is not None
+
+
+def is_unobserved(value):
+    return (value is None
+            or isinstance(value, str) and value in ('U', 'unknown', 'unread')
+            or isinstance(value, dict) and value in ({'status': 'unknown'}, {'status': 'unread'}))
+
+
+def matches_assertions(observed, reference):
+    """An explicit abstention leaves the corresponding value unobserved."""
+    if is_unobserved(observed):
+        return True
+    if isinstance(observed, dict) and isinstance(reference, dict) and observed.keys() == reference.keys():
+        return all(matches_assertions(value, reference[key]) for key, value in observed.items())
+    if isinstance(observed, list) and isinstance(reference, list) and len(observed) == len(reference):
+        return all(matches_assertions(value, expected) for value, expected in zip(observed, reference))
+    return canonical(observed) == canonical(reference)
+
+
+def has_assertion(value):
+    if is_unobserved(value):
+        return False
+    if isinstance(value, dict):
+        return any(has_assertion(field) for field in value.values())
+    if isinstance(value, list):
+        return any(has_assertion(item) for item in value)
+    return True
+
+
+def supported_explanations(relation, observed):
+    return [assignment
+            for key, signature in relation['signatures'].items()
+            if matches_assertions(observed, signature)
+            for assignment in relation['supports'][key]]
 
 
 @dataclass
@@ -237,20 +281,16 @@ class ExplanationState:
                     raise ValueError('Physical model output differs from its source/ledger binding')
             verified=True
         relation=allowed_relation(self.theory,cases)
-        key=canonical(actual_outputs);supports=relation['supports'].get(key,[])
+        supports = supported_explanations(relation, actual_outputs)
         self.factors.append(supports)
         feasible=consistent_factors(self.factors)
-        def unknown(value):
-            if isinstance(value,dict):
-                return value.get('status') in ('unknown','unread') or bool(value) and all(unknown(v) for v in value.values())
-            if isinstance(value,list):return bool(value) and all(unknown(v) for v in value)
-            return value is None or value in ('U','unknown','unread')
-        all_unknown=all(unknown(v) for v in actual_outputs)
+        all_unknown = not has_assertion(actual_outputs)
         row={'patch_sha256':self.patch_sha256,'source_ids':[c.source_id for c in cases],
             'root_ids':[c.root_id for c in cases],'law_scopes':[c.law_scope for c in cases],
             'actual_signature':deepcopy(actual_outputs),'physical_call_ids':list(physical_call_ids),
             'locally_allowed':bool(supports),'cumulative_shared_explanation_exists':feasible,
             'status':'not_refuted' if feasible else 'refuted','native_correctness_certified':False,
+            'asserted_output_present': not all_unknown,
             'all_unknown_is_positive_evidence':False,'native_positive_supervision_required':True,
             'physical_model_evidence_verified':verified,'evidence_kind':evidence_kind,
             'nontrivial_model_relation_observation':verified and feasible and not all_unknown,
@@ -278,7 +318,7 @@ def choose_groups(theory,groups,candidate_signatures,*,costs=None,max_groups=Non
                               for assignment in assignments]
         rejected = set()
         for name, output in predictions.items():
-            support = relation['supports'].get(canonical(output), [])
+            support = supported_explanations(relation, output)
             patch_factors.setdefault(name, {})[i] = support
             if not support:
                 rejected.add(name)

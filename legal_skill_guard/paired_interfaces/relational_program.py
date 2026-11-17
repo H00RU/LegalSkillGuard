@@ -6,6 +6,8 @@ Composition preserves each local consumer and its declared identity binding;
 the certificate does not claim correctness of English reading or legal scope.
 """
 from copy import deepcopy
+import json
+from math import prod
 
 from legal_skill_guard.paired_interfaces import residual
 from legal_skill_guard.skill_evolution.native import record_schema
@@ -31,7 +33,7 @@ def evaluate(expression,local):
     raise ValueError('Unsupported closed consumer expression')
 
 
-def schema(program):
+def schema(program, *, exact_finite_values=False, maximum_evidence=None):
     fields={}
     for name,unit in program['units'].items():
         original=residual.reader_schema(unit['asset'])
@@ -39,8 +41,19 @@ def schema(program):
         complete['properties']['status']={'type':'string','enum':['complete']}
         observation=complete['properties']['observation']['anyOf'][0]
         observation['properties']['source_anchor']={'type':'string','enum':[name]}
+        asset = unit['asset']
+        if exact_finite_values and len(asset['decoder']) < prod(map(len, asset['domains'].values())):
+            # Independent per-field enums admit combinations that the compiler
+            # never produced. Keep the actual finite joint support on the wire.
+            rows = [json.loads(reading) for reading in asset['decoder']]
+            observation['properties']['relations'] = {'anyOf': [
+                record_schema({field: {'enum': [value]} for field, value in row.items()})
+                for row in rows
+            ]}
         complete['properties']['observation']=observation
         complete['properties']['evidence']['minItems']=1
+        if maximum_evidence is not None:
+            complete['properties']['evidence']['maxItems'] = maximum_evidence
         unread['properties']['status']={'type':'string','enum':['unread']}
         unread['properties']['observation']={'type':'null'}
         unread['properties']['evidence']['maxItems']=0
