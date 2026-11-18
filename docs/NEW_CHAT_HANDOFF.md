@@ -405,3 +405,11 @@ B8 普通 OpenExempt 候选的八笔原生读数均正常结束。相对 M2 进�
 补查 OpenExempt 同案的 EC/EV，32 个 TRAIN 参考均满足同资产的正额 EV 引文属于 EC。B8 实测候选的 25 条正额 EV 资产引文对中，15 对的资产在 EC 省略，另 5 对未出现在 EC 对该资产的已答引文中。离线按 EC 过滤 EV 使候选 EV F1 从 0.48750 降到 0.18125；按 EV 补充 EC 使 EC F1 从 0.59077 降到 0.57946，保留原始结果，不做强制合并。只比较两视图公开资产估值和辖区一致的事实，原文表述可不同。见 `handoff/B8_OE_native_cross_view_diagnostic_aligned_facts_20261119.json`。
 
 唯一生成会话 13559 已运行五臂固定 80 来源的 B8 DEV，绑定 `db6b0eba1553f5030b93e50769d23a2acaf7dbbc8d1c5f8b65f27969ae5db0ac`，67 份源码、五个原 DEV 重放根已核验。TEST 160 个身份与连续账本和教师回执全部来源引用交集为零，原文及标签保持封存。继续按真实会话结算固定 DEV、曲线、跨库屏蔽及后续协议。见 `handoff/B8_bound_DEV_preflight_20261119.json` 与 `handoff/B8_prefreeze_exposure_metadata_audit_20261119.json`。
+
+## B8 DEV 四臂精确对照与 M2 反馈配对预检
+
+B8 DEV 普通、仅 M1、仅 M2、联合四臂的各 80 个 DEV 母来源均已结算，外部 PARSE 仍运行。M2 两组对照逐项 384 个原生分数、80 份原生预测和各 96 个引用的物理响应均相同，实测与封存库因子一致。见 `handoff/B8_M2_DEV_exact_equivalence_20261119.json`。
+
+M1 的两组对照均在 Diversity 上从 9/16 提高到 14/16 的平衡准确率，差 0.3125，原母来源配对分层区间 [0.0625, 0.5625]。仅 M1 的 16 例均执行了合成接口，14 例的全部局部关系通过源审。六个原生修正例均通过逐关系源审，另有一个退化。B4 与 B8 的四个对应臂在这 16 个来源上均使用相同物理读数，属于同一固定 DEV 证据。见 `handoff/B8_M1_DEV_two_arm_balanced_accuracy_20261119.json`、`handoff/B8_M1_DEV_source_audit_20261118.json` 和 `handoff/B4_B8_Diversity_DEV_source_overlap_20261119.json`。
+
+M2 新成对验证已绑定原定四个 OpenExempt TRAIN 小试母来源、八项原生任务和同一 B8 起始程序。两路教师各出一个只修改所有权政策的提案。公共事实、八笔既有投影、单槽允许值、基线原生统计和可执行框架相同，变化仅为逐例补全或共享解释的反馈。预检复算候选的唯一共享见证、进入程序的零共享见证及全未知时两个见证均保留；原文字面仍独立核验。主比较为相同原生输入上的 EC/EV 及同候选集上的选择差异。未改 B8 库或当前 DEV 绑定，尚未派发这项配对的请求。见 `handoff/B8_OE_feedback_pair_current.json`、`handoff/B8_OE_feedback_pair_final_preflight_20261119.json`。当前会话 13559 仍是唯一生成阶段，TEST 原文及标签保持封存。
