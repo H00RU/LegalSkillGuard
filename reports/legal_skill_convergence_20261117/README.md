@@ -1,25 +1,16 @@
-# 法律技能进化：收敛后的两项方法
+# 法律技能进化：两项方法与当前执行入口
 
-> **2026-11-18 最终统一执行口径（revision 4）。** 当前正式五库为OE、ContractNLI、MAUD、Airline、LegalBench Diversity。执行以[PLAN](PLAN.md)、[跨库实施](CROSS_DATASET_IMPLEMENTATION.md)、[数据选择](DATA_SELECTION.md)、[配置](protocol.json)与[新Goal](SERVER_GOAL.md)为准。取消三轮上限；按真实进展自主优化，有明确依据继续，无新依据不重复失败。实验交付齐全不自动代表Goal达成，两方法仍须有实际贡献证据。
+> **2026-11-19，revision 5。** 本轮128来源8批训练、五库冻结测试、消融对照及论文初稿已交付，两项独立贡献目标仍未达成。当前按[完整方案](PLAN.md)、[接续配置](continuation_protocol_20261119.json)和[接续指令](SERVER_GOAL.md)核实尚缺的执行证据，有明确依据时定向改进；不从头重跑原实验，不新建或重置Goal。
 
-**推荐投入：法律消费者约束的关系接口学习；共享语义约束的对照监督合成。**
+研究对象继续为M1「法律消费者约束的关系接口学习」与M2「共享语义约束的对照监督合成」。冻结执行模型，保留教师和外部技能库。M1有Diversity正向信号但整体增益不确定；本轮M2消融原生输出一致，尚无独立收益。是否存在可修复缺口须按精确冻结源码及实际请求判断，不把反馈共享预设为错误。
 
-执行模型保持冻结，教师与外部技能库保留。第一项让模型更容易正确使用已有法律技能；第二项从不完整语义标注中构造可信训练关系，减少错误经验被写入技能库。两项有独立学习对象、独立消融与真实原生任务的收益路径。
+- [当前完整方案](PLAN.md)、[当前接续配置](continuation_protocol_20261119.json)、[服务器接续指令](SERVER_GOAL.md)
+- [跨库实施要求](CROSS_DATASET_IMPLEMENTATION.md)、[数据与曝光边界](DATA_SELECTION.md)
+- [M1方法](METHOD_1.md)、[M2方法](METHOD_2.md)、[设计阶段查新](RELATED_WORK.md)
+- [本次变更复核](REVISION_REVIEW_20261119.md)、[一致性检查](REVISION_CHECKS_20261119.json)、[文件哈希](MANIFEST.json)
 
-本包按用户最新核心代码提交 [354bece66](https://github.com/H00RU/LegalSkillGuard/tree/354bece66fd9a0b1e7bc8dab1a6d7159ee141345) 核验。它替代旧执行方案中尚待进行的方法选择和旧风险通道M2；历史实验、负结果、账本与暴露记录不撤销。
+[原protocol.json](protocol.json)按原字节保留，对应已完成实验，旧“待划分/待验证”字段不描述当前进度。[revision 4完整包](https://github.com/H00RU/LegalSkillGuard/tree/37a76ffdf9490d7d213f5a9e67553a174416d84c/reports/legal_skill_convergence_20261117)仍可复核。原TEST因正常评价进入曝光账本，不使原冻结结果作废，也不能充当后续修改版本的新盲测。
 
-- [统一方案与固定验证](PLAN.md)
-- [第一项算法与扩展查新](METHOD_1.md)
-- [第二项算法与语义作用域](METHOD_2.md)
-- [综合查新及评估后再次排重](RELATED_WORK.md)
-- [idea-evaluator复审](IDEA_EVALUATION.md)
-- [最新核心代码审计与复用边界](CURRENT_CODE_AUDIT.md)
-- [配置](protocol.json)
-- [服务器Goal](SERVER_GOAL.md)
-- [可复算原型](prototypes/README.md)与[运行检查](CHECKS.json)
+本次状态依据为[0fe2a82服务器交接](https://github.com/H00RU/LegalSkillGuard/blob/0fe2a82c1ddfc39e8b1f47822897e5772cfeb247/docs/NEW_CHAT_HANDOFF.md)及同提交结果。后续以服务器更晚的有效状态为准。[354bece代码审计](CURRENT_CODE_AUDIT.md)、[设计阶段评估](IDEA_EVALUATION.md)、[确定性原型](prototypes/README.md)保留作历史，不能替代正式实验结果，也不代表机构或专家背书。
 
-复审结论为 **Accept with Revisions：按本包已具体落实的修订范围值得投入**。并非港科大机构/专家背书，也不是用评分证明效果。本轮没有调用模型或恢复服务器。
-
-已完成的机制证据：有限关系接口合成；一个真实Airline TRAIN来源的合成/原生结果均为1433；自动生成合法源变化与费用差关系-70，原生复核为1433→1363；多解释、未知事实共享范围与不可能终答归因的检查。原型结果不等于新模型准确率。
-
-锁定两项机制及强对照，后续围绕它们完成生产实现、固定真实比较、完整训练与分库测试；不因某个通用组件已有文献就重开选题。未找到相同完整对象的直接重复实现，不写“全球无人做过”。
+本次仅发布文档和接续配置，没有研究模型调用，没有恢复或更改服务器运行任务。
