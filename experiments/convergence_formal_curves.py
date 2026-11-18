@@ -10,6 +10,7 @@ from experiments.convergence_dev_b0 import POINTER as DEV_B0
 from experiments.convergence_formal_b1_dev import POINTER as FIRST_DEV, _native_metrics, _routes
 from experiments.convergence_formal_b1_observe import load_roster
 from experiments.convergence_formal_train_fit import pointer as fit_pointer
+from experiments.convergence_oe_metrics import summarize as openexempt_metrics
 from experiments.convergence_parse_runtime import ParseControlActor
 from experiments.convergence_pilot_b0 import BASE, HANDOFF, LEDGER, ROOT, read, sha, write_status
 from legal_skill_guard.paired_interfaces import diversity_claim_groups
@@ -58,7 +59,8 @@ def prepare(batch):
     b0 = ROOT / read(DEV_B0)['artifact_root']
     if str(b0.relative_to(ROOT)) not in replay:
         raise ValueError('Recover the original DEV public sources and TEST metadata')
-    files = set(binding['source_sha256']) | set(first_binding['source_sha256']) | {'experiments/convergence_formal_curves.py'}
+    files = set(binding['source_sha256']) | set(first_binding['source_sha256']) | {
+        'experiments/convergence_formal_curves.py', 'experiments/convergence_oe_metrics.py'}
     spec = {'study': 'convergence_fixed_DEV_curve', 'batch': batch,
             'checkpoint_root': binding['checkpoint_root'], 'checkpoint_binding_sha256': digest(study),
             'train_receipts': receipts, 'b0_dev_data_root': str(b0.relative_to(ROOT)), 'executor': study['executor'],
@@ -132,6 +134,7 @@ def run(batch):
         cells[arm], scores[arm] = cell['cell_sha256'], cell['source_scores']
         b0_cell = verify(read(evaluator.cell_path('dev', arm, 0) / 'scores.json'), 'cell_sha256')
         per_arm[arm] = {'native': _native_metrics(scores[arm], grade_file, study['grading_paths']),
+                        'official_OpenExempt': openexempt_metrics(scores[arm]),
                         'paired_minus_B0': _effects(b0_cell['source_scores'], scores[arm]),
                         'routes': _routes(evaluator.cell_path('dev', arm, batch), dev)}
     effects = {later + '_minus_' + earlier: _effects(scores[earlier], scores[later])
