@@ -13,8 +13,10 @@ from experiments.convergence_pilot_b0 import BASE, HANDOFF, LEDGER, ROOT, read, 
 from legal_skill_guard.paired_interfaces.control_answers import decode_native, source_bundle, wire_schema
 from legal_skill_guard.paired_interfaces.convergence_actors import common_cells
 from legal_skill_guard.paired_interfaces.convergence_schema_control import (
-    ReversibleWire, measure_schema, public_field_types, schema_proposal, validate_proposal,
+    ReversibleWire, measure_schema, public_field_types, schema_proposal,
 )
+from legal_skill_guard.paired_interfaces.convergence_schema_order import normalize_proposal
+from legal_skill_guard.paired_interfaces.pilot_metrics import summarize
 from legal_skill_guard.paired_interfaces.scope_learning import strict_json
 from legal_skill_guard.rr.checkpoint import immutable_json
 from legal_skill_guard.skill_evolution.clients import FrozenExecutor, FrozenTeacher
@@ -26,6 +28,7 @@ from legal_skill_guard.skill_evolution.objects import digest
 POINTER = HANDOFF / 'parse_pilot_current.json'
 FAMILY = 'PARSE_style_interface_optimization'
 SYSTEM = (
+    'Return only the requested JSON. Do not use tools, browse, open files, or write code. '
     'Propose a general reversible output schema transformation for this public legal task family. '
     'You may rename declared fields, prioritize field order, and add up to 90 words of domain-specific reader guidance. '
     'Output on every current source must decode to its complete original native wire, including all evidence, '
@@ -101,7 +104,7 @@ def cohort_contract(ordinary_binding, sources, protocol):
     }
 
 
-def prepare():
+def prepare(recover_from=None):
     ordinary = ROOT / read(ORDINARY)['artifact_root']
     prior = read(ordinary / 'binding.json')
     sources = read(ordinary / 'train_sources.json')
@@ -127,6 +130,7 @@ def prepare():
     protocol = ROOT / 'reports/legal_skill_convergence_20261117/protocol.json'
     code = set(prior['source_sha256']) | {
         'experiments/convergence_parse_pilot.py', 'legal_skill_guard/paired_interfaces/convergence_schema_control.py',
+        'legal_skill_guard/paired_interfaces/convergence_schema_order.py',
         'legal_skill_guard/paired_interfaces/scope_learning.py', str(protocol.relative_to(ROOT)),
     }
     conditions = cohort_contract(prior, sources, protocol)
@@ -137,6 +141,20 @@ def prepare():
                'teacher_payloads_sha256': digest(payloads), 'offline_recovery_audit_sha256': digest(audit),
                'matched_public_conditions': conditions, 'teacher_config': prior['teacher_config'],
                'teacher_profile': prior['teacher_profile'], 'executor': prior['executor']}
+    if recover_from is not None:
+        previous = ROOT / recover_from
+        old = read(previous / 'binding.json')
+        old_terminal = read(previous / 'terminal.json')
+        if (previous.parent != BASE / 'parse_pilot' or previous.name != digest(old)
+                or old_terminal['status'] != 'completed' or 'recovery' in old
+                or not read(previous / 'archive_receipt.json')['all_bound_source_files_verified']
+                or any(binding[name] != old[name] for name in (
+                    'ordinary_binding_sha256', 'public_cohort_sha256', 'teacher_system_sha256',
+                    'teacher_payloads_sha256', 'matched_public_conditions'))):
+            raise ValueError('Recovery requires the exact settled roster and previously bound teacher proposals')
+        reports = {dataset: sha(previous / 'measured_libraries' / (dataset + '.json')) for dataset in INSTRUCTIONS}
+        binding['recovery'] = {'root': str(previous.relative_to(ROOT)), 'terminal_sha256': sha(previous / 'terminal.json'),
+                               'raw_proposal_reports': reports, 'no_new_teacher_calls': True}
     out = BASE / 'parse_pilot' / digest(binding)
     immutable_json(out / 'binding.json', binding)
     immutable_json(out / 'reference_recovery_audit.json', audit)
@@ -161,12 +179,13 @@ def run():
     sources = read(ordinary / 'train_sources.json')
     baseline = read(ordinary / 'incumbent_scores.json')
     payloads = read(out / 'teacher_payloads.json')
-    if (read(ordinary / 'terminal.json')['status'] != 'completed'
-            or digest(previous) != binding['ordinary_binding_sha256']
+    if (digest(previous) != binding['ordinary_binding_sha256']
             or digest(sources) != binding['public_cohort_sha256']
             or digest(baseline) != previous['native_incumbent_sha256']
             or digest(payloads) != binding['teacher_payloads_sha256']
             or digest(SYSTEM) != binding['teacher_system_sha256']
+            or any(sha(ROOT / stage / 'terminal.json') != value
+                   for stage, value in previous['common_terminal_receipts'].items())
             or any(sha(ROOT / name) != value for name, value in (
                 binding['source_sha256'] | previous['grading_file_sha256']).items())):
         raise ValueError('The fixed PARSE pilot comparison changed')
@@ -179,6 +198,10 @@ def run():
     executor = FrozenExecutor(ledger, out, binding['executor'])
     executor.readiness()
     teacher = FrozenTeacher(ledger, out, binding['teacher_config'], authorized_profile=binding['teacher_profile'])
+    recovery = binding.get('recovery')
+    previous_parse = ROOT / recovery['root'] if recovery else None
+    if recovery and sha(previous_parse / 'terminal.json') != recovery['terminal_sha256']:
+        raise ValueError('The terminal comparison changed after binding')
     summaries = {}
     for dataset in sorted(INSTRUCTIONS):
         scoped = [source for source in sources if source['dataset'] == dataset]
@@ -188,16 +211,46 @@ def run():
             summaries[dataset] = read(report)['summary']
             continue
         write_status(out, {'status': 'running', 'current_library': dataset, 'completed_libraries': len(summaries)}, POINTER)
-        response = teacher.propose(ledger.run_id + ':teacher:' + dataset, source_ids=library_keys,
-                                    system_prompt=SYSTEM, user_prompt=json.dumps(payloads[dataset], sort_keys=True),
-                                    output_schema=schema_proposal())
+        identity = ledger.run_id + ':teacher:' + dataset
+        if recovery:
+            saved = previous_parse / 'measured_libraries' / (dataset + '.json')
+            if sha(saved) != recovery['raw_proposal_reports'][dataset]:
+                raise ValueError('The raw measured comparison or teacher proposal changed')
+            original = read(saved)
+            identity = 'convergence-parse-pilot-' + previous_parse.name[:16] + ':teacher:' + dataset
+            with ledger.transaction() as db:
+                stored = db.execute('select status,result from calls where id=?', (identity,)).fetchone()
+            if stored is None or stored[0] != 'completed':
+                raise ValueError('Recovered proposals require the original settled physical teacher response')
+            response = json.loads(stored[1])
+            if response['value'] != original['proposal'] or response['source_ids'] != library_keys:
+                raise ValueError('Recovered proposal changed from its original physical response or source bindings')
+            if original['summary']['status'] == 'completed':
+                if normalize_proposal(response['value'], payloads[dataset]['public_wire_field_types']) != response['value']:
+                    raise ValueError('An existing valid comparison must retain its exact normalization and wire')
+                immutable_json(report, original)
+                immutable_json(out / 'reused_comparisons' / (dataset + '.json'),
+                               {'original_report_sha256': sha(saved), 'teacher_physical_call': identity,
+                                'new_executor_calls': 0, 'new_teacher_calls': 0})
+                summaries[dataset] = original['summary']
+                continue
+        else:
+            try:
+                response = teacher.propose(identity, source_ids=library_keys,
+                                            system_prompt=SYSTEM, user_prompt=json.dumps(payloads[dataset], sort_keys=True),
+                                            output_schema=schema_proposal())
+            except Exception as error:
+                write_status(out, {'status': 'interrupted_or_failed', 'current_library': dataset,
+                                   'completed_libraries': len(summaries), 'error_type': type(error).__name__}, POINTER)
+                raise
         if response['model'] != binding['teacher_config']['model']:
             raise ValueError('Actual teacher differs from the matched model')
-        proposal = response['value']
+        raw_proposal = response['value']
+        proposal = raw_proposal
         base = math.fsum(math.fsum(baseline[key].values()) / len(baseline[key]) for key in library_keys) / len(library_keys)
         score_rows, predictions = [], {}
         try:
-            validate_proposal(proposal, payloads[dataset]['public_wire_field_types'])
+            proposal = normalize_proposal(raw_proposal, payloads[dataset]['public_wire_field_types'])
             for source in scoped:
                 for cell in common_cells(source):
                     ReversibleWire(wire_schema(dataset, source_bundle(cell)), proposal)
@@ -223,13 +276,14 @@ def run():
                                        pred['evidence_sentence_ids']) if pred['handled'] else {'grade': 0.0}
                     score_rows.append({'source': key, 'view': name, 'dataset': dataset,
                                        'handled': pred['handled'], 'grade': grade['grade']})
-            from legal_skill_guard.paired_interfaces.pilot_metrics import summarize
             expected = {(source['key'], view['id']) for source in scoped for view in source['views']}
             score = summarize(score_rows, expected)['mother_macro']
             summary = {'incumbent_native': base, 'candidate_native': score, 'status': 'completed',
                        'selected': 'candidate' if score > base else 'incumbent'}
-        immutable_json(report, {'summary': summary, 'proposal': proposal, 'candidate_score_rows': score_rows,
-                                'actual_predictions_sha256': digest(predictions), 'teacher_usage': response.get('invocation', {}).get('usage')})
+        immutable_json(report, {'summary': summary, 'proposal': raw_proposal, 'compiled_proposal': proposal,
+                                'teacher_physical_call': identity, 'candidate_score_rows': score_rows,
+                                'actual_predictions_sha256': digest(predictions),
+                                'teacher_usage': response.get('invocation', {}).get('usage')})
         summaries[dataset] = summary
     terminal = {'status': 'completed', 'family': FAMILY, 'libraries': summaries,
                 'fixed_train_mothers': len(sources), 'strongest_external_family_selected': False}
@@ -241,4 +295,11 @@ def run():
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('phase', choices=('prepare', 'run'))
-    (prepare if parser.parse_args().phase == 'prepare' else run)()
+    parser.add_argument('--recover-from')
+    args = parser.parse_args()
+    if args.phase == 'prepare':
+        prepare(args.recover_from)
+    elif args.recover_from:
+        parser.error('The previous study is bound during prepare')
+    else:
+        run()
