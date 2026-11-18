@@ -1,10 +1,10 @@
 # 当前项目：M1/M2统一方案实现与评价
 
-唯一项目根：`/home/yndx/hhy/legal-skill-current`。2026-11-18用户新Goal为active，不新建或重置Goal。当前入口依次为：
+唯一项目根：`/home/yndx/hhy/legal-skill-current`。当前同一研究 Goal 已由用户恢复，工作安排为 2026-11-19 revision 5。当前入口依次为：
 
 1. [当前目标与实际进度](docs/CURRENT_GOAL.md)。
 2. [恢复与交接](docs/NEW_CHAT_HANDOFF.md)：压缩或中断后先读、核对实际进程/账本/绑定，从未完成处继续。
-3. [固定统一方案](reports/legal_skill_convergence_20261117/PLAN.md)及同目录方法、protocol和修订复核，上游37a76ffdf9490d7d213f5a9e67553a174416d84c。
+3. [新版统一方案](reports/legal_skill_convergence_20261117/PLAN.md)及[接续协议](reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json)，上游 56ed2142df80c47ce155351902916b10ae626904。原冻结轮次使用同目录的 protocol.json。
 4. 新Goal证据与运行记录：`artifacts/legal_skill_convergence_20261117/`；连续账本仍为 `artifacts/rr_v2_preflight/research_ledger.sqlite3`。
 5. [既有资产](docs/METHOD_REDESIGN_CURRENT.md)、[技能索引](docs/RESEARCH_SKILLS.md)，以及旧M1/M2失败报告，作为新修订的证据。
 
