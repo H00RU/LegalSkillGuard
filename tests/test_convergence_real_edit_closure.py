@@ -1,5 +1,6 @@
 import unittest
 from legal_skill_guard.paired_interfaces.diversity import public_source
+from legal_skill_guard.paired_interfaces.diversity_amount_supervision import controlled_amount_relation
 from legal_skill_guard.paired_interfaces.diversity_supervision import group_relation
 
 
@@ -16,6 +17,20 @@ class RealEditClosureTests(unittest.TestCase):
         self.assertTrue(all(r['unchanged_source_bytes_preserved'] for r in group['edit_receipts']))
         self.assertTrue(group['shared_vs_single_signatures_identical'])
         self.assertFalse(group['establishes_M2_shared_interpretation_advantage'])
+
+    def test_entailed_high_amount_preserves_the_shared_threshold_restriction(self):
+        source = public_source({'index': 'joint', 'text': 'Amy is from Texas. Bob is from Maine. Carl is from Utah. '
+                                'Amy and Bob both sue Carl for $12,000 and $99,000.'},
+                               'diversity_5', project_split='train')
+        group = controlled_amount_relation(source, ['amount_0', 'amount_1'], entailed_anchor=True)
+        self.assertEqual({tuple(row) for row in group['shared']['signatures'].values()},
+                         {(False, False, True), (False, True, True), (True, True, True)})
+        self.assertIn([True, False, True], group['independent']['signatures'].values())
+        self.assertEqual(group['latent_representatives'], [0, 5001, 65001])
+        self.assertEqual(len(group['covered_pairs']), 2)
+        for case in group['cases']:
+            self.assertNotIn('$99,000', case.public['source_text'])
+            self.assertEqual(case.public['source_text'].count('an unspecified dollar amount'), 1)
 
 
 if __name__=='__main__':unittest.main()

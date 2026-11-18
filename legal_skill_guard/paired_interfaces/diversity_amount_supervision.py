@@ -15,7 +15,7 @@ def _amount_result(values, law):
                if [claim['plaintiff'], claim['defendant']] == pair) > 75000
 
 
-def controlled_amount_relation(source, shared_fields):
+def controlled_amount_relation(source, shared_fields, *, entailed_anchor=False):
     """Withhold one clause amount, edit the other, and keep the unknown common.
 
     Both named parties and other clauses remain fixed. This is a controlled
@@ -49,11 +49,11 @@ def controlled_amount_relation(source, shared_fields):
         **{key: value for key, value in case.primitives.items() if key != hidden_field},
         'compared_pair': list(min(left)),
     }, spans={edited_field: (edit_field, left_edge, right_edge)}, interventions={})
-    amounts = (10000, 70000)
+    amounts = (10000, 70000, 80000) if entailed_anchor else (10000, 70000)
     # Choose one representative of every equivalence interval for all
     # nonnegative integer amounts. Threshold predicates can change only at
     # these cut points, including the first integer after strict equality.
-    representatives = sorted({0, *(75001 - value for value in amounts)})
+    representatives = sorted({0, *(75001 - value for value in amounts if value <= 75000)})
     code = '\n'.join(inspect.getsource(fn) for fn in (_amount_result, derive_claims))
     theory = replace(original,
         root_alternatives={case.root_id: [{hidden_field: value} for value in representatives]},
@@ -68,7 +68,9 @@ def controlled_amount_relation(source, shared_fields):
     cases = [variant['case'] for variant in variants]
     shared = allowed_relation(theory, cases)
     independent = allowed_relation(theory, cases, mode='independent_completions')
-    if {tuple(value) for value in shared['signatures'].values()} != {(False, False), (False, True), (True, True)}:
+    suffix = (True,) if entailed_anchor else ()
+    expected = {value + suffix for value in ((False, False), (False, True), (True, True))}
+    if {tuple(value) for value in shared['signatures'].values()} != expected:
         raise ValueError('The compiled threshold relation failed to preserve the exact shared domain')
     return {'cases': cases, 'theory': theory, 'shared': shared, 'independent': independent,
             'single_interpretation': allowed_relation(theory, cases, mode='single_interpretation'),
