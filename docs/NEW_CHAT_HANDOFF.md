@@ -347,3 +347,15 @@ B8 DEV 屏蔽在代码中绑定真实教师提案源和预测所用的物理请�
 M1 已复算至 B6。15 个固定前向 TRAIN 来源上，普通和现行各 12/15，替代选择 11/15。现行 9 次合成读取中，7 次全部局部关系获源审支持。见 `handoff/M1_incumbent_through_B6_20261118.json`。
 
 唯一生成会话 6038 已进入 B7。`handoff/formal_B7_observe_current.json` 绑定 `d0ccb8b273b17ff2d195de1f25db13f16e6b495f171e3e39749f05b45bc63927`，原定 16 来源、74 任务，44 份观察文件。B7 的四例公开 EV 均成功绑定资产槽，数量 4、3、3、2，继承的 PARSE 可逆编译也已核对。80 项定向测试与 2 个子测试通过。共同 EV 接口延续至 B7、B8 拟合、B8 DEV 及其屏蔽比较，以及所有五个 TEST 臂和最终静态 B0。B6 原绑定来源保持历史归档。见 `handoff/B7_bound_observe_preflight_20261119.json`。继续核对实际会话，终态归档，再接同一读取接口的 B7 拟合。TEST 保持封存。
+
+B7 首四个普通教师 EV 已结算并复算。之中的四个物理请求均按源文本绑定，四个返回的原生资产键集均与参考完全一致，官方 EV F1 均值 0.11859。回执 `handoff/B7_EV_asset_inventory_actual_common_teacher_skill_learning_20261119.json`，可用 `/tmp/convergence_B7_ev_inventory_actual_20261119.py` 复算普通臂。待其余臂和 B7 拟合，继续核对同源收益与共享选择。公开分支核验至 `0300bfec4cf7a4f3bca7067de3582d271286a151`。
+
+## B7 观察结算及公开辖区约束验证
+
+会话 6038 正常终结。五臂各封存 B7 原定 16 个来源、74 个任务，44 笔 Qwen 共 354745 tokens，44 份绑定文件已归档。观察累计 112/128，正式更新累计 96/128。两组 M1 Diversity 比较均为 3/3 对 3/3。仅 M1 三次均实际使用合成接口，各局部关系全部通过源审。两组匹配 OpenExempt 比较的 EC、EV F1 均差为 −0.00666、+0.01357。五臂的每例 EV 均返还完整参考资产集合，合计 12 个独立物理 EV 读数。见 `handoff/B7_entering_native_comparison_20261119.json` 和 `handoff/B7_completed_and_B8_jurisdiction_rehearsal_20261119.json`。
+
+对已保存的 B7 EV 预测仅删除案情明示辖区之外的引文，普通臂 F1 0.11859→0.28203，M2 0.13217→0.25020，PARSE 0.14763→0.31984，三臂召回均保持原值。再去掉超过案情资产估值或非正值的索赔，三个 F1 分别为 0.31389、0.27103、0.33770。以上为固定已付响应的离线分解，真实生成收益待匹配比较。正常范围检查覆盖 B1–B7 28 个 EC、28 个 EV TRAIN 原生参考。其中 180 个参考 EV 索赔均不超过案情资产值。
+
+公开辖区枚举仅在隔离草稿实现。56 个参考均经普通及 PARSE 无损回译，引文范围从 71 个缩至 9–23 个。冻结解码后端已用原有 Unicode 枚举恢复和字段顺序验证准入及排除，合成账本两条生产路径也已通过。后端接受小数形式 780.15 越过整数上界 780，故金额没有作为硬语法约束部署。源码和复算脚本在 `artifacts/legal_skill_convergence_20261117/B8_OE_public_jurisdiction_preflight_20261119/source_snapshot` 保留十份哈希。待 B7 实测新提案及 B8 正式接入审查；未更改 B7 代码。
+
+B7 拟合会话 8196 绑定 `ca1b6269b98871ac5eaa2b5731ed8f5ab1e981d24ded2ab42f918de53776f53b` 的 62 份文件和同一资产槽。连接受限的启动在执行器就绪检查退出，核对零账本记录后，8196 已在原绑定进入真实拟合。以 `handoff/formal_B7_fit_current.json`、实际会话与账本为准。继续观察普通 OpenExempt 新提案的 EC、EV 原生门槛及条件投影的真实选择。TEST 保持封存，Goal active。
