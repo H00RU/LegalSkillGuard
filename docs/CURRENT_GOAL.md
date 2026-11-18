@@ -243,3 +243,7 @@ B3 的两个 OpenExempt 程序在下一批四个固定 TRAIN 母来源上实测�
 B4 两条长度受限响应中，一条 OpenExempt EV 响应在 63,478 个尾部空白字符后缺外层闭括号。离线复用完全相同的请求及原生解码器，仅补括号，原生 F1 维持 0。另一条仍有不完整答案字段，结构恢复拒绝。原运行结果保留。三个核验均未发出新请求，未读取 DEV 或 TEST。58 项定向验证通过。
 
 B4 观察会话 61599 已结算。五臂逐臂完成 16 个固定 TRAIN 母来源和 74 个原生任务。38 个新 Qwen 响应用 282287 tokens，原绑定的 42 份文件全部已按哈希归档。当前唯一生成会话 76509，读取 `handoff/formal_B4_fit_current.json` 和 `handoff/run_state.json`。该会话实际进入普通教师 ContractNLI。启动后核对账本为 13144 笔、1 笔在途。当前 Goal 已结算用量为 Qwen 4046647、教师 904255 tokens。五臂 B4 快照结算后继续固定 B4 DEV。B5–B8、最终 DEV、冻结 TEST 和独立验证仍待，TEST 原文及评分封存。
+
+M2 重新核验了三组原生正向候选的已结算投影。遮住无原文支持的字面断言后，OpenExempt 小试和 B3 各自的 2 个共享签名全部保留。金额小试的派生判断兼容 3 个共享签名中的 1 个，原响应同时有未经原文支持的金额。因此 3 组均没有独立于原文事实检查的共享拒绝。诊断复用了实际响应，保留原更新决策。回执 `handoff/M2_signature_through_B3_20261118.json`。前一轮审计与 B4 观察状态已同步并复核公开研究分支 `15634344022b1d102f79ed63490c719c0783257e`。
+
+M1 同语法独立对照已绑定固定小试中的四个 Diversity 母来源。离线逐源留一，在相同兼容实测候选上比较正确固定读取、静态最短 schema、仅按原生表现选择和带源忠实性选择。四个来源分布在 B2、B7、B8。B2 的四个既有读数已按账本逐个复核，B8 拟合后完成整组比较。入口 `python -m experiments.convergence_m1_pilot_controls replay`。选法已固化到 `handoff/m1_same_grammar_controls_prepared.json`，该比较使用 TRAIN。
