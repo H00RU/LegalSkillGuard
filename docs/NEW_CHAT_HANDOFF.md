@@ -479,3 +479,23 @@ M2 新成对验证已绑定原定四个 OpenExempt TRAIN 小试母来源、八�
 在连续账本快照中，冻结边界为第 13967 行。边界前零 TEST 名册交集；边界后所见 317 笔均使用原冻结 TEST 命名空间与执行角色，无教师、TRAIN 或 DEV 请求，也无名册外请求。72 个运行文件和读文、评分访问回执已核对。该回执是运行中快照。见 `handoff/B8_TEST_exposure_ledger_inflight_20261119.json`。
 
 会话 82357 已完成普通教师、仅 M1、仅 M2、联合、PARSE 五臂。独立核对五臂总计 800 个封存预测和 3840 个原生计分项的技能库与封印。静态 B0 已用原批次 0 的快照启动，前 3 个预测的库哈希与预先封存选择一致。见 `handoff/B8_TEST_five_formal_arms_static_started_20261119.json`。终态核对继续使用原会话 82357 和离线分析会话 77390。
+
+对照原协议的十项交付要求，已复核全量 128 个 TRAIN 来源及各臂共 40 份批次回执、固定 20 例小试、五个 DEV 检查点的 25 份评分封印和联合作用域复用对照。DEV 共 9600 个计分项，全部绑定冻结前同一来源队列；PARSE 锁定回执与 B0 预登记选择的规范哈希一致。核验未使用 TEST 标签，完整指标和研究判定须等静态参照和终态分析。见 `handoff/B8_TEST_delivery_prerequisite_audit_20261119.json`。
+
+## 五臂封存结果的内部复核
+
+固定的五个 TEST 臂已复核同一组 160 个母来源和每臂 768 个原生任务。Diversity 原生准确率在两组 M1 消融中均由 25/32 变为 26/32，6 题修正、5 题退化。两组 M1 臂的 32 题均实际走合成接口，无回退。22 题通过所有局部关系的原文核查，覆盖全部 6 题修正；5 题退化均有至少一项未通过。两组 M2 消融的全部已封存原生分数与对应预测一致。分层区间和 B0 对比以整组终态复算为准。
+
+内部回执为 `handoff/B8_TEST_five_arm_native_preview_20261119.json` 和 `handoff/B8_TEST_internal_M1_source_fidelity_20261119.json`。仅使用冻结后的评分成品及 M1 原文核验所需材料；未另读原生标签文件或触发新的模型请求。主会话 82357 继续完成静态 B0，离线会话 77390 等待整组终态。
+
+## 冻结 TEST 结算与研究结论
+
+会话 82357 和终态分析会话 77390 均正常退出。冻结 TEST 包含 5 个正式臂和静态 B0，均覆盖原定 160 个独立母来源（每库 32），每条件封存 768 个原生任务。480 笔物理执行全部结算，共 3,102,630 tokens，累计执行 5,161.9 秒。冻结前后分别核对账本第 13967、14447 行边界和全部 72 个运行文件。冻结前零 TEST 身份交集，冻结后所有请求均属本次 TEST 执行，无教师请求或训练、开发请求。曝光复核及终态产物分别见 `handoff/B8_TEST_exposure_ledger_terminal_20261119.json` 和 `handoff/B8_TEST_offline_analysis_completed_20261119.json`。
+
+- **M1。** 两组消融及与 PARSE 的比较均为 Diversity balanced accuracy 70.83%→83.33%，差值 +12.50 个百分点，母来源分层配对 95% 区间 [−5.00, 30.00]。准确率 25/32→26/32。6 道修正题的所有局部关系通过原文核验，5 道退化题均含不受原文支持的 claim 关系。该测试支持逐题机制归因，整体提升仍不确定。
+- **M2。** 两组消融均有 768/768 个原生输出与 160/160 个物理响应集合逐项相同。完整 TRAIN 的 13 个具备关系证书的决策中，单独归因于共享解释的否决为零次。共享反馈的小试取得单条正确引文，但提案无法满足共享解释，最终测试没有可归因的原生提升。
+- **强对照和静态参照。** 相对 PARSE，联合臂 ContractNLI evidence F1 提高 7.02 个百分点 [2.43, 11.85]，MAUD 的 negative-interim covenant 提高 12.50 [3.12, 25.00]。四个内部臂在这两项一致。相对静态 B0，联合臂 ContractNLI 分类准确率提高 4.96 [1.29, 9.01]，evidence F1 提高 10.52 [6.05, 15.94]。两组结果衡量系统与训练基线差异。
+
+128 来源八批训练、DEV 曲线、五库冻结 TEST、独立消融、锁定强对照、跨库屏蔽对照和论文初稿均已落盘。两项方法分别取得可靠独立增益的研究目标尚未达成。保留冻结版本、原始证据与暴露记录。当前 TRAIN/DEV 已核对的失败不足以支持新的实质修订，原冻结 TEST 继续作为本次正式终验。
+
+[论文初稿](../reports/legal_skill_convergence_20261117/paper/METHODS_AND_DEVELOPMENT_RESULTS.md) · [五库原生指标与对照](../reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_NATIVE_TABLES.md) · [源忠实及 M2 机制证据](../reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_MECHANISM_AUDIT.json) · [结果封印索引](../reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_EVIDENCE_MANIFEST.json)

@@ -2,7 +2,7 @@
 
 ## Abstract
 
-External legal skills let a frozen language model apply reusable rules, provided it binds source facts to the right parties, claims, or clauses. Consumer-preserving synthesis learns reader interfaces whose decoders implement the same legal rule. Shared-interpretation supervision tests whether one admissible assignment explains a proposed skill's outputs across related source variants. After training on 128 sources, synthesis increased Diversity balanced accuracy from 56.25% to 87.50% on the fixed development cohort in both factorial comparisons and against the locked PARSE control. All six corrected cases passed a source audit of every local relation. On matched OpenExempt ownership queries, two known allocations retained one of two shared explanations for a native-positive proposal. Its incumbent retained none. The ordinary and shared selectors adopted the same final program, yielding identical development predictions.
+External legal skills let a frozen language model apply reusable rules, provided it binds source facts to the right parties, claims, or clauses. We study consumer-preserving synthesis of reader interfaces and supervision that checks whether one admissible interpretation explains a proposed skill's outputs across related cases. After training on 128 sources, we evaluated five matched conditions and a static initial library on 160 held-out sources across five datasets. On LegalBench Diversity, synthesized interfaces raised balanced accuracy from 70.83% to 83.33% in both factorial comparisons and against the locked PARSE control. The paired 95% interval for the 12.50-percentage-point difference spanned −5.00 to 30.00. Source audits verified all six repairs and found unsupported claim relations in all five regressions. Shared-interpretation supervision yielded identical held-out predictions in both factorial comparisons. The results identify source-grounded repairs from interface synthesis while leaving its held-out net effect uncertain.
 
 ## Introduction
 
@@ -10,7 +10,7 @@ Legal reasoning tasks often depend on facts that refer to a particular party, it
 
 We study the interface seen by the reader and the evidence used to accept a skill update. We derive candidate interfaces from an executable legal consumer and check equivalence on the declared domain. Actual paired reads then identify which interface is worth carrying to another source. For updates, we generate source variants under independently audited constraints. We measure native gains and test whether one shared assignment explains the outputs across the variants. In the paired conditioned comparison, a shared-specific veto requires a compatible incumbent under the same measurements. These mechanisms act at different points in the same external skill pipeline.
 
-The development study uses five distinct benchmark families, with source mothers as the unit of comparison. The evaluation reports native metrics separately for each family and records whether a method was applicable, executed successfully, and used only source-supported observations.
+The study spans five benchmark families, with source mothers as the unit of comparison. We measure development performance at five training checkpoints and evaluate the frozen final libraries on an independently held-out cohort. We report native metrics for each family alongside execution routes and audits of source support.
 
 ## Related work
 
@@ -94,11 +94,27 @@ We then asked for both components of an allocation in one response for each of t
 
 On the fixed B8 development cohort, masking skills learned from other datasets preserved all 80 execution traces and all 384 native grades. Both runs referenced the same 96 distinct executor responses. The joint library selected 16 synthesized interfaces, 62 dataset programs and two deterministic Airline routes. Every selected learned interface or program drew its training evidence from the evaluation dataset. This control establishes the within-dataset origin of the measured B8 development effects. [Provenance audit](tables/DEV_B8_TRANSFER_AUDIT.json)
 
+## Frozen test results
+
+### Native outcomes and matched controls (RQ1)
+
+The joint B8 arm improved ContractNLI evidence F1 over PARSE by 7.02 percentage points (95% paired interval [2.43, 11.85]) and MAUD negative-interim covenant accuracy by 12.50 points [3.12, 25.00]. All four internal training arms scored identically on both outcomes. PARSE handled 510 of 544 ContractNLI hypotheses, leaving 17 hypotheses unanswered on each of two sources. On the fixed denominator, these unanswered hypotheses contribute 1.97 points of the evidence F1 difference and 3.68 points of the 3.49-point classification difference. OpenExempt EC F1 was 1.65 points lower than PARSE [−7.48, 4.74], and EV F1 was 0.59 points higher [−4.67, 5.93]. The EV mean absolute relative error was 4.297 for the joint arm and 2.869 for PARSE, with 30 of 32 scores available per arm. All conditions, including the static initial library, obtained exact Airline costs on 6 of 32 sources. [Native scores and paired comparisons](tables/TEST_B8_NATIVE_TABLES.md) · [Output coverage and official OpenExempt metrics](tables/TEST_B8_COVERAGE.md)
+
+Relative to the static B0 library, the joint B8 arm improved ContractNLI classification accuracy by 4.96 points [1.29, 9.01] and evidence F1 by 10.52 points [6.05, 15.94]. The corresponding test scores were 55.88% classification accuracy and 39.99% evidence F1. The other two MAUD outcomes that changed against B0 differed by one answer each, in opposite directions. All models answered at least one ContractNLI hypothesis incorrectly on every source, and none exactly matched both OpenExempt views on a source. The evaluation used 480 distinct physical executor calls, 3,102,630 tokens, and 5,161.9 executor seconds across the five arms and B0. One PARSE request reached its token limit. [Static-reference comparisons](tables/TEST_B8_MECHANISM_AUDIT.json) · [Complete-source scores and physical cost](tables/TEST_B8_NATIVE_TABLES.md)
+
+### Source-grounded interface effects (RQ3)
+
+Synthesized interfaces increased Diversity balanced accuracy from 70.83% to 83.33% in both factorial comparisons and against PARSE, a difference of 12.50 points with a class-stratified paired interval of [−5.00, 30.00]. The test cohort contained 12 Yes and 20 No cases. Accuracy changed from 25/32 to 26/32. In each factorial comparison, all 32 M1 cases executed the synthesized interface without fallback. Of these, 22 passed every local source check. All six repairs passed, and all five regressions contained a source-contradicted claim relation. The audit verified all 66 citizenship judgments and found violations in 11 of 23 same-pair claim judgments and 2 of 15 single-claim judgments. [Native effects](tables/TEST_B8_NATIVE_TABLES.md) · [Source fidelity audit](tables/TEST_B8_MECHANISM_AUDIT.json)
+
+### Outcomes under shared supervision (RQ4)
+
+Each M2 factorial comparison produced identical outputs on all 768 native tasks and used the same physical response sets on all 160 sources. This includes both OpenExempt tasks and all ContractNLI evidence outputs. Across the eight training batches, the shared-specific veto had never changed a selection decision in the 13 dataset–batch conditions with a certified relation. [Paired scores](tables/TEST_B8_NATIVE_TABLES.md) · [Prediction and response equivalence](tables/TEST_B8_MECHANISM_AUDIT.json)
+
 ## Discussion
 
-The Diversity result links an improvement in native answers to changes in the facts supplied to a fixed consumer. The paired arms preserve the legal rule, and the audit confirms the local observations in each of the six repaired cases. The balanced-accuracy gain uses the same source mothers at the final two checkpoints. The prespecified held-out evaluation measures whether the source-grounded gain extends to new mothers.
+The Diversity audits trace six held-out repairs to observations supported by the source and passed to the same legal consumer. Each regression included a claim relation contradicted by the source. The net accuracy gain was one answer, and the balanced-accuracy interval included zero. The locked same-grammar pilot tied the source-faithful and native-only selectors on all four training mothers.
 
-Shared interpretation constrains an update only when the measurement can distinguish the compatible assignments. In the OpenExempt typed probe, two known zero allocations distinguished the proposal from its incumbent while preserving unknown ownership in the source. In the full development comparison, the two selectors converged on the same program. The probe measures whether a model's allocations distinguish explanations. The factorial comparison measures whether using this evidence for skill learning improves native predictions.
+Shared interpretation can change an update decision when a measured proposal and incumbent differ in their support under the same audited assignments. In the matched OpenExempt proposal experiment, the policy trained with shared feedback extracted one additional correct citation, and its ownership allocations failed both shared signatures. The final fitted M2 conditions matched the corresponding ordinary conditions on every held-out output. Together these findings delimit the evidence for using shared constraints to improve native skill learning in this setup.
 
 ## Appendix A. Evidence and replay
 
@@ -106,7 +122,7 @@ The evaluation binds source versions and native task IDs before dispatch. Each s
 
 The frozen evaluation assigns 32 source mothers per dataset to each of the five B8 arms and to the original B0 library. The pre-freeze identity audit found zero overlaps between the 160 test mothers and the project's 13,967 earlier ledger entries. It inspected 3,118 source references in 491 teacher receipts. The freeze identifies the selected libraries, executor settings, held-out roster, and 72 archived runtime files by hash. The evaluation records a prediction seal for each arm before that arm's native scoring. A scoring restart restored the archived RuleArena dependency bundle, including pandas 2.3.3. The restarted scorer reused the ordinary arm's original 160 predictions and 192 physical responses under the same freeze.
 
-The study workspace retains the prediction seals, source texts, and ledger used by the terminal audits. The TEST commands report source-paired effects, physical costs, official OpenExempt coverage, and the mechanism audits after the frozen evaluation completes. The public evidence replay covers the released development packet.
+The study workspace retains the prediction seals, source texts, and ledger used by the terminal audits. The TEST commands reproduce source-paired effects, physical costs, official OpenExempt coverage, and the mechanism audits from these records. The test manifest supplies the hashes of the frozen binding, the six prediction and scoring seals, and the aggregate result files. The public evidence replay covers the released development packet. [Test evidence manifest](tables/TEST_B8_EVIDENCE_MANIFEST.json)
 
 ```sh
 python -m experiments.convergence_eval_native_effects --partition test --batch 8
