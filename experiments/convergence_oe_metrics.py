@@ -37,8 +37,8 @@ def summarize(rows):
             'target_exact_matches': sum(paired[row['source']][family] for row in cohort),
             'official_only': {metric: {'available': len(valid), 'mean': math.fsum(valid) / len(valid)}
                               for metric, valid in values.items()},
-            'native_f1_with_unhandled_in_denominator': math.fsum(row['grade'] or 0.0 for row in cohort) / len(cohort)}
-    if any(set(views) != {'EC', 'EV'} for views in paired.values()):
+            'native_f1_with_unhandled_in_denominator': math.fsum(row['grade'] for row in cohort) / len(cohort)}
+    if any(set(source_views) != {'EC', 'EV'} for source_views in paired.values()):
         raise ValueError('Source-level exact match needs both native outputs on all mothers')
     return {'views': views, 'mothers': len(paired), 'both_views_exact_matches': sum(all(row.values()) for row in paired.values())}
 

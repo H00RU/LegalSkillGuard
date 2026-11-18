@@ -110,7 +110,8 @@ def run():
     if any(status != 'completed' for status, _ in calls):
         raise ValueError('Mask comparison requires physically settled evidence')
     result = {'status': 'completed_B8_DEV_skill_mask', 'masked_cell_sha256': masked['cell_sha256'],
-              'masked_minus_unmasked': _effects(before['source_scores'], masked['source_scores']),
+              'masked_minus_unmasked': _effects(before['source_scores'], masked['source_scores'],
+                                                diversity_annotations=annotations('LegalBench_Diversity')),
               'masked_routes': _routes(evaluator.cell_path('dev', ARM, 8), dev),
               'retained_interface_observations': {d: len(cell['interface_library']['observations'])
                                                   for d, cell in libraries.items()},

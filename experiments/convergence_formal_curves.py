@@ -72,9 +72,19 @@ def prepare(batch):
     print(json.dumps(read(pointer(batch)), sort_keys=True), flush=True)
 
 
-def _effects(earlier, later):
-    return {dataset: paired_source_effect([row for row in earlier if row['dataset'] == dataset],
-            [row for row in later if row['dataset'] == dataset]) for dataset in sorted(ConvergenceEvaluation.datasets)}
+def _effects(earlier, later, *, diversity_annotations=None):
+    effects = {}
+    for dataset in sorted(ConvergenceEvaluation.datasets):
+        before = [row for row in earlier if row['dataset'] == dataset]
+        after = [row for row in later if row['dataset'] == dataset]
+        result = paired_source_effect(before, after)
+        if dataset == 'LegalBench_Diversity' and diversity_annotations is not None:
+            strata = {row['source']: diversity_annotations[row['source']]['native']['answer'] for row in before}
+            if not set(strata.values()) <= {'Yes', 'No'}:
+                raise ValueError('Use the original native Diversity classes for balanced accuracy')
+            result['balanced_accuracy_effect'] = paired_source_effect(before, after, strata=strata)
+        effects[dataset] = result
+    return effects
 
 
 def run(batch):
@@ -133,11 +143,14 @@ def run(batch):
         cell = evaluator.evaluate('dev', arm, batch, dict.fromkeys(ConvergenceEvaluation.datasets, library), actor)
         cells[arm], scores[arm] = cell['cell_sha256'], cell['source_scores']
         b0_cell = verify(read(evaluator.cell_path('dev', arm, 0) / 'scores.json'), 'cell_sha256')
+        diversity_annotations = grade_file(study['grading_paths']['LegalBench_Diversity'])
         per_arm[arm] = {'native': _native_metrics(scores[arm], grade_file, study['grading_paths']),
                         'official_OpenExempt': openexempt_metrics(scores[arm]),
-                        'paired_minus_B0': _effects(b0_cell['source_scores'], scores[arm]),
+                        'paired_minus_B0': _effects(b0_cell['source_scores'], scores[arm],
+                                                    diversity_annotations=diversity_annotations),
                         'routes': _routes(evaluator.cell_path('dev', arm, batch), dev)}
-    effects = {later + '_minus_' + earlier: _effects(scores[earlier], scores[later])
+    effects = {later + '_minus_' + earlier: _effects(scores[earlier], scores[later],
+                                                    diversity_annotations=diversity_annotations)
                for earlier, later in COMPARISONS}
     with ledger.transaction() as db:
         measured = db.execute('select status,result from calls where id like ?', (run_id + ':%',)).fetchall()

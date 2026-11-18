@@ -189,3 +189,13 @@ B2 观测已启动，会话 94143 对应 `handoff/formal_B2_observe_current.json
 B8 TEST 入口和跨库技能屏蔽入口已编译。离线试验核对了已保存 M1 状态的屏蔽，并确认缺少 B2 实际训练回执时拒绝最终封存。两项 B8 实验尚未运行，TEST 原文和评分保持封存。系统 Goal active。
 
 OpenExempt 官方精确率、召回率、F1 与 EV MARE 已从 B0/B1 封存评分汇总，零新调用。B1 的四个共同程序臂 EV MARE 为 3.036917（15/16 有官方值），PARSE 为 0.561578（14/16 有官方值）。未定义或拒绝的案例保留在覆盖记录中。回执 `handoff/B1_openexempt_official_metrics_20261118.json`。
+
+
+## B2 观测终态与实测拟合
+
+会话 94143 已结算。B2 固定 16 个母来源、74 个任务全部进入五臂原生预测。运行新增 29 次执行器、208380 tokens，42 份绑定文件已封存。普通教师和三个方法臂的当批原生得分一致，PARSE 臂为独立实测。观察尚未更新 B2 技能库。
+
+当前唯一生成会话 10960，从 `handoff/formal_B2_fit_current.json` 精确恢复。拟合使用实测的 B2 当批反馈和已见 TRAIN 合同回归核查。M2 和普通筛选看到同一个教师候选，B2 自然关系证据只来自已经可见的固定 TRAIN 来源。恢复先核对会话、账本和终态，不重复发出请求。B2 更新与 DEV、后续批次及 B8 封存测试均待实际结算。TEST 保持封存。
+
+
+B1 离线补核完成。Diversity 三个 M1 对比按原生 Yes/No 分层的平衡准确率差均为 0.1875，母来源配对区间 [−0.0625, 0.375]。未分层准确率区间保留。每臂引用 96 个已结算物理响应，五臂取并集为 153 个，其中新增 57 个。共同教师与仅 M2 各引用 608936 tokens，含 M1 的两臂各 617742，PARSE 为 603832。跨臂复用由物理 ID 去重，引用成本不相加。ContractNLI 分类退化拆分显示，普通教师臂的 NotMentioned 正确数由 12 降至 0，Entailment 由 132 降至 123，Contradiction 由 5 升至 11。三项离线补核均零模型调用，回执分别见 `handoff/B1_Diversity_BAL_accuracy_20261118.json`、`handoff/B1_DEV_cost_audit_20261118.json` 和 `handoff/B1_CNI_aggregate_confusion_20261118.json`。

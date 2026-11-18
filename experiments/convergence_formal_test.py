@@ -213,7 +213,8 @@ def run():
     if any(status != 'completed' for status, _ in physical):
         raise ValueError('Reconcile physical TEST reads before certifying the evaluation')
     result = {'status': 'completed_fixed_B8_TEST', 'mothers_per_arm': len(datasets), 'per_arm': per_arm,
-              'paired_effects': {later + '_minus_' + earlier: _effects(scores[earlier], scores[later])
+              'paired_effects': {later + '_minus_' + earlier: _effects(scores[earlier], scores[later],
+                                 diversity_annotations=grades('LegalBench_Diversity'))
                                  for earlier, later in COMPARISONS},
               'freeze_sha256': freeze['freeze_sha256'], 'executor_calls': len(physical),
               'executor_tokens': sum(json.loads(raw)['usage']['total_tokens'] for _, raw in physical)}
