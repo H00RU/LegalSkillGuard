@@ -1,5 +1,6 @@
-"""Audit the nine learned-route B1 Diversity DEV readings against literal sources."""
+"""Audit learned-route Diversity readings at a settled DEV checkpoint."""
 
+import argparse
 from collections import Counter, defaultdict
 import sqlite3
 
@@ -41,11 +42,11 @@ def _unit_checks(source, reading, plan):
     return checks
 
 
-def run():
+def run(batch=1):
     root = ROOT / read(BOOTSTRAP)['artifact_root']
     dev_root = ROOT / read(DEV_B0)['artifact_root']
     dev = read(dev_root / 'public_DEV_sources.json')
-    directories = {arm: root / 'dev/B1' / arm for arm in ARMS}
+    directories = {arm: root / 'dev' / f'B{batch}' / arm for arm in ARMS}
     cells = {arm: verify(read(path / 'scores.json'), 'cell_sha256') for arm, path in directories.items()}
     provider = diversity_claim_groups.Provider()
     results = []
@@ -83,11 +84,14 @@ def run():
                    for kind in ('citizenship', 'single_claim', 'same_pair_claims')},
                'used_for_inference': False, 'TEST_opened': False}
     receipt = {'DEV_cell_sha256': {arm: cell['cell_sha256'] for arm, cell in cells.items()}, 'summary': summary, 'rows': results}
-    path = BASE / 'm1_B1_dev_source_audit' / digest(receipt) / 'terminal.json'
+    path = BASE / f'm1_B{batch}_dev_source_audit' / digest(receipt) / 'terminal.json'
     immutable_json(path, receipt)
-    immutable_json(HANDOFF / 'B1_M1_DEV_source_audit_20261118.json', {'receipt': str(path.relative_to(ROOT)), **summary})
+    immutable_json(HANDOFF / f'B{batch}_M1_DEV_source_audit_20261118.json',
+                   {'receipt': str(path.relative_to(ROOT)), **summary})
     print(summary)
 
 
 if __name__ == '__main__':
-    run()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--batch', type=int, choices=(1, 2, 4, 8), default=1)
+    run(parser.parse_args().batch)

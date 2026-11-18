@@ -13,6 +13,10 @@ from experiments.convergence_compact_teacher_pilot import teacher_system
 from experiments.convergence_formal_b1_fit import ARMS as CONTROL_ARMS, ORDINARY, POINTER as FIRST_CONTROLS, _feedback
 from experiments.convergence_formal_b1_observe import load_roster
 from experiments.convergence_formal_train_observe import pointer as observation_pointer
+from experiments.convergence_m2_amount_judgment import (
+    DATASET as DIVERSITY, first_visible_group, group_binding, measure as measure_amount,
+    validate_update as verify_amount_update,
+)
 from experiments.convergence_m2_train_scope import ownership_groups
 from experiments.convergence_m2_update_probe import measure_natural_projection
 from experiments.convergence_parse_pilot import SYSTEM as SCHEMA_SYSTEM
@@ -57,6 +61,31 @@ def _group_digest(group):
     return digest([case.public for case in group['cases']]) if group else None
 
 
+def _prior_relation_feedback(stage, preceding_batch):
+    terminal = read(stage / 'terminal.json')
+    decisions = read(stage / 'matched_decisions.json')
+    if (terminal['status'] != 'completed_all_five_TRAIN_updates' or terminal['batch'] != preceding_batch
+            or terminal['TEST_opened'] or digest(decisions) != terminal['matched_decisions_sha256']):
+        raise ValueError('Teacher feedback requires settled prior-TRAIN semantic validation')
+    feedback = {}
+    for dataset, decision in decisions['relation'].items():
+        fields = sorted({row['field'] for group in decision.get('matched_controls', [])
+                         for row in group.get('unsupported_literal_assertions', [])})
+        if dataset == OE and 'ownership' in fields:
+            feedback[dataset] = {
+                'observed_issue': 'The prior candidate asserted title where the text established possession only.',
+                'source_rule': 'Keep possession and ownership distinct, and leave title unresolved unless the input establishes it.',
+                'native_labels_or_source_text_supplied': False,
+            }
+        if dataset == DIVERSITY and decision.get('judgment_gate') == 'missed_entailed_judgment':
+            feedback[dataset] = {
+                'observed_issue': 'The prior candidate omitted a legal threshold judgment proved by the stated amount alone.',
+                'source_rule': 'With nonnegative claims, a stated amount over the threshold proves the judgment even if another amount is unknown.',
+                'native_labels_or_source_text_supplied': False,
+            }
+    return feedback
+
+
 def prepare(batch):
     observations = ROOT / read(observation_pointer(batch))['artifact_root']
     observed, terminal = read(observations / 'binding.json'), read(observations / 'terminal.json')
@@ -69,6 +98,7 @@ def prepare(batch):
     batches = load_roster(study)
     visible = [row for cohort in batches[:batch] for row in cohort]
     group, coverage = _group(visible)
+    quantity_group = first_visible_group(visible)
     first = ROOT / read(FIRST_CONTROLS)['artifact_root']
     fit_roots = [first, *(ROOT / read(pointer(index))['artifact_root'] for index in range(2, batch))]
     replay = {}
@@ -76,8 +106,14 @@ def prepare(batch):
         if read(stage / 'terminal.json')['TEST_opened'] or read(stage / 'binding.json')['executor'] != study['executor']:
             raise ValueError('Earlier candidates may be reused only from settled same-model TRAIN runs')
         replay[str(stage.relative_to(ROOT))] = sha(stage / 'terminal.json')
+    prior_fit = fit_roots[-1]
+    prior_feedback = _prior_relation_feedback(prior_fit, batch - 1) if batch > 2 else {}
     files = set(observed['source_sha256']) | {'experiments/convergence_formal_train_fit.py',
        'experiments/convergence_formal_b1_fit.py', 'experiments/convergence_m2_train_scope.py',
+       'experiments/convergence_m2_amount_judgment.py',
+       'legal_skill_guard/paired_interfaces/diversity_amount_judgment_supervision.py',
+       'legal_skill_guard/paired_interfaces/diversity_amount_supervision.py',
+       'legal_skill_guard/paired_interfaces/diversity_supervision.py',
        'experiments/convergence_parse_pilot.py', 'experiments/convergence_compact_teacher_pilot.py',
        'legal_skill_guard/paired_interfaces/convergence_schema_control.py',
        'legal_skill_guard/paired_interfaces/convergence_schema_order.py',
@@ -90,7 +126,11 @@ def prepare(batch):
                'ordered_visible_sha256': digest([row['key'] for row in visible]),
                'natural_scope_sha256': digest(coverage),
                'natural_group_public_sha256': _group_digest(group),
+               'quantity_group_sha256': group_binding(quantity_group),
+               'quantity_scope': 'controlled_missingness_on_visible_TRAIN_only',
                'fit_replay_roots': replay,
+               'previous_feedback_root': str(prior_fit.relative_to(ROOT)) if batch > 2 else None,
+               'previous_relation_feedback_sha256': digest(prior_feedback),
                'CNI_previous_TRAIN_regression_gate': True,
                'teacher_profile': study['teacher_profile'], 'teacher_config': study['teacher_config'],
                'executor': study['executor'], 'one_proposal_per_library_per_control': True}
@@ -181,9 +221,11 @@ def run(batch):
     visible = [row for part in batches[:batch] for row in part]
     visible_keys = [row['key'] for row in visible]
     group, coverage = _group(visible)
+    quantity_group = first_visible_group(visible)
     if (digest(visible_keys) != binding['ordered_visible_sha256']
             or digest(coverage) != binding['natural_scope_sha256']
-            or _group_digest(group) != binding['natural_group_public_sha256']):
+            or _group_digest(group) != binding['natural_group_public_sha256']
+            or group_binding(quantity_group) != binding['quantity_group_sha256']):
         raise ValueError('Use the same originally audited visible TRAIN prefix')
     journal = TrainingJournal(checkpoint, study, batches)
     before = {arm: journal.library(arm, batch - 1) for arm in ConvergenceEvaluation.arms}
@@ -207,6 +249,10 @@ def run(batch):
               **observed['prior_train_replay_roots'], **binding['fit_replay_roots']}
     if any(sha(ROOT / root / 'terminal.json') != expected for root, expected in replay.items()):
         raise ValueError('An earlier response cohort changed')
+    prior_feedback = (_prior_relation_feedback(ROOT / binding['previous_feedback_root'], batch - 1)
+                      if binding['previous_feedback_root'] else {})
+    if digest(prior_feedback) != binding['previous_relation_feedback_sha256']:
+        raise ValueError('Prior measured relation feedback changed before dispatch')
     reader.exact_replay_roots = [ROOT / root for root in replay]
     reader.readiness()
     teacher = FrozenTeacher(ledger, out, binding['teacher_config'], authorized_profile=binding['teacher_profile'])
@@ -231,6 +277,8 @@ def run(batch):
         feedback = _feedback(cohort, read(observations / 'native_scores' / (arm + '.json')))
         decisions[arm] = {}
         for dataset, payload in feedback.items():
+            if dataset in prior_feedback:
+                payload = {**payload, 'previous_TRAIN_semantic_feedback': prior_feedback[dataset]}
             write_status(out, {'status': 'running', 'batch': batch, 'arm': arm, 'dataset': dataset}, pointer(batch))
             sources = [row for row in cohort if row['dataset'] == dataset]
             keys = [row['key'] for row in sources]
@@ -271,6 +319,8 @@ def run(batch):
                 if not retain:
                     (schemas if arm == EXTERNAL_ARM else programs[arm])[dataset] = artifact
                 if arm == ORDINARY:
+                    natural_in_scope = dataset == OE and group is not None
+                    quantity_in_scope = dataset == DIVERSITY and quantity_group is not None
                     pairs = [{'source': key, 'baseline_utility': native_scores[M2][key],
                               'patch_utility': scores[key]} for key in keys]
                     improves = math.fsum(row['patch_utility'] - row['baseline_utility'] for row in pairs) > 0
@@ -278,11 +328,17 @@ def run(batch):
                     if dataset == CNI and improves and retain:
                         receipt['status'] = 'retain_incumbent_on_prior_TRAIN_regression'
                     elif improves:
-                        receipt = (_validate_relation(reader, out, artifact, group, visible_keys, pairs)
-                                   if dataset == OE and group else {'status': 'eligible_train_update'})
+                        if natural_in_scope:
+                            receipt = _validate_relation(reader, out, artifact, group, visible_keys, pairs)
+                        elif quantity_in_scope:
+                            amount_reads = measure_amount(reader, out, artifact, quantity_group)
+                            receipt = verify_amount_update(artifact, quantity_group, amount_reads, pairs, visible_keys)
+                        else:
+                            receipt = {'status': 'eligible_train_update'}
                         if receipt['status'] == 'eligible_train_update':
                             programs[M2][dataset] = artifact
-                    relations[dataset] = {**receipt, 'relation_in_scope': dataset == OE and group is not None,
+                    relations[dataset] = {**receipt, 'relation_in_scope': natural_in_scope or quantity_in_scope,
+                                          'controlled_quantity_relation': quantity_in_scope,
                                           'matched_proposal_sha256': digest(artifact)}
             immutable_json(directory / 'decision.json', decision)
             decisions[arm][dataset] = decision
