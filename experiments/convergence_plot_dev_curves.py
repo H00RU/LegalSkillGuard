@@ -104,6 +104,12 @@ def collect(through):
             scored[arm] = {'cell_sha256': expected, 'metrics': _series(cell['source_scores'], labels)}
         points[batch] = {'TRAIN_mothers': 16 * batch, 'terminal_sha256': _sha(stage / 'terminal.json'),
                          'arms': scored}
+        if batch == 8:
+            binding = _read(stage / 'binding.json')
+            if _digest(binding) != stage.name:
+                raise ValueError('The B8 figure requires the exact evaluated runtime binding')
+            if binding.get('ev_asset_inventory_wire') or binding.get('oe_public_jurisdiction_scope'):
+                points[batch]['openexempt_input_changed'] = True
     return points
 
 
@@ -126,7 +132,9 @@ def render(points, output):
             font = 'PlotSerif'
     except (OSError, subprocess.CalledProcessError, ValueError):
         pass
-    width, height = 520, 382
+    openexempt_input_changed = points.get(8, {}).get('openexempt_input_changed', False)
+    footer = 12 if openexempt_input_changed else 0
+    width, height = 520, 382 + footer
     figure = Drawing(width, height)
     ink, muted, grid = map(HexColor, ('#292929', '#595959', '#DEDEDE'))
     figure.add(String(14, height - 13, 'Native score (%)', fontName=font, fontSize=9, fillColor=ink))
@@ -137,9 +145,9 @@ def render(points, output):
         figure.add(makeMarker(marker, x=x + 7, y=y + 3, size=4, strokeColor=style, fillColor=style))
         figure.add(String(x + 19, y, title, fontName=font, fontSize=8.5, fillColor=ink))
     ticks = [row['TRAIN_mothers'] for row in points.values()]
-    for index, (title, *_) in enumerate(PANELS):
+    for index, (title, dataset, *_) in enumerate(PANELS):
         col, row = index % 3, index // 3
-        x, y = 32 + 172 * col, 37 + 102 * (2 - row)
+        x, y = 32 + 172 * col, 37 + 102 * (2 - row) + footer
         figure.add(String(x, y + 79, '{}  {}'.format(chr(ord('a') + index), title),
                           fontName=font, fontSize=8.5, fillColor=ink))
         chart = LinePlot()
@@ -152,15 +160,24 @@ def render(points, output):
             axis.labels.fontName, axis.labels.fontSize, axis.labels.fillColor = font, 8, muted
             axis.strokeColor = grid
         chart.yValueAxis.visibleGrid, chart.yValueAxis.gridStrokeColor = 1, grid
-        chart.data = [[(v['TRAIN_mothers'], 100 * v['arms'][arm]['metrics'][title])
-                       for v in points.values()] for arm, *_ in ARMS]
-        for position, (_, _, color, marker, dash) in enumerate(ARMS):
+        data = [[(v['TRAIN_mothers'], 100 * v['arms'][arm]['metrics'][title])
+                 for v in points.values()] for arm, *_ in ARMS]
+        styles = ARMS
+        if openexempt_input_changed and dataset == 'OpenExempt':
+            # Keep the measured endpoint and omit a line across the input change.
+            data = [series[:-1] for series in data] + [[series[-1]] for series in data]
+            styles = ARMS * 2
+        chart.data = data
+        for position, (_, _, color, marker, dash) in enumerate(styles):
             style = chart.lines[position]
             style.strokeColor, style.strokeWidth, style.strokeDashArray = HexColor(color), 1.2, dash
             style.symbol = makeMarker(marker, size=3.6, strokeColor=HexColor(color), fillColor=None)
         figure.add(chart)
-    figure.add(String(width / 2, 8, 'TRAIN mother sources observed', textAnchor='middle',
+    figure.add(String(width / 2, 8 + footer, 'TRAIN mother sources observed', textAnchor='middle',
                       fontName=font, fontSize=9, fillColor=ink))
+    if openexempt_input_changed:
+        figure.add(String(width / 2, 8, 'The separate B8 markers use the revised common OpenExempt input.',
+                          textAnchor='middle', fontName=font, fontSize=8.5, fillColor=ink))
     output.mkdir(parents=True, exist_ok=True)
     pdf = Canvas(str(output / 'dev_curves.pdf'), pagesize=(width, height))
     pdf.setTitle('Fixed development learning curves')

@@ -56,7 +56,7 @@ The design evaluates the same development cohort at B0, B1, B2, B4, and B8. B8 i
 
 ## Development evaluation
 
-The common initial program was run on all 20 locked training mothers. OpenExempt EC and EV were read separately because the EV input supplies premises that the EC task must infer. ContractNLI retained all 17 hypotheses of each of its four documents. Of 24 logical reads, 23 required new physical responses and one reused the same wire response.
+The common initial program was run on all 20 locked training mothers. OpenExempt EC and EV were read separately using their respective native inputs and output contracts. ContractNLI retained all 17 hypotheses of each of its four documents. Of 24 logical reads, 23 required new physical responses and one reused the same wire response.
 
 | Dataset | Native task and metric | Common initial program |
 |---|---|---:|
@@ -202,6 +202,10 @@ On four forward B7 training cases, all five arms returned the exact reference as
 We re-scored the same stored EV responses after excluding claims outside the jurisdiction set explicitly supplied by each case. Mean F1 changed from 0.119 to 0.282 for ordinary teacher learning, from 0.132 to 0.250 for M2, and from 0.148 to 0.320 for the reversible-format control. All three retained their original recall. Removing claims above the stated asset value as well yielded F1 of 0.314, 0.271, and 0.338, respectively. This development replay identifies a shared source constraint suitable for a matched reader update. Generation effects and attribution to learned shared-interpretation supervision require separate matched comparisons.
 
 At B7, one scoped proposal improved native EC and EV performance against the entering M2 program by 0.051 and 0.036 F1 on the same four training cases. The two literal projections both returned null for title and stated value. In the fixed conditioned probe, the candidate and incumbent both assigned the entire value to opposing components. Independent completions supported these four answers. The shared and single-interpretation checks each rejected them. The update selector retained the incumbent because the literal projection supplied no positive supervision.
+
+At the final training batch, the entering libraries use the same jurisdiction set supplied in each OpenExempt prompt. Across all five arms, 24 distinct physical responses produced the 40 EC and EV predictions. Each arm returned the full set of reference asset keys in all four EV cases. The mean EC F1 values for the ordinary teacher, M2, and PARSE were 0.456, 0.598, and 0.570. The corresponding EV F1 values were 0.475, 0.438, and 0.417. These forward comparisons evaluate the programs entering the final fit. The B8 development plot marks OpenExempt endpoints separately to show the change in the shared input.
+
+On the same forward batch, both M1 comparisons improved Diversity accuracy from 2/3 to 3/3. All three synthesized readings passed each local relation audit in the M1-only arm, including the four citizenship pairs and two claim clauses of the repaired source.
 
 ## Appendix. Evidence and replay
 

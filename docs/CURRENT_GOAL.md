@@ -375,3 +375,13 @@ B7 五臂完成前 112/128 个固定来源的正式拟合。55 笔 Qwen 和 10 �
 B8 边界后已部署 12 份经过隔离验证的文件，改前和改后均有哈希。实际工作树 87 项定向测试和 2 个子测试通过，普通及 PARSE 生产冒烟通过。B8 固定四个 OpenExempt TRAIN 的两个视图均绑定公开辖区；四案允许的引文数为 21、21、16、21，继承的真实 PARSE 技能库已逐例编译。公开约束适用于五臂、DEV 屏蔽和最终同条件 B0 参照。专用字面读取只在 B8 拟合的新候选中触发。见 `handoff/B8_scoped_runtime_applied_20261119.json` 与 `handoff/B8_bound_observe_preflight_20261119.json`。
 
 唯一生成会话 42498 正在执行 B8 固定 16 来源、74 项任务的观察。绑定 `b7e11b4eb48dc703375ddb0eafb9bc391b274682ef8160e56184aa495d65d4e6` 的 45 份源码已核对。按 `handoff/formal_B8_observe_current.json`、`handoff/run_state.json`、实际会话和连续账本续接。观察封存后归档原绑定，继续原定五臂 B8 拟合、固定 DEV 曲线与跨库屏蔽。TEST 原文和标签仍封存。
+
+## B8 五臂观察结算，最后一批正式拟合
+
+会话 42498 已正常结束。五臂各封存最后 16 个固定 TRAIN 来源及 74 项原生任务，累计观察 128/128。44 笔 Qwen 请求共 301744 tokens，45 份绑定源码均已归档。五臂 OpenExempt 的四个 EC 和四个 EV 均按公开辖区执行，共 24 个独立原生响应。EV 五臂全数返回参考资产键，EC 每臂仅一例返回完整参考资产键。普通、M2、PARSE 的 EC F1 分别为 0.45625、0.59792、0.57024，EV F1 分别为 0.47500、0.43750、0.41667。B8 前向程序沿用刚封存的 B7 实际决策，跨批次读数使用不同案情。见 `handoff/B8_observe_scope_and_coverage_20261119.json` 和 `handoff/B8_entering_native_comparison_20261119.json`。
+
+Diversity 两组配对均为 M1 3/3、匹配对照 2/3，一例改善、两例持平。仅 M1 的三例均实际运行合成接口，所有局部关系通过源审。改善的一例包含四个州籍匹配和两个金额条款。见 `handoff/B8_entering_M1_pair_audit_20261119.json`。
+
+唯一生成会话 41841 已开始 B8 五臂拟合，绑定为 `7dd5b245f42eeb90c2c90d8d962ce5f7c120d696230a7d05c0b2fdbcae042943`，核对 63 份源码、同一教师和执行器、公开辖区及专用字面读取。以 `handoff/formal_B8_fit_current.json`、实际会话及连续账本续接。正式拟合至 112/128，等 B8 终态后封存全部 128，再执行固定五臂 DEV 和跨库屏蔽。B8 原生正提案出现时，核对字面读取是否恢复明示金额，及配对共享门的实际选择。TEST 未冻结或打开。见 `handoff/B8_bound_fit_preflight_20261119.json`。
+
+B8 DEV 图的两个 OpenExempt 面板单独显示采用修订输入的 B8 端点。B4 原始九指标数据与 600 dpi PNG 重绘逐像素一致。新端点布局已用合成点演练，最终图按 B8 封存分数生成。见 `handoff/B8_DEV_scope_plot_preflight_20261119.json`。
