@@ -2,7 +2,7 @@
 
 五库 B8 冻结评估已结算，原定 128 个训练来源、八批训练、五个 DEV 检查点、独立消融、PARSE 强对照及静态 B0 参照均有证据。M1 的 Diversity balanced accuracy 差值为 +12.50 个百分点，95% 配对区间 [−5.00, 30.00]。M2 的两组原生预测逐项相同。两项方法分别取得可靠独立增益的研究目标尚未达成。
 
-[论文初稿](reports/legal_skill_convergence_20261117/paper/METHODS_AND_DEVELOPMENT_RESULTS.md) · [原生计分](reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_NATIVE_TABLES.md) · [覆盖率](reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_COVERAGE.md) · [证据封印索引](reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_EVIDENCE_MANIFEST.json) · [项目交接](docs/NEW_CHAT_HANDOFF.md)
+[论文初稿](reports/legal_skill_convergence_20261117/paper/METHODS_AND_DEVELOPMENT_RESULTS.md) · [原生计分](reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_NATIVE_TABLES.md) · [覆盖率](reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_COVERAGE.md) · [证据封印索引](reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_EVIDENCE_MANIFEST.json) · [冻结源码哈希](reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_RUNTIME_LOCK.json) · [项目交接](docs/NEW_CHAT_HANDOFF.md)
 
 ---
 

@@ -2,7 +2,6 @@
 
 from copy import deepcopy
 import json
-import re
 
 import jsonschema
 
@@ -36,18 +35,6 @@ def public_field_types(schema):
 
     visit(schema)
     return {name: [json.loads(value) for value in sorted(kinds)] for name, kinds in sorted(fields.items())}
-
-
-def validate_proposal(proposal, public_fields):
-    jsonschema.validate(proposal, schema_proposal())
-    aliases = {entry['original']: entry['alias'] for entry in proposal['field_aliases']}
-    first = proposal['fields_first']
-    if (len(aliases) != len(proposal['field_aliases']) or len(first) != len(set(first))
-            or not (set(aliases) | set(first)) <= set(public_fields)
-            or any(not re.fullmatch(r'[A-Za-z][A-Za-z0-9_]{0,39}', value) for value in aliases.values())
-            or len(proposal['reader_guidance'].split()) > 90):
-        raise ValueError('Use unique public fields, simple aliases and at most 90 words of reader guidance')
-    return aliases
 
 
 class ReversibleWire:

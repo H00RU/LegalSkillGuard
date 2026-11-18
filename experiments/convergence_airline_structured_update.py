@@ -153,7 +153,8 @@ def measure(executor, source, out, *, compiled_rule=None, purpose='skill_actor')
     call_id = executor.ledger.run_id + ':coordinates:' + digest([source['key'], messages])
     response = executor.generate(call_id, source=source['key'], purpose=purpose, messages=messages,
                                  schema=schema, thinking=False)
-    verify_physical_response(executor, identity=call_id, source=source['key'], purpose=purpose,
+    physical_id = response.get('reused_physical_call_id', call_id)
+    verify_physical_response(executor, identity=physical_id, source=source['key'], purpose=purpose,
                              content_sha256=digest(response['content']), usage=response['usage'],
                              finish_reason=response['finish_reason'])
     error = None
@@ -166,7 +167,7 @@ def measure(executor, source, out, *, compiled_rule=None, purpose='skill_actor')
     except (ValueError, jsonschema.ValidationError) as failure:
         error = str(failure)
         predictions = dict.fromkeys(MODES)
-    row = {'physical_call_id': call_id, 'source_sha256': digest(source),
+    row = {'physical_call_id': physical_id, 'source_sha256': digest(source),
            'predictions': predictions, 'production_error': error, 'usage': response['usage']}
     immutable_json(out / 'measurements' / (digest(source) + '.json'), row)
     return row
