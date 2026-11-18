@@ -16,6 +16,7 @@ import sys
 import jsonschema
 
 from legal_skill_guard.rr.checkpoint import immutable_json
+from legal_skill_guard.skill_evolution.clients import GenerationHold
 from legal_skill_guard.skill_evolution.native import record_schema, restore_enum_transport
 from legal_skill_guard.skill_evolution.objects import digest
 from legal_skill_guard.paired_interfaces.control_answers import decode_native, wire_schema
@@ -115,6 +116,7 @@ class ControlProgramRuntime:
             'legal_skill_guard.paired_interfaces.control_worker'], stdin=subprocess.PIPE,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1)
         traces, result, error = [], None, None
+        held_before_request = False
         try:
             process.stdin.write(json.dumps(message, ensure_ascii=False) + '\n')
             process.stdin.flush()
@@ -178,6 +180,7 @@ class ControlProgramRuntime:
                 process.stdin.write(json.dumps({'value': decoded}, ensure_ascii=False) + '\n')
                 process.stdin.flush()
         except Exception as exc:
+            held_before_request = isinstance(exc, GenerationHold)
             error = type(exc).__name__ + ': ' + str(exc)
             raise
         finally:
@@ -195,6 +198,8 @@ class ControlProgramRuntime:
                 'worker_returncode': process.returncode, 'worker_stderr': process.stderr.read(),
                 'core_executed': result is not None and error is None,
                 'model_parameters_updated': False, 'new_independent_trial_claimed_for_cached_reads': False}
-            immutable_json(output, record)
+            destination = (output.parent / 'generation_interruptions' / (digest(record) + '.json')
+                           if held_before_request else output)
+            immutable_json(destination, record)
             process.stdin.close(); process.stdout.close(); process.stderr.close()
         return record

@@ -273,3 +273,19 @@ B5 固定观察已准备，`handoff/formal_B5_observe_current.json` 绑定 16 �
 B4 DEV 会话 17651 已从原绑定继续。原 3504 在无在途后结束，17 笔结算均保留。首次换接 86060 因一份暂停产物被当作可评分缓存退出。对应请求从未预留，归档产物后调用已首次完成。原异常和文件哈希见 `handoff/B4_DEV_boundary_resume_archive_20261118.json`。后续优先核对 17651 和真实账本。若再次有请求边界换接，须区分无物理预留的中断产物与真实响应。B4 开发终态后核对分库效果、源审和曲线，再接已准备的 B5。进入 B5 前可对已定位的运行时暂停缓存缺陷做单独离线修复并重绑未开始的任务。TEST 保持封存。
 
 暂停缓存修复已在隔离副本通过精确重放。它单独归档请求预留前的中断，重试用当前已付响应重现了原始 B4 DEV 解码结果。补丁、重放脚本和哈希见 `handoff/generation_hold_boundary_fix_draft_20261118.json`。待 B4 DEV 结算并完成源快照归档后，再应用修复和重绑未启动的 B5 观察。
+
+## 当前外部对照运行和四臂证据
+
+B4 DEV 原绑定 1530764d… 的前四个臂各完成 80 个来源、384 个原生任务。仅 M1 与双机制的 Diversity 各 14/16，匹配对照各 9/16，官方平衡准确率增量 0.3125，母来源分层区间 [0.0625, 0.5625]。16 个来源均走合成接口，6 个修复的全部局部关系通过独立源审，1 个退化。OpenExempt 两条 M2 对比的 EC 平均 F1 均增 0.07996 [0.00539, 0.16039]，EV 增 0.00634 [−0.02947, 0.03999]。这是保留旧程序的比较，原选择由字面事实拒绝触发。见 `handoff/B4_M1_DEV_two_arm_seal_20261118.json`、`handoff/B4_M1_DEV_source_audit_20261118.json` 及 `handoff/B4_OE_DEV_four_arm_audit_20261118.json`。
+
+原会话 17651 停在外部 schema 的请求边界，77 笔已付响应均结算，无缓存污染。唯一生成会话 55236 已恢复 PARSE。五臂完全结算后，依次归档 58 份源文件，跑 `python -m experiments.convergence_eval_cost_audit --batch 4`，再生成完整 B4 曲线并更新 B5。成本脚本已在 B1/B2 的物理账本复算成功。源快照归档后再将已验证的暂停缓存修复放入代码并重绑未开始的 B5。TEST 封存，Goal active。
+
+交叉投影会话 68045 已终结，8 个新读数、48500 tokens，原生评分完全复用。两程序各识别 4/4 个明示金额。候选引文 0/4 通过，3 条所有权陈述缺源据。旧程序引文 4/4，4 条所有权陈述缺源据。敏感性分析对两程序均保留 2/16 个独立派生签名和 0/2 个共享签名，模型值和选择本身未改变。证据 `handoff/M2_title_partition_signal_audit_20261118.json`。下一诊断 `handoff/m2_oe_conditioned_value_current.json` 已准备，只让模型读派生值，把同一源审 K 提供给两套程序，排除本轮必然触发的字面字段混淆。应在串行空档运行，保留 B4 快照。61 项定向测试通过。
+
+## B4 DEV 完成，唯一在途 B5 观察
+
+外部对照会话 55236 正常终结。原绑定内五臂均有 80 来源、384 个原生任务；58 个源文件已按哈希归档。阶段 121 次物理 Qwen 读取、935794 tokens，耗时 3547.93 执行器秒，保留 6 次长度截断。B4 五臂完整曲线见 `reports/legal_skill_convergence_20261117/paper/figures/DEV_B0_B4.pdf`。原生区间和物理去重成本核验见 `handoff/DEV_B4_native_effects_20261118.json`、`handoff/DEV_B4_physical_cost_audit_20261118.json`。联合臂相对 PARSE 的 Diversity 平衡准确率变化 0.3125 [0.0625, 0.5625]，OpenExempt EC/EV 变化 0.00490/−0.00318，区间跨零。
+
+条件派生量诊断会话 2935 已正常终结。两程序拿到相同 K、共 8 读数，47912 tokens，58 个源文件归档。原生正候选逐例独立通过、共享及固定单解释拒绝；旧程序也四次返回全部明示金额且同样不兼容共享解释。保留这个实际约束分歧，效果归因仍要求在后续新的正向 TRAIN 提案中分辨程序表现。不要原样重跑同一候选。见 `handoff/m2_oe_conditioned_value_current.json`。
+
+暂停缓存修复只在 B4 与条件诊断归档后应用，68 项测试和 2 个子测试通过。B5 旧准备绑定无实际记录，新绑定只改变 `control_programs.py` 的暂停路径。`handoff/B5_observe_generation_hold_rebind_20261118.json` 确认原 16 来源、74 原生任务、五臂 B4 进入技能库、原模型和评分保持一致。唯一生成会话 94033，从 `handoff/formal_B5_observe_current.json` 和 `handoff/run_state.json` 续跑。B5 观察结算后归档并接五臂正式拟合；新 M2 诊断尚未改动训练选择器。TEST 仍封存。
