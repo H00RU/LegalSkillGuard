@@ -50,6 +50,14 @@ def _condition(joint):
     return theory, shared, independent
 
 
+def _source_inputs(cases):
+    return [{'source': case.public['text'], 'named_asset': case.public['asset'],
+             'requested_component': case.primitives['requested_component'],
+             'independently_verified_source_facts': {
+                 'stated_value_dollars': case.interventions.get('amount', case.primitives['amount']),
+                 'title_status': 'unresolved by the literal source'}} for case in cases]
+
+
 def _bound():
     crossed, _, joint, programs, native, visible = crossed_binding()
     previous = ROOT / read(PRIOR)['artifact_root']
@@ -64,13 +72,7 @@ def _bound():
             or reason['matching_signatures_after_masking_literal_title'] != {'independent': 2, 'shared': 0}):
         raise ValueError('The frozen prior measurements must identify the literal channel as the confound')
     theory, shared, independent = _condition(joint)
-    inputs = []
-    for case in joint['cases']:
-        amount = case.interventions.get('amount', case.primitives['amount'])
-        inputs.append({'source': case.public['text'], 'named_asset': case.public['asset'],
-                       'requested_component': case.primitives['requested_component'],
-                       'independently_verified_source_facts': {'stated_value_dollars': amount,
-                                                               'title_status': 'unresolved by the literal source'}})
+    inputs = _source_inputs(joint['cases'])
     if len({case.root_id for case in joint['cases']}) != 1 or not theory.provenance:
         raise ValueError('A conditional read requires the audited source-only provenance')
     files = set(crossed['source_sha256']) | {'experiments/convergence_oe_conditioned_value_probe.py'}
@@ -104,7 +106,8 @@ def _measure(reader, out, cases, inputs, program):
         identity = reader.ledger.run_id + ':value:' + digest([case.source_id, messages, SCHEMA])
         raw = reader.generate(identity, source=case.root_id, purpose='skill_actor', messages=messages,
                               schema=SCHEMA, thinking=False)
-        verify_physical_response(reader, identity=identity, source=case.root_id, purpose='skill_actor',
+        physical = raw.get('reused_physical_call_id', identity)
+        verify_physical_response(reader, identity=physical, source=case.root_id, purpose='skill_actor',
                                  content_sha256=digest(raw['content']), usage=raw['usage'], finish_reason=raw['finish_reason'])
         try:
             if raw['finish_reason'] != 'stop':
@@ -115,7 +118,7 @@ def _measure(reader, out, cases, inputs, program):
         except (ValueError, jsonschema.ValidationError) as error:
             value, failure = None, type(error).__name__
         row = {'case': case.source_id, 'source_sha256': digest(case.public), 'input_sha256': digest(query),
-               'physical_call_id': identity, 'value': value, 'failure': failure}
+               'physical_call_id': physical, 'value': value, 'failure': failure}
         immutable_json(out / 'projection_reads' / (digest(identity) + '.json'), row)
         rows.append(row)
     return rows

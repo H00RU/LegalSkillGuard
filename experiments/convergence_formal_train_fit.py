@@ -17,6 +17,7 @@ from experiments.convergence_m2_amount_judgment import (
     DATASET as DIVERSITY, first_visible_group, group_binding, measure as measure_amount,
     validate_update as verify_amount_update,
 )
+from experiments.convergence_m2_forward_oe import FILES as CONDITIONED_FILES, measure_update, prepare_conditioning
 from experiments.convergence_m2_train_scope import ownership_groups
 from experiments.convergence_m2_update_probe import measure_natural_projection
 from experiments.convergence_parse_pilot import SYSTEM as SCHEMA_SYSTEM
@@ -108,6 +109,9 @@ def prepare(batch):
         replay[str(stage.relative_to(ROOT))] = sha(stage / 'terminal.json')
     prior_fit = fit_roots[-1]
     prior_feedback = _prior_relation_feedback(prior_fit, batch - 1) if batch > 2 else {}
+    conditioned = prepare_conditioning(visible, study['executor']) if batch >= 5 else None
+    if conditioned:
+        prior_feedback.setdefault(OE, {})['shared_title_evidence'] = conditioned['teacher_feedback']
     files = set(observed['source_sha256']) | {'experiments/convergence_formal_train_fit.py',
        'experiments/convergence_formal_b1_fit.py', 'experiments/convergence_m2_train_scope.py',
        'experiments/convergence_m2_amount_judgment.py',
@@ -118,6 +122,8 @@ def prepare(batch):
        'legal_skill_guard/paired_interfaces/convergence_schema_control.py',
        'legal_skill_guard/paired_interfaces/convergence_schema_order.py',
        'legal_skill_guard/paired_interfaces/convergence_compact_proposal.py'}
+    if conditioned:
+        files.update(CONDITIONED_FILES)
     binding = {'study': 'convergence_matched_five_arm_TRAIN_update', 'batch': batch,
                'checkpoint_root': observed['checkpoint_root'], 'study_binding_sha256': digest(study),
                'observations_root': str(observations.relative_to(ROOT)),
@@ -131,6 +137,7 @@ def prepare(batch):
                'fit_replay_roots': replay,
                'previous_feedback_root': str(prior_fit.relative_to(ROOT)) if batch > 2 else None,
                'previous_relation_feedback_sha256': digest(prior_feedback),
+               'conditioned_oe_projection': conditioned['binding'] if conditioned else None,
                'CNI_previous_TRAIN_regression_gate': True,
                'teacher_profile': study['teacher_profile'], 'teacher_config': study['teacher_config'],
                'executor': study['executor'], 'one_proposal_per_library_per_control': True}
@@ -251,6 +258,13 @@ def run(batch):
         raise ValueError('An earlier response cohort changed')
     prior_feedback = (_prior_relation_feedback(ROOT / binding['previous_feedback_root'], batch - 1)
                       if binding['previous_feedback_root'] else {})
+    conditioned = prepare_conditioning(visible, binding['executor']) if batch >= 5 else None
+    if conditioned:
+        prior_feedback.setdefault(OE, {})['shared_title_evidence'] = conditioned['teacher_feedback']
+        record = conditioned['binding']
+        if record != binding['conditioned_oe_projection']:
+            raise ValueError('The pre-bound TRAIN title projection changed')
+        replay[record['root']] = record['terminal_sha256']
     if digest(prior_feedback) != binding['previous_relation_feedback_sha256']:
         raise ValueError('Prior measured relation feedback changed before dispatch')
     reader.exact_replay_roots = [ROOT / root for root in replay]
@@ -330,6 +344,12 @@ def run(batch):
                     elif improves:
                         if natural_in_scope:
                             receipt = _validate_relation(reader, out, artifact, group, visible_keys, pairs)
+                            if conditioned:
+                                evidence = measure_update(reader, out, conditioned, artifact, programs[M2][OE],
+                                                          pairs, visible, receipt)
+                                receipt = {**receipt, **evidence}
+                                if evidence['isolated_shared_rejection_applied']:
+                                    receipt['status'] = 'reject_conditioned_shared_title'
                         elif quantity_in_scope:
                             amount_reads = measure_amount(reader, out, artifact, quantity_group)
                             receipt = verify_amount_update(artifact, quantity_group, amount_reads, pairs, visible_keys)
