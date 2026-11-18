@@ -453,3 +453,9 @@ M2 新成对验证已绑定原定四个 OpenExempt TRAIN 小试母来源、八�
 会话 81580 在普通教师臂完整封存 160 份预测并结算 192 笔物理响应后退出。第一次原生评分访问已登记。RuleArena 原生评分器导入时缺少 pandas，评分文件尚未写出。经核对，原评分器查找 `.local-tools/rr-v2-deps`，归档中已有其依赖闭包。恢复该本地解析路径，按历史清单核实 2803 个文件哈希，包括 pandas 2.3.3。法条、预测、72 份冻结绑定、评分代码和 TEST 名册保持原样。合成票价输入运行通过。见 `handoff/B8_TEST_original_scoring_dependency_recovery_20261119.json`。
 
 会话 82357 已按原冻结绑定接续。普通教师臂沿用同一预测封印与 192 笔已结算响应，五库原生评分回执已齐，首臂评分封存。当前唯一活动生成会话为 82357，已进入仅 M1 臂。恢复时以 `handoff/formal_B8_TEST_current.json`、实际会话、账本和 `handoff/B8_TEST_original_scoring_dependency_resumed_20261119.json` 为准，旧会话 81580 已终止。正式 TEST 数值待五臂与静态参照全部结算后提交。
+
+## 签名回放与原生覆盖补表
+
+复用原物理 TRAIN 投影，已将 M2 签名审计扩至 B8。六个原生正收益条件中无独立共享解释拒绝。三个所有权条件移除被独立源审否决的字面断言后，均重新兼容 2/2 共享签名；受控金额条件的原始读数也无法通过逐例独立补全。B7 与 B8 的字面投影对两个所有权解释均兼容。这是原读数的敏感性复算，保留原生分数和实际程序选择。见 `handoff/M2_signature_through_B8_20261118.json`。
+
+已由五臂封存 B8 DEV 逐项复算全量原生覆盖和 OpenExempt 官方次指标。五臂均处理 384/384 原生计分单元，无回退。联合臂与 PARSE 的 EV MARE 分别为 2.588、0.240，两臂各有 16/16 个官方值。论文沿用固定全队列的主 F1 口径。测试补表的同一入口为 `python -m experiments.convergence_eval_coverage --partition test`，只在五臂和静态参照终态后运行。见 `handoff/DEV_B8_coverage.json`。当前评分依赖已恢复，测试运行状态仍按实际会话 82357 与账本核实。
