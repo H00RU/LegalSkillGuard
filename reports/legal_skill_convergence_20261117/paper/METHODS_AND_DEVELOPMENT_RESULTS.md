@@ -12,6 +12,12 @@ We study the interface seen by the reader and the evidence used to accept a skil
 
 The development study uses five distinct benchmark families, with source mothers as the unit of comparison. The evaluation reports native metrics separately for each family and records whether a method was applicable, executed successfully, and used only source-supported observations.
 
+## Related work
+
+**Reader interfaces and policy programs.** Schema optimization adapts the extraction task to the reader. PARSE rewrites extraction schemas and compiles mappings back to the requested output format. Neurosymbolic policy compilation also lets a small reader handle narrow observations. SCOPE combines neural predicates with deterministic extractors and executable composition, and uses counterexamples to improve the program. We derive candidate relations from a fixed legal consumer, certify which distinctions their decoders must preserve, and choose among those relations using source-audited reads. [PARSE [3]](https://aclanthology.org/2025.emnlp-industry.184/) · [SCOPE [4]](https://arxiv.org/abs/2610.31062)
+
+**Evidence for skill updates.** SkillEvoReg uses variations targeted to proposed skill changes to compare a candidate with its incumbent. In tax software, Synedrion uses higher-order metamorphic tests to compare outputs under structured changes to cases. We derive the allowed output tuples from independently audited source constraints. An unresolved factual value can take several admissible values, and related cases must share one assignment to every unedited fact within the declared scope. This gives the update checker a comparison even when individual variants lack unique reference answers. [SkillEvoReg [5]](https://arxiv.org/abs/2609.30861) · [Synedrion [6]](https://arxiv.org/abs/2509.13471)
+
 ## Methods
 
 The study keeps the language model fixed and learns external components at two stages of legal reasoning. The first stage changes the representation that a model reads from the source, with a decoder certified against the original consumer. The second stage evaluates a proposed skill update on source variants that share legal interpretations and unedited case facts. Both stages preserve the original benchmark outputs.
@@ -44,19 +50,65 @@ A local output can express either an interpretation-dependent projection or a cl
 
 ### Data and execution
 
-The sealed roster comprises OpenExempt, ContractNLI, MAUD, RuleArena Airline, and the LegalBench Diversity task family. It contains 128 training sources in eight fixed batches, 80 development sources, and 160 test sources. The matching unit is the source mother. The development pilot takes four training mothers per dataset from this roster. The held-out identities are checked against the historical exposure index and the continuous request ledger. Development diagnostics and controlled variants retain their parent identity and are recorded outside the independent test denominator. The local reading comparisons use the same frozen Qwen3-8B checkpoint with thinking disabled. The teacher is invoked through the Codex CLI with an explicit gpt-6.1-sol model and high reasoning effort. The diversity task family is part of LegalBench [1]. We draw the clauses for the contract-scope diagnostics from MAUD [2] and audit the selected clauses under our source review protocol.
+The sealed roster comprises OpenExempt [7], ContractNLI [8], MAUD [2], RuleArena Airline [9], and the LegalBench Diversity task family [1]. It contains 128 training sources in eight fixed batches, 80 development sources, and 160 test sources. The matching unit is the source mother. The development pilot takes four training mothers per dataset from this roster. The held-out identities are checked against the historical exposure index and the continuous request ledger. Development diagnostics and controlled variants retain their parent identity and are recorded outside the independent test denominator. The local reading comparisons use the same frozen Qwen3-8B checkpoint with thinking disabled. The teacher is invoked through the Codex CLI with an explicit gpt-6.1-sol model and high reasoning effort. We draw the clauses for the contract-scope diagnostics from MAUD and audit the selected clauses under our source review protocol.
 
 ### Evaluation protocol
 
 The study asks five questions. **RQ1** asks how each method changes native task performance against matched external skill learning. **RQ2** asks how those changes develop as the training prefix grows. **RQ3** asks whether a synthesized representation improves source-grounded reading over fixed fields and format-only changes. **RQ4** asks when shared constraints change skill selection relative to native scores, one admissible interpretation, and independent completions. **RQ5** asks whether a learned skill helps beyond its source dataset.
 
-The main design pairs five systems on the same training history. The first learns teacher skills using native supervision. The next three add interface learning, shared-interpretation supervision, or both. The last uses the strongest prespecified external adaptation measured on the fixed training pilot before the main study. The systems share the initial program, frozen executor, source scope, and comparable learning budgets. The component comparisons keep each candidate pool and scored inputs fixed where the research question allows. In the update comparisons, the native and relation-aware selectors can reuse the exact same candidate responses.
+The main design pairs five systems on the same training history. The first learns teacher skills using native supervision. The next three add interface learning, shared-interpretation supervision, or both. The last uses the strongest prespecified external adaptation measured on the fixed training pilot before the main study. The systems share the initial program, frozen executor, source scope, and comparable learning budgets. The 20-mother pilot ranked the PARSE-style adaptation first on the prespecified equal-dataset selection utility (0.567621). The SCOPE-style adaptation scored 0.533015, and the SkillEvoReg-style and Synedrion-style controls tied at 0.516349. We use the selected PARSE-style adaptation as the sole external arm throughout the formal matrix. The component comparisons keep each candidate pool and scored inputs fixed where the research question allows. In the update comparisons, the native and relation-aware selectors can reuse the exact same candidate responses.
 
 The design evaluates the same development cohort at B0, B1, B2, B4, and B8. B8 is the prescribed test checkpoint across all five datasets. The final evaluation also scores the frozen common B0 library as an inference reference on the same test sources. The cross-dataset comparison at B8 removes skills learned exclusively on other datasets while preserving the shared initialization and the retrieval policy. Source-derived cases share the same independent sample unit as their mothers. An unhandled or unresolved native unit remains part of the score denominator. OpenExempt EC and EV receive separate official F1 measures. ContractNLI reports three-way classification and evidence F1. MAUD reports native classification by task, Airline reports exact total-cost accuracy, and Diversity reports accuracy and balanced accuracy. Paired uncertainty intervals resample source mothers, keeping all their native tasks together.
 
 The formal training schedule used 733 physical executor calls with 5,031,094 tokens and 80 teacher calls with 1,411,141 tokens. The five scheduled development checkpoints added 393 distinct executor calls and 2,872,390 tokens. These counts charge each original physical call once, even if several arms or checkpoints used its response. Exploratory training probes are itemized separately. [Scheduled usage by batch](tables/B0_B8_SCHEDULED_USAGE.json)
 
-## Development evaluation
+## Development results
+
+### Native performance and learning curves (RQ1 and RQ2)
+
+Diversity accuracy varied as M1 selected interfaces from successive TRAIN prefixes. Both M1 arms obtained 9, 12, 10, 14 and 14 correct answers out of 16 at B0, B1, B2, B4 and B8. The ordinary teacher, M2-only and PARSE arms each obtained 9/16 throughout. The native classes were balanced on these sources, so this sequence also gives balanced accuracy. The final two checkpoints reused the same four internal-arm Diversity response sets. OpenExempt endpoints at B8 use the shared jurisdiction and asset presentation introduced for that checkpoint. [Five-dataset development curves](figures/DEV_B0_B8.pdf)
+
+The joint arm improved ContractNLI evidence F1 by 9.91 percentage points over PARSE (95% paired interval [4.38, 15.42]). All four internal arms had the same score on this measure. On OpenExempt, the joint-minus-PARSE intervals overlapped zero for EC F1 and EV F1. PARSE led the joint arm on MAUD knowledge definition by 12.50 percentage points, with a joint-minus-PARSE interval of [−31.25, 0.00]. All five arms tied on Airline exact cost and on the two MAUD covenant tasks. The B8 stage added 112 physical reads and 846,531 executor tokens. All 112 requests completed normally. [Native scores, paired effects, and physical costs](tables/DEV_B8_NATIVE_TABLES.md)
+
+### Consumer-preserving interfaces (RQ3)
+
+M1 raised B8 Diversity balanced accuracy from 56.25% to 87.50% in both factorial contrasts and in the joint comparison with PARSE. Each difference was 31.25 percentage points with a stratified paired 95% interval of [6.25, 56.25]. In the M1-only arm, all 16 cases took the synthesized route and 14 passed the complete local source audit. Six answers improved over the matched common program and one regressed. All six repairs passed the audit for every local citizenship or claim relation. The audit ties the change in native answers to the observations actually passed to the fixed consumer. [Native paired effects](tables/DEV_B8_NATIVE_TABLES.md)
+
+In the locked four-mother TRAIN pilot, the fixed coordinates, static shortest schema, native-utility search, and source-faithful search each gave two correct and fully source-faithful answers. The two learned selectors chose the same candidate for all four mothers. Three omitted mothers each had two compatible calibration sources. Both selectors used the fixed interface for the remaining mother, which had none. The two selectors each referenced 5,024 executor tokens from existing responses. This comparison holds the candidate grammar and measured inputs fixed. [Pilot replay audit](tables/M1_TRAIN_SAME_GRAMMAR_AUDIT.json)
+
+### Shared-interpretation supervision (RQ4)
+
+Each M2 comparison at B8 had identical native predictions and physical response references across all 80 development mothers. The early OpenExempt gain in the M2 arms followed retention at the literal source check. At B4, the change relative to the corresponding ordinary arm was +7.996 percentage points in EC F1 [0.539, 16.039] and +0.634 in EV F1 [−2.947, 3.999]. Neither interval against PARSE excluded zero. The subsequent shared-interpretation tests isolate compatibility with the source variants and the decision to update. [B4 paired effects](tables/DEV_B4_NATIVE_TABLES.md)
+
+The saved training libraries record ten ordinary updates, eight PARSE updates, and six updates under the M2 selection policy. The ordinary and PARSE arms each evaluated 40 proposals. Nine ordinary proposals and sixteen PARSE proposals reduced the current batch's native score. Each arm also rejected one current-batch improvement after measuring a regression on earlier TRAIN contracts. Across thirteen dataset–batch decisions within the scope of a certified relation, the shared-specific veto never changed a decision. [Training update audit](tables/TRAIN_UPDATE_ACCOUNTING.json)
+
+We gave the teacher two versions of feedback for the same four training cases. Both used the same starting policy, source facts, single-slot outputs, and budget. Independent feedback described which outputs each query permitted on its own. Shared feedback described the admissible assignments across queries. Each condition produced one ownership-policy revision.
+
+The shared-feedback revision scored 35.83% EC F1 against 27.50% with independent feedback, with both scoring 35.83% EV F1. The starting policy scored 27.50% EC F1 and 40.42% EV F1. One added correct citation accounts for the EC difference. A diagnostic that canonicalized the asset names using exact source descriptions and amounts reproduced the difference. The shared-feedback revision passed the literal check and was compatible with two of the sixteen independent signatures. Its measured allocations were incompatible with both shared signatures, so the shared selector kept the starting policy. The comparison used two teacher requests and 30 executor reads.
+
+We then asked for both components of an allocation in one response for each of the two amounts. The grammar allowed each component to take any of the three tags, including pairs that violate the shared constraint. All six responses left both components unresolved. Each policy therefore retained both shared explanations and all sixteen independent completions. We kept the prespecified B8 libraries for held-out evaluation.
+
+### Cross-dataset reuse (RQ5)
+
+On the fixed B8 development cohort, masking skills learned from other datasets preserved all 80 execution traces and all 384 native grades. Both runs referenced the same 96 distinct executor responses. The joint library selected 16 synthesized interfaces, 62 dataset programs and two deterministic Airline routes. Every selected learned interface or program drew its training evidence from the evaluation dataset. This control establishes the within-dataset origin of the measured B8 development effects. [Provenance audit](tables/DEV_B8_TRANSFER_AUDIT.json)
+
+## Discussion
+
+The Diversity result links an improvement in native answers to changes in the facts supplied to a fixed consumer. The paired arms preserve the legal rule, and the audit confirms the local observations in each of the six repaired cases. The balanced-accuracy gain uses the same source mothers at the final two checkpoints. The prespecified held-out evaluation measures whether the source-grounded gain extends to new mothers.
+
+Shared interpretation constrains an update only when the measurement can distinguish the compatible assignments. In the OpenExempt typed probe, two known zero allocations distinguished the proposal from its incumbent while preserving unknown ownership in the source. In the full development comparison, the two selectors converged on the same program. The probe measures whether a model's allocations distinguish explanations. The factorial comparison measures whether using this evidence for skill learning improves native predictions.
+
+## Appendix A. Evidence and replay
+
+The evaluation binds source versions and native task IDs before dispatch. Each saved read records the model profile, exact request, source, and corresponding ledger entry. A compatible response can re-enter the pipeline only under the same request and execution binding. Reported native utilities use the benchmark grader after predictions are saved. Source audits are evaluated separately from native grades.
+
+The finite interface check enumerates every allowed local state and groups states that produce the same interface symbol. The compiler accepts a symbol only if every state in its group has the same consumer result. Hence the decoder is well defined on all certified encodings. The claim concerns the declared consumer and the allowed states. Source-grounded model reading requires separate empirical evidence.
+
+For the update checks, one shared assignment defines all outputs in a source group. Each measured candidate restricts the assignments to those consistent with its supported assertions. A candidate may pass each group separately while their assignment sets have no common member. This difference is the reason to retain assignment support explicitly. Literal source claims also require independent entailment. In the natural ownership example, compatibility leaves ownership possible in both variants, whereas the source audit rejects any assertion that ownership is established.
+
+## Appendix B. Pilot and checkpoint diagnostics
+
+### Pilot mechanism checks
 
 The common initial program was run on all 20 locked training mothers. OpenExempt EC and EV were read separately using their respective native inputs and output contracts. ContractNLI retained all 17 hypotheses of each of its four documents. Of 24 logical reads, 23 required new physical responses and one reused the same wire response.
 
@@ -111,7 +163,7 @@ Compiling the public fee tables shifts the model's job from applying fee clauses
 
 Absolute regression and a fixed fee-difference check also select the same-bag maximum on those two pairs when given the identical four actual coordinate reads. This agreement exposes a case where native supervision already distinguishes the candidate and the audited rule has one local interpretation.
 
-### Reversible interface control
+### External pilot ranking and training-prefix analyses
 
 The PARSE-style control learns field aliases, field order, and brief reading instructions. A reversible mapping restores the original answer schema and evidence indices. The control changes the presentation of the task while retaining its legal computations. The frozen teacher proposed one schema per dataset using the same public task descriptions and native TRAIN feedback. The executor measured all five proposals on the fixed 20 mothers. Each row reports the mean of native utilities within mothers and then across the four mothers.
 
@@ -213,38 +265,22 @@ At B8, the scoped proposal gained 0.050 EV F1 and lost 0.007 EC F1 against the e
 
 The matched typed probe replaced numeric allocations with full, zero, or unresolved tags on the same four queries. The candidate returned two zero and two unresolved tags. These two known values retained one of two shared explanations and four of sixteen independently completed signatures. The incumbent returned four zero tags, retaining one independent signature and no shared explanation. The fixed interpretation admitted neither program. The probe preserved the unresolved values and used eight distinct physical reads. At the final B8 fit, the ordinary and M2 selectors adopted the same native-positive candidate and therefore entered development with identical executable states within both M2 comparisons.
 
-Across the five completed B8 development arms, M1 increased Diversity balanced accuracy from 56.25% (9/16) to 87.50% (14/16) in both factorial contrasts and against PARSE. The paired stratified 95% interval was [6.25, 56.25] percentage points in all three comparisons. All six repaired cases in the M1-only arm passed the audit for every local relation. One case regressed. The four internal arms reused the same Diversity responses at B4 and B8 on the fixed cohort. Each M2 contrast had identical native predictions and identical physical response references across all 80 source mothers.
-
-The joint arm improved ContractNLI evidence F1 by 9.91 percentage points over PARSE (95% paired interval [4.38, 15.42]). All four internal arms had the same score on this measure. On OpenExempt, the joint-minus-PARSE intervals overlapped zero for EC F1 and EV F1. PARSE led the joint arm on MAUD knowledge definition by 12.50 percentage points, with a joint-minus-PARSE interval of [−31.25, 0.00]. All five arms tied on Airline exact cost and on the two MAUD covenant tasks. The B8 stage added 112 physical reads and 846,531 executor tokens. All 112 requests stopped normally. [Development curves](figures/DEV_B0_B8.pdf) · [Native scores, paired effects, and physical costs](tables/DEV_B8_NATIVE_TABLES.md)
-
-On the fixed B8 development cohort, masking skills learned from other datasets preserved all 80 execution traces and all 384 native grades. Both runs referenced the same 96 distinct executor responses. The joint library selected 16 synthesized interfaces, 62 dataset programs and two deterministic Airline routes. Every selected learned interface or program drew its training evidence from the evaluation dataset. This control establishes the within-dataset origin of the measured B8 development effects. [Provenance audit](tables/DEV_B8_TRANSFER_AUDIT.json)
-
-### Matched teacher feedback on OpenExempt
-
-We gave the teacher two versions of feedback for the same four training cases. Both used the same starting policy, source facts, single-slot outputs, and budget. Independent feedback described which outputs each query permitted on its own. Shared feedback described the admissible assignments across queries. Each condition produced one ownership-policy revision.
-
-The shared-feedback revision scored 35.83% EC F1 against 27.50% with independent feedback, with both scoring 35.83% EV F1. The starting policy scored 27.50% EC F1 and 40.42% EV F1. One added correct citation accounts for the EC difference. A diagnostic that canonicalized the asset names using exact source descriptions and amounts reproduced the difference. The shared-feedback revision passed the literal check and was compatible with two of the sixteen independent signatures. Its measured allocations were incompatible with both shared signatures, so the shared selector kept the starting policy. The comparison used two teacher requests and 30 executor reads.
-
-We then asked for both components of an allocation in one response for each of the two amounts. The grammar allowed each component to take any of the three tags, including pairs that violate the shared constraint. All six responses left both components unresolved. Each policy therefore retained both shared explanations and all sixteen independent completions. We kept the prespecified B8 libraries for held-out evaluation.
-
-## Discussion
-
-The Diversity result links an improvement in native answers to changes in the facts supplied to a fixed consumer. The paired arms preserve the legal rule, and the audit confirms the local observations in each of the six repaired cases. The balanced-accuracy gain uses the same source mothers at the final two checkpoints. The prespecified held-out evaluation measures whether the source-grounded gain extends to new mothers.
-
-Shared interpretation constrains an update only when the measurement can distinguish the compatible assignments. In the OpenExempt typed probe, two known zero allocations distinguished the proposal from its incumbent while preserving unknown ownership in the source. In the full development comparison, the two selectors converged on the same program. The probe measures whether a model's allocations distinguish explanations. The factorial comparison measures whether using this evidence for skill learning improves native predictions.
-
-## Appendix. Evidence and replay
-
-The evaluation binds source versions and native task IDs before dispatch. Each saved read records the model profile, exact request, source, and corresponding ledger entry. A compatible response can re-enter the pipeline only under the same request and execution binding. Reported native utilities use the benchmark grader after predictions are saved. Source audits are evaluated separately from native grades.
-
-The finite interface check enumerates every allowed local state and groups states that produce the same interface symbol. The compiler accepts a symbol only if every state in its group has the same consumer result. Hence the decoder is well defined on all certified encodings. The claim concerns the declared consumer and the allowed states. Source-grounded model reading requires separate empirical evidence.
-
-The fixed Diversity pilot also supports a leave-one-mother comparison within the same certified grammar. We compare the correct fixed representation, the shortest serialized schema, selection by native training utility, and the source-faithful selector on the same physical reads. Both learned selectors receive the same compatible calibration mothers. Native utility, source fidelity, and referenced executor cost are evaluated on the omitted mother. Candidate identities were bound before all four measured pools were available.
-
-For the update checks, one shared assignment defines all outputs in a source group. Each measured candidate restricts the assignments to those consistent with its supported assertions. A candidate may pass each group separately while their assignment sets have no common member. This difference is the reason to retain assignment support explicitly. Literal source claims also require independent entailment. In the natural ownership example, compatibility leaves ownership possible in both variants, whereas the source audit rejects any assertion that ownership is established.
-
 ## References
 
-[1] Neel Guha, Julian Nyarko, Daniel E. Ho, Christopher Ré, et al. 2023. LegalBench: A Collaboratively Built Benchmark for Measuring Legal Reasoning in Large Language Models. Advances in Neural Information Processing Systems 36. [Proceedings](https://proceedings.neurips.cc/paper_files/paper/2023/hash/89e44582fd28ddfea1ea4dcb0ebbf4b0-Abstract-Datasets_and_Benchmarks.html).
+[1] Neel Guha, Julian Nyarko, Daniel Ho, Christopher Ré, et al. 2023. LegalBench: A Collaboratively Built Benchmark for Measuring Legal Reasoning in Large Language Models. Advances in Neural Information Processing Systems 36. [Proceedings](https://proceedings.neurips.cc/paper_files/paper/2023/hash/89e44582fd28ddfea1ea4dcb0ebbf4b0-Abstract-Datasets_and_Benchmarks.html).
 
 [2] Steven Wang, Antoine Scardigli, Leonard Tang, Wei Chen, Dmitry Levkin, Anya Chen, Spencer Ball, Thomas Woodside, Oliver Zhang, and Dan Hendrycks. 2023. MAUD: An Expert-Annotated Legal NLP Dataset for Merger Agreement Understanding. Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing, pages 16369–16382. [ACL Anthology](https://aclanthology.org/2023.emnlp-main.1019/).
+
+[3] Anubhav Shrimal, Aryan Jain, Soumyajit Chowdhury, and Promod Yenigalla. 2025. PARSE: LLM Driven Schema Optimization for Reliable Entity Extraction. EMNLP Industry Track. [ACL Anthology](https://aclanthology.org/2025.emnlp-industry.184/).
+
+[4] Arnon Mazza and Elad Levi. 2026. SCOPE: Compiling Natural-Language Policies into Neurosymbolic Predicate Programs. [arXiv](https://arxiv.org/abs/2610.31062).
+
+[5] Guanyu Nie, Fangzhou Zhu, Shixiong Kai, Xiaowei Han, Tao Zhong, and Mingxuan Yuan. 2026. SkillEvoReg: Regularizing Agent Skill Evolution Against Overfitting. [arXiv](https://arxiv.org/abs/2609.30861).
+
+[6] Sina Gogani-Khiabani, Ashutosh Trivedi, Diptikalyan Saha, and Saeid Tizpaz-Niari. 2026. An LLM Agentic Approach for Legal-Critical Software: A Case Study for Tax Prep Software. [arXiv v2](https://arxiv.org/abs/2509.13471v2).
+
+[7] Sergio Servantez, Sarah B. Lawsky, Rajiv Jain, Daniel W. Linna Jr., and Kristian J Hammond. 2026. OpenExempt: A Diagnostic Benchmark for Legal Reasoning and a Framework for Creating Custom Benchmarks on Demand. Findings of ACL 2026, pages 26644–26669. [ACL Anthology](https://aclanthology.org/2026.findings-acl.1328/).
+
+[8] Yuta Koreeda and Christopher Manning. 2021. ContractNLI: A Dataset for Document-level Natural Language Inference for Contracts. Findings of EMNLP 2021, pages 1907–1919. [ACL Anthology](https://aclanthology.org/2021.findings-emnlp.164/).
+
+[9] Ruiwen Zhou, Wenyue Hua, Liangming Pan, Sitao Cheng, Xiaobao Wu, En Yu, and William Yang Wang. 2025. RuleArena: A Benchmark for Rule-Guided Reasoning with LLMs in Real-World Scenarios. ACL 2025, pages 550–572. [ACL Anthology](https://aclanthology.org/2025.acl-long.27/).
