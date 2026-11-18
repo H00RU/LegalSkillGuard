@@ -175,8 +175,11 @@ def run():
         if len(targets) != 32 or {key: set(tasks) for key, tasks in result.items()} != {
                 key: {view['id'] for view in row['views']} for key, row in targets.items()}:
             raise ValueError('The independent scorer must match the exact TEST mothers and views')
-        immutable_json(out / 'grading_receipts' / (dataset + '.json'), {
-            'grading_sha256': digest(result), 'mothers': len(targets), 'freeze_sha256': freeze['freeze_sha256']})
+        receipt = {'grading_sha256': digest(result), 'mothers': len(targets), 'freeze_sha256': freeze['freeze_sha256']}
+        if dataset == 'ContractNLI':
+            receipt['evidence_units'] = sorted([key, view] for key, views in result.items()
+                                               for view, annotation in views.items() if annotation.get('evidence') is not None)
+        immutable_json(out / 'grading_receipts' / (dataset + '.json'), receipt)
         return result
 
     def grade(partition, key, seal):
@@ -216,6 +219,8 @@ def run():
               'paired_effects': {later + '_minus_' + earlier: _effects(scores[earlier], scores[later],
                                  diversity_annotations=grades('LegalBench_Diversity'))
                                  for earlier, later in COMPARISONS},
+              'grading_receipts_sha256': {dataset: sha(out / 'grading_receipts' / (dataset + '.json'))
+                                          for dataset in sorted(evaluator.datasets)},
               'freeze_sha256': freeze['freeze_sha256'], 'executor_calls': len(physical),
               'executor_tokens': sum(json.loads(raw)['usage']['total_tokens'] for _, raw in physical)}
     immutable_json(out / 'terminal.json', result)

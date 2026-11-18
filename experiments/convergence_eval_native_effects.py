@@ -17,8 +17,9 @@ def _mean(rows):
     return math.fsum(row['grade'] for row in rows) / len(rows)
 
 
-def _paired(before, after):
-    return {**paired_source_effect(before, after), 'before': _mean(before), 'after': _mean(after)}
+def _paired(before, after, *, native_unit_weighted=False):
+    return {**paired_source_effect(before, after, native_unit_weighted=native_unit_weighted),
+            'before': _mean(before), 'after': _mean(after)}
 
 
 def _rows(cell, expected, partition, batch, arm, mothers):
@@ -32,7 +33,27 @@ def _rows(cell, expected, partition, batch, arm, mothers):
     return score['source_scores']
 
 
-def _metric_effects(rows, before, after, terminal, previous_effects, mothers_per_dataset):
+def _evidence_effect(before, after, summary, evidence_units):
+    unit_sets = [{(row['source'], row['view']) for row in side} for side in (before, after)]
+    eligible = unit_sets[0] if evidence_units is None else evidence_units
+    if (unit_sets[0] != unit_sets[1] or not eligible <= unit_sets[0]
+            or any(metrics['evidence_f1']['native_units'] != len(eligible) for metrics in summary)):
+        raise ValueError('Evidence F1 requires the exact original annotation scope')
+    if not eligible:
+        if any(metrics['evidence_f1']['mean'] is not None for metrics in summary):
+            raise ValueError('An empty evidence scope has no original mean')
+        return {'before': None, 'after': None, 'mean_change': None, 'native_units': 0, 'mothers': 0,
+                'paired_source_bootstrap_95': None}
+    evidence = [[{**r, 'grade': r['native_metrics'].get('evidence_f1', 0.)}
+                 for r in side if (r['source'], r['view']) in eligible] for side in (before, after)]
+    effect = _paired(*evidence, native_unit_weighted=evidence_units is not None)
+    for side, saved in zip(('before', 'after'), summary, strict=True):
+        if not math.isclose(effect[side], saved['evidence_f1']['mean'], abs_tol=1e-12):
+            raise ValueError('ContractNLI evidence F1 must reproduce the original scorer')
+    return effect
+
+
+def _metric_effects(rows, before, after, terminal, previous_effects, mothers_per_dataset, evidence_units=None):
     result = {}
     for dataset in sorted(ConvergenceEvaluation.datasets):
         a, b = ([row for row in rows[arm] if row['dataset'] == dataset] for arm in (before, after))
@@ -47,15 +68,7 @@ def _metric_effects(rows, before, after, terminal, previous_effects, mothers_per
                 if not math.isclose(result[dataset][view][side], saved['views'][view]['native_utility'], abs_tol=1e-12):
                     raise ValueError('The newly stratified score differs from the published native point estimate')
         if dataset == 'ContractNLI':
-            if any(metrics['evidence_f1']['native_units'] != len(cell)
-                   for metrics, cell in zip(summary, (a, b), strict=True)):
-                raise ValueError('An omitted evidence annotation needs its exact original cohort mask')
-            evidence = [[{**r, 'grade': r['native_metrics'].get('evidence_f1', 0.)} for r in side] for side in (a, b)]
-            effect = _paired(*evidence)
-            for side, saved in zip(('before', 'after'), summary, strict=True):
-                if not math.isclose(effect[side], saved['evidence_f1']['mean'], abs_tol=1e-12):
-                    raise ValueError('ContractNLI evidence F1 must reproduce the original scorer')
-            result[dataset]['evidence_f1'] = effect
+            result[dataset]['evidence_f1'] = _evidence_effect(a, b, summary, evidence_units)
         if dataset == 'LegalBench_Diversity':
             initial, revised = (side['balanced_accuracy'] for side in summary)
             effect = previous_effects[dataset].get('balanced_accuracy_effect')
@@ -80,6 +93,16 @@ def run(partition, batch):
     rows = {arm: _rows(checkpoint / partition / f'B{batch}' / arm, expected, partition, batch, arm, mothers)
             for arm, expected in arm_seals.items()}
     native = {}
+    evidence_units = None
+    if partition == 'test':
+        path = stage / 'grading_receipts' / 'ContractNLI.json'
+        grading = read(path)
+        if (sha(path) != terminal['grading_receipts_sha256']['ContractNLI']
+                or grading['freeze_sha256'] != terminal['freeze_sha256'] or grading['mothers'] != mothers // 5):
+            raise ValueError('Use the evidence scope recorded by the sealed TEST grader')
+        evidence_units = {tuple(unit) for unit in grading['evidence_units']}
+        if len(evidence_units) != len(grading['evidence_units']):
+            raise ValueError('The sealed grading scope repeats an evidence unit')
     earlier = terminal['paired_effects' if partition == 'test' else 'paired_independent_arm_comparisons']
     if partition == 'dev' and batch == 1:
         supplemental = read(ROOT / read(HANDOFF / 'B1_Diversity_BAL_accuracy_20261118.json')['receipt'])
@@ -89,7 +112,7 @@ def run(partition, batch):
             pair, metrics['LegalBench_Diversity'])} for pair, metrics in earlier.items()}
     for before, after in COMPARISONS:
         pair = after + '_minus_' + before
-        native[pair] = _metric_effects(rows, before, after, terminal, earlier[pair], mothers // 5)
+        native[pair] = _metric_effects(rows, before, after, terminal, earlier[pair], mothers // 5, evidence_units)
     result = {'partition': partition, 'batch': batch, 'mothers_per_arm': mothers,
               'terminal_sha256': sha(stage / 'terminal.json'), 'paired_metric_intervals': native,
               'no_annotation_files_opened': True, 'new_model_requests': 0}

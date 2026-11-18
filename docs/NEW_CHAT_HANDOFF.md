@@ -297,3 +297,11 @@ B4 DEV 原绑定 1530764d… 的前四个臂各完成 80 个来源、384 个原�
 会话 94033 终结，五臂各 16 个来源和 74 项任务均已封存，44 个实际 Qwen 读数共 307726 tokens，42 份观察绑定文件已逐一归档。`handoff/B5_entering_native_comparison_20261118.json` 记录 B4 程序对新 B5 TRAIN 的前向比较。两个 M1 臂各 3/3，对照各 2/3，三条合成读数及修复均通过逐关系源审。OpenExempt EC 和 EV 的匹配平均差分别为 0.168198 和 −0.002232，EC 四例均提升。保留程序仍来自 B4 字面决定。源审回执 `handoff/B5_entering_M1_source_audit_20261118.json`。
 
 从 `handoff/formal_B5_fit_current.json`、`handoff/run_state.json` 续接唯一生成会话 31551。拟合绑定 `4b469fdcda5476dbee3bfc5799e70fd958a2c33f7d2ef87e5ec11c56c7d46fe3` 含 59 个源文件，实际已到普通教师 ContractNLI。先核查真实会话和保留请求，再在 B5 终态归档和审计新候选；之后推进 B6。B5 观测已覆盖累计 80/128，正式更新结算仍 64/128。TEST 未打开，Goal active。
+
+OpenExempt EC 的普通程序有一次长度截断，当例未返回可评分 EC。按原协议计入四例后 F1 增量仍为 0.168198。三组成对可评分结果中，保留程序的平均精确率增加 0.127204，召回率增加 0.333333，F1 增加 0.182597。EV 四例均可评分，平均召回不变。这个拆解从已保存预测用原原生评分复算，零新请求。回执 `handoff/B5_entering_OE_metric_audit_20261118.json`。
+
+## B5 拟合已结算提案与 B8 评分隔离
+
+会话 31551 中普通教师 ContractNLI 提案当批分类 35/51→37/51，先前固定 12 个 TRAIN 来源 106/204→82/204，证据 F1 分别 0.46405→0.37255、0.29301→0.21920。早期回归保护保留程序，两批证据均来自实际已结算读数。普通教师 Diversity 与 MAUD 提案当批原生效用持平，均保留进入程序。ContractNLI 核验见 `handoff/B5_CNI_training_regression_audit_20261118.json`。
+
+预检复现了证据标注题数不等时，等权合同区间的点估计偏离按题原生均值。B8 原生评分仍由独立评分器执行，评分时保存证据 F1 的适用题目范围，供后续直接用封存分数进行按题加权的母来源重采样。此改动只涉及未运行的 TEST 入口和证据复算代码，B5 的 59 份绑定仍一致。B1、B2、B4 旧 DEV 回执精确复算，72 项定向测试及 2 个子测试通过。已重新核对 160 个 TEST 身份与连续账本无交集，TEST 原文及标签保持封存。见 `handoff/B8_evidence_audit_preedit_20261118.json` 和 `handoff/B8_evidence_audit_preflight_20261118.json`。
