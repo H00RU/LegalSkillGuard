@@ -331,3 +331,19 @@ B6 原会话 19830 留存 39 个已付响应后在请求边界退出。唯一生
 会话 69078 已正常结束。B6 观察五臂各 16 来源、74 原生任务全部封存。45 笔 Qwen 请求共 387024 tokens，换接后仅补六笔未发出的请求，42 份原源码已归档。B6 两组 M1 比较均 3/3 对 3/3，两个匹配 M2 比较的 EC 和 EV 平均差为 0.07560、−0.03429。原生回执 `handoff/B6_entering_native_comparison_20261118.json`。
 
 会话 29252 是唯一生成会话，运行五臂 B6 拟合。从 `handoff/formal_B6_fit_current.json` 和 `handoff/run_state.json` 恢复。新绑定 `a7d0be3e8f17f5f6ddaf7793582f68de5541fc24804956ab5e42f591208c6e30` 含 60 个源码文件，实测 B5 反馈、共享所有权政策字段和原固定条件投影与预检一致。待 OpenExempt 普通新提案结算后，逐视图核对资产覆盖和相对 M2 进入程序的得分。若触发条件投影，核实是否实际改变匹配选择。B6 拟合全结算后归档并接原定 B7。观察累计 96/128，正式更新结算 80/128。TEST 未开封。
+
+## B6 资产覆盖实测及 B7 修订证据
+
+B6 普通 OpenExempt 已实测。八笔原生请求的同一共有所有权规则正确传入，局部分流指令未混入。EC 四例的资产数量符合参考，F1 均值 0.25992，相对 M2 进入程序提高 0.09405。四例 EV 均正常结束且只返回一个资产，F1 均值 0.01471，相对 M2 进入程序下降 0.10100。合计相对 M2 进入程序差 −0.00348，未派发共享投影。回执 `handoff/B6_scoped_fit_ordinary_candidate_audit_20261118.json`。
+
+EV 已实现从公开案情渲染模板提取的资产槽，原生解码区分 `null` 省略和空申报数组。B1–B6 的 24 个 EV 原生参考全部无损回译，一例原生参考确实省略了一个列出的资产。新路径在隔离副本模拟普通与 PARSE 端到端恢复。现有在途 B6 绑定未改动，B6 归档后才接入 B7 和后续阶段。预检 `handoff/B7_EV_inventory_wire_preflight_20261119.json` 与 `handoff/B7_EV_isolated_runtime_preflight_20261119.json`。
+
+B8 DEV 屏蔽在代码中绑定真实教师提案源和预测所用的物理请求。离线复核覆盖 B1–B5 四次联合臂接受的程序版本，以及 B4 联合臂 80 个 DEV 路由。B4 的现有读数无跨库命中。B8 尚待原定 DEV 主比较终态，不用该预检替代最终屏蔽结果。见 `handoff/B8_transfer_provenance_preflight_v2_20261119.json`。
+
+## B6 完整结算，B7 首次观测资产槽
+
+会话 29252 已终态。49 笔 Qwen 和 10 笔教师响应全部结算，分别用 315972、176917 tokens。原 60 份源码均已归档，五臂正式更新累计 96/128。普通教师采纳 MAUD 与 OpenExempt，PARSE 采纳 MAUD，M2 原生门槛保留 OpenExempt 进入程序。B6 第五次可追溯程序更新已从原提案教师回执核验。见 `handoff/B6_training_terminal_audit_20261119.json`。
+
+M1 已复算至 B6。15 个固定前向 TRAIN 来源上，普通和现行各 12/15，替代选择 11/15。现行 9 次合成读取中，7 次全部局部关系获源审支持。见 `handoff/M1_incumbent_through_B6_20261118.json`。
+
+唯一生成会话 6038 已进入 B7。`handoff/formal_B7_observe_current.json` 绑定 `d0ccb8b273b17ff2d195de1f25db13f16e6b495f171e3e39749f05b45bc63927`，原定 16 来源、74 任务，44 份观察文件。B7 的四例公开 EV 均成功绑定资产槽，数量 4、3、3、2，继承的 PARSE 可逆编译也已核对。80 项定向测试与 2 个子测试通过。共同 EV 接口延续至 B7、B8 拟合、B8 DEV 及其屏蔽比较，以及所有五个 TEST 臂和最终静态 B0。B6 原绑定来源保持历史归档。见 `handoff/B7_bound_observe_preflight_20261119.json`。继续核对实际会话，终态归档，再接同一读取接口的 B7 拟合。TEST 保持封存。

@@ -57,6 +57,13 @@ def restore_enum_transport(value, schema):
     return visit(value, schema, ()), changes
 
 
+def _ev_inventory(view):
+    if view['id'] != 'EV' or 'asset_inventory' not in view['public']:
+        return None
+    from legal_skill_guard.paired_interfaces.convergence_ev_inventory import bound_ev_inventory
+    return bound_ev_inventory(view['public'])
+
+
 def answer_wire_schema(dataset, view):
     answer = deepcopy(view['answer_schema'])
     if dataset == 'OpenExempt':
@@ -72,6 +79,10 @@ def answer_wire_schema(dataset, view):
             raise ValueError('Public OE facts lack the expected asset-value statements')
         answer = {'type': 'array', 'maxItems': public_value_mentions, 'items': record_schema({
             'asset': {'type': 'string'}, 'claims': {'type': 'array', 'maxItems': len(citations), 'items': claim}})}
+        inventory = _ev_inventory(view)
+        if inventory:
+            from legal_skill_guard.paired_interfaces.convergence_ev_inventory import inventory_answer_schema
+            answer = inventory_answer_schema(answer, inventory)
     count = len(view['public']['sentence_spans']) if dataset == 'ContractNLI' else 0
     evidence = {'type': 'array', 'maxItems': count,
                 'items': {'type': 'integer', 'minimum': 0}}
@@ -83,6 +94,12 @@ def decode_answer(dataset, view, value):
     jsonschema.validate(value, answer_wire_schema(dataset, view))
     answer = value['answer']
     if dataset == 'OpenExempt':
+        inventory = _ev_inventory(view)
+        if inventory:
+            from legal_skill_guard.paired_interfaces.convergence_ev_inventory import restore_inventory_answer
+            answer = restore_inventory_answer(answer, inventory)
+            jsonschema.validate(answer, view['answer_schema'])
+            return answer, value['evidence_sentence_ids']
         result = {}
         for row in answer:
             if row['asset'] in result:

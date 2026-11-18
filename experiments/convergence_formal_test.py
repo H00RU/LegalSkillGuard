@@ -18,6 +18,7 @@ from experiments.convergence_seal_source_roster import OLD, KNOWN_INCIDENT
 from experiments.two_method_prepare_sources import CACHE, active_case_input, airline, rulearena_airline
 from legal_skill_guard.paired_interfaces import diversity_claim_groups
 from legal_skill_guard.paired_interfaces.convergence_actors import ConvergenceActor
+from legal_skill_guard.paired_interfaces.convergence_ev_inventory import EVInventoryActor
 from legal_skill_guard.paired_interfaces.convergence_journal import TrainingJournal
 from legal_skill_guard.paired_interfaces.formal_actors import InterfaceActor, ProgramActor
 from legal_skill_guard.paired_interfaces.formal_evaluation import (
@@ -140,6 +141,7 @@ def prepare():
             'B0_DEV_data_root': str(b0.relative_to(ROOT)), 'study_binding_sha256': digest(study),
             'B8_frozen_selection_sha256': freeze['freeze_sha256'], 'roster_path': str(roster_path.relative_to(ROOT)),
             'static_initial_reference': initial_reference,
+            **({'ev_asset_inventory_wire': True} if curve.get('ev_asset_inventory_wire') else {}),
             'prior_incidents_sha256': incidents, 'executor': study['executor'],
             'diversity_grading_root': read(HANDOFF / 'diversity_holdout_current.json')['artifact_root'],
             'source_sha256': {path: sha(ROOT / path) for path in sorted(files)},
@@ -264,6 +266,8 @@ def run():
     primary = ConvergenceActor(out, program_actor=ProgramActor(reader, out, max_calls=1), interface_actor=interface,
                                providers={'LegalBench_Diversity': provider}, train_sources=visible, study_binding=study)
     actor = CommonAirlineActor(ParseControlActor(primary, reader, out), reader, out)
+    if binding.get('ev_asset_inventory_wire'):
+        actor = EVInventoryActor(actor)
     scores, per_arm = {}, {}
     for arm in evaluator.arms:
         write_status(out, {'status': 'running', 'arm': arm, 'freeze_sha256': freeze['freeze_sha256']}, POINTER)

@@ -14,6 +14,7 @@ from experiments.convergence_parse_runtime import ParseControlActor
 from experiments.convergence_pilot_b0 import BASE, HANDOFF, LEDGER, ROOT, read, sha, write_status
 from legal_skill_guard.paired_interfaces import diversity_claim_groups
 from legal_skill_guard.paired_interfaces.convergence_actors import ConvergenceActor
+from legal_skill_guard.paired_interfaces.convergence_ev_inventory import EVInventoryActor, INVENTORY_FILES
 from legal_skill_guard.paired_interfaces.convergence_journal import TrainingJournal
 from legal_skill_guard.paired_interfaces.formal_actors import InterfaceActor, ProgramActor
 from legal_skill_guard.paired_interfaces.formal_evaluation import ConvergenceEvaluation
@@ -53,10 +54,13 @@ def prepare(batch):
         profiles[str(stage.relative_to(ROOT))] = sha(stage / 'terminal.json')
     files = (set(update['source_sha256']) | set(read(interface / 'binding.json')['source_sha256'])
              | {str(__file__.removeprefix(str(ROOT) + '/')), 'experiments/convergence_parse_runtime.py'})
+    if batch >= 7:
+        files.update(INVENTORY_FILES)
     cohort = batches[batch - 1]
     spec = {'study': 'convergence_ordered_entering_TRAIN_observations', 'batch': batch,
             'checkpoint_root': str(checkpoint.relative_to(ROOT)), 'study_binding_sha256': digest(study),
             'entering_history': preceding, 'ordered_sources_sha256': digest(cohort),
+            **({'ev_asset_inventory_wire': True} if batch >= 7 else {}),
             'prior_train_replay_roots': profiles, 'executor': study['executor'],
             'native_grade_paths': observation['native_grade_paths'],
             'native_grade_sha256': observation['native_grade_sha256'],
@@ -104,6 +108,8 @@ def run(batch):
     primary = ConvergenceActor(out, program_actor=ProgramActor(reader, out, max_calls=1), interface_actor=interface,
                                providers={'LegalBench_Diversity': provider}, train_sources=visible, study_binding=study)
     actor = CommonAirlineActor(ParseControlActor(primary, reader, out), reader, out)
+    if binding.get('ev_asset_inventory_wire'):
+        actor = EVInventoryActor(actor)
     receipts = {}
     for arm in ConvergenceEvaluation.arms:
         write_status(out, {'status': 'running', 'batch': batch, 'arm': arm}, pointer(batch))

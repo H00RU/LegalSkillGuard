@@ -30,6 +30,7 @@ from legal_skill_guard.paired_interfaces import diversity_claim_groups
 from legal_skill_guard.paired_interfaces.control_answers import source_bundle, wire_schema
 from legal_skill_guard.paired_interfaces.convergence_actors import ConvergenceActor, common_cells, M1_ARMS
 from legal_skill_guard.paired_interfaces.convergence_compact_proposal import SCHEMA, compact_native_passthrough, compile_proposal
+from legal_skill_guard.paired_interfaces.convergence_ev_inventory import EVInventoryActor, INVENTORY_INSTRUCTIONS, with_ev_inventory
 from legal_skill_guard.paired_interfaces.convergence_journal import TrainingJournal
 from legal_skill_guard.paired_interfaces.convergence_m1_batch import fit_interface_batch
 from legal_skill_guard.paired_interfaces.convergence_schema_control import ReversibleWire, schema_proposal
@@ -156,6 +157,7 @@ def prepare(batch):
                'previous_relation_feedback_sha256': digest(prior_feedback),
                'conditioned_oe_projection': conditioned['binding'] if conditioned else None,
                **({'oe_native_projection_scope': scoped_oe} if scoped_oe else {}),
+               **({'ev_asset_inventory_wire': True} if observed.get('ev_asset_inventory_wire') else {}),
                'CNI_previous_TRAIN_regression_gate': True,
                'teacher_profile': study['teacher_profile'], 'teacher_config': study['teacher_config'],
                'executor': study['executor'], 'one_proposal_per_library_per_control': True}
@@ -298,6 +300,8 @@ def run(batch):
     actor = ConvergenceActor(out, program_actor=ProgramActor(reader, out, max_calls=1),
                              interface_actor=None, providers={}, train_sources=visible_keys, study_binding=study)
     actor = CommonAirlineActor(ParseControlActor(actor, reader, out), reader, out)
+    if binding.get('ev_asset_inventory_wire'):
+        actor = EVInventoryActor(actor)
 
     @lru_cache(maxsize=None)
     def grade(dataset):
@@ -312,14 +316,18 @@ def run(batch):
     if before[M2]['programs'][CNI] != before[ORDINARY]['programs'][CNI]:
         raise ValueError('Both arms need the same entering ContractNLI program for the matched prior-TRAIN guard')
     decisions, relations = {}, {}
+    proposal_cohort = [with_ev_inventory(source) for source in cohort] if binding.get('ev_asset_inventory_wire') else cohort
     for arm in CONTROL_ARMS:
-        feedback = _feedback(cohort, read(observations / 'native_scores' / (arm + '.json')))
+        feedback = _feedback(proposal_cohort, read(observations / 'native_scores' / (arm + '.json')))
         decisions[arm] = {}
         for dataset, payload in feedback.items():
             if dataset in prior_feedback:
                 payload = {**payload, 'previous_TRAIN_semantic_feedback': prior_feedback[dataset]}
             write_status(out, {'status': 'running', 'batch': batch, 'arm': arm, 'dataset': dataset}, pointer(batch))
+            if dataset == OE and binding.get('ev_asset_inventory_wire'):
+                payload = {**payload, 'public_EV_inventory_contract': INVENTORY_INSTRUCTIONS}
             sources = [row for row in cohort if row['dataset'] == dataset]
+            proposal_sources = [row for row in proposal_cohort if row['dataset'] == dataset]
             keys = [row['key'] for row in sources]
             directory = out / 'candidates' / arm / dataset
             identity = run_id + ':teacher:' + arm + ':' + dataset
@@ -337,7 +345,7 @@ def run(batch):
             decision = {'teacher_call': identity, 'proposal_sha256': digest(result['value'])}
             try:
                 artifact = (scoped_program(result['value'], visible_keys) if scoped_candidate else
-                            _candidate(result['value'], arm, dataset, payload, sources, visible_keys))
+                            _candidate(result['value'], arm, dataset, payload, proposal_sources, visible_keys))
             except (ValueError, SyntaxError, TypeError, KeyError, jsonschema.SchemaError, jsonschema.ValidationError) as error:
                 decision.update(status='invalid_teacher_candidate', error=type(error).__name__)
             else:

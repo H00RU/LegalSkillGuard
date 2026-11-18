@@ -16,6 +16,7 @@ from experiments.convergence_pilot_b0 import BASE, HANDOFF, LEDGER, ROOT, read, 
 from legal_skill_guard.paired_interfaces import diversity_claim_groups
 from legal_skill_guard.paired_interfaces.convergence_actors import ConvergenceActor
 from legal_skill_guard.paired_interfaces.convergence_effects import paired_source_effect
+from legal_skill_guard.paired_interfaces.convergence_ev_inventory import EVInventoryActor
 from legal_skill_guard.paired_interfaces.convergence_journal import TrainingJournal
 from legal_skill_guard.paired_interfaces.formal_actors import InterfaceActor, ProgramActor
 from legal_skill_guard.paired_interfaces.formal_evaluation import ConvergenceEvaluation, verify
@@ -63,6 +64,7 @@ def prepare(batch):
         'experiments/convergence_formal_curves.py', 'experiments/convergence_oe_metrics.py'}
     spec = {'study': 'convergence_fixed_DEV_curve', 'batch': batch,
             'checkpoint_root': binding['checkpoint_root'], 'checkpoint_binding_sha256': digest(study),
+            **({'ev_asset_inventory_wire': True} if binding.get('ev_asset_inventory_wire') else {}),
             'train_receipts': receipts, 'b0_dev_data_root': str(b0.relative_to(ROOT)), 'executor': study['executor'],
             'dev_replay_roots': replay, 'source_sha256': {path: sha(ROOT / path) for path in sorted(files)}}
     out = BASE / 'formal_curves' / digest(spec)
@@ -120,6 +122,8 @@ def run(batch):
     primary = ConvergenceActor(out, program_actor=ProgramActor(reader, out, max_calls=1), interface_actor=interface,
                                providers={'LegalBench_Diversity': provider}, train_sources=visible, study_binding=study)
     actor = CommonAirlineActor(ParseControlActor(primary, reader, out), reader, out)
+    if binding.get('ev_asset_inventory_wire'):
+        actor = EVInventoryActor(actor)
 
     @lru_cache(maxsize=None)
     def grade_file(path):
