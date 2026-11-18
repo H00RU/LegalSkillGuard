@@ -447,3 +447,9 @@ M2 新成对验证已绑定原定四个 OpenExempt TRAIN 小试母来源、八�
 八批训练的实际决策与保存的技能库逐批复核。普通教师与 PARSE 各测 40 个提案，最终分别采纳 10 和 8 个。当前批原生得分退化的提案分别为 9 和 16 个，两臂各有一个当前批提升被先前 TRAIN 合同回归检查拒绝。M2 条件保存了 6 次实际程序变更，13 个在关系作用域内的数据集批次中，没有一次更新决定单独由共享解释拒绝改变。见 `handoff/B8_training_update_decision_accounting_20261119.json`，离线入口为 `python -m experiments.convergence_train_update_audit`。
 
 论文稿按 RQ1–RQ5 组织原生结果、学习曲线、两项独立消融与跨库复用证据。保留细粒度 TRAIN 诊断与旧结果于附录，加入可追溯的同语法对照与训练决策汇总，并核对相关工作及五库的一手引用。此轮离线分析未读取 TEST 内容或标签。唯一 TEST 会话仍为 81580，当前预测和账本以 `handoff/run_state.json` 为准。
+
+## TEST 评分依赖恢复与普通教师臂封存
+
+会话 81580 在普通教师臂完整封存 160 份预测并结算 192 笔物理响应后退出。第一次原生评分访问已登记。RuleArena 原生评分器导入时缺少 pandas，评分文件尚未写出。经核对，原评分器查找 `.local-tools/rr-v2-deps`，归档中已有其依赖闭包。恢复该本地解析路径，按历史清单核实 2803 个文件哈希，包括 pandas 2.3.3。法条、预测、72 份冻结绑定、评分代码和 TEST 名册保持原样。合成票价输入运行通过。见 `handoff/B8_TEST_original_scoring_dependency_recovery_20261119.json`。
+
+会话 82357 已按原冻结绑定接续。普通教师臂沿用同一预测封印与 192 笔已结算响应，五库原生评分回执已齐，首臂评分封存。当前唯一活动生成会话为 82357，已进入仅 M1 臂。恢复时以 `handoff/formal_B8_TEST_current.json`、实际会话、账本和 `handoff/B8_TEST_original_scoring_dependency_resumed_20261119.json` 为准，旧会话 81580 已终止。正式 TEST 数值待五臂与静态参照全部结算后提交。
