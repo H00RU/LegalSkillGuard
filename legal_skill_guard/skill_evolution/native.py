@@ -69,7 +69,10 @@ def answer_wire_schema(dataset, view):
     if dataset == 'OpenExempt':
         # Encode arbitrary asset keys as records. This is a lossless output
         # codec, not an asset/eligibility oracle or full-document IR.
-        citations = sorted(set(CITATION.findall(view['public']['original_input'])))
+        from legal_skill_guard.paired_interfaces.convergence_oe_public_scope import bound_jurisdiction_citations
+        citations = bound_jurisdiction_citations(view['public'])
+        if citations is None:
+            citations = sorted(set(CITATION.findall(view['public']['original_input'])))
         citation = {'type': 'string', 'enum': citations}
         claim = citation if view['id'] == 'EC' else record_schema({
             'citation': citation, 'claim_value': {'type': 'number', 'minimum': 0}})

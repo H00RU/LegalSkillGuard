@@ -86,3 +86,40 @@ def test_conditioned_read_uses_projection_policy_and_preserves_legacy_wire(tmp_p
         {'role': 'user', 'content': json.dumps({**query, 'quoted_reader_policy': native}, ensure_ascii=False, sort_keys=True)},
     ]
     assert json.loads(messages[1][1]['content']) == {**query, 'quoted_reader_policy': local}
+
+
+def test_literal_read_has_own_instructions_and_preserves_historical_request(tmp_path, monkeypatch):
+    from experiments import convergence_m2_update_probe as update
+
+    native = 'Return the full native answer for every case asset.'
+    shared = 'Measured possession alone does not establish ownership.'
+    derived = 'Compute only the requested derived title component.'
+    reply = {'predicate_prompt': native, 'schema_mode': 'native', 'predicate_schema_json': '{}', 'rationale': '',
+             'compose_source': 'def compose(inputs, predict, extractors):\n    return predict("read", inputs)\n',
+             OWNERSHIP_FIELD: shared, PROJECTION_FIELD: derived}
+    versions = (scoped_program(reply, ()), scoped_program(reply, (), literal_wire=True))
+    assert versions[0]['predicates'] == versions[1]['predicates']
+    assert versions[0][PROJECTION_FIELD] == versions[1][PROJECTION_FIELD]
+    assert OWNERSHIP_FIELD not in versions[0] and versions[1][OWNERSHIP_FIELD] == shared
+    public = {'text': 'The debtor possesses a lamp valued at $70.00.', 'asset': 'lamp'}
+    case = SimpleNamespace(source_id='synthetic_variant', root_id='synthetic_train_source', public=public)
+    requests = []
+
+    def generate(identity, *, source, purpose, messages, thinking, schema):
+        requests.append((identity, messages, schema))
+        assert (source, purpose, thinking) == (case.root_id, 'skill_actor', False)
+        return {'content': '{"ownership":null,"stated_value":70}', 'finish_reason': 'stop',
+                'usage': {'total_tokens': 5}}
+
+    monkeypatch.setattr(update, 'verify_physical_response', lambda *_args, **_kwargs: None)
+    reader = SimpleNamespace(ledger=SimpleNamespace(run_id='offline_literal_projection'), generate=generate)
+    for program in versions:
+        output, _ = update.measure_natural_projection(reader, tmp_path, program, case)
+        assert output == {'ownership': None, 'stated_value': 70}
+
+    assert native in requests[0][1][0]['content']
+    assert json.loads(requests[0][1][1]['content']) == public
+    assert requests[1][1][0]['content'] == update.LITERAL_PROJECTION_SYSTEM
+    assert json.loads(requests[1][1][1]['content']) == {**public, 'quoted_ownership_policy': shared}
+    assert native not in json.dumps(requests[1][1]) and derived not in json.dumps(requests[1][1])
+    assert requests[0][0] != requests[1][0] and requests[0][2] == requests[1][2]

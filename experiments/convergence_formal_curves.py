@@ -65,6 +65,7 @@ def prepare(batch):
     spec = {'study': 'convergence_fixed_DEV_curve', 'batch': batch,
             'checkpoint_root': binding['checkpoint_root'], 'checkpoint_binding_sha256': digest(study),
             **({'ev_asset_inventory_wire': True} if binding.get('ev_asset_inventory_wire') else {}),
+            **({'oe_public_jurisdiction_scope': True} if binding.get('oe_public_jurisdiction_scope') else {}),
             'train_receipts': receipts, 'b0_dev_data_root': str(b0.relative_to(ROOT)), 'executor': study['executor'],
             'dev_replay_roots': replay, 'source_sha256': {path: sha(ROOT / path) for path in sorted(files)}}
     out = BASE / 'formal_curves' / digest(spec)
@@ -123,7 +124,7 @@ def run(batch):
                                providers={'LegalBench_Diversity': provider}, train_sources=visible, study_binding=study)
     actor = CommonAirlineActor(ParseControlActor(primary, reader, out), reader, out)
     if binding.get('ev_asset_inventory_wire'):
-        actor = EVInventoryActor(actor)
+        actor = EVInventoryActor(actor, jurisdiction_scope=binding.get('oe_public_jurisdiction_scope', False))
 
     @lru_cache(maxsize=None)
     def grade_file(path):

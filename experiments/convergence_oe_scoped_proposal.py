@@ -26,7 +26,7 @@ SCOPED_TEACHER_SUFFIX = (
 )
 
 
-def scoped_program(reply, visible_train):
+def scoped_program(reply, visible_train, *, literal_wire=False):
     """Bind both policies to the proposal while compiling only native fields for execution."""
     jsonschema.validate(reply, SCOPED_SCHEMA)
     ownership, projection = (reply[field].strip() for field in (OWNERSHIP_FIELD, PROJECTION_FIELD))
@@ -37,7 +37,8 @@ def scoped_program(reply, visible_train):
     native = {key: reply[key] for key in SCHEMA['required']}
     native['predicate_prompt'] += '\nSource-level ownership rules:\n' + ownership
     program = compact_native_passthrough(compile_proposal(native, visible_train))
-    return {**program, PROJECTION_FIELD: ownership + '\nRequested-component computation:\n' + projection}
+    return {**program, PROJECTION_FIELD: ownership + '\nRequested-component computation:\n' + projection,
+            **({OWNERSHIP_FIELD: ownership} if literal_wire else {})}
 
 
 def projection_policy(program, query):

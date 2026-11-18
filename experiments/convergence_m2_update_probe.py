@@ -16,6 +16,7 @@ import sqlite3
 import jsonschema
 
 from experiments.convergence_oe_natural_relation import build_natural_group, eligible_assets
+from experiments.convergence_oe_scoped_proposal import OWNERSHIP_FIELD
 from experiments.convergence_source_audit import study_teacher_configuration
 from legal_skill_guard.paired_interfaces.control_learning import direct_program
 from legal_skill_guard.paired_interfaces.diversity_supervision import controlled_citizenship_relation
@@ -204,6 +205,16 @@ def settled_execution(actor, program, source):
     return result, calls[0]
 
 
+LITERAL_PROJECTION_SYSTEM = (
+    'Read two source facts about the named asset using the supplied case text. For stated_value, '
+    'return the explicitly stated whole-dollar valuation of that exact asset, independently of title. '
+    'Use null for stated_value only if that valuation is absent or ambiguous. For ownership, apply '
+    'the quoted source-level ownership policy. Return true for text that establishes current debtor '
+    'ownership, false for explicit nonownership, and null when the text leaves title unresolved. '
+    'Mere possession does not establish title. Return only the supplied two-field JSON record.'
+)
+
+
 def measure_natural_projection(executor, out, program, case):
     schema = record_schema({
         'ownership': {'type': ['boolean', 'null']},
@@ -216,6 +227,14 @@ def measure_natural_projection(executor, out, program, case):
            'an unestablished attribute. Use false only for explicit nonownership. Return compact JSON.'},
         {'role': 'user', 'content': json.dumps(case.public, ensure_ascii=False, sort_keys=True)},
     ]
+    # Opt in only for a new scoped artifact. Historical artifacts keep their exact request bytes.
+    ownership_policy = program.get(OWNERSHIP_FIELD)
+    if ownership_policy is not None:
+        messages = [
+            {'role': 'system', 'content': LITERAL_PROJECTION_SYSTEM},
+            {'role': 'user', 'content': json.dumps(
+                {**case.public, 'quoted_ownership_policy': ownership_policy}, ensure_ascii=False, sort_keys=True)},
+        ]
     call_id = executor.ledger.run_id + ':natural:' + digest({
         'source': case.source_id, 'messages': messages, 'schema': schema,
     })

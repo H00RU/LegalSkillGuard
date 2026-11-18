@@ -184,6 +184,7 @@ def run():
               'actual_program_provenance_sha256': digest(programs),
               'source_sha256': {path: sha(ROOT / path) for path in sorted(files)},
               **({'ev_asset_inventory_wire': True} if curve.get('ev_asset_inventory_wire') else {}),
+              **({'oe_public_jurisdiction_scope': True} if curve.get('oe_public_jurisdiction_scope') else {}),
               'replay_roots': prior, 'executor': study['executor']}
     out = BASE / 'formal_B8_transfer' / digest(binding)
     immutable_json(out / 'binding.json', binding)
@@ -209,7 +210,7 @@ def run():
                              providers={'LegalBench_Diversity': provider}, train_sources=origins, study_binding=study)
     actor = CommonAirlineActor(ParseControlActor(actor, reader, out), reader, out)
     if binding.get('ev_asset_inventory_wire'):
-        actor = EVInventoryActor(actor)
+        actor = EVInventoryActor(actor, jurisdiction_scope=binding.get('oe_public_jurisdiction_scope', False))
 
     @lru_cache(maxsize=None)
     def annotations(dataset):

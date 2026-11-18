@@ -7,13 +7,17 @@ import re
 from string import Formatter
 
 from legal_skill_guard.openexempt import ROOT, UPSTREAM
+from legal_skill_guard.paired_interfaces.convergence_oe_public_scope import (
+    PUBLIC_SCOPE_INSTRUCTIONS, supplied_jurisdiction_scope,
+)
 from legal_skill_guard.skill_evolution.native import record_schema
 
 
 ASSET_TEMPLATES = UPSTREAM / 'data/templates/asset_templates.json'
 ASSET_TEMPLATES_SHA256 = '2051014bbb2a2f59600992cd1caa4604405b859c2867d4ce32cffb6a2e8efbb5'
 INVENTORY_FILES = {str(ASSET_TEMPLATES.relative_to(ROOT)),
-                   'legal_skill_guard/paired_interfaces/convergence_ev_inventory.py'}
+                   'legal_skill_guard/paired_interfaces/convergence_ev_inventory.py',
+                   'legal_skill_guard/paired_interfaces/convergence_oe_public_scope.py'}
 MONEY = r'\$(?:\d{1,3}(?:,\d{3})+|\d+)\.\d{2}'
 INVENTORY_INSTRUCTIONS = (
     'The EV answer has one required slot for each asset in the public inventory. Apply the complete native task '
@@ -91,11 +95,16 @@ def restore_inventory_answer(answer, inventory):
     return {row['description']: answer[key] for key, row in inventory.items() if answer[key] is not None}
 
 
-def with_ev_inventory(source):
+def with_ev_inventory(source, *, jurisdiction_scope=False):
     if source['dataset'] != 'OpenExempt':
         return source
     views = []
     for view in source['views']:
+        if jurisdiction_scope and view['id'] in ('EC', 'EV'):
+            scope = supplied_jurisdiction_scope(view['public']['original_input'])
+            if scope is not None:
+                view = {**view, 'public': {**view['public'], 'supplied_jurisdiction_scope': scope,
+                                           'jurisdiction_scope_instructions': PUBLIC_SCOPE_INSTRUCTIONS}}
         if view['id'] == 'EV':
             inventory = public_inventory(view['public']['original_input'])
             if inventory:
@@ -115,11 +124,13 @@ def bound_ev_inventory(public):
 class EVInventoryActor:
     """Give the same source-derived EV slots to each arm at the revised stages."""
 
-    def __init__(self, actor):
+    def __init__(self, actor, *, jurisdiction_scope=False):
         self.actor = actor
+        self.jurisdiction_scope = jurisdiction_scope
 
     def __call__(self, source, library, purpose):
-        return self.actor(with_ev_inventory(source), library, purpose)
+        return self.actor(with_ev_inventory(source, jurisdiction_scope=self.jurisdiction_scope), library, purpose)
 
     def verify_saved(self, source, library, purpose, result):
-        self.actor.verify_saved(with_ev_inventory(source), library, purpose, result)
+        public_source = with_ev_inventory(source, jurisdiction_scope=self.jurisdiction_scope)
+        self.actor.verify_saved(public_source, library, purpose, result)

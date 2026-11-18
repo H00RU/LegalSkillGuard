@@ -61,6 +61,7 @@ def prepare(batch):
             'checkpoint_root': str(checkpoint.relative_to(ROOT)), 'study_binding_sha256': digest(study),
             'entering_history': preceding, 'ordered_sources_sha256': digest(cohort),
             **({'ev_asset_inventory_wire': True} if batch >= 7 else {}),
+            **({'oe_public_jurisdiction_scope': True} if batch == 8 else {}),
             'prior_train_replay_roots': profiles, 'executor': study['executor'],
             'native_grade_paths': observation['native_grade_paths'],
             'native_grade_sha256': observation['native_grade_sha256'],
@@ -109,7 +110,7 @@ def run(batch):
                                providers={'LegalBench_Diversity': provider}, train_sources=visible, study_binding=study)
     actor = CommonAirlineActor(ParseControlActor(primary, reader, out), reader, out)
     if binding.get('ev_asset_inventory_wire'):
-        actor = EVInventoryActor(actor)
+        actor = EVInventoryActor(actor, jurisdiction_scope=binding.get('oe_public_jurisdiction_scope', False))
     receipts = {}
     for arm in ConvergenceEvaluation.arms:
         write_status(out, {'status': 'running', 'batch': batch, 'arm': arm}, pointer(batch))

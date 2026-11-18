@@ -142,6 +142,7 @@ def prepare():
             'B8_frozen_selection_sha256': freeze['freeze_sha256'], 'roster_path': str(roster_path.relative_to(ROOT)),
             'static_initial_reference': initial_reference,
             **({'ev_asset_inventory_wire': True} if curve.get('ev_asset_inventory_wire') else {}),
+            **({'oe_public_jurisdiction_scope': True} if curve.get('oe_public_jurisdiction_scope') else {}),
             'prior_incidents_sha256': incidents, 'executor': study['executor'],
             'diversity_grading_root': read(HANDOFF / 'diversity_holdout_current.json')['artifact_root'],
             'source_sha256': {path: sha(ROOT / path) for path in sorted(files)},
@@ -267,7 +268,7 @@ def run():
                                providers={'LegalBench_Diversity': provider}, train_sources=visible, study_binding=study)
     actor = CommonAirlineActor(ParseControlActor(primary, reader, out), reader, out)
     if binding.get('ev_asset_inventory_wire'):
-        actor = EVInventoryActor(actor)
+        actor = EVInventoryActor(actor, jurisdiction_scope=binding.get('oe_public_jurisdiction_scope', False))
     scores, per_arm = {}, {}
     for arm in evaluator.arms:
         write_status(out, {'status': 'running', 'arm': arm, 'freeze_sha256': freeze['freeze_sha256']}, POINTER)

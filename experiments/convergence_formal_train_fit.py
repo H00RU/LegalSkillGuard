@@ -32,6 +32,7 @@ from legal_skill_guard.paired_interfaces.convergence_actors import ConvergenceAc
 from legal_skill_guard.paired_interfaces.convergence_compact_proposal import SCHEMA, compact_native_passthrough, compile_proposal
 from legal_skill_guard.paired_interfaces.convergence_ev_inventory import EVInventoryActor, INVENTORY_INSTRUCTIONS, with_ev_inventory
 from legal_skill_guard.paired_interfaces.convergence_journal import TrainingJournal
+from legal_skill_guard.paired_interfaces.convergence_oe_public_scope import PUBLIC_SCOPE_INSTRUCTIONS
 from legal_skill_guard.paired_interfaces.convergence_m1_batch import fit_interface_batch
 from legal_skill_guard.paired_interfaces.convergence_schema_control import ReversibleWire, schema_proposal
 from legal_skill_guard.paired_interfaces.convergence_schema_order import normalize_proposal
@@ -158,6 +159,8 @@ def prepare(batch):
                'conditioned_oe_projection': conditioned['binding'] if conditioned else None,
                **({'oe_native_projection_scope': scoped_oe} if scoped_oe else {}),
                **({'ev_asset_inventory_wire': True} if observed.get('ev_asset_inventory_wire') else {}),
+               **({'oe_public_jurisdiction_scope': True} if observed.get('oe_public_jurisdiction_scope') else {}),
+               **({'oe_scoped_literal_wire': True} if batch == 8 else {}),
                'CNI_previous_TRAIN_regression_gate': True,
                'teacher_profile': study['teacher_profile'], 'teacher_config': study['teacher_config'],
                'executor': study['executor'], 'one_proposal_per_library_per_control': True}
@@ -300,8 +303,9 @@ def run(batch):
     actor = ConvergenceActor(out, program_actor=ProgramActor(reader, out, max_calls=1),
                              interface_actor=None, providers={}, train_sources=visible_keys, study_binding=study)
     actor = CommonAirlineActor(ParseControlActor(actor, reader, out), reader, out)
+    jurisdiction_scope = binding.get('oe_public_jurisdiction_scope', False)
     if binding.get('ev_asset_inventory_wire'):
-        actor = EVInventoryActor(actor)
+        actor = EVInventoryActor(actor, jurisdiction_scope=jurisdiction_scope)
 
     @lru_cache(maxsize=None)
     def grade(dataset):
@@ -316,7 +320,10 @@ def run(batch):
     if before[M2]['programs'][CNI] != before[ORDINARY]['programs'][CNI]:
         raise ValueError('Both arms need the same entering ContractNLI program for the matched prior-TRAIN guard')
     decisions, relations = {}, {}
-    proposal_cohort = [with_ev_inventory(source) for source in cohort] if binding.get('ev_asset_inventory_wire') else cohort
+    proposal_cohort = (
+        [with_ev_inventory(source, jurisdiction_scope=jurisdiction_scope) for source in cohort]
+        if binding.get('ev_asset_inventory_wire') else cohort
+    )
     for arm in CONTROL_ARMS:
         feedback = _feedback(proposal_cohort, read(observations / 'native_scores' / (arm + '.json')))
         decisions[arm] = {}
@@ -326,6 +333,8 @@ def run(batch):
             write_status(out, {'status': 'running', 'batch': batch, 'arm': arm, 'dataset': dataset}, pointer(batch))
             if dataset == OE and binding.get('ev_asset_inventory_wire'):
                 payload = {**payload, 'public_EV_inventory_contract': INVENTORY_INSTRUCTIONS}
+            if dataset == OE and jurisdiction_scope:
+                payload = {**payload, 'public_OE_jurisdiction_contract': PUBLIC_SCOPE_INSTRUCTIONS}
             sources = [row for row in cohort if row['dataset'] == dataset]
             proposal_sources = [row for row in proposal_cohort if row['dataset'] == dataset]
             keys = [row['key'] for row in sources]
@@ -344,8 +353,11 @@ def run(batch):
                 raise ValueError('Teacher identity drift breaks the matched update comparison')
             decision = {'teacher_call': identity, 'proposal_sha256': digest(result['value'])}
             try:
-                artifact = (scoped_program(result['value'], visible_keys) if scoped_candidate else
-                            _candidate(result['value'], arm, dataset, payload, proposal_sources, visible_keys))
+                if scoped_candidate:
+                    artifact = scoped_program(result['value'], visible_keys,
+                                              literal_wire=binding.get('oe_scoped_literal_wire', False))
+                else:
+                    artifact = _candidate(result['value'], arm, dataset, payload, proposal_sources, visible_keys)
             except (ValueError, SyntaxError, TypeError, KeyError, jsonschema.SchemaError, jsonschema.ValidationError) as error:
                 decision.update(status='invalid_teacher_candidate', error=type(error).__name__)
             else:
