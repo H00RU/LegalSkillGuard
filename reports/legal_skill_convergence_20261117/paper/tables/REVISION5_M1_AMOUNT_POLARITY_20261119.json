@@ -1,0 +1,98 @@
+{
+  "dataset": "LegalBench Diversity Jurisdiction",
+  "cohort": {
+    "split": "TRAIN",
+    "batches": [
+      3,
+      4
+    ],
+    "mothers": 6,
+    "selection": "All original Diversity TRAIN mothers in B3 and the subsequent batch. The initiating error was located in B3."
+  },
+  "historical_candidate_reads": 96,
+  "historical_local_quotations": {
+    "complete_local_quote_sets": 304,
+    "local_units": 304
+  },
+  "historical_amount_direction_by_scope": {
+    "same_pair_claims": {
+      "false_positive": 6,
+      "true_positive": 26
+    },
+    "single_claim": {
+      "false_positive": 1,
+      "true_negative": 7,
+      "true_positive": 16
+    }
+  },
+  "development_hypothesis": "Re-encode the strict amount predicate as its logical complement while retaining the same consumer and wire schema.",
+  "proof_state_counts": {
+    "same_pair_claims": 6084,
+    "single_claim": 78
+  },
+  "exact_physical_pairs_verified": 6,
+  "matched_native_grade_sha256": "641737826c22d1d8bf63973a55def0fbfbaecce6e01d454090293bdeab31eb96",
+  "results": {
+    "complement": {
+      "correct": 2,
+      "fully_source_faithful": 1
+    },
+    "fixed_coordinates": {
+      "correct": 4,
+      "fully_source_faithful": 3
+    },
+    "original": {
+      "correct": 4,
+      "fully_source_faithful": 4
+    }
+  },
+  "original_to_complement_native_pairs": {
+    "0->0": 1,
+    "0->1": 1,
+    "1->0": 3,
+    "1->1": 1
+  },
+  "amount_units_by_orientation_class_and_outcome": {
+    "complement_le/above/error": 4,
+    "complement_le/at_or_below/correct": 1,
+    "complement_le/at_or_below/error": 1,
+    "original_gt/above/correct": 4,
+    "original_gt/at_or_below/error": 2
+  },
+  "known_original_forward_error": {
+    "batch": 3,
+    "native_scores": {
+      "complement": 0.0,
+      "fixed_coordinates": 1.0,
+      "original": 0.0
+    }
+  },
+  "new_usage": {
+    "executor_calls": 6,
+    "executor_tokens": 6934,
+    "teacher_calls": 0
+  },
+  "continuous_ledger_after_run": {
+    "rows": 14471,
+    "completed": 14435,
+    "historical_failed": 36,
+    "reserved": 0
+  },
+  "TEST_content_or_labels_opened": false,
+  "candidate_promoted": false,
+  "comparison_binding_sha256": "6fe42d29aa37d3c69204f0711ecc1cb94d43434cc2e09435f47561409e30aff3",
+  "bound_experiment_source_sha256": "b2c7ed00e947ba47ce03f3c3b18759f575fd446edef8ab54bbd136e3672aac47",
+  "directional_TRAIN_audit_sha256": "039063a7112ce5fb8cc3062fe0c26632a0e5e028ebc6ca274dc046e1f99890f8",
+  "comparison_terminal_sha256": "c24614ff272c509ec06b719517b02f5e14273c916c7adfd3beabd3ccef04a839",
+  "terminal_verification_sha256": "5ec29bf47ef174248bc2a92b9ef2c57699d3a1f0c8a6678c447510eabf1e067f",
+  "audit_source_files_sha256": {
+    "convergence_revision5_m1_amount_polarity_evidence.py": "a8fb54a6498c39f4ded917bb712c804631bbd22fea3df24f4fd04fd57cb86b22",
+    "convergence_revision5_m1_polarity_terminal_audit.py": "caaa8280672df0dfc54cac523faba091260c3495a47fb152db1797aeb085739f"
+  },
+  "frozen_TEST_integrity": {
+    "archived_files_verified": 72,
+    "terminal_sha256": "dbbc3b355cad2328b14f7255bfe4a23b9a8b449c80d581159f0c99c3bc93fd7d",
+    "protocol_sha256": "9b96d06bec157541315154a237dfdc2986fd7d80166331a47283b3ac021f8007",
+    "access_receipts_verified": true
+  }
+}
