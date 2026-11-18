@@ -85,31 +85,45 @@ def run(partition, batch):
     stage, checkpoint, terminal, arm_seals = completed_stage(partition, batch)
     cohort_size = 160 if partition == 'test' else 80
     prefix = f'convergence-formal-B{batch}-{partition.upper()}-{stage.name[:16]}:'
-    all_refs, combined, arms = Counter(), {}, {}
+    cells = {arm: (checkpoint / partition / f'B{batch}' / arm, score)
+             for arm, score in arm_seals.items()}
+    if partition == 'test':
+        reference = terminal['static_initial_reference']
+        binding = read(stage / 'binding.json')['static_initial_reference']
+        if (reference['reference_only'] is not True or reference['checkpoint_batch'] != 0
+                or reference['reference_freeze_sha256'] != binding['freeze_sha256']):
+            raise ValueError('The observed reference must bind the original pre-inference B0 selection')
+        initial_arm, = binding['choices']
+        cells['static_initial_reference'] = (stage / 'initial_reference' / 'test' / 'B8' / initial_arm,
+                                             reference['cell_sha256'])
+    all_refs, combined, costs = Counter(), {}, {}
     with sqlite3.connect(LEDGER.as_uri() + '?mode=ro', uri=True) as db:
         physical = db.execute('select id,source from calls where id like ?', (prefix + '%',)).fetchall()
         current = {identity: _settled(db, identity, source, 'skill_' + partition) for identity, source in physical}
-        for arm in ConvergenceEvaluation.arms:
-            cell = checkpoint / partition / f'B{batch}' / arm
-            seal, by_dataset = _cell_refs(db, cell, arm_seals[arm], partition, cohort_size)
+        for label, (cell, score) in cells.items():
+            seal, by_dataset = _cell_refs(db, cell, score, partition, cohort_size)
             refs = {identity: cost for bucket in by_dataset.values() for identity, cost in bucket.items()}
-            all_refs.update(refs.keys())
+            if label != 'static_initial_reference':
+                all_refs.update(refs.keys())
             combined.update(refs)
-            arms[arm] = {'prediction_seal_sha256': seal['prediction_seal_sha256'],
-                         'referenced_physical': _usage(refs.values()),
-                         'referenced_by_dataset': {name: _usage(rows.values()) for name, rows in by_dataset.items()},
-                         'new_stage_calls_referenced': len(refs.keys() & current.keys())}
+            costs[label] = {'prediction_seal_sha256': seal['prediction_seal_sha256'],
+                            'referenced_physical': _usage(refs.values()),
+                            'referenced_by_dataset': {name: _usage(rows.values()) for name, rows in by_dataset.items()},
+                            'new_stage_calls_referenced': len(refs.keys() & current.keys())}
     attributable = _usage(current.values())
     if (attributable['physical_calls'] != terminal['executor_calls']
             or attributable['executor_tokens'] != terminal['executor_tokens'] or not current.keys() <= combined.keys()):
         raise ValueError('Stage physical costs differ from the saved terminal or are absent from sealed predictions')
     wall = (max(row['reserved_at'] + row['elapsed_seconds'] for row in current.values())
             - min(row['reserved_at'] for row in current.values()) if current else 0)
+    reference_costs = costs.pop('static_initial_reference', None)
     result = {'partition': partition, 'batch': batch, 'terminal_sha256': sha(stage / 'terminal.json'),
-              'arms': arms, 'new_physical_usage': attributable, 'union_referenced_physical': _usage(combined.values()),
+              'arms': costs, 'new_physical_usage': attributable, 'union_referenced_physical': _usage(combined.values()),
               'physical_reads_used_by_multiple_arms': sum(count > 1 for count in all_refs.values()),
               'observed_request_window_seconds_including_pauses': wall,
               'billing_basis': 'existing_local_service_no_per_request_API_invoice', 'new_model_requests': 0}
+    if reference_costs is not None:
+        result['static_initial_reference'] = reference_costs
     out = BASE / 'evaluation_cost_audit' / digest(result) / 'terminal.json'
     immutable_json(out, result)
     immutable_json(HANDOFF / f'{partition.upper()}_B{batch}_physical_cost_audit_20261118.json',

@@ -317,3 +317,9 @@ B5 普通 OpenExempt 提案未通过原生正向门槛。四个来源相对 M2 �
 唯一生成会话 19830 正在执行 B6 观察。绑定 `a23d04550d6bc43a4bb661c926b2c3b7e7347ebc787514f89de8922709f864d0` 含五个 B5 快照与 42 个观察源文件，顺序仍为原 16 个母来源、74 项任务。继续从 `handoff/formal_B6_observe_current.json` 和 `handoff/run_state.json` 查实际会话。B6 观察终结后先归档，随后用 `python -m experiments.convergence_formal_train_fit prepare --batch 6` 绑定新提案条件。
 
 B6 OpenExempt 拟合已实现两路编译。同一提案的来源所有权规则同时进入原生读者和局部投影读者，局部分流指令只接收带组件字段及独立源审事实的投影输入。两教师收到完全相同的 B5 结果摘要。普通与 M2 仍比较同一提案，PARSE 保留原可逆格式接口。两条教师路径从封存原生预测记录资产数量，再用现有分数决定是否进入局部比较。8 笔 B5 原生与 8 笔 B4 条件投影都按已付原始请求精确重放，75 项定向测试及 2 个子测试通过。新逻辑不在 42 份正在运行的观察文件中。前向绑定和证据见 `handoff/B6_OE_scoped_fit_preflight_v2_20261118.json`。后续只在同一批实测达到原生正向门槛时派发条件投影，继续保留 TEST 隔离。
+
+## B6 已结算的 M1 配对与 B0 参照预检
+
+B6 普通和仅 M1 在已结算的三例 Diversity TRAIN 上均答对。M1 三条实际都用合成读取，局部关系全部经源审通过。零新请求，见 `handoff/B6_entering_M1_pair_audit_20261118.json`。以真实会话和账本等待 B6 五臂终态，再归档并派发已预检的 B6 拟合。
+
+最终 TEST 驱动器已接入固定 B0 推理参照。它在正式 B8 冻结时固定原始初始库、比较数据及源码快照，并在同一 160 个来源上独立封存推理、评分和成本回执。仍保留五个正式 B8 臂。实际 B0 五臂共有程序与原 DEV 回执核对通过，合成预检覆盖 160 个来源及参照请求去重，B4 历史成本回执精确复算，77 项定向测试及 2 个子测试通过。改动在运行中的 42 份 B6 观察绑定之外。真实 TEST 原文及标签保持封存。见 `handoff/B8_initial_reference_preedit_20261118.json` 和 `handoff/B8_initial_reference_preflight_20261118.json`。
