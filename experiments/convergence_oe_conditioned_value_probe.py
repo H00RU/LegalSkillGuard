@@ -9,6 +9,7 @@ import sqlite3
 import jsonschema
 
 from experiments.convergence_oe_title_partition_probe import POINTER as PRIOR, _bound as crossed_binding
+from experiments.convergence_oe_scoped_proposal import projection_policy
 from experiments.convergence_pilot_b0 import BASE, HANDOFF, LEDGER, ROOT, read, sha, write_status
 from legal_skill_guard.paired_interfaces.formal_actors import verify_physical_response
 from legal_skill_guard.paired_interfaces.shared_semantics import allowed_relation
@@ -99,8 +100,8 @@ def prepare():
 
 def _measure(reader, out, cases, inputs, program):
     rows = []
-    policy = '\n'.join(p['prompt'] for p in program['predicates'])
     for case, query in zip(cases, inputs, strict=True):
+        policy = projection_policy(program, query)
         messages = [{'role': 'system', 'content': SYSTEM}, {'role': 'user', 'content': json.dumps(
             {**query, 'quoted_reader_policy': policy}, ensure_ascii=False, sort_keys=True)}]
         identity = reader.ledger.run_id + ':value:' + digest([case.source_id, messages, SCHEMA])

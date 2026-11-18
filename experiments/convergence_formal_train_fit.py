@@ -20,6 +20,9 @@ from experiments.convergence_m2_amount_judgment import (
 from experiments.convergence_m2_forward_oe import FILES as CONDITIONED_FILES, measure_update, prepare_conditioning
 from experiments.convergence_m2_train_scope import ownership_groups
 from experiments.convergence_m2_update_probe import measure_natural_projection
+from experiments.convergence_oe_scoped_proposal import (
+    SCOPED_SCHEMA, SCOPED_TEACHER_SUFFIX, native_asset_counts, scope_feedback, scoped_program,
+)
 from experiments.convergence_parse_pilot import SYSTEM as SCHEMA_SYSTEM
 from experiments.convergence_parse_runtime import EXTERNAL_ARM, ParseControlActor
 from experiments.convergence_pilot_b0 import BASE, HANDOFF, LEDGER, ROOT, read, sha, write_status
@@ -87,6 +90,19 @@ def _prior_relation_feedback(stage, preceding_batch):
     return feedback
 
 
+def _apply_oe_feedback(feedback, conditioned, b5_stage=None):
+    if not conditioned:
+        return None
+    oe_feedback = feedback.setdefault(OE, {})
+    title_evidence = conditioned['teacher_feedback']
+    if b5_stage is None:
+        oe_feedback['shared_title_evidence'] = title_evidence
+        return None
+    revision = scope_feedback(b5_stage, title_evidence)
+    oe_feedback['scoped_native_and_projection_evidence'] = revision['teacher_feedback']
+    return {'B5_fit_root': str(b5_stage.relative_to(ROOT)), **revision['binding']}
+
+
 def prepare(batch):
     observations = ROOT / read(observation_pointer(batch))['artifact_root']
     observed, terminal = read(observations / 'binding.json'), read(observations / 'terminal.json')
@@ -110,8 +126,8 @@ def prepare(batch):
     prior_fit = fit_roots[-1]
     prior_feedback = _prior_relation_feedback(prior_fit, batch - 1) if batch > 2 else {}
     conditioned = prepare_conditioning(visible, study['executor']) if batch >= 5 else None
-    if conditioned:
-        prior_feedback.setdefault(OE, {})['shared_title_evidence'] = conditioned['teacher_feedback']
+    b5_stage = ROOT / read(pointer(5))['artifact_root'] if batch >= 6 else None
+    scoped_oe = _apply_oe_feedback(prior_feedback, conditioned, b5_stage)
     files = set(observed['source_sha256']) | {'experiments/convergence_formal_train_fit.py',
        'experiments/convergence_formal_b1_fit.py', 'experiments/convergence_m2_train_scope.py',
        'experiments/convergence_m2_amount_judgment.py',
@@ -124,6 +140,7 @@ def prepare(batch):
        'legal_skill_guard/paired_interfaces/convergence_compact_proposal.py'}
     if conditioned:
         files.update(CONDITIONED_FILES)
+        files.add('experiments/convergence_oe_scoped_proposal.py')
     binding = {'study': 'convergence_matched_five_arm_TRAIN_update', 'batch': batch,
                'checkpoint_root': observed['checkpoint_root'], 'study_binding_sha256': digest(study),
                'observations_root': str(observations.relative_to(ROOT)),
@@ -138,6 +155,7 @@ def prepare(batch):
                'previous_feedback_root': str(prior_fit.relative_to(ROOT)) if batch > 2 else None,
                'previous_relation_feedback_sha256': digest(prior_feedback),
                'conditioned_oe_projection': conditioned['binding'] if conditioned else None,
+               **({'oe_native_projection_scope': scoped_oe} if scoped_oe else {}),
                'CNI_previous_TRAIN_regression_gate': True,
                'teacher_profile': study['teacher_profile'], 'teacher_config': study['teacher_config'],
                'executor': study['executor'], 'one_proposal_per_library_per_control': True}
@@ -259,8 +277,15 @@ def run(batch):
     prior_feedback = (_prior_relation_feedback(ROOT / binding['previous_feedback_root'], batch - 1)
                       if binding['previous_feedback_root'] else {})
     conditioned = prepare_conditioning(visible, binding['executor']) if batch >= 5 else None
+    scoped_oe = binding.get('oe_native_projection_scope')
+    if (batch >= 6) != (scoped_oe is not None):
+        raise ValueError('Use the scoped OpenExempt contract for the verified post-B5 training batches')
+    if scoped_oe and scoped_oe['B5_fit_root'] not in binding['fit_replay_roots']:
+        raise ValueError('The scoped teacher feedback must bind the completed B5 fitting stage')
+    b5_stage = ROOT / scoped_oe['B5_fit_root'] if scoped_oe else None
+    if _apply_oe_feedback(prior_feedback, conditioned, b5_stage) != scoped_oe:
+        raise ValueError('The measured B5 coverage evidence or teacher contract changed')
     if conditioned:
-        prior_feedback.setdefault(OE, {})['shared_title_evidence'] = conditioned['teacher_feedback']
         record = conditioned['binding']
         if record != binding['conditioned_oe_projection']:
             raise ValueError('The pre-bound TRAIN title projection changed')
@@ -300,13 +325,19 @@ def run(batch):
             identity = run_id + ':teacher:' + arm + ':' + dataset
             system = SCHEMA_SYSTEM if arm == EXTERNAL_ARM else teacher_system('ordinary', dataset)
             schema = schema_proposal() if arm == EXTERNAL_ARM else SCHEMA
+            coverage_diagnostic = dataset == OE and scoped_oe is not None
+            scoped_candidate = coverage_diagnostic and arm == ORDINARY
+            if scoped_candidate:
+                system += SCOPED_TEACHER_SUFFIX
+                schema = SCOPED_SCHEMA
             result = teacher.propose(identity, source_ids=keys, system_prompt=system,
                                      user_prompt=json.dumps(payload, sort_keys=True), output_schema=schema)
             if result['model'] != binding['teacher_config']['model']:
                 raise ValueError('Teacher identity drift breaks the matched update comparison')
             decision = {'teacher_call': identity, 'proposal_sha256': digest(result['value'])}
             try:
-                artifact = _candidate(result['value'], arm, dataset, payload, sources, visible_keys)
+                artifact = (scoped_program(result['value'], visible_keys) if scoped_candidate else
+                            _candidate(result['value'], arm, dataset, payload, sources, visible_keys))
             except (ValueError, SyntaxError, TypeError, KeyError, jsonschema.SchemaError, jsonschema.ValidationError) as error:
                 decision.update(status='invalid_teacher_candidate', error=type(error).__name__)
             else:
@@ -330,6 +361,8 @@ def run(batch):
                     retain = not regression['passed']
                 decision.update(status='measured', selected='incumbent' if retain else 'candidate',
                                 native_utility_delta=gain, predictions_sha256=digest(predictions), scores=scores)
+                if coverage_diagnostic:
+                    decision['native_asset_counts'] = native_asset_counts(sources, predictions, grade(OE))
                 if not retain:
                     (schemas if arm == EXTERNAL_ARM else programs[arm])[dataset] = artifact
                 if arm == ORDINARY:
