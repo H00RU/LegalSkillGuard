@@ -114,6 +114,7 @@ python -m experiments.convergence_eval_cost_audit --partition test --batch 8
 python -m experiments.convergence_eval_coverage --partition test
 python -m experiments.convergence_test_mechanism_audit
 python -m experiments.convergence_eval_tables --partition test --batch 8
+python -m experiments.convergence_test_evidence_manifest
 
 python -m experiments.convergence_replay_public_evidence
 ```
