@@ -257,3 +257,11 @@ B4 拟合原会话 76509 在接口拟合阶段收到 SIGTERM 并退出。账本�
 M1 时间顺序离线核验已延伸至 B4 的九个固定来源。普通 7/9，现行规则 6/9，替代规则 5/9。两套规则在新增的三个来源均运行普通程序。继续保留现行选择。见 `handoff/M1_incumbent_through_B4_20261118.json`。
 
 当前唯一生成会话 3504，从 `handoff/formal_B4_DEV_current.json` 恢复。它绑定已封存五臂 B4 和固定 80 个 DEV 来源。运行完毕后核对账本、五臂终态、绑定和分库效果，再画 B4 曲线并续跑 B5。B8 前 TEST 保持封存，Goal active。
+
+## 后续 TRAIN 证据与 B5 准备
+
+`handoff/M1_consumer_support_through_B4_20261118.json` 复核 48 个物理读数。全部局部关系忠实的有 24 条，遮蔽不受支持单元并用原消费者重算后有 33 条保持确定的原生输出。额外 9 条均原生正确，但按时间顺序替换候选选择的忠实性条件后，九个后续 TRAIN 来源的路由不变，两规则均 6/9。现行 M1 保留。
+
+`handoff/m2_oe_title_value_current.json` 已冻结四笔自然所有权诊断，来源为固定小试同一母来源及原金额变体，比较实际 B4 正候选和进入 B4 的 M2 程序。它把教师程序的原生输出说明放在引用输入里，以唯一投影 schema 要求逐字资产金额证据，分别核验字面事实和所有权过滤后的局部金额。共享签名 2，独立签名 4。B4 的原生比较精确复用。B4 DEV 终态且账本零在途后从 `python -m experiments.convergence_oe_title_value_probe run` 开始。准备及 60 项定向校验完成，诊断尚无实测效果。
+
+B5 固定观察已准备，`handoff/formal_B5_observe_current.json` 绑定 16 个来源、74 个任务及五臂 B4 快照。模型阶段串行执行，先确认实际会话与终态。未使用 TEST 文本或标签。

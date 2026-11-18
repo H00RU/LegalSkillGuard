@@ -171,6 +171,8 @@ The ordinary B4 OpenExempt program improved mean native utility by 0.02154 again
 
 Extending the M1 chronological replay through B4 yields 7/9 correct for the common program, 6/9 for the deployed routing rule, and 5/9 for the alternative. The three additional targets each used the same route under both selection rules. The full fit consumed 72 physical executor calls and 10 teacher requests, using 518,284 and 175,676 tokens, respectively. The two M1 arms each hold 48 measured candidate observations in shared calibration pools.
 
+For 33 of the 48 paid M1 candidate reads, the unchanged consumer yields the same determinate native output after masking every unsupported local observation. This includes nine correct reads beyond the 24 with complete local fidelity. Using this sufficient support criterion for prior training data left all nine chronological routing choices unchanged and recovered the same 6/9 native accuracy for the deployed and alternative rules. The replay uses source audits for earlier TRAIN mothers and never fills an omitted local value.
+
 ## Appendix. Evidence and replay
 
 The evaluation binds source versions and native task IDs before dispatch. Each saved read records the model profile, exact request, source, and corresponding ledger entry. A compatible response can re-enter the pipeline only under the same request and execution binding. Reported native utilities use the benchmark grader after predictions are saved. Source audits are evaluated separately from native grades.
