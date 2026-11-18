@@ -201,6 +201,8 @@ On four forward B7 training cases, all five arms returned the exact reference as
 
 We re-scored the same stored EV responses after excluding claims outside the jurisdiction set explicitly supplied by each case. Mean F1 changed from 0.119 to 0.282 for ordinary teacher learning, from 0.132 to 0.250 for M2, and from 0.148 to 0.320 for the reversible-format control. All three retained their original recall. Removing claims above the stated asset value as well yielded F1 of 0.314, 0.271, and 0.338, respectively. This development replay identifies a shared source constraint suitable for a matched reader update. Generation effects and attribution to learned shared-interpretation supervision require separate matched comparisons.
 
+At B7, one scoped proposal improved native EC and EV performance against the entering M2 program by 0.051 and 0.036 F1 on the same four training cases. The two literal projections both returned null for title and stated value. In the fixed conditioned probe, the candidate and incumbent both assigned the entire value to opposing components. Independent completions supported these four answers. The shared and single-interpretation checks each rejected them. The update selector retained the incumbent because the literal projection supplied no positive supervision.
+
 ## Appendix. Evidence and replay
 
 The evaluation binds source versions and native task IDs before dispatch. Each saved read records the model profile, exact request, source, and corresponding ledger entry. A compatible response can re-enter the pipeline only under the same request and execution binding. Reported native utilities use the benchmark grader after predictions are saved. Source audits are evaluated separately from native grades.
