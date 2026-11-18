@@ -247,3 +247,17 @@ B4 观察会话 61599 已结算。五臂逐臂完成 16 个固定 TRAIN 母来�
 M2 重新核验了三组原生正向候选的已结算投影。遮住无原文支持的字面断言后，OpenExempt 小试和 B3 各自的 2 个共享签名全部保留。金额小试的派生判断兼容 3 个共享签名中的 1 个，原响应同时有未经原文支持的金额。因此 3 组均没有独立于原文事实检查的共享拒绝。诊断复用了实际响应，保留原更新决策。回执 `handoff/M2_signature_through_B3_20261118.json`。前一轮审计与 B4 观察状态已同步并复核公开研究分支 `15634344022b1d102f79ed63490c719c0783257e`。
 
 M1 同语法独立对照已绑定固定小试中的四个 Diversity 母来源。离线逐源留一，在相同兼容实测候选上比较正确固定读取、静态最短 schema、仅按原生表现选择和带源忠实性选择。四个来源分布在 B2、B7、B8。B2 的四个既有读数已按账本逐个复核，B8 拟合后完成整组比较。入口 `python -m experiments.convergence_m1_pilot_controls replay`。选法已固化到 `handoff/m1_same_grammar_controls_prepared.json`，该比较使用 TRAIN。
+
+会话 76509 在 B4 的接口拟合阶段收到 SIGTERM。原会话已退出，确认 10 笔教师和 64 笔执行器均已完成，零在途，54 份绑定文件均与原哈希一致。恢复会话 11279 复用同一绑定与已付结果，已实际继续接口拟合。见 `handoff/B4_fit_interruption_20261118.json`。研究分支最近核验至 `4787d417faada4f70ddc888669ea5e4b51fe1d34`。
+
+B0、B1、B2 固定 DEV 曲线已渲染为矢量 PDF 和 600 dpi PNG，逐臂九项原生指标见 `dev_curve_figures/B2/`。B1/B2 的 90 个点与各自终态汇总一致。下一版由 `python3 -m experiments.convergence_plot_dev_curves --through 4` 读取结算后的 B4 DEV。
+
+## B4 五臂封存，固定 DEV 在运行
+
+恢复会话 11279 已正常终结。64/128 个来源已进入五臂正式训练。B4 拟合累计 72 个 Qwen、10 个教师请求，分别用 518284、175676 tokens，54 份绑定文件已按哈希归档。SIGTERM 后仅补发尚未开始的 8 个接口读数。两个含 M1 的臂各保存 48 个实测候选读数。见 `handoff/B4_training_terminal_audit_20261118.json`。
+
+普通教师采纳 ContractNLI、MAUD 和 OpenExempt。ContractNLI 当批 21/51→25/51，前三批 78/153→81/153。其证据 F1 当批 0.28758→0.28105，前三批 0.24566→0.29699。PARSE 的 ContractNLI 候选当批净增 9/51，前三批净减 10/153，保留原程序。两臂的 MAUD 候选均在当批净增 2/9。OpenExempt 普通候选当批效用增加 0.021537，相对 M2 旧程序增加 0.028981。它在两个只说明占有的原文变体上断言无所有权，并遗漏明示金额。三种解释兼容检查均通过，字面事实检查拒绝，M2 保留原程序。四组实际原生正提案仍无单独由共享解释导致的拒绝。回执 `handoff/M2_signature_through_B4_20261118.json`。
+
+M1 时间顺序离线核验已延伸至 B4 的九个固定来源。普通 7/9，现行规则 6/9，替代规则 5/9。两套规则在新增的三个来源均运行普通程序。继续保留现行选择。见 `handoff/M1_incumbent_through_B4_20261118.json`。
+
+当前唯一生成会话 3504，从 `handoff/formal_B4_DEV_current.json` 恢复。它绑定已封存五臂 B4 和固定 80 个 DEV 来源。运行完毕后核对账本、五臂终态、绑定和分库效果，再画 B4 曲线并续跑 B5。B8 前 TEST 保持封存，Goal active。
