@@ -413,3 +413,11 @@ B8 DEV 普通、仅 M1、仅 M2、联合四臂的各 80 个 DEV 母来源均已�
 M1 的两组对照均在 Diversity 上从 9/16 提高到 14/16 的平衡准确率，差 0.3125，原母来源配对分层区间 [0.0625, 0.5625]。仅 M1 的 16 例均执行了合成接口，14 例的全部局部关系通过源审。六个原生修正例均通过逐关系源审，另有一个退化。B4 与 B8 的四个对应臂在这 16 个来源上均使用相同物理读数，属于同一固定 DEV 证据。见 `handoff/B8_M1_DEV_two_arm_balanced_accuracy_20261119.json`、`handoff/B8_M1_DEV_source_audit_20261118.json` 和 `handoff/B4_B8_Diversity_DEV_source_overlap_20261119.json`。
 
 M2 新成对验证已绑定原定四个 OpenExempt TRAIN 小试母来源、八项原生任务和同一 B8 起始程序。两路教师各出一个只修改所有权政策的提案。公共事实、八笔既有投影、单槽允许值、基线原生统计和可执行框架相同，变化仅为逐例补全或共享解释的反馈。预检复算候选的唯一共享见证、进入程序的零共享见证及全未知时两个见证均保留；原文字面仍独立核验。主比较为相同原生输入上的 EC/EV 及同候选集上的选择差异。未改 B8 库或当前 DEV 绑定，尚未派发这项配对的请求。见 `handoff/B8_OE_feedback_pair_current.json`、`handoff/B8_OE_feedback_pair_final_preflight_20261119.json`。当前会话 13559 仍是唯一生成阶段，TEST 原文及标签保持封存。
+
+## B8 DEV 与跨库屏蔽结算，M2 配对运行
+
+会话 13559 正常结算。原定五臂各完成固定 DEV 的 80 个母来源与 384 个原生计分单元，B8 新增 112 笔本地推理、846531 tokens，均正常结束。67 份原绑定源码已归档。Diversity 两组 M1 消融及联合对 PARSE 的平衡准确率差均为 +31.25 个百分点，母来源配对分层 95% 区间 [6.25, 56.25]。联合对 PARSE 的 ContractNLI 证据 F1 差为 +9.91 个百分点 [4.38, 15.42]，四个内部臂得分相同。OpenExempt 两项联合对 PARSE 的区间均跨零。PARSE 的 MAUD knowledge definition 得分领先 12.50 个百分点。完整曲线与原生分数、区间、成本表已复算并纳入论文稿。见 `handoff/formal_B8_DEV_current.json`、`handoff/DEV_B8_physical_cost_audit_20261118.json` 和 `paper/tables/DEV_B8_NATIVE_TABLES.md`。
+
+会话 6109 的 B8 DEV 跨库屏蔽正常结算，69 份绑定源码已归档。屏蔽前后 80 例执行轨迹、384 个原生计分及引用的 96 个物理响应逐项一致。五库均未观察到跨库技能命中。新增请求及 tokens 均为零。见 `handoff/B8_DEV_transfer_terminal_audit_20261119.json`。
+
+唯一生成会话 63369 已启动配对 TRAIN 验证，绑定 `601f652e0c7249775ed5bbbe4b02ba9bf41f39c584ff8e3cbae2871f80ef59a3`，65 份源码已核验。用 `handoff/B8_OE_feedback_pair_current.json`、实际会话和原账本核对后续，待结算后归档并复算同案两种原生 F1、共同候选集与共享见证。八批封存库和历史 DEV 保留，TEST 原文、标签仍封存。
