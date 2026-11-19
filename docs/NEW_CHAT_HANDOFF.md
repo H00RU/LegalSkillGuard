@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 MAUD B6/B8 旁路疫情词的配对诊断已结算
+
+原 B6/B8 两份合同的普通经营节选不含疫情词，疫情词在负面契约节选。进入程序在两案答 Yes，原采纳候选答 No。只遮蔽旁路疫情词时两案均改为正确的 No，同宽无关词遮蔽保持原 Yes。B8 知悉标准对两种遮蔽都不变。负面契约编辑项未评分。原 B6 另一份合同的普通经营义务有明示疫情措施，保留其原生正例。后续需用未修改原文的任务局部读法作强对照，单独核对通知定义。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_MAUD_SIBLING_CUE_20261119.json)
+
+会话 85901 已结算，新增四笔 Qwen、36,001 tokens，教师 0，账本 14,638 笔、在途 0，23 项检查通过。原冻结协议、72 份源码、TEST 终态和曝光回执已校验。回执为 `handoff/revision5_MAUD_sibling_cue_terminal_20261119.json`。
+
 ## Revision 5 MAUD B4 空证据字段的同条件比较已结算
 
 三份原 B4 TRAIN 合同的 MAUD 进入程序有一笔共享截断，停在必为空的证据数组。保留常量字段和省略后重建两路各三笔，全部完成，保留八种原生标签组合。逐题复现两路正式采纳候选的输出，原 4/9 提至 6/9，原先完成的两案合计仍为 4/6。作为共用输出恢复保留，原采纳决定保留。后续在已采纳的 B6/B8 候选上复核由询问义务和已收通知引起的实质变化。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_MAUD_ZERO_EVIDENCE_20261119.json)
