@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 M2 OpenExempt 原生冲突归因已结算
+
+复用 B4、B7 共 12 笔原题和编辑响应。逐项做三次留一复核，24 项共享上限冲突均只能通过移除其中一份编辑读数消除。整组删除原题冲突索赔会删除 20 项预测、误删 7 项原生正确预测，四组中三组 EV F1 下降。可归因删除规则在四组全部等于同信息本地筛选。当前金额编辑链已经核验到原题指标，无理由再按相同冲突直接修原答案。后续需要新的作用域或候选证据，能够定位原任务中的错误并与同信息对照产生不同采纳决定。[重放结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_CONFLICT_LOCALIZATION_20261119.json)
+
+新增请求 0，账本 14,610 笔、在途 0，24 项检查通过。原冻结协议、72 份源码、TEST 终态和曝光回执已校验。当前无待结算任务，回执为 `handoff/revision5_OE_conflict_localization_terminal_20261119.json`。
+
 ## Revision 5 M2 OpenExempt B7 同预算选例已结算
 
 在不同于 B4 校准的原 B7 TRAIN 来源上比较句首先验和原生分歧选例，每路两笔，均复用相同的两个原始 EV。四个共同位置上，句首编辑两路均无冲突。原生分歧编辑揭示进入程序一处未改资产冲突，候选在共同位置兼容，在全部正额位置仍有两处冲突。共享枚举和直接检查一致。B4 上两条规则同选已知有效编辑，B7 上原生分歧更有信息。保留原 B7 采纳决定，不重复此句首先验。下一步需要新的候选级信号或有来源支持的共同约束，能与直接选例区分并产生前向原生效应。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_EDIT_ACQUISITION_20261119.json)
