@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 披露对象绑定的配对已结算
+
+公共披露对象规则之外，10 个符合条款组条件的 TRAIN 母来源已用冻结 Qwen 同输入实测。固定／合成／直接为 3/10、1/10、1/10。对记录中的组外标记核对原编号，公开规则只修复确已通读且声称组外的非空编号全部落在组内的响应。复用同一批原响应后，三路为 3/10、5/10、1/10，留一来源 TRAIN 多数类为 8/10。该候选未达到继续派发固定 DEV 的依据。
+
+原实测目录由 `handoff/revision5_CNI_keyed_disclosure_current.json` 绑定，复算入口 `python -m experiments.convergence_revision5_cni_keyed_disclosure_scope`，只作离线结算。完成 30 笔 Qwen、154,532 tokens，教师 0；账本 14,716 笔、在途 0。16 份固定 DEV 中有 13 份符合文本条件，当前没有对应新读数。下一候选需针对少数类的有效披露对象证据并保留同信息对照。 [实测及回放结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_KEYED_DISCLOSURE_20261119.json)
+
 ## Revision 5 五库统一开发对照已结算
 
 用户将推进 Goal 的 Codex 切到 6.2-sol high，实验读者和教师仍沿用原绑定。入口 `python -m experiments.convergence_revision5_common_native_dev` 将原文规则应用于原 B8 DEV 的五库、五臂、共 1,920 个原生视图。普通教师臂在 ContractNLI 分类、Diversity、MAUD 知悉定义、OpenExempt EV 和 Airline 分别从 156/272、9/16、8/16、44.37% 和 2/16 提高到 176/272、16/16、14/16、65.36% 和 15/16。全部分项区间及逐项退化已记入表。
