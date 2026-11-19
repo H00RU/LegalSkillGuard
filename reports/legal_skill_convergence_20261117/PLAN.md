@@ -8,7 +8,9 @@
 
 当前执行以本文件及[接续配置](continuation_protocol_20261119.json)为准，[原 Goal 正文](SERVER_GOAL.md)按此更新。旧正文中固定到旧提交的方案链接应换成本版。历史依据可在 [revision 5](https://github.com/H00RU/LegalSkillGuard/blob/56ed2142df80c47ce155351902916b10ae626904/reports/legal_skill_convergence_20261117/PLAN.md) 和 [revision 4](https://github.com/H00RU/LegalSkillGuard/blob/37a76ffdf9490d7d213f5a9e67553a174416d84c/reports/legal_skill_convergence_20261117/PLAN.md) 查看。[原 protocol.json](protocol.json)按原字节保留，只对应第一轮冻结实验。
 
-进度依据是研究分支提交 `2ee9c49ab8349370b1ac4d257b654a15dbb7c702` 的[阻断报告](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/reports/legal_skill_convergence_20261117/GOAL_BLOCK_20261119.md)、[五库累计 DEV 结果](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CUMULATIVE_FORMAL_DEV_20261119.json)和[当前交接](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/docs/NEW_CHAT_HANDOFF.md)。接手时核对服务器实际工作版本和已有改动，复用更新的有效证据。
+恢复后先在实际研究工作目录，把 `docs/CURRENT_GOAL.md` 和 `docs/NEW_CHAT_HANDOFF.md` 的顶部摘要改为指向[主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md)和[主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json)，并把下一步记为直接接通两项正式路径。研究分支中的旧相对链接及 revision 5 的阻断判据保留为历史记录。启动实现不再以旧方案先找出正向候选为条件。用服务器的实际运行状态和回执确认已完成事项及断点，在现有研究版本上接续即可。
+
+进度依据是研究分支提交 `2ee9c49ab8349370b1ac4d257b654a15dbb7c702` 的[阻断报告](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/reports/legal_skill_convergence_20261117/GOAL_BLOCK_20261119.md)、[五库累计 DEV 结果](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CUMULATIVE_FORMAL_DEV_20261119.json)和[上一阶段交接快照](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/docs/NEW_CHAT_HANDOFF.md)。优先复用服务器已经结算、且与当前代码和配置匹配的证据。
 
 | 工作 | 本版编写时的状态 | 接续方式 |
 |---|---|---|
@@ -92,7 +94,7 @@
 ## 5. 证据与文件关系
 
 - [原冻结设计](https://github.com/H00RU/LegalSkillGuard/blob/37a76ffdf9490d7d213f5a9e67553a174416d84c/reports/legal_skill_convergence_20261117/PLAN.md)与[原机器协议](https://github.com/H00RU/LegalSkillGuard/blob/37a76ffdf9490d7d213f5a9e67553a174416d84c/reports/legal_skill_convergence_20261117/protocol.json)：对应已执行轮次，保持不变。
-- [最新公开交接](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/docs/NEW_CHAT_HANDOFF.md)、[论文初稿](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/reports/legal_skill_convergence_20261117/paper/METHODS_AND_DEVELOPMENT_RESULTS.md)、[结果封印索引](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_EVIDENCE_MANIFEST.json)：本次状态依据。
+- [上一阶段交接快照](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/docs/NEW_CHAT_HANDOFF.md)、[论文初稿](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/reports/legal_skill_convergence_20261117/paper/METHODS_AND_DEVELOPMENT_RESULTS.md)、[结果封印索引](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_EVIDENCE_MANIFEST.json)：发布本版时的状态依据。
 - [M1](METHOD_1.md)、[M2](METHOD_2.md)、[查新](RELATED_WORK.md)、[原设计评估](IDEA_EVALUATION.md)：方法来源与设计理由；历史评估不是当前效果证明。
 - [旧代码审计](CURRENT_CODE_AUDIT.md)以354bece为当时基线，仅作历史；当前接手按服务器有效提交和精确执行绑定。
 - [revision 5 复核](https://github.com/H00RU/LegalSkillGuard/blob/56ed2142df80c47ce155351902916b10ae626904/reports/legal_skill_convergence_20261117/REVISION_REVIEW_20261119.md)：历史记录。
