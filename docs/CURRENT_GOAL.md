@@ -1,8 +1,36 @@
 # 当前 Goal 与证据状态
 
-原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 14,871 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 14,935 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
+
+## Revision 6 ContractNLI 独立开发
+
+将先前知悉与不参考保密材料而开发分开。原 TRAIN 中 7 份无独立开发路径的合同与 1 份编号分项明确授权的合同均与原参考一致。固定 DEV 五臂各由 11/16 到 15/16，无退化，配对 95% 区间为 +6.25 至 +50.00 个百分点。归档 B5 同规则下候选驱动 16/16、按时间 15/16，分类和证据差的区间均包含零。累计 ContractNLI 四个内部臂 201/272、PARSE 192/272。新增模型请求 0。 [独立开发与五库累计指标](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_DEVELOPMENT_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M2 威斯康星自住房候选
+
+B7 提案新增正确的自住房分类引文，进入和候选均把共同所有的 142,200 美元住房按 75,000 美元估值。原文同信息核对只采纳分类。B8 前向第二份共同所有住房上没有候选分类新增，候选估值仍为 75,000 美元，原参考为 112,850 美元。限定候选与进入程序的 B8 分类和估值 F1 完全一致，固定 DEV 适用范围为 0/16。复用 32 笔原 TRAIN 响应，新增 0。 [威斯康星自住房前向结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_WI_HOMESTEAD_TRANSFER_20261120.json)
+
+## Revision 6 MAUD 整节引用
+
+识别完整节引用与两类可见义务的归属，并复核省略前的共同前导段。原 B5 一份 TRAIN 合同支持整节例外，归档两路均答对。固定 DEV 唯一命中共同前导段，五臂负面契约各从 12/16 到 13/16，普通经营各为 14/16。共用规则用于各臂，独立消融差为零。复用 2 笔 TRAIN 和 2 笔 DEV，新增 0。 [整节引用与五库累计表](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_SECTION_REFERENCE_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M1 MAUD 联合范围字段
+
+把两个契约归属标志合成一个九值字段，保留两侧独立的已知及未决状态，100 个局部状态的消费者输出等价。沿用同一 10 份原 TRAIN，联合字段 16/20，旧合成 10/20，固定 15/20，直接 13/20。相对旧合成修正 6 项、退化 0 项，95% 配对区间为 +10 至 +50 个百分点。相对固定和直接的区间均跨零。模型每个实际读数只选择单侧归属，证据支持缓解旧读法的归属偏差。新增 10 笔、复用 30 笔。 [MAUD 联合范围配对结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_JOINT_SCOPE_20261120.json)
+
+## Revision 6 M1 MAUD 疫情例外归属
+
+把已验证的局部条款关系编译器接入两项完整原生契约判定。原 B1–B4 共 10 份带疫情线索的 TRAIN 母合同上，三路共用完整原节选、锚点和冻结读者。合成、固定和直接作答分别为 10/20、15/20、13/20。合成漏判 5 个普通经营正例，全部读到了疫情触发，其中 4 个读数把触发只连到了负面契约。30 笔均完成且正常解码，未达到前向扩验条件。 [MAUD 原 TRAIN 配对结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_COVENANT_FIT_20261120.json)
+
+## Revision 6 M2 披露对象选组
+
+用原 B5 已采纳提案和同一进入程序，在三份原文能同时核验员工与外部代理范围的 TRAIN 合同中选一组。候选驱动和按答案分歧均选中 B4 的双许可组并保留进入程序。按时间选中只有入站对象的合同并采纳提案。共享、逐例和同信息直接筛选一致。固定 DEV 三组均为 22/32，证据 F1 为 30.31%、30.31%、40.07%。候选驱动与按分歧逐项一致。原文成对规则在固定 DEV 无覆盖。复用 6 笔 TRAIN、32 笔 DEV，新增请求 0。 [披露对象选组结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_RECIPIENT_ACQUISITION_20261120.json)
+
+## Revision 6 M1 权利授予单任务比较
+
+把原双任务消费者投影为权利授予单任务，在原消费者 729 个状态上核对输出等价。固定字段和合成接口分别使用 3 个和 2 个读数坐标。B6–B8 尚无前次配对读取的 8 份 TRAIN 合同上，合成、固定、同信息直接作答依次为 0/8、2/8、8/8，证据 F1 依次为 0%、20.83%、75.42%。8 份参考均为蕴含。合成读数给出 7 次未提及和 1 次未决。新增 24 笔冻结执行器响应均正常完成、无传输解码错误，共 137,372 tokens。该版本留在开发记录，未触发 DEV 扩验。 [权利授予配对结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_LICENSE_FORWARD_TRAIN_20261120.json)
 
 ## Revision 6 ContractNLI 协议披露
 

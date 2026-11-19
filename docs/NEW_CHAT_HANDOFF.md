@@ -1,10 +1,64 @@
 # 当前 Goal 恢复与交接
 
-原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 14,871 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 14,935 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
 ## 最新断点
+
+阶段 `revision6_cni_development_release_settled`，回执 `handoff/revision6_cni_development_release_terminal_20261120.json`。账本 14,935 笔、在途 0，78 项检查通过。 [独立开发与五库累计指标](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_DEVELOPMENT_AND_FIXED_DEV_20261120.json)
+
+- `cni_independent_development.py` 在完整合同范围内区分此前知悉、不参考保密信息的开发例外和未决开发线索。仅在完整源文覆盖且没有未解释线索时判定未提及。原 TRAIN 的 7 项无开发路径及 1 项明确许可均与原参考相符。
+- `convergence_revision6_cni_development_release.py` 对固定 B8 五臂应用相同规则，独立开发各 11/16→15/16，4 项修正、0 项退化。四个内部臂合计 201/272、证据 F1 52.61%，PARSE 192/272、44.89%。本轮范围内核验 TRAIN 15 笔及 DEV 10 笔，使用的另一套 B5 比较复用 32 笔原响应。
+- B5 按时间、候选驱动在同规则下由 11/16、12/16 分别到 15/16、16/16。候选驱动相对按时间的分类差区间为 0 至 +18.75 个百分点，答对且证据匹配的 F1 差为 +15.55，区间为 −4.74 至 +37.14。两路共同修复 4 项，独立差异未达扩验条件。新增请求 0。
+
+## Revision 6 M2 威斯康星自住房的前一断点
+
+阶段 `revision6_wi_homestead_transfer_settled`，回执 `handoff/revision6_wi_homestead_transfer_terminal_20261120.json`。账本 14,935 笔、在途 0，75 项检查通过。 [威斯康星自住房前向结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_WI_HOMESTEAD_TRANSFER_20261120.json)
+
+- `convergence_oe_wi_homestead.py` 仅按原题提供的辖区、已确立产权、居住用途和单项估值规则核对威斯康星自住房。B7 的候选补对分类，但进入程序与候选的 75,000 美元都只计单人额度。按原题共同产权与法条每人 75,000 美元核得 142,200 美元。共享、逐例和同信息直接筛选对这个范围一致。
+- `convergence_revision6_wi_homestead_transfer.py` 保存 B7 只采纳分类的局部训练快照，复用 B7 与 B8 共 32 笔原请求。在 B8 唯一同范围来源，候选省略威斯康星分类且仍只报 75,000 美元，原参考为 112,850 美元。局部候选没有改写任何 B8 母来源，分类和估值分别保持 64.17% 和 69.54%。同信息直接补齐后为 65.36% 和 71.03%。
+- 固定 DEV 16 母来源范围命中为 0，未读 DEV 标签或新增请求。B8 先前准备的所有权选组两路同选，继续保留原记录。只有另有源文与候选的可迁移差异时才派发。
+
+## Revision 6 MAUD 整节引用的前一断点
+
+阶段 `revision6_maud_section_reference_settled`，回执 `handoff/revision6_maud_section_reference_terminal_20261120.json`。账本 14,935 笔、在途 0，72 项检查通过。 [整节引用与五库累计表](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_SECTION_REFERENCE_AND_FIXED_DEV_20261120.json)
+
+- `maud_section_reference.py` 将可见疫情例外绑定到两个明确归属的分项。整节覆盖、分项限制和别节引用各有回归。原 B5 第一份 TRAIN 证明第 6.8 节覆盖整个第 5.1 节。原两路普通经营与负面契约均答对。
+- `convergence_revision6_maud_section_reference.py` 在此前累计入口复用固定 DEV 的相同原请求。唯一新命中为两节选共有、置于两类义务之前的前导段。五臂负面契约各 12/16→13/16，无退化，配对 95% 区间为 0 至 +18.75 个百分点。普通经营 14/16、知悉定义 16/16。复用 TRAIN、DEV 各 2 笔。新增模型请求 0。
+- 此修订归入共用规则，五臂两项契约输出逐项一致。本轮固定 DEV 的整节覆盖写法为 0，只有前导段一例。联合接口的原扩验门槛和 M1/M2 的独立验收缺口仍保留。
+
+## Revision 6 M1 MAUD 联合范围字段的前一断点
+
+阶段 `revision6_maud_joint_scope_settled`，回执 `handoff/revision6_maud_joint_scope_terminal_20261120.json`。会话 65943 已结算，新增 10 笔执行器响应、32,386 tokens，教师 0。账本 14,935 笔、在途 0，68 项回归通过。 [MAUD 联合范围配对结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_JOINT_SCOPE_20261120.json)
+
+- `convergence_revision6_maud_joint_scope.py` 用九值局部范围表达两类契约的已知与未决状态。语义等价覆盖原消费者 100 个状态。源文、锚点、执行器配置和原生评分与上一次相同，核验并复用 30 笔已有实测记录。
+- 联合字段普通经营 9/10、负面契约 7/10，合计 16/20。旧合成 10/20，固定 15/20，直接 13/20。联合版较旧合成修正 6 项、无退化。较固定差 +5 个百分点，95% 区间为 −10 至 +20；较直接差 +15，区间为 −10 至 +40。原预登记扩验条件未达。新程序也改了范围指令，数值代表整版接口的变化。
+- 29 个局部读数选了 15 个仅普通经营和 14 个仅负面契约，双侧范围未在实测中被选择。原 B5 第一份 MAUD 合同的两视图均给出第 6.8 节对整个第 5.1 节的疫情例外，第 5.1(a) 和 (b) 分属两类义务，可作为整体引用机制的原文证据。该合同未参与此次读取。当前候选未达扩验条件，保留现有 DEV 结论。
+
+## Revision 6 M1 MAUD 疫情例外归属的前一断点
+
+阶段 `revision6_maud_covenant_fit_settled`，回执 `handoff/revision6_maud_covenant_fit_terminal_20261120.json`。会话 61446 已结算，新增 30 笔执行器响应、97,391 tokens，教师 0。账本 14,925 笔、在途 0，68 项回归通过。 [MAUD 原 TRAIN 配对结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_COVENANT_FIT_20261120.json)
+
+- `convergence_revision6_maud_covenant_fit.py` 复用既有契约关系编译器，在 100 个局部状态上验证固定与合成输出等价。在 10 份原 TRAIN 疫情线索母合同上做完整原生比较，各路收到同样的两项原节选和原文锚点。
+- 合成、固定与直接分别答对 10/20、15/20、13/20。合成相对固定修正 1 项、退化 6 项，按母来源的 95% 配对区间为 −45 至 −5 个百分点。普通经营正例的 5 个合成漏判均识别疫情触发，其中 4 个读数只将触发连到负面契约。三路传输正常。该布局未达到 B5–B8 前向读取条件，保留原固定 DEV 和已有共用规则。
+
+## Revision 6 M2 披露对象选组的前一断点
+
+阶段 `revision6_recipient_acquisition_settled`，回执 `handoff/revision6_recipient_acquisition_terminal_20261120.json`。复用 6 笔 TRAIN、32 笔 DEV 原请求。新增 0，账本 14,895 笔，在途 0，68 项回归通过。 [披露对象选组结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_RECIPIENT_ACQUISITION_20261120.json)
+
+- `convergence_revision6_recipient_acquisition.py` 只打开 B5 原提案的员工和外部代理两个假设。三个策略共用三份有明确源文的原 TRAIN 合同，每策略筛选一组、两笔实测读数。候选驱动和答案分歧选 B4 第 1 份，进入和提案分别漏员工、漏外部代理，两路保留进入程序。按时间选 B4 第 3 份，候选正确区分传入来源和对外披露并被采纳。
+- 固定 DEV 各为 22/32。候选驱动与分歧逐项同判，证据 F1 均 30.31%，按时间为 40.07%。分类差的配对 95% 区间为 −15.63 至 +18.75 个百分点，答对后计入的证据 F1 为 29.90% 对 31.21%。共用源文规则在固定 DEV 无适用问题。该局部选组未达到扩验条件。
+- B3 OpenExempt 提案新增的俄勒冈主要住所分类仅在该批一份 TRAIN 有相同原文前提。后续原 TRAIN 与固定 DEV 的已核验资产清单里没有同范围住所，未派发该项派生读取。
+
+## Revision 6 M1 权利授予单任务的前一断点
+
+阶段 `revision6_license_forward_settled`，回执 `handoff/revision6_license_forward_terminal_20261120.json`。会话 98915 已退出，24 笔执行器调用完成，教师 0，账本 14,895 笔、在途 0。68 项回归通过。 [权利授予配对结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_LICENSE_FORWARD_TRAIN_20261120.json)
+
+- `convergence_revision6_license_forward.py` 将权利授予单独编译，合成从 3 个固定字段缩到 2 个关系读数，对原 729 个状态核对输出等价。B6–B8 原 TRAIN 中此前未做该配对的 8 份合同均入组，三臂共用完整原文、原生索引、模型和证据规则。
+- 参考均为蕴含。合成 0/8、固定 2/8、直接 8/8，证据 F1 为 0%、20.83%、75.42%。合成作答为 7 次未提及、1 次未决，传输与解码均正常。已有共用原文规则在本组无适用位置。这一压缩布局未达到 DEV 扩验条件。合同接口下一次比较需要针对另一个能与直接读法区分的源文缺口。M2 本阶段新增派发为 0。
+
+## Revision 6 ContractNLI 协议披露的前一断点
 
 阶段 `revision6_cni_agreement_disclosure_release_settled`，回执 `handoff/revision6_cni_agreement_disclosure_release_terminal_20261120.json`。68 项检查通过，新增请求 0，账本 14,871 笔、在途 0。 [协议披露与五库累计表](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_AGREEMENT_DISCLOSURE_AND_FIXED_DEV_20261120.json)
 
