@@ -8,11 +8,19 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## 当前状态
+
+原 Goal 已登记为 `blocked`，阶段为 `revision5_independent_effects_blocked`。连续三次核对的共同阻断是缺少能与同信息强对照区分的 TRAIN/DEV 候选证据。账本 14,716 笔，在途 0。恢复后先核对新的证据和实际状态，从尚未验证的候选继续。 [阻断说明与证据](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_20261119.md)
+
 ## Revision 5 五库累计正式 B8 DEV 已封存
 
-当前阶段 `revision5_cumulative_five_library_formal_B8_DEV_settled`。五臂全量原生结果已合并，复用同一批 80 个 DEV 母来源。ContractNLI 为四个内部臂 186/272、PARSE 179/272。联合臂 OpenExempt 分类和估值 F1 为 70.02%、68.48%。Diversity 16/16，MAUD 三项 14/16、11/16、14/16，Airline 15/16。 [正式入口](../experiments/convergence_revision5_release_dev.py) · [最终开发评分](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CUMULATIVE_FORMAL_DEV_20261119.json)
+五臂全量原生结果已合并，复用同一批 80 个 DEV 母来源。ContractNLI 为四个内部臂 186/272、PARSE 179/272。联合臂 OpenExempt 分类和估值 F1 为 70.02%、68.48%。Diversity 16/16，MAUD 三项 14/16、11/16、14/16，Airline 15/16。 [正式入口](../experiments/convergence_revision5_release_dev.py) · [最终开发评分](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CUMULATIVE_FORMAL_DEV_20261119.json)
 
 两条 M1 臂在 Diversity 各有 16 次关系接口调用，其余四库为 0。两组 M2 对照全库最终程序一致。四组机制消融在每库的原生输出差异均为 0。后续以可区别同信息控制的 TRAIN 来源或候选为触发依据，避免重复启动验证。13 项测试通过，1,920 个原生视图按封印逐项校验，在途 0，连续账本 14,716 笔。最新回执 `handoff/revision5_release_B8_DEV_terminal_20261119.json`。
+
+最近派发核对 `handoff/revision5_followup_applicability_receipt_20261119.json`。两版 MAUD 局部接口的 8 笔响应共覆盖 2 处已绑定的非疫情例外。当前共用规则未决的 8 份有疫情线索 TRAIN 合同中，原两路共同答对 7 份，余下 1 份为已审的嵌套例外口径分歧。保留现有流程和读数，未启动新任务。
+
+同信息派发门复核见 `handoff/revision5_matched_followup_gate_20261119.json`。Diversity 同源字面控制与 M1 的原生差为 0。宾州合并形态后 M1 较固定字段在分类和估值中分别低 5.12 和 4.29 个百分点。OpenExempt 分类绑定修正改变了 B7 回放的候选选择，共享筛选与同信息直接核对同步改变。宾州 B8 正向冲突的两路判定也一致。本轮沿用已有表和回执，没有新派发。
 
 ## Revision 5 ContractNLI 披露协议本身的来源绑定接入正式 B8 DEV
 

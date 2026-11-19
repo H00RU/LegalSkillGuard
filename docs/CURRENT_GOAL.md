@@ -8,6 +8,10 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## 当前状态
+
+原 Goal 已登记为 `blocked`。连续三次核对均未找到有原文与 TRAIN 读数支持、可与同信息强对照产生可归因原生差异的新候选。五库累计正式 DEV 的四组机制消融输出逐库一致，两项贡献的独立原生效果仍未达到验收条件。现有训练、冻结 TEST、消融、论文与归档证据已结算。账本为 14,716 笔，在途 0。恢复以新的源文和 TRAIN 证据或用户修改验证范围为依据。 [阻断说明与证据](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_20261119.md)
+
 ## Revision 5 五库累计正式 B8 DEV 已封存
 
 正式入口把已核验的 ContractNLI 来源绑定与 OpenExempt 资产键、宾州一般金额规则接入同一份五库 B8 DEV。五臂各含 80 个母来源、384 个原生视图。Diversity、MAUD 和 Airline 逐项复用上一次正式预测。1,920 个原生视图全部通过封印校验。 [执行代码](../experiments/convergence_revision5_release_dev.py) · [逐臂指标、区间及机制计数](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CUMULATIVE_FORMAL_DEV_20261119.json)
@@ -16,7 +20,9 @@
 
 M1 在两个启用臂各调用 16 次 Diversity 关系接口，其他四库的正式调用为 0。两组 M2 消融的 B8 程序在五库分别完全一致。四组方法消融的原生输出逐库一致。联合臂相对 PARSE 的差异保留在完整表中，包含 MAUD 知悉定义低一题。
 
-13 项定向检查通过。新增模型请求 0，连续账本 14,716 笔、在途 0。冻结协议、72 份源码、TEST 终态及曝光回执通过校验。最新结算见 `handoff/revision5_release_B8_DEV_terminal_20261119.json`。原 Goal 保持活跃，独立效果仍待验收。
+13 项定向检查通过。新增模型请求 0，连续账本 14,716 笔、在途 0。冻结协议、72 份源码、TEST 终态及曝光回执通过校验。正式开发结算见 `handoff/revision5_release_B8_DEV_terminal_20261119.json`。
+
+后续派发核对已将 MAUD 两版局部接口的 8 笔原始响应对齐到现行 TRAIN 契约节选。两处被读例外均无疫情触发。原 TRAIN 中 8 份有疫情线索但共用规则未决定作用域的合同，两路原程序共同答对 7 份，另 1 份为已记录的嵌套例外口径分歧。M2 沿用既有 35 组真实投影的累积证据，二元和联合筛选没有不同决定。本轮没有新候选达到派发依据。已核验的回执见 `handoff/revision5_followup_applicability_receipt_20261119.json`。
 
 ## Revision 5 ContractNLI 披露协议本身的来源绑定接入正式 B8 DEV
 
