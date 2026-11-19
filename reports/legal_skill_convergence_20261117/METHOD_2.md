@@ -1,6 +1,6 @@
 # 法律技能更新的共享解释区分证据合成
 
-> 执行口径更新（2026-11-18）：本文件保留方法与查新依据；数据、控制范围和推进条件以[修订PLAN](PLAN.md)、[跨库实施](CROSS_DATASET_IMPLEMENTATION.md)及[protocol.json](protocol.json)为准。文中“收益/独有作用”是最终科学评价问题，不是小试必须涨分的停工条件。
+> 本文件保留方法与查新依据。当前实现顺序和推进条件见 [PLAN.md](PLAN.md) revision 6 及[跨库实施](CROSS_DATASET_IMPLEMENTATION.md)。[原协议](protocol.json)对应已完成的冻结轮次。
 
 ## 结论
 

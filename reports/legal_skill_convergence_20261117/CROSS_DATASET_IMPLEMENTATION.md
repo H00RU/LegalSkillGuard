@@ -1,6 +1,6 @@
 # 跨库实施与验证合同
 
-2026-11-19 状态同步。以下保留两项方法的跨库实现与对照要求；本轮小试、完整训练、冻结测试及分析已交付，贡献目标未达成。当前执行阶段以[PLAN.md](PLAN.md) revision 5及[接续配置](continuation_protocol_20261119.json)为准，原protocol.json仅作已执行轮次的冻结设计，不据本页重开完整矩阵。
+2026-11-19 状态同步。以 [PLAN.md](PLAN.md) revision 6 和[接续配置](continuation_protocol_20261119.json)为准。当前先补 M1 合同正式学习与 M2 候选驱动选组，再用原 TRAIN/DEV 做同条件对照及五库分库验证。原 protocol.json 对应已执行轮次。
 
 ## 1. 一个合成器，五个任务适配器
 

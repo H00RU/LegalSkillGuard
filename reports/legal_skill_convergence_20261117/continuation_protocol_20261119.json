@@ -1,16 +1,19 @@
 {
   "id": "legal_skill_convergence_20261117_postfreeze_continuation",
-  "revision": 5,
+  "revision": 6,
   "revision_date": "2026-11-19",
   "purpose": "current_execution_schedule_not_replacement_of_frozen_round_protocol",
   "entrypoint": "PLAN.md",
   "handoff_instruction": "SERVER_GOAL.md",
-  "supersedes_current_work_schedule_from_revision": 4,
+  "supersedes_current_work_schedule_from_revision": 5,
+  "prior_schedule_commit": "56ed2142df80c47ce155351902916b10ae626904",
   "preserve_existing_goal": true,
+  "replace_existing_goal_objective_with_current_plan_reference": true,
+  "resume_existing_goal_if_still_blocked_after_edit": true,
   "reset_or_create_goal": false,
   "server_resumed_by_this_publication": false,
   "state_as_reported": {
-    "evidence_commit": "0fe2a82c1ddfc39e8b1f47822897e5772cfeb247",
+    "evidence_commit": "2ee9c49ab8349370b1ac4d257b654a15dbb7c702",
     "goal": "blocked_not_achieved",
     "completed": [
       "fixed_20_source_pilot",
@@ -18,9 +21,11 @@
       "B0_B1_B2_B4_B8_DEV",
       "5_datasets_32_TEST_each_5_arms_and_static_B0",
       "independent_ablations_matched_external_control_and_transfer_audit",
-      "paper_draft"
+      "paper_draft",
+      "revision5_cumulative_five_dataset_DEV_replay"
     ],
-    "current_stage": "evidence_reconciliation_then_evidence_based_targeted_development",
+    "current_stage": "implement_two_formal_paths_then_matched_TRAIN_DEV",
+    "prior_blocker": "no_new_candidate_with_independent_native_gain_evidence_in_previous_implementation",
     "server_later_verified_state_takes_precedence": true
   },
   "frozen_round": {
@@ -55,7 +60,7 @@
   },
   "evidence_review": {
     "reuse_completed_audits": true,
-    "initial_new_model_calls": false,
+    "rerun_completed_audits_before_implementation": false,
     "match_actual_frozen_code_and_requests": true,
     "ordinary_feedback_sharing_is_automatically_a_bug": false,
     "trace_M1": [
@@ -79,16 +84,42 @@
     "full_server_raw_audit_claimed_by_this_package": false
   },
   "targeted_development": {
-    "allowed_when": [
-      "specific_evidence_of_fixable_unresolved_gap",
-      "substantive_implementable_change_not_already_refuted",
-      "testable_expected_effect"
-    ],
+    "positive_gain_evidence_required_before_implementation": false,
+    "required_formal_paths": {
+      "M1": {
+        "keep_existing_Diversity_path": true,
+        "priority_contract_dataset": "ContractNLI",
+        "contract_alternative_if_justified": "MAUD",
+        "train_to_reuse_trace": [
+          "source_and_consumer_scope",
+          "candidate_and_decoder",
+          "semantic_check_and_real_frozen_reader_pairs",
+          "TRAIN_selection",
+          "persisted_skill",
+          "later_independent_mother_reuse_and_native_output"
+        ]
+      },
+      "M2": {
+        "input": "current_program_actual_update_candidates_and_visible_TRAIN",
+        "selection": "candidate_discrimination_under_audited_shared_semantics_and_cost",
+        "trace": [
+          "eligible_source_groups",
+          "selected_groups_and_cost",
+          "real_frozen_reader_projections",
+          "shared_and_control_filter_decisions",
+          "adoption_and_persisted_skill",
+          "later_native_output"
+        ],
+        "selection_control": "previous_selection_same_source_pool_candidate_pool_and_budget",
+        "screening_control": "same_selected_evidence_direct_or_independent_checks"
+      }
+    },
     "separate_development_version": true,
     "source_pool": "existing_TRAIN_and_prespecified_DEV_feedback",
+    "matched_real_comparison_after_formal_integration": true,
+    "compare_only_affected_paths_and_reuse_unchanged_evidence": true,
     "test_labels_or_case_corrections_for_tuning": false,
     "initial_full_matrix_rerun": false,
-    "minimum_matched_real_comparison_after_offline_checks": true,
     "fixed_round_cap": null,
     "per_iteration_user_approval_required": false,
     "repeat_without_new_evidence": false,
@@ -97,6 +128,7 @@
   "further_confirmation": {
     "status": "not_started_not_automatically_dispatched",
     "requires_substantive_development_evidence_and_versioned_protocol": true,
+    "advance_supported_method_without_waiting_for_other_method": true,
     "retain_five_independent_datasets_goal": true,
     "original_candidate_pool_upper_bounds": {
       "MAUD": 7,
@@ -113,12 +145,28 @@
   },
   "reporting": {
     "current_goal_and_handoff_current_summary_first": true,
+    "one_current_plan_reference_in_goal_and_handoff": true,
     "retain_old_states_as_history": true,
+    "datasets_reported_separately": [
+      "OpenExempt",
+      "ContractNLI",
+      "MAUD",
+      "RuleArena_Airline",
+      "LegalBench_Diversity"
+    ],
+    "per_dataset_fields": [
+      "applicability_count_and_denominator",
+      "actual_activation",
+      "native_metrics",
+      "paired_repairs_and_regressions",
+      "attributable_difference_vs_strong_control"
+    ],
     "record_evidence_change_comparison_cost_and_next_action": true,
     "preserve_all_original_results_and_exposure": true,
     "push_appropriate_code_and_verifiable_evidence": true
   },
   "completion": {
+    "both_formal_implementations_required": true,
     "audit_or_report_alone_completes_goal": false,
     "previous_full_experiment_delivery_alone_completes_goal": false,
     "two_independently_supported_contributions_required": true,

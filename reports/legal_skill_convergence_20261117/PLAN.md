@@ -1,20 +1,21 @@
 # 法律技能进化：两项方法统一执行方案
 
-**2026-11-19 修订，revision 5。当前阶段：已完成本轮完整实验，研究目标未达成；接续证据核验与有依据的定向改进。**
+**2026-11-19 修订，revision 6。当前任务是接通 M1 的合同场景正式学习链与 M2 的候选驱动选组，再做同条件比较。两项实现现在开始，无需等旧实现先涨分。**
 
-本版替代 revision 4 作为**当前工作安排**，不改写已完成实验的协议、冻结绑定、结果或曝光事实。两项研究对象仍为 M1「法律消费者约束的关系接口学习」和 M2「共享语义约束的对照监督合成」。不转向参数更新，不重新开放选题。
+本版取代 revision 5 的当前待办，直接用于修订并恢复原研究 Goal。两项研究对象仍为 M1「法律消费者约束的关系接口学习」和 M2「共享语义约束的对照监督合成」。冻结执行模型，使用外部技能库，保留原实验协议、结果和曝光记录。
 
 ## 0. 当前入口与已完成工作
 
-当前入口为本文件、[接续配置](continuation_protocol_20261119.json)和[服务器接续指令](SERVER_GOAL.md)。[原 protocol.json](protocol.json)按原字节保留，仅描述已执行的第一轮设计；其历史“待验证/待划分”字段不代表服务器今天的状态。[revision 4 原完整方案](https://github.com/H00RU/LegalSkillGuard/blob/37a76ffdf9490d7d213f5a9e67553a174416d84c/reports/legal_skill_convergence_20261117/PLAN.md)及同提交全部文件保持可追溯。
+当前执行以本文件及[接续配置](continuation_protocol_20261119.json)为准，[原 Goal 正文](SERVER_GOAL.md)按此更新。旧正文中固定到旧提交的方案链接应换成本版。历史依据可在 [revision 5](https://github.com/H00RU/LegalSkillGuard/blob/56ed2142df80c47ce155351902916b10ae626904/reports/legal_skill_convergence_20261117/PLAN.md) 和 [revision 4](https://github.com/H00RU/LegalSkillGuard/blob/37a76ffdf9490d7d213f5a9e67553a174416d84c/reports/legal_skill_convergence_20261117/PLAN.md) 查看。[原 protocol.json](protocol.json)按原字节保留，只对应第一轮冻结实验。
 
-进度依据是服务器提交 `0fe2a82c1ddfc39e8b1f47822897e5772cfeb247` 的[交接](https://github.com/H00RU/LegalSkillGuard/blob/0fe2a82c1ddfc39e8b1f47822897e5772cfeb247/docs/NEW_CHAT_HANDOFF.md)、[冻结指标](https://github.com/H00RU/LegalSkillGuard/blob/0fe2a82c1ddfc39e8b1f47822897e5772cfeb247/reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_NATIVE_TABLES.md)、[机制汇总](https://github.com/H00RU/LegalSkillGuard/blob/0fe2a82c1ddfc39e8b1f47822897e5772cfeb247/reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_MECHANISM_AUDIT.json)和[训练决策](https://github.com/H00RU/LegalSkillGuard/blob/0fe2a82c1ddfc39e8b1f47822897e5772cfeb247/reports/legal_skill_convergence_20261117/paper/tables/TRAIN_UPDATE_ACCOUNTING.json)。接手时以服务器之后的有效交接、冻结回执和运行状态为准，不用本文快照覆盖更新的事实。
+进度依据是研究分支提交 `2ee9c49ab8349370b1ac4d257b654a15dbb7c702` 的[阻断报告](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/reports/legal_skill_convergence_20261117/GOAL_BLOCK_20261119.md)、[五库累计 DEV 结果](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CUMULATIVE_FORMAL_DEV_20261119.json)和[当前交接](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/docs/NEW_CHAT_HANDOFF.md)。接手时核对服务器实际工作版本和已有改动，复用更新的有效证据。
 
 | 工作 | 本版编写时的状态 | 接续方式 |
 |---|---|---|
 | 固定20来源小试、128来源8批训练、五个DEV检查点 | 已交付 | 复用，不能当作待办从头重启 |
 | 五个正式臂及静态B0，五库各32个TEST来源 | 已完成并封存 | 保留原结果及复现材料 |
 | 独立消融、强对照、跨库屏蔽分析、论文初稿 | 已交付 | 按新证据增补，初稿不等于投稿完成 |
+| revision 5 五库 B8 DEV 累计回放 | 已交付 | 共用规则有改进，四组 M1/M2 消融均同判。复用原训练库及预测，不能替代补齐后两项机制的正式学习比较 |
 | 两项方法分别获得可靠独立收益 | 未达成；服务器报告Goal为blocked | 不因文档或实验交付齐全标记achieved |
 | 后续版本的独立验证 | 未登记或启动 | 有实质改进后再制定，不自动重跑第二轮 |
 
@@ -30,7 +31,7 @@
 
 用同来源、同冻结读者的真实读取、源忠实性、原生效果和成本学习接口，外部技能保存 `(H,reader_prompt,D,scope,proof_receipt,provenance)` 并在后续来源复用。复用已有合成器和生产链。固定格式选择、字段改名、单字段分桶是控制，不能代替关系生成贡献。
 
-保留非Airline主体/资产/诉求绑定和合同条款/例外作用域两类实现要求。当前收益证据主要来自Diversity；不能据此声称其他任务已经获益。详见[方法一](METHOD_1.md)和[跨库实施](CROSS_DATASET_IMPLEMENTATION.md)。
+保留非 Airline 的主体、资产或诉求绑定，以及合同条款或例外作用域两类实现要求。Diversity 已接入原训练流程。同信息固定接口在旧 DEV 回放中也答对 16/16。合同已有真实读取和规则修订，但[原正式 M1 拟合入口](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/experiments/convergence_formal_train_fit.py#L418)只注册了 Diversity。详见[方法一](METHOD_1.md)和[跨库实施](CROSS_DATASET_IMPLEMENTATION.md)。
 
 ### M2：共享语义约束的对照监督合成
 
@@ -39,7 +40,7 @@
 
 把真实读数违反允许关系的证据用于技能更新；原生TRAIN标签提供正向学习依据。逐例独立补全、单解释与匹配的关系监督方法是强对照。关系通过不等于答案正确，全未知、恒定输出、拒绝所有更新不算收益。须区分数量/聚合与主体/作用域关系，以及自然不完备与人为遮蔽诊断。详见[方法二](METHOD_2.md)。
 
-当前新增核验：部分关系或作用域反馈进入了共同教师路径。**不能预设这是错误，也不能据此承诺M2可被修好。**必须按实际冻结执行区分公共语义、算法生成反馈及额外筛选，确定原消融具体测了哪个增量；不能通过削弱对照制造贡献。
+已有回放中，部分共享关系能被同信息直接检查复现。保留这些负证据及公共语义。原设计还要求按候选更新的区分能力与成本选择案例组，而[原正式选组入口](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/experiments/convergence_formal_train_fit.py#L58)取最新一个符合条件的来源。定向选例已有小试，接下来把候选驱动选组接入实际更新流程，并分开测选组与筛选的作用。
 
 ## 2. 数据与原冻结实验
 
@@ -53,35 +54,32 @@
 
 ## 3. 当前应做的工作
 
-### A. 只补齐决定下一步所缺的执行证据
+### A. 实现并接通两项缺失的正式路径
 
-复用现有审计与原始记录，先离线核验，不新增模型请求、不修改冻结版本、不重查已处理旧事件。核对本次冻结源码绑定，而非仅凭最新文件猜测当时执行：
+两项缺口已有代码依据，**现在开始实现**。先核对实际分支、未提交改动、已完成模块、有效缓存和已有运行任务。从现有实现接续，在独立开发版本修改。离线检查用于核验正确性和接线，已有同条件比较未涨分不构成开始写代码的阻断。
 
-- **M1：**候选生成与适用域→实际读数→同来源选择依据→保存和复用→原生结果。区分没有候选、候选合法但误读、选择器选错和其他错误抵消收益；保留已有TRAIN路由复核的负结果，不能把事后逐题oracle上界当作可执行策略。
-- **M2：**K和源编辑→教师实际收到的反馈及来源→候选程序→真实投影与共享/独立签名→采纳或拒绝→技能库→最终原生预测。分别核对无可区分关系、全未知/读数无效、已有检查已拒绝以及共享约束独立改变选择。
-- **对照边界：**明确公共规则和源语义哪些应共享，哪些是M2生成的学习信号，现有比较是在测完整监督链还是仅测额外筛选。原来有意设置的同信息强对照继续保留。需要补全消融时分离机制，而非删除对照可合法获得的信息。
+- **M1：保留 Diversity 正式入口，优先接通 ContractNLI 的合同条款作用域。** 复用已审核的合同消费者、定向读数和接口合成代码。按真实来源中的定义、主体、义务、触发条件与例外生成候选关系接口和配套解码器，验证消费者等价及未知边界。在原 TRAIN 正式拟合入口注册合同适配器，使用冻结读者配对读取，按既定规则选接口。保存版本、适用域和源证据，让后续不同母来源在开发评估入口实际调用已学技能。合同侧至少交付一条可复算的生成、读取、选择、入库、复用链。若优先场景缺乏可核实的消费者或适用来源，可用有现成证据的 MAUD 条款路径交付同一合同目标，说明取舍；其余库按实际适用性继续接入。共享引文补齐和条款修正同时给对照。
+- **M2：把由候选技能驱动的案例组选择接入正式训练更新。** 给定当前程序、真实候选更新和可见 TRAIN 来源，复用独立审核的语义与允许的源编辑。按一组案例能排除的候选错误和成本排序，确定同预算要运行的案例组。用归档读数或可执行局部模型作选组依据，用真实冻结执行读数核验签名、筛选和技能采纳。仅在相同法规作用域共享法规解释，同案衍生组才共享未编辑案件事实。记录所选组与旧选组差异、实际执行、采纳决定及后续技能库。比较旧选组与候选驱动选组时共用来源池、候选池和执行预算；比较共享筛选与直接或逐例检查时给对照相同证据，分离选组、反馈和筛选的贡献。无可区分候选或语义覆盖不足时保留实际记录。
 
-将结论分为：有证据的实现缺口、比较与声明不对应、当前数据/候选中确无额外作用，或具体证据仍缺失。引用已有回执；已核验项不重做。核验报告不是Goal完成。
+工程验收看正式入口实际调用和持久化回执。独立脚本、手选演示、共同规则提高指标都不能代替上述训练路径。
 
-### B. 有明确缺口才做定向修订与真实比较
+### B. 在原 TRAIN/DEV 上做同条件比较
 
-若发现尚未验证、可实施的实质修订，直接在独立开发版本实现、完成必要离线检查，再用原TRAIN及预设DEV反馈做最小真实配对比较。模型、信息、预算、评分和对照条件保持可比，记录具体变更与预期作用；有新依据就继续，不设优化轮次或虚构调用上限，不逐轮请求批准。
+接通后直接推进受影响路径的真实比较。按原 TRAIN 批次使用历史可见来源学习，用既有 DEV 检查；复用适用原始读数和未受影响结果，重跑只限有实际变更的路径。不同模型请求、提示或技能版本不能用旧响应冒充。固定冻结模型、合法输入信息、可比预算、原生评分和公共修订，不削弱强对照。
 
-优先复用有效缓存与未受影响状态，不同配置/提示/技能库状态不伪装成同一次读取。无新依据不重跑同一失败；既有服务失败的恢复性重试另行记账。改名、换措辞、放宽源忠实性或正确性要求不算新机制。不能只凭共享筛选“终于触发”或个例涨分宣布第二贡献成立。
+五库分别报告：适用来源数和分母，实际生效次数，共用底座及各方法消融的原生指标，修正与退化，以及是否有可归因差异。无覆盖、未接入、已执行但与对照等价、执行后退化分别说明。既有 DEV 证据是开发证据。原 TEST 场景、标签和逐题误差不可用于修改选择器或技能。
 
-具体技能学习仍使用TRAIN，DEV只承担已声明的开发选择；不把旧TEST题目、标签或逐题纠错材料用于优化。原TEST结果已见，后续版本须如实标为测试后开发，不能继续包装为原冻结盲测。
-
-若已无可实施的新路径，保存证据并如实报告未达成，不靠更多调用延续任务，也不自动开放新方向。
+遇到有明确原因的错误可以自主修复并验证。已有同一假设的有效结果直接使用；无新机制、修复或证据时不重复小试。判断重点是候选能否进入学习并影响后续结果，不能以报告数量或新增请求数量替代。
 
 ### C. 改进成立后才安排后续完整验证
 
-开发证据须支持原生效果、机制归因和同信息强对照的实质区别。达到这一步，再版本化登记后续训练/验证范围、模型、指标和选择规则；只重放受变更影响且必须重新验证的部分，不自动重跑原完整矩阵。
+任一方法出现经同信息强对照支持、可归因的原生改善，直接锁定该版本并推进有依据的后续训练与验证，无需等待另一项。版本化登记范围、指标、选择规则和可比条件。只扩大证据支持的部分。完成两条正式链后若仍没有可归因改善，保留结论并明确阻断位置，结束对同一假设的重复试验。
 
 仍保留至少五个独立来源混合训练、分库测试的研究目标。需要新的独立评价时，先按曝光和近重复规则核查已选公开语料的完整合法库存，不只重复检查原小池。不得按成绩挑来源，不把合成变体当作新增独立母来源；库存确不足时提出具体可行修订与影响，不能悄悄补数或改口径。当前未启动第二轮TEST，也未批准为追涨分自动扩数据、种子或模型。
 
 ### D. 随结果更新论文与交接
 
-在已有初稿上增补方法、对照定义、实验结果与适用范围，保留原轮次全部成绩和退化。每次压缩或恢复从当前Goal、最新阶段摘要和真实运行记录续接，不重复旧回答、旧审计或旧队列。服务器自主维护 `docs/CURRENT_GOAL.md` 和最新交接，将当前结论置顶、旧状态移入历史，引用本版入口。
+在已有初稿上增补方法、对照定义、实验结果与适用范围，保留原轮次全部成绩和退化。原 Goal 正文、`docs/CURRENT_GOAL.md` 和最新交接统一指向本版。每次压缩或恢复，从最新阶段摘要、实际运行记录和断点继续。
 
 ## 4. 完成与停止
 
@@ -94,7 +92,7 @@
 ## 5. 证据与文件关系
 
 - [原冻结设计](https://github.com/H00RU/LegalSkillGuard/blob/37a76ffdf9490d7d213f5a9e67553a174416d84c/reports/legal_skill_convergence_20261117/PLAN.md)与[原机器协议](https://github.com/H00RU/LegalSkillGuard/blob/37a76ffdf9490d7d213f5a9e67553a174416d84c/reports/legal_skill_convergence_20261117/protocol.json)：对应已执行轮次，保持不变。
-- [最新公开交接](https://github.com/H00RU/LegalSkillGuard/blob/0fe2a82c1ddfc39e8b1f47822897e5772cfeb247/docs/NEW_CHAT_HANDOFF.md)、[论文初稿](https://github.com/H00RU/LegalSkillGuard/blob/0fe2a82c1ddfc39e8b1f47822897e5772cfeb247/reports/legal_skill_convergence_20261117/paper/METHODS_AND_DEVELOPMENT_RESULTS.md)、[结果封印索引](https://github.com/H00RU/LegalSkillGuard/blob/0fe2a82c1ddfc39e8b1f47822897e5772cfeb247/reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_EVIDENCE_MANIFEST.json)：本次状态依据。
+- [最新公开交接](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/docs/NEW_CHAT_HANDOFF.md)、[论文初稿](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/reports/legal_skill_convergence_20261117/paper/METHODS_AND_DEVELOPMENT_RESULTS.md)、[结果封印索引](https://github.com/H00RU/LegalSkillGuard/blob/2ee9c49ab8349370b1ac4d257b654a15dbb7c702/reports/legal_skill_convergence_20261117/paper/tables/TEST_B8_EVIDENCE_MANIFEST.json)：本次状态依据。
 - [M1](METHOD_1.md)、[M2](METHOD_2.md)、[查新](RELATED_WORK.md)、[原设计评估](IDEA_EVALUATION.md)：方法来源与设计理由；历史评估不是当前效果证明。
 - [旧代码审计](CURRENT_CODE_AUDIT.md)以354bece为当时基线，仅作历史；当前接手按服务器有效提交和精确执行绑定。
-- [本次变更复核](REVISION_REVIEW_20261119.md)、[机器一致性检查](REVISION_CHECKS_20261119.json)：更新范围及依据。
+- [revision 5 复核](https://github.com/H00RU/LegalSkillGuard/blob/56ed2142df80c47ce155351902916b10ae626904/reports/legal_skill_convergence_20261117/REVISION_REVIEW_20261119.md)：历史记录。

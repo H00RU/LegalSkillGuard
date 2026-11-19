@@ -1,6 +1,6 @@
 # 五来源选择、核验与划分
 
-2026-11-19 状态同步。正式五来源仍为OpenExempt、ContractNLI、MAUD、RuleArena Airline、LegalBench Diversity Jurisdiction。原128/80/160划分与本轮完整实验已完成，以服务器封存清单为准，不重新抽样。下文的任务选择依据及去重原则保留，当前工作安排见[PLAN.md](PLAN.md) revision 5和[接续配置](continuation_protocol_20261119.json)。本轮用Diversity替换设计阶段尚未接入的Housing，选择依据是任务结构与工程可核验性。
+2026-11-19 状态同步。正式五来源仍为 OpenExempt、ContractNLI、MAUD、RuleArena Airline、LegalBench Diversity Jurisdiction。原 128/80/160 划分与冻结轮次已完成，以服务器封存清单为准。当前按 [PLAN.md](PLAN.md) revision 6 和[接续配置](continuation_protocol_20261119.json)在原 TRAIN/DEV 验证修订版，五库分开评分。本轮用 Diversity 替换设计阶段尚未接入的 Housing，选择依据是任务结构与工程可核验性。
 
 ## 1. 为什么选这五个
 
