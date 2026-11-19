@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 用途限制与权利授予配对已结算
+
+18 笔冻结 Qwen 调用覆盖六份 TRAIN 合同及三种同输入读法。前段选择固定，后段固定、合成及直接作答分别为 3/6、4/6、4/6，证据 F1 为 32.78%、52.78%、38.33%。合成在一份合同上恢复两个实质未提及判断；另一份合同的跨片段否定授予条款由直接读者完整引用，两个接口均漏读。源审后段为 6/6。原 B8 DEV 16 份的同形拆分否定或紧邻先行词覆盖为零。该对照的接口采用决定保持固定。
+
+原绑定及恢复记录在 `handoff/revision5_CNI_use_and_license_current.json` 指向的目录。复核入口 `python -m experiments.convergence_revision5_cni_use_and_license_evidence`，总回执 `handoff/revision5_CNI_use_and_license_terminal_20261119.json`。首次调用已经结算，恢复只移除比对时的运行时缓存标记，完全复用首笔响应。账本 14,686 笔、在途 0。23 项检查通过。后续需要覆盖其他来源并能超过同信息对照的结构变化。 [配对结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_USE_AND_LICENSE_20261119.json)
+
 ## Revision 5 OpenExempt 共享反馈的分类收益已定位
 
 首轮教师的解释反馈绑定鹦鹉。唯一新增的正确分类引文来自同案胸针。原生 EC 把胸针列为申报人的已知资产，旧模板将该表述与单纯持有都归为未决。共用的直接规则按原文资产归属、个人用途前提和伊利诺伊州随题条文补足引文，在四份试验输入上逐项复现首轮共享提案的 EC 输出和 35.83% F1。其原共享筛选决定继续保留。共核验 20 笔 EC 响应。
