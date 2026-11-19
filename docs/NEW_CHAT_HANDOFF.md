@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 从属条款引文回放已结算
+
+同一规则核对已引用分项与原文编号和唯一前导句。既有引文全部保留时，固定 B8 DEV 普通教师与 PARSE 的用途限制证据 F1 分别由 24.61% 到 28.15%、23.75% 到 25.63%。只保留已核对的最小条款组合分别达到 29.40%、26.88%。原生标签不变。复用了 45 笔 TRAIN 与 32 笔固定 DEV 归档响应及上轮 18 笔 Qwen 配对响应。源文支持校准仍选择固定，两个接口仍漏读跨片段否定授予的实际条款。
+
+复算入口 `python -m experiments.convergence_revision5_cni_clause_witness`，终态回执 `handoff/revision5_CNI_clause_witness_terminal_20261119.json`。新增请求 0，账本 14,686 笔、在途 0。该修补跨两个既有程序改善证据，后续研究需要在共用条款核对之上引入可验证的独立差异。 [回放结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_CLAUSE_WITNESS_20261119.json)
+
 ## Revision 5 ContractNLI 用途限制与权利授予配对已结算
 
 18 笔冻结 Qwen 调用覆盖六份 TRAIN 合同及三种同输入读法。前段选择固定，后段固定、合成及直接作答分别为 3/6、4/6、4/6，证据 F1 为 32.78%、52.78%、38.33%。合成在一份合同上恢复两个实质未提及判断；另一份合同的跨片段否定授予条款由直接读者完整引用，两个接口均漏读。源审后段为 6/6。原 B8 DEV 16 份的同形拆分否定或紧邻先行词覆盖为零。该对照的接口采用决定保持固定。
