@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 披露协议本身的来源绑定接入正式 B8 DEV
+
+当前阶段 `revision5_CNI_agreement_event_attachment_formal_dev_settled`。以明示协议存在或谈判事实为对象，补齐主动和被动禁止的来源绑定。五臂正式 B8 DEV 各修正一项分类，分类与证据均无退化。ContractNLI 的四个内部臂和 PARSE 总分类分别为 186/272、179/272。额外解释覆盖的交易考虑条款只留作诊断。 [实现](../experiments/convergence_revision5_cni_agreement_event_attachment.py) · [评分](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_AGREEMENT_EVENT_ATTACHMENT_20261119.json)
+
+核对 30 笔有效归档请求。共用探索性证据后的同源配对为固定 4/10、合成 7/10、直接 3/10。留一母来源的 TRAIN 多数类达 8/10。四组消融仍一致。下一步复用已有记录，只在可归因的 TRAIN 新差异出现时派发后续实验。最新本地验证回执为 `handoff/revision5_CNI_agreement_event_attachment_terminal_20261119.json`，15 项检查通过，连续账本 14,716 笔、在途 0。
+
 ## Revision 5 ContractNLI 递交对象接入正式 B8 DEV
 
 当前阶段 `revision5_CNI_disposition_roles_formal_dev_settled`。正式 B8 DEV 已用经 TRAIN 源审支持的条款角色修订替换 ContractNLI 终止处分槽位，五臂均为 14/16。内部臂总分类 176/272→185/272，PARSE 169/272→178/272。两路比较均有 9 项分类改善、0 项分类退化、1 项证据退化。「请求返还或销毁、接收方应遵从」的额外 DEV 试验为 15/16，仅保留为探索结果。 [实现](../experiments/convergence_revision5_cni_disposition_roles.py) · [集成与筛选回放](../experiments/convergence_revision5_cni_disposition_roles_gate.py) · [评分与终态](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_DISPOSITION_ROLES_20261119.json)

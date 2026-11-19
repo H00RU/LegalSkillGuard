@@ -8,6 +8,14 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 披露协议本身的来源绑定接入正式 B8 DEV
+
+把披露行为绑定到协议存在或谈判事实。明示规则区分主动禁止、被动禁止和不负披露义务，并按原文编号补齐同一禁止的紧邻续句。只涉及考虑交易的披露条款保留为解释范围诊断。原 24 份 TRAIN 上普通教师 10/24→11/24，PARSE 13/24→14/24。固定 B8 DEV 的四个内部臂该项由 3/16 到 4/16，PARSE 由 9/16 到 10/16。接入后 ContractNLI 总分类为 186/272 与 179/272。五臂均改善一项分类、无分类或证据退化；正式结果使用重复查看过的开发集。 [代码](../experiments/convergence_revision5_cni_agreement_event_attachment.py) · [完整结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_AGREEMENT_EVENT_ATTACHMENT_20261119.json)
+
+复用 30 笔固定、合成、直接读数。在探索性宽口径覆盖下分别为 4/10、7/10、3/10；合成减固定的配对 95% 区间为 −10 至 +70 个百分点。留一母来源的 TRAIN 多数类为 8/10。固定 DEV 上的明示规则加 TRAIN 多数类诊断为 11/16，仍有未提供来源证据的多数类预测。正式流程采用明示规则，保留原有未决输出。M1/M2 的四组 ContractNLI 消融仍一致。
+
+15 项检查通过，新增模型调用 0，连续账本 14,716 笔、在途 0。冻结协议、72 份源码、TEST 终态和曝光记录通过校验。回执见 `handoff/revision5_CNI_agreement_event_attachment_terminal_20261119.json`。Goal 保持活跃，下一项实验需有超出已核验对照的可归因 TRAIN 缺口。
+
 ## Revision 5 ContractNLI 递交对象接入正式 B8 DEV
 
 按条款识别处分证明、获准带出物品的归还、文书签署、通知递交和小节标题。新增的两项 TRAIN 请求限定判断均与已存源审一致。加入正式 B8 DEV 后，五臂的终止处分分类由上一正式组合的 5/16 提高到 14/16。四个内部臂的 ContractNLI 分类由 176/272 到 185/272，证据 F1 由 45.67% 到 48.80%，共 9 项分类改善、0 项分类退化、1 项证据退化。PARSE 由 169/272 到 178/272，证据 F1 由 37.17% 到 40.29%，有同样的逐题变化计数。其余四库复用 B8 正式结果。 [代码](../experiments/convergence_revision5_cni_disposition_roles.py) · [正式集成和筛选回放](../experiments/convergence_revision5_cni_disposition_roles_gate.py) · [逐臂评分](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_DISPOSITION_ROLES_20261119.json)
