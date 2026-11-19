@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 招揽限制的 TRAIN 与固定 DEV 已结算
+
+原 24 份 TRAIN 的四份人员招揽正例均可由源文规则判定。原 B4 PARSE 候选连同正确输入的 B5 补跑在相同 15 份合同上由 6/15 到 10/15，四项正例均保留。固定 B8 DEV 零请求回放，普通教师 8/16→14/16、PARSE 11/16→14/16，逐条和跨条款输出完全一致。PARSE 的三个正例有一项退化，其参考条款限制绕过引荐方与联系人交易。查到一份不同条件的 TRAIN 接触限制，未找到同一交易义务的 TRAIN 证据。保留直接对照。后续只有在能用 TRAIN 区分交易限制、接触限制及人员招揽时才扩展规则。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_NONSOLICITATION_20261119.json)
+
+新增请求 0，账本 14,628 笔、在途 0，20 项检查通过，原冻结协议、72 份执行源码、TEST 终态和曝光回执已校验。回执为 `handoff/revision5_CNI_nonsolicitation_terminal_20261119.json`。
+
 ## Revision 5 ContractNLI 按假设限定更新的前向比较已结算
 
 B4 PARSE 候选在 B1–B3 只对员工披露有正向净差，限定该假设后跑固定 B5 TRAIN。进入程序 35/51、完整候选 38/51、限定路由 36/51。限定路由新增正确标签错引使用及复制条款。源文核验拒绝替换并保留另一处证据改进，输出的标签及引文与逐条直接规则一致，均为 35/51。完整候选三份合同各净增一项，招揽限制的三项“未提及”修复解释全部净增。前向比较该假设须保护真实禁止条款的召回。当前无在途任务，原训练库决策保留。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_SCOPED_UPDATE_20261119.json)
