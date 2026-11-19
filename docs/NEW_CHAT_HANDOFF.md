@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 M1 OpenExempt 逐件部分执行已结算
+
+复用三份原 TRAIN 来源的 18 笔物理响应，保留四笔原解码拒绝。独立开发版本在固定程序的资产独立性下，使用相同的原文资产绑定和源审核查固定及合成记录，再逐件释放对未决输入不变的输出。整案核查全部弃答。固定记录的 EC 和 EV 平均 F1 均为 38.89%，合成记录为 16.67% 和 38.89%。两路六个视图中五个输出相同，另一份 EC 视图中固定记录多恢复两件资产。收益来自共用的逐件执行。[比较表](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_ASSET_PROJECTION_20261119.json)
+
+新增 0 笔请求，账本 14,542 笔、在途 0，32 项检查通过。原冻结协议、72 份执行源码、TEST 终态及曝光回执均已校验。恢复时先查 `handoff/revision5_OE_asset_projection_terminal_20261119.json`。当前无待结算任务。这个分支继续推进所需的新依据，是配对读数之间存在可由原文验证的新增差异，并且该差异在共用逐件执行后仍能改变原生结果。
+
 ## Revision 5 M2 MAUD 嵌套例外累积核对已结算
 
 B6 晋级的普通和 PARSE 式程序在各自同版本、同读取契约下，分别在 B6 贷款项答 `No`、B8 网点项答 `Yes`；原生参考均为 `No`。四笔归档模型响应已核验。两种统一作用域口径各自只允许两案同答，因此两个观察单独有效，累积无法共存；同信息相等检查作出相同判定。加入源文支持区分的第三种候选口径，明确单项例外计入且“不构成违反”说明归为另一类，两路混合读数重新相容。已查阅 MAUD 原论文和版本发布说明，未确定这两种写法的官方标注取舍。[累积核对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_MAUD_NESTED_EXCEPTION_JOIN_20261119.json)
