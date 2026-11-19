@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 M2 OpenExempt B7 同预算选例已结算
+
+在不同于 B4 校准的原 B7 TRAIN 来源上比较句首先验和原生分歧选例，每路两笔，均复用相同的两个原始 EV。四个共同位置上，句首编辑两路均无冲突。原生分歧编辑揭示进入程序一处未改资产冲突，候选在共同位置兼容，在全部正额位置仍有两处冲突。共享枚举和直接检查一致。B4 上两条规则同选已知有效编辑，B7 上原生分歧更有信息。保留原 B7 采纳决定，不重复此句首先验。下一步需要新的候选级信号或有来源支持的共同约束，能与直接选例区分并产生前向原生效应。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_EDIT_ACQUISITION_20261119.json)
+
+会话 88756 已结算。新增 4 笔 Qwen、44,154 tokens，教师请求 0。账本 14,610 笔、在途 0，21 项检查通过。原冻结协议、72 份源码、TEST 终态和曝光回执已校验。回执为 `handoff/revision5_OE_edit_acquisition_terminal_20261119.json`。
+
 ## Revision 5 M2 OpenExempt B4 原生金额编辑已结算
 
 原 B4 同一 TRAIN 来源的两件资产分别加一美元，其余原文和原生请求保持。复用两笔原始 EV，新增四笔。两路共有四个完全可比的辖区内资产引文位置。第一种编辑在进入程序触发四项冲突、候选触发两项，第二种两路均兼容。单例金额上限无违规。共享枚举等于同信息直接检查，且候选仍有冲突，保留原先所有权断言拒绝。后续比较需要能在执行预算相等时预测哪种可实现编辑更有信息，并有能区分更新选择及前向原生收益的候选。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_NATIVE_AMOUNT_EDITS_20261119.json)
