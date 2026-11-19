@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 原文条件下的接口缩减已结算
+
+用原文中唯一可核实的条款部分求值。单项已知时固定和合成各需 4、3 个字段；双项已知时完整回执各需两个相反授权状态，只有弃去这些状态的诊断才可将字段缩至零。原 24 TRAIN／16 固定 DEV 的完整回执字段总数为 130/89 和 92/62。这一项没有实测生成耗时。
+
+复核上轮 18 笔配对，统一公共前提后，仍需读取的两项固定答对 1 项、合成与直接各答对 2 项。正式 TRAIN 和固定 DEV 的既有读数在覆盖合同内也已答对余项。无新增请求，账本 14,686 笔、在途 0。复算 `python -m experiments.convergence_revision5_cni_conditioned_use_license`，回执 `handoff/revision5_CNI_conditioned_use_license_terminal_20261119.json`。后续候选须在公共前提之外的未决判断上具备可验证的原生差异。 [回放结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_CONDITIONED_USE_LICENSE_20261119.json)
+
 ## Revision 5 ContractNLI 从属条款引文回放已结算
 
 同一规则核对已引用分项与原文编号和唯一前导句。既有引文全部保留时，固定 B8 DEV 普通教师与 PARSE 的用途限制证据 F1 分别由 24.61% 到 28.15%、23.75% 到 25.63%。只保留已核对的最小条款组合分别达到 29.40%、26.88%。原生标签不变。复用了 45 笔 TRAIN 与 32 笔固定 DEV 归档响应及上轮 18 笔 Qwen 配对响应。源文支持校准仍选择固定，两个接口仍漏读跨片段否定授予的实际条款。
