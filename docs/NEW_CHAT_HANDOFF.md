@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 OpenExempt 所有权候选的局部回放已结算
+
+已核验首轮与纠偏提案的 40 笔原生响应及首轮四笔分配读数。局部合并保护原文已确立的资产所有权；共享反馈 EC 仍有一项引文增益，来源未确立该资产所有权，既有共享筛选仍为 0/2。两路局部 EV 均为 40.42%→44.58%，原预测加同信息公开估值上限可逐来源复现同一 F1。此直接对照在原 32 份 TRAIN 和固定 16 份 B8 DEV 上复用 60 和 32 笔物理响应。固定 DEV 的普通教师 44.37%→49.50%，PARSE 42.08%→44.31%。保留对照和原采纳决定。后续只在找到独立可审的适用条件及可区分的前向原生候选时扩展引文监督。
+
+新增请求 0，账本 14,638 笔、在途 0，37 项检查通过。原冻结协议、72 份执行源码、TEST 终态和曝光回执已校验。回执为 `handoff/revision5_OE_scoped_policy_replay_terminal_20261119.json`。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_SCOPED_POLICY_REPLAY_20261119.json)
+
 ## Revision 5 MAUD 契约前导条件的直接回放已结算
 
 MAUD 负面契约节选可同时包含普通经营分项。只排除前一分项疫情措辞，固定 B8 DEV 两路 9/16→10/16。追加从两项 TRAIN 漏判得到的负面契约前导条件规则后，TRAIN 两路 20/24→22/24，复用同一 DEV 两路 9/16→11/16。两项 DEV 修正均由直接源文判定复现，保留原政策、第一轮回放与冻结结果。此前旁路遮蔽和已收通知的精确模式在固定 DEV 的 16 份合同中均无覆盖。新比较须保留现有直接对照，并提出能独立区分真实候选的约束。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_MAUD_SECTION_SCOPE_20261119.json)
