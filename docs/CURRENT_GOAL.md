@@ -8,6 +8,14 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 OpenExempt 宾州原 B8 DEV 比较已结算
+
+从 46 个固定公开渲染模板绑定申报人、资产组及所有权状态。八个原 TRAIN 视图的所有权状态逐项复现，原 B8 DEV 五份宾州来源的 10 个视图全部覆盖。七个资产组的所有权留作未知。固定字段对照与关系接口共用原文、资产索引、所有权和同一消费者。两路均由程序推导个人非营业财产字段。
+
+原生 EV F1 为固定字段 68.25%、关系接口 57.46%，关系接口差值 −10.79 个百分点，五母来源配对区间 [−20.95, −1.90]。EC 为 77.40% 和 76.44%，源审后两臂均为 77.40%。固定字段 10 个视图的原生分数均与纯源审执行相同，输出完整一致 9 个。原 TRAIN 的字面词项控制每类只能覆盖 1/14 个资产，保留其结果用于说明适用范围。继续采用共用所有权锚定，当前形态接口缺少扩展依据。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_SCOPED_FORMS_DEV_20261119.json)
+
+新增 20 笔 Qwen、123,613 tokens，教师请求 0，连续账本 14,602 笔、在途 0。14 项相关检查通过。原冻结协议、72 份执行源码、TEST 终态和曝光回执均已校验。回执为 `handoff/revision5_OE_scoped_forms_DEV_terminal_20261119.json`。
+
 ## Revision 5 OpenExempt 宾州资产形态关系已结算
 
 使用已源审的全部四份宾州 TRAIN，共八个 EC/EV 视图。两个读器接收相同原文、资产索引和源文锚定的所有权状态，并使用同一个消费者。关系接口用资产形态的可能集合约束有形财产与服装两项判断。21 组可能状态经验证，未确立所有权时保留两个合法补全。[结果表](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_SCOPED_FORMS_20261119.json)
