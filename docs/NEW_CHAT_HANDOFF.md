@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 OpenExempt 共同断言位置核查已结算
+
+五组原 TRAIN 投影、32 笔归档响应均按请求、程序和语义绑定核验。限制到两路共同作答位置后，共享约束相容性差异为 0/5。B8 有类型诊断中的相容性改善只需移除原两个无匹配作答的零额断言。共享反馈提案新增一个零额，原共享拒绝仍由这一个新增断言与已有断言解释。保留缺测与原采纳记录。后续需要在共同已答且有源文支撑的位置上发现候选分歧，才有依据重复投影或安排前向比较。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_MATCHED_PROJECTION_SUPPORT_20261119.json)
+
+新增请求 0，账本 14,650 笔、在途 0，22 项检查通过。原冻结协议、72 份源码、TEST 终态和曝光回执已校验，回执为 `handoff/revision5_OE_matched_projection_support_terminal_20261119.json`。
+
 ## Revision 5 ContractNLI 法定披露通知已结算
 
 核验 B3–B5 五项整体原生为正的提案，共 63 个来源－提案配对。应用同一直接源文检查后，两路的通知标签与证据逐项相同。条款链接为原 TRAIN 三份合同补充了引文，两路证据 F1 各提高 6.81 个百分点，分类与同句对照均为 24/24。固定 B8 DEV 上，初版把四个涵盖法定披露的条款判为“未提及”，两路 12/16→8/16。追加的覆盖检查保留这四份原读数，两路恢复到 12/16。此轮复用已经查阅的 DEV 反馈。后续需要有明确的法定触发、通知对象或证据范围分歧，且同信息检查无法复现候选区别。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_COMPELLED_NOTICE_20261119.json)
