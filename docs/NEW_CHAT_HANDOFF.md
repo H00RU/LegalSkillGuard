@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 递交对象接入正式 B8 DEV
+
+当前阶段 `revision5_CNI_disposition_roles_formal_dev_settled`。正式 B8 DEV 已用经 TRAIN 源审支持的条款角色修订替换 ContractNLI 终止处分槽位，五臂均为 14/16。内部臂总分类 176/272→185/272，PARSE 169/272→178/272。两路比较均有 9 项分类改善、0 项分类退化、1 项证据退化。「请求返还或销毁、接收方应遵从」的额外 DEV 试验为 15/16，仅保留为探索结果。 [实现](../experiments/convergence_revision5_cni_disposition_roles.py) · [集成与筛选回放](../experiments/convergence_revision5_cni_disposition_roles_gate.py) · [评分与终态](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_DISPOSITION_ROLES_20261119.json)
+
+两项机制的四个正式消融比较在 ContractNLI 输出仍一致。B8 两个 TRAIN 候选的 12 笔归档响应和原生效益已核对，共享修订后仍保留现行程序。下一项付费验证需有能区分同信息强对照的新 TRAIN 证据。11 项检查通过，在途 0，连续账本 14,716 笔。恢复时以 `handoff/revision5_CNI_disposition_roles_terminal_20261119.json` 为最新本地验证回执，原 TEST 及曝光哈希保持。
+
 ## Revision 5 ContractNLI 终止处分的实际触发条件已结算
 
 把返还、销毁和清除义务与其自己的协议终止、覆盖关系终止或书面请求绑定。拒绝把相邻条款的单独保密存续、签署回寄和邮件回执当作处分触发。仅在可测的处分候选都绑定到请求时，才输出终止处分「未提及」；其他未决文本保留原判定。

@@ -8,6 +8,14 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 递交对象接入正式 B8 DEV
+
+按条款识别处分证明、获准带出物品的归还、文书签署、通知递交和小节标题。新增的两项 TRAIN 请求限定判断均与已存源审一致。加入正式 B8 DEV 后，五臂的终止处分分类由上一正式组合的 5/16 提高到 14/16。四个内部臂的 ContractNLI 分类由 176/272 到 185/272，证据 F1 由 45.67% 到 48.80%，共 9 项分类改善、0 项分类退化、1 项证据退化。PARSE 由 169/272 到 178/272，证据 F1 由 37.17% 到 40.29%，有同样的逐题变化计数。其余四库复用 B8 正式结果。 [代码](../experiments/convergence_revision5_cni_disposition_roles.py) · [正式集成和筛选回放](../experiments/convergence_revision5_cni_disposition_roles_gate.py) · [逐臂评分](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_DISPOSITION_ROLES_20261119.json)
+
+源角色规则相对上一局部事件修订提高 2/16，配对 95% 区间为 0 至 +31.25 个百分点。额外识别「书面请求返还或销毁、接收方应遵从」后到 15/16，该句式仅有探索性 DEV 证据，正式流程采用 14/16 版本。四项 M1/M2 比较在 ContractNLI 的原生输出仍完全一致。核对 B8 三份 TRAIN 合同的 12 笔正式响应，在现行程序与候选同时加入同一规则后，普通教师与 PARSE 候选收益分别为 −5.88、−15.69 个百分点，仍保留现行程序。
+
+11 项检查通过。账本 14,716 笔、在途 0，冻结协议、72 份源码、TEST 终态和曝光记录均通过校验。回执见 `handoff/revision5_CNI_disposition_roles_terminal_20261119.json`。Goal 保持活跃。后续方法验证需要一项能与同信息直接读数分开的 TRAIN 证据。
+
 ## Revision 5 ContractNLI 终止处分的实际触发条件已结算
 
 把返还、销毁和清除义务与其自己的协议终止、覆盖关系终止或书面请求绑定。拒绝把相邻条款的单独保密存续、签署回寄和邮件回执当作处分触发。仅在可测的处分候选都绑定到请求时，才输出终止处分「未提及」；其他未决文本保留原判定。
