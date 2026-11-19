@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 披露许可与限制的同条件比较已结算
+
+四份原 TRAIN 合同的固定与合成接口共八笔读数已结算。两个任务合计原程序 2/8、固定 2/8、合成 3/8、逐条源审直接对照 8/8。合成增量集中在协议存在的限制，第三方许可下降。八笔响应均完成，部分判定因缺少引文或作用域未决而为空。保留原采纳决定及同信息直接对照。后续仅在新发现可验证的引文和命题绑定机制或实际候选选择差异时再启动前向比较。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_SIGNED_SCOPE_20261119.json)
+
+会话 16978 已结算，新增八笔 Qwen、48,916 tokens，教师 0，账本 14,622 笔、在途 0。原冻结协议、72 份源码、TEST 终态和曝光回执均已校验。回执为 `handoff/revision5_CNI_signed_scope_terminal_20261119.json`。
+
 ## Revision 5 ContractNLI 披露对象与例外作用域已复核
 
 24 份原 TRAIN 合同、45 笔归档物理响应已核验。原程序、明示对象规则和跨条款链接分别取得 9/24、10/24、10/24，官方证据 F1 为 29.17%、40.28%、41.27%。唯一新增的跨条款证据也由共用源文的直接规则恢复。B8 原候选已经因原生退化被拒绝，B3–B5 五项原生正向候选的旧决定保留。三份存在用语歧义的合同保留原预测。若能从整份原 TRAIN 合同可靠区分矛盾和未提及，再登记可区别于同信息直接规则的原生预期。[回放结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_DISCLOSURE_OBJECTS_20261119.json)
