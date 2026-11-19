@@ -4,7 +4,19 @@
 
 ## 最新固定 DEV 与接续断点
 
-目前阶段为 `revision6_oe_forward_acquisition_settled`。连续账本累计 15,007 笔，其中 14,971 笔完成、36 笔失败，当前在途 0。最后一轮新增模型请求 0，92 项检查通过。接续优先核对 MAUD 原 TRAIN 中疫情例外与上位条款的归属，再根据原文证据判断是否值得开展新的同信息比较。 [恢复与交接](../../docs/NEW_CHAT_HANDOFF.md)
+目前阶段为 `revision6_cni_mixed_routing_settled`。连续账本累计 15,084 笔，其中 15,048 笔完成、36 笔历史失败，当前在途 0。 [恢复与交接](../../docs/NEW_CHAT_HANDOFF.md)
+
+M1 在 B1–B4 原 TRAIN 拟合读器路由，在 B5–B8 的 12 份合同前向验证。按合同选择时，M1、同信息匹配对照、归档直接读器各答对 23/24、22/24、23/24，正确类证据 F1 为 71.62%、68.97%、70.69%，复用 72 笔原请求。随后将两项任务各自的读法放进一次读取，新增 17 笔冻结执行器请求，17 项检查通过。三路答对 20/24、20/24、23/24，证据 F1 为 68.61%、66.11%、70.69%。M1 相对匹配对照的证据 F1 差为 +2.50 个百分点，配对区间 [0, +7.50]。三路用途题均为 12/12，两条新路径在权利题均为 8/12，归档直接为 11/12。两项比较均未达到扩验条件，五库固定 DEV 结果沿用。 [按合同选择](paper/tables/REVISION6_CNI_FORWARD_ROUTING_TRAIN_20261120.json) · [单次读取双任务](paper/tables/REVISION6_CNI_MIXED_ROUTING_TRAIN_20261120.json)
+
+M2 的新门槛先在各路 TRAIN 上应用共用规则，再决定是否采纳提案。B6 分类更新的 TRAIN 平均增量从 +0.69 变为 −2.46 个百分点，因而保留原程序。16 份原前向 TRAIN 分类 F1 从 61.78% 到 62.80%，估值 F1 保持 51.65%。两种选组策略仍同判。相对不更新的平均差为 +0.43 个百分点，配对区间 [−1.03, +2.10]。复用 112 笔归档响应，新增 0。 [共用规则后的采纳与前向结果](paper/tables/REVISION6_OE_RESIDUAL_ACQUISITION_TRAIN_20261120.json)
+
+Airline 的巴拿马至美国费率经 288 个规则改写核对，与封存基准逐项一致。固定 DEV 对最后一份适用来源执行了这套规则，五臂总费用正确数各由 15/16 到 16/16。M1 的制作引文回放把合成的正确类证据 F1 从 49.47% 提升至 65.28%，直接对照从 70.96% 到 73.23%，分类数不变。两项改动新增模型请求均为 0。 [线路回放](paper/tables/REVISION6_AIRLINE_PANAMA_AND_FIXED_DEV_20261120.json) · [制作证据链](paper/tables/REVISION6_CNI_COPY_EVIDENCE_CLOSURE_TRAIN_20261120.json)
+
+M1 将副本制作与处置后留存绑定到各自条款。在 11 份 ContractNLI 原 TRAIN 合同上完成 33 笔三路实测。应用同一原文规则后，合成、固定、直接分别答对 12/22、11/22、13/22。共同全量处置核查为三臂各再修正 4 题，无退化，方法间差值不变。合成的正确类证据 F1 为 49.47%，直接为 70.96%。新增规则在固定 DEV 中覆盖 0/16。 [三臂实测](paper/tables/REVISION6_CNI_COPY_LIFECYCLE_TRAIN_20261120.json) · [全量处置回放](paper/tables/REVISION6_CNI_COPY_DISPOSITION_READBACK_TRAIN_20261120.json)
+
+M2 分任务采纳复用 112 笔归档响应。类别核查排除了 B7 两次把非服装物品报成服装的表面一致性。候选驱动和按时间均只采纳 B7 的估值改动。四次过渡合计 16 份原前向 TRAIN，两路的分类和估值 F1 均为 61.78% 和 51.65%。相对只按训练分数选路线，两任务平均差 +3.83 个百分点，配对区间 [+0.89, +7.47]。相对不更新差 −0.08 个百分点，区间包含零。固定 DEV 沿用既有结果，新增请求 0。 [类别核查](paper/tables/REVISION6_OE_ITEM_VALIDATED_ACQUISITION_TRAIN_20261120.json) · [分任务采纳](paper/tables/REVISION6_OE_PORT_ACQUISITION_TRAIN_20261120.json)
+
+M1 条款锚点在 9 份 MAUD 原 TRAIN 的两项契约任务上答对 11/18，固定字段和直接对照为 10/18、9/18。两组配对区间下界均为零。原文回放确认两份 TRAIN 合同的疫情例外只点名普通经营款。三臂用同一规则各修正一题，固定 DEV 覆盖 0/16。实测新增 27 笔，回放复用全部读数。 [MAUD 三臂配对](paper/tables/REVISION6_MAUD_CLAUSE_ANCHORS_TRAIN_20261120.json) · [同信息回放](paper/tables/REVISION6_MAUD_SUBSECTION_READBACK_TRAIN_20261120.json)
 
 OpenExempt 四次逐批选组比较复用 56 笔响应。候选驱动与按时间均在 B7 采纳提案，答案分歧与进入程序风险均保留原程序。统一额度对照下，四次合计 16 份原前向 TRAIN 的估值 F1 分别为 24.79%、24.79%、23.85%、23.85%，候选驱动相对答案分歧的配对区间为 −1.98 至 +4.27 个百分点。固定 DEV 沿用上轮，新增请求 0。 [四次配对选组与原生前向结果](paper/tables/REVISION6_OE_FORWARD_ACQUISITION_TRAIN_20261120.json)
 
@@ -32,7 +44,7 @@ B5 披露对象选组新增了按答案分歧的同预算对照。两种主动�
 
 最新比较覆盖原 B6–B8 中此前未做权利授予配对读取的 8 份 TRAIN 合同。合成、固定及同信息直接读器的分类依次为 0/8、2/8、8/8，证据 F1 依次为 0%、20.83%、75.42%。24 笔冻结执行器读取全部正常结算，连续账本达 14,895 笔，在途 0。该单任务接口没有触发 DEV 扩验。 [权利授予 TRAIN 结果](paper/tables/REVISION6_LICENSE_FORWARD_TRAIN_20261120.json)
 
-累计 B8 DEV 已结算。五库各有 16 份原 DEV 母来源。下表为启用两项方法的臂及相应同信息对照所能支持的结论。 [五库累计指标和逐臂结果](paper/tables/REVISION6_OE_JOINT_ITEM_CAP_AND_FIXED_DEV_20261120.json)
+累计 B8 DEV 已结算。五库各有 16 份原 DEV 母来源。下表为启用两项方法的臂及相应同信息对照所能支持的结论。 [五库累计指标和逐臂结果](paper/tables/REVISION6_AIRLINE_PANAMA_AND_FIXED_DEV_20261120.json)
 
 | 数据库 | 机制与对照 | 累计原生指标 |
 |---|---|---|
@@ -40,7 +52,7 @@ B5 披露对象选组新增了按答案分歧的同预算对照。两种主动�
 | ContractNLI | M1 合成接口和 M2 候选驱动选组已触发。四个内部臂累计结果持平。 | 内部臂 202/272，证据 F1 52.98%。PARSE 193/272，证据 F1 45.26%。 |
 | MAUD | 本轮增益来自共用条款核验。 | 知悉定义 16/16，负面契约 13/16，普通经营 14/16 |
 | OpenExempt | M2 B7 候选驱动选组已触发。相同信息下共享筛选与直接筛选同判。最新估值收益来自共用规则。 | 分类 F1 79.63%，估值 F1 74.50% |
-| RuleArena Airline | 累计回放未新增触发证据。 | 精确总费用 15/16 |
+| RuleArena Airline | 巴拿马线路收益来自共用费率规则。 | 精确总费用 16/16 |
 
 此前的 ContractNLI 修订识别保护本协议和限制公开参与谈判事实的条款。协议披露题在四个内部臂各由 4/16 升到 7/16，PARSE 由 10/16 升到 11/16，均无退化。相同原文规则下，原 TRAIN 多数类回退为 13/16，归档 B5 候选驱动和按时间选组为 9/16 和 11/16。独立验收仍需要新证据区分两项方法与各自强对照。 [协议披露明细](paper/tables/REVISION6_CNI_AGREEMENT_DISCLOSURE_AND_FIXED_DEV_20261120.json)
 
