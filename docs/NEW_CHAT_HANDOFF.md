@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 OpenExempt 宾州资产形态关系已结算
+
+真实配对使用原四份已源审宾州 TRAIN 的八个 EC/EV 视图。固定字段与关系接口使用相同原文、资产索引、所有权证据和消费者。源审后 EC F1 为 61.13% 和 60.24%，EV 为 36.61% 和 76.61%。回顾性词项规则复现全部 24 条源审字段组，EC 为 74.82%、EV 为 82.86%。原 B8 DEV 每类五个宾州视图均可解析资产，现有所有权锚定只覆盖每类一份。仅检查 DEV 公开输入。后续先按原渲染模板对齐所有权状态并给两个读器共用，再决定比较范围。[结果表](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_SCOPED_FORMS_20261119.json)
+
+会话 7748 已结算。新增 16 笔 Qwen、99,151 tokens，教师请求 0。账本 14,582 笔、在途 0，10 项检查通过。原冻结协议、72 份执行源码、TEST 终态与曝光回执已校验。回执为 `handoff/revision5_OE_scoped_forms_terminal_20261119.json`。
+
 ## Revision 5 OpenExempt 资产锚定与逐项输出已结算
 
 复用三份 TRAIN 的 18 笔原始读数。资产名与估价通过同一源文引文绑定。逐项执行保留所有可行补全均支持的引用和值。两项联合改善三个视图，再对齐两笔只差开头冠词大小写的引文后改善另一笔 EV。四项改善集中在一份母来源。固定记录平均官方 F1 由 38.89% 提至 EC 63.89%、EV 68.89%。合成记录保持 EC 16.67%、EV 38.89%，相关资产分类仍为空。保留共用解码和逐项确定性控制。只有找到可核验且能改变原生结果的分类绑定，才用新候选开展同条件比较。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_CLAIM_PROJECTION_20261119.json)
