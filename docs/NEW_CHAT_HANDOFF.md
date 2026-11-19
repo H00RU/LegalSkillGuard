@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 副本制作条件已结算
+
+六份原 TRAIN 合同的固定与合成接口共 12 笔有效读数，两路均未形成完整判断。固定局部读数全空，合成在一份合同识别真实的拍摄禁止，在两处把逆向工程或销毁现存副本误读为制作限制。直接对照答对 4/6，完整 TRAIN 两路 10/24→18/24。固定 B8 DEV 普通教师 6/16→9/16，PARSE 5/16→8/16。保留直接对照；继续探测须有独立原文证据区分同一句内的制作与后续处置，或发现不同原生候选能越过已量化的对照。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_COPY_SCOPE_20261119.json)
+
+会话 1681 已结算，新增 12 笔 Qwen、31,985 tokens，教师 0。核验原 TRAIN 45 笔、固定 DEV 32 笔，账本 14,650 笔、在途 0，18 项检查通过。原冻结协议、72 份源码、TEST 终态和曝光回执已校验。回执为 `handoff/revision5_CNI_copy_scope_terminal_20261119.json`。
+
 ## Revision 5 ContractNLI 分途径标记条件已结算
 
 原合成读数错把并列的书面标记和口头确认读成免标记路径。把途径连到定义后，两种局部接口的九个状态均保持原消费者输出。六份 TRAIN 合同的原程序、旧直接规则、按途径的直接规则为 2/6、4/6、5/6。直接规则与六份源审结论一致；剩一份广义定义和基准“未提及”存在分歧。该范围保留直接对照，合成接口只做了离线验证。后续比较需有独立源审与原生标注一致、且能区别于直接规则的途径。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_DESIGNATION_ROUTES_20261119.json)
