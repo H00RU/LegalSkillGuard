@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 OpenExempt 资产锚定与逐项输出已结算
+
+复用三份 TRAIN 的 18 笔原始读数。资产名与估价通过同一源文引文绑定。逐项执行保留所有可行补全均支持的引用和值。两项联合改善三个视图，再对齐两笔只差开头冠词大小写的引文后改善另一笔 EV。四项改善集中在一份母来源。固定记录平均官方 F1 由 38.89% 提至 EC 63.89%、EV 68.89%。合成记录保持 EC 16.67%、EV 38.89%，相关资产分类仍为空。保留共用解码和逐项确定性控制。只有找到可核验且能改变原生结果的分类绑定，才用新候选开展同条件比较。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_CLAIM_PROJECTION_20261119.json)
+
+新增请求 0，账本 14,566 笔、在途 0。17 项相关检查通过。原冻结协议、72 份执行源码、TEST 终态与曝光回执均已校验。当前无待结算任务，回执为 `handoff/revision5_OE_claim_projection_terminal_20261119.json`。
+
 ## Revision 5 Airline 免费行李额度分配已结算
 
 编译原规则表，并按单件超重和超尺寸取最大值后可省下的费用，分配免费额度。穷举同一输入的所有额度分配，逐题复现最优总价。在原 24 份 TRAIN 上，原进入程序、输入顺序、仅按超重减免排序、联合分配分别答对 7、18、21、24 份。封存规则用于原 B8 DEV，分别答对 2、11、13、15 份，未覆盖的一个线路沿用原预测。七组 TRAIN 交换行李位置的证据来自规则推导，尚无改序后的读数。共用修复成立，共享监督独立收益未建立。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_AIRLINE_ALLOWANCE_20261119.json)
