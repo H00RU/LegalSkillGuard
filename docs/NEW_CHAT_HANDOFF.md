@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 法定披露通知已结算
+
+核验 B3–B5 五项整体原生为正的提案，共 63 个来源－提案配对。应用同一直接源文检查后，两路的通知标签与证据逐项相同。条款链接为原 TRAIN 三份合同补充了引文，两路证据 F1 各提高 6.81 个百分点，分类与同句对照均为 24/24。固定 B8 DEV 上，初版把四个涵盖法定披露的条款判为“未提及”，两路 12/16→8/16。追加的覆盖检查保留这四份原读数，两路恢复到 12/16。此轮复用已经查阅的 DEV 反馈。后续需要有明确的法定触发、通知对象或证据范围分歧，且同信息检查无法复现候选区别。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_COMPELLED_NOTICE_20261119.json)
+
+新增请求 0，核验 111 笔原 TRAIN 和 32 笔固定 DEV 响应，连续账本 14,650 笔、在途 0。22 项检查通过，原冻结协议、72 份源码、TEST 终态和曝光回执已校验。回执为 `handoff/revision5_CNI_compelled_notice_terminal_20261119.json`。
+
 ## Revision 5 ContractNLI 副本制作条件已结算
 
 六份原 TRAIN 合同的固定与合成接口共 12 笔有效读数，两路均未形成完整判断。固定局部读数全空，合成在一份合同识别真实的拍摄禁止，在两处把逆向工程或销毁现存副本误读为制作限制。直接对照答对 4/6，完整 TRAIN 两路 10/24→18/24。固定 B8 DEV 普通教师 6/16→9/16，PARSE 5/16→8/16。保留直接对照；继续探测须有独立原文证据区分同一句内的制作与后续处置，或发现不同原生候选能越过已量化的对照。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_COPY_SCOPE_20261119.json)
