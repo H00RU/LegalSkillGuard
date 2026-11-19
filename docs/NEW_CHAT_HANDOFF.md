@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 MAUD 母合同定义覆盖核对已结算
+
+逐份匹配原 24 份 TRAIN 母合同与 24 笔留存响应。六份普通经营定义中，一份在分号截断。母合同续段明确把符合条件的疫情应对纳入该定义。同信息直接规则将旧 `No` 恢复为参考 `Yes`。在 48 项原 TRAIN 契约问题中，旧程序答对 41 项，简单关键词诊断 44 项，补定义和区分作用域后的回顾性直接重放 46 项。剩余两项标注差异都出现在禁限条款内的具体贷款或设施例外，需独立核实作用域后才可作为学习依据。[母合同核验](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_MAUD_PARENT_DEFINITION_COVERAGE_20261119.json)
+
+结算入口为 `handoff/revision5_MAUD_parent_definition_coverage_terminal_20261119.json`。新增请求 0，账本 14,542 笔、在途 0，17 项检查通过。原冻结协议、72 份归档源码、TEST 终态及曝光回执通过核验。保留恢复定义作为同信息对照，当前没有新任务队列。
+
 ## Revision 5 M2 跨组累积证据审计已结算
 
 复用此前 16 条及新增核对的 19 条早期 TRAIN 验证，合计 35 条记录、82 笔去重物理响应。三组候选、语义和读取契约完全相同的重复记录，各自已有一次验证覆盖合并后的全部响应。其拒绝均已在单组出现。即使将读取契约不同但语义作用域相同的记录放在同一诊断中，也没有只在累积后才发现的冲突。35 条记录的二元与联合检查对已有读数全部同判，另有六对记录因语义作用域不同未合并。[审计表](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_M2_CUMULATIVE_AUDIT_20261119.json)
