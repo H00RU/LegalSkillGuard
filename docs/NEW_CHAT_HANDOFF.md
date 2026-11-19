@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 Airline 免费行李额度分配已结算
+
+编译原规则表，并按单件超重和超尺寸取最大值后可省下的费用，分配免费额度。穷举同一输入的所有额度分配，逐题复现最优总价。在原 24 份 TRAIN 上，原进入程序、输入顺序、仅按超重减免排序、联合分配分别答对 7、18、21、24 份。封存规则用于原 B8 DEV，分别答对 2、11、13、15 份，未覆盖的一个线路沿用原预测。七组 TRAIN 交换行李位置的证据来自规则推导，尚无改序后的读数。共用修复成立，共享监督独立收益未建立。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_AIRLINE_ALLOWANCE_20261119.json)
+
+复用 40 笔历史响应，新增请求 0，账本 14,566 笔、在途 0。19 项检查通过，原冻结协议、72 份执行源码、TEST 终态和曝光回执均已校验。回执为 `handoff/revision5_Airline_allowance_terminal_20261119.json`。当前无待结算任务。下一步比较应保留精确分配对照，并先找到会影响学习选择的源文约束。
+
 ## Revision 5 M1 ContractNLI 独立开发与第三方取得已结算
 
 六份原 TRAIN 合同的独立开发与第三方取得共 12 项判定。固定和合成布局在共同消费者的 729 个状态上等价，原进入程序答对 10 项，固定和合成各答对 2 项。回顾性直接规则把明示时间与同一例外分项绑定，并检验第三方来源，12 项均正确。合成接口未产生独立收益。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_INDEPENDENT_ROUTES_20261119.json)
