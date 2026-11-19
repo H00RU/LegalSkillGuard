@@ -1,10 +1,54 @@
 # 当前 Goal 恢复与交接
 
-原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 14,779 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 14,835 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
 ## 最新断点
+
+阶段 `revision6_retention_group_transfer_settled`，总回执 `handoff/revision6_retention_group_transfer_terminal_20261120.json`。44 项定向检查通过，新增模型请求 0，账本 14,835 笔、在途 0。原冻结协议、72 份源码、TEST 终态及曝光记录通过校验。 [最新结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_RETENTION_GROUP_TRANSFER_20261120.json)
+
+- M2 的 `convergence_revision6_retention_group_selection.py` 复用 B5 实际 PARSE 式提案前后两路响应。按候选的实测极性变化选中 B1 的原文已审合同并保留进入读器，按时间选中 B5 合同并采纳提案。筛选的共享与同信息直接在两组选定数据上逐项同判。两种训练库已保存，历史采纳决定不改。
+- `convergence_revision6_retention_group_transfer.py` 核验 B4 与 B8 DEV 的原文、Qwen 配置、原生消费者及两个读器版本。复用相同 16 母样本上的 32 笔响应。候选驱动与按时间为 149/272、148/272，证据 F1 为 25.57%、26.46%。保留义务为 5/16、7/16。接续优先找真实候选在先前源审范围内回避错误后仍能向其他母样本迁移的证据。
+- M1 以状态词实测和用途限制原读器的上一阶段回执为当前断点，同一状态词和引文筛选未重跑。
+
+## Revision 6 状态词与覆盖的前一断点
+
+阶段 `revision6_status_words_and_transfer_capacity_settled`，回执 `handoff/revision6_status_words_transfer_capacity_terminal_20261120.json`。12 笔新 TRAIN 配对请求结算，教师 0。43 项定向检查通过，账本 14,835 笔，在途 0。原冻结协议、TEST 终态、曝光和 72 份源码通过校验。 [最新结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_STATUS_WORDS_AND_TRANSFER_CAPACITY_20261120.json)
+
+- M1 的 `convergence_revision6_contract_status_words.py` 对真、假和未决作等价状态词编码，729 个原消费者状态均保留。两路 TRAIN 正确位置完全相同，均 7/12。状态词证据 F1 72.22% 对直接 55.56%，差值来自同一母样本的两项错误分类，分类正确时的联合证据分持平。旧接口 11/12，状态词未进入 DEV。
+- M2 的 `convergence_revision6_fragment_transfer_capacity.py` 核实 B4 片段在 B5–B8 后续 16 份原 TRAIN 均无适用资产。B7 联邦片段的四个固定 DEV 位置均有两路唯一金额且逐项相同。继续寻找已审原文关系能区分提案与进入程序的真实迁移；已有两片段的相同条件无需重跑。
+
+## Revision 6 用途漏判与俄勒冈迁移的前一断点
+
+阶段 `revision6_use_scope_and_oregon_transfer_settled`，回执 `handoff/revision6_use_scope_oregon_terminal_20261120.json`。新增模型请求为 0，41 项定向检查通过，连续账本 14,823 笔、在途 0。冻结协议、TEST 终态及曝光记录和 72 份源码完整。 [最新结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_USE_SCOPE_AND_OREGON_TRANSFER_20261120.json)
+
+- M1 的 `convergence_revision6_contract_use_scope_replay.py` 核对了 32 笔原 DEV 配对。合成的 10 个用途缺席输出都有原始引文，两字段均为否；其中 2 个引文包含完整限定。共享原文规则恢复这两项，两任务合计 20/32 对直接 22/32，证据 F1 45.02% 对 32.84%，配对区间跨零。接续须先确定新的 TRAIN 原文证据是否能消除关系读取本身的极性错误。
+- M2 的 `convergence_revision6_oregon_apparel_transfer.py` 保存 B4 服装估值范围的选择。候选六处金额均正确，原程序漏报两处，并误列四处车辆适用。固定 B4 DEV 只命中一份，候选片段改写 0 份，16.12% 对同信息直接校正 16.95%，B5 前向 TRAIN 无覆盖。只在已有真实候选呈现跨母来源的有效范围时扩大迁移。
+
+## Revision 6 用途与权利配对的前一断点
+
+阶段 `revision6_use_license_and_archive_coverage_settled`，总回执 `handoff/revision6_use_license_archive_coverage_terminal_20261120.json`。32 笔新执行器请求均结算，教师 0，39 项定向检查通过，账本 14,823 笔、在途 0。冻结协议、TEST 终态和曝光记录及 72 份源码通过哈希检验。 [最新结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_USE_LICENSE_AND_ARCHIVE_COVERAGE_20261120.json)
+
+- M1 的 `convergence_revision6_contract_use_license_dev.py` 用 18 笔原始 TRAIN 读数和两路共用的原文补齐规则保存 B8 选择，16 份固定 DEV 的合成与同输入直接各完成 16 笔。两任务合计 18/32 对 22/32，证据 F1 40.34% 对 32.84%。用途限制 9/16 对 13/16，合成修正 3 项、退化 7 项。权利限制两路均 9/16，证据差 +11.69 个百分点，区间跨零。保留训练快照与实测封印。接续优先用原 TRAIN 审核合成接口将限定条款读为缺席的实际原因。
+- M1 的 `convergence_revision6_contract_employee_witnesses.py` 复算同条款许可，已有的 5 份 TRAIN 正例路径通过源审。原 16 份 DEV 没有符合这些确切句式的母来源。
+- M2 的 `convergence_revision6_candidate_archive_coverage.py` 核验 B2–B8 两路 56 笔 EV 请求。联邦兜底豁免 43 个、宾州一般豁免 12 个可核对位置中，候选均无正确正额。当前两项法条缺少可迁移的正向候选。接续仅在其他已审法律关系能提供实际正向区分时比较。
+
+## Revision 6 分栏读器与分法条选择的前一断点
+
+阶段 `revision6_role_query_and_scoped_amounts_settled`，回执 `handoff/revision6_role_query_scoped_amounts_terminal_20261120.json`。37 项定向检查通过，12 笔新 TRAIN 执行器请求全结算，教师请求 0，账本 14,791 笔、在途 0。原冻结协议、曝光与终态和 72 份源码已校验。 [最新结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_ROLE_QUERY_AND_SCOPED_AMOUNTS_20261120.json)
+
+- M1 的 `convergence_revision6_contract_referenced_definitions.py` 保留许可仍使用的定义，培训源审保留全部已引用的必需证据，5 份原 DEV 的合成 F1 恢复至原来的 52.10%，同输入直接仍为 72.00%。新角色分栏见 `convergence_revision6_contract_role_query.py`，两路去重后的归档评分保存在 `convergence_revision6_contract_role_redecode.py`。相同栏位下合成与直接分类 5/6、6/6，证据 F1 41.67%、63.33%，源审支持 2/6、3/6。两版保留，原正式接口继续运行。接续优先检查还能通过 TRAIN 源审且有对照差异的权限限定形式。
+- M2 的 `convergence_revision6_scoped_candidate_amounts.py` 保存 B7 逐法条选择，联邦选候选、威斯康星保留进入程序。复用 32 笔原生 TRAIN 请求验证 B7 及 B8 前向链，固定 DEV 有 4 份适用、0 次输出改写，45.03% 对直接金额校正 46.28%。选择范围暂不扩大。接续查原批次其他实际候选中是否有完整、可迁移的明示差异。
+
+## Revision 6 引文筛选与金额核验的前一断点
+
+阶段 `revision6_citation_roles_and_statutory_amounts_settled`，回执 `handoff/revision6_citations_statutory_amounts_terminal_20261119.json`。三项离线回放和源代码已经绑定。34 项定向检查通过，连续账本 14,779 笔，在途 0。原 TEST 终态、曝光记录、冻结协议和 72 份源码快照通过校验。 [最新结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CITATIONS_AND_STATUTORY_AMOUNTS_20261119.json)
+
+- M1 `convergence_revision6_contract_citation_roles.py` 在 6 份源审 TRAIN 上删掉 3 条多余引文，保留原已引用的必需证明。5 份 DEV 同信息比较中，合成证据 F1 由 52.10% 降至 48.10%，直接对照仍为 72.00%，分类均为 5/5。正式选型保持原解码。接续用可审的 TRAIN 例子区分定义是否支持主体和信息范围，再决定新的结构读数。
+- M2 `convergence_revision6_candidate_statutory_amounts.py` 找到 B7 同一件资产的两处真实正额错误。进入程序在联邦条款超额，提案在威斯康星条款少报，两路均未通过全组筛选。金额相同的重复条目可提供标量读数，原生重复照常保留。`convergence_revision6_statutory_amount_dev.py` 的同规则 DEV 回放使两臂估值 F1 各提高 1.25 个百分点。接续从新能通过整组法条核验的实际候选出发，避开相同证据重跑。
+
+## Revision 6 跨条款与明示断言的前一断点
 
 阶段 `revision6_links_and_assertions_settled`。新增的 M1 正式参数 `--development-path contract-links` 结算 10 笔固定 DEV 读数，另有 5 笔同输入直接对照。五份适用合同均选择合成，合成与直接同为 5/5，证据 F1 为 52.10% 与 72.00%。合成与直接分别输出 9 条和 1 条落在标注之外的引文。后续优先用 TRAIN 源审区分支持许可、补齐主体的必要引文与多余引文。
 
