@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 M2 ContractNLI 返还与留存共享筛选已结算
+
+七份原 TRAIN 合同的终止返还及留存条款已分别核实。复用 B3–B5 五个本批原生正收益提案的 31 笔去重响应，原流程采纳三个提案。B5 PARSE 式提案当批分类增益 5.88 个百分点，先前 TRAIN 增益 2.45 个百分点，同时在一份明文禁止留存的合同新增错误许可。以新增冲突作筛选时，共享与同信息直接规则回顾性重放会作出相同拒绝。替换原合同一处归档例外的四查询离线构造也得到相同的直接规则签名。[筛选重放](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_M2_CNI_DISPOSITION_RETENTION_20261119.json)
+
+结算入口 `handoff/revision5_M2_CNI_disposition_retention_terminal_20261119.json`。新增请求 0，账本 14,542 笔、在途 0。17 项检查通过，原冻结协议、72 份归档源码、TEST 终态与曝光回执均已复核。恢复后只在找到有来源证据、可实测区分解释路径的关系时启动新的 M2 比较。
+
 ## Revision 5 ContractNLI 终止触发覆盖核对已结算
 
 原 24 份 TRAIN 合同及对应物理响应已复核。复用 21 份原文完全匹配的旧源审，20 份原图卡未闭合的事实保留。七份原文明确把返还或销毁绑定到协议或所涉关系终止，三份的相应图边缺少终止标签。此前未命中字面规则的五份标注正例中，一份明确写明服务终止，直接规则可恢复。另三份的引文分别是交易未继续、关系未建立、目的完成，合同另列协议终止条件。最后一份只受请求触发。十份请求触发合同的参考标签为一份蕴含、九份未提及。[覆盖审计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_TRIGGER_COVERAGE_20261119.json)
