@@ -8,6 +8,16 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 OpenExempt 宾州一般金额条款回放已结算
+
+[新版执行入口](../experiments/convergence_revision5_oe_pa_monetary.py) 将原八个宾州 TRAIN 视图中逐字一致的 § 8123 条款编译到两路共同消费者。单人只处理来源已确立的产权；联合申报按原题明示的共同所有前提。估值只在原题逐资产、逐法条的独立计量范围内计算。B8 的五份宾州来源中，EC 和 EV 分别支持 10、12 项原文可确定的主张。封存新输出后逐臂按原评分器评分。
+
+在完整 16 来源 OpenExempt B8 DEV 上，四个内部臂的 EC F1 为 65.14%→70.02%，EV 为 65.36%→68.48%，母来源改善数分别为 5、3，均无退化。同信息 PARSE 的 EC 为 63.89%→68.63%，EV 为 61.30%→66.24%，两项均有 5 个来源改善、0 个退化。 [五臂结果及配对区间](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_PA_MONETARY_20261119.json)
+
+复用原宾州 M1 四份 TRAIN 和五份 DEV 的配对读数。共用规则后，TRAIN 的 EV 为固定 69.32%、关系 88.12%；固定 DEV 的 EV 为固定 71.11%、关系 64.60%，差值 −6.51 个百分点，配对区间 [−11.27, −1.90]。同信息源审直接核对在 DEV 达到 71.11%。差异项中，固定独有的 6 项主张均有来源支持，关系独有的 2 项缺来源支持。原候选继续保留为实验对照。当前仍缺 M1 在强对照下的可迁移原生增益和 M2 可区别直接筛选的证据。
+
+4 项定向测试通过。新增模型请求 0，账本 14,716 笔、在途 0。原冻结协议、72 份源码、TEST 终态与曝光回执均通过校验。状态与验证见 `handoff/run_state.json` 和 `handoff/revision5_OE_PA_monetary_terminal_20261119.json`。
+
 ## Revision 5 OpenExempt 分类的原文资产键已接入 B8 DEV
 
 B8 原输出把若干带金额的资产名称与同一件资产的规范名称分开列出。新版只归并能够唯一对齐原文资产描述、估价措辞和同一金额的键，再合并该资产已经作答的法条。归并放在共用政策前后均得到相同输出。已接入 [B8 正式开发入口](../experiments/convergence_revision5_oe_ec_formal.py)，独立封存五臂各 16 个 EC 预测，每臂复用其他 368 个原生视图。
