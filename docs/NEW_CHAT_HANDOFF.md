@@ -8,6 +8,16 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 Diversity 与五库正式 DEV 已结算
+
+按用户最新指令接入 [Diversity 正式流程](../experiments/convergence_revision5_diversity_formal.py)。用原 24 个 Diversity TRAIN 母来源形成八批修订快照。96 个候选的原生结果与整篇审计一致。B1、B2、B4、B8 的五臂均为 16/16。B8 仅 M1 臂由 14/16 提至 16/16，同信息固定坐标臂由 9/16 提至 16/16。两组 M1 臂在每个训练后检查点均有 16/16 母来源选择合成布局，坐标数从每臂 97 降到 52。原生收益来自共享原文读数。M1 在同信息比较中缩减 46.4% 的坐标，原生结果持平。
+
+[五库联合 B8 DEV](../experiments/convergence_revision5_formal_native.py) 复用其他四库已经验证的公共规则，并核验每个预测的原臂、来源和规则。普通教师臂的 ContractNLI 分类正确数为 156/272→176/272，证据 F1 为 36.37%→45.62%。MAUD 知悉定义为 8/16→14/16，负面契约为 9/16→11/16，普通经营条款为 14/16→14/16。OpenExempt EC F1 为 50.19%→53.29%，EV F1 为 44.37%→65.36%。Airline 费用精确率为 2/16→15/16。其他四库没有触发本次 M1，公共规则分别在 16、8、13、13 个母来源改变输出。联合 B8 两组 M1 和两组 M2 消融的原生输出逐项一致。 [分臂、分库、触发计数与原生指标](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_FORMAL_NATIVE_DEV_20261119.json)
+
+OpenExempt B7 的 M2 共享筛选与同信息直接蕴含对照都保留原程序。封存的 B8 前向结果也复用同一选择。本轮未派发新 M2 实验。后续依赖合成接口胜过同信息对照的未解来源，或 M2 与同信息强对照确实分流且有原生正向依据的候选；已结算批次直接复用。 [M2 同信息门槛回执](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_M2_OE_JOINT_NATIVE_GATE_20261119.json)
+
+两次本地运行均已结束。30 个 DEV 评分单元及 2,400 条母来源预测的封印通过核验，18 项相关测试通过。新增模型请求 0，连续账本 14,716 笔、在途 0。原冻结协议、72 份执行源码、TEST 终态及曝光回执均通过哈希校验。本轮回执为 `handoff/revision5_formal_native_terminal_20261119.json`，当前进程与决定见 `handoff/run_state.json`。现有 Goal 保持活跃，双贡献的独立原生收益仍待验证。
+
 ## Revision 5 ContractNLI 披露对象绑定的配对已结算
 
 公共披露对象规则之外，10 个符合条款组条件的 TRAIN 母来源已用冻结 Qwen 同输入实测。固定／合成／直接为 3/10、1/10、1/10。对记录中的组外标记核对原编号，公开规则只修复确已通读且声称组外的非空编号全部落在组内的响应。复用同一批原响应后，三路为 3/10、5/10、1/10，留一来源 TRAIN 多数类为 8/10。该候选未达到继续派发固定 DEV 的依据。
