@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 共享披露定义改名已结算
+
+两份原 TRAIN 合同中，员工与外部顾问通过同一已审定义接入披露许可。仅改名并重算偏移，复用原 B3 两路四笔原题响应，新增四笔原生请求。两路四项标签均保持正确，证据集合各改变两项。进入程序证据 F1 为 25.00%→43.33%，候选为 0%→25.00%。直接按同一原文链接许可和定义为 86.43%，四项均有完整证据。原更新决定保留。后续需要能找到互相竞争的定义或明确的披露例外，才值得比较新共同约束。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_DEFINITION_ALIAS_20261119.json)
+
+会话 23921 已结算，新增四笔 Qwen、76,355 tokens，教师请求 0。连续账本 14,614 笔、在途 0，16 项检查通过。原冻结协议、源码、TEST 终态和曝光回执已校验。回执为 `handoff/revision5_CNI_definition_alias_terminal_20261119.json`。
+
 ## Revision 5 M2 OpenExempt 原生冲突归因已结算
 
 复用 B4、B7 共 12 笔原题和编辑响应。逐项做三次留一复核，24 项共享上限冲突均只能通过移除其中一份编辑读数消除。整组删除原题冲突索赔会删除 20 项预测、误删 7 项原生正确预测，四组中三组 EV F1 下降。可归因删除规则在四组全部等于同信息本地筛选。当前金额编辑链已经核验到原题指标，无理由再按相同冲突直接修原答案。后续需要新的作用域或候选证据，能够定位原任务中的错误并与同信息对照产生不同采纳决定。[重放结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_CONFLICT_LOCALIZATION_20261119.json)
