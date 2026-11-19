@@ -1,5 +1,26 @@
 # 当前 Goal 恢复与交接
 
+原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 14,779 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+
+[主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
+
+## 最新断点
+
+阶段 `revision6_links_and_assertions_settled`。新增的 M1 正式参数 `--development-path contract-links` 结算 10 笔固定 DEV 读数，另有 5 笔同输入直接对照。五份适用合同均选择合成，合成与直接同为 5/5，证据 F1 为 52.10% 与 72.00%。合成与直接分别输出 9 条和 1 条落在标注之外的引文。后续优先用 TRAIN 源审区分支持许可、补齐主体的必要引文与多余引文。
+
+正式 M2 参数 `--development-path candidate-edits --batch 7` 现进入明示断言筛选。旧覆盖口径保留在 `candidate-edits-coverage`。B7 单一差异是引文漏报，经校正共同保留进入程序。避免重复派发已结算原请求。新选组须能观测明示金额或以漏报为单独验证目标。
+
+本阶段回执 `handoff/revision6_links_assertions_terminal_20261119.json`，连续账本 14,779 笔，在途 0。两项独立收益未达成。 [结果及配对区间](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_LINKS_AND_ASSERTIONS_20261119.json)
+
+## Revision 6 运行与断点
+
+- M1 合同正式拟合、持久化与固定 DEV 配对已结算，入口为 `python -m experiments.convergence_formal_train_fit` 的 `--development-path contract-interface`。指针 `handoff/revision6_formal_contract_M1_current.json`。8 笔归档 TRAIN 读数已复用。正式阶段选择了固定字段，7 个适用 DEV 上与固定字段对照同为 6/7，强制合成为 3/7，历史共用程序为 7/7。有关未读现象的下一条假设需通过 TRAIN 原文的代表人定义与跨句指代验证，复用已有链接引文试验。
+- 上一阶段的 M2 所有权选组与金额覆盖口径已结算。有所有权审计的 4 组中两路同选；金额编辑的同一 3 组等预算比较中，两路选组不同，覆盖口径下候选驱动组采纳提案。B8 前向估值提升 3.75 个百分点，分类退化 14.17 个百分点，已登记只改变估值的固定 DEV 比较。
+- OpenExempt 固定 DEV 会话 11982 已结算，指针 `handoff/revision6_candidate_M2_DEV_current.json`。对两种选组持久化的估值技能进行 16 母来源配对，分类复用同一基线，公共控制后估值 F1 为 45.03% 与 46.13%，2 份改善、3 份退化，配对 95% 区间跨 0。没有扩大到新源或 TEST。
+- 当前阶段 `revision6_matched_paths_settled`，`handoff/revision6_formal_paths_terminal_20261119.json` 与 `handoff/run_state.json` 已同步。连续账本 14,764 笔，新增 48 笔执行器调用，在途 0。复用两条链的结算材料，下一步针对实际读数定位的错误和训练先验继续。 [五库汇总](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_FORMAL_PATHS_20261119.json)
+
+## Revision 5 历史交接
+
 用户已恢复同一研究 Goal（`01a1edc7-ae76-7441-acaf-be2240b0b4b1`）。当前工作安排采用 revision 5，已从指定提交 `56ed2142df80c47ce155351902916b10ae626904` 校验并同步三份入口。工具中的原 Goal 文本继续保留原研究对象和验收条件。原 `protocol.json` 由冻结轮次使用。
 
 - [新版 PLAN](../reports/legal_skill_convergence_20261117/PLAN.md) · [接续协议](../reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [服务器指令](../reports/legal_skill_convergence_20261117/SERVER_GOAL.md)

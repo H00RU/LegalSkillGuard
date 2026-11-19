@@ -1,5 +1,27 @@
 # 当前 Goal 与证据状态
 
+原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 14,779 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+
+[主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
+
+## Revision 6 跨条款读数与 M2 明示断言
+
+M1 在原八批上复用六份 TRAIN 合同的 12 笔跨条款读数，保存并复用接口库。固定与合成分别答对 0/6 和 6/6，合成的 3 份许可同时通过独立源审。5/16 份固定 DEV 合同适用于该接口，TRAIN 选型在五份均调用合成。合成和同输入单题直接对照均为 5/5，原共用程序为 4/5，固定字段对照为 0/5。合成、直接对照的证据 F1 分别为 52.10% 和 72.00%。合成额外正确的一份可由原文许可证实。同输入直接对照也正确，独立原生收益仍待建立。 跨条款拟合入口 `convergence_revision6_contract_links.py` · 同输入直接对照 `convergence_revision6_contract_link_control.py`
+
+M2 已把明示金额和漏报分开。B7 候选驱动组选中的编辑只使进入程序丢失一个已答引文。按明示断言计，两路共有的四个位置中，进入程序三项可配对、一项未观测，候选四项可配对，双方均无显式金额矛盾。校正后两种选组都保留进入程序，共享与直接检查一致。B4 的存档编辑也已用同一语义复算。按 B7 已审法域限制部署的 3 份 DEV，其估值 F1 为 57.59%→54.26%，属于归档诊断。 正式 M2 校正 `convergence_revision6_candidate_assertions.py`
+
+29 项定向检查通过，新增冻结执行器 15 笔，教师 0。连续账本 14,779 笔、在途 0。原 TEST 终态、冻结源码 72 份、协议和曝光记录通过校验。当前 Goal 保持活跃。 [跨条款与明示断言结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_LINKS_AND_ASSERTIONS_20261119.json)
+
+## Revision 6 正式路径
+
+ContractNLI 通过正式拟合入口按原批次校准，持久化每批关系接口库，再用于固定 DEV 的跨母来源选择。复用 4 份已源审 TRAIN 合同的 8 笔精确请求，新增 14 笔 DEV 配对读数。7/16 份合同落在员工披露作用域内，原共用程序、固定字段、TRAIN 选型和强制合成分别答对 7、6、6、3 份。TRAIN 选型在 7 份适用 DEV 上保留固定字段。合成读器在 4 份输出 `unread`，其中 3 份固定读器正确；这些读数均正常结束。 正式合同入口 `convergence_revision6_contract_fit.py`
+
+OpenExempt 的候选驱动拟合以 B7 实际提案和现行程序为输入。4 个可用所有权组下，两种选组同选一组。候选读数均为未知，共享与直接筛选均保留现行程序。金额编辑的等预算比较中，两种选组从同一 3 组候选中选到不同组，各复用 2 笔原请求。在最初把漏报按零值比较的覆盖口径下，候选驱动组采纳了提案。上节的明示断言校正已更新该决定。B8 前向 TRAIN 上，估值 F1 由 43.75% 到 47.50%，分类由 59.79% 到 45.63%。固定 DEV 只切换估值技能，16/16 份来源均正常生成。同一公共控制下 F1 由 45.03% 到 46.13%，2 份改善、3 份退化，母来源配对 95% 区间为 −4.56 至 +8.92 个百分点。共享筛选和直接筛选同判。 正式选组入口 `convergence_revision6_candidate_fit.py` · 等预算金额选组 `convergence_revision6_candidate_edits.py` · 估值 DEV `convergence_revision6_candidate_dev.py`
+
+两条正式路径本轮已结算。Diversity 复用已交付的 16/16 同信息强对照，MAUD 与 Airline 本次未启用新路径，复用已封存的 DEV 结果。共新增 48 笔冻结执行器调用，教师调用 0。连续账本 14,764 笔，在途 0。原 TEST 终态、曝光与 72 份源码通过校验。原 Goal 保持活跃。 [五库分母、激活、逐臂指标与升降](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_FORMAL_PATHS_20261119.json)
+
+## Revision 5 历史交接
+
 用户已恢复同一研究 Goal（`01a1edc7-ae76-7441-acaf-be2240b0b4b1`）。当前工作安排采用 revision 5，已从指定提交 `56ed2142df80c47ce155351902916b10ae626904` 校验并同步三份入口。工具中的原 Goal 文本继续保留原研究对象和验收条件。原 `protocol.json` 由冻结轮次使用。
 
 - [新版 PLAN](../reports/legal_skill_convergence_20261117/PLAN.md) · [接续协议](../reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [服务器指令](../reports/legal_skill_convergence_20261117/SERVER_GOAL.md)
@@ -8,9 +30,9 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
-## 当前状态
+## Revision 5 当时的阻断状态
 
-原 Goal 已登记为 `blocked`。连续三次核对均未找到有原文与 TRAIN 读数支持、可与同信息强对照产生可归因原生差异的新候选。五库累计正式 DEV 的四组机制消融输出逐库一致，两项贡献的独立原生效果仍未达到验收条件。现有训练、冻结 TEST、消融、论文与归档证据已结算。账本为 14,716 笔，在途 0。恢复以新的源文和 TRAIN 证据或用户修改验证范围为依据。 [阻断说明与证据](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_20261119.md)
+当时原 Goal 已登记为 `blocked`。连续三次核对均未找到有原文与 TRAIN 读数支持、可与同信息强对照产生可归因原生差异的新候选。五库累计正式 DEV 的四组机制消融输出逐库一致，两项贡献的独立原生效果仍未达到验收条件。现有训练、冻结 TEST、消融、论文与归档证据已结算。账本为 14,716 笔，在途 0。恢复以新的源文和 TRAIN 证据或用户修改验证范围为依据。 [阻断说明与证据](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_20261119.md)
 
 ## Revision 5 五库累计正式 B8 DEV 已封存
 
