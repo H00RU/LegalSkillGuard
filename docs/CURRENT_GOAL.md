@@ -1,8 +1,40 @@
 # 当前 Goal 与证据状态
 
-原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 15,084 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,108 笔，其中完成 15,072 笔、历史失败 36 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
+
+## Revision 6 M1 ContractNLI 单题读法与标签澄清
+
+沿用 B1–B4 选型，在 B5–B8 的七份仅一题待解的原 TRAIN 合同上，用同一全文和原文证明比较单题读法。首轮 14 笔请求中，M1、固定加直接匹配对照、直接读法分别答对 7/7、3/7、1/7。直接提示的相对顺序表述出现六处相反标签。随后只补七笔明确写出正反标签各自含义的直接读取，保留合成和固定读数。待解题正确数分别为 7/7、7/7、5/7，归档双题直接读法为 7/7。按全部 14 题计算，四路正确类证据 F1 分别为 78.71%、86.90%、72.62%、83.33%。M1 对匹配对照的待解题证据 F1 差为 −16.39 个百分点，配对 95% 区间 [−34.69, +4.76]。两轮共新增 21 笔、108,708 tokens，未达到固定 DEV 扩验门槛。 [首轮单题实测](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PROJECTED_READ_TRAIN_20261120.json) · [标签明确后的强对照](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PROJECTED_DIRECT_TRAIN_20261120.json)
+
+## Revision 6 M1 ContractNLI 按待解任务选读器
+
+区分由原文证明的任务与仍需读器的任务。在 B1–B4 各任务的未解样本上拟合读器分数，B5–B8 按待解任务选一路。12 份前向合同的 24 项中，11 项可共用原文证明，两份合同的双任务均可直接作答。M1、同信息固定加直接选型、直接读器分类为 23/24、22/24、23/24，正确类证据 F1 为 79.73%、75.00%、76.81%。旧 M1 路由共用同一证明后的分数为 75.84%。M1 对前两条强对照的证据差区间分别为 [−4.77, +14.11] 和 [−5.26, +10.76] 个百分点。复用 72 笔响应，新增 0，未触发固定 DEV 扩验。 [前向选型与配对结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RESIDUAL_ROUTING_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 员工披露证据链补全
+
+从模型已引用的许可条款出发，补入能够按编号或定义唯一核实的前导义务及员工成员定义。将其他受领人的事前批准条件留在其自己的义务范围。原 TRAIN 覆盖 2/24，原固定 DEV 覆盖 5/16。五臂各两份证据改善、零退化，分类均为 13/16。员工披露证据 F1 由四个内部臂 61.27% 到 65.15%，PARSE 49.36% 到 52.50%。全部 272 项证据 F1 分别为 53.21% 和 45.45%。单题配对中，M1 和同信息直接读法的证据 F1 为 67.33% 和 80.00%，分类均为 5/5。提升来自共同原文核验。复用配对响应 15 笔，另核对固定 DEV 4 笔，新增 0。 [证据链与五库累计结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RECIPIENT_EVIDENCE_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M2 B4 ContractNLI 角色组前向
+
+复用真实 B4 普通教师提案。B1–B4 的 12 份原 TRAIN 合同经共用规则后，进入和提案累计分类为 13/24、16/24。三种策略共用三组完整角色证据与原响应，各筛两笔。候选驱动选 B2 第一组并采纳提案，按时间及答案分歧选 B4 第三组并保留进入读器。原 B5 前向的三个合同中，四路各答对 5/6。候选驱动相对按时间及答案分歧的正确类证据 F1 为 55.56% 对 30.56%，配对 95% 区间 [−25.00, +100.00] 个百分点。只按 TRAIN 原生分数选出的程序与候选驱动相同。复用 27 笔，新增 3 笔、33,899 tokens，无教师调用，未触发 DEV 扩验。 [选组与 B5 原生结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_B4_RECIPIENT_SELECTION_TRAIN_20261120.json)
+
+## Revision 6 OpenExempt 伊利诺伊误引与 B5 选组
+
+用原题法条和资产核验非独立授予的节标题、明确不适用的机动车、职业工具和医疗辅助器材引文。原 TRAIN 和固定 DEV 分别覆盖 8/32、3/16 个母来源，对每项任务核验 45、10 个资产与引文位置，均无原参考冲突。B5 最早组的候选分类、估值 F1 原高 18.25、22.22 个百分点，共用规则后差值均为零。两种选组仍保留进入程序。固定 DEV 四个内部臂分类从 79.63% 到 80.74%，估值从 74.50% 到 74.85%；PARSE 分类 78.92% 到 79.27%，估值 72.31%。相关各项各修正一份，所有臂零退化。复用 16 笔 B5 与 3 笔固定 DEV，新增 0。 [B5 与五库累计原生结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_ILLINOIS_ELIGIBILITY_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 MAUD 相邻款各自前导条件
+
+实现款号与引用核验，疫情前导条件只约束其所在普通经营款。负面契约若有自己的完整前导段，且没有明确引用前款条件，则保持两款的作用域分离。原 MAUD TRAIN 覆盖 3/24，均与原参考一致。三路已有读数覆盖其中两份，合成、固定和直接各修正两题，分别由 12/18、11/18、10/18 到 14/18、13/18、12/18。负面契约三路均为 6/9，合成的剩余差异出现在普通经营。两项配对区间下界均为零。固定 DEV 覆盖 0/16，复用 27 笔原响应，新增 0。 [同信息 TRAIN 比较](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_BRANCH_PREAMBLE_TRAIN_20261120.json)
+
+## Revision 6 M2 补齐 B2 和 B5 当批筛选
+
+两批原先均没有候选程序的精确下一批读数。本轮验证 **32 笔已有响应**，用共同规则重建两批各四份 TRAIN 的同信息筛选。B2 估值候选的当批 F1 高 25.00 个百分点，收益集中于最新组，两种选组都选该组，均因缺少已验证修正而保留进入程序。B5 分类和估值候选分别低 9.19 和 28.82 个百分点，三组有完整读数，两种选组同样保留进入程序。两个当批拟合均已持久化，新增请求 0，没有启动此前缺失的前向实验。 [两批筛选和入库结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_MISSING_FORWARD_FIT_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 共用非授予条款核验
+
+单次读取双任务的归档原响应暴露两类漏判。一份合同的固定字段把非授予条款和术语定义分配给不同锚点，另一份只读到标题。共用核验把非授予结论绑定到相应正文，并在有业务用途例外时另要求相邻的明确知识产权非授予条款。原 TRAIN 支持 5/24，五份均与参考一致。后四批中 M1 和匹配对照的权利题各由 8/12 提至 10/12，归档直接保持 11/12。两任务合计正确类证据 F1 分别为 76.11%、73.61%、74.03%，M1 对两条对照的配对下界均不大于零。固定 DEV 覆盖 1/16，五臂原生预测均不变，新增请求 0。 [TRAIN 与固定 DEV 共用核验](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RIGHTS_SCOPE_TRAIN_AND_FIXED_DEV_20261120.json)
 
 ## Revision 6 M1 ContractNLI 前向读器选择
 

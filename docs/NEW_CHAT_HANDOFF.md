@@ -1,10 +1,66 @@
 # 当前 Goal 恢复与交接
 
-原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 15,084 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,108 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
 ## 最新断点
+
+阶段 `revision6_cni_projected_direct_settled`。首轮会话 66467 和补测会话 26241 均已退出。补测回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_projected_direct_terminal_20261120.json`，绑定 `eb2d7f9bf536ecae9cb7fa588d0b7c5b8f67c32c066b8c2e6fcd4e348ff6a072`。两个相关测试通过。账本 15,072 笔完成、36 笔历史失败、0 笔在途。 [标签澄清与强对照](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PROJECTED_DIRECT_TRAIN_20261120.json)
+
+- `cni_projected_reader.py` 和实验入口 `convergence_revision6_cni_projected_read.py` 在 B5–B8 的七份仅一题待解的合同上沿用锁定的选读器策略。直接读法首轮有六处相反标签，`convergence_revision6_cni_projected_direct.py` 仅改写直接读法中的标签说明，全文、已证明任务、输出 schema 和模型保持一致。先后新增 14 笔和 7 笔，复用了全部适用的合成、固定及归档双题读数。 [首轮诊断](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PROJECTED_READ_TRAIN_20261120.json)
+- 澄清后，M1、匹配对照、直接单题、归档直接双题在待解题上分别答对 7/7、7/7、5/7、7/7。按全部 14 题计算，正确类证据 F1 分别为 78.71%、86.90%、72.62%、83.33%。M1 对匹配对照和归档双题的待解题证据 F1 差均为负，配对区间均跨零，固定 DEV 沿用。恢复时先核对最新状态和连续账本，只有发现原 TRAIN 支持的新缺口才启动下一比较。M2 下一比较需能区分候选驱动与同预算、同信息的直接及按原生表现选型对照。
+
+## Revision 6 按待解任务选读器的前一断点
+
+阶段 `revision6_cni_residual_routing_settled`。离线会话 28188 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_residual_routing_terminal_20261120.json`，绑定 `e03715e920e5964d92f13365bac675e2b332fa3215b28d1807bae7de10e1dd5f`。14 项测试通过。沿用 72 笔同信息归档，新增 0，账本 15,087 笔，在途 0。 [任务级选型与原生前向结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RESIDUAL_ROUTING_TRAIN_20261120.json)
+
+- `cni_residual_routing.py` 分别估计每个读器在没有源文证明的任务上的分类和正确类证据 F1。每份合同最多选一次完整读法。来自明确前导或唯一非授予条款的证明对所有对照共用。B1–B4 拟合后，B5–B8 12 份合同的 24 项中 11 项共用证明、13 项依赖读器。两份无需读器是回放中的逻辑预算记录。所有采纳的原文证明均与原参考一致，另保留 B2 广泛用途匹配与原标签的一份分歧。
+- M1、同任务选型的固定加直接、直接读器分别为 23/24、22/24、23/24，正确类证据 F1 是 79.73%、75.00%、76.81%；旧 M1 路由共用同一证明后为 75.84%。强对照的差区间均跨零，未启动固定 DEV 扩验。后续只比较有新来源或响应证据支持的机制，唯一任务或同时已证明的作用域继续按本轮规则区分。
+
+## Revision 6 员工披露证据链的前一断点
+
+阶段 `revision6_cni_recipient_evidence_settled`。会话 5848 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_recipient_evidence_terminal_20261120.json`，绑定 `55bc87f747bdc11105fed8b1795d16e166fdee238a0afe7014c652c3457942e7`。15 项测试通过。复用三路单题配对 15 笔并核验固定 DEV 4 笔。连续账本 15,087 笔，新增 0，在途 0。 [证据链及累计五库结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RECIPIENT_EVIDENCE_AND_FIXED_DEV_20261120.json)
+
+- `cni_recipient_evidence.py` 在已有肯定读数引用唯一许可证据时，补完整编号前导和所引用的成员定义。事前批准的要求按具体动作和受领人区分。未改分类、原引文或读器输出。原 TRAIN 覆盖 2/24，固定 DEV 覆盖 5/16，五臂均修正两份引文、零退化。固定 DEV 员工披露证据 F1 四内部臂 61.27%→65.15%，PARSE 49.36%→52.50%。累计 ContractNLI 证据 F1 分别为 53.21% 和 45.45%。
+- 在五份单题同信息配对上，M1 和直接读器分类均为 5/5，证据 F1 分别由 52.10% 到 67.33%、72.00% 到 80.00%。M1 减直接的差为 −12.67 个百分点，95% 配对区间 [−25.67, +10.67]。固定字段的 0/5 分类保持。此次证据补全归于共用规则，M1 仍需可区别同信息直接读器的原生收益。当前没有在跑的任务。
+
+## Revision 6 B4 角色组选组的前一断点
+
+阶段 `revision6_cni_b4_recipient_selection_settled`。会话 17562 已正常退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_b4_recipient_selection_terminal_20261120.json`，绑定 `8f7f68c90f3437feff628b833403c8c6c14810762bf9ad0e04d172b365223d38`。新增 Qwen3-8B thinking OFF 3 笔、33,899 tokens，复用 27 笔原响应。12 项测试和 2 项子测试通过。账本完成 15,051、历史失败 36、在途 0。 [同预算选组与前向评分](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_B4_RECIPIENT_SELECTION_TRAIN_20261120.json)
+
+- `convergence_revision6_cni_b4_recipient_selection.py` 从 B1–B4 的 12 份原 TRAIN 实测和原文完整角色组选择 B4 真实更新。候选驱动选 B2 第一组并采纳。按时间和回答分歧均选 B4 第三组并保留进入读器。各用同一组池、两笔筛选读数，直接、共享和独立补全筛选同判。纯原生拟合对照也采纳。
+- B5 原三份合同复用已采纳程序原响应，只补精确缺失的 B3 进入程序。两路原文、输出契约和预算一致。四路都是 5/6。正确类证据 F1 候选驱动和仅按原生拟合为 55.56%，按时间与答案分歧为 30.56%，配对 95% 区间 [−25.00, +100.00] 个百分点。所有路在同一份合同的第三方披露题失分，合同分别写明受控关联方授权和一般第三方禁令。现有源证明未确定二者的分类边界，保留各自的原生判断。没有触发固定 DEV 扩验或待恢复运行。
+
+## Revision 6 伊利诺伊误引的前一断点
+
+阶段 `revision6_oe_illinois_eligibility_settled`。会话 8621 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_oe_illinois_eligibility_terminal_20261120.json`，绑定 `dec0579d16ec13cc267ca62b7c4f75d0a45abb78b49550d7fa4491773ac9ab01`。14 项相关检查通过，复用 16 笔 B5 和 3 笔固定 DEV，新增 0。账本 15,084 笔，在途 0。 [固定 DEV 与 B5 同信息分解](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_ILLINOIS_ELIGIBILITY_AND_FIXED_DEV_20261120.json)
+
+- `convergence_oe_illinois_eligibility.py` 核验 §12-1001 的父节没有独立授予，按同一公共法条和明确资产类型剔除不适用的分项。原 TRAIN 和固定 DEV 在每项任务分别覆盖 45、10 个资产与引文位置，均与原参考相容。
+- B5 最早组净删 7 项分类误引，另删 3 项估值误引并新增 1 项估值误引。所有这些差异均属所核范围。共用后该组进入程序与候选两项 F1 同分。候选驱动与按时间仍同选并保留进入程序；无 B5 前向补读。固定 DEV 的四个内部臂为分类 80.74%、估值 74.85%，PARSE 为 79.27%、72.31%。收益来自共用规则，其他四库结果沿用。
+
+## Revision 6 MAUD 相邻款的前一断点
+
+阶段 `revision6_maud_branch_preamble_settled`。会话 67742 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_maud_branch_preamble_terminal_20261120.json`，绑定 `53ddbc9030af3bd22386cac671ee0336528998fe47cc0d482c7a5cfd5a800dad`。复用 27 笔 MAUD TRAIN 响应，18 项相关测试通过。连续账本 15,084 笔，在途 0。 [支配范围与三臂评分](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_BRANCH_PREAMBLE_TRAIN_20261120.json)
+
+- `maud_branch_preamble.py` 要求版本化摘录显示款的顺序、自己的例外前导和主义务。在后款有明确导入、前导中间缺失或自身出现疫情线索时保留未决。原 24 份中 3 份满足。已测后四批两份适用，三臂每臂修正 2 项，结果为 14/18、13/18、12/18。合成相对固定的配对区间为 [0, +16.67]，相对直接为 [0, +27.78] 个百分点。原固定 DEV 覆盖 0/16。
+- 残余正向差异来自普通经营任务，负面契约三臂均为 6/9。贷款修改和网点临时关闭的单项例外沿用已归档的标注口径敏感性结果。下一次合同改动需要独立可核实的原文机制区别同信息强对照，避免重测已知的前导条件或单项语义分歧。当前没有待恢复的运行。
+
+## Revision 6 的 M2 前一断点
+
+阶段 `revision6_oe_missing_forward_fit_settled`。会话 42759 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_oe_missing_forward_fit_terminal_20261120.json`，绑定 `82dafee8c56ba792877174ab4666278628e9e8ca31af093c2c25ce1d160f2462`。复用 B2 与 B5 合计 32 笔 EC、EV 原响应。连续账本 15,084 笔，在途 0。 [两批当批筛选与方法对照](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_MISSING_FORWARD_FIT_TRAIN_20261120.json)
+
+- `convergence_revision6_oe_missing_forward_fit.py` 核对原候选程序与两路输出的收据，再执行原同信息采纳门槛。B2 有四个完整组。估值 F1 的 +25.00 个百分点全部来自最新组，该组没有通过源约束筛选的修正。B5 有三个完整组，分类和估值候选的当批 F1 各低 9.19、28.82 个百分点。候选驱动和按时间在两批均选最新组并保留原程序。四种筛选策略与仅按原生分数的对照已分别存档。没有待恢复的运行或已获证据支持的 B2/B5 前向补读。
+- 现有前向库的 B3 分类与 B4 估值在当批分数为正，在下一批转负。B7 估值保留原小幅收益，候选驱动与按时间采用同一程序。后续选择机制需要找到能导致两路采纳不同的可验证 TRAIN 修正，再使用独立母来源验证。不由已经定位的共用法规修复推断选组效应。
+
+## Revision 6 非授予核验的前一断点
+
+阶段 `revision6_cni_rights_scope_settled`。离线会话 43227 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_rights_scope_terminal_20261120.json`，绑定 `265f9a0b288ab5ee1715b4080932381737b685e090980f172abf0616c1fdf985`。22 项相关测试通过。原始请求复用 17 笔混合 TRAIN、72 笔原分路 TRAIN 和 2 笔覆盖固定 DEV 的请求。新增 0，账本 15,084 笔，在途 0。 [共用非授予核验与前向结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RIGHTS_SCOPE_TRAIN_AND_FIXED_DEV_20261120.json)
+
+- `cni_rights_scope.py` 从正文核验非授予及受保护对象，标题仅作为指向正文的索引。保留与真实授予相冲突的读数。混合 TRAIN 两臂各修正 2 项权利判断，归档直接的分类不变，补全 1 项标题引文。两任务总分类为 22/24、22/24、23/24，正确类证据 F1 为 76.11%、73.61%、74.03%。证据差对匹配和归档直接的区间分别为 [0, +7.50] 和 [−5.56, +13.19] 个百分点。修正归于共用核验。
+- 权利题固定 DEV 的 16 份中有 1 份匹配条款，五臂各保持 9/16，证据 F1 内部臂 35.12%、PARSE 35.57%。五库累计沿用。前向仍有未解决的选择性产权条款和模板选项。只在找到超出已测非授予核验的可复现作用域依据后继续该路径。
+
+## Revision 6 合同读器的前一断点
 
 阶段 `revision6_cni_mixed_routing_settled`。会话 4472 已正常退出，17 笔新冻结执行器请求全部完成，17 项相关检查通过。回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_mixed_routing_terminal_20261120.json`，绑定 `9f7efeaada623d8a3ddfc020851fc493857128a2e7e01861bdf6d4473969aa79`。账本完成 15,048 笔、历史失败 36 笔、在途 0。 [单次读取双任务](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_MIXED_ROUTING_TRAIN_20261120.json)
 
