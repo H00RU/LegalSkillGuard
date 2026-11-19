@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 M2 OpenExempt B4 原生金额编辑已结算
+
+原 B4 同一 TRAIN 来源的两件资产分别加一美元，其余原文和原生请求保持。复用两笔原始 EV，新增四笔。两路共有四个完全可比的辖区内资产引文位置。第一种编辑在进入程序触发四项冲突、候选触发两项，第二种两路均兼容。单例金额上限无违规。共享枚举等于同信息直接检查，且候选仍有冲突，保留原先所有权断言拒绝。后续比较需要能在执行预算相等时预测哪种可实现编辑更有信息，并有能区分更新选择及前向原生收益的候选。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_NATIVE_AMOUNT_EDITS_20261119.json)
+
+会话 56651 的四笔请求均已结算。汇总零计数错误已离线修复，无重发。新增 32,837 Qwen tokens，教师 0，账本 14,606 笔、在途 0。19 项相关检查通过，原冻结协议、源码、TEST 终态和曝光回执已校验。终态为 `handoff/revision5_OE_native_amount_edits_terminal_20261119.json`。
+
 ## Revision 5 M2 OpenExempt 源文选例和跨任务作用域已核对
 
 复用 B3、B4、B7、B8 的原始候选、进入程序及 64 笔原生响应。扩大金额编辑语法后，9 个正向母来源的合法编辑覆盖从 1 个到 7 个，共 24 个编辑候选。B7 原有两条候选冲突在分开绑定 EC、EV 所有权证据后均保留。B8 简化蕴含对两路各产生四条冲突，四个位置均为 EC 未确立、EV 已确立所有权，按各视图补全后冲突均消失。直接检查和共享枚举在 81 个状态上一致。下一步仅在有可区分的实际更新预期时，使用更贴近当前候选错因的源文组发起最小比较。新编辑仍只有源文证据。[聚合证据](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_M2_SOURCE_PLACEMENT_20261119.json)
