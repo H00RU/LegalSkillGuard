@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 五库统一开发对照已结算
+
+用户将推进 Goal 的 Codex 切到 6.2-sol high，实验读者和教师仍沿用原绑定。入口 `python -m experiments.convergence_revision5_common_native_dev` 将原文规则应用于原 B8 DEV 的五库、五臂、共 1,920 个原生视图。普通教师臂在 ContractNLI 分类、Diversity、MAUD 知悉定义、OpenExempt EV 和 Airline 分别从 156/272、9/16、8/16、44.37% 和 2/16 提高到 176/272、16/16、14/16、65.36% 和 15/16。全部分项区间及逐项退化已记入表。
+
+两组 M1 的原差异各 7 项，共用规则后各 384 项逐项一致。两组 M2 两版本均逐项一致。后续必须在这套同信息规则之上取得可归因的独立效果后，才进入修订正式流程。复用新对照入口及预测封存，新增模型请求 0，账本 14,686 笔、在途 0。 [五库开发结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_COMMON_NATIVE_DEV_20261119.json)
+
 ## Revision 5 ContractNLI 原文条件下的接口缩减已结算
 
 用原文中唯一可核实的条款部分求值。单项已知时固定和合成各需 4、3 个字段；双项已知时完整回执各需两个相反授权状态，只有弃去这些状态的诊断才可将字段缩至零。原 24 TRAIN／16 固定 DEV 的完整回执字段总数为 130/89 和 92/62。这一项没有实测生成耗时。
