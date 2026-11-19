@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 M2 MAUD 嵌套例外累积核对已结算
+
+B6 晋级的普通和 PARSE 式程序在各自同版本、同读取契约下，分别在 B6 贷款项答 `No`、B8 网点项答 `Yes`；原生参考均为 `No`。四笔归档模型响应已核验。两种统一作用域口径各自只允许两案同答，因此两个观察单独有效，累积无法共存；同信息相等检查作出相同判定。加入源文支持区分的第三种候选口径，明确单项例外计入且“不构成违反”说明归为另一类，两路混合读数重新相容。已查阅 MAUD 原论文和版本发布说明，未确定这两种写法的官方标注取舍。[累积核对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_MAUD_NESTED_EXCEPTION_JOIN_20261119.json)
+
+结算入口 `handoff/revision5_MAUD_nested_exception_join_terminal_20261119.json`。保留原生标签、原文两种写法和三种口径的敏感性核验。当前无待结算任务，新增请求 0，账本 14,542 笔、在途 0。31 项检查通过，原冻结协议、72 份源码、TEST 终态与曝光回执均已校验。
+
 ## Revision 5 MAUD 母合同定义覆盖核对已结算
 
 逐份匹配原 24 份 TRAIN 母合同与 24 笔留存响应。六份普通经营定义中，一份在分号截断。母合同续段明确把符合条件的疫情应对纳入该定义。同信息直接规则将旧 `No` 恢复为参考 `Yes`。在 48 项原 TRAIN 契约问题中，旧程序答对 41 项，简单关键词诊断 44 项，补定义和区分作用域后的回顾性直接重放 46 项。剩余两项标注差异都出现在禁限条款内的具体贷款或设施例外，需独立核实作用域后才可作为学习依据。[母合同核验](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_MAUD_PARENT_DEFINITION_COVERAGE_20261119.json)

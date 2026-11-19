@@ -8,6 +8,14 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 M2 MAUD 嵌套例外累积核对已结算
+
+在原 TRAIN 母合同和模型摘录中，分别核实了贷款修改的“不构成违反”说明、临时网点关闭的明确例外，并将后者另节的访问限制排除在该作用域外。B6 晋级的普通程序和 PARSE 式程序各沿用同一版本与读取契约。两路在 B6 贷款项均答 `No`，在 B8 网点项均答 `Yes`。复用四笔物理响应，逐笔校验输入与版本。原生参考均为 `No`。[累积核对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_MAUD_NESTED_EXCEPTION_JOIN_20261119.json)
+
+当候选口径仅有“所有单项豁免均计入”和“仅计主条款层级的豁免”时，两路单独读数均可成立，累积均无共同解释。相同信息的相等检查在九种已答与缺测组合中等价。加入“计入明确单项例外、保留不构成违反的说明为另一类”的措辞口径后，两路读数均可由同一口径解释。已查阅的 MAUD 原论文和版本发布说明未给出这两种写法的标注取舍。现有证据仅在前两个候选口径下支持拒绝。[MAUD 原论文](https://aclanthology.org/2023.emnlp-main.1019/) · [版本发布记录](https://zenodo.org/records/7500064)
+
+新增请求 0，账本 14,542 笔、在途 0。31 项检查通过，原冻结协议、72 份源码、TEST 终态和曝光回执均已核验。
+
 ## Revision 5 MAUD 母合同定义覆盖核对已结算
 
 逐份匹配原 24 份 TRAIN 母合同的字节哈希，核对 24 笔留存响应。六份摘录引用了可定位的普通经营定义。其中一份停在定义的分号，母合同紧接着明确把符合条件的疫情应对认定为普通经营。只恢复该段并按原条款所用的定义解释，原程序的一项 `No` 可由同信息的直接规则恢复为参考答案 `Yes`。原输入与清单保持原样。[母合同核验](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_MAUD_PARENT_DEFINITION_COVERAGE_20261119.json)
