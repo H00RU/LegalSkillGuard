@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 M1 ContractNLI 独立开发与第三方取得已结算
+
+六份原 TRAIN 合同的独立开发与第三方取得共 12 项判定。固定和合成布局在共同消费者的 729 个状态上等价，原进入程序答对 10 项，固定和合成各答对 2 项。回顾性直接规则把明示时间与同一例外分项绑定，并检验第三方来源，12 项均正确。合成接口未产生独立收益。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_INDEPENDENT_ROUTES_20261119.json)
+
+会话 80796 已结算，新增 12 笔 Qwen、52,186 tokens，教师请求 0。账本共 14,566 笔、在途 0。21 项相关检查通过，原冻结协议、72 份执行源码、TEST 终态与曝光回执通过校验。回执为 `handoff/revision5_CNI_independent_routes_terminal_20261119.json`。当前无待结算任务。保留直接规则作为上述条款结构的强对照。
+
 ## Revision 5 M1 Diversity B8 DEV 同信息对照已结算
 
 原 B8 DEV 的 16 笔合成接口读数全用固定州籍坐标及合成金额关系。原 TRAIN 字面金额规则从两条原引文修复了错误合计，原生正确数由 14/16 到 16/16。固定与合成消费者使用相同原文州籍和金额后均为 16/16，原生与中间判断逐题一致。这个差异由共用解析解释。[对照结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_M1_DIVERSITY_DEV_LITERAL_20261119.json)
