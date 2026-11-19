@@ -8,6 +8,16 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 五库累计正式 B8 DEV 已封存
+
+正式入口把已核验的 ContractNLI 来源绑定与 OpenExempt 资产键、宾州一般金额规则接入同一份五库 B8 DEV。五臂各含 80 个母来源、384 个原生视图。Diversity、MAUD 和 Airline 逐项复用上一次正式预测。1,920 个原生视图全部通过封印校验。 [执行代码](../experiments/convergence_revision5_release_dev.py) · [逐臂指标、区间及机制计数](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CUMULATIVE_FORMAL_DEV_20261119.json)
+
+原 B8 DEV 与本次累计修订相比，联合臂的 ContractNLI 分类为 156/272→186/272，证据 F1 为 36.37%→48.92%。Diversity 为 14/16→16/16。MAUD 知悉定义、负面契约、普通经营依次为 8/16→14/16、9/16→11/16、14/16→14/16。OpenExempt 分类、估值 F1 为 50.19%→70.02%、44.37%→68.48%，16 项估值的 MARE 为 2.588→0.040。Airline 为 2/16→15/16。
+
+M1 在两个启用臂各调用 16 次 Diversity 关系接口，其他四库的正式调用为 0。两组 M2 消融的 B8 程序在五库分别完全一致。四组方法消融的原生输出逐库一致。联合臂相对 PARSE 的差异保留在完整表中，包含 MAUD 知悉定义低一题。
+
+13 项定向检查通过。新增模型请求 0，连续账本 14,716 笔、在途 0。冻结协议、72 份源码、TEST 终态及曝光回执通过校验。最新结算见 `handoff/revision5_release_B8_DEV_terminal_20261119.json`。原 Goal 保持活跃，独立效果仍待验收。
+
 ## Revision 5 ContractNLI 披露协议本身的来源绑定接入正式 B8 DEV
 
 把披露行为绑定到协议存在或谈判事实。明示规则区分主动禁止、被动禁止和不负披露义务，并按原文编号补齐同一禁止的紧邻续句。只涉及考虑交易的披露条款保留为解释范围诊断。原 24 份 TRAIN 上普通教师 10/24→11/24，PARSE 13/24→14/24。固定 B8 DEV 的四个内部臂该项由 3/16 到 4/16，PARSE 由 9/16 到 10/16。接入后 ContractNLI 总分类为 186/272 与 179/272。五臂均改善一项分类、无分类或证据退化；正式结果使用重复查看过的开发集。 [代码](../experiments/convergence_revision5_cni_agreement_event_attachment.py) · [完整结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_AGREEMENT_EVENT_ATTACHMENT_20261119.json)

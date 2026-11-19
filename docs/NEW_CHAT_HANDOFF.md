@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 五库累计正式 B8 DEV 已封存
+
+当前阶段 `revision5_cumulative_five_library_formal_B8_DEV_settled`。五臂全量原生结果已合并，复用同一批 80 个 DEV 母来源。ContractNLI 为四个内部臂 186/272、PARSE 179/272。联合臂 OpenExempt 分类和估值 F1 为 70.02%、68.48%。Diversity 16/16，MAUD 三项 14/16、11/16、14/16，Airline 15/16。 [正式入口](../experiments/convergence_revision5_release_dev.py) · [最终开发评分](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CUMULATIVE_FORMAL_DEV_20261119.json)
+
+两条 M1 臂在 Diversity 各有 16 次关系接口调用，其余四库为 0。两组 M2 对照全库最终程序一致。四组机制消融在每库的原生输出差异均为 0。后续以可区别同信息控制的 TRAIN 来源或候选为触发依据，避免重复启动验证。13 项测试通过，1,920 个原生视图按封印逐项校验，在途 0，连续账本 14,716 笔。最新回执 `handoff/revision5_release_B8_DEV_terminal_20261119.json`。
+
 ## Revision 5 ContractNLI 披露协议本身的来源绑定接入正式 B8 DEV
 
 当前阶段 `revision5_CNI_agreement_event_attachment_formal_dev_settled`。以明示协议存在或谈判事实为对象，补齐主动和被动禁止的来源绑定。五臂正式 B8 DEV 各修正一项分类，分类与证据均无退化。ContractNLI 的四个内部臂和 PARSE 总分类分别为 186/272、179/272。额外解释覆盖的交易考虑条款只留作诊断。 [实现](../experiments/convergence_revision5_cni_agreement_event_attachment.py) · [评分](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_AGREEMENT_EVENT_ATTACHMENT_20261119.json)
