@@ -1,10 +1,66 @@
 # 当前 Goal 恢复与交接
 
-原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 14,835 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 14,871 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
 ## 最新断点
+
+阶段 `revision6_cni_agreement_disclosure_release_settled`，回执 `handoff/revision6_cni_agreement_disclosure_release_terminal_20261120.json`。68 项检查通过，新增请求 0，账本 14,871 笔、在途 0。 [协议披露与五库累计表](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_AGREEMENT_DISCLOSURE_AND_FIXED_DEV_20261120.json)
+
+- `convergence_revision6_cni_agreement_disclosure_release.py` 复用归档响应，把协议本身和参与谈判事实的披露限制接入累计 B8 DEV。四个内部臂各 4/16→7/16，PARSE 10/16→11/16，均无退化。全部假设分别为 197/272 和 188/272。
+- 保留同一原文规则和原 TRAIN 多数类回退组成的强对照。固定 DEV 为 13/16，归档 B5 候选驱动与按时间选组依次为 9/16、11/16。相同路径仅在有新的源文机制和能预先区分对照的证据时再运行。继续核实实际状态，从此断点接续。
+
+## Revision 6 ContractNLI 明示标记的前一断点
+
+阶段 `revision6_cni_qualification_release_settled`，回执 `handoff/revision6_cni_qualification_release_terminal_20261120.json`。65 项检查通过，新增请求 0，账本 14,871 笔、在途 0。 [ContractNLI 与五库累计表](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_QUALIFICATION_AND_FIXED_DEV_20261120.json)
+
+- `convergence_revision6_cni_qualification_release.py` 将已核验的明示标记角色和四份 TRAIN 支持的免标记逻辑接入累计 B8 DEV。五臂各 4/16→12/16，修复八题、退化零题。四内部臂全部假设为 194/272，PARSE 为 187/272。复用八笔 TRAIN、十六笔 DEV 原请求。
+- 合同、资产和 MAUD 的累计共用修订均已保留。这轮原生提升归于共用规则。剩余未确定的标记线索不作推断，后续有明确可区分的 TRAIN 证据时再考虑新的候选。
+
+## Revision 6 MAUD 知悉定义的前一断点
+
+阶段 `revision6_maud_knowledge_release_settled`，回执 `handoff/revision6_maud_knowledge_release_terminal_20261120.json`。62 项检查通过，新模型请求 0，账本 14,871 笔、在途 0。 [知悉定义与五库累计表](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_KNOWLEDGE_AND_FIXED_DEV_20261120.json)
+
+- `convergence_revision6_maud_knowledge_release.py` 把两类原文关系加入累计固定 DEV，即定义要求完成合理调查，以及定义明文计入所列人员应当知悉的事实。四内部臂 14/16→16/16，PARSE 15/16→16/16。原 TRAIN 15 份明示构成推定知悉均与参考相合。累计矩阵继续保留 OpenExempt 分类及 MAUD 负面契约的既有修订。
+- 当前知悉定义固定 DEV 已达各臂共同上限。同信息独立差异仍未得到验证。继续其它仍有原生错误且有原 TRAIN 区分依据的语义范围，避免复跑本项。
+
+## Revision 6 MAUD 跨节选恢复的前一断点
+
+阶段 `revision6_maud_parallel_release_settled`，回执 `handoff/revision6_maud_parallel_release_terminal_20261120.json`。59 项检查通过，新增请求 0，账本 14,871 笔、在途 0。 [MAUD 原文和固定 DEV 评分](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_PARALLEL_EXCERPT_RELEASE_20261120.json)
+
+- `maud_parallel_excerpt.py` 仅恢复原请求同一合同的相邻视图中唯一对齐的内部省略。原 TRAIN 两个对照的疫情措辞均不管目标负面义务。固定 DEV 两份恢复中，一份的例外管辖原负面义务，另一份只继承 A、C、D、E 项且未继承疫情 B 项。该案原参考 Yes，保留范围差异。
+- `convergence_revision6_maud_parallel_release.py` 在已结算的 OpenExempt 修订入口上合并此次 MAUD 公共规则，五臂负面契约各由 11/16 到 12/16。核验目标原请求包含两视图，复用 TRAIN 两笔、DEV 四笔去重请求。M1 独立原生收益仍待验证。相同源文规则流程已结算，避免重复比较。
+
+## Revision 6 一般财产条款的前一断点
+
+阶段 `revision6_ec_property_release_settled`，总回执 `handoff/revision6_ec_property_release_terminal_20261120.json`。55 项检查通过，模型新增请求 0，连续账本 14,871 笔、在途 0。 [分类 TRAIN 与固定 DEV 结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_EC_GENERAL_PROPERTY_RELEASE_20261120.json)
+
+- `convergence_revision6_ec_general_property.py` 封存 B2、B6 的原始候选与进入程序分类读数。只保留原法条、资产与产权同时满足的新增索赔，B2 回放 F1 为 43.75% 对同信息直接 46.13%，B6 两路同为 38.53%。未发现已测的同版本前向候选响应。历史候选采纳不变。
+- 累计固定 DEV 的新入口为 `convergence_revision6_ec_property_release.py`。它在原累计正式 DEV 各臂上应用同一一般财产条款核对，仅再评分改变的 EC。四内部臂为 70.02%→79.63%，PARSE 为 68.63%→78.92%。各方法独立分类消融差为零。继续其它原文有可区分候选的范围时保留这一共同规则及其新评分底座。
+
+## Revision 6 资产绑定与家电迁移的前一断点
+
+阶段 `revision6_candidate_asset_binding_appliance_transfer_settled`，总回执 `handoff/revision6_candidate_asset_binding_appliance_transfer_terminal_20261120.json`。54 项检查通过，新增请求 0，连续账本 14,871 笔、在途 0。 [对照及结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CANDIDATE_ASSET_BINDING_AND_APPLIANCES_20261120.json)
+
+- `convergence_revision6_candidate_asset_binding.py` 对 B2–B8 实际进入程序和候选同时按原文资产绑定。八个表面正确的候选新增位置中有四个只涉及资产名。B2 车辆和 B6 住宅停留在命名差异。固定 B8 DEV 两条正式存档臂均无绑定变更。
+- `convergence_revision6_appliance_amount_transfer.py` 用 B8 智能恒温器正确新增的 241 美元作为候选学习证据。固定 DEV 命中 1/16，进入程序和 B8 候选都对洗烘一体机给出 1,275 美元。局部候选改写 0，F1 39.89%。同信息直接修正至 700 美元，F1 40.41%。同一算术作用域的已有归档无需复试。下一条候选优先核对原文能否区分其新增适用性判断，而非只提供金额。
+
+## Revision 6 处分后保留接口的前一断点
+
+阶段 `revision6_retention_grant_replay_settled`，总回执 `handoff/revision6_retention_grant_replay_terminal_20261120.json`。会话 96527 已结算，36 笔执行器请求完成，教师 0，累计 14,871 笔、在途 0。51 项检查通过。 [三路实测与共有证明消融](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_RETENTION_INTERFACE_AND_GRANTS_20261120.json)
+
+- `convergence_revision6_retention_interface.py` 将 12 份已源审原 TRAIN 的逐项配对结果保存为独立快照。固定、合成、直接均为 4/12，且均修复 B7。合成的六项未决集中在是否存在适用保留许可。原 provisional 快照中的 `active` 只表示按初次联合分完成候选排序，已被这次强对照否决，固定 DEV 无派发。
+- `convergence_revision6_retention_grant_replay.py` 从完整原文提取五份合同的明确保留例外，向三路同样提供。合成 6/12，固定与直接均 9/12。按分类正确计入证据后，合成比直接低 13.70 个百分点，95% 配对区间 −27.41 到 −2.22。避免重复派发这次读法。可接续查找需要跨条款绑定、且同信息直接检查仍未解决的实测错误。
+
+## Revision 6 局部否决的前一断点
+
+阶段 `revision6_retention_scope_settled`，总回执 `handoff/revision6_retention_scope_terminal_20261120.json`。47 项定向检查通过，新增模型请求 0，账本 14,835 笔、在途 0。原冻结协议、72 份源码、TEST 终态及曝光记录通过校验。 [最新结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_RETENTION_SCOPE_20261120.json)
+
+- `convergence_revision6_retention_scope.py` 只对可见禁留证据与 B5 提案分类相冲突的保留义务使用进入读器。固定 DEV 触发 2/16，两处结论持平，整体与原提案同为 148/272、证据 F1 26.46%。同信息直接改判为 147/272。备份例外分隔在后文的来源仍可保留副本，交接特定文件的另一份来源未覆盖完整假设。局部否决未入库。
+- 从后续三份原 TRAIN 核验六笔实测。B7 的保留义务误判在普通和 PARSE 两路均出现，独立源审区分请求销毁时禁留、预先可能同意复制、请求时处分复制件以及关系终止返还。新增假设是分别编码上述范围和动作，再与看同样原文的直接读者比较。先验证其他已审 TRAIN 有可区分的证据，已结算局部否决不复跑。
+
+## Revision 6 保留义务候选选组的前一断点
 
 阶段 `revision6_retention_group_transfer_settled`，总回执 `handoff/revision6_retention_group_transfer_terminal_20261120.json`。44 项定向检查通过，新增模型请求 0，账本 14,835 笔、在途 0。原冻结协议、72 份源码、TEST 终态及曝光记录通过校验。 [最新结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_RETENTION_GROUP_TRANSFER_20261120.json)
 
