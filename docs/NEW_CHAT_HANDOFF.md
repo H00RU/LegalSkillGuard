@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 MAUD B4 空证据字段的同条件比较已结算
+
+三份原 B4 TRAIN 合同的 MAUD 进入程序有一笔共享截断，停在必为空的证据数组。保留常量字段和省略后重建两路各三笔，全部完成，保留八种原生标签组合。逐题复现两路正式采纳候选的输出，原 4/9 提至 6/9，原先完成的两案合计仍为 4/6。作为共用输出恢复保留，原采纳决定保留。后续在已采纳的 B6/B8 候选上复核由询问义务和已收通知引起的实质变化。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_MAUD_ZERO_EVIDENCE_20261119.json)
+
+ContractNLI B1/B4 的讨论和接触限制各自与人员招揽禁止并列，B3 的接触限制以陪同为条件。保留原招揽规则的适用范围。会话 85301 已结算，新增六笔 Qwen、35,877 tokens，教师 0，账本 14,634 笔、在途 0。22 项检查通过。原冻结协议、72 份执行源码、TEST 终态和曝光回执已校验。回执为 `handoff/revision5_MAUD_zero_evidence_terminal_20261119.json`。
+
 ## Revision 5 ContractNLI 招揽限制的 TRAIN 与固定 DEV 已结算
 
 原 24 份 TRAIN 的四份人员招揽正例均可由源文规则判定。原 B4 PARSE 候选连同正确输入的 B5 补跑在相同 15 份合同上由 6/15 到 10/15，四项正例均保留。固定 B8 DEV 零请求回放，普通教师 8/16→14/16、PARSE 11/16→14/16，逐条和跨条款输出完全一致。PARSE 的三个正例有一项退化，其参考条款限制绕过引荐方与联系人交易。查到一份不同条件的 TRAIN 接触限制，未找到同一交易义务的 TRAIN 证据。保留直接对照。后续只有在能用 TRAIN 区分交易限制、接触限制及人员招揽时才扩展规则。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_NONSOLICITATION_20261119.json)
