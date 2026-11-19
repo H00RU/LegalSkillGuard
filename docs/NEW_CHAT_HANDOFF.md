@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 同句引文修复已结算
+
+十二笔固定和合成读数、一组六笔直接作答及另两组二十六笔签名作用域和定义成员读数均按原始请求复核。一条合成读数的披露许可和就地定义共用原文句 14。两臂共用同句引文归并后仅这条读数变化，合成精确匹配 5/6→6/6、证据 F1 37.62%→54.29%。固定为 0/6 和 16.67%。归档直接作答为 6/6 和 58.33%，且同样正确引用句 14。另两组未出现重复引文。
+
+离线复算入口 `python -m experiments.convergence_revision5_cni_colocated_citation`，终态 `handoff/revision5_CNI_colocated_citation_terminal_20261119.json`。新增模型请求 0，连续账本 14,668 笔、在途 0。原冻结和曝光校验通过。此处诊断已结算，接续检查具有独立原生收益依据的新候选，保留直接作答和后见源文对照。 [配对读数与评分](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_COLOCATED_CITATION_20261119.json)
+
 ## Revision 5 MAUD 已采纳候选的共用作用域回放已结算
 
 逐笔核对 B6 普通教师、B6 PARSE 和 B8 PARSE 的 18 笔归档响应及已保存程序。三项已采纳提案原先分别多答对 1、1、2 题。给进入程序和候选共用知悉定义与契约作用域核对后，两路逐题同判，三组分别各为 9/9、9/9、8/9。普通经营契约检查复用了已核验的母合同定义，属于回顾性对照。
