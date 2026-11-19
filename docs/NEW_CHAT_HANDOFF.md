@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 MAUD 契约前导条件的直接回放已结算
+
+MAUD 负面契约节选可同时包含普通经营分项。只排除前一分项疫情措辞，固定 B8 DEV 两路 9/16→10/16。追加从两项 TRAIN 漏判得到的负面契约前导条件规则后，TRAIN 两路 20/24→22/24，复用同一 DEV 两路 9/16→11/16。两项 DEV 修正均由直接源文判定复现，保留原政策、第一轮回放与冻结结果。此前旁路遮蔽和已收通知的精确模式在固定 DEV 的 16 份合同中均无覆盖。新比较须保留现有直接对照，并提出能独立区分真实候选的约束。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_MAUD_SECTION_SCOPE_20261119.json)
+
+新增请求 0，账本 14,638 笔、在途 0，27 项检查通过。原冻结协议、72 份执行源码、TEST 终态及曝光回执已校验。回执为 `handoff/revision5_MAUD_section_scope_terminal_20261119.json`。
+
 ## Revision 5 MAUD B6/B8 旁路疫情词的配对诊断已结算
 
 原 B6/B8 两份合同的普通经营节选不含疫情词，疫情词在负面契约节选。进入程序在两案答 Yes，原采纳候选答 No。只遮蔽旁路疫情词时两案均改为正确的 No，同宽无关词遮蔽保持原 Yes。B8 知悉标准对两种遮蔽都不变。负面契约编辑项未评分。原 B6 另一份合同的普通经营义务有明示疫情措施，保留其原生正例。后续需用未修改原文的任务局部读法作强对照，单独核对通知定义。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_MAUD_SIBLING_CUE_20261119.json)
