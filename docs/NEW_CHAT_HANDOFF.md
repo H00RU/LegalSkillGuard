@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 OpenExempt 共享反馈的分类收益已定位
+
+首轮教师的解释反馈绑定鹦鹉。唯一新增的正确分类引文来自同案胸针。原生 EC 把胸针列为申报人的已知资产，旧模板将该表述与单纯持有都归为未决。共用的直接规则按原文资产归属、个人用途前提和伊利诺伊州随题条文补足引文，在四份试验输入上逐项复现首轮共享提案的 EC 输出和 35.83% F1。其原共享筛选决定继续保留。共核验 20 笔 EC 响应。
+
+原 32 份 TRAIN 中规则只覆盖两份，普通教师和 PARSE 的 EC F1 分别增加 1.56 和 1.74 个百分点。固定 B8 DEV 的 16 份覆盖为零。离线复算入口 `python -m experiments.convergence_revision5_oe_illinois_asset_attribution`，终态 `handoff/revision5_OE_illinois_asset_attribution_terminal_20261119.json`，新增请求 0，账本 14,668 笔、在途 0。接续工作需要新的、能在同信息直接规则之上预测原生差异的 TRAIN 证据。 [评分与来源绑定](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_ILLINOIS_ASSET_ATTRIBUTION_20261119.json)
+
 ## Revision 5 ContractNLI 同句引文修复已结算
 
 十二笔固定和合成读数、一组六笔直接作答及另两组二十六笔签名作用域和定义成员读数均按原始请求复核。一条合成读数的披露许可和就地定义共用原文句 14。两臂共用同句引文归并后仅这条读数变化，合成精确匹配 5/6→6/6、证据 F1 37.62%→54.29%。固定为 0/6 和 16.67%。归档直接作答为 6/6 和 58.33%，且同样正确引用句 14。另两组未出现重复引文。
