@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 M2 OpenExempt 源文选例和跨任务作用域已核对
+
+复用 B3、B4、B7、B8 的原始候选、进入程序及 64 笔原生响应。扩大金额编辑语法后，9 个正向母来源的合法编辑覆盖从 1 个到 7 个，共 24 个编辑候选。B7 原有两条候选冲突在分开绑定 EC、EV 所有权证据后均保留。B8 简化蕴含对两路各产生四条冲突，四个位置均为 EC 未确立、EV 已确立所有权，按各视图补全后冲突均消失。直接检查和共享枚举在 81 个状态上一致。下一步仅在有可区分的实际更新预期时，使用更贴近当前候选错因的源文组发起最小比较。新编辑仍只有源文证据。[聚合证据](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_M2_SOURCE_PLACEMENT_20261119.json)
+
+新增请求 0，账本 14,602 笔、在途 0。24 项检查通过，原冻结协议、72 份执行源码、TEST 终态和曝光回执已校验。当前无待结算任务，回执为 `handoff/revision5_OE_M2_source_placement_terminal_20261119.json`。
+
 ## Revision 5 OpenExempt 宾州原 B8 DEV 比较已结算
 
 固定公开渲染模板将资产组及所有权绑定到申报人，复现原八个 TRAIN 视图并覆盖原 B8 DEV 全部 10 个宾州视图。与共用所有权锚定及同一消费者的固定两字段对照相比，关系接口 EV F1 为 57.46% 对 68.25%，EC 为 76.44% 对 77.40%。固定字段原生分数逐题达到源审执行，10 个输出中 9 个完全一致。保留共用锚定与强对照。下一步回到 M2 的真实候选和共享证据，需找到能改变原生正向候选采纳、且能够与同信息直接筛选区分的缺口。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_OE_SCOPED_FORMS_DEV_20261119.json)
