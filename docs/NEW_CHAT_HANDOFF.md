@@ -1,10 +1,61 @@
 # 当前 Goal 恢复与交接
 
-原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 14,935 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 15,007 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
 ## 最新断点
+
+阶段 `revision6_oe_forward_acquisition_settled`，回执 `handoff/revision6_oe_forward_acquisition_terminal_20261120.json`。账本 15,007 笔、在途 0，92 项检查通过。 [四次前向与五库累计结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_FORWARD_ACQUISITION_TRAIN_20261120.json)
+
+- `convergence_oe_bound_acquisition.py` 区分同一主张上的明示额度修正与原错误主张消失。四种策略共用原组池、同一提案和原生评估门槛，每次筛一组、两笔已有物理估值读数。额度使用当批公开事实和保守的联邦单项上限，未把后批校准回填到旧批次。
+- `convergence_revision6_oe_forward_acquisition.py` 核对原 B3、B4、B6、B7 的拟合和下一批实际请求，源文、传输配置和输出语法一致，差异限于程序。64 次归档引用对应 56 笔独立响应。B2、B5 缺少配对的原下一批程序读数。前向一份提案没有主路径 EV 输出，按零计入原分母。
+- B7 候选驱动和按时间均选 B7-3、采纳提案。答案分歧和进入程序风险在 B7-2 看到多项原错误消失，但无明示修复且提案仍有额度冲突，保留原程序。其余三批四策略采纳决定一致。统一额度过滤后，16 个前向母来源上两组分别为 24.79% 和 23.85%，差 +0.94 个百分点，配对区间 −1.98 至 +4.27。按时间复现候选驱动四次采纳决定。
+- B4 有一项超过原文 680 美元的 700 美元预测仍处于官方估值容差，删除会降原生 F1。保留原生和统一过滤两组评分，固定 DEV 沿用上轮。本组不需要重跑，下一项需真实提案能区别于按时间选组并在独立母来源保持收益。
+
+## Revision 6 联邦单项额度与前向估值的前一断点
+
+阶段 `revision6_oe_joint_item_cap_settled`，回执 `handoff/revision6_oe_joint_item_cap_terminal_20261120.json`。账本完成 14,971 笔、历史失败 36 笔、在途 0，90 项检查通过。 [等预算选组、训练前向与五库累计指标](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_JOINT_ITEM_CAP_AND_FIXED_DEV_20261120.json)
+
+- `convergence_oe_federal_item_cap.py` 限于题面逐资产逐法条估值、联邦法条和财产类型可确认、产权明确的范围。B7 两个可区分共同申报口径的原生金额均使用每项 700 美元，按申报人数叠加匹配 0 次。校准按 OpenExempt 原题评分口径。
+- `convergence_revision6_oe_joint_item_cap.py` 在同一 B7 组池和每策略两笔真实读数下，候选驱动、答案分歧与按时间均选择 B7-3 并持久化同一提案。提案把家具由 800 改为 700。B8 唯一高值资产上，进入程序漏报、提案报 980，参考是 700。整程序 B8 前向 F1 为 43.75% 对 47.50%，三种选组同结果。组内共享与同信息直接筛选同判。本片段无需再次派发。
+- 同一校准规则只改已有的超额估值。固定 DEV 4 个适用金额均匹配参考，三份实际修正。内部四臂 EV F1 72.82%→74.50%、平均相对误差 0.0400→0.0193。PARSE EV F1 70.58%→72.31%。五臂各 0 退化。复用归档 TRAIN 32 笔及适用 DEV 6 笔，新增 0。
+
+## Revision 6 同信息引文对照的前一断点
+
+阶段 `revision6_indexed_evidence_control_settled`，回执 `handoff/revision6_indexed_evidence_control_terminal_20261120.json`。账本完成 14,971 笔、历史失败 36 笔、在途 0。88 项检查通过。 [用途限制对照与五库既有 DEV](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_INDEXED_EVIDENCE_CONTROL_AND_FIXED_DEV_20261120.json)
+
+- `cni_purpose_citations.py` 只在已引用一条自足的用途限制时排除可确认的定义性、保密披露、编号或通知引文。保留所引用的另一项限用途许可和跨条款来源。本版保留全部原生分类。
+- `convergence_revision6_indexed_evidence_control.py` 逐笔复用原 72 笔实测并把同一规则给三路。固定分栏 2 份、直接 3 份改善，合成 0 次改写，均无退化。三路正确类证据 F1 分别为 70.70%（合成）、56.12%（固定分栏）、61.94%（直接）。确认组内合成对直接由 +6.65 缩为 +1.15 个百分点，配对区间 −11.54 至 +14.62。
+- 原 B5-2 条件只覆盖所述自行受益用途，源审并记录两种合同模式未选定和适用方未决，缺少把该句普遍扩展到全部非约定用途的原文依据。该差异计入原生分类，保留现行原文规则，不基于此例改变默认分类。
+- 固定 B8 DEV 16 份沿用现行五臂输出。合成接口未派发 DEV。后续需有超出共用引文清理并区别于同信息直接读者的实际机制，避免重跑这两组 TRAIN。
+
+## Revision 6 同条款索引确认的前一断点
+
+阶段 `revision6_indexed_effects_confirmation_settled`。回执 `handoff/revision6_indexed_effects_confirmation_terminal_20261120.json`。首组会话 `22134` 和确认组会话 `13589` 均结束。连续账本完成 14,971 笔、历史失败 36 笔、在途 0。 [首组 TRAIN 封存结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_INDEXED_EFFECTS_TRAIN_20261120.json) · [确认组 TRAIN 与五库既有 DEV](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_INDEXED_EFFECTS_CONFIRMATION_TRAIN_20261120.json)
+
+- `cni_indexed_effects.py` 以同一条款索引绑定法律动作与受保护对象，校验 9 种局部状态的消费者等价性。首组 11 份原 TRAIN 新增 33 笔且无解析错误。合成、固定分栏、直接两题合计分别为 19/22、19/22、18/22，正确类证据 F1 为 71.22%、60.32%、54.94%。用途限制单项合成 10/11，两对照各 9/11。
+- `convergence_revision6_indexed_effects_confirmation.py` 在其余 13 份原 TRAIN 完成 39 笔，零读数错误。主指标用途限制三路分别为 10/13、10/13、11/13，正确类证据 F1 为 64.49%、55.40%、57.84%。合成对分栏差 +9.08 个百分点，95% 区间 0 至 +19.34，对直接差 +6.65，区间 −9.23 至 +23.79。次要指标未授予权利为 8/13、8/13、6/13。两组累计新增 72 笔、教师 0。
+- 确认组全量响应封存后，单任务评分误调用双任务汇总并退出。`convergence_revision6_indexed_effects_confirmation_finalize.py` 逐笔核对原始请求、冻结模型及完整响应，从同一批 39 笔完成评分。未补发。86 项相关检查通过。
+- 本版用途限制比直接读器少答对的 B5-2 合同对自行受益用途设书面批准条件，两索引读器分别判未提及和未决，直接读器判蕴含。保留条款及原参考，不由该差异推出跨母来源规则。此版保留 TRAIN 证据，固定 DEV 尚未派发。
+
+## Revision 6 伊利诺伊估值的前一断点
+
+阶段 `revision6_illinois_pair_amounts_settled`，回执 `handoff/revision6_illinois_pair_amounts_terminal_20261120.json`。账本 14,935 笔、在途 0，84 项检查通过。 [原生估值与五库累计指标](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_ILLINOIS_PAIR_AMOUNTS_AND_FIXED_DEV_20261120.json)
+
+- `convergence_oe_illinois_amount.py` 只对题面逐资产逐法条独立估值、辖区与原条文相符、单债务人产权和金额明确的资产计算上限。原 TRAIN 6 份的 14 个金额和固定 DEV 2 份的 5 个金额均匹配原生参考；联名或产权仅被主张时保留原输出。
+- `convergence_revision6_illinois_pair_amounts.py` 复用 B6 原进入程序与普通教师实际提案的四笔分类、估值读数。两件获正确分类的资产分别报零和漏报。原进入、完整提案和仅接入受支持提案金额三路在该母来源均为 0% 估值 F1，同信息直接为 44.44%。没有通过估值采纳的提案读数。
+- 共用估值修订在完整固定 DEV 上使四个内部臂 68.48%→72.82%、PARSE 66.24%→70.58%。五臂各改善 2 份、退化 0，F1 配对差区间为 0 至 +11.46 个百分点，平均相对误差持平。复用 4 笔适用 DEV 的独立物理响应。B6 原提案无需复试；M2 接续须有能超出同信息检查的候选差异。
+
+## Revision 6 B5 答案分歧强对照的前一断点
+
+阶段 `revision6_cni_b5_disagreement_settled`，回执 `handoff/revision6_cni_b5_disagreement_terminal_20261120.json`。账本 14,935 笔、在途 0，81 项检查通过。 [B5 强对照与五库累计指标](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_B5_DISAGREEMENT_AND_FIXED_DEV_20261120.json)
+
+- `cni_development_definition.py` 将限定范围内的数据定义和开发计划条目识别为保密对象。在完整原文和跨度核对通过、且没有其他开发线索时，判定该合同未提及独立开发。匹配 1 份原 TRAIN 和 1 份固定 DEV。固定 B8 五臂各由 15/16 到 16/16，一项修正，无退化。累计四个内部臂 202/272、证据 F1 52.98%，PARSE 193/272、45.26%。
+- `convergence_revision6_cni_b5_disagreement.py` 复用同一 5 组、10 笔原 TRAIN 实测，三种策略各筛一组、花两笔已测读数。候选驱动选 B1-1、进入读器符合该组证据。答案分歧选 B4-0、两个读器都未通过，默认也保留进入读器。两种策略的固定 DEV 读器及输出相同。按时间 B5-1 仍采纳提案。应用新公共规则后，三路在固定 DEV 的独立开发题均为 16/16。候选驱动对按时间的正确类证据 F1 差为 +9.30 个百分点，配对 95% 区间为 −8.20 至 +27.71。
+- 本轮复用 B5 固定 DEV 32 笔原响应，另验证定义适用 TRAIN 的 2 笔归档响应，新增请求 0。B5 当前选组和原提案无需再读。M2 后续需要在同预算下能改变强对照采纳决定的实际提案及适用的前向母来源。
+
+## Revision 6 ContractNLI 独立开发的前一断点
 
 阶段 `revision6_cni_development_release_settled`，回执 `handoff/revision6_cni_development_release_terminal_20261120.json`。账本 14,935 笔、在途 0，78 项检查通过。 [独立开发与五库累计指标](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_DEVELOPMENT_AND_FIXED_DEV_20261120.json)
 

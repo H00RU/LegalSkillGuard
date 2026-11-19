@@ -1,8 +1,32 @@
 # 当前 Goal 与证据状态
 
-原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 14,935 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 已恢复，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。现行任务直接接通 ContractNLI 合同关系接口的正式学习与复用，以及 OpenExempt 候选驱动的案例选组与正式技能更新，再用原 TRAIN 和固定 DEV 对比。连续账本 15,007 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
+
+## Revision 6 M2 四次逐批前向选组
+
+复用 B3、B4、B6、B7 的 56 笔物理响应，三组比较各次均与候选驱动共用组池、提案和每组两笔读数。候选驱动只把同一已答主张被改到公开额度以内计为修正。B7 候选驱动及按时间选组采纳提案，答案分歧及进入程序风险选组保留原程序。统一额度对照后，四次原下一批合计 16 母来源的估值 F1 分别为 24.79%、24.79%、23.85%、23.85%。候选驱动相对答案分歧的配对 95% 区间为 −1.98 至 +4.27 个百分点。新增请求 0。 [逐批选组和原生前向结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_FORWARD_ACQUISITION_TRAIN_20261120.json)
+
+## Revision 6 M2 联邦单项额度与前向估值
+
+B7 原 TRAIN 两个共同申报金额均支持基准的单项额度口径。候选驱动、答案分歧、按时间三种选组各复用两笔已测估值，均选择 B7-3 并采纳同一提案。该提案在 B8 唯一同范围高值资产报 980 美元，原参考为 700 美元。基于原题校准的共用检查将固定 DEV 四个内部臂估值 F1 从 72.82% 提至 74.50%，PARSE 从 70.58% 提至 72.31%，五臂各改善 3 份、无退化。新增请求 0。 [选组、前向对照与五库累计指标](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_JOINT_ITEM_CAP_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M1 用途限制的同信息引文对照
+
+在原 24 份 TRAIN 上复用 72 笔响应，三路共用原文引文校验，保留任何可独立支持用途限制的引文。合成、固定分栏、直接读器的正确类证据 F1 为 70.70%、56.12%、61.94%。合成较固定分栏高 14.58 个百分点，配对 95% 区间为 +4.86 至 +25.99。较直接高 8.76 个百分点，区间为 −4.37 至 +22.64，确认组内差为 +1.15。固定 B8 DEV 五臂均无引文改写。新增请求 0。 [配对结果与五库既有 DEV](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_INDEXED_EVIDENCE_CONTROL_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M1 同条款索引接口
+
+用途限制和未授予权利共用一套原文索引。先在 11 份原 TRAIN 比较合成、固定分栏和直接作答，再锁定接口，在其余 13 份原 TRAIN 确认用途限制。确认组该题三路分别正确 10/13、10/13、11/13，正确类证据 F1 为 64.49%、55.40%、57.84%，两项配对区间均包含零。原 TRAIN 全部 24 份合计两题三路为 37/48、37/48、35/48，正确类证据 F1 为 64.83%、55.85%、52.65%。两个阶段新增 72 笔，均正常生成。确认组未达到扩大到固定 DEV 的条件。 [首组 TRAIN](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_INDEXED_EFFECTS_TRAIN_20261120.json) · [确认组 TRAIN](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_INDEXED_EFFECTS_CONFIRMATION_TRAIN_20261120.json)
+
+## Revision 6 OpenExempt 伊利诺伊州逐资产估值
+
+B6 提案在两件产权明确的资产上补出通配豁免分类。对应估值一项报零、一项漏报。题面要求逐资产、逐法条计算。共用规则在原 TRAIN 覆盖 6 份母来源、14 件资产，金额均符合原参考。固定 DEV 覆盖 2 份、5 件，四个内部臂估值 F1 从 68.48% 到 72.82%，PARSE 从 66.24% 到 70.58%。五臂各改善两份、无退化。B6 提案未产生可接入估值的金额。新增请求 0。 [B6 提案与五库累计指标](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_ILLINOIS_PAIR_AMOUNTS_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 B5 答案分歧强对照与开发定义修订
+
+B5 在同一组池、同一预算下，候选驱动选 B1-1，答案分歧选 B4-0，均保留同一进入读器。两路在固定 DEV 的所有预测一致。原 TRAIN 中保密信息定义包含开发计划，固定 DEV 中受保护数据定义包含已开发的数据。两处的「开发」均用于界定受保护信息。共同修订使固定 B8 五臂该题各由 15/16 到 16/16，累计四个内部臂 202/272、PARSE 193/272。B5 候选驱动、答案分歧和按时间选组在共同修订后都答对该题 16/16。新增请求 0。 [选择回执与五库累计指标](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_B5_DISAGREEMENT_AND_FIXED_DEV_20261120.json)
 
 ## Revision 6 ContractNLI 独立开发
 
