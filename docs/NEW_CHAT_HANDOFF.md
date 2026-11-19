@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 ContractNLI 披露对象与例外作用域已复核
+
+24 份原 TRAIN 合同、45 笔归档物理响应已核验。原程序、明示对象规则和跨条款链接分别取得 9/24、10/24、10/24，官方证据 F1 为 29.17%、40.28%、41.27%。唯一新增的跨条款证据也由共用源文的直接规则恢复。B8 原候选已经因原生退化被拒绝，B3–B5 五项原生正向候选的旧决定保留。三份存在用语歧义的合同保留原预测。若能从整份原 TRAIN 合同可靠区分矛盾和未提及，再登记可区别于同信息直接规则的原生预期。[回放结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_DISCLOSURE_OBJECTS_20261119.json)
+
+当前无在途作业，新增请求 0，账本 14,614 笔，18 项相关检查通过。原冻结协议、72 份执行源码、TEST 终态和曝光回执已校验。回执为 `handoff/revision5_CNI_disclosure_objects_terminal_20261119.json`。
+
 ## Revision 5 ContractNLI 共享披露定义改名已结算
 
 两份原 TRAIN 合同中，员工与外部顾问通过同一已审定义接入披露许可。仅改名并重算偏移，复用原 B3 两路四笔原题响应，新增四笔原生请求。两路四项标签均保持正确，证据集合各改变两项。进入程序证据 F1 为 25.00%→43.33%，候选为 0%→25.00%。直接按同一原文链接许可和定义为 86.43%，四项均有完整证据。原更新决定保留。后续需要能找到互相竞争的定义或明确的披露例外，才值得比较新共同约束。[比较结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_DEFINITION_ALIAS_20261119.json)
