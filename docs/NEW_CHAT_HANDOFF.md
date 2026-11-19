@@ -8,6 +8,12 @@
 - 原候选库存的独立验证容量结论适用于后续独立确认。这一阶段继续在现有 TRAIN/DEV 上工作，保留原 TEST 的曝光事实。
 - 恢复时读取 `handoff/run_state.json`、实际任务、账本及源码绑定。入口同步回执 `handoff/continuation_revision5_authority_20261119.json`，以下记录按当时日期保留。
 
+## Revision 5 M1 Diversity B8 DEV 同信息对照已结算
+
+原 B8 DEV 的 16 笔合成接口读数全用固定州籍坐标及合成金额关系。原 TRAIN 字面金额规则从两条原引文修复了错误合计，原生正确数由 14/16 到 16/16。固定与合成消费者使用相同原文州籍和金额后均为 16/16，原生与中间判断逐题一致。这个差异由共用解析解释。[对照结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_M1_DIVERSITY_DEV_LITERAL_20261119.json)
+
+新增请求 0，账本 14,554 笔、在途 0。8 项相关检查通过，一个旧 RR 检查缺其 TRAIN fixture。原冻结协议、72 份执行源码、TEST 终态和曝光回执均已校验。结算入口为 `handoff/revision5_M1_diversity_DEV_literal_terminal_20261119.json`。当前无待结算任务。该语法范围内，同信息固定对照已达到原 B8 DEV 的原生满分。
+
 ## Revision 5 M2 ContractNLI 口头信息定义回放已结算
 
 B3 与 B4 的普通教师均只收到原生汇总，普通、M2 两臂分批采纳共同程序。B3 新增两起有源文支持的漏判，B4 修复两起。独立开发回放用原文链接口头披露、保护条款及同一披露方。B3 九份合同的原生正确数由 7→9，同句核查为 8。后续 12 份 TRAIN 分类 11/12 固定，答对才计入的证据 F1 由 65.28% 到 83.33%，同句为 73.61%。共享、逐例与直接证据核查在可证范围内等价。[回放结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION5_CNI_ORAL_SCOPE_20261119.json)
