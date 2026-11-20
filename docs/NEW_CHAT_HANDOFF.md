@@ -6,6 +6,32 @@
 
 ## 最新断点
 
+阶段 `revision6_cni_endpoint_adoption_fallback_settled`，未加门槛、正增益门槛、保留进入读器三次会话 `68408`、`1529`、`28910` 均已退出。最终绑定 `fa1c9b5bd1f75ff45d389b1508334e607bbd111d92db005d1607dd82eacd846b`。复用 30 笔不同原响应，新增 0，在途 0，12 项定向检查通过。原冻结协议、72 份源码快照、TEST 结果和曝光记录均已核验。 终止证据（本地 `legal_skill_guard/paired_interfaces/cni_disposition_endpoint_scope.py`） · 采纳门槛（本地 `legal_skill_guard/paired_interfaces/cni_positive_update_gate.py`） · 进入读器（本地 `legal_skill_guard/paired_interfaces/cni_adoption_fallback.py`）
+
+核实交易到期未成立、双方互返、明确纳入合同的商业关系终止三种履行条件。共用核验后，B6、B7 两类假设均无提案优于各自进入程序。逐任务正增益门槛排除平分或退化的更新。在没有合格提案时保留拟合得到的进入读器，B6→B7 由 4/6 到 5/6，正确类证据 F1 由 51.11% 到 67.78%。B7→B8 保持 3/6、33.33%。两次过渡的七种策略最终逐题一致，固定 DEV 无新作用域命中。 保留该门槛与采纳回执。接续使用有同信息正增益且能分流的新候选，或不同的原 TRAIN 关系。 [逐批结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_LATE_ENDPOINT_ADOPTION_TRAIN_20261121.json)
+
+## Revision 6 ContractNLI B2/B3 终止处置的前一断点
+
+阶段 `revision6_cni_disposition_action_coverage_settled`，B2 会话 `51412`、B3 会话 `97680` 均已退出。最终绑定 `e1b9ec037eaba64d07bcf1b7a82a7b98532aa11b098c315e8c9c5cfb99a08fa0`。复用 12 笔 B2 及 3 笔 B3 不同原响应，新增 0，在途 0。9 项检查通过，原冻结协议、72 份源码快照、原 TEST 结果及曝光回执均已核验。 终止证据链（本地 `legal_skill_guard/paired_interfaces/cni_termination_disposition_paths.py`） · 处置动作核验（本地 `legal_skill_guard/paired_interfaces/cni_disposition_action_coverage.py`）
+
+核验同句的终止返还，以及义务前导、返还动作和编号终止条件组成的引文链。三份原 TRAIN 精确匹配参考。B2 共用该证据后，两种提案的正确类证据 F1 均为 66.67%，PARSE 进入读器为 100%。候选驱动、按时间、分歧筛选及纯原生拟合均保留该进入读器。 B3 的三份原读数原为 1/3、正确类证据 F1 0%。已有交易终点核验将引文 F1 提至 33.33%。再区分完整合同中的处置动作与行政送达后，共用回放达到 3/3、正确类证据 F1 100%。两项误报分别引用了救济与保密信息说明、不授予知识产权条款。共用核验覆盖六份原 TRAIN，固定 DEV 无覆盖。 该分支已结算。继续优先使用不同的原 TRAIN 合同关系或在同信息下确实改变采纳的真实候选。 [B2 同预算采纳](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_B2_DISPOSITION_SELECTION_TRAIN_20261121.json) · [B3 归因](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_DISPOSITION_ACTION_COVERAGE_TRAIN_20261121.json)
+
+## Revision 6 MAUD 契约主体作用域的前一断点
+
+阶段 `revision6_maud_actor_scoped_import_settled`，主体回放会话 `64714`、独立前导会话 `15782` 均已退出。最终绑定 `a14272bfb9cfb11c7d18f94610d3e688f489511c29169a8964ad91ac3585bf2e`。核验 27 笔匹配 TRAIN、39 笔匹配 DEV、前导覆盖 4 笔正式 DEV 原响应和主体作用域 2 笔正式 DEV 原响应。新增 0，在途 0。14 项定向测试通过，核验了原冻结协议、72 份源码快照、原 TEST 终态、结果和曝光回执。 独立前导（本地 `legal_skill_guard/paired_interfaces/maud_independent_covenant_preambles.py`） · 主体作用域（本地 `legal_skill_guard/paired_interfaces/maud_actor_scoped_import.py`）
+
+两种独立前导在原 TRAIN 和固定 DEV 各覆盖两份，四项均符合参考。给五路同样的前导证据后，配对 DEV 的负面契约各修正两项。合成加直接由 17/26 到 19/26，同预算固定字段加直接由 20/26 到 22/26，单路直接由 21/26 到 23/26。正式五臂原已答对这两份，五库累计指标沿用。 另一份固定 DEV 的括号限定只修饰子公司义务，外层疫情例外仍作用于主公司。分别绑定主体后，探索性回放的五个 B8 臂负面契约各由 13/16 到 14/16，零退化。原 TRAIN 无同型来源，探索性结果保留在单独表项。 接续从不同的原 TRAIN 合同关系，或有早批采纳差异且后批仍覆盖的真实 M2 候选推进。 [前导配对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_INDEPENDENT_PREAMBLES_TRAIN_DEV_20261121.json) · [主体作用域回放](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_ACTOR_SCOPED_IMPORT_DEV_20261121.json)
+
+## Revision 6 ContractNLI 副本逐处核验的前一断点
+
+阶段 `revision6_cni_copy_occurrence_scope_settled`，最终会话 `73667`、初版诊断会话 `94414` 均正常退出。最终绑定 `e048d589eaaeae46cad168aabdfd41a02e16140e4e887e54a91906d1446cd229`。复用 15 笔原 TRAIN 同输入读数，新增 0，在途 0，8 项定向测试通过。原冻结协议、72 份源码快照、TEST 终态、结果和曝光回执均已核验。 逐处核验（本地 `legal_skill_guard/paired_interfaces/cni_copy_occurrence_evidence.py`） · 归档回放（本地 `experiments/convergence_revision6_cni_copy_occurrence_evidence.py`）
+
+按原文中每处动作核验后再汇总副本引文。合成接口剔除一条以销毁已有副本为依据的许可判断，该合同另有未决的合规留存条款。早批分类由 3/3 到 2/3，正确类证据 F1 由 52.38% 到 55.56%。在旧范围核验下，后批合成仍为 2/2，固定字段、直接读法各 1/2。各路再共用已结算的例外作用域后，后批均为 2/2、正确类证据 F1 100%。本分支留作诊断。 [已封存配对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_COPY_OCCURRENCE_SCOPE_TRAIN_20261121.json)
+
+OpenExempt 的四次归档过渡中，训练端有 10 条同时改变分类与估值的同法条候选记录。后批即使只按引文匹配，也没有同法条的实际改动，因此无需运行该组双任务迁移。接续优先选择不同的合同关系，或前缀确有采纳差异且后批仍有作用域覆盖的真实提案。
+
+## Revision 6 OpenExempt 威斯康星州消费品的前一断点
+
 阶段 `revision6_oe_wi_consumer_roles_settled`，会话 `10894` 正常退出，绑定 `a0cf05f2ce25d1b19a31d3e92fff03afc14668916cf429eb2a96ffb3c4cbe2bd`。复用 144 笔原 TRAIN 响应，新增模型请求 0，在途 0，9 项定向测试通过。已核验原冻结协议、72 份源码快照、TEST 终态、结果和曝光回执。 物品角色核验（本地 `legal_skill_guard/paired_interfaces/convergence_oe_wi_consumer_roles.py`） · 前向回放（本地 `experiments/convergence_revision6_oe_wi_consumer_roles.py`）
 
 两种 B7 提案撤回同一常住住宅的误报。沿整条法条迁移时，两路均在 B8 的商用相机上新增错误申报，四份后批 TRAIN 的估值 F1 由 65.01% 降到 64.45%。按已核实的住宅角色迁移，四份均未触发。给进入程序与两种候选相同的原文证据后，三路逐资产一致，分类／估值 F1 为 64.58%／65.57%，此前进入程序为 67.08%／65.01%。固定 DEV 无覆盖，五库累计指标沿用。 该分支作为诊断留档。接续使用能与同信息强对照区分的新候选或合同接口。 [逐臂结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_WI_CONSUMER_ROLES_TRAIN_DEV_20261121.json)
