@@ -4,6 +4,46 @@
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
+## Revision 6 M2 ContractNLI 双组选组的反证作用域
+
+将原 B4 组合筛选的否决绑定到支持它的具体条款角色。各策略沿用原两组预算、拟合排序和实际读器，单份合同的缺席判断留在原案。候选驱动原先替换的三类题目中，两类缺少可迁移的角色证据。后批 12 份合同上，作用域筛选生效五次，改变四项输出，正确数仍为 57/60，正确类证据 F1 由 83.19% 升至 86.93%。相对同作用域的时间选组与原生拟合高 1.11 个百分点，配对区间 [0,+3.33]。
+
+差异仅来自 B8 第三份合同的对外知悉例外。把可核实的总则和例外引文同样给每路后，候选驱动、时间、领先程序计数、作用域内分歧和原生拟合逐题一致，均为 57/60 和 87.48% 证据 F1。固定 DEV 无同型条款，五库累计沿用。复用 60 笔拟合与 22 笔后批读数，新增 0。 [配对和原文归因](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PORTFOLIO_SCOPED_VETO_TRAIN_20261120.json)
+
+## Revision 6 OpenExempt B6 类别和估价资产键
+
+复用 B6 真实进入程序、普通提案、PARSE 提案的 24 笔原读数。将亚利桑那手表条款和伊利诺伊服装、职业工具条款的误引绑定到具体资产。PARSE 分类相对进入程序的 +8.52 个百分点，在各路统一排除误引后剩 +0.74。将完整名称和金额均唯一匹配的估价后缀归并后，进入程序为 75.73%，PARSE 为 74.39%，差 −1.34 个百分点。四种同预算筛选均保留进入程序。纯原生拟合从 PARSE 分类加普通估值改为仅普通估值。B7–B8 八份原 TRAIN 无目标法域。
+
+固定 DEV 另核实 3 笔物理响应。受影响的资产键归并后，五臂的原生指标均持平，其他四库沿用。两步复用同一 B6 原读数，新增请求 0。 [分阶段拟合、配对和五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_B6_ITEM_CATEGORY_AND_VALUATION_KEYS_20261120.json)
+
+## Revision 6 ContractNLI 标记词的作用对象
+
+把签署人职务、通知收件人、指定区域、商标和销毁确认限定到自己的作用对象。全文与索引的标记词核对一致且全部剩余线索均可归类时，才判定原始信息的标记义务未提及。原 TRAIN 覆盖 8/24、固定 DEV 覆盖 4/16，全部与原标签一致。五臂固定 DEV 标记题均由 12/16 到 16/16，零退化。ContractNLI 累计四内部臂 224/272、证据 F1 63.10%，PARSE 215/272、56.03%。其他四库沿用。
+
+新作用域未命中原六份 M1 定向合同比较，归档读器结果沿用。M2 在原 B4 四读器和 54 对可行组上重拟合，组、采纳及后批预测均复现，后批各为 57/60。保留为共用修订，新增请求 0。 [配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_DESIGNATION_CUE_ROLES_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 ContractNLI 第三方披露的批准条件
+
+区分独立披露许可、事前授权、员工专属访问和法定强制披露，并保存实际约束所需的前导与分项。原 TRAIN 五份、固定 DEV 两份与原分类及引文一致。固定 DEV 五臂各修正两项分类，零退化。ContractNLI 累计四内部臂 220/272、证据 F1 61.63%，PARSE 211/272、54.56%。其他四库沿用。
+
+把同一原文核验给 M1 的后批转移读法及强对照，合成、固定、直接的两项合计分别为 7/24、17/24、6/24，两个归档整文对照均为 20/24。M2 用新公共证据重拟合原 B4 四读器，54 对可行组中各策略所选组和程序均保持。原 B5–B8 的 60 项上各路为 57/60，候选驱动正确类证据 F1 为 83.19%，强对照为 84.23% 至 86.28%。新增请求 0。 [两项对照和五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_DISCLOSURE_AUTHORIZATION_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 OpenExempt 威斯康星州消费品与 B8 采纳
+
+按题面消费品条款、个人用途和产权条件核对项目，将自住不动产留在条款作用域之外。B8 第四组核实四项分类和四项估值，固定 DEV 核实三项分类和三项估值，全部匹配原参考。在沿用现有原文修订的前提下，PARSE 分类单独更换仍有两项经原文证实的修正。把新增见证用于筛选时，四个筛选策略均采纳 PARSE 分类和普通提案估值，在 16 份固定 DEV 上均为 73.62%／69.23% F1。先把可核实主张统一补给各路，再拟合和筛选时，四路均保留进入程序，分类／估值 F1 为 67.80%／63.78%。相对仅按原生拟合的平均差为 −5.63 个百分点，95% 配对区间 [−13.37,−0.70]。M2 与时间、分歧两条同预算强对照逐题一致。
+
+共用修订使累计固定 DEV 的 OpenExempt 分类 F1 在五臂各提高 0.625 个百分点，一份改善、零退化。四个内部臂达 86.65%，PARSE 达 86.08%，估值沿用。40 笔 TRAIN 及 96 笔同输入 DEV 原响应复用，新增 0。 [拟合与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_WI_CONSUMER_GOODS_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 ContractNLI 到期与保留义务
+
+按原文区分签署后的固定到期、协议实际终止及保留材料的延续义务。对无延续判断核对全文提示及其作用对象，对有延续判断保存直接义务引文和关联条款。适用的三份原 TRAIN、四份固定 DEV 均与原分类及引文一致。固定 DEV 上，存续题四内部臂各由 12/16 到 13/16，PARSE 由 11/16 到 12/16，五臂正确类证据 F1 均由 43.75% 升至 56.25%，零退化。ContractNLI 五库累计中的四内部臂为 218/272、证据 F1 60.89%，PARSE 为 209/272、54.01%。共用修订，其他四库沿用。复用 8 笔响应，新增 0。 [配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_SURVIVAL_TERM_SCOPE_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 OpenExempt 俄勒冈个人财产
+
+在明示单人所有权下，用原请求的 § 18.345(1)(p) 和逐资产估值口径恢复现有词表漏掉的动产。原 TRAIN 核实四项分类、五项估值，固定 DEV 核实一项估值，均匹配原参考。B4 的五条组合筛选证据改变，候选驱动和各对照的采纳决定维持，其他三个原批次的新增见证也无选型变化。给每路同一投影后，在 16 份后批 TRAIN 上，候选驱动、按时间和按答案分歧逐题一致，分类／估值 F1 均为 70.75%／57.89%。相对仅按原生拟合的两项平均配对差为 +3.35 个百分点，95% 区间 [+0.68,+7.09]。这项差异与两个同预算强对照相同，M2 独立收益仍待验收。
+
+OpenExempt 固定 DEV 的 PARSE 估值 F1 由 79.26% 升至 79.56%，一份改善、零退化，四个内部臂保持 86.03% 分类 F1 和 83.50% 估值 F1。保留为共用修订。复用 144 笔 TRAIN、1 笔固定 DEV，新增请求 0。 [配对与五库累计结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_OREGON_TANGIBLE_TRAIN_DEV_20261120.json)
+
 ## Revision 6 M1 ContractNLI 分槽留存证据
 
 把处分后的保留许可和全量处置禁止分别绑定到各自的引文，穷举确认原消费者 243 个状态保持等价。三份早批原 TRAIN 上复用九笔归档，新增三笔。各路共用原文依据后分类均为 3/3，合成、固定字段、直接读法的正确类证据 F1 分别为 61.11%、57.78%、59.26%。锁定该接口后，在三份预先登记的后批原 TRAIN 新增九笔，同一全文和索引下三路均正确 2/3，证据 F1 分别为 66.67%、27.78%、50.00%。对两个强对照的配对区间下界均为零，相对直接读法的提升集中于 B5 的一份合同。五库固定 DEV 沿用。 [早批锁定](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RETENTION_WITNESSES_FIT_TRAIN_20261120.json) · [同输入后批结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RETENTION_WITNESSES_FORWARD_TRAIN_20261120.json)
