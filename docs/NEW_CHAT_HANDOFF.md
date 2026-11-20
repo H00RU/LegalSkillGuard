@@ -1,10 +1,54 @@
 # 当前 Goal 恢复与交接
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,246 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,269 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
 ## 最新断点
+
+阶段 `revision6_cni_task_screen_parse_later_settled`。会话 20649 已结束，绑定 `f6e8a2adca482c71e8e51738d824d5c9f0041de91aa28f71ebc14a3166c21d53`。原 B6–B8 九份 TRAIN 均未由现有共用源证确定第三方披露题。两路原版程序完整配对，18 笔全部正常解码，共 224,202 tokens。10 项相关检查通过，原冻结协议、72 份快照、TEST 终态和曝光回执保留。 [匹配读数和逐份结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_TASK_SCREEN_PARSE_LATER_TRAIN_20261120.json)
+
+- 候选驱动和四个强对照在九份合同上逐份分类得分一致，各为 7/9。正确类证据 F1 为 31.62% 对 26.54%，候选驱动在三份改善、两份退化，母来源配对 95% 区间 [−24.31, +36.18] 个百分点。原固定 DEV 的公开输入有 15/16 待解，进入程序已有 15 笔精确读数，B4 PARSE 提案缺 15 笔。当前前向区间不足以启动该扩验。复用这些证据，优先推进有不同作用域依据的 M1 合同接口或能改善同信息对照的新 M2 更新。
+
+## Revision 6 ContractNLI B4 普通提案的后批断点
+
+阶段 `revision6_cni_task_screen_b4_later_settled`。会话 37909 已结束，绑定 `fd1dcb4bb27680f4ceeb7f2401afc5901f9eea89e18fe8de7422d66792179248`。原 B6–B8 九份 TRAIN 中，协议事实披露题七份由共用规则确定，余 B6-3、B7-3 各补一笔精确进入程序读数，共 23,956 tokens。九笔 B4 采纳程序原读数全部复用。五个策略均为 7/9，正确类证据 F1 74.07%。两份待解合同在两路均失分，B5 的一题分类优势未在后批复现。 [按来源结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_TASK_SCREEN_B4_LATER_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 用途证明的前一断点
+
+阶段 `revision6_cni_purpose_proof_settled`。会话 89278 已退出，绑定 `b62c8b3f4142dc2bbbd2ff23b3f117c6ad0a5f5224eae687432d3c5753397b6d`。九笔前向实际响应沿用，新增 0，10 项检查通过。原 TRAIN 3/24 份出现完整用途限制，分类和引文均精确匹配原参考。固定 DEV 原文覆盖 0/16，未读取新评分。
+
+- 仅校准同类引文后，候选驱动 7/9，四对照 6/9，正确类证据 F1 为 74.07% 对 62.96%。把能由随题条款确定的分类也共享给所有臂后，五路均为 7/9 和 74.07%。新证明在原 B1–B5 拟合前缀覆盖为零，保留原筛选版本和 B4 其他假设的结论。 [分类与引文归因消融](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PURPOSE_PROOF_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI B3 与 B5 按假设前向比较的前一断点
+
+阶段 `revision6_cni_task_screen_forward_settled`。会话 50594 已退出，绑定 `1066315c3c36bbd6043a72f2bb1514909582336252a0948503d072b34e0f7bbd`。B3 普通和 B5 PARSE 的下批原 TRAIN 在 B4-3、B6-1、B6-3 补三笔进入程序读数，均正常解码，共 32,878 tokens。其余差异题由共用源文核验固定。复用实际候选响应，按合同成对计分。10 项检查通过，原冻结协议、72 份快照、TEST 终态及曝光回执通过核验。 [两次过渡、逐份结果与区间](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_TASK_SCREEN_FORWARD_TRAIN_20261120.json)
+
+- 六份新过渡母来源、九道采纳相关题上，候选驱动 7/9，时间、分歧、范围内分歧及逐假设原生拟合均 6/9。正确类证据 F1 为 53.81% 对 59.26%。母来源等权的分类差 +8.33 个百分点，95% 区间 [0, +25.00]，证据差 −4.09 个百分点，区间 [−15.60, +3.33]。B4 路线分流后评分相同，B6 第三份用途题修正一项，第一份用途题的正确引文附近附带大量无关跨度。
+- 原 TRAIN 已定位两处用途作用域：B6 第一份的独立“solely”句，第三份在第三方披露列表后继承同一禁止模态的用途分支。现有共用充分证明均未命中。下一轮用相同的原文限制与引文核验同时检验所有候选及强对照，复用三笔实测。按新证据评估 B6 的分类差和证据退化来自何处。
+
+## Revision 6 ContractNLI B4 按假设筛选的前一断点
+
+普通提案与 PARSE 提案分别绑定 `ed91b9b517e1cf7375eecd992823cf6412776ee6dd536cdd182eca6d16630479`、`f067dc1b8a5290fa00348131fc30b00792b7658847d0efd84649771b060936a9`。会话 90517、2324 已退出。每个比较复用 24 笔前缀拟合及 6 笔前向响应，7 项检查通过，新增 0。每个筛选策略从同一原 TRAIN 组池选一组、两笔筛查响应，并用相同的逐假设原生门槛。候选驱动按会被采纳的假设定位原文证据损失，只否决发生损失的假设。
+
+- 普通提案中只保留 `nda-10` 的进入读器。B5 为 39/51，时间、分歧、候选范围内分歧和完整前缀原生选择为 38/51。正确类证据 F1 同为 50.98%。
+- PARSE 提案中只保留 `nda-7` 的进入读器。B5 为 40/51，四个强对照为 39/51，正确类证据 F1 50.98% 对 49.02%。两项分类差均为 +1.96 个百分点，配对区间下界为 0。两次前向比较共用 B5 的三个母来源，独立母来源仍为 3。 [普通提案](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_TASK_SCREEN_TRAIN_20261120.json) · [PARSE 提案](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_TASK_SCREEN_PARSE_TRAIN_20261120.json)
+
+## Revision 6 OpenExempt 条文适用的前一断点
+
+阶段 `revision6_oe_clause_scope_settled`。会话 95346 已退出，绑定 `b7fc42625e3048f2b471aa5e9732abefe0237f62fda79afd7fc231a49b84d7a9`。复用 B6 的 24 笔执行响应与固定 DEV 的 10 笔受影响响应，新增 0，15 项检查通过。核对原冻结协议、72 份快照、TEST 终态和曝光回执。 [B6 法域分解与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_CLAUSE_SCOPE_AND_FIXED_DEV_20261120.json)
+
+- `convergence_oe_clause_scope.py` 使用随题精确条文核验择法条款和资产类型。B6 进入程序分类 F1 从 60.16% 到 63.49%，PARSE 保持 72.01%。PARSE 的正差只在亚利桑那与伊利诺伊，原 B7、B8 均无这两个法域。四种同预算筛选仍保留进入程序，纯原生拟合选 PARSE 分类。
+- 固定 DEV 的变化均为删除不适用的宾州缝纫机引文。四内部臂分类／估值 F1 由 83.79%／79.13% 升至 84.93%／80.36%，分别改善 2／3 份。PARSE 由 83.01%／75.45% 升至 84.35%／76.65%，分别改善 3／2 份。五臂零退化，原参考无冲突。接续候选统一使用共用条文核验。B6 后续派发须有不同于已结算证据的依据。
+
+## Revision 6 OpenExempt 资产键绑定的前一断点
+
+阶段 `revision6_oe_ec_identity_settled`。离线会话 8805、30728 均已结束。前者在 B2、B3、B5、B6 的 16 份原 TRAIN 上复用 64 笔进入程序和普通提案响应，补入 32 笔原先未进比较的 PARSE 响应。每份来源的三个程序使用相同公开输入和冻结设置。B6 的 PARSE 分类高 10.81 个百分点，估值低 14.35 个百分点；纯原生拟合只选 PARSE 分类，四个同预算原文筛选均保留进入程序。 [完整候选池及采纳](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_REJECTED_PARSE_TRAIN_20261120.json)
+
+- `convergence_oe_ec_identity.py` 把唯一匹配的大小写别名连回原资产，保留歧义项和精确键，随后对所有程序重用既有原文规则。B6 的四份 TRAIN 中三份触发键绑定，PARSE 分类 F1 为 70.97%→72.01%，进入程序保持 60.16%，四种原文筛选的采纳相同。固定 DEV 五臂各改善一份、零退化，四内部臂分类 F1 83.27%→83.79%，PARSE 82.49%→83.01%，估值沿用。
+- 本轮去重复用 98 笔历史执行器响应，新增 0，在途 0，22 项检查通过。两个绑定是 `91e9f8b168b11baea5f563da63cdcba453da14ee08a764a385af27a722ce625d` 和 `1f7e6278eb8cca8c9530eb8309b42e318dc4725a8cada94793d1a5297b0786e6`。原冻结协议、72 份源码快照、TEST 终态与曝光回执通过核验。后续候选统一使用新资产键，B6 PARSE 无候选驱动采纳差异，接续选择不同的源文关系或实际提案。 [资产绑定与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_EC_IDENTITY_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M1 协议事实披露的前一断点
 
 阶段 `revision6_cni_agreement_fact_train_settled`。会话 69083 已结束，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_agreement_fact_train_terminal_20261120.json`，绑定 `6f3a2d565c6847fe67988ec3f434d6d418db27462ec4ba4364fe798f0a0aaf7e`。21 笔新冻结读数全部正常解码，共 101,527 tokens。复用两条原臂的配套读数，另逐笔核验先前十份合同的 30 笔实测，其中五份与本次重合，接口和请求分别保留。17 项检查通过，冻结协议、72 份源码快照、TEST 终态和曝光已核对。 [三路实测、源范围与多数类对照](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_AGREEMENT_FACT_TRAIN_20261120.json)
 

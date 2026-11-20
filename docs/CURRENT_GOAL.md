@@ -1,8 +1,26 @@
 # 当前 Goal 与证据状态
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,246 笔，其中完成 15,210 笔、历史失败 36 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,269 笔，其中完成 15,233 笔、历史失败 36 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。 [实测断点](NEW_CHAT_HANDOFF.md)
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
+
+## Revision 6 ContractNLI 用途约束归因
+
+两种原文句法覆盖原 TRAIN 3/24，分类和引用均符合原参考，固定 DEV 覆盖 0/16。仅统一引文时，候选驱动仍多答对一题。把用途分类也按原文统一后，原 B3 与 B5 两次过渡的五种选组各为 7/9，正确类证据 F1 各为 74.07%。B4 的协议事实与第三方披露比较独立保留。 [用途约束消融](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PURPOSE_PROOF_TRAIN_20261120.json)
+
+B4 普通提案沿用原分流，后批九份协议事实题各为 7/9、证据 F1 74.07%。复用九笔采纳程序读数，另补两笔进入程序。B4 PARSE 的第三方披露后批使用九对原版响应，分类五路均为 7/9，正确类证据 F1 为 31.62% 对 26.54%，配对区间跨零。两项均未触发固定 DEV 扩验。 [B6–B8 普通提案](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_TASK_SCREEN_B4_LATER_TRAIN_20261120.json) · [B6–B8 PARSE 提案](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_TASK_SCREEN_PARSE_LATER_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 按假设选组
+
+B4 普通与 PARSE 提案的采纳差异在同一批三份 B5 合同上各修正一项。对四个同信息强对照，普通提案为 39/51 对 38/51，PARSE 为 40/51 对 39/51，两项分类区间下界都为零。B3 普通与 B5 PARSE 过渡按同一规则锁定，补三笔读数，六份后批合同的九道采纳相关题上为 7/9 对 6/9，正确类证据 F1 为 53.81% 对 59.26%。原五库固定 DEV 分数沿用。 [B4 普通提案](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_TASK_SCREEN_TRAIN_20261120.json) · [B4 PARSE 提案](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_TASK_SCREEN_PARSE_TRAIN_20261120.json) · [两个额外前向批次](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_TASK_SCREEN_FORWARD_TRAIN_20261120.json)
+
+## Revision 6 OpenExempt 择法与资产条款
+
+B6 共用随题条文核验后，进入程序的分类 F1 为 63.49%，PARSE 为 72.01%。正差只见于亚利桑那与伊利诺伊，原 B7、B8 均无相关法域。四种同预算筛选采纳一致。固定 DEV 五臂剔除不适用的宾州缝纫机引文，四内部臂分类／估值 F1 为 84.93%／80.36%，PARSE 为 84.35%／76.65%，均零退化。 [原生评分与后批覆盖](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_CLAUSE_SCOPE_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 OpenExempt 逐任务候选与分类资产绑定
+
+补齐四批 32 笔原 PARSE 响应，B6 的分类提升集中在训练拟合。资产名大小写统一后，B6 PARSE 分类 F1 由 70.97% 达到 72.01%，进入程序为 60.16%。候选驱动、时间、分歧和进入风险四种筛选均保留进入程序，纯原生拟合选择 PARSE 分类。固定 DEV 五臂各改善一份、零退化，累计四内部臂分类 F1 为 83.79%，PARSE 为 83.01%。共用核验解释这项固定 DEV 增益。 [候选池](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_REJECTED_PARSE_TRAIN_20261120.json) · [五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_EC_IDENTITY_AND_FIXED_DEV_20261120.json)
 
 ## Revision 6 M1 协议事实的披露限制
 

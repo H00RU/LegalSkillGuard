@@ -2,11 +2,21 @@
 
 截至 2026 年 11 月 20 日，原研究 Goal 仍为 `active`。M1 的 Diversity 正式入口、合同接口拟合和 DEV 复用已接通。M2 已将候选驱动选组接入 OpenExempt 的正式训练更新，并用 ContractNLI 的原 B5 提案验证了另一种选组差异。两项方法各自相对强对照的可靠原生收益仍待验收。 [现行方案](https://github.com/H00RU/LegalSkillGuard/blob/7024de8b589c1fca67c66a7d29d11cda60af4a9c/reports/legal_skill_convergence_20261117/PLAN.md) · [接续协议](https://github.com/H00RU/LegalSkillGuard/blob/7024de8b589c1fca67c66a7d29d11cda60af4a9c/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json)
 
-**接续优先级。** M1 沿用 Diversity 正式链与同源字面对照，复用 MAUD 的正向 TRAIN 配对，前向验证只覆盖实际具备该条款关系的来源。M2 复用 OpenExempt B1–B8 的已结算证据，针对有新原文依据且能与同信息强对照区分的采纳路径安排前向配对。最近的累计开发分数按库、按臂保留。原 128 来源八批训练、五库冻结 TEST、消融与曝光记录按原版本归档。 [五库累计 DEV](paper/tables/REVISION6_CNI_NOTICE_ROLES_AND_FIXED_DEV_20261120.json) · [冻结结果](paper/tables/TEST_B8_NATIVE_TABLES.md)
+**接续优先级。** M1 沿用 Diversity 正式链与同源字面对照，复用 MAUD 的正向 TRAIN 配对，前向验证只覆盖实际具备该条款关系的来源。M2 复用 OpenExempt B1–B8 的已结算证据，针对有新原文依据且能与同信息强对照区分的采纳路径安排前向配对。最近的累计开发分数按库、按臂保留。原 128 来源八批训练、五库冻结 TEST、消融与曝光记录按原版本归档。 [五库累计 DEV](paper/tables/REVISION6_OE_CLAUSE_SCOPE_AND_FIXED_DEV_20261120.json) · [冻结结果](paper/tables/TEST_B8_NATIVE_TABLES.md)
 
 ## 最新固定 DEV 与接续断点
 
-目前阶段为 `revision6_cni_agreement_fact_train_settled`。连续账本累计 15,246 笔，其中 15,210 笔完成、36 笔历史失败，当前在途 0。 [恢复与交接](../../docs/NEW_CHAT_HANDOFF.md)
+目前阶段为 `revision6_cni_task_screen_parse_later_settled`。连续账本累计 15,269 笔，其中 15,233 笔完成、36 笔历史失败，当前在途 0。 [恢复与交接](../../docs/NEW_CHAT_HANDOFF.md)
+
+按原文共同确定用途题的分类和引文后，B3 及 B5 的后批五路结果同为 7/9、证据 F1 74.07%。B4 普通提案在原 B6–B8 协议事实题的另外九份合同上也五路同分，7/9、证据 F1 74.07%。此前 B5 的原始结果均保留。 [用途归因](paper/tables/REVISION6_CNI_PURPOSE_PROOF_TRAIN_20261120.json) · [B4 后批复核](paper/tables/REVISION6_CNI_TASK_SCREEN_B4_LATER_TRAIN_20261120.json)
+
+B4 PARSE 第三方披露筛选沿用原决策，在 B6–B8 九份 TRAIN 上补齐 18 笔，全部正常解码。五路分类均 7/9。候选驱动的正确类证据 F1 为 31.62%，四个强对照均为 26.54%，母来源配对区间 [−24.31, +36.18] 个百分点。此前 B5 的分类优势未复现，固定 DEV 沿用。 [第三方披露后批](paper/tables/REVISION6_CNI_TASK_SCREEN_PARSE_LATER_TRAIN_20261120.json)
+
+ContractNLI 按假设筛选在 B4 普通与 PARSE 两个不同提案上各拦下一项更新。原 B5 三份合同上，相对三个同预算选组和完整前缀逐假设原生拟合，候选驱动分别为 39/51 对 38/51 和 40/51 对 39/51。正确类证据 F1 分别持平和 +1.96 个百分点。两次共用三个独立母来源。另两次过渡在各自下批的六份合同、九道采纳相关题上达 7/9 对 6/9，证据 F1 为 53.81% 对 59.26%。新增三笔、32,878 tokens，复用原候选实测与前缀。分类区间下界为零，固定 DEV 沿用。 [普通提案](paper/tables/REVISION6_CNI_TASK_SCREEN_TRAIN_20261120.json) · [PARSE 提案](paper/tables/REVISION6_CNI_TASK_SCREEN_PARSE_TRAIN_20261120.json) · [额外前向比较](paper/tables/REVISION6_CNI_TASK_SCREEN_FORWARD_TRAIN_20261120.json)
+
+OpenExempt 共用原文核验区分择法条款与资产条款。B6 进入程序分类 F1 为 60.16%→63.49%，PARSE 保持 72.01%。PARSE 的两个正差来自亚利桑那和伊利诺伊，后两批原 TRAIN 无相同法域。四种同预算筛选仍保留进入程序。固定 DEV 五臂删除不适用的宾州缝纫机引文，分类和估值均改善，无退化。复用 34 笔原响应。 [B6 法域分解和五库累计](paper/tables/REVISION6_OE_CLAUSE_SCOPE_AND_FIXED_DEV_20261120.json)
+
+OpenExempt 补入 B2、B3、B5、B6 的四个正式测量后未采纳的 PARSE 提案。16 份原 TRAIN 上，各程序使用相同公开输入。B6 的 PARSE 分类比进入程序高 10.81 个百分点，估值低 14.35 个百分点。B6 唯一资产键绑定使 PARSE 分类从 70.97% 到 72.01%，四种原文筛选仍保留进入程序。固定 DEV 五臂各修一份、零退化，四个内部臂分类 F1 由 83.27% 到 83.79%，PARSE 由 82.49% 到 83.01%。本轮去重复用 98 笔，无新增请求。 [同条件候选池](paper/tables/REVISION6_OE_REJECTED_PARSE_TRAIN_20261120.json) · [修订及固定 DEV](paper/tables/REVISION6_OE_EC_IDENTITY_AND_FIXED_DEV_20261120.json)
 
 协议事实披露接口在七份前四批原 TRAIN 比较。合成 1/7，固定字段、直接及留一多数类各 6/7。合成六处误判均为把其他条款当成协议事实的披露限制。21 笔正常解码，拟合保留现行程序，累计固定 DEV 沿用。 [拟合与同输入对照](paper/tables/REVISION6_CNI_AGREEMENT_FACT_TRAIN_20261120.json)
 
@@ -126,14 +136,14 @@ B5 披露对象选组新增了按答案分歧的同预算对照。两种主动�
 
 最新比较覆盖原 B6–B8 中此前未做权利授予配对读取的 8 份 TRAIN 合同。合成、固定及同信息直接读器的分类依次为 0/8、2/8、8/8，证据 F1 依次为 0%、20.83%、75.42%。24 笔冻结执行器读取全部正常结算，连续账本达 14,895 笔，在途 0。该单任务接口没有触发 DEV 扩验。 [权利授予 TRAIN 结果](paper/tables/REVISION6_LICENSE_FORWARD_TRAIN_20261120.json)
 
-累计 B8 DEV 已结算。五库各有 16 份原 DEV 母来源。下表为启用两项方法的臂及相应同信息对照所能支持的结论。 [五库累计指标和逐臂结果](paper/tables/REVISION6_CNI_NOTICE_ROLES_AND_FIXED_DEV_20261120.json)
+累计 B8 DEV 已结算。五库各有 16 份原 DEV 母来源。下表为启用两项方法的臂及相应同信息对照所能支持的结论。 [五库累计指标和逐臂结果](paper/tables/REVISION6_OE_CLAUSE_SCOPE_AND_FIXED_DEV_20261120.json)
 
 | 数据库 | 机制与对照 | 累计原生指标 |
 |---|---|---|
 | LegalBench Diversity | M1 正式路径已触发。同源字面强对照同样答对全部题。 | 准确 16/16 |
 | ContractNLI | M1 合成接口和 M2 候选驱动选组已触发。四个内部臂累计结果持平。 | 内部臂 207/272，证据 F1 56.57%。PARSE 198/272，证据 F1 49.05%。 |
 | MAUD | M1 联合字段在三个前向 TRAIN 的普通经营题上各答对，负面契约均未答对。固定 DEV 的增益来自共用条款核验。 | 知悉定义 16/16，负面契约 13/16，普通经营 14/16 |
-| OpenExempt | M2 B7 候选驱动选组已触发。共用品类核验后，候选驱动与同预算强对照的前向原生预测一致。固定 DEV 纳入共用机动车额度与家庭用品核验。 | 分类 F1 83.27%，估值 F1 79.13% |
+| OpenExempt | M2 B7 候选驱动选组已触发。共用品类核验后，候选驱动与同预算强对照的前向原生预测一致。固定 DEV 纳入共用机动车额度、家庭用品、资产键和条文适用核验。 | 分类 F1 84.93%，估值 F1 80.36% |
 | RuleArena Airline | 巴拿马线路收益来自共用费率规则。 | 精确总费用 16/16 |
 
 此前的 ContractNLI 修订识别保护本协议和限制公开参与谈判事实的条款。协议披露题在四个内部臂各由 4/16 升到 7/16，PARSE 由 10/16 升到 11/16，均无退化。相同原文规则下，原 TRAIN 多数类回退为 13/16，归档 B5 候选驱动和按时间选组为 9/16 和 11/16。独立验收仍需要新证据区分两项方法与各自强对照。 [协议披露明细](paper/tables/REVISION6_CNI_AGREEMENT_DISCLOSURE_AND_FIXED_DEV_20261120.json)
