@@ -6,6 +6,44 @@
 
 ## 最新断点
 
+阶段 `revision6_cni_retention_evidence_scope_settled`，会话 `61166` 正常退出，绑定 `e4c5324bf05750d62ae00baeb69056d549aba3baa89b7ab1be5ade738de88bca`。11 项定向测试通过。已核验原冻结协议、72 份源码快照、TEST 终态、结果与曝光回执。 条款核验（本地 `legal_skill_guard/paired_interfaces/cni_retention_evidence_scope.py`） · 归档回放（本地 `experiments/convergence_revision6_cni_retention_evidence_scope.py`）
+
+共用原文核验在 24 份原 TRAIN 中识别两条退还义务，固定 DEV 16 份无触发。三份后批配对合同上，合成、固定字段、直接读取各答对 2/3。正确类证据 F1 分别为 66.67%、55.56%、66.67%，直接读取由 50.00% 升至与合成持平。第三份合同的处置条款与原参考分类仍有分歧，原参考与评分保留。复用 9 笔归档读数，新增请求 0，五库固定 DEV 指标沿用。 共享规则把退还义务与相邻的持续保密和保密对象例外分开。接续时选不同的 M1 合同关系，或核验同信息下仍有实际差异的 M2 提案。 [原生配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RETENTION_EVIDENCE_SCOPE_TRAIN_DEV_20261120.json)
+
+## Revision 6 ContractNLI 员工与关联方访问的前一断点
+
+阶段 `revision6_cni_employee_access_scope_settled`，会话 `44829` 正常退出，绑定 `8769a465f5a7e3deb8d696008b25f3a4ac669387784a94a55cbe813c8b47a87a`。核验 3 笔受影响 TRAIN、2 笔固定 DEV 和 B5 重拟合的 60 笔前缀归档响应。新增 0，在途 0。16 项测试通过，原冻结协议、72 份源码快照、TEST 终态、结果与曝光回执已核验。 许可链代码（本地 `legal_skill_guard/paired_interfaces/cni_employee_access_scope.py`） · 归档回放（本地 `experiments/convergence_revision6_cni_employee_access_scope.py`）
+
+B5 第二份的两条许可链分别取接收方前导与员工分项、关联方人员限制。B7 第二份为直接员工共享许可。两份均精确匹配 TRAIN 分类和引文。B4 的 51 对可行组在给相同原文后逐项一致，均为 58/60、正确类证据 F1 92.48%。B5 同信息重拟合七个策略的选组和采纳保持。固定 DEV 另有一份承包商访问，原 TRAIN 无同型且与归档的 M1 同条件五源队列无交集。探索性回放内部四臂员工题各 14/16→15/16，PARSE 仍 14/16，五臂正确类证据 F1 各增 6.25 个百分点。五库累计使用有 TRAIN 支持的规则。后续选择另一个可核验的消费者，或相同原文下有实际剩余配对差异的 M2 提案。 [逐批比较与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EMPLOYEE_ACCESS_SCOPE_TRAIN_DEV_20261120.json)
+
+## Revision 6 M2 ContractNLI B4 作用域选组的前一断点
+
+阶段 `revision6_cni_b4_scope_transfer_settled`，会话 `12747` 正常退出，绑定 `9283dd88afb2cc0ee8f15b9faf7aada96b1d2ca62d257b0a62b95cb0ad0b8982`。核验 70 笔不同归档响应，原拟合材料 60 笔及后批 16 笔有 6 笔重叠。新增 0，在途 0。7 项测试通过，原冻结协议、72 份源码、TEST 终态、结果和曝光回执已核验。 选组代码（本地 `legal_skill_guard/paired_interfaces/cni_scope_transfer_selection.py`） · 完整回放（本地 `experiments/convergence_revision6_cni_b4_scope_transfer.py`）
+
+51 对可行组在其未参与筛选的早批合同上均没有类别或正确类引文分变化。相同原文核验下，12 份后批、60 项全部有精确配对。46 对与时间对照逐项一致，另外 5 对只改变 B5 第二份的员工访问证据，分类均为 58/60，正确类证据 F1 为 90.81% 对 91.65%。该差异的两路均只给一处引文，一路引员工访问限制，另一路引相邻用途限制。原参考还包括关联方人员许可与接收方前导。可继续检验两类受领人条件的独立引文，任何新增产出须与完整原文核验对照。B5 早批的探索性外部合同检查在 72 对中也无正增益，59 对持平、10 对少一项分类、3 对损失引文分。B4 四读器和现有作用域的选组已穷尽。 [五库累计与全部配对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_B4_SCOPE_TRANSFER_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 权利条款的前一断点
+
+阶段 `revision6_cni_rights_operative_scope_settled`，会话 `6805` 正常退出，绑定 `84463746a23981d9fd43244ad9d07ccda18a3759faeca027d8128445c24fe23a`。核验 45 笔匹配 TRAIN 和 5 笔受影响固定 DEV 原响应，新增 0，在途 0。17 项测试通过，原冻结协议、72 份源码快照、TEST 终态、结果与曝光回执已核验。 条款作用域（本地 `legal_skill_guard/paired_interfaces/cni_rights_operative_scope.py`） · 同条件回放（本地 `experiments/convergence_revision6_cni_rights_operative_scope.py`）
+
+给各路相同的完整原文核验后，12 份后批 TRAIN 的合成和固定字段逐题输出一致，三路均为 12/12。正确类证据 F1 为 90.28%、90.28%、90.00%，合成对直接的配对区间为 [−6.94,+6.39] 个百分点。固定 DEV 的权利题四内部臂各修正三份，PARSE 修正两份，零退化。两份仍未解决的误报涉及设备与资源归属、项目限定借用。保留为共用规则。后续选择存在实际匹配差异的不同 M1 消费者或 M2 真实提案。 [原生配对和五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RIGHTS_OPERATIVE_SCOPE_TRAIN_DEV_20261120.json)
+
+## Revision 6 OpenExempt 联邦物品角色的前一断点
+
+阶段 `revision6_oe_federal_asset_roles_settled`，会话 `16537` 正常退出，绑定 `cc9df7a08eea1caabf32e91bff5e0700bacb2ef996fe87113a17a510403cbb4b`。核对 B2、B3 各 24 笔及 4 笔受影响固定 DEV 原响应。新增 0，在途 0。8 项测试通过，已核验原冻结协议、72 份源码快照、TEST 终态、结果和曝光回执。 联邦物品角色核验（本地 `legal_skill_guard/paired_interfaces/convergence_oe_federal_asset_roles.py`） · 同条件回放（本地 `experiments/convergence_revision6_oe_federal_asset_roles.py`）
+
+B2 的早批程序及输入在两种夫妻申报上限口径下完全一致。提案删除了喷泉的超额申报，该资产是否属于法条列举类别及应报金额仍未决。加入烫衣板和首饰核验后，四种同预算筛选仍保留进入程序。四份 B2 TRAIN 中，筛选与原生拟合的估值 F1 为 60.71% 和 61.55%。B3 三份有同版本法条，原实测候选池缺少 B2 提案的同条件响应。B3 进入程序复算分类／估值 F1 为 52.56%／65.12%。固定 DEV 五臂两项指标各改善一份、零退化。保留共用修订，后续从不同的 M1 合同消费者或有原文修复见证且确有后批区分的 M2 候选继续。 [五库累计与逐批结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_FEDERAL_ASSET_ROLES_TRAIN_DEV_20261120.json)
+
+下一项 M1 原文线索来自 ContractNLI 权利题。固定 DEV 的联合臂和 PARSE 各有 5 项将未提及判为蕴含。联合臂错误来源中的未归类权利线索分别涉及附于单段的知识产权许可保留、现有知识产权归属、设备与资源权属、项目限定借用与第三方披露权，以及一份没有剩余词法线索的合同。原 TRAIN 的整合条款同时出现在两类标签中，不能凭整合条款分类。后续先在原 TRAIN 建立按法律行为、受权主体和被约束条款的检验，并把保留原权利、段内限制和正文明确不授予分开。先核对现有权利接口与强对照采用的来源，DEV 只用于说明开发动机。 现有权利上下文（本地 `legal_skill_guard/paired_interfaces/cni_rights_context.py`） · 现有权利接口（本地 `legal_skill_guard/paired_interfaces/cni_rights_topology.py`）
+
+## Revision 6 OpenExempt 伊利诺伊州健康辅助器具的前一断点
+
+阶段 `revision6_oe_illinois_health_roles_settled`，回放会话 `38160` 正常退出，绑定 `1561d37eba22aee0e80bf225344a09092971546ec6196a694efd8a39cb5bf81c`。核对 24 笔 B5、24 笔 B6 实测及 4 笔固定 DEV 原响应，新增 0，在途 0。11 项测试通过，原冻结协议、72 份源码快照、TEST 终态、结果与曝光回执已核验。 物品角色核验（本地 `legal_skill_guard/paired_interfaces/convergence_oe_illinois_health_roles.py`） · 同条件回放（本地 `experiments/convergence_revision6_oe_illinois_health_roles.py`）
+
+B5 在给各路旧排除规则后，进入程序估值 F1 为 78.13%。加入新原文见证后，候选驱动、时间、分歧及进入风险均选同两组并采纳同一估值更新，F1 为 80.21%。共用直接核验也将进入程序提升至 80.21%，四路均保留进入程序。B6 四份原 TRAIN 中一份含相同版本法条，原实测候选池缺少 B5 提案的同条件响应。已复算 B6 进入程序，三路共用修订的分类／估值 F1 均为 75.73%／50.33%。固定 DEV 五臂各纠正一份分类，零退化。后续沿用共用投影。B2 联邦物品提案撤回超过上限的申报，该撤回未提供可核验的正确金额。后续优先处理原文能独立确定物品类别、金额的新候选，或不同的 M1 消费者。 [按批结果及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_ILLINOIS_HEALTH_ROLES_TRAIN_DEV_20261120.json)
+
+## Revision 6 ContractNLI 跨条款引文和 B5 采纳的前一断点
+
 阶段 `revision6_cni_b5_purpose_tail_settled`，引文回放会话 `23412`、后批会话 `71278` 正常退出，后者绑定 `4ebc17e1e565671469d2938b3659a1423bfc611ae4d9b70738a19cef1c5659f7`。复用 B5 拟合 30 笔、B6 配对 6 笔及 B7–B8 原生产读器 12 笔，新增 0，在途 0。15 项检查通过，已核验原冻结协议、72 份源码快照、TEST 终态与曝光回执。 引文压缩（本地 `legal_skill_guard/paired_interfaces/cni_purpose_citation_ranges.py`） · B5 重拟合（本地 `experiments/convergence_revision6_cni_purpose_citation_ranges.py`） · 后批回放（本地 `experiments/convergence_revision6_cni_b5_purpose_tail.py`）
 
 B6 第一份合同的 46 段连续引用压缩至唯一限用途条款。各路使用完整原文路径后，B6 候选驱动 3/3、证据 F1 71.11%，时间和分歧对照各 2/3、66.67%。沿用锁定采纳在六份 B7–B8 后批上分类均为 6/6，证据 F1 为 57.78% 对 74.44%，两条配对区间均为 [−50.00, 0] 个百分点。九份合计候选驱动仍多一项分类，证据 F1 差 −9.63 个百分点，区间 [−33.33, +4.44]。M1 与固定 DEV 沿用累计。该用途采纳分支已完成全部可用后批配对，后续使用有新原文依据的其他真实提案或不同的 M1 消费者。 [选组、后批结果与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PURPOSE_RANGE_AND_B5_TRANSFER_20261120.json)

@@ -2,11 +2,23 @@
 
 截至 2026 年 11 月 20 日，原研究 Goal 仍为 `active`。M1 的 Diversity 正式入口、合同接口拟合和 DEV 复用已接通。M2 已将候选驱动选组接入 OpenExempt 的正式训练更新，并用 ContractNLI 的原 B5 提案验证了另一种选组差异。两项方法各自相对强对照的可靠原生收益仍待验收。 [现行方案](https://github.com/H00RU/LegalSkillGuard/blob/7024de8b589c1fca67c66a7d29d11cda60af4a9c/reports/legal_skill_convergence_20261117/PLAN.md) · [接续协议](https://github.com/H00RU/LegalSkillGuard/blob/7024de8b589c1fca67c66a7d29d11cda60af4a9c/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json)
 
-**接续优先级。** M1 沿用 Diversity 正式链与同源字面对照，复用 MAUD 的 TRAIN 和固定 DEV 强配对，后续比较由可验证的新条款归属依据触发。M2 复用 OpenExempt B1–B8 的已结算证据，针对有新原文依据且能与同信息强对照区分的采纳路径安排前向配对。最近的累计开发分数按库、按臂保留。原 128 来源八批训练、五库冻结 TEST、消融与曝光记录按原版本归档。 [五库累计 DEV](paper/tables/REVISION6_CNI_PURPOSE_RANGE_AND_B5_TRANSFER_20261120.json) · [冻结结果](paper/tables/TEST_B8_NATIVE_TABLES.md)
+**接续优先级。** M1 沿用 Diversity 正式链与同源字面对照，复用 MAUD 的 TRAIN 和固定 DEV 强配对，后续比较由可验证的新条款归属依据触发。M2 复用 OpenExempt B1–B8 的已结算证据，针对有新原文依据且能与同信息强对照区分的采纳路径安排前向配对。最近的累计开发分数按库、按臂保留。原 128 来源八批训练、五库冻结 TEST、消融与曝光记录按原版本归档。 [五库累计 DEV](paper/tables/REVISION6_CNI_RETENTION_EVIDENCE_SCOPE_TRAIN_DEV_20261120.json) · [冻结结果](paper/tables/TEST_B8_NATIVE_TABLES.md)
 
 ## 最新 TRAIN、固定 DEV 与接续断点
 
-目前阶段为 `revision6_cni_b5_purpose_tail_settled`。连续账本累计 15,400 笔，其中 15,363 笔完成、37 笔历史失败，当前在途 0。 [恢复与交接](../../docs/NEW_CHAT_HANDOFF.md)
+目前阶段为 `revision6_cni_retention_evidence_scope_settled`。连续账本累计 15,400 笔，其中 15,363 笔完成、37 笔历史失败，当前在途 0。 [恢复与交接](../../docs/NEW_CHAT_HANDOFF.md)
+
+**ContractNLI 留存题的退还义务与引文。** 共用原文核验在 24 份原 TRAIN 中识别两条退还义务，固定 DEV 16 份无触发。三份后批配对合同上，合成、固定字段、直接读取各答对 2/3。正确类证据 F1 分别为 66.67%、55.56%、66.67%，直接读取由 50.00% 升至与合成持平。第三份合同的处置条款与原参考分类仍有分歧，原参考与评分保留。复用 9 笔归档读数，新增请求 0，五库固定 DEV 指标沿用。 [同信息实测](paper/tables/REVISION6_CNI_RETENTION_EVIDENCE_SCOPE_TRAIN_DEV_20261120.json)
+
+**ContractNLI 员工与关联方访问证据。** 两份 TRAIN 许可与原参考精确匹配。共用证据使 B4 的 51 对在后批 60 项逐项一致，均为 58/60、正确类证据 F1 92.48%。B5 七种策略的选组与采纳保持。只有探索性固定 DEV 的承包商访问路径无 TRAIN 同型，累计五库沿用。 [同信息实测](paper/tables/REVISION6_CNI_EMPLOYEE_ACCESS_SCOPE_TRAIN_DEV_20261120.json)
+
+**M2 B4 作用域选组。** 对 51 对可行选组，早批的跨合同评分均无提升。后批 60 项中 46 对逐项复现时间对照，余 5 对均为 58/60、正确类证据 F1 90.81%，时间对照为 91.65%。差异来自同一份的员工访问引文。核验 70 笔不同归档响应，新增 0。 [完整配对及五库累计](paper/tables/REVISION6_CNI_B4_SCOPE_TRANSFER_TRAIN_20261120.json)
+
+**ContractNLI 权利条款的作用域与引文。** 共用规则核验整合条款、段内许可保留及既有知识产权归属。固定 DEV 四个内部臂的权利题由 11/16 到 14/16，PARSE 到 13/16，零退化。后批 TRAIN 合成、固定和直接读法均 12/12，正确类证据 F1 为 90.28%、90.28%、90.00%。合成与固定逐题输出一致。核对 50 笔归档响应，新增 0。 [逐批配对与五库累计](paper/tables/REVISION6_CNI_RIGHTS_OPERATIVE_SCOPE_TRAIN_DEV_20261120.json)
+
+**OpenExempt 联邦家居用品与首饰。** 固定 DEV 五臂两项指标各改善一份、零退化。B2 四种同预算筛选均保留进入程序，原生拟合选中的估值提案缺少 B3 同条件响应。两种夫妻申报上限口径均复现相同的早批输入。核对 52 笔归档响应，新增 0。 [原生比较及五库累计](paper/tables/REVISION6_OE_FEDERAL_ASSET_ROLES_TRAIN_DEV_20261120.json)
+
+**OpenExempt 健康辅助器具。** B5 加入物品角色见证后，四种同预算筛选均采纳同一项估值更新。给进入程序同样的直接核验，也将估值 F1 从 78.13% 提至 80.21%。固定 DEV 五臂各纠正一份分类，零退化，估值 F1 持平。B6 的一份同法条来源缺少 B5 候选的归档同条件响应。共核对 52 笔归档响应，新增 0。 [原生比较及五库累计](paper/tables/REVISION6_OE_ILLINOIS_HEALTH_ROLES_TRAIN_DEV_20261120.json)
 
 **M2 ContractNLI 跨条款引文与后批验证。** 共用引文核验将一处 46 段范围缩至一条。给各路完整原文路径后，B6 候选驱动证据 F1 71.11%，时间、分歧 66.67%。随后 B7–B8 六份原 TRAIN 三路均为 6/6，证据 F1 为 57.78% 对 74.44%。B6–B8 合计 9/9 对 8/9，证据 F1 62.22% 对 71.85%。复用 48 笔，新增请求 0，五库固定 DEV 沿用。 [真实配对与五库累计](paper/tables/REVISION6_CNI_PURPOSE_RANGE_AND_B5_TRANSFER_20261120.json)
 
@@ -226,14 +238,14 @@ B5 披露对象选组新增了按答案分歧的同预算对照。两种主动�
 
 最新比较覆盖原 B6–B8 中此前未做权利授予配对读取的 8 份 TRAIN 合同。合成、固定及同信息直接读器的分类依次为 0/8、2/8、8/8，证据 F1 依次为 0%、20.83%、75.42%。24 笔冻结执行器读取全部正常结算，连续账本达 14,895 笔，在途 0。该单任务接口没有触发 DEV 扩验。 [权利授予 TRAIN 结果](paper/tables/REVISION6_LICENSE_FORWARD_TRAIN_20261120.json)
 
-累计 B8 DEV 已结算。五库各有 16 份原 DEV 母来源。下表列出累计原生指标，并标明机制触发所属的开发阶段。 [五库累计指标和逐臂结果](paper/tables/REVISION6_CNI_PURPOSE_RANGE_AND_B5_TRANSFER_20261120.json)
+累计 B8 DEV 已结算。五库各有 16 份原 DEV 母来源。下表列出累计原生指标，并标明机制触发所属的开发阶段。 [五库累计指标和逐臂结果](paper/tables/REVISION6_CNI_RETENTION_EVIDENCE_SCOPE_TRAIN_DEV_20261120.json)
 
 | 数据库 | 机制与对照 | 累计原生指标 |
 |---|---|---|
 | LegalBench Diversity | M1 正式路径已触发。同源字面强对照同样答对全部题。 | 准确 16/16 |
-| ContractNLI | M1 合成接口和 M2 候选驱动选组已在专门配对中触发。固定 B8 累计提升来自共用条款核验，四个内部臂输出一致。 | 内部臂 235/272，证据 F1 67.30%。PARSE 223/272，证据 F1 60.34%。 |
+| ContractNLI | M1 合成接口和 M2 候选驱动选组已在专门配对中触发。固定 B8 累计提升来自共用条款核验，四个内部臂输出一致。 | 内部臂 238/272，证据 F1 68.40%。PARSE 225/272，证据 F1 61.07%。 |
 | MAUD | M1 联合字段在三个前向 TRAIN 的普通经营题上各答对，负面契约均未答对。固定 DEV 的增益来自共用条款核验。 | 知悉定义 16/16，负面契约 13/16，普通经营 14/16 |
-| OpenExempt | M2 B7 候选驱动选组已触发。给各路同一原文核验后，16 份后批 TRAIN 的逐资产申报一致。固定 DEV 五臂的服饰分类提升来自共用法条核验。 | 内部臂分类 F1 87.17%、估值 F1 83.50%。PARSE 分类 F1 86.60%、估值 F1 79.56%。 |
+| OpenExempt | M2 B7 候选驱动选组已触发。B2 四种筛选均保留进入程序。联邦物品类别核验使固定 DEV 五臂两项指标各改善一份。 | 内部臂分类 F1 88.91%、估值 F1 84.54%。PARSE 分类 F1 88.34%、估值 F1 80.60%。 |
 | RuleArena Airline | 原八批实测提案的采纳未分流。固定 DEV 五臂均执行共用公开费率路径。 | 精确总费用 16/16 |
 
 此前的 ContractNLI 修订识别保护本协议和限制公开参与谈判事实的条款。协议披露题在四个内部臂各由 4/16 升到 7/16，PARSE 由 10/16 升到 11/16，均无退化。相同原文规则下，原 TRAIN 多数类回退为 13/16，归档 B5 候选驱动和按时间选组为 9/16 和 11/16。独立验收仍需要新证据区分两项方法与各自强对照。 [协议披露明细](paper/tables/REVISION6_CNI_AGREEMENT_DISCLOSURE_AND_FIXED_DEV_20261120.json)

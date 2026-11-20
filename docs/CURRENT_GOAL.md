@@ -4,6 +4,30 @@
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
+## Revision 6 ContractNLI 留存题的退还义务与引文
+
+共用原文核验在 24 份原 TRAIN 中识别两条退还义务，固定 DEV 16 份无触发。三份后批配对合同上，合成、固定字段、直接读取各答对 2/3。正确类证据 F1 分别为 66.67%、55.56%、66.67%，直接读取由 50.00% 升至与合成持平。第三份合同的处置条款与原参考分类仍有分歧，原参考与评分保留。复用 9 笔归档读数，新增请求 0，五库固定 DEV 指标沿用。 [实测及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RETENTION_EVIDENCE_SCOPE_TRAIN_DEV_20261120.json)
+
+## Revision 6 ContractNLI 员工与关联方访问证据
+
+独立绑定接收方自己的员工与关联方人员的两条许可链。另识别一条明示员工共享许可。两份原 TRAIN 的分类与完整引文均匹配参考。给各路相同证据后，B4 的 51 对可行选组在后批 60 项上逐项一致，均为 58/60、正确类证据 F1 92.48%。B5 重拟合核验 60 笔原响应，七种策略的组和读器分配均维持。固定 DEV 的承包商人员访问在探索性回放中使内部四臂各由 14/16 到 15/16，PARSE 分类持平，引文改善。原 TRAIN 支持的规则未触发固定 DEV，五库累计沿用。 [原生结果与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EMPLOYEE_ACCESS_SCOPE_TRAIN_DEV_20261120.json)
+
+## Revision 6 M2 ContractNLI B4 作用域选组的完整配对
+
+实现按早批跨合同原生表现选择两组的规则。原四读器、相同八笔筛选预算下，51 对可行组在选组之外的早批合同上均无原生增益。用完整归档比较后批 12 份合同、60 项，46 对与按时间逐项一致，余 5 对分类均为 58/60，正确类证据 F1 从 91.65% 降至 90.81%。五对的实际输出差都来自同一份合同的员工访问引文。核验 70 笔不同归档响应，新增 0。固定 DEV 五库累计沿用。 [全部选组与配对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_B4_SCOPE_TRANSFER_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 权利条款的作用域与引文
+
+核验整合条款、段内知识产权保留及既有知识产权归属，并保留独立的协议不授予权利正文。原 TRAIN 核验两份未提及和 18 处附带引文，均符合原参考。后四批同信息比较中，三路分类均为 12/12。合成和固定字段逐题输出一致，正确类证据 F1 同为 90.28%，直接读法为 90.00%，配对区间跨零。固定 DEV 的权利题四内部臂各由 11/16 到 14/16，PARSE 由 11/16 到 13/16，零退化。ContractNLI 累计为 238/272、证据 F1 68.40%，PARSE 为 225/272、61.07%。核对 50 笔归档响应，新增 0。 [同信息配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RIGHTS_OPERATIVE_SCOPE_TRAIN_DEV_20261120.json)
+
+## Revision 6 OpenExempt 联邦家居用品与首饰
+
+根据题面两个法条分别核验家居用品与首饰，在原 TRAIN 每项任务核实 6 项、固定 DEV 4 项，均符合原参考。固定 DEV 五臂的分类与估值各改善一份、零退化。四内部臂分类／估值 F1 为 88.91%／84.54%，PARSE 为 88.34%／80.60%。B2 四路同预算筛选均保留进入程序，原生拟合选中的提案撤回超额申报。B3 三份来源有同版本法条，原实测候选池缺少 B2 提案响应。已核对 52 笔归档响应，新增 0。 [原生比较与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_FEDERAL_ASSET_ROLES_TRAIN_DEV_20261120.json)
+
+## Revision 6 OpenExempt 伊利诺伊州健康辅助器具作用域
+
+将旧排除规则与可辨认的物品用途接入法条级回放。每项任务在原 TRAIN 核验 11 项、固定 DEV 核验 2 项，均符合原参考。B5 旧核验给各路后估值 F1 为 78.13%。加入新见证后四种同预算筛选均采纳同一项估值更新，F1 为 80.21%。给进入程序直接应用同样的原文证据，也得到 80.21%。固定 DEV 五臂各纠正一份分类，零退化。四个内部臂分类 F1 为 87.87%，PARSE 为 87.29%，估值分别为 83.50% 和 79.56%。B6 的一份候选适用来源缺少 B5 候选的归档同条件响应，且各筛选的决定相同。归档核对 52 笔，新增 0。 [同信息配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_ILLINOIS_HEALTH_ROLES_TRAIN_DEV_20261120.json)
+
 ## Revision 6 ContractNLI 跨条款引文和 B5 采纳的后批验证
 
 把跨多个独立条款的连续引用收敛到已核验的限用途句。复用 B5 前缀的 30 笔实测重拟合，复现各策略原选组和采纳。给各路完整原文证据后，B6 的候选驱动分类为 3/3，时间和分歧对照均为 2/3，正确类证据 F1 为 71.11% 对 66.67%。在随后六份 B7–B8 原 TRAIN 上，三路分类均为 6/6，正确类证据 F1 为 57.78% 对 74.44%。B6–B8 合计为 9/9 对 8/9，证据 F1 为 62.22% 对 71.85%。固定 DEV 与 M1 匹配比较沿用。复用 48 笔，新增 0。 [原生配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PURPOSE_RANGE_AND_B5_TRANSFER_20261120.json)
