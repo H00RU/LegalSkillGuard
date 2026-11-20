@@ -1,16 +1,64 @@
 # 当前 Goal 恢复与交接
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,355 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,400 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
 ## 最新断点
 
+阶段 `revision6_oe_statute_portfolio_settled`，会话 `59428` 已退出，绑定 `74c327f246e8d8e3d124a31b0273ef240b195dc763cf5f8c25c2324ddc579220`。OpenExempt 分类或估值更新只可替换题面允许的一条法条。两个程序都明确处理的资产可转用新程序的同条款输出。各筛选策略共用候选池、来源核验和每批两个组的预算。按原顺序比较 B3→B4、B4→B5、B6→B7、B7→B8 的实际输出。144 笔原响应均复用，新增 0、在途 0。11 项检查通过，冻结协议、结果和曝光回执已核验。 法条级执行（本地 `legal_skill_guard/paired_interfaces/convergence_oe_statute_portfolio.py`） · 实测入口（本地 `experiments/convergence_revision6_oe_statute_portfolio.py`） · [配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_STATUTE_PORTFOLIO_TRAIN_20261120.json)
+
+116 个按法条重组的候选中，51 个在当批原生拟合为正，只有 B7 俄勒冈州 § 18.345(1)(a) 分类有可核实修正。候选驱动与答案分歧、进入风险采纳同一更新，按时间保留进入程序。原 B8 的 4 份后批无该法条，16 份后批比较中，候选驱动及全部同范围对照均无输出变化，分类／估值 F1 为 71.68%／61.04%。相对全任务原生拟合的双指标平均差 +3.73 个百分点，母来源配对区间 [+0.71,+7.65]，同范围原生拟合与候选驱动逐题一致。没有启动固定 DEV 扩验。后续若再推进法条级采纳，先找到在原来后批重复出现且能区别分歧选组的真实候选，以免把无后批适用范围的拟合差误计成原生收益。
+
+## Revision 6 ContractNLI 协议事实的前一断点
+
+阶段 `revision6_cni_agreement_fact_scope_settled`，会话 `28762` 已退出，绑定 `6038e6ead5eafdc0101365ea643a165b67641773e2e3f9c2f576bf579ac8bca1`。区分协议事实、已提供保密材料的事实、其他义务与拟议交易。新核验命中 7/24 份原 TRAIN 和 7/16 份固定 DEV，分类和引文均符合原参考。19 项检查通过，原冻结协议、72 份源快照、TEST 终态、结果和曝光回执已核验。连续账本 15,400，在途 0，新增 0。 原文规则（本地 `legal_skill_guard/paired_interfaces/cni_agreement_fact_scope.py`） · 同信息回放（本地 `experiments/convergence_revision6_cni_agreement_fact_scope.py`） · [配对及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_AGREEMENT_FACT_SCOPE_TRAIN_DEV_20261120.json)
+
+协议事实题四个内部臂固定 DEV 各由 7/16 至 13/16，PARSE 由 11/16 至 15/16，零分类退化。ContractNLI 累计四内部臂 233/272、证据 F1 66.56%，PARSE 221/272、59.49%。其余四库沿用。七份早批 M1 对照中，共用核验后合成 5/7、固定字段 6/7、直接作答 6/7。复用 21 笔原读数和 12 笔受影响的固定 DEV 响应。
+
+M2 复用 60 笔拟合和 19 笔后批原读数，原 B4 同一选组机制在加入协议事实核验后从 54 对变为 51 对可行组。候选驱动、按时间及作用域分歧均选 [B4-2, B4-3]，12 份后批原 TRAIN 的协议事实各为 12/12、正确类证据 F1 88.89%。原五题 60 项比较中，候选驱动与按时间均为 57/60、87.48% 且逐题一致。所有所需后批角色都已有精确响应。该修订保留为共用原文核验，后续需要不同的消费者或能实质分流的候选行为。
+
+## Revision 6 ContractNLI 口头信息作用域的前一断点
+
+阶段 `revision6_cni_oral_information_scope_settled`，会话 `88519` 已退出，绑定 `e988b036c5b174411ba1b4dfdd3e8e3387fe1f6a33f9c83d0f50c75755a01002`。原 B8 第三份的信息定义未指定口头形式，任何形式只修饰接收方的传播禁令。复核 12 笔 B8 TRAIN 与 4 笔受影响固定 DEV 的原响应，新增 0、在途 0。17 项检查通过，原冻结协议、72 份源码快照、TEST 终态、汇总和曝光回执已核验。 原文规则（本地 `legal_skill_guard/paired_interfaces/cni_oral_information_scope.py`） · 回放入口（本地 `experiments/convergence_revision6_cni_oral_information_scope.py`） · [配对结果及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_ORAL_INFORMATION_SCOPE_TRAIN_DEV_20261120.json)
+
+共用原文核验后，B8 口头题四路同为 3/3、正确类证据 F1 88.89%，原 PARSE 提案的单合同分类优势由同信息进入程序全部复现。固定 DEV 两处为指定对象的跨媒介定义和明示讨论分项。四个内部臂各 14/16→15/16，正确类证据 F1 50.86%→59.79%。PARSE 保持 11/16，F1 26.49%→35.42%。ContractNLI 累计四臂 227/272、F1 64.36%，PARSE 217/272、57.29%。修订保留为共用原文核验。其余四库结果沿用。
+
+下一处可核查的分歧是协议事实披露题。四个内部臂固定 DEV 剩余九处错误均输出 Contradiction，原参考为七处 NotMentioned、两处 Entailment。已复核联合臂的 16 笔固定 DEV 原始响应，12 个 Contradiction、2 个 NotMentioned、2 个 Entailment 均与原解码一致。未修正错误的引文包括所有权、修订、返还和存续条款，问题已出现在模型原始作答。下一步在原 TRAIN 的同信息读数中检查这些作用对象是否也被当作协议事实的授权，保留已测的协议事实和直接对照。
+
+## Revision 6 M2 后三批候选审查的前一断点
+
+阶段 `revision6_cni_late_candidate_residuals_settled`，会话 `77628` 已退出，绑定 `2b06860bd440cdf096f6e2b6f55f01773a9d922e8c829fa98b5b29c501b72c41`。B6–B8 九份原 TRAIN 各复用普通、PARSE 的进入程序与提案，逐笔核对 36 个物理响应、同一原文数据和执行器设置。六个原提案都已测量并历史性地保留进入程序。新增 0、在途 0；冻结协议、TEST 终态和曝光回执已核验。 复算入口（本地 `experiments/convergence_revision6_cni_late_candidate_residuals.py`） · [诊断与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_LATE_CANDIDATE_RESIDUALS_TRAIN_20261120.json)
+
+B6 权利题的普通提案原始证据 F1 44.44%→77.78%，独立引文仅来自第一份的明示非授予正文。共用同一原文证据后，普通进入与提案均为 88.89%，PARSE 两路均为 100%。B7 第三方披露在加入两份可证实的条款后四路均为 3/3、证据 F1 100%。B8 非技术类别的 PARSE 提案为 2/3，普通进入程序为 3/3。口头形式题的 PARSE 提案为 3/3，其余三路均为 2/3，四路正确类证据 F1 都是 55.56%。唯一分类差位于 B8 第三份，提案的未提及判断伴随长引文，尚无覆盖更多合同的可验证选组信号。B8 第二份另有一笔提案长度截断，按已归档原生输出计分。
+
+后续先核对 B8 第三份的信息定义与下游传播限制原文，区分明示口头形式、泛称沟通方式与未提及，然后评估这类证据能否在原 TRAIN 阻止两路共同错误或产生候选分流。保留这次真实提案的分类差和所有对照；固定 DEV 沿用。
+
+## Revision 6 ContractNLI 权利引文补齐的前一断点
+
+阶段 `revision6_cni_rights_citation_links_settled`，会话 `36256` 已退出，绑定 `53762542d7275631d0e43e7f4b45707d01fad5d01a4e2f1820435250b702cc63`。逐笔复核 45 笔原响应，共用引文核验命中四份后批 TRAIN，原参考全部一致。三路分类保持 12/12，正确类证据 F1 为合成 83.33%、固定字段 83.89%、直接 75.83%。相对固定的配对区间跨零，合成候选继续留在 TRAIN 库。固定 DEV 与原 M2 B4 校准源均无命中，新增 0。14 项检查通过，原冻结协议、72 份源快照、TEST 终态与曝光回执已核验。 共用引文规则（本地 `legal_skill_guard/paired_interfaces/cni_rights_citation_links.py`） · 配对执行（本地 `experiments/convergence_revision6_cni_rights_citation_links.py`） · [配对及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RIGHTS_CITATION_LINKS_TRAIN_DEV_20261120.json)
+
+## Revision 6 M1 跨条款权利见证的前一断点
+
+阶段 `revision6_cni_rights_topology_settled`。会话 `43769` 正常退出，绑定 `0344bd07ef4dafd6473a946695d2e4d993d39f9e77de379c355d837d538e77e2`，无在途。12 份后批原 TRAIN 加 3 份早批作用对象排除对照。45 笔实际响应和冻结请求逐笔匹配，255,398 tokens，教师 0。合成把每类条款的三个字段压成一个关系，27 个状态等价。11 项检查通过，冻结协议、72 份源快照、TEST 终态和曝光回执已核验。 运行入口（本地 `experiments/convergence_revision6_cni_rights_topology.py`） · [复算结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_LINKED_RIGHTS_TRAIN_20261120.json)
+
+共享原文核验后，合成、固定字段及同输入直接在后批均正确 12/12，正确类证据 F1 分别为 75.00%、75.56%、73.06%。合成相对固定差 −0.56 个百分点，95% 配对区间 [−4.17,+2.50]，相对直接差 +1.94，区间 [−6.94,+10.56]。三路原始读数均错判三份早批排除对照，共用核验后均为 3/3。该候选留在 TRAIN 库快照，未启动固定 DEV。原 B4 M2 的四程序在 15 份原 TRAIN 权利题中全部预测蕴含，三份已核验排除样本不能区分这四种程序的分类，无新增 M2 请求。
+
+后批引文回读发现，B6 第三份合成和固定均漏引独立的既有知识产权归属条款。本轮的专利权关系只覆盖披露所生权利，已有知识产权仍缺对应关系。B8 第三份两路均只引明示不授予，直接还找到所有权条款并多引一个定义。B7 第三份合成和固定都读到了同一对所有权与专利权条款，其他返还、通用处分和权限上下文造成多引。后续先查原 TRAIN 能否同时覆盖既有权利归属、披露新生权利与不相关权利，再决定能否区分新的合成关系及同信息固定字段、整文对照。
+
+## Revision 6 ContractNLI 权利授予条款作用对象的前一断点
+
+阶段 `revision6_cni_rights_context_settled`，会话 60306 已正常退出，绑定 `0caa111525163f59e8c3b4d95231f79a673d3481ebe663f7e2595444606207d9`。11 项检查通过，冻结协议、72 份原冻结源码快照、TEST 终态和曝光回执已校验。复用 72 笔索引配对、17 笔混合读数及 10 笔受影响的正式 TRAIN/DEV 读数，新增 0。固定 DEV 五臂权利题 9/16 到 11/16，零退化。该修订保留为共用原文核验。 条款作用域（本地 `legal_skill_guard/paired_interfaces/cni_rights_context.py`） · 配对执行（本地 `experiments/convergence_revision6_cni_rights_context.py`） · [结果和五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RIGHTS_CONTEXT_AND_FIXED_DEV_20261120.json)
+
+后批 B5–B8 的 12 份合同上，M1 路由与同预算固定路由均为 8/12，归档整文为 11/12。原请求显示两路共有四项弃答。B6 第一份把实质非授予条款和对象定义读成两个本应同 ID 的锚点。B8 第二份把同一标题当作相反两种效果。既有明示非授予核验已覆盖这两份。B5 第三份把用途限制读成非授予，原参考依据第一方的独占所有权。B7 第三份把返还条款读成非授予，原参考依据供方保留信息所有权与专利独占权。后续按原 TRAIN 核对所有权、使用许可和专利权能否提供可区分的关系样本。保留同信息整文、固定字段与既有明示见证对照。M2 从存在独立选组或采纳差异的候选继续。
+
+原 TRAIN 已查到九份含所有权保留或专利独占词形的合同，九份的权利题参考均为蕴含。其中三份已有明示非授予见证。该词形子集缺少反例，后续如比较新的 M1 关系，须从原 TRAIN 加入其他对象、主体和实际权限的同类候选，检验多条款引用是否增加正确类证据，同时观察全组分类。固定 DEV 沿用本轮已结算成绩。
+
+## Revision 6 M2 ContractNLI 双组选组的前一断点
+
 阶段 `revision6_cni_portfolio_veto_attribution_settled`。作用域回放会话 39594、原文归因会话 97294 均正常退出，后者绑定 `77ca37c55eeaf7c199c0b7ba472247a37f51f5af20db00648c511a091c68ac7f`。复用 60 笔拟合与 22 笔后批实际响应，60 项全部可配对。新增 0，12 项检查通过，原冻结协议、72 份源码快照、TEST 终态和曝光回执已核验。 作用域回放（本地 `experiments/convergence_revision6_cni_portfolio_veto_scope.py`） · 原文归因（本地 `experiments/convergence_revision6_cni_portfolio_veto_attribution.py`）
 
 B4 双组否决只在后批出现同类作用域时生效。候选驱动后批证据 F1 由 83.19% 到 86.93%，分类为 57/60。相对最强对照的证据差来自 B8 第三份合同。各路共享该合同对外知悉例外的总则和相应引文后，时间与原生拟合等强对照逐题复现 M2。固定 DEV 无覆盖，五库累计不需重算。继续寻找不同的未解候选作用域或关系读法。 [配对与五库指标](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PORTFOLIO_SCOPED_VETO_TRAIN_20261120.json)
-
-ContractNLI 权利授予题的条款作用域核验已写入本地原型 `cni_rights_context.py`，尚待配对计分。恢复后先汇总原 TRAIN 和固定 DEV 上的适用范围，区分对保密信息的权利、与原权利方相关的财产保留和对其他对象的权限。保留未决原文线索，用既有实际读数比较同信息强对照。该原型尚无可计入本轮的结果，当前无模型任务在途。
 
 ## Revision 6 OpenExempt B6 类别和估价资产键的前一断点
 

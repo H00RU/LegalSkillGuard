@@ -1,8 +1,42 @@
 # 当前 Goal 与证据状态
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,355 笔，其中完成 15,318 笔、历史失败 37 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。 [实测断点](NEW_CHAT_HANDOFF.md)
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,400 笔，其中完成 15,363 笔、历史失败 37 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。 [实测断点](NEW_CHAT_HANDOFF.md)
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
+
+## Revision 6 M2 OpenExempt 法条级候选采纳
+
+按题面法条限制分类或估值更新的转移范围，在 B3、B4、B6、B7 四批共享同一候选池、核验规则和双组选组预算。116 个候选中，51 个在当批原生拟合为正，1 个有原文支持的修正。B7 候选驱动与分歧及风险选中同一俄勒冈分类更新，按时间保留进入程序。原 B8 无该法条，16 份后批候选驱动及所有同范围对照输出一致，分类／估值 F1 为 71.68%／61.04%。固定 DEV 沿用，复用 144 笔原响应，新增 0。 [按法条的拟合与前向比较](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_STATUTE_PORTFOLIO_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 协议事实的条款作用域
+
+新共用核验区分协议事实、保密材料已提供的事实、其他义务与拟议交易，命中 7/24 份 TRAIN、7/16 份固定 DEV，均与原参考一致。固定 DEV 的协议事实题四个内部臂各由 7/16 至 13/16，PARSE 由 11/16 至 15/16，无分类退化。ContractNLI 累计四臂 233/272、证据 F1 66.56%，PARSE 221/272、59.49%。其余四库沿用。
+
+复用 21 笔原配对读数，合成、固定字段、直接作答在共用核验下为 5/7、6/7、6/7。M2 在原 B4 重拟合后，与按时间选组在 12 份后批 TRAIN 上逐题一致，原五题为 57/60、证据 F1 87.48%，另核对协议事实题 12/12、88.89%。新增 0。 [配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_AGREEMENT_FACT_SCOPE_TRAIN_DEV_20261120.json)
+
+## Revision 6 ContractNLI 口头信息的定义与后续传播
+
+区分保密信息形成时的传达形式与后续传播禁令。核验命中 1/24 份 TRAIN、2/16 份固定 DEV，分类和引文均匹配原参考。B8 口头题四个实际候选读器均为 3/3、正确类证据 F1 88.89%，上一轮 PARSE 提案的单合同分类差由共用证据解释。固定 DEV 四个内部臂口头题由 14/16 到 15/16，PARSE 仍为 11/16，五路引文 F1 各增加 8.93 个百分点。ContractNLI 累计四个内部臂 227/272、证据 F1 64.36%，PARSE 217/272、57.29%。复用 16 笔真实响应，新增 0，其他四库沿用。 [配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_ORAL_INFORMATION_SCOPE_TRAIN_DEV_20261120.json)
+
+## Revision 6 M2 ContractNLI B6–B8 已测候选的剩余差异
+
+在原始同输入的 36 笔读数上，B6 权利题的普通和 PARSE 两个提案各自与进入程序同分。B7 第三方披露四路均为 3/3、正确类证据 F1 100%。B8 非技术类别的最强进入程序为 3/3，PARSE 提案为 2/3；口头形式的 PARSE 提案为 3/3，其余为 2/3，正确类证据 F1 均为 55.56%。新增 0。保留 B8 的单合同分类差和另一份提案的长度截断，原历史采纳决定及固定 DEV 沿用。 [实际读数及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_LATE_CANDIDATE_RESIDUALS_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 权利引文补齐
+
+将既有知识产权归属、披露后新生专利权和保密信息专属所有权分别绑定到同一主体与配套条款。识别的四份后批原 TRAIN 均与原参考引文一致。复用 45 笔真实读数，对每路应用同一引文核验。后批合成、固定字段和同输入直接正确类证据 F1 由 75.00%、75.56%、73.06% 升至 83.33%、83.89%、75.83%，三路均为 12/12。合成相对直接差 +7.50 个百分点，95% 配对区间 [+2.22,+13.89]。相对固定字段差 −0.56，区间 [−4.17,+2.50]。固定 DEV 0/16 命中，原 M2 B4 拟合源无匹配，五库累计沿用。 [配对结果和覆盖](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RIGHTS_CITATION_LINKS_TRAIN_DEV_20261120.json)
+
+## Revision 6 M1 跨条款权利见证
+
+将明示非授予、保密信息所有权、披露所生专利权与相竞争的授权分开读取。合成接口将每类见证的操作效力、对象和主体方向压成一个关系，声明域 27 个状态均等价。冻结读者在 12 份后批原 TRAIN 及三份早批作用域排除对照上完成三路同输入比较。
+
+统一原文核验后，后批合成、固定字段和直接读器均为 12/12，正确类证据 F1 分别为 75.00%、75.56%、73.06%。合成相对固定 −0.56 个百分点、相对直接 +1.94，两个配对区间均跨零。三份早批对照的三路原始读数均错误，由共用核验恢复至 3/3。45 笔实际响应，共 255,398 tokens，无解码失败。候选保留于 TRAIN 库，五库累计固定 DEV 沿用。 [匹配对照、原始读数及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_LINKED_RIGHTS_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 权利授予的条款作用对象
+
+逐条区分救济、管辖与转让、签署人职务、公司股权和系统访问。原文与索引的线索覆盖一致，至少有一处可核验的作用域，且没有残留权利线索时才判为未提及。保留明示权利条款及未决的借用和局部非授予。命中 TRAIN 3/24、固定 DEV 2/16，均匹配原参考。固定 DEV 五臂权利题由 9/16 到 11/16，零退化。累计四内部臂 226/272、证据 F1 63.83%，PARSE 217/272、56.76%。其他四库沿用。
+
+同一核验给原 24 份 TRAIN 的配对读器后，合成、固定、整文分别为 19/24、20/24、18/24。后批 12 份的 M1 路由和同预算固定路由均为 8/12，归档整文为 11/12，核验没有触发。该修订纳入共用流程。M2 已结算的 B4 后批五题范围不含权利授予。复用 72 笔索引读数、17 笔路由读数，以及 6 笔受影响的正式 TRAIN、4 笔固定 DEV，新增 0。 [配对及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RIGHTS_CONTEXT_AND_FIXED_DEV_20261120.json)
 
 ## Revision 6 M2 ContractNLI 双组选组的反证作用域
 
