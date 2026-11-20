@@ -1,10 +1,52 @@
 # 当前 Goal 恢复与交接
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,400 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,439 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
 ## 最新断点
+
+阶段 `revision6_cni_unresolved_pair_dev_settled`，会话 `20322` 正常退出，绑定 `d873bd1716093821fa6b9c473206c379575b0dd1d92978f9a8acc3481f7b0df9`。39 笔本地请求共 212,003 tokens，全部完成，无解码拒绝，新增教师请求 0，在途 0。已核对原冻结协议、72 份源码快照、TEST 结果和曝光回执。 实测入口（本地 `experiments/convergence_revision6_cni_unresolved_pair_dev.py`）
+
+在原 TRAIN 的双题待解范围锁定合成接口后，用固定 DEV 的全部 13 份适用合同做同输入三臂实测。合成、固定字段、直接读法的分类依次为 23/26、20/26、21/26，正确类证据 F1 为 72.48%、62.88%、62.69%。相对固定字段的证据差为 +9.60 个百分点，母来源配对 95% 区间 [+2.56,+18.20]。相对直接读法为 +9.79，区间 [−9.91,+30.30]。两条强对照须同时满足的门槛未通过，结果保留为已检查的开发证据。五库正式累计按既有口径保留。 [固定 DEV 成对结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_UNRESOLVED_PAIR_FIXED_DEV_20261121.json)
+
+保留锁定范围和结果。后来验证须用新的原文依据或同预算下能分流的真实 M2 候选。
+
+复用 72 笔同输入原响应，拟合只使用每批之前的原 TRAIN。B2–B8 的 42 项中，按待解任务组合选型的 M1 为 35/42、正确类证据 F1 72.15%，同信息固定／直接选型为 34/42、70.16%，配对区间跨零。固定合成全组为 36/42、77.74%。按原文确定两题仍待解的 10 份合同，固定合成为 15/20、66.92%，固定字段为 13/20、51.01%，直接为 11/20、44.50%；证据配对差的 95% 区间分别为 [+3.33,+28.48]、[+2.75,+43.83] 个百分点。同信息逐批条件选型在此范围与固定字段逐项一致。此范围按 TRAIN 探索结果锁定，之后用于固定 DEV 比较。 [逐批拟合与适用范围](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PREFIX_READER_SELECTION_TRAIN_20261121.json)
+
+## Revision 6 ContractNLI 来源核验的前一断点
+
+阶段 `revision6_cni_acquisition_provenance_settled`，最终会话 `7692` 已退出，绑定 `5d674b96ad0e22be6e40ab9c4b5fce0f3d41293cca78c533113e4ebd371979fc`。复核 18 笔 B1–B3 原响应，M1 复用已有同信息配对。新增 0，在途 0，7 项测试通过。已核验原冻结协议、72 份源码快照、TEST 结果及曝光回执。 条款来源实现（本地 `legal_skill_guard/paired_interfaces/cni_acquisition_provenance.py`） · 实测回放（本地 `experiments/convergence_revision6_cni_acquisition_provenance.py`）
+
+按原文区分接收方合法取得、中介渠道限制、披露方供给资料的免责条款。新增三份原 TRAIN 来源，分类和引文均与参考完整匹配。在十二份同信息配对上，固定字段由 10/12 到 11/12，合成和直接保持 10/12。正确类证据 F1 依次为 78.10%、78.10%、81.67%。原 B1 在新证据下的选组及采纳维持。B2–B3 候选驱动、按时间、答案分歧和纯原生拟合逐题一致，各为 77/102，正确类证据 F1 为 51.68%。强制整程序提案由 67/102 到 68/102。固定 DEV 无同型覆盖，五库累计沿用。 [逐臂配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_ACQUISITION_PROVENANCE_TRAIN_DEV_20261121.json)
+
+将来源限制保留为共用核验。后续只对有新证据的不同接口或后批仍能分流的真实提案追加比较。
+
+## Revision 6 ContractNLI 留存例外的前一断点
+
+阶段 `revision6_cni_retention_carveout_settled`，会话 `21503` 已退出，绑定 `95a8e975f975e88c86fb5b75151c1b3d829730bd664f8c15201b493cdea9be48`。核验 36 笔同信息配对和 4 笔受影响原正式 TRAIN 响应，新增 0，在途 0。7 项测试通过。原冻结协议、72 份源码快照、TEST 结果和曝光回执已核验。 留存证据实现（本地 `legal_skill_guard/paired_interfaces/cni_retention_carveout.py`） · 原请求回放（本地 `experiments/convergence_revision6_cni_retention_carveout.py`）
+
+将返还条款排除的材料接到同一对象的后续留存许可，并保留分别修饰不同处置义务的两组备份及法务留存引文。新规则命中原 TRAIN 两份，分类和引文均完全匹配原参考。十二份原 TRAIN 配对上，合成由 6/12 到 7/12，固定字段和直接读法均由 9/12 到 10/12。正确类证据 F1 各为 49.44%、61.67%、63.15%。固定 DEV 无命中，五库累计沿用。 [配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RETENTION_CARVEOUT_TRAIN_DEV_20261121.json)
+
+保留共用留存证据。M1 转向同信息字面对照仍失分的不同关系，M2 转向具备后批覆盖且共用证据后仍改变采纳的真实候选。
+
+## Revision 6 OpenExempt 估值重复申报的前一断点
+
+阶段 `revision6_oe_claim_multiplicity_settled`，最终会话 `1980` 已退出，绑定 `783b6643d850bdd3ce044f8c995daf04434d505cce7110f8c1ba701d3a69b6fa`。复用 144 笔原 TRAIN 响应，新增 0，在途 0。12 项检查通过。初次会话 `6067` 的汇总接口要求无阶段前缀的键，修复后预测文件与初次已封存结果字节一致。原冻结协议、72 份源码快照、TEST 结果和曝光回执已核验。 重复申报处理（本地 `legal_skill_guard/paired_interfaces/convergence_oe_claim_multiplicity.py`） · 原请求归档回放（本地 `experiments/convergence_revision6_oe_claim_multiplicity.py`）
+
+按原题逐资产逐法条估值要求，给所有读器共用同一规则，仅合并原文可定位的同资产、同法条、同金额申报。三个归档读器输出各少一份完全重复申报，独立主张和冲突金额保留。B6→B7 的一组估值差异及 B7 拟合池的两组差异只来自重复次数。四次前向过渡中，候选驱动、时间、答案分歧和进入风险筛选使用相同两组预算。四路均保留进入程序，在 16 份后批 TRAIN 上逐项相同，分类 F1 为 73.70%，估值 F1 由 66.86% 到 67.38%。纯原生拟合为 69.06%／67.75%。五臂固定 DEV 无重复触发，五库累计沿用。 [配对实测与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_CLAIM_MULTIPLICITY_TRAIN_DEV_20261121.json)
+
+保留共用去重。接续使用仍会改变采纳且后批有实际覆盖的新候选，或具有原文依据且同信息字面对照仍失分的 M1 关系。
+
+## Revision 6 ContractNLI 独立开发的前一断点
+
+阶段 `revision6_cni_independent_work_scope_settled`，会话 `44625` 已退出，绑定 `107dc610024be4ec8d67c6e397f72f7d82356a0ade15051f019a5e12d5467ddb`。复核 12 笔配对 TRAIN 响应、22 笔受影响 TRAIN 响应及 2 笔受影响固定 DEV 响应，新增请求 0，在途 0。12 项测试通过，已核验原冻结协议、72 份源码快照、TEST 结果与曝光回执。 作用域核验（本地 `legal_skill_guard/paired_interfaces/cni_independent_work_scope.py`） · 实测回放（本地 `experiments/convergence_revision6_cni_independent_work_scope.py`）
+
+把独立开发动作绑定到同一例外的定义、编号分项和举证前导。按 B1–B4 选择补引文策略。新规则命中原 TRAIN 13/24、固定 DEV 1/16，命中项的分类均符合原参考。在后四批 12 份原 TRAIN 上，两个原正式读器的分类均保持 7/12，正确类证据 F1 分别由 13.89% 升至 45.08%、18.75% 升至 46.57%。沿用六份原 TRAIN 的同信息配对，合成、固定字段和字面作用域分别正确 4/6、5/6、6/6，正确类证据 F1 分别为 63.33%、80.00%、92.50%。固定 DEV 五臂的独立开发分类均为 16/16，共同修复一份引文。全库证据 F1 在四内部臂由 68.40% 到 68.52%，PARSE 由 61.07% 到 61.44%。 [同信息配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_INDEPENDENT_WORK_SCOPE_TRAIN_DEV_20261121.json)
+
+保留共用引文修复。M1 转到同信息字面对照仍有失分且有原文依据的另一关系；M2 优先推进在后批仍有法域覆盖、各路拿到同一证据后仍会分流的已测提案。
+
+## Revision 6 ContractNLI 后批终止关系与采纳门槛的前一断点
 
 阶段 `revision6_cni_endpoint_adoption_fallback_settled`，未加门槛、正增益门槛、保留进入读器三次会话 `68408`、`1529`、`28910` 均已退出。最终绑定 `fa1c9b5bd1f75ff45d389b1508334e607bbd111d92db005d1607dd82eacd846b`。复用 30 笔不同原响应，新增 0，在途 0，12 项定向检查通过。原冻结协议、72 份源码快照、TEST 结果和曝光记录均已核验。 终止证据（本地 `legal_skill_guard/paired_interfaces/cni_disposition_endpoint_scope.py`） · 采纳门槛（本地 `legal_skill_guard/paired_interfaces/cni_positive_update_gate.py`） · 进入读器（本地 `legal_skill_guard/paired_interfaces/cni_adoption_fallback.py`）
 
