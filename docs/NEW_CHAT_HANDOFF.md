@@ -6,6 +6,30 @@
 
 ## 最新断点
 
+阶段 `revision6_cni_b5_purpose_tail_settled`，引文回放会话 `23412`、后批会话 `71278` 正常退出，后者绑定 `4ebc17e1e565671469d2938b3659a1423bfc611ae4d9b70738a19cef1c5659f7`。复用 B5 拟合 30 笔、B6 配对 6 笔及 B7–B8 原生产读器 12 笔，新增 0，在途 0。15 项检查通过，已核验原冻结协议、72 份源码快照、TEST 终态与曝光回执。 引文压缩（本地 `legal_skill_guard/paired_interfaces/cni_purpose_citation_ranges.py`） · B5 重拟合（本地 `experiments/convergence_revision6_cni_purpose_citation_ranges.py`） · 后批回放（本地 `experiments/convergence_revision6_cni_b5_purpose_tail.py`）
+
+B6 第一份合同的 46 段连续引用压缩至唯一限用途条款。各路使用完整原文路径后，B6 候选驱动 3/3、证据 F1 71.11%，时间和分歧对照各 2/3、66.67%。沿用锁定采纳在六份 B7–B8 后批上分类均为 6/6，证据 F1 为 57.78% 对 74.44%，两条配对区间均为 [−50.00, 0] 个百分点。九份合计候选驱动仍多一项分类，证据 F1 差 −9.63 个百分点，区间 [−33.33, +4.44]。M1 与固定 DEV 沿用累计。该用途采纳分支已完成全部可用后批配对，后续使用有新原文依据的其他真实提案或不同的 M1 消费者。 [选组、后批结果与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PURPOSE_RANGE_AND_B5_TRANSFER_20261120.json)
+
+## Revision 6 ContractNLI 限用途全文核验的前一断点
+
+阶段 `revision6_cni_use_purpose_binding_settled`，会话 `11335` 正常退出，绑定 `ac826eea1a16d079f64f3269359035996842fe2d63d622678083142819f6b3a6`。复用 72 笔索引 TRAIN 实测、已核验的 M2 前向和 5 笔受影响的固定 DEV 物理响应，新增 0，在途 0。12 项检查通过，已核验原冻结协议、72 份源码快照、TEST 终态与曝光回执。 条款绑定与全文核验（本地 `legal_skill_guard/paired_interfaces/cni_use_purpose_binding.py`） · 实测回放（本地 `experiments/convergence_revision6_cni_use_purpose_binding.py`）
+
+固定 DEV 共用规则修正每臂两项用途分类和 PARSE 一处引文，无退化。两份误判分别来自披露复制条款与保密注意义务，已看过固定 DEV 错误，保留为开发证据。四内部臂累计 235/272、证据 F1 67.30%，PARSE 223/272、60.34%。M1 前向 12 份中配对路由与最强匹配对照都为 12/12，正确类证据 F1 为 91.67% 和 88.89%，配对区间 [−9.72, +15.28] 个百分点。M2 固定选组复算的三份 B6 用途题，候选驱动 3/3、时间和分歧各 2/3，分类差区间下界为零，正确类证据 F1 反向为 39.20% 对 55.56%。单一分类差在 B6 第三份，另见固定 DEV 相近并列语法的参考歧异。后续若推进该项，优先处理跨独立条款的大段引文，保留同信息强对照。 [逐源回放及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_GOVERNED_USE_PURPOSE_TRAIN_DEV_20261120.json)
+
+## Revision 6 Airline 真实提案的前一断点
+
+阶段 `revision6_airline_candidate_archive_settled`，会话 `44069` 正常退出，绑定 `eb99eb28e5369fef7775d1526160f58aebb11b85786898c0a52d88e7566b5b70`。复用 58 笔 TRAIN 响应，新增 0，在途 0。11 项检查通过，已核验原冻结协议、72 份源码快照、TEST 终态及曝光回执。 修订执行器（本地 `experiments/convergence_revision6_airline_source_actor.py`） · 八批实际提案（本地 `experiments/convergence_revision6_airline_candidate_archive.py`）
+
+普通教师和 PARSE 各八项提案，逐批与各自进入程序同分，累计各 7/24。普通和 PARSE 分别改变 5 和 3 个原生输出，均未改善正确数。已绑定费率版本的执行器在 TRAIN 24/24，固定 DEV 各臂实际调用 16 次并保持 16/16，适用输入无需模型读数。M2 正式 Airline 程序未产生差异。保留 Airline 共用控制，下一条实测优先选择还有未决来源的合同消费者，或在同信息下能改变采纳并在后批复现的候选。 [分库实测及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_AIRLINE_CANDIDATE_ARCHIVE_TRAIN_DEV_20261120.json)
+
+## Revision 6 MAUD 例外前导的前一断点
+
+阶段 `revision6_maud_preamble_attachment_settled`，会话 `69383` 正常退出，绑定 `072b68fccd65d1715c53f4de9c159aec80c364355b9814b3303a89e73670a5ba`。复用 36 笔 TRAIN 和 39 笔固定 DEV 同输入读数，新增 0，在途 0。10 项检查通过，已核验原冻结协议、72 份源码快照、TEST 终态及曝光回执。 解码代码（本地 `legal_skill_guard/paired_interfaces/maud_operative_family_projection.py`） · 前导核验（本地 `legal_skill_guard/paired_interfaces/maud_preamble_governance.py`） · 回放入口（本地 `experiments/convergence_revision6_maud_preamble_attachment.py`）
+
+新解码保持 100 个已声明的本地状态。同一族不同锚点额外恢复的唯一肯定输出匹配固定 DEV 标签，但其所指条款被负面义务的编号列表明确排除。给各路同一原文前导及排除证据后，合成 16/26、固定字段和直接均 20/26。原 TRAIN 三路为 17/18、13/18、12/18，维持原比较。消融累计沿用，当前离线修订未进入正式臂。下一步从另一种未决 M1 消费者或有实质后批采纳差异的 M2 候选继续。 [配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_PREAMBLE_ATTACHMENT_TRAIN_DEV_20261120.json)
+
+## Revision 6 OpenExempt 俄勒冈服饰的前一断点
+
 阶段 `revision6_oe_oregon_apparel_scope_settled`，会话 `23058` 正常退出，绑定 `07fc81d79e3d48294b6b678831ea6163572d80734f66d19d8827c8509aae3380`。复用 144 笔原 TRAIN 与 2 笔受影响的固定 DEV 响应，新增 0，在途 0。10 项检查通过，原冻结协议、72 份源码快照、TEST 终态、结果和曝光回执已核验。 条文核验（本地 `legal_skill_guard/paired_interfaces/convergence_oe_oregon_apparel_scope.py`） · 前向比较（本地 `experiments/convergence_revision6_oe_oregon_apparel_scope.py`）
 
 新规则将服饰与其他条款的适用性绑定到原文、资产和任务视图。固定 DEV 五臂分类各修正一份、零退化，估值与其他四库保持。三种见证使用方式在共用原文证据后均与同预算时间和分歧强对照逐资产一致。保留共用规则，后续选择能改变同信息比较的 M1 合同关系或 M2 候选路径。 [实测及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_OREGON_APPAREL_SCOPE_TRAIN_DEV_20261120.json)

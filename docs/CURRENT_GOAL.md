@@ -4,6 +4,22 @@
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
+## Revision 6 ContractNLI 跨条款引文和 B5 采纳的后批验证
+
+把跨多个独立条款的连续引用收敛到已核验的限用途句。复用 B5 前缀的 30 笔实测重拟合，复现各策略原选组和采纳。给各路完整原文证据后，B6 的候选驱动分类为 3/3，时间和分歧对照均为 2/3，正确类证据 F1 为 71.11% 对 66.67%。在随后六份 B7–B8 原 TRAIN 上，三路分类均为 6/6，正确类证据 F1 为 57.78% 对 74.44%。B6–B8 合计为 9/9 对 8/9，证据 F1 为 62.22% 对 71.85%。固定 DEV 与 M1 匹配比较沿用。复用 48 笔，新增 0。 [原生配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PURPOSE_RANGE_AND_B5_TRANSFER_20261120.json)
+
+## Revision 6 ContractNLI 限用途条款的主体与全文核验
+
+将编号用语绑定到条款前导中的义务主体与保密对象，并核对全文中的非用途义务。原 TRAIN 五条唯一用途链和两份用途未提及均匹配参考。固定 DEV 五臂用途题各由 13/16 到 15/16，零退化。ContractNLI 累计四内部臂 235/272、证据 F1 67.30%，PARSE 223/272、60.34%。M1 后批对最强匹配对照的正确类证据 F1 差 +2.78 个百分点，区间跨零。已锁定的 M2 前向三份中候选驱动为 3/3，其余为 2/3，正确类证据 F1 为 39.20% 对 55.56%。新增请求 0。 [同信息配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_GOVERNED_USE_PURPOSE_TRAIN_DEV_20261120.json)
+
+## Revision 6 Airline 真实提案与公开费率执行
+
+将已核验的公开费率、票价和完整行李清单接入修订版执行器。复用 58 笔物理响应，覆盖原八批 24 份 TRAIN 及普通教师、PARSE 的 16 项实测提案。各臂的进入程序和提案均为 7/24，所有提案均未采纳。共用原文执行在 TRAIN 为 24/24；原固定 DEV 的 16 份在每个原 B8 臂均实际调用这一分支，五臂各保持 16/16，新增模型请求 0。其他库累计沿用。 [逐批提案与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_AIRLINE_CANDIDATE_ARCHIVE_TRAIN_DEV_20261120.json)
+
+## Revision 6 M1 MAUD 例外前导与契约族解码
+
+复用 36 笔 TRAIN 和 39 笔固定 DEV 同输入读数。按题面前导定位疫情条件及其义务，原 TRAIN 核实 8 项，全部匹配参考，固定 DEV 5 项中 4 项匹配。将同一契约族的多个锚点合并后，额外恢复一项符合 DEV 标签的肯定输出，原文的编号列表明确将该条件排除在负面义务之外。给各路同一原文核验后，合成、固定字段、直接读法在已覆盖的 26 项上为 16/26、20/26、20/26。五库正式累计沿用。新增请求 0。 [配对与累计结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_PREAMBLE_ATTACHMENT_TRAIN_DEV_20261120.json)
+
 ## Revision 6 M2 OpenExempt 俄勒冈服饰条文
 
 将服饰修正绑定到原请求中的条文正文与资产，排除错误的车辆和家庭动物条款。7 份原 TRAIN 和 2 份固定 DEV 上，每任务分别核实 52 项和 26 项，均匹配原参考。复用 144 笔 TRAIN 和 2 笔受影响的 DEV 响应，新增 0。各路共享核验后，16 份后批 TRAIN 上候选驱动与时间、分歧及纯原生拟合逐资产申报一致，分类／估值 F1 为 72.98%／64.98%。固定 DEV 五臂各纠正一份分类，零退化，四内部臂分类 F1 从 86.65% 到 87.17%，PARSE 从 86.08% 到 86.60%，估值持平。 [配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_OREGON_APPAREL_SCOPE_TRAIN_DEV_20261120.json)
