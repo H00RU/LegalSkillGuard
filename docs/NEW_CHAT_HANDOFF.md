@@ -1,10 +1,53 @@
 # 当前 Goal 恢复与交接
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,204 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,246 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
 ## 最新断点
+
+阶段 `revision6_cni_agreement_fact_train_settled`。会话 69083 已结束，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_agreement_fact_train_terminal_20261120.json`，绑定 `6f3a2d565c6847fe67988ec3f434d6d418db27462ec4ba4364fe798f0a0aaf7e`。21 笔新冻结读数全部正常解码，共 101,527 tokens。复用两条原臂的配套读数，另逐笔核验先前十份合同的 30 笔实测，其中五份与本次重合，接口和请求分别保留。17 项检查通过，冻结协议、72 份源码快照、TEST 终态和曝光已核对。 [三路实测、源范围与多数类对照](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_AGREEMENT_FACT_TRAIN_20261120.json)
+
+- `cni_agreement_fact_relation.py` 保留九个局部状态的消费者，将披露规则和协议事实的作用域合成具名关系。七份前四批原 TRAIN 在共用规则仍未确定的范围内，合成 1/7，固定字段与直接各 6/7，留一多数类亦为 6/7。正确类证据 F1 分别为 9.52% 和 85.71%。合成均预测蕴含，六处错误使用了一般保密、用途、谈判内容或存续条款。唯一对的参考引用审计安排性质，合成缺少支配该义务的前导证据。
+- 拟合快照保留进入程序。原后四批另有四份公开匹配、固定 DEV 十份，均未派发该接口。累计五库沿用已结算的强制披露通知修订。后续选不同的有 TRAIN 源证的关系，或有真实候选可区分完整前缀原生对照的 M2 比较。
+
+## Revision 6 ContractNLI 强制披露通知的前一断点
+
+阶段 `revision6_cni_notice_roles_settled`。会话 59204 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_notice_roles_terminal_20261120.json`，绑定 `c68165563d15488b861cecbe1d915f9385c6452bb8e9c81861219bf858a0b2ac`。12 项检查通过，复用 4 笔 TRAIN 和 14 笔固定 DEV 原请求，新增 0。已核对原冻结协议、72 份源码快照、TEST 终态和曝光回执。 [原文证据与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_NOTICE_ROLES_AND_FIXED_DEV_20261120.json)
+
+- `cni_compelled_notice_roles.py` 连接强制披露的触发、编号通知义务及合同明示的信息提供方。新增原文覆盖 TRAIN 2/24、固定 DEV 7/16，均符合原生分类参考，证据集合完全匹配分别为 2/2、5/7。正式固定 DEV 回放五臂的通知题均从 8/16 到 12/16，证据 F1 达 68.75%，零退化。相对早期覆盖保护，普通教师与 PARSE 的正确数均保持 12/16，证据 F1 分别由 39.58%、43.75% 达到 68.75%。
+- 已纳入累计五库开发结果。ContractNLI 四内部臂 207/272，证据 F1 56.57%；PARSE 198/272，证据 F1 49.05%。共用修订保留 M1 和 M2 的独立对照结论。剩余四个固定 DEV 错误均为缺乏通知义务依据的肯定预测。原 TRAIN 内没有严格强制披露触发与负面通知参考的同类组合。后续优先用有原 TRAIN 支持的关系继续匹配比较。
+
+## Revision 6 ContractNLI 引文选组的前一断点
+
+阶段 `revision6_cni_archive_group_guard_settled`。会话 73512 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_archive_group_guard_terminal_20261120.json`，绑定 `d08901110a49e0e4801565ef1e56aa97e8454309686a25d07f5ec8066877d0e1`。18 项检查通过，去重复用 39 笔原 TRAIN 响应，新增 0。已核对原冻结协议、72 份源码快照、TEST 终态和曝光回执。 [B1、B4 采纳与后批评分](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_ARCHIVE_GROUP_GUARD_TRAIN_20261120.json)
+
+- `cni_signed_candidate_groups.py` 依据候选相对进入程序新增的原文冲突或证据缺失选组。各筛选策略在同一池中选一组、两笔响应，并用同一原生门槛和否决规则。B4 PARSE 候选在当批原生分类高 3 项，在累计前缀低 4 项。候选驱动筛中 B2 第一份合同的四项有源文证据的退化，保留进入程序。按时间、按分歧和当批原生评分均采纳候选。B5 三份合同各为 39/51。正确类证据 F1 为候选驱动 50.06%、时间及分歧 47.71%、逐假设原生 49.02%。候选驱动相对时间的配对区间为 −0.80 至 +5.88 个百分点。完整 TRAIN 前缀原生对照与候选驱动逐项同判。
+- B1 普通提案在三份拟合合同上多答对一项，三个源证组均无可区分的增减，全部筛选采纳候选。在 B2、B3 六份原 TRAIN 的共用规则结果中，候选 66/102、进入程序 76/102，逐假设原生选择 72/102。B1 的前向退化及 B4 的较强对照持平均已封存。下一轮优先验证有真实候选能区分完整前缀对照的范围。固定 DEV 累计沿用。
+
+## Revision 6 MAUD 条件与稀疏见证的前一断点
+
+阶段 `revision6_maud_witness_train_settled`。会话 35401 已结束，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_maud_witness_train_terminal_20261120.json`，绑定 `c0a93c00d277cbc816761d764e083d7392d94a223db27542ce764c09db40a304`。9 笔新冻结读数、42,308 tokens，原归档对照复用 36 笔，16 项检查通过。已核对原冻结协议、72 份源码快照、TEST 终态和曝光回执。 [原生结果及退化归因](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_WITNESS_TRAIN_20261120.json)
+
+- `maud_covenant_witnesses.py` 将条件单独读出，每类义务存一个已验证的标记和锚点、未决标记与核验状态。两个标记的 2,916 种局部状态与覆盖组合均复现原消费者。九笔实际读数正常解码，每个肯定见证都通过条件真值与锚点家族的结构检查。
+- 原 B5–B8 九份适用 TRAIN 上，在相同原文核验后，稀疏见证 13/18，固定字段 13/18，直接读法 12/18，前一去重联合接口 17/18。相对前版的四处退化集中在两份仅负面节选有疫情标记的合同，一份将同一条件错接到两类义务，一份保留两类未决。按此前原文复核口径搁置两个负面参考冲突后，四路分别为 13/16、13/16、12/16、15/16。该结构在固定 DEV 的覆盖为 0/16，累计五库结果沿用。后续保留锚点修复，优先选择在原开发语料中有覆盖的新关系结构和能区分同信息对照的实际候选。
+
+## Revision 6 MAUD 限制清单锚点的前一断点
+
+阶段 `revision6_maud_governor_dev_settled`。会话 78214 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_maud_governor_dev_terminal_20261120.json`，绑定 `4f9612b5d5295ed2e7fa63d6c253cd00d644bfcb94a4814ae30dfc1ee91490ce`。12 笔新冻结读数、52,362 tokens，全部正常解码。复用 9 笔原 TRAIN 响应，14 项检查通过。已核对原冻结协议、72 份源码快照、TEST 终态和曝光回执。 [DEV 配对及逐位点统计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_GOVERNOR_DEV_20261120.json)
+
+- `maud_covenant_governors.py` 补齐带同意插语、间接禁止和集体禁止的限制清单锚点。四份原固定 DEV 的目标节选各补一个锚点，三份原清单在目标节选无负面锚点。原 TRAIN 的九笔联合读数有五份出现同一家族双槽冲突，合计 12 个标记。联合枚举在语法上排除同一家族重复，保留消费者的 100 个既有局部状态。
+- 三路使用同一全文、同一补齐锚点和相同共用规则。合成、固定、直接正确数为 2/8、6/8、5/8，原始和规则后分数相同。合成在三份合同的七个标记上排除两类关系，三道普通经营题失分。合成对固定与直接的母来源配对差为 −50.0 与 −37.5 个百分点，上界均为零。联合枚举未进入正式路由，五库累计 DEV 沿用。后续保留补齐锚点作为共用输入，针对已观察的排除偏差，验证可保留显式条件和单家族关系的表示。
+- 复算此轮绑定时，将保存的 `binding.json` 中 `eligibility` 的键恢复为整数位点，再按原函数取摘要。结算时已按生成时的键类型复核。
+
+## Revision 6 OpenExempt B8 候选池的前一断点
+
+阶段 `revision6_oe_b8_portfolio_settled`。会话 81628 已结束，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_oe_b8_portfolio_terminal_20261120.json`，绑定 `b235e7fd6ffcc574b4502e7840d07612cd43957005c73bb2ee8ac3a85f3317dd`。10 项检查通过，复用 40 笔原 B8 TRAIN 响应，新增 0，在途 0。已核对原冻结协议、72 份源码快照、TEST 终态和曝光回执。 [B8 候选池及五库固定 DEV](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_B8_PORTFOLIO_TRAIN_AND_FIXED_DEV_20261120.json)
+
+- `convergence_revision6_oe_b8_portfolio.py` 绑定三个实际进入程序和两个实际提案，在四份原 B8 母来源上重建 25 种分类／估值组合。共用威斯康星州住宅豁免规则核到 1/4 份，产权、居住和额度均与原参考一致。两个组预算下，候选驱动和按时间选相同组，按分歧和按进入程序风险选不同组，四路均保留 M2 的进入程序。只按当批原生分数拟合选用 PARSE 分类和普通提案估值，两任务平均 F1 增量 +5.00 个百分点。固定 DEV 对住宅规则覆盖 0/16，五库结果沿用。历史实际采纳按原绑定保留。B1–B8 现有选组证据直接复用。
+- MAUD 的原文候选检查在固定 DEV 上找到 11/16 份含疫情标记且两类义务都有可见锚点的合同。已知正向区间仍限于 TRAIN。此前的单侧节选子类仍为 0/16。下一轮优先定位其中可由修订接口解决的关系表示问题，沿用同信息固定与直接读法。
+
+## Revision 6 OpenExempt B1 家庭用品选组的前一断点
 
 阶段 `revision6_oe_b1_household_fit_settled`。会话 61917 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_oe_b1_household_fit_terminal_20261120.json`，绑定 `df7f8075c4f626d9a6acbfa5e3fd80209945083365b63f57c92ebe6c0a03f653`。13 项检查通过，复用 40 笔 B1/B2 同输入读数及 6 笔受影响固定 DEV 读数，新增 0。原冻结协议、72 份源码快照、TEST 终态和曝光回执通过核验。 [B1 选组、B2 实测与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_B1_HOUSEHOLD_FIT_TRAIN_AND_FIXED_DEV_20261120.json)
 
