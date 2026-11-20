@@ -4,7 +4,19 @@
 
 ## 最新固定 DEV 与接续断点
 
-目前阶段为 `revision6_maud_joint_forward_settled`。连续账本累计 15,183 笔，其中 15,147 笔完成、36 笔历史失败，当前在途 0。 [恢复与交接](../../docs/NEW_CHAT_HANDOFF.md)
+目前阶段为 `revision6_cni_event_residual_settled`。连续账本累计 15,195 笔，其中 15,159 笔完成、36 笔历史失败，当前在途 0。 [恢复与交接](../../docs/NEW_CHAT_HANDOFF.md)
+
+ContractNLI 三份早批合同的具名事件关系补上六个未决分类。三路应用已有共用规则后均为 7/9。合成证据 F1 为 62.96%，两条强对照为 56.30%。新增同源存续引文及请求触发核验后，三路逐项同判，均为 8/9、正确类证据 F1 74.07%。新增三笔冻结读数，固定 DEV 沿用。 [配对实测](paper/tables/REVISION6_CNI_EVENT_RELATION_TRAIN_20261120.json) · [引文归因](paper/tables/REVISION6_CNI_EVENT_RESIDUAL_TRAIN_AND_FIXED_DEV_20261120.json)
+
+ContractNLI 的处分、存续和保留事件接口在三份早批 TRAIN 上分别为合成 3/9、固定 7/9、直接 7/9。九笔实测均正常解码，合成在两份合同上将六个问题的关系留为未决。共用原文核验后为 6/9、7/9、7/9。保留例外的最小引文修订使固定 DEV 的 PARSE 该题证据 F1 从 23.45% 到 29.70%，四个内部臂为 66.00%，分类均沿用。 [三路实测](paper/tables/REVISION6_CNI_EVENT_WITNESS_TRAIN_20261120.json) · [统一引文与五库累计](paper/tables/REVISION6_CNI_EVENT_LINKAGE_AND_FIXED_DEV_20261120.json)
+
+OpenExempt 用各自任务的原文证据归因跨任务冲突。B7 原两条冲突仅一条可归于估值候选，另一条保留未决。B2 和 B3 选组改变，六次采纳决定沿用。16 份前向 TRAIN 上四条配对选择路线均为 66.01% 分类 F1 和 54.54% 估值 F1。复用 168 笔去重的实际响应。 [方向归因与前向原生计分](paper/tables/REVISION6_OE_SIGNED_DIRECTION_TRAIN_20261120.json)
+
+OpenExempt 共用品类核验把固定 DEV 四个内部臂的分类 F1 从 81.44% 提高到 81.88%，估值保持 76.59%。PARSE 分类／估值为 81.80%／73.30%，五臂零退化。原 B7 选组采纳后检查的 16 份前向 TRAIN，引文多重集逐源一致，分类／估值均为 66.01%／54.54%。B7 的俄勒冈家庭用品引文在原 EC 和 EV 参考中均存在，车辆引文在两份参考均缺席。 [品类核验与五库累计](paper/tables/REVISION6_OE_ITEM_CATEGORIES_AND_FIXED_DEV_20261120.json)
+
+OpenExempt B7 同任务组筛查发现普通估值候选新增两处跨任务冲突，改采纳 PARSE 估值。按时间与按答案分歧继续采纳普通估值。16 份前向 TRAIN 分类 F1 各为 64.98%，估值 F1 为 52.34% 对 53.73%。两项平均差 −0.69 个百分点，95% 配对区间 [−1.85, 0]。复用 144 笔原物理响应。 [真实候选与前向结果](paper/tables/REVISION6_OE_COMPETING_PORT_TRAIN_20261120.json)
+
+MAUD 负面契约的引文核验区分了节选外的例外、未引入的前导例外和可见的单项例外。B6 第三份在四路都由 Yes 转为未决，原生分数持平。另两份的原文支持贷款修改或分行关闭的局部例外，原参考均为 No。16 份公开 DEV 无这一修订的适用案例，复用原 TRAIN 70 笔，新增 0。 [引文位置和四路回放](paper/tables/REVISION6_MAUD_NEGATIVE_WITNESS_TRAIN_20261120.json)
 
 MAUD 对早四批四路读数应用相同原文规则后，联合字段 19/20，固定字段 17/20，直接读法 16/20，两处相对双对照的修正由原 TRAIN 母合同支持。后四批锁定三个同结构合同，普通经营联合 3/3、固定 1/3、直接 0/3、旧锚点合成 2/3，四路负面契约均为 0/3。联合相对固定的区间下界为零。新增三笔、复用九笔，固定 DEV 沿用。 [早期归因](paper/tables/REVISION6_MAUD_JOINT_SCOPE_CONTROLS_TRAIN_20261120.json) · [前向实测](paper/tables/REVISION6_MAUD_JOINT_FORWARD_TRAIN_20261120.json)
 
@@ -88,14 +100,14 @@ B5 披露对象选组新增了按答案分歧的同预算对照。两种主动�
 
 最新比较覆盖原 B6–B8 中此前未做权利授予配对读取的 8 份 TRAIN 合同。合成、固定及同信息直接读器的分类依次为 0/8、2/8、8/8，证据 F1 依次为 0%、20.83%、75.42%。24 笔冻结执行器读取全部正常结算，连续账本达 14,895 笔，在途 0。该单任务接口没有触发 DEV 扩验。 [权利授予 TRAIN 结果](paper/tables/REVISION6_LICENSE_FORWARD_TRAIN_20261120.json)
 
-累计 B8 DEV 已结算。五库各有 16 份原 DEV 母来源。下表为启用两项方法的臂及相应同信息对照所能支持的结论。 [五库累计指标和逐臂结果](paper/tables/REVISION6_OE_ARIZONA_HOUSEHOLD_AND_FIXED_DEV_20261120.json)
+累计 B8 DEV 已结算。五库各有 16 份原 DEV 母来源。下表为启用两项方法的臂及相应同信息对照所能支持的结论。 [五库累计指标和逐臂结果](paper/tables/REVISION6_CNI_EVENT_RESIDUAL_TRAIN_AND_FIXED_DEV_20261120.json)
 
 | 数据库 | 机制与对照 | 累计原生指标 |
 |---|---|---|
 | LegalBench Diversity | M1 正式路径已触发。同源字面强对照同样答对全部题。 | 准确 16/16 |
-| ContractNLI | M1 合成接口和 M2 候选驱动选组已触发。四个内部臂累计结果持平。 | 内部臂 202/272，证据 F1 54.24%。PARSE 193/272，证据 F1 46.23%。 |
-| MAUD | 本轮增益来自共用条款核验。 | 知悉定义 16/16，负面契约 13/16，普通经营 14/16 |
-| OpenExempt | M2 B7 候选驱动选组已触发。相同信息下共享筛选与直接筛选同判。最新分类和估值收益来自共用规则。 | 分类 F1 81.44%，估值 F1 76.59% |
+| ContractNLI | M1 合成接口和 M2 候选驱动选组已触发。四个内部臂累计结果持平。 | 内部臂 202/272，证据 F1 54.24%。PARSE 193/272，证据 F1 46.60%。 |
+| MAUD | M1 联合字段在三个前向 TRAIN 的普通经营题上各答对，负面契约均未答对。固定 DEV 的增益来自共用条款核验。 | 知悉定义 16/16，负面契约 13/16，普通经营 14/16 |
+| OpenExempt | M2 B7 候选驱动选组已触发。共用品类核验后，候选驱动和同预算强对照的前向原生预测一致。 | 分类 F1 81.88%，估值 F1 76.59% |
 | RuleArena Airline | 巴拿马线路收益来自共用费率规则。 | 精确总费用 16/16 |
 
 此前的 ContractNLI 修订识别保护本协议和限制公开参与谈判事实的条款。协议披露题在四个内部臂各由 4/16 升到 7/16，PARSE 由 10/16 升到 11/16，均无退化。相同原文规则下，原 TRAIN 多数类回退为 13/16，归档 B5 候选驱动和按时间选组为 9/16 和 11/16。独立验收仍需要新证据区分两项方法与各自强对照。 [协议披露明细](paper/tables/REVISION6_CNI_AGREEMENT_DISCLOSURE_AND_FIXED_DEV_20261120.json)

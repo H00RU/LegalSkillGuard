@@ -1,10 +1,51 @@
 # 当前 Goal 恢复与交接
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,183 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,195 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
 ## 最新断点
+
+阶段 `revision6_cni_event_residual_settled`。会话 57128 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_event_residual_terminal_20261120.json`，绑定 `35985a97b18506427187856f923c82a3e4083170df7b677f6658ea66950d7ab9`。19 项检查通过，复用配对请求 12 笔和受影响原 TRAIN 请求 2 笔，新增 0。 [同信息引文归因](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EVENT_RESIDUAL_TRAIN_AND_FIXED_DEV_20261120.json)
+
+- `cni_event_relation.py` 的具名关系保持 27 个部分状态的原消费者结果。会话 80579 已结算三笔新冻结读数，29,901 tokens，旧固定／直接请求及旧合成回复共九笔复用。六个原未决判断全部给出分类。三路在已有共用规则下各为 7/9，合成的正确类证据 F1 为 62.96%，两条强对照均为 56.30%。差异集中在 B2 第二份的存续条款。 [三笔实测与配对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EVENT_RELATION_TRAIN_20261120.json)
+- `cni_event_residual.py` 将三路的存续证据绑定到同一协议终止条款，并核验另一份合同的所有处分项都承接同一个请求前导。合成、固定、直接逐项预测一致，分类各 8/9、正确类证据 F1 各 74.07%。固定 DEV 五臂无输出改动。六份后批原 TRAIN 仍保留，下一条路径须有新的源文依据和可与强对照区分的机制。
+
+## Revision 6 ContractNLI 事件链接的前一断点
+
+阶段 `revision6_cni_event_linkage_settled`。会话 42779 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_event_linkage_terminal_20261120.json`，绑定 `19b7f80100c36810dc56b3f7a3083d50eb44c7898a3500038b823aeec69cfb55`。18 项检查通过。共用修订复用 9 笔配对、6 笔原 TRAIN 和 1 笔原 DEV，新增 0。首版上下文引文的回执及三处 DEV 退化仍保留。 [原文归因与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EVENT_LINKAGE_AND_FIXED_DEV_20261120.json)
+
+- `cni_event_linkage.py` 核实交易终止、请求与后续处分条款的连接，以及法定或归档例外。周围条款用于核实连接，直接授权保留的条款进入证据。三处固定 DEV 保留例外的分类均维持，PARSE 改善一份引文，累计证据 F1 为 46.60%。四个内部臂累计为 54.24%。
+- M1 联合事件读数的会话 14484 已正常结束，绑定 `5d00cafc9efeef02870af0281ad023222ed3c0f4cf06005fb4dfcf2ef0fbde70`。九笔正常完成，87,637 tokens。合成、固定、直接原生正确数为 3/9、7/9、7/9，共用原文回放为 6/9、7/9、7/9。两份合同合成输出的六个任务均为未决。后批六份原 TRAIN 的输入覆盖已记录，扩验条件未达。继续 M1 需要能处理这类未决事件关系的实质新候选，M2 需要不同的源文和采纳差异。 [九笔原始对照](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EVENT_WITNESS_TRAIN_20261120.json)
+
+## Revision 6 M2 冲突方向与选组的前一断点
+
+阶段 `revision6_oe_signed_direction_settled`。会话 28615 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_oe_signed_direction_terminal_20261120.json`，绑定 `4cbb13be23eeecd447d2d20bc93bca24ac71bbbd1ee8b6bd38563352e48ac566`。19 项检查通过。原前向候选池 144 笔，B2/B5 当批复核 32 笔，两池重叠 8 笔，去重 168 笔。新增请求 0。 [原文方向与六批选组结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_SIGNED_DIRECTION_TRAIN_20261120.json)
+
+- `convergence_oe_signed_direction.py` 只把候选实际改动且被独立源据否定的断言计为该候选的新冲突，记录由另一任务揭示的既有错误及方向未决的冲突。B7 的车辆引文归为估值误引，家庭用品引文缺少独立方向证据。B2 和 B3 换组选例，六批均沿用原候选采纳。16 份前向 TRAIN 的候选驱动和两条同预算强对照逐预测一致，分类与估值 F1 为 66.01%／54.54%。
+- B2、B5 的选组对照均保留进入程序，已有证据支持继续复用现有结果。后续集中到有实质不同候选与源文关系的 M2 比较，或有原文差异支持的 M1 合同接口，五库固定 DEV 沿用。
+
+## Revision 6 OpenExempt 资产类别的前一断点
+
+阶段 `revision6_oe_item_categories_settled`。会话 30790 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_oe_item_categories_terminal_20261120.json`，绑定 `c0ddaa91ce91b44a7c2205b038fef4fb62602127b2f48a78637fd4634155cc73`。16 项检查通过，复用 144 笔 TRAIN 和 3 笔受影响 DEV 原响应。首个回放在逐条输出比较时退出，重新核对引文多重集并使用封存原顺序完成。新增请求 0。 [五库累计与来源归因](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_ITEM_CATEGORIES_AND_FIXED_DEV_20261120.json)
+
+- `convergence_oe_item_category.py` 使用原题法条、独立资产类别和产权。四个固定 DEV 内部臂分类 F1 从 81.44% 升至 81.88%，估值为 76.59%。PARSE 分类／估值由 81.35%／73.01% 到 81.80%／73.30%。五臂零退化，已纳入累计五库 DEV。
+- 按原 B7 采纳决定重放，各主要选组对照的前向分类和估值 F1 均为 66.01%／54.54%。两个母来源的差别只在引文顺序，回执 `handoff/revision6_oe_item_categories_claim_order_20261120.json` 验证了同一多重集及重复计数。B7 新增的两条跨任务冲突中，俄勒冈家庭用品引文在原 EC、EV 参考均存在，车辆引文在两者均缺席。下一步在有独立原文支持和真实不同提案时，测试能区分分类漏引与估值误引的筛选。
+
+## Revision 6 M2 同任务候选选组的前一断点
+
+阶段 `revision6_oe_competing_port_settled`。会话 52854 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_oe_competing_port_terminal_20261120.json`，绑定 `eb7de24cfb5038cdfea496e22ec85c4a7897c83c826b4989e15a5f32b8196879`。复用 144 笔实测，31 项检查通过。三次命令行尝试在历史候选池哈希校验时退出，导入 `experiments.convergence_revision6_oe_competing_port` 调用 `run(True)` 通过原哈希并完成。所有尝试均为离线回放。 [M2 选组及前向结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_COMPETING_PORT_TRAIN_20261120.json)
+
+- 在原两组预算下，B7 第二组发现普通估值提案新增两处跨任务冲突，第四组有适用于 PARSE 的原文修正。新策略采纳 PARSE 估值，按时间和按分歧仍采纳普通估值。其余三批采纳决定沿用。16 份前向 TRAIN 分类 F1 均为 64.98%，估值 F1 为 52.34% 对 53.73%，两项平均差 −0.69 个百分点，配对区间 [−1.85, 0]。基于此结果沿用固定 DEV。M2 下一条路径须有独立来源支持修正可迁移，或有不同的真实提案与来源关系。
+
+## Revision 6 MAUD 负面契约引文的前一断点
+
+阶段 `revision6_maud_negative_witness_settled`。会话 18006 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_maud_negative_witness_terminal_20261120.json`，绑定 `09a0c32a021df8fda5b5c618cac360e8171d416396e3ed152ff0aa27e2e094ef`。21 项检查通过，复用 70 笔物理响应，新增 0。 [引文范围和同条件回放](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_NEGATIVE_WITNESS_TRAIN_20261120.json)
+
+- `maud_negative_witness.py` 复用编号引入证据，将负面题节选中未引用的前导例外、节选截止后的单项例外、可见契约单项例外和独立访问义务落到原文位置。B6 第三份四路负面判定均由 Yes 改为未决，计分持平。B6 第二份贷款及 B8 第二份分行例外的原文位置经精确母合同校验，原参考均为 No。公开 DEV 覆盖 0/16，固定 DEV 分数沿用。
+- MAUD 联合字段保留此前的普通经营前向信号及区间。继续使用原 TRAIN/DEV，待有实质修订和适用来源时再扩验此路径。
+
+## Revision 6 MAUD 联合字段前向的前一断点
 
 阶段 `revision6_maud_joint_forward_settled`。会话 58680 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_maud_joint_forward_terminal_20261120.json`，绑定 `f19399eeec815a953fbfa7e09f560d45a0f545bcd8e46a1c408e6d4d6b83e680`。原 B6 第二、第三份和 B8 第二份合同共三笔新联合读数，21,183 tokens，九笔匹配对照复用，全部正常解码。首个会话 3567 在探活时因沙箱网络限制退出，发生在请求预留之前；同绑定后续正常完成。 [前向比较](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_JOINT_FORWARD_TRAIN_20261120.json)
 

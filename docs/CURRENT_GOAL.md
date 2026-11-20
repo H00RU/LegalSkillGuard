@@ -1,8 +1,32 @@
 # 当前 Goal 与证据状态
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,183 笔，其中完成 15,147 笔、历史失败 36 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,195 笔，其中完成 15,159 笔、历史失败 36 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
+
+## Revision 6 M1 ContractNLI 具名事件关系与引文归因
+
+同一全文和锚点下，用具名关系分别表达条款绑定、事件不符和未决。三份 TRAIN 的六个旧未决判断均给出了原生分类，合成原始分数由 3/9 到 5/9，固定、直接各 7/9。新增三笔、29,901 tokens，九笔旧读数复用。应用已有共用规则后三路均为 7/9，合成证据 F1 的 6.67 个百分点优势来自一份合同的存续引文，配对区间 [0, +20]。将同一原文规则用于三路，删除该存续证据中的既有请求权、保留义务与继受条款，并核对另一合同的请求专属触发。三路预测随后逐项一致，各 8/9，正确类证据 F1 各 74.07%。五臂固定 DEV 均无输出改动。 [三笔实测](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EVENT_RELATION_TRAIN_20261120.json) · [引文归因回放](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EVENT_RESIDUAL_TRAIN_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 ContractNLI 事件链接与保留例外
+
+同一全文及锚点索引下，新事件接口、固定字段和直接读法在三份早批 TRAIN 上分别答对 3/9、7/9、7/9。合成接口在两份合同的六个任务均输出未决关系，九笔正常解码，共 87,637 tokens。之后用相同原文规则核实交易终止触发和保留例外，合成得分回放为 6/9，双对照各 7/9，正确类证据 F1 为 55.56% 对 56.30%。固定 DEV 的三处保留例外均已答对，最小引文修订把 PARSE 该题证据 F1 从 23.45% 提到 29.70%，四内部臂保持 66.00%，零退化。累计 PARSE 证据 F1 为 46.60%。 [原始三路实测](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EVENT_WITNESS_TRAIN_20261120.json) · [共用原文回放与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EVENT_LINKAGE_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M2 OpenExempt 冲突方向与选组
+
+将跨任务冲突绑定到该任务自己的产权和条款资格条件。B7 原两条冲突中，车辆引文有独立原文证据足以归为估值误引，家庭用品引文的方向保留未决。两组预算下，B2 和 B3 的候选驱动策略更换所选组，六批的程序采纳沿用。16 份前向 TRAIN 上，候选驱动、按时间、按答案分歧及无方向归因消融的原生预测一致，分类／估值 F1 为 66.01%／54.54%。B2 和 B5 均保留进入程序。168 笔物理响应去重复用，新增 0。 [六批筛选与原生结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_SIGNED_DIRECTION_TRAIN_20261120.json)
+
+## Revision 6 OpenExempt 资产类别与 B7 归因
+
+共用核验识别带修饰语的独立物件，按题面法条去除宾州服装与缝纫机误引，为产权明确的服装和一项低于联邦单项上限的家庭用品补引。固定 DEV 四个内部臂的分类 F1 从 81.44% 升至 81.88%，估值为 76.59%。PARSE 从 81.35%／73.01% 升至 81.80%／73.30%，五臂零退化。相同核验用于全部 B7 选组对照后，16 份前向 TRAIN 的分类与估值 F1 均为 66.01%／54.54%，引文多重集逐源一致。B7 两个跨任务冲突中，一个新增估值引文在原 EC、EV 参考均存在，另一个在两份参考均缺席。 [五库累计、原生配对与归因](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_ITEM_CATEGORIES_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M2 OpenExempt 同任务候选选组
+
+两个组选出可由原文证实修正的估值候选，并检查原生拟合更高的同任务提案是否引入跨任务冲突。B7 检出两处新冲突，改采纳 PARSE 估值程序。按时间与按答案分歧均采纳普通教师的估值程序。16 份前向 TRAIN 的分类 F1 各为 64.98%，估值 F1 为 52.34% 对 53.73%。两项平均差 −0.69 个百分点，95% 配对区间 [−1.85, 0]。B7 后续四份的估值 F1 为 48.99% 对 54.52%。复用 144 笔，固定 DEV 沿用。 [同预算选组及原生结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_COMPETING_PORT_TRAIN_20261120.json)
+
+## Revision 6 MAUD 负面契约的引文范围
+
+在 24 份原 TRAIN 和 16 份公开 DEV 输入上检查肯定引文的位置，复用 70 笔实测响应。B6 第三份的普通经营例外未被负面契约的编号列表引入，借款和资本支出例外出现在另一题节选的后文。四路均将这份的负面题改为未决，三份前向合同的该题仍各为 0/3。B6 第二份的贷款修改和 B8 第二份的临时关闭确有可见单项例外，原参考均为 No。普通经营及配对区间沿用，16 份 DEV 无本次范围变动。 [来源范围和原生回放](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_NEGATIVE_WITNESS_TRAIN_20261120.json)
 
 ## Revision 6 MAUD 联合字段的前向 TRAIN
 
