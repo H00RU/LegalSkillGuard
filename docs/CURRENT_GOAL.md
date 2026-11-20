@@ -1,8 +1,32 @@
 # 当前 Goal 与证据状态
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,195 笔，其中完成 15,159 笔、历史失败 36 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,204 笔，其中完成 15,168 笔、历史失败 36 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
+
+## Revision 6 M2 OpenExempt B1 家庭用品选组
+
+对 B1 进入程序、普通提案及实际采纳的 PARSE 提案共用伊利诺伊州家庭用品作用域核验。普通提案仅替换估值的两任务平均原生增量由 +4.17 个百分点降为 0，候选驱动、按时间、按答案分歧及原生拟合均保留进入程序。原 B2 四份后批的历史进入程序分类／估值 F1 为 55.06%／33.33%，历史 PARSE 为 57.14%／25.00%。已阅固定 DEV 中，四内部臂分类／估值升至 83.27%／79.13%，PARSE 升至 82.49%／75.45%，五臂无退化。复用 46 笔，新增 0。 [候选池、原生比较与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_B1_HOUSEHOLD_FIT_TRAIN_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M1 MAUD 重复条款锚点
+
+对同一有效条款锚点只解码一次，保留另一契约范围的未决状态。将同一规则用于两种锚点接口后，新接口在三份原 TRAIN 恢复普通经营判定，原始得分由 8/18 升至 11/18，旧锚点保持 11/18。共用条款核验已覆盖这三处，新接口与固定、直接强对照仍为 17/18、13/18、12/18。原 24 份 TRAIN 中，疫情线索仅出现在负面契约节选的三份均已用于比较；固定 DEV 16 份无同类输入。复用 18 笔原响应，新增 0。 [解码回放及可用来源](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_ANCHOR_IDEMPOTENCE_TRAIN_20261120.json)
+
+## Revision 6 M1 MAUD 条件与义务的局部关系
+
+合成接口从原消费者导出条件和受约束义务的联合读数，保留 100 个局部状态的输出和未知含义。原 B5–B8 完整适用组为 9 份 TRAIN。无额外源文核验时，新接口、固定和直接分别正确 8/18、10/18、9/18。三路均用既有范围核验，再分别定位同一公司的两个疫情前导条款后，为 17/18、13/18、12/18，旧锚点合成为 14/18。两处明确的单项负面契约例外与原 No 标签有分歧，搁置两项计分的敏感性分析分别为 15/16、13/16、12/16、14/16。两条强对照的母来源配对 95% 区间下界均为零。新增 9 笔、42,217 tokens，复用 27 笔，固定 DEV 沿用。 [完整原生评分和敏感性分析](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_OPERATIVE_EDGES_TRAIN_20261120.json)
+
+## Revision 6 OpenExempt 机动车估值条款
+
+将单一申报人的联邦额度绑定到题面第 522(d)(2) 项，并用其他资产价值的保守上界核算威斯康星州剩余额度。原 TRAIN 覆盖 1/32，固定 DEV 覆盖 4/16，六个核验金额均符合原评分参考。已阅固定 DEV 的估值 F1，四个内部臂由 76.59% 升至 78.61%，PARSE 由 73.30% 升至 74.93%，各改善 3 份和 2 份，零退化。B2 两个程序原本都报对该联邦金额，候选驱动、按时间和答案分歧均保留进入程序。复用 21 笔原读数，新增 0。 [估值、采纳及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_MOTOR_VEHICLE_TRAIN_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 ContractNLI 外部顾问许可
+
+把明确的外部专业顾问定义连到接收方的访问许可，并区分同一条中的必要知悉许可和其他第三方的事前同意。原 TRAIN 覆盖 2/24，固定 DEV 覆盖 1/16。B3 提案在该题由 4/9 到 6/9，与进入程序同分；证据 F1 为 38.89% 对 43.33%。固定 DEV 四个内部臂该题各由 10/16 到 11/16，PARSE 由 9/16 到 10/16。五臂均无分类或引文退化。五库累计中，ContractNLI 内部臂为 203/272、证据 F1 54.61%，PARSE 为 194/272、证据 F1 46.97%。这是已阅 DEV 上的共用修订。复用 20 笔原响应，新增 0。 [源绑定与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EXTERNAL_RECIPIENTS_TRAIN_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M2 MAUD 八批候选对照
+
+对原 24 份 TRAIN 的 16 项普通教师和 PARSE 提案逐笔回放，复用 84 笔候选与进入程序读数及 6 笔 B4 无损恢复读数。5 项原有正增益经共用输出恢复和可见条款核验后剩 3 项，另有 1 项退化。剩余 4 项差异均为普通经营题，给两边同样的已审 TRAIN 母合同范围后逐项同判。八批正式 M2 与普通教师的 MAUD 程序哈希逐批一致。新增负面契约规则核实 B1 一项明确疫情例外并定位原 PARSE 退化，固定 DEV 覆盖 0/16，原指标沿用。新增请求 0。 [逐批原生计分](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_CANDIDATE_ARCHIVE_TRAIN_20261120.json)
 
 ## Revision 6 M1 ContractNLI 具名事件关系与引文归因
 

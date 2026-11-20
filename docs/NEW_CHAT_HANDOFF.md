@@ -1,10 +1,52 @@
 # 当前 Goal 恢复与交接
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,195 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,204 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
 ## 最新断点
+
+阶段 `revision6_oe_b1_household_fit_settled`。会话 61917 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_oe_b1_household_fit_terminal_20261120.json`，绑定 `df7f8075c4f626d9a6acbfa5e3fd80209945083365b63f57c92ebe6c0a03f653`。13 项检查通过，复用 40 笔 B1/B2 同输入读数及 6 笔受影响固定 DEV 读数，新增 0。原冻结协议、72 份源码快照、TEST 终态和曝光回执通过核验。 [B1 选组、B2 实测与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_B1_HOUSEHOLD_FIT_TRAIN_AND_FIXED_DEV_20261120.json)
+
+- `convergence_oe_illinois_household.py` 将明确家用物件与服装、谋生工具、专业处方辅助器具分开。原 TRAIN／DEV 覆盖 1/32、3/16，均无原参考冲突。适用于所有臂的共用规则修复烘干机和台灯的误引。B1 普通提案仅换估值的两任务平均原生增量由 +4.17 个百分点降至 0，候选驱动、按时间、按分歧及原生拟合均保留进入程序。B2 复用历史进入程序和历史 PARSE 的完整成对结果。普通提案没有后批匹配读数，共用核验后无需为本项选组比较补读。
+- 已阅固定 DEV 中，四内部臂分类／估值从 81.88%／78.61% 到 83.27%／79.13%，PARSE 从 81.80%／74.93% 到 82.49%／75.45%，五臂零退化。复用本次 B1 和已有 B2–B7 候选比较，后续按新的源文结构或可与强对照区分的采纳路径继续。
+
+## Revision 6 MAUD 重复条款锚点的前一断点
+
+阶段 `revision6_maud_anchor_idempotence_settled`。回放会话 63941 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_maud_anchor_idempotence_terminal_20261120.json`，绑定 `38a66211e9bb62a2058382961aaf7b71cd5be2ef38cef48937f96d8574dc38f6`。18 项检查通过，复用 18 笔原模型请求，新增 0。原冻结协议、72 份源码快照、TEST 终态和曝光回执通过核验。 [响应回放与来源覆盖](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_ANCHOR_IDEMPOTENCE_TRAIN_20261120.json)
+
+- `maud_anchor_idempotence.py` 保留重复锚点表达的一项已知义务和另一项未决义务。新接口恢复 B7 第三份、B8 第一份和第三份的普通经营输出，原始正确数 8/18→11/18。旧锚点在 B8 第二份恢复可见分行例外的肯定判断，原负面参考为 No，旧锚点总分保持 11/18。共用条款核验和敏感性得分沿用。
+- 仅负面契约节选有疫情线索的原 TRAIN 为 B1 第三份、B6 第二份和 B8 第二份，已分别进入此前校准及后批配对。固定 DEV 无同结构，未读取 DEV 标签。后续复用当前结果；有明确新结构或不同真实候选时再运行。
+
+## Revision 6 MAUD 条件和义务关系的前一断点
+
+阶段 `revision6_maud_operative_attribution_settled`。实测会话 18105 和回放会话 36102 已退出。回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_maud_operative_attribution_terminal_20261120.json`，实测绑定 `2e83eab92918066a69b22ac011d5b8f6bbbcdca1c5356ee2c2f291b696c4428f`，回放绑定 `3c864ae686a1f48099f7917ef2f7424451cc06ceddbddc501c8de5b5cee4447f`。新增 9 笔、42,217 tokens，正常解码 9/9，复用 27 笔同输入对照。16 项检查通过，原冻结协议、72 份源码快照、TEST 终态和曝光回执均已核验。 [实测和原文归因](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_OPERATIVE_EDGES_TRAIN_20261120.json)
+
+- `maud_operative_edges.py` 在单个焦点上联合绑定有效疫情条件和具体义务。原后四批 9 份较晚 TRAIN 的新接口、固定、直接和旧锚点原始得分依次为 8/18、10/18、9/18、11/18。既有共用核验后为 15/18、13/18、12/18、14/18。
+- B7 第一份合同中，同一公司普通经营和负面条款有两个各自纳入疫情措施的前导段。共用原文核验恢复新接口两题后四路为 17/18、13/18、12/18、14/18。搁置 B6 第二份和 B8 第二份有可见单项例外且原参考为 No 的负面题，敏感性结果为 15/16、13/16、12/16、14/16。保留完整原生评分。两项强对照的配对区间下界均为零，固定 DEV 无该原文结构，沿用此前结果。继续时复用本次完整配对，优先验证新结构或不同真实候选。
+
+## Revision 6 OpenExempt 机动车估值的前一断点
+
+阶段 `revision6_oe_motor_vehicle_settled`。会话 90086 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_oe_motor_vehicle_terminal_20261120.json`，绑定 `c303c407b164570a7dc1584c812a4607fdb6c05c9f00352e3e2001b29cbb7bb1`。16 项检查通过，复用 16 笔 B2 和 5 笔固定 DEV 原请求，新增 0。原冻结协议、72 份源码快照、TEST 终态和曝光回执均已核验。 [固定 DEV 五库与 B2 筛选](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_MOTOR_VEHICLE_TRAIN_AND_FIXED_DEV_20261120.json)
+
+- `convergence_oe_motor_vehicle.py` 从适用的题面法条读取金额。联邦规则限产权明确的单一申报人，威斯康星州只输出保守上下界同意的金额。原 TRAIN 的 1 个和固定 DEV 的 5 个金额均与原参考一致。已阅 DEV 中四个内部臂估值 F1 由 76.59% 升至 78.61%，PARSE 由 73.30% 升至 74.93%，五臂零退化。分类沿用。
+- B2 唯一适用车辆的进入程序和候选均报对 $4,450。完整 B2 两程序原生输出与同预算策略的选择照旧。后续独立比较需利用另一个真实候选采纳差异或新的消费者语义范围，避免重试该金额假设。
+
+## Revision 6 ContractNLI 外部顾问许可的前一断点
+
+阶段 `revision6_cni_external_recipients_settled`。会话 76307 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_external_recipients_terminal_20261120.json`，绑定 `7292c75bee65b9a6500f14ed769f85302271e14871b2449b7e267b26861205de`。15 项检查通过，复用 18 笔 B3 原请求和 2 笔固定 DEV 原请求，新增 0。原冻结协议、72 份源码快照、TEST 终态和曝光回执均已核验。 [原生指标和五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EXTERNAL_RECIPIENTS_TRAIN_AND_FIXED_DEV_20261120.json)
+
+- `cni_external_recipients.py` 区分需要知悉的外部顾问和须经单独批准的其他第三方，并把外部成员定义补到引用。原 TRAIN 两处都是 B3 提案此前丢失的许可。共用核验后 B3 的 NDA-7 分类两路各 6/9，证据 F1 为进入程序 43.33%、提案 38.89%。B4 三份原 TRAIN 找到提案响应，缺少同设置的 B3 进入程序响应。当前范围的分类差异已由共用核验解释，未追加该后批读数。
+- 已阅固定 DEV 五臂各修正一项外部披露。累计分类内部臂 203/272、PARSE 194/272，证据 F1 分别为 54.61%、46.97%。其余四库沿用。后续优先验证有新来源依据且能区分现有强对照的候选或合同接口。
+
+## Revision 6 M2 MAUD 八批候选的前一断点
+
+阶段 `revision6_maud_candidate_archive_settled`。会话 39474 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_maud_candidate_archive_terminal_20261120.json`，绑定 `810723401e0589a44810bd021756c7e2947c7821ec694e2a66120477528ac58b`。29 项检查通过，90 笔归档响应逐笔核验，新增 0。原冻结协议、72 份源码快照、TEST 终态和曝光回执均已核验。 [逐批原生计分与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_CANDIDATE_ARCHIVE_TRAIN_20261120.json)
+
+- `convergence_revision6_maud_candidate_archive.py` 覆盖八批原 24 份 MAUD TRAIN 的 16 项实测提案。16 项中原记录 5 项正增益、7 项输出有差异。共用 B4 无损恢复及源文核验后，3 项正增益、1 项退化均来自普通经营题。同样给予两路旧 TRAIN 母合同的范围证据后，16 项逐项同判。后者是回顾性对照，母合同未进入模型提示。固定 DEV 的 16 份公开输入均未命中新规则，累计指标沿用。
+- `maud_negative_preamble.py` 核验 B1 第一份合同的编号例外直接管辖本段禁止义务，归档 PARSE 提案将原正确的 Yes 改为 No。共用规则恢复该题。正式 M2 和普通教师的八批 MAUD 程序逐批相同。下一条 M2 比较须有可改变采纳且在后批有覆盖的真实候选，复用本次 MAUD 全库候选证据。
+
+## Revision 6 ContractNLI 具名事件关系的前一断点
 
 阶段 `revision6_cni_event_residual_settled`。会话 57128 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_event_residual_terminal_20261120.json`，绑定 `35985a97b18506427187856f923c82a3e4083170df7b677f6658ea66950d7ab9`。19 项检查通过，复用配对请求 12 笔和受影响原 TRAIN 请求 2 笔，新增 0。 [同信息引文归因](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EVENT_RESIDUAL_TRAIN_AND_FIXED_DEV_20261120.json)
 
