@@ -2,11 +2,25 @@
 
 截至 2026 年 11 月 20 日，原研究 Goal 仍为 `active`。M1 的 Diversity 正式入口、合同接口拟合和 DEV 复用已接通。M2 已将候选驱动选组接入 OpenExempt 的正式训练更新，并用 ContractNLI 的原 B5 提案验证了另一种选组差异。两项方法各自相对强对照的可靠原生收益仍待验收。 [现行方案](https://github.com/H00RU/LegalSkillGuard/blob/7024de8b589c1fca67c66a7d29d11cda60af4a9c/reports/legal_skill_convergence_20261117/PLAN.md) · [接续协议](https://github.com/H00RU/LegalSkillGuard/blob/7024de8b589c1fca67c66a7d29d11cda60af4a9c/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json)
 
-**接续优先级。** M1 沿用 Diversity 正式链与同源字面对照，复用 MAUD 的 TRAIN 和固定 DEV 强配对，后续比较由可验证的新条款归属依据触发。M2 复用 OpenExempt B1–B8 的已结算证据，针对有新原文依据且能与同信息强对照区分的采纳路径安排前向配对。最近的累计开发分数按库、按臂保留。原 128 来源八批训练、五库冻结 TEST、消融与曝光记录按原版本归档。 [五库累计 DEV](paper/tables/REVISION6_CNI_AGREEMENT_FACT_SCOPE_TRAIN_DEV_20261120.json) · [冻结结果](paper/tables/TEST_B8_NATIVE_TABLES.md)
+**接续优先级。** M1 沿用 Diversity 正式链与同源字面对照，复用 MAUD 的 TRAIN 和固定 DEV 强配对，后续比较由可验证的新条款归属依据触发。M2 复用 OpenExempt B1–B8 的已结算证据，针对有新原文依据且能与同信息强对照区分的采纳路径安排前向配对。最近的累计开发分数按库、按臂保留。原 128 来源八批训练、五库冻结 TEST、消融与曝光记录按原版本归档。 [五库累计 DEV](paper/tables/REVISION6_OE_OREGON_APPAREL_SCOPE_TRAIN_DEV_20261120.json) · [冻结结果](paper/tables/TEST_B8_NATIVE_TABLES.md)
 
 ## 最新 TRAIN、固定 DEV 与接续断点
 
-目前阶段为 `revision6_oe_statute_portfolio_settled`。连续账本累计 15,400 笔，其中 15,363 笔完成、37 笔历史失败，当前在途 0。 [恢复与交接](../../docs/NEW_CHAT_HANDOFF.md)
+目前阶段为 `revision6_oe_oregon_apparel_scope_settled`。连续账本累计 15,400 笔，其中 15,363 笔完成、37 笔历史失败，当前在途 0。 [恢复与交接](../../docs/NEW_CHAT_HANDOFF.md)
+
+**M2 OpenExempt 俄勒冈服饰条文。** 固定 DEV 五臂分类各修正一份、零退化。四内部臂分类 F1 从 86.65% 到 87.17%，PARSE 从 86.08% 到 86.60%，估值持平。16 份后批 TRAIN 上，候选驱动、时间、分歧及纯原生拟合共享核验后逐资产一致，分类／估值 F1 为 72.98%／64.98%。复用 144 笔原 TRAIN 和 2 笔受影响的 DEV 响应，新增请求 0。 [最新配对及五库累计](paper/tables/REVISION6_OE_OREGON_APPAREL_SCOPE_TRAIN_DEV_20261120.json)
+
+**M2 OpenExempt 营业资产作用域。** 原文核验在六份 TRAIN 和三份固定 DEV 每个任务分别覆盖 56 项和 28 项，全部匹配参考。先统一原文修正后，修复见证门槛在 16 份后批上取得 72.98%／62.51% 分类和估值 F1，较纯原生拟合平均高 2.86 个百分点，区间 [+0.07,+6.74]。候选驱动和同预算时间、分歧对照逐资产一致。固定 DEV 五臂保持。复用 144 笔原响应，新增 0。 [同信息配对及五库累计](paper/tables/REVISION6_OE_WI_BUSINESS_PROPERTY_TRAIN_DEV_20261120.json)
+
+**M2 OpenExempt 只按反证筛选。** B7 候选驱动与按时间选择不同估值程序。16 份后批上两个程序的差异仅涉及申报顺序，所有反证筛选策略的分类／估值 F1 均为 65.77%／59.50%。维持进入程序为 71.68%／61.04%，两项平均配对差 −3.73 个百分点，95% 区间 [−7.65, −0.71]。复用 144 笔，新增 0，固定 DEV 沿用。 [前向实测](paper/tables/REVISION6_OE_REFUTATION_PORTFOLIO_TRAIN_20261120.json)
+
+**ContractNLI 受领类别定义。** 原 TRAIN 有四份可验证的外部成员授权和一份仍有两种解释的受控关联方许可。后批合成与直接均为 11/12。原 B4 七条策略的选组和采纳维持，候选驱动和按时间均为 58/60，证据 F1 为 91.65%。固定 DEV 命中一份，五臂均已正确引用，五库沿用。新增 0。 [配对与五库结果](paper/tables/REVISION6_CNI_DEFINED_DISCLOSURE_AUDIENCE_TRAIN_DEV_20261120.json)
+
+**ContractNLI 复制与传递例外。** 原 TRAIN 两份精确匹配分类与引文。两个后批复制动作样本上，合成、固定字段及直接读法在共用核验后均为 2/2、证据 F1 100%。B4 采纳策略沿用，七种策略各从 57/60 至 58/60，候选驱动与按时间逐题一致，正确类证据 F1 升至 91.09%。固定 DEV 无覆盖，新增 0。 [配对和五库累计](paper/tables/REVISION6_CNI_COPY_EXCEPTION_SCOPE_TRAIN_DEV_20261120.json)
+
+**ContractNLI 限定受领人许可。** 将保密承诺和事先同意分配到各自适用分项，四份原 TRAIN 的分类和引文完全匹配。后批合成与直接均为 10/12，归档整文对照为 11/12。B4 七个策略的选组、采纳和后批实际程序维持，候选驱动与按时间均为 57/60，正确类证据 F1 由 87.48% 至 88.59%。固定 DEV 无覆盖、五库沿用，新增 0。 [配对与五库指标](paper/tables/REVISION6_CNI_LIMITED_AUDIENCE_TRAIN_DEV_20261120.json)
+
+**ContractNLI 定义分项与序言绑定。** 原 TRAIN 3/24 份通过核验，分类全匹配，两份引文完全匹配。统一全文证据后，合成与直接均为 6/6、证据 F1 94.81%，逐题一致。B8 PARSE 进入程序与提案均为 2/3，证据 F1 为 66.67% 和 33.33%。固定 DEV 无覆盖，五库累计沿用。复用 30 笔响应，新增 0。 [同信息配对与五库结果](paper/tables/REVISION6_CNI_DEFINITION_EVIDENCE_PATHS_TRAIN_DEV_20261120.json)
 
 **M2 OpenExempt 法条级采纳。** 复用 144 笔读数，116 个局部更新中只有一个通过原文修正核验。候选驱动与答案分歧均选该俄勒冈分类更新，按时间保留进入程序。下一原批无该法条，16 份后批的各同范围对照逐题一致，分类／估值 F1 为 71.68%／61.04%。新增 0，五库固定 DEV 沿用。 [范围审计与配对](paper/tables/REVISION6_OE_STATUTE_PORTFOLIO_TRAIN_20261120.json)
 

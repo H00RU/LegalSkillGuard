@@ -6,6 +6,48 @@
 
 ## 最新断点
 
+阶段 `revision6_oe_oregon_apparel_scope_settled`，会话 `23058` 正常退出，绑定 `07fc81d79e3d48294b6b678831ea6163572d80734f66d19d8827c8509aae3380`。复用 144 笔原 TRAIN 与 2 笔受影响的固定 DEV 响应，新增 0，在途 0。10 项检查通过，原冻结协议、72 份源码快照、TEST 终态、结果和曝光回执已核验。 条文核验（本地 `legal_skill_guard/paired_interfaces/convergence_oe_oregon_apparel_scope.py`） · 前向比较（本地 `experiments/convergence_revision6_oe_oregon_apparel_scope.py`）
+
+新规则将服饰与其他条款的适用性绑定到原文、资产和任务视图。固定 DEV 五臂分类各修正一份、零退化，估值与其他四库保持。三种见证使用方式在共用原文证据后均与同预算时间和分歧强对照逐资产一致。保留共用规则，后续选择能改变同信息比较的 M1 合同关系或 M2 候选路径。 [实测及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_OREGON_APPAREL_SCOPE_TRAIN_DEV_20261120.json)
+
+## Revision 6 OpenExempt 威斯康星营业资产的前一断点
+
+阶段 `revision6_oe_wi_business_property_settled`，会话 `73354` 已正常退出，绑定 `8ee964d23732181c879442bf65e220bd79eb4b0cee2dca3c5e9dc52e75dbed69`。复用 144 笔原 TRAIN 响应，新增 0，在途 0。11 项检查通过，原冻结协议、72 份源码快照、TEST 终态、结果和曝光回执已核验。 营业资产作用域（本地 `legal_skill_guard/paired_interfaces/convergence_oe_wi_business_property.py`） · 采纳与前向比较（本地 `experiments/convergence_revision6_oe_wi_business_property.py`）
+
+新规则按原文区分营业设备、企业权益、存款账户及自住住宅。六份 TRAIN 和三份固定 DEV 每任务分别核实 56 项和 28 项，全部匹配参考。B7 加入见证后，反证筛选的候选驱动选 PARSE 估值、按时间选普通估值，两者均保留原分类程序。16 份后批归档上，给各路同一原文修正后两种选组逐资产申报相同，分类／估值 F1 为 70.87%／62.71%。在修复见证门槛下先统一原文修正，候选驱动、按时间和按分歧逐资产一致，72.98%／62.51%；相对纯原生拟合的双指标平均差 +2.86 个百分点，母来源配对区间 [+0.07,+6.74]。固定 DEV 五臂均已无相应错误，五库累计沿用。继续要求能区别按时间和分歧强对照的实质后批差异。 [实测及累计结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_WI_BUSINESS_PROPERTY_TRAIN_DEV_20261120.json)
+
+## Revision 6 OpenExempt 只按反证采纳的前一断点
+
+阶段 `revision6_oe_refutation_portfolio_settled`，会话 `8708` 已正常退出，绑定 `87ca36998e42a484c42b711117d07a523c233906f197721bd2a1a109d570b7c3`。复用 144 笔原响应，新增 0，在途 0。10 项检查通过，原冻结协议、72 份源码快照、TEST 终态、结果和曝光回执通过核验。 候选驱动选组实现（本地 `legal_skill_guard/paired_interfaces/convergence_oe_refutation_portfolio.py`） · 实测前向复算（本地 `experiments/convergence_revision6_oe_refutation_portfolio.py`）
+
+原 B3→B4、B4→B5、B6→B7、B7→B8 的实际前向读数用于比较只按反证和要求修复见证的筛选。候选驱动在 B7 选择普通分类及 PARSE 估值，按时间选择普通分类与普通估值。后批两份差异只涉及申报顺序。16 份上各反证筛选和原生拟合的逐资产申报多重集全部相同。候选驱动分类／估值 F1 为 65.77%／59.50%；先前见证门槛保留进入程序，为 71.68%／61.04%。两项平均的配对差 −3.73 个百分点，区间 [−7.65, −0.71]。继续保留先前采纳门槛，固定 DEV 与五库累计沿用。后续候选须在后批有可复用的作用域和实质申报差，或转向能分辨同信息对照的 M1 消费者。 [策略及原生结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_REFUTATION_PORTFOLIO_TRAIN_20261120.json)
+
+## Revision 6 受领类别定义的前一断点
+
+阶段 `revision6_cni_defined_disclosure_audience_settled`，会话 `67277` 已退出，绑定 `68898c9cc5611db9ad0a66c0a6e518b73db1b56f263ab393ad9f245a942138ae`。复用 M1 36 笔、B4 拟合 60 笔、后批 16 笔归档读数，新增 0，在途 0。14 项检查通过，原冻结协议、72 份源码快照、TEST 终态、结果及曝光回执已核验。 受领类别实现（本地 `legal_skill_guard/paired_interfaces/cni_defined_disclosure_audience.py`） · 复算入口（本地 `experiments/convergence_revision6_cni_defined_disclosure_audience.py`）
+
+四份原 TRAIN 明确授权的分类全匹配，三份引文精确匹配。原 B5 第二份的受控关联方许可与一般第三方禁令保留两种合同范围解释。七条已测策略都给出原 benchmark 记错、但与其中一种许可解释相容的答案，当前源文约束不能淘汰任何策略。明确授权的共用证据使后批候选驱动与按时间证据 F1 同升 0.56 个百分点至 91.65%，各为 58/60 且逐题一致。后批合成与直接各为 11/12，正确类证据 F1 为 87.50% 与 85.71%，两条归档整文对照均为 91.67%。固定 DEV 公开文本在规则锁定前可见，唯一命中的合同五臂已正确引用，累计不变。后续从可明确归因并能区分强对照的其他关系或实际提案继续。 [原生实测与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_DEFINED_DISCLOSURE_AUDIENCE_TRAIN_DEV_20261120.json)
+
+## Revision 6 复制与传递例外的前一断点
+
+阶段 `revision6_cni_copy_exception_scope_settled`，会话 `14338` 已正常退出，绑定 `45ddb92a3eae8c1458291b811471374ee02a95f7c64f2c55b72f2d0c0910ab81`。复用复制动作 15 笔、复制生命周期 33 笔、B4 后批 18 笔原响应，新增 0，在途 0。11 项检查通过，核验原冻结协议、72 份源码快照、TEST 终态、结果和曝光回执。 作用域核验（本地 `legal_skill_guard/paired_interfaces/cni_copy_exception_scope.py`） · 执行入口（本地 `experiments/convergence_revision6_cni_copy_exception_scope.py`）
+
+原 B5 第二份明示目的许可、原 B8 第三份附受领条件的传递例外均与复制题分类及引文匹配。两份后批复制动作比较的合成、固定、直接在共同核验后均为 2/2、正确类证据 F1 100%。11 份生命周期比较为 9/11、9/11、10/11。原 B4 校准范围无新见证，七种策略保持原选组与程序，在 60 项后批比较上各为 58/60。固定 DEV 0/16。B5 第三份仅为自身利益的书面同意条款仍不足以判定一般复制权。另一个原 B4 比较剩余错误是原 B5 第二份允许向受控关联方传递，同时明示一般第三方禁令，须先识别原 TRAIN 中可核实的关系与不同采纳。 [配对、归因和五库结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_COPY_EXCEPTION_SCOPE_TRAIN_DEV_20261120.json)
+
+## Revision 6 限定受领人许可的前一断点
+
+阶段 `revision6_cni_limited_audience_settled`，会话 `92581` 已正常退出，绑定 `d0d49ec113c645a36d50a284bfb9a516c582842ed466ea0929fc9564ddcb72ee`。复用 36 笔 M1、60 笔 B4 拟合及 18 笔前向归档读数，新增 0，在途 0。9 项检查通过。已校验原冻结协议、72 份源码快照、TEST 终态、结果及曝光回执。 许可作用域实现（本地 `legal_skill_guard/paired_interfaces/cni_limited_audience.py`） · 配对入口（本地 `experiments/convergence_revision6_cni_limited_audience.py`）
+
+限定受领人许可在原 TRAIN 4/24 命中，分类与引文均精确匹配。后批合成、固定和直接分别为 10/12、9/12、10/12，正确类证据 F1 为 79.17%、70.83%、77.38%，两条归档整文对照均为 11/12、88.89%。七条 B4 策略的采纳和后批程序不变。候选驱动、按时间逐题一致，57/60、88.59%。固定 DEV 覆盖 0/16。保留为共用原文核验。剩余 B5 第三份的复制条件同时写有书面同意与仅为自身利益的限定，后续如比较须先从原 TRAIN 分开核实动作、受益范围和许可效果。 [分库累计和同信息实测](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_LIMITED_AUDIENCE_TRAIN_DEV_20261120.json)
+
+## Revision 6 ContractNLI 定义分项的前一断点
+
+阶段 `revision6_cni_definition_evidence_paths_settled`，会话 `21588` 已正常退出，绑定 `61beead5de5f4ab53339f57584744d6e1d515dddf4bbd912101f5537d3a18541`。复用 18 笔定义读取和 12 笔原 B8 候选读数；新增 0，在途 0。16 项相关检查通过。核对原冻结协议、72 份源码快照、TEST 终态、结果和曝光回执。 原文核验（本地 `legal_skill_guard/paired_interfaces/cni_definition_evidence_paths.py`） · 执行入口（本地 `experiments/convergence_revision6_cni_definition_evidence_paths.py`）
+
+两个定义列举及一个正文绑定序言通过原 TRAIN 核验。加上分项引文后，合成和直接的同信息全文对照均为 6/6、证据 F1 94.81%，逐题一致，固定字段为 4/6、61.48%。B8 的 PARSE 进入程序在共用原文证据后由 1/3 至 2/3，与提案持平，证据 F1 为 66.67% 对 33.33%。固定 DEV 0/16 命中。OpenExempt 原 B8 的相近服饰及相关资产上未检出候选之间的分类差。后续从不同的未解条款角色或确实分流的候选采纳继续。 [原生结果及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_DEFINITION_EVIDENCE_PATHS_TRAIN_DEV_20261120.json)
+
+## Revision 6 M2 法条级采纳的前一断点
+
 阶段 `revision6_oe_statute_portfolio_settled`，会话 `59428` 已退出，绑定 `74c327f246e8d8e3d124a31b0273ef240b195dc763cf5f8c25c2324ddc579220`。OpenExempt 分类或估值更新只可替换题面允许的一条法条。两个程序都明确处理的资产可转用新程序的同条款输出。各筛选策略共用候选池、来源核验和每批两个组的预算。按原顺序比较 B3→B4、B4→B5、B6→B7、B7→B8 的实际输出。144 笔原响应均复用，新增 0、在途 0。11 项检查通过，冻结协议、结果和曝光回执已核验。 法条级执行（本地 `legal_skill_guard/paired_interfaces/convergence_oe_statute_portfolio.py`） · 实测入口（本地 `experiments/convergence_revision6_oe_statute_portfolio.py`） · [配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_STATUTE_PORTFOLIO_TRAIN_20261120.json)
 
 116 个按法条重组的候选中，51 个在当批原生拟合为正，只有 B7 俄勒冈州 § 18.345(1)(a) 分类有可核实修正。候选驱动与答案分歧、进入风险采纳同一更新，按时间保留进入程序。原 B8 的 4 份后批无该法条，16 份后批比较中，候选驱动及全部同范围对照均无输出变化，分类／估值 F1 为 71.68%／61.04%。相对全任务原生拟合的双指标平均差 +3.73 个百分点，母来源配对区间 [+0.71,+7.65]，同范围原生拟合与候选驱动逐题一致。没有启动固定 DEV 扩验。后续若再推进法条级采纳，先找到在原来后批重复出现且能区别分歧选组的真实候选，以免把无后批适用范围的拟合差误计成原生收益。

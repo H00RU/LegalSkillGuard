@@ -4,6 +4,34 @@
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
+## Revision 6 M2 OpenExempt 俄勒冈服饰条文
+
+将服饰修正绑定到原请求中的条文正文与资产，排除错误的车辆和家庭动物条款。7 份原 TRAIN 和 2 份固定 DEV 上，每任务分别核实 52 项和 26 项，均匹配原参考。复用 144 笔 TRAIN 和 2 笔受影响的 DEV 响应，新增 0。各路共享核验后，16 份后批 TRAIN 上候选驱动与时间、分歧及纯原生拟合逐资产申报一致，分类／估值 F1 为 72.98%／64.98%。固定 DEV 五臂各纠正一份分类，零退化，四内部臂分类 F1 从 86.65% 到 87.17%，PARSE 从 86.08% 到 86.60%，估值持平。 [配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_OREGON_APPAREL_SCOPE_TRAIN_DEV_20261120.json)
+
+## Revision 6 M2 OpenExempt 威斯康星营业资产作用域
+
+按题面条文分别核验营业设备、企业权益、存款账户和自住房。在六份原 TRAIN 和三份固定 DEV 上，每个任务分别核实 56 项和 28 项申报，全部与参考匹配。B7 反证筛选的候选驱动与按时间保留同一分类程序，选择不同估值程序。给各路共用原文修正后，16 份后批案例上两者实质相同，分类／估值 F1 为 70.87%／62.71%。共用修正后的修复见证门槛达到 72.98%／62.51%，比纯原生拟合平均高 2.86 个百分点，95% 配对区间 [+0.07, +6.74]，同预算时间和分歧对照逐资产相同。固定 DEV 五臂输出保持，新增 0。 [原生结果及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_WI_BUSINESS_PROPERTY_TRAIN_DEV_20261120.json)
+
+## Revision 6 M2 OpenExempt 只按已核实反证采纳
+
+四次原 TRAIN 过渡中，每条同预算策略均从同一候选池选两组。允许原生拟合为正且未发现新错误的候选进入。B7 候选驱动选 PARSE 估值，按时间选普通提案，后批两份结果仅改变申报顺序。在全部 16 份后批案例上，各条筛选策略及原生拟合的逐资产申报及重复计数相同，分类／估值 F1 为 65.77%／59.50%。维持进入程序及先前要求修复见证的筛选为 71.68%／61.04%。双指标平均差 −3.73 个百分点，母来源配对 95% 区间 [−7.65, −0.71]。复用 144 笔原响应，新增 0，固定 DEV 沿用。 [采纳决定及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_REFUTATION_PORTFOLIO_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 受领类别的定义与外部成员
+
+把披露许可与定义中的顾问、承包商及编号例外绑定。原 TRAIN 有四份明确授权，分类均匹配，三份引文精确匹配；另有一份在受控关联方许可与第三方禁令并存时保留两种解释。后批 12 份的合成、固定、直接为 11/12、10/12、11/12。原 B4 七种策略的选组与采纳维持，候选驱动和按时间逐题一致，均为 58/60，正确类证据 F1 为 91.65%。固定 DEV 命中一份，五臂均已正确引用，五库累计沿用。新增请求 0。 [配对结果与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_DEFINED_DISCLOSURE_AUDIENCE_TRAIN_DEV_20261120.json)
+
+## Revision 6 ContractNLI 复制与传递例外的作用范围
+
+把明确准许为约定目的制作副本的分项连回受领方前导，并将按需知悉的传递例外绑定到指定受领人。原 TRAIN 2/24 命中，分类和引文均匹配。两份后批原复制动作比较中，合成保持 2/2，共同核验将固定与直接读法各从 1/2 恢复到 2/2。原 B4 七种选组后批各从 57/60 到 58/60，候选驱动与按时间逐题一致，正确类证据 F1 从 88.59% 到 91.09%。固定 DEV 无覆盖，五库累计沿用，新增请求 0。 [原生配对和五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_COPY_EXCEPTION_SCOPE_TRAIN_DEV_20261120.json)
+
+## Revision 6 ContractNLI 限定受领人的第三方披露许可
+
+将按需知悉、受领人保密承诺及披露方事先同意分别绑定到其适用分项。四份原 TRAIN 的分类和引文均精确匹配参考。后批 12 份同输入合同上，合成与直接读法均由 7/12 升至 10/12，固定字段为 9/12，归档整文对照为 11/12。原 B4 的七种策略组、采纳和后批逐题程序均保持，候选驱动与按时间逐题一致，60 项各为 57/60，正确类证据 F1 由 87.48% 升至 88.59%。固定 DEV 无命中，五库指标沿用。新增请求 0。 [原生比较及五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_LIMITED_AUDIENCE_TRAIN_DEV_20261120.json)
+
+## Revision 6 ContractNLI 定义分项与序言绑定
+
+将同一保护定义下可核实的非技术分项合并，只有在正文定义与披露方一致时才使用列举商业类别的序言。原 TRAIN 覆盖 3/24，三份分类与参考一致，两份引文完全匹配。六份历史同输入比较在统一全文核验后，合成、固定字段、直接为 6/6、4/6、6/6，证据 F1 为 94.81%、61.48%、94.81%；合成和直接逐题相同。原 B8 PARSE 进入程序与提案均为 2/3，证据 F1 为 66.67% 和 33.33%。固定 DEV 无覆盖，五库累计沿用。复用 30 笔读数，新增 0。 [配对、固定 DEV 和五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_DEFINITION_EVIDENCE_PATHS_TRAIN_DEV_20261120.json)
+
 ## Revision 6 M2 OpenExempt 法条级候选采纳
 
 按题面法条限制分类或估值更新的转移范围，在 B3、B4、B6、B7 四批共享同一候选池、核验规则和双组选组预算。116 个候选中，51 个在当批原生拟合为正，1 个有原文支持的修正。B7 候选驱动与分歧及风险选中同一俄勒冈分类更新，按时间保留进入程序。原 B8 无该法条，16 份后批候选驱动及所有同范围对照输出一致，分类／估值 F1 为 71.68%／61.04%。固定 DEV 沿用，复用 144 笔原响应，新增 0。 [按法条的拟合与前向比较](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_STATUTE_PORTFOLIO_TRAIN_20261120.json)
