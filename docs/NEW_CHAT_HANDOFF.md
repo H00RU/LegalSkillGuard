@@ -6,6 +6,42 @@
 
 ## 最新断点
 
+阶段 `revision6_oe_wi_consumer_roles_settled`，会话 `10894` 正常退出，绑定 `a0cf05f2ce25d1b19a31d3e92fff03afc14668916cf429eb2a96ffb3c4cbe2bd`。复用 144 笔原 TRAIN 响应，新增模型请求 0，在途 0，9 项定向测试通过。已核验原冻结协议、72 份源码快照、TEST 终态、结果和曝光回执。 物品角色核验（本地 `legal_skill_guard/paired_interfaces/convergence_oe_wi_consumer_roles.py`） · 前向回放（本地 `experiments/convergence_revision6_oe_wi_consumer_roles.py`）
+
+两种 B7 提案撤回同一常住住宅的误报。沿整条法条迁移时，两路均在 B8 的商用相机上新增错误申报，四份后批 TRAIN 的估值 F1 由 65.01% 降到 64.45%。按已核实的住宅角色迁移，四份均未触发。给进入程序与两种候选相同的原文证据后，三路逐资产一致，分类／估值 F1 为 64.58%／65.57%，此前进入程序为 67.08%／65.01%。固定 DEV 无覆盖，五库累计指标沿用。 该分支作为诊断留档。接续使用能与同信息强对照区分的新候选或合同接口。 [逐臂结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_WI_CONSUMER_ROLES_TRAIN_DEV_20261121.json)
+
+## Revision 6 OpenExempt 俄勒冈动产提案的前一断点
+
+阶段 `revision6_oe_oregon_property_roles_settled`，会话 `54336` 正常退出，绑定 `0bc307fd935c9903dab538ced87d676e042faa16517605379fb2e9ca8ced2cef`。复用原候选归档 144 笔，其中此轮报告 B3→B4 匹配过渡。另核对 4 笔受影响固定 DEV 原请求，新增 0，6 项定向测试通过。原冻结协议、72 份源码快照、TEST 终态、结果与曝光回执均已核验。 资产角色与迁移范围（本地 `legal_skill_guard/paired_interfaces/convergence_oe_oregon_property_roles.py`） · 同预算重拟合和归档回放（本地 `experiments/convergence_revision6_oe_oregon_property_roles.py`）
+
+B3 提案唯一核实的修正是删除常住小屋的动产引文。将该修正限定到同资产类型后，原 B4 四份均未触发。整条法条提案的 B4 分类 F1 由 73.45% 到 78.21%，差异来自两件衣物；用题面夫妻共同所有前提的直接核验逐资产复现该结果。给各路相同证据后，B3 四个同预算策略均保留进入程序。固定 DEV 五臂的分类、估值各改善一份，零退化。累计内部臂 F1 为 89.21%／85.14%，PARSE 为 88.63%／81.20%。 原 TRAIN 三份和固定 DEV 一份的分类与金额核验均匹配原参考。这条候选分支已结算，接续优先选择在给各路相同证据后仍能改变入库或原生输出的候选。 [逐臂结果与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_OREGON_PROPERTY_ROLES_TRAIN_DEV_20261121.json)
+
+## Revision 6 MAUD 编号分支的前一断点
+
+阶段 `revision6_maud_numbered_covenants_settled`，会话 `61318` 正常退出，绑定 `b15170d36c2d5062dad86aa33d16c307157d2213ccd237e197fb4f0672b7c09e`。逐笔核对受影响的三路固定 DEV 归档请求，新增 0，7 项检查通过。原冻结协议、72 份源码快照、TEST 终态、结果与曝光回执已核验。 编号分支编译（本地 `legal_skill_guard/paired_interfaces/maud_numbered_covenants.py`） · 同信息实测（本地 `experiments/convergence_revision6_maud_numbered_covenants.py`）
+
+原锚点漏掉编号义务中 “ensure that it conducts” 的普通经营约束。编译器将每个分支的疫情例外绑定到本分支实际义务。一份原 TRAIN 得到两条分支证据，一份固定 DEV 得到一条普通经营证据，三条均与原参考一致。共享核验后，合成加直接由 16/26 到 17/26，直接由 20/26 到 21/26，同预算固定字段加直接保持 20/26。正式固定 DEV 五臂原已答对此题，整库指标沿用。 合成读器在原请求上将两个疫情位点均判为两类关系不成立。新证据修复了该共同漏判，后批 TRAIN 的已匹配源没有额外覆盖。后续优先核验不同的真实候选交互，或有多个原 TRAIN 母来源支持的合成关系。 [逐臂结果与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_NUMBERED_COVENANTS_TRAIN_DEV_20261121.json)
+
+## Revision 6 MAUD 同预算双读器的前一断点
+
+阶段 `revision6_maud_covenant_adjudication_settled`，会话 `91898` 正常退出，绑定 `8bf90b7c14ac82d6563867ac5fa64598a0aa96ee22db7290068940cc898ed7e2`。复用 27 笔原 TRAIN 与 39 笔固定 DEV 的同输入读数，新增 0，8 项测试通过。原冻结协议、72 份源码快照、TEST 终态、结果与曝光回执已核验。 双读器裁决（本地 `legal_skill_guard/paired_interfaces/maud_covenant_adjudication.py`） · 原生回放（本地 `experiments/convergence_revision6_maud_covenant_adjudication.py`）
+
+在 B5–B6 四份原 TRAIN 锁定两臂的逐任务读器和择用规则，均有两笔同输入读数。合成加直接在 B7–B8 后批为 10/10，固定字段加直接为 8/10，母来源配对 95% 区间 [0,+60.00] 个百分点。固定 DEV 的 13 份适用源上，两路为 16/26、20/26。固定按节选内引文择用时为 20/26、21/26。直接读法失分的六题中，合成读法无一答对，固定字段补对一题。因此仅在现有合成与直接结果之间择用的上限是 20/26。原正式整库仍为普通经营 14/16、负面契约 13/16。 固定 DEV 结果没有进入路由拟合。后续仅在新的合成读数或证据能改变两路共同错误时再推进该接口，或切到同信息下实际改变采纳的其他候选。五库固定 DEV 沿用。 [逐臂结果、预测上限与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_COVENANT_ADJUDICATION_TRAIN_DEV_20261121.json)
+
+## Revision 6 第三方取得角色与 B1 提案的前一断点
+
+阶段 `revision6_cni_outside_source_roles_settled`，会话 `99311` 正常退出，绑定 `3c67a86c5aed3dc2c13fde518922e798fc0c95a73a141a3b85ba19ae48c81ae2`。核对 18 笔 M2 原始配对读数，M1 复用已绑定同信息读数。新增请求 0，8 项定向测试通过。原冻结协议、72 份源码快照、TEST 终态、结果与曝光回执均已核验。 第三方角色（本地 `legal_skill_guard/paired_interfaces/cni_outside_source_roles.py`） · 原 B1 提案与后批回放（本地 `experiments/convergence_revision6_cni_outside_source_roles.py`）
+
+区分对外披露、受保护对象、接收披露方的信息与披露后的公共发布。完整范围的核验覆盖 3/24 原 TRAIN、0/16 固定 DEV，三份均与原第三方取得参考一致。将已有对外披露证据给各路后，B1 实际提案的当批净增由 1 项降为 0。候选驱动、时间、答案分歧及原生整程序拟合都保留进入程序，在 B2–B3 均为 77/102、正确类证据 F1 51.68%，逐题一致。新取得规则另使 M1 合成和固定字段各由 9/12 到 10/12，直接仍为 10/12。三路正确类证据 F1 为 78.10%、69.76%、81.67%。 M1 相对直接的证据差为 −3.57 个百分点，配对区间 [−10.71,0]。原 B1 采纳和读器版本按原绑定保留，B1 后批比较已结算。五库固定指标沿用。从新的可区分候选或有原 TRAIN 依据的合成接口继续。 [原生配对、按批读器版本与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_OUTSIDE_SOURCE_ROLES_TRAIN_DEV_20261121.json)
+
+## Revision 6 并列义务与编号子项的前一断点
+
+阶段 `revision6_cni_coordinated_purpose_settled`，会话 `77131` 正常退出，绑定 `618b3d39f6406171074f97ebdd84311728fa0871ed1d055344b147775b5dc1f4`。10 项定向测试通过，原冻结协议、72 份源码快照、TEST 终态、结果与曝光回执均已核验。 共用用途核验（本地 `legal_skill_guard/paired_interfaces/cni_coordinated_purpose.py`） · 重拟合及后批执行（本地 `experiments/convergence_revision6_cni_coordinated_purpose.py`）
+
+五类用途依据在原 TRAIN 规范匹配 5/24，均与原参考分类和引文一致，固定 DEV 0/16。B5 五种选组策略重拟合后保留各自的组和读器。共用原文核验使 B6–B8 九份后批合同五路逐项一致，分类均为 9/9、正确类证据 F1 均为 94.07%。M1 锁定路由在 B5–B8 十二份合同上与匹配、直接对照均为 12/12，正确类证据 F1 为 95.83% 对 91.67%，配对差区间为 [0,+12.50] 个百分点。M2 复用 48 笔已核对响应，M1 沿用已绑定的索引配对，新增模型请求 0。M1 的差异来自 B6 第一份合同。M1 只引第 19 项明示用途限制，两条最强对照额外引用说明用途的序言与保密义务前导。原生评分保留原参考第 19 项。B5 用途候选的后批分支已结算。后续沿用同信息核验，优先选择具有新原 TRAIN 依据的 M1 关系或同信息下仍会改变输出的另一个真实 M2 候选。五库固定 DEV 沿用。 [原生配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_COORDINATED_PURPOSE_TRAIN_DEV_20261120.json)
+
+## Revision 6 ContractNLI 留存引文的前一断点
+
 阶段 `revision6_cni_retention_evidence_scope_settled`，会话 `61166` 正常退出，绑定 `e4c5324bf05750d62ae00baeb69056d549aba3baa89b7ab1be5ade738de88bca`。11 项定向测试通过。已核验原冻结协议、72 份源码快照、TEST 终态、结果与曝光回执。 条款核验（本地 `legal_skill_guard/paired_interfaces/cni_retention_evidence_scope.py`） · 归档回放（本地 `experiments/convergence_revision6_cni_retention_evidence_scope.py`）
 
 共用原文核验在 24 份原 TRAIN 中识别两条退还义务，固定 DEV 16 份无触发。三份后批配对合同上，合成、固定字段、直接读取各答对 2/3。正确类证据 F1 分别为 66.67%、55.56%、66.67%，直接读取由 50.00% 升至与合成持平。第三份合同的处置条款与原参考分类仍有分歧，原参考与评分保留。复用 9 笔归档读数，新增请求 0，五库固定 DEV 指标沿用。 共享规则把退还义务与相邻的持续保密和保密对象例外分开。接续时选不同的 M1 合同关系，或核验同信息下仍有实际差异的 M2 提案。 [原生配对与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RETENTION_EVIDENCE_SCOPE_TRAIN_DEV_20261120.json)
