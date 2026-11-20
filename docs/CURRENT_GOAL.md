@@ -1,8 +1,32 @@
 # 当前 Goal 与证据状态
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,342 笔，其中完成 15,306 笔、历史失败 36 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。 [实测断点](NEW_CHAT_HANDOFF.md)
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,355 笔，其中完成 15,318 笔、历史失败 37 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。 [实测断点](NEW_CHAT_HANDOFF.md)
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
+
+## Revision 6 M1 ContractNLI 分槽留存证据
+
+把处分后的保留许可和全量处置禁止分别绑定到各自的引文，穷举确认原消费者 243 个状态保持等价。三份早批原 TRAIN 上复用九笔归档，新增三笔。各路共用原文依据后分类均为 3/3，合成、固定字段、直接读法的正确类证据 F1 分别为 61.11%、57.78%、59.26%。锁定该接口后，在三份预先登记的后批原 TRAIN 新增九笔，同一全文和索引下三路均正确 2/3，证据 F1 分别为 66.67%、27.78%、50.00%。对两个强对照的配对区间下界均为零，相对直接读法的提升集中于 B5 的一份合同。五库固定 DEV 沿用。 [早批锁定](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RETENTION_WITNESSES_FIT_TRAIN_20261120.json) · [同输入后批结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_RETENTION_WITNESSES_FORWARD_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 法定披露与通知覆盖
+
+把法定披露例外与通用送达、终止、地址变更和安全事件通知分开。明示通知法务的条款须绑定到信息提供方。新规则覆盖一份原 TRAIN 和五份固定 DEV，六份均与原分类一致。固定 DEV 五臂的通知题均由 12/16 升至 16/16，正确类证据 F1 由 68.75% 升至 93.75%，零退化。ContractNLI 累计四内部臂为 217/272、证据 F1 60.16%，PARSE 为 208/272、53.27%。在这批原 TRAIN 中，23/24 份可由共用原文核验判定，仅 B2 第一份保留未决，B5–B8 无未决样本可供本项 M1 前向配对。其他四库沿用，新增模型请求 0。 [通知证据与五库累计 DEV](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_NOTICE_COVERAGE_LINKS_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M2 ContractNLI 双组选取
+
+在 B4 和 B5 原四读器候选池中，各筛选策略使用两组、八笔相同预算。候选驱动优先覆盖已知领先程序的反证，再保留更多未被排除的备选程序。B4 共 54 对可行组，候选驱动选 B3 第二组和 B4 第二组，逐题程序与六条对照分别不同。复用 35 笔精确后批响应，在 12 份原 TRAIN 的 60 项上，候选驱动为 55/60，六条对照均为 54/60。唯一分类差来自明示向承包商披露的许可。把三条经原文核对的同类许可给每路后，全部为 55/60。候选驱动的正确类证据 F1 为 79.86%，对照为 80.89% 至 82.94%。B5 的候选驱动与直接冲突覆盖、领先程序反证计数逐题配置相同。固定 DEV 公开输入无新增同型许可。新增请求 0，五库累计 DEV 沿用。 [双组选取与同信息配对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_COMPLEMENTARY_ACQUISITION_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 完整处置与留存
+
+核对同一请求下的完整交还与销毁分项，排除有形副本限定和相竞争的留存例外。原 TRAIN 8/24 份有明确全量处置证据，四份为已有规则覆盖，四份由新规则覆盖。八份分类均与参考一致。固定 DEV 一份命中，五臂各修正同一项留存分类和引文，零退化。ContractNLI 累计四内部臂为 213/272、证据 F1 58.69%，PARSE 为 204/272、51.80%。给原 B5 M2 两路同一规则后，候选驱动和按时间的固定 DEV 留存分类各由 5/16、7/16 升到 6/16、8/16。其他四库沿用，新增模型请求 0。 [留存配对和五库累计 DEV](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_COMPLETE_DISPOSITION_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M2 ContractNLI B5 合并候选
+
+合并 B5 普通与 PARSE 的两个实际提案及各自进入程序，验证 60 笔前缀读数。B1 首组的普通提案响应未完整解码，保留归档并对所有策略使用同一 14 组完整前缀和每组四笔预算。候选驱动、两种答案分歧对照和原文分类冲突计数均选 B2 第一组，并锁定相同的逐题程序。后批九份原 TRAIN、七个受选型影响的假设共 63 项，四路逐题一致，均为 56/63、正确类证据 F1 81.64%。按时间和原生拟合均为 56/63、82.17%，按作用域内答案及引文分歧为 57/63、79.01%。44 项由共用原文规则直接确定。复用 24 笔后批读数，新增模型请求 0，五库固定 DEV 沿用。 [B5 选组及后批配对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_B5_CANDIDATE_CONFLICTS_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 员工许可链
+
+两条共用规则分别绑定明示员工许可和已有的唯一许可链。明示许可覆盖原 TRAIN 4/24，四份分类及许可句匹配参考，三份完整引文精确匹配，固定 DEV 未触发。把该规则同样给 B4 联合候选和全部对照，后批五种策略均为 26/27。候选驱动与两种分歧控制仍逐题一致，证据 F1 为 91.85%，按时间与原生拟合为 92.67%。许可链恢复另覆盖原 TRAIN 2/24、固定 DEV 5/16。在固定 DEV 上五臂均修正一项分类、改善两项证据，零退化。ContractNLI 累计四内部臂为 212/272、证据 F1 58.50%，PARSE 为 203/272、51.54%。其他四库沿用。两轮均无新增模型请求。 [TRAIN 归因](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EMPLOYEE_PERMISSION_TRAIN_DEV_20261120.json) · [五库累计 DEV](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EMPLOYEE_WITNESS_PROJECTION_AND_FIXED_DEV_20261120.json)
 
 ## Revision 6 M2 ContractNLI B4 联合候选比较
 
