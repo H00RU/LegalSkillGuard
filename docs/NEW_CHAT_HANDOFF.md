@@ -1,10 +1,63 @@
 # 当前 Goal 恢复与交接
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,180 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 与 M2 的正式路径已接通，两项贡献各自的可靠原生收益仍待验收。连续账本 15,183 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
 
 ## 最新断点
+
+阶段 `revision6_maud_joint_forward_settled`。会话 58680 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_maud_joint_forward_terminal_20261120.json`，绑定 `f19399eeec815a953fbfa7e09f560d45a0f545bcd8e46a1c408e6d4d6b83e680`。原 B6 第二、第三份和 B8 第二份合同共三笔新联合读数，21,183 tokens，九笔匹配对照复用，全部正常解码。首个会话 3567 在探活时因沙箱网络限制退出，发生在请求预留之前；同绑定后续正常完成。 [前向比较](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_JOINT_FORWARD_TRAIN_20261120.json)
+
+- 三份普通经营话题联合、固定、直接、旧锚点合成分别为 3/3、1/3、0/3、2/3。四路负面契约均为 0/3，未满足固定 DEV 扩验条件。联合读器的负面肯定引用来自具体贷款、借款和分行关闭例外，后续应先按原始任务范围区分统摄前导段、明确引入的条款和单项例外。保留原读数和标签。
+
+## Revision 6 MAUD 联合范围同信息核验的前一断点
+
+阶段 `revision6_maud_joint_scope_controls_settled`。会话 22280 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_maud_joint_scope_controls_terminal_20261120.json`。19 项相关检查通过，复用 40 笔原物理响应。已有规则同时应用后，联合、固定、直接和旧合成依次为 19/20、17/20、16/20、14/20。回到原 TRAIN 母合同核对两处共同修正，母合同未进入提示或评分。 [原文与四路原生比较](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_JOINT_SCOPE_CONTROLS_TRAIN_20261120.json)
+
+## Revision 6 跨条款用途证据的前一断点
+
+阶段 `revision6_cni_purpose_links_settled`。会话 47349 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_purpose_links_terminal_20261120.json`，绑定 `7d26d7a3d18b3863219b37de62e2f9c021cf59e843d6f77a9dbd292b667d2ea1`。26 项相关检查通过，账本 15,180 笔，在途 0。 [跨条款证据和五库累计结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PURPOSE_LINKS_TRAIN_20261120.json)
+
+- `cni_purpose_links.py` 绑定两份合同中同名用途的许可例外，以及另一份合同中相邻段落的披露方、接收方和所指信息。只在用途判断已经为 Entailment 且引用必要条款时补引。TRAIN 三路各改善 3、2、1 份，零退化。
+- 沿用排除未勾选选项的口径，双读器和两个强对照各 23/24。共用链接后正确类证据 F1 为 84.58% 对 83.19%，差 +1.39 个百分点，区间 [−4.86, +7.64]。固定 DEV 16 份无该结构，未读取 DEV 标签。双读器用途引文的归因比较已结算，原实测直接复用。
+
+## Revision 6 未勾选条款归因的前一断点
+
+阶段 `revision6_cni_form_attribution_settled`。会话 28268 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_form_attribution_terminal_20261120.json`，绑定 `82989a4b2aaaf0a78f208f96445b5bc6411f357b1d5a49749f2d397cbb5d196b`。23 项相关测试通过，账本 15,180 笔，在途 0。 [来源归因与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_FORM_ATTRIBUTION_TRAIN_20261120.json)
+
+- `cni_form_evidence.py` 区分单选表单中已选、排除和未决选项。24 份原 TRAIN 仅 B5 第三份匹配。两项选项均未勾选，合成物理响应把第 9 段作为非授予义务的锚点；第 27 段的书面许可条件未提供独立非授予依据。原参考答案为 Entailment，仅引用第 9 段。固定 DEV 的 16 份公开输入无适用组，未读取 DEV 标签。
+- 单独搁置该断言后，原双读器比较中 M1 与两强对照均为 23/24，正确类证据 F1 为 80.77% 对 78.19%。用途复合条款共用修订后为 83.75% 对 79.58%。两个证据差的配对区间均跨零。官方原始得分和已有曝光原样封存。后续用途证据仍可考察明确的跨条款依赖，单选模板没有可供扩验的固定 DEV 母来源。
+
+## Revision 6 M2 按假设采纳的前一断点
+
+阶段 `revision6_cni_scoped_adoption_settled`。会话 34812 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_scoped_adoption_terminal_20261120.json`，绑定 `5f5ae6784e02d890a07523a6caf253c9820ba0070efdd22f12aed95ec6e86ca0`。18 项相关检查通过，复用 24 笔 B1–B4 和 6 笔 B5 请求，新增 0，账本 15,180 笔，在途 0。 [全 17 假设的 B5 结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_SCOPED_ADOPTION_TRAIN_20261120.json)
+
+- 原 B4 候选的角色范围采纳现在与整份、逐假设及同范围原生选型同台核验。按假设保留进入程序或候选版本，并将七个策略各自的 17 项程序分配封存。B5 上各策略均答对 35/51。候选驱动与同范围原生选择逐项相同，正确类证据 F1 均为 32.35%。按时间与按分歧均为 29.41%，全部逐假设选型为 34.31%，整份采纳为 39.54%。超出两项角色范围的 45 项中，整份提案的证据收益未被收窄后保留。固定 DEV 沿用。
+- B4 的两个 MAUD 表面正向提案对应已有的同一截断修复。B3 合同候选在两个角色假设上有退化，但目前可同时源证这两项的归档组只有一组。沿用已有证据，后续选择可独立区分强对照的新原文关系或新实测提案。
+
+## Revision 6 OpenExempt 亚利桑那家庭用品的前一断点
+
+阶段 `revision6_oe_arizona_household_settled`。评估会话 76074 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_oe_arizona_household_terminal_20261120.json`，绑定 `b27af6d351b4b72fc67c845608e99df3350a2eb602126626f87d4a016096f0b9`。19 项相关测试通过，复用 16 笔 B2 TRAIN 和 4 笔固定 DEV，新增 0，连续账本 15,180 笔，在途 0。 [同信息选组与五库累计指标](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_ARIZONA_HOUSEHOLD_AND_FIXED_DEV_20261120.json)
+
+- `convergence_oe_arizona_household.py` 核对原输入法条、明确资产类型、产权和上限。B2 第四个母来源的空调引文和配套误引解释了原候选估值增益。共用规则把批次估值差由 +25.00 个百分点降至零。候选驱动和按时间仍选同一组，按分歧选另一组，均保留进入程序。B2 的缺失前向请求仍无选择对照可验证。
+- 固定 DEV 五臂同一份母来源的分类和估值各改善、零退化。四内部臂分类／估值 F1 为 81.44%／76.59%，PARSE 为 81.35%／73.01%。已并入累计五库 DEV。保留原冻结结果和曝光记录，独立收益仍待验收。
+- 补查已归档 B6 组合选组的原当批读数。新规则仅改变第三组。仅替换估值的两任务平均拟合差由 −3.28 到 −0.78 个百分点，五个策略仍保留进入程序。复用原读数作诊断，B6 的原前向结果已有结算。 [原组合选组](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_PORTFOLIO_TRAIN_20261120.json)
+
+## Revision 6 复合条款用途证据的前一断点
+
+阶段 `revision6_cni_compound_purpose_dev_settled`。TRAIN 会话 45460、固定 DEV 会话 11372 已退出。回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_compound_purpose_dev_terminal_20261120.json`，绑定 `357f1b91a404def46e61b0c1c890cb73c004fce4a68eb4032a06b89e399e0095`。23 项相关测试通过，账本 15,180 笔，在途 0。 [TRAIN 与五臂固定 DEV](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_COMPOUND_PURPOSE_TRAIN_AND_FIXED_DEV_20261120.json)
+
+- `cni_compound_purpose.py` 仅在已引用完整限定用途时，按义务作用域去除可复核的附带引文。24 份 TRAIN 的合成、固定、直接各改善 2、1、1 份，零退化。沿用锁定选择策略在已检查错误的 B5–B8 复算，双读器正确类证据 F1 为 86.53% 对 79.58%，配对区间 [−1.39, +15.28] 个百分点。固定 DEV 80 个候选输出均未改变，五臂用途分类各 13/16。新增请求 0。
+- B5 权利题触发差异的三笔请求均正常结束。合成解码为 Entailment，固定字段未决，单独直接为 Contradiction。这项分类结果与用途证据规则独立。保留现有双读器和强对照结果。M2 的 B1 无原生正向提案，B2、B5 的现有拟合及四次匹配过渡已有结算，按原始候选池重复选组缺少新证据。
+
+## Revision 6 双读器联合选择的前一断点
+
+阶段 `revision6_cni_evidence_pair_settled`。会话 54147 已退出，回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_evidence_pair_terminal_20261120.json`，绑定 `31b4e4bd7167924fed0f3ec3f5c11d2d95a455581bf3cb3386a95018ff5bfca6`。2 项定向测试通过，复用 72 笔原 TRAIN 请求，新增 0，账本 15,180 笔，在途 0。 [双读器 TRAIN 结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EVIDENCE_PAIR_TRAIN_20261120.json)
+
+- `cni_evidence_pair.py` 按任务拟合两读器同判时的证据取法和异判时的整条答案选择。训练前缀 B1–B4，前向 B5–B8。每个配对各有两笔实测读数，原文证明和用途引文筛法共用。直接加合成较直接加固定字段及直接单读均由 23/24 到 24/24，证据 F1 78.19%→83.55%。正向配对区间跨零，固定 DEV 沿用。
+- 两条配对最终均未选证据并集或交集。M1 七处改变中，一处权利题相对匹配臂从未决到正确。两处用途证据退化分别涉及复合条款下的附带义务，以及返还标题和终止后义务。旧 B5–B8 结果用于开发诊断。 [GitHub 已发布断点](https://github.com/H00RU/LegalSkillGuard/commit/826758c6d51fc34f9bc408c045958afc3ef33369)
+
+## Revision 6 第三方取得证据链的前一断点
 
 阶段 `revision6_cni_independent_receipt_release_settled`。评估会话 22305 已退出，发布回执 `artifacts/legal_skill_convergence_20261117/handoff/revision6_cni_independent_receipt_release_terminal_20261120.json`，绑定 `a48685d17a07cc7db4b4080d243739ed889938ebb8b926cb7a84affaa7cb07ae`。7 项测试通过，核对 25 笔 TRAIN、6 笔 DEV 的改动相关物理请求，新增 0，账本 15,180 笔，在途 0。 [来源规则与五库累计分数](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_INDEPENDENT_RECEIPT_AND_FIXED_DEV_20261120.json)
 

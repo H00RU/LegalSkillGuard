@@ -1,8 +1,40 @@
 # 当前 Goal 与证据状态
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,180 笔，其中完成 15,144 笔、历史失败 36 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,183 笔，其中完成 15,147 笔、历史失败 36 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
+
+## Revision 6 MAUD 联合字段的前向 TRAIN
+
+按公共输入锁定后四批里仅一侧有疫情线索且既有规则未解决两项的三个合同。复用九笔同输入对照，新增三笔联合字段读数、21,183 tokens。普通经营联合 3/3、固定 1/3、直接 0/3、旧锚点合成 2/3，四路负面契约均为 0/3。两任务合计联合较固定净增两项，95% 配对区间 [0, +50] 个百分点，固定 DEV 沿用。三处负面误判的肯定锚点分别是贷款修改、借款以及分行临时关闭的单项例外。 [原生配对与运行用量](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_JOINT_FORWARD_TRAIN_20261120.json)
+
+## Revision 6 MAUD 联合范围的同信息归因
+
+将已有子节、前导条件、显式引用规则同时给 B1–B4 四路实测。联合字段 19/20，固定字段 17/20，直接 16/20，旧合成 14/20。联合对固定和直接分别净增两项和三项，母来源配对区间下界均为零。两处相对双对照的修正经原 TRAIN 母合同确认，分别是独立负面前导以及从普通经营到负面条款的单向引用。母合同只用于归因。复用 40 笔。 [同信息配对及归因](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_JOINT_SCOPE_CONTROLS_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 用途限制的跨条款证据
+
+按同名用途连接限制与许可例外，按同一披露方和接收方连接相邻条款的所指信息。共用链接覆盖原 TRAIN 3/24，直接、固定、合成分别修正 3、2、1 份证据，零退化。沿用已排除未勾选选项的归因口径，双读器与两个强对照仍各为 23/24，正确类证据 F1 为 84.58% 对 83.19%，配对差 +1.39 个百分点，区间 [−4.86, +7.64]。固定 DEV 公共输入覆盖 0/16。复用 72 笔实测，新增 0。 [TRAIN 跨条款比较](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_PURPOSE_LINKS_TRAIN_20261120.json)
+
+## Revision 6 M1 ContractNLI 未勾选条款的来源归因
+
+B5 第三份合同中，合成读器实际把未勾选的单向协议选项读为已生效的非授予条款，归档参考也只引该选项。这是双读器唯一额外命中的权利分类。保留历史原生分数。仅在归因敏感性分析中搁置这项无生效依据的判断后，双读器与两个强对照均为 23/24，正确类证据 F1 为 80.77% 对 78.19%，配对区间 [−5.56, +10.42] 个百分点。复合用途规则的对照为 83.75% 对 79.58%，区间 [−2.78, +11.11]。匹配原 TRAIN 1/24、固定 DEV 0/16。复用 72 笔实测，新增 0。 [来源归因与独立敏感性结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_FORM_ATTRIBUTION_TRAIN_20261120.json)
+
+## Revision 6 M2 ContractNLI B4 按假设采纳
+
+在已有 B4 披露角色组选择之后，补齐整份候选与分假设采纳的原生比较。按 B1–B4 拟合保留整份、逐假设和同一两项角色范围的原生得分对照。原 B5 三份合同的 51 项分类各为 35/51。候选驱动与同范围原生选型逐项相同，证据 F1 均为 32.35%。按时间与按答案分歧为 29.41%，逐假设原生选型为 34.31%，整份采纳为 39.54%。复用 30 笔实测响应，新增 0，固定 DEV 沿用。 [全任务及角色范围对照](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_SCOPED_ADOPTION_TRAIN_20261120.json)
+
+## Revision 6 OpenExempt 亚利桑那家庭用品与 B2 选组
+
+在原输入的同一亚利桑那条文、已确定产权和估值下核对家庭用品，排除不适用的服装、牲畜、戒指和宠物引文。B2 估值候选相对进入程序的 F1 差从 +25.00 个百分点降至 0，候选驱动、按时间和按答案分歧均保留进入程序。四内部臂固定 DEV 分类 F1 从 80.74% 到 81.44%，估值从 74.85% 到 76.59%；PARSE 分别从 79.27% 到 81.35% 和 72.31% 到 73.01%。五臂各一份母来源改善，零退化。DEV 的估值增益来自去除不适用引文，未增加产权未决的资产主张。复用 16 笔 TRAIN、4 笔固定 DEV，新增 0。 [B2 选组及五库累计指标](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_ARIZONA_HOUSEHOLD_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 ContractNLI 复合条款的用途证据
+
+在已引用完整用途限制时，区分附带披露、复制、留存和保密存续义务，保留已核实的跨条款证据。共用规则在 24 份原 TRAIN 上分别修复合成两份、固定和直接各一份，零退化。旧双读器比较的正确类证据 F1 复算为 M1 86.53%、两条强对照各 79.58%，差的配对区间 [−1.39, +15.28] 个百分点。此规则源于同批错误，复算属于开发诊断。固定 B8 DEV 16 份、五臂均无触发，累计五库指标沿用。合成臂唯一额外正确的权利分类已复核，单独直接实答 Contradiction，固定字段匹配臂为未决。新增请求 0。 [TRAIN、请求复核和固定 DEV](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_COMPOUND_PURPOSE_TRAIN_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M1 ContractNLI 双读器联合选择
+
+在原 B1–B4 按任务和两读器分类是否一致拟合决策，固定原文证明后应用到 B5–B8。直接加合成与直接加固定字段分别答对 24/24 和 23/24，单独直接也为 23/24。两条强对照正确类证据 F1 均为 78.19%，M1 为 83.55%，差 +5.36 个百分点，95% 配对区间 [−4.07, +14.58]。13 项待解任务上为 13/13 对 12/13，证据差 +9.89 个百分点，区间 [−7.34, +25.76]。合成臂改变七项待解输出，其中两份合同的用途证据因附带条款而退化。72 笔原 TRAIN 读数复用，新增 0，固定 DEV 沿用。 [双读器 TRAIN 与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_EVIDENCE_PAIR_TRAIN_20261120.json)
 
 ## Revision 6 ContractNLI 第三方取得证据链
 
