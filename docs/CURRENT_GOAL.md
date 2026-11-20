@@ -1,8 +1,40 @@
 # 当前 Goal 与证据状态
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,269 笔，其中完成 15,233 笔、历史失败 36 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。 [实测断点](NEW_CHAT_HANDOFF.md)
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,285 笔，其中完成 15,249 笔、历史失败 36 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。 [实测断点](NEW_CHAT_HANDOFF.md)
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
+
+## Revision 6 M2 ContractNLI 按原条款作用域否决
+
+复用五组已封存的比较和 12 份不同的后批 TRAIN 合同。限制否决的迁移范围后，B5 口头信息题从 8/9、正确类证据 F1 81.48% 恢复至 9/9、92.59%，与四个强对照持平。B4 两项分类增益均来自同一份超出对应作用域的 B5 合同。PARSE B4 的 B6–B8 回放中分类仍为 7/9，证据 F1 为 24.07%，四个强对照为 26.54%。固定 DEV 沿用，新增请求 0。 [五组比较与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_SCOPED_VETO_TRAIN_20261120.json)
+
+## Revision 6 M2 B5 普通提案的分类冲突筛选
+
+同组池下，独立原文见证使候选驱动拒绝口头信息更新，四个对照采纳。后批八份由共用规则确定，唯一待解合同上提案优于进入程序。候选驱动为 8/9 对 9/9，正确类证据 F1 为 81.48% 对 92.59%。固定 DEV 沿用。 [拟合与后批配对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_B5_ASSERTION_SCREEN_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 副本原文角色
+
+共用原文核验后，固定 DEV 五臂各修正三项副本题且零退化。全量执行四内部臂分别为 211/272、证据 F1 57.67%，PARSE 为 202/272、50.52%。两份后批 TRAIN 的合成、固定、直接各为 2/2、1/2、1/2。两项配对区间下界为零，固定 DEV 对两种统摄写法覆盖为零。 [五库累计与后批配对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_COPY_MENTION_ROLES_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M1 副本动作的授权关系
+
+在三份早批原 TRAIN 上，合成、固定、直接分别为 2/3、0/3、1/3。锁定合成后，两份 B8 原 TRAIN 为 1/2、0/2、0/2，正确类证据 F1 为 25%、0%、0%。相对两强对照的分类配对区间下界均为零。五库累计 DEV 沿用，15 笔新读取均正常解码。 [锁定选型和后批结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_COPY_ACTION_TRAIN_20261120.json)
+
+## Revision 6 ContractNLI 累计执行与副本授权
+
+七个共用修订已合入同一固定 DEV 入口，五臂结果逐题复现此前累计表。新增共用副本授权核验覆盖原 TRAIN 和固定 DEV 各一份，五臂各修正一题。完整重算四内部臂 208/272、证据 F1 56.57%，PARSE 199/272、49.42%。 [运行入口](../experiments/convergence_revision6_cni_cumulative_dev.py) · [五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_COPY_APPROVAL_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 OpenExempt 宾州资产和部分有效读数
+
+共用条文核验使固定 DEV 四内部臂分类／估值 F1 升至 86.03%／83.50%，PARSE 为 85.45%／79.26%，五臂零退化。B4 允许按方案使用有效读数后查到 PARSE 新增两项不适用分类引文，采纳决定持平。16 份原前向 TRAIN 上，候选驱动与同预算按时间、按分歧均为分类 69.95%、估值 56.90%。 [配对证据与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_PA_CIVILIAN_ASSETS_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 OpenExempt 俄勒冈个人财产估值
+
+依据随题独立资产计分条件、原法条、单一申报人与明示产权，修正每件资产的豁免金额。固定 DEV 四内部臂估值 F1 达 80.66%，PARSE 达 77.62%，五臂均无退化。两批配对 TRAIN 里普通提案均未超越进入程序，新增收益归因于共用原文核验。 [八份配对 TRAIN 与五库累计](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_OREGON_PROPERTY_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 MAUD 重复标记与节选覆盖
+
+九份后批 TRAIN 的合成读器在保守合并重复标记后保持 17/18，固定字段和直接对照分别为 13/18 和 12/18。固定 DEV 四份有重复标记的合同均已答对两项契约题。剩余五项契约失分在四份合同中，分别涉及节选外的例外、可见范围与参考分歧或节选无疫情字样。累计五库结果沿用。 [真实归档回放与双视图定位](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_EXCERPT_PROVENANCE_20261120.json)
 
 ## Revision 6 ContractNLI 用途约束归因
 
