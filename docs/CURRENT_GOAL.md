@@ -1,8 +1,32 @@
 # 当前 Goal 与证据状态
 
-原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,285 笔，其中完成 15,249 笔、历史失败 36 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。 [实测断点](NEW_CHAT_HANDOFF.md)
+原研究 Goal 仍为 active，当前执行依据为 revision 6，源自 GitHub 主分支提交 `7024de8b589c1fca67c66a7d29d11cda60af4a9c`。M1 的 Diversity 正式路径、ContractNLI 合同接口学习与复用、M2 的 OpenExempt 候选驱动选组均已接通。两项贡献仍需通过同信息强对照证明各自的原生收益。连续账本 15,342 笔，其中完成 15,306 笔、历史失败 36 笔，在途 0。冻结协议、TEST 结果和曝光记录保留。 [实测断点](NEW_CHAT_HANDOFF.md)
 
 [主分支当前方案](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/PLAN.md) · [主分支接续配置](https://github.com/H00RU/LegalSkillGuard/blob/main/reports/legal_skill_convergence_20261117/continuation_protocol_20261119.json) · [Revision 6 进展与验收缺口](../reports/legal_skill_convergence_20261117/GOAL_BLOCK_REVISION6_20261119.md)
+
+## Revision 6 M2 ContractNLI B4 联合候选比较
+
+将普通和 PARSE 两个 B4 提案与各自进入程序合并，按题比较四个实际读器。各筛选策略使用相同的每组四笔读数与共用原文判据。候选驱动与两种按分歧筛选选择了相同组，逐题程序和预测均一致。后批 B6–B8 九份合同、27 项受选型影响的判断上，三路均为 25/27、正确类证据 F1 85.19%，按时间与原生拟合均为 26/27、80.19%。相对原生拟合，分类差 −3.70、证据 F1 差 +4.99 个百分点，95% 配对区间分别为 [−11.11, 0] 和 [−1.28, +13.12]。说明性地去掉一份对照引用 67 段的合同，证据差为 +1.57 个百分点。本轮未建立 M2 的独立收益。复用 79 笔原 TRAIN 读数，新增 1 笔（12,112 tokens），固定 DEV 沿用。 [锁定与后批结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_B4_CANDIDATE_PORTFOLIO_TRAIN_20261120.json)
+
+## Revision 6 M1 MAUD 原关系接口固定 DEV
+
+锁定在原后批 TRAIN 答对 17/18 的条款关系接口。16 份原固定 DEV 中 13 份有可见疫情标记及两类契约锚点，统一原文核验后合成、固定字段、直接读法分别为 11/26、21/26、20/26。合成相对两个强对照的母来源配对差为 −38.46、−34.62 个百分点，两个区间上界均为 −15.38。 50 个标记中 30 个被排除两类作用域，13 个重复同一家族。复用原去重规则后合成恢复到 14/26，原锚点组及增补锚点组均低于强对照。五库累计 DEV 沿用。 [实测配对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_LOCKED_OPERATIVE_FIXED_DEV_20261120.json)
+
+## Revision 6 ContractNLI 本协议终止与存续义务
+
+把本协议的终止前件与继续生效的义务分开核对。两份原 TRAIN 复现已有见证，另命中三份原固定 DEV，五份均与原分类及义务引文一致。固定 DEV 的正确类引文 F1，四内部臂从 39.58% 升到 43.75%，PARSE 从 35.83% 升到 43.75%，五臂零退化。包含终止前件的完整路径记录也保留；把前件列为另一条基准引文时，一份合同评分下降。 ContractNLI 累计分类为四内部臂 211/272、PARSE 202/272，引文 F1 更新为 57.91% 和 50.99%。 [五库累计与逐臂配对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_CNI_SURVIVAL_TRIGGER_ROLES_AND_FIXED_DEV_20261120.json)
+
+## Revision 6 M2 OpenExempt B8 单项豁免见证
+
+在 B8 第四组，原文核实 PARSE 新增两项联邦适用分类，并核实普通提案补报一笔正确估值、另有一笔超过 B7 已校准的单项上限。加入见证后，候选驱动、按时间、按分歧均采纳分类更新，估值保留进入程序。16 份固定 DEV 上分类／估值 F1 为 72.68%／62.63%，原生拟合为 72.68%／68.40%，两项平均差 −2.88 个百分点，配对区间 [−5.73, −0.52]。 同一条文修正给各路后，四种筛选均保留进入程序。原五臂累计 DEV 逐题输出保持一致。原 B8 TRAIN 六项、固定 DEV 九项可核实主张均匹配原参考，所有权未决的资产保持未决。 [原结果与共用修正配对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_B8_ITEM_WITNESSES_TRAIN_DEV_20261120.json)
+
+## Revision 6 M2 OpenExempt B8 同输入固定 DEV
+
+OpenExempt B8 四个筛选策略均保留进入程序。16 份固定 DEV 使用相同的 B8 法域与资产输入，在同一套原文核验下，筛选、原生拟合、原正式采纳三路的分类／估值 F1 分别为 66.47%／62.63%、72.68%／68.40%、73.11%／68.40%。筛选相对原生拟合的两项平均差为 −5.99 个百分点，母来源配对区间 [−13.63, −1.17]。 原生拟合选中 PARSE 分类与普通提案估值，在四份 B8 TRAIN 上平均增加 5.00 个百分点。四组均未检出该组合的新增反证，两项变更都缺少原文证实的修正见证。要求每项变更均有修正见证时，六种同预算双组均拒绝；仅按反证筛选时六种均可采纳该组合。  [固定 DEV 配对](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_OE_B8_SCREENED_FIXED_DEV_20261120.json)
+
+## Revision 6 M1 MAUD 条款锚点见证
+
+M1 从每条义务的锚点反查直接适用的疫情例外。九份原后批 TRAIN 的 45 个锚点都被模型填入肯定见证，两类契约的 18 项原始答案全为 Yes。应用相同原文核验后，新接口、固定字段、直接读法、前一有效关系接口分别为 13/18、13/18、12/18、17/18。相对直接读法的分类配对区间为 [0, +16.67] 个百分点。新增 9 笔，复用 36 笔，固定 DEV 沿用。 [配对结果](../reports/legal_skill_convergence_20261117/paper/tables/REVISION6_MAUD_ANCHOR_WITNESS_TRAIN_20261120.json)
 
 ## Revision 6 M2 ContractNLI 按原条款作用域否决
 
