@@ -4,9 +4,15 @@ The server workspace is `/home/yndx/hhy/legal-skill-current`. Read
 [the research handoff](docs/NEW_CHAT_HANDOFF.md) after a context compaction
 or interruption. Verify actual jobs, ledger, bindings and terminal evidence
 against the handoff before continuing in the current conversation.
-Use ordinary conversation to advance M1. M2 is on hold.
+Use ordinary conversation to implement and evaluate M3, judicial reason
+correction skill learning, as the current primary method. M1 is closed and
+M2 is on hold. The [current M3 plan](reports/judicial_reason_correction_skill_learning_20261126/PLAN.md)
+defines the active research work. Reconcile the GitHub handoff with newer
+server evidence while preserving local implementation changes and run records.
 
 The original Goal, prior handoffs, and saved commands are historical evidence.
+The convergence study's nested `SERVER_GOAL.md` is part of that run's archived
+configuration. Use the root `SERVER_GOAL.md` to find the current handoff.
 The convergence study's frozen [plan](reports/legal_skill_convergence_20261117/PLAN.md)
 and [protocol](reports/legal_skill_convergence_20261117/protocol.json)
 document the evaluation design. Follow the user's current request for task authority.
